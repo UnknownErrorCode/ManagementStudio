@@ -88,7 +88,6 @@ namespace ManagementServer
                 ServerManager.Logger.WriteLogLine(ex.Message);
                 return false;
             }
-
             return true;
         }
 

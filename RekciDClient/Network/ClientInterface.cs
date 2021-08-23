@@ -8,7 +8,7 @@ namespace RekciDClient.Network
     internal class ClientInterface : IAsyncInterface
     {
         internal ClientData cData = new ClientData();
-
+        private ClientPacketHandler CHandler = new ClientPacketHandler();
         /// <summary>
         /// 
         /// </summary>
@@ -46,26 +46,24 @@ namespace RekciDClient.Network
                 List<Packet> incomePacket = cData.m_security.TransferIncoming();
                 if (incomePacket != null)
                 {
-                    foreach (Packet item in incomePacket)
+                    foreach (Packet packet in incomePacket)
                     {
-                        switch (item.Opcode)
+                        PacketHandlerResult result = CHandler.HandlePacketAction(cData, packet).GetAwaiter().GetResult();
+
+                        switch (result)
                         {
-                            case 0xA000:
-                                var authentificcation = item.ReadAscii();
-                                if (authentificcation == "RequestAuthentification")
-                                {
-                                    Packet packet = new Packet(0x1000);
-                                    packet.WriteAscii(ClientMemory.LatestAccountName);
-                                    packet.WriteAscii(ClientMemory.LatestPassword);
-                                    cData.m_security.Send(packet);
-                                    //TODO: Version request
-                                    continue; //do stuff here
-                                }
+                            case PacketHandlerResult.Block:
+                            case PacketHandlerResult.Response:
+                                continue;
+                            case PacketHandlerResult.Error:
+                            case PacketHandlerResult.Disconnect:
+                                OnDisconnect(context);
                                 break;
+                            default:
+                                continue;
                         }
                     }
                 }
-
             }
             catch (System.Exception ex)
             {
