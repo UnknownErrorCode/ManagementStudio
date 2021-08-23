@@ -37,13 +37,13 @@ namespace ManagementServer.Utility
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {
             DataTable dataTableProcedure = new DataTable();
-            
+
 
             using (SqlCommand command = new SqlCommand(procedureName, sqlConnection))
             {
                 if (command.Connection.State != ConnectionState.Open)
                     command.Connection.Open();
-                
+
                 command.Parameters.AddRange(param);
                 command.Connection.ChangeDatabase(DB);
                 command.CommandType = CommandType.StoredProcedure;
@@ -76,7 +76,8 @@ namespace ManagementServer.Utility
             return dataTableProcedure;
         }
 
-        public static DataTable ReturnDataTableByQuery(string query, string database)
+
+        private static DataTable ReturnDataTableByQuery(string query, string database)
         {
 
             DataTable dataTable = new DataTable();
@@ -112,6 +113,27 @@ namespace ManagementServer.Utility
                 forsfor[i] = row.ItemArray[i].ToString();
 
             return forsfor;
+        }
+
+        internal static DataTable RequestFilesToUpdate(int latestClientVersion)
+        {
+            return ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
+        }
+
+        internal static int LatestVersion()
+        {
+            sqlConnection.ChangeDatabase(ServerManager.settings.DBDev);
+
+            using (SqlCommand command = new SqlCommand("Select TOP 1 MAX(Version) from _ToolUpdates where ToBePatched = 1", sqlConnection))
+            {
+                if (command.Connection.State != ConnectionState.Open)
+                    command.Connection.Open();
+
+                command.CommandType = CommandType.Text;
+                int version = (int)command.ExecuteScalar();
+
+                return version;
+            }
         }
     }
 }

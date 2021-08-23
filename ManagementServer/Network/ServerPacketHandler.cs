@@ -1,5 +1,6 @@
 ﻿using ManagementServer.Utility;
 using ServerFrameworkRes.Network.Security;
+using System.Data;
 
 namespace ManagementServer.Network
 {
@@ -8,9 +9,9 @@ namespace ManagementServer.Network
 
         public ServerPacketHandler()
         {
-            base.AddEntry(0x2001,Handle0x2001);
-            base.AddEntry(0x1000, Handle0x1000);
-            base.AddEntry(0x1001, Handle0x1001);
+            base.AddEntry(0x2001, Reply0x2001);
+            base.AddEntry(0x1000, Reply0x1000);
+            base.AddEntry(0x1001, Reply0x1001);
         }
 
 
@@ -20,7 +21,7 @@ namespace ManagementServer.Network
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult Handle0x2001(ServerData data, Packet packet)
+        private PacketHandlerResult Reply0x2001(ServerData data, Packet packet)
         {
             var identity = packet.ReadAscii();
             var flag = packet.ReadByte();
@@ -42,7 +43,7 @@ namespace ManagementServer.Network
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult Handle0x1000(ServerData data, Packet packet)
+        private PacketHandlerResult Reply0x1000(ServerData data, Packet packet)
         {
             var acc = packet.ReadAscii();
             var pwd = packet.ReadAscii();
@@ -51,19 +52,18 @@ namespace ManagementServer.Network
 
             bool.TryParse(result[0], out bool success);
             if (success)
-            {
-                Packet loginSuccessPacket = new Packet(0xA001);
-                //Send all online user list to Client and open Form for Client
-            }
+                data.m_security.Send(Handler.S_UPDATE.SendServerVersion());
+
             return PacketHandlerResult.Block;
         }
 
-        private PacketHandlerResult Handle0x1001(ServerData data, Packet packet)
+
+        private PacketHandlerResult Reply0x1001(ServerData data, Packet packet)
         {
-            var ClientVersion = packet.ReadInt();
+            var latestClientVersion = packet.ReadInt();
 
+            Handler.S_UPDATE.SendFiles(data, latestClientVersion);
 
-           
             return PacketHandlerResult.Block;
         }
     }

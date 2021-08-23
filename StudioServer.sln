@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerFrameworkRes", "Serve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementServer", "ManagementServer\ManagementServer.csproj", "{E833E379-DB0B-479E-A0DB-4A46AD968604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RekciDClient", "RekciDClient\RekciDClient.csproj", "{DD7D0948-6CA0-4930-8D05-4983767A81D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementClient", "RekciDClient\ManagementClient.csproj", "{DD7D0948-6CA0-4930-8D05-4983767A81D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

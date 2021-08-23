@@ -53,6 +53,7 @@
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ClientMemory.cs" />
+    <Compile Include="Handler\C_UPDATE.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
