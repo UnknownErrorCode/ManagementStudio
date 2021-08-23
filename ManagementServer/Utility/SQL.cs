@@ -76,7 +76,23 @@ namespace ManagementServer.Utility
             return dataTableProcedure;
         }
 
+        public static DataTable ReturnDataTableByQuery(string query, string database)
+        {
 
+            DataTable dataTable = new DataTable();
+
+            using (SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection))
+            {
+                if (sqlConnection.State != ConnectionState.Open)
+                    sqlConnection.Open();
+
+                sqlConnection.ChangeDatabase(database);
+                adapter.Fill(dataTable);
+            }
+
+            ServerManager.Logger.WriteLogLine(query);
+            return dataTable;
+        }
 
         public static string[] CheckLogin(string userName, string password, string IP)
         {
