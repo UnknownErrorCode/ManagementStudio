@@ -51,7 +51,8 @@ namespace ManagementServer
             try
             {
                 settings = new Utility.Settings();
-                Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString);
+                if (Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString))
+                    return;
                 Server = new AsyncServer();
                 ServerInterface Interface = new ServerInterface();
                 Server.Accept(settings.IP, settings.Port, 5, Interface, buffer);
@@ -74,8 +75,6 @@ namespace ManagementServer
                 Logger.WriteLogLine($"Status: vSro-Studio-Server failed to start... Exception: {ex.Message}");
                 Ticker = false;
             }
-           
-
         }
 
         private void OnClose(object sender, FormClosingEventArgs e)

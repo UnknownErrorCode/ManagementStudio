@@ -12,7 +12,7 @@ namespace ManagementServer.Utility
 
 
 
-        internal static void TestSQLConnection(string sQL_ConnectionString)
+        internal static bool TestSQLConnection(string sQL_ConnectionString)
         {
             sqlConnection = new SqlConnection(SqlConnectionString);
             ServerManager.Logger.WriteLogLine("Testing SQL Connection...");
@@ -24,12 +24,14 @@ namespace ManagementServer.Utility
                 {
                     ServerManager.Logger.WriteLogLine($"Established connection to: {sqlConnection.DataSource} ");
                     sqlConnection.Close();
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 ServerManager.Logger.WriteLogLine($"Failed connecting to DatabaseEngine\n Exception: {ex}");
             }
+            return false;
         }
 
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
