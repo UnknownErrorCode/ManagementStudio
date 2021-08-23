@@ -11,16 +11,14 @@ namespace ManagementServer
 {
     public partial class ServerManager : Form
     {
-        internal static Utility.Settings settings;
-        internal static LogGridView Logger;
+        internal static Utility.Settings settings = new Utility.Settings();
+        internal static LogGridView Logger = new LogGridView() { Dock = DockStyle.Bottom };
         internal static AsyncServer Server;
         private byte[] buffer { get; set; }
         private bool Ticker = false;
         public ServerManager()
         {
             InitializeComponent();
-            Logger = new LogGridView();
-            Logger.Dock = DockStyle.Bottom;
             this.Controls.Add(Logger);
         }
 
@@ -29,17 +27,12 @@ namespace ManagementServer
             Logger.WriteLogLine("Starting...");
             Thread thread = new Thread(StartServer);
             thread.Start();
-            if (Ticker)
-            {
-
-            }
         }
 
         private void DiagnosticThread()
         {
             while(Ticker)
             {
-
                 this.toolStripStatusLabelOnlineUser.Text = $"Connected user: {ServerMemory.OnlineUser}";
                 Thread.Sleep(100);
             }
@@ -50,12 +43,10 @@ namespace ManagementServer
         {
             try
             {
-                settings = new Utility.Settings();
-                if (Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString))
+                if (!Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString))
                     return;
                 Server = new AsyncServer();
-                ServerInterface Interface = new ServerInterface();
-                Server.Accept(settings.IP, settings.Port, 5, Interface, buffer);
+                Server.Accept(settings.IP, settings.Port, 5, new ServerInterface(), buffer);
 
                 Ticker = true;
                 Logger.WriteLogLine("Status: vSro-Studio-Server started!");
@@ -101,7 +92,5 @@ namespace ManagementServer
             startToolStripMenuItem.Enabled = Ticker ? false : true;
             stopToolStripMenuItem.Enabled = Ticker;
         }
-
-       
     }
 }
