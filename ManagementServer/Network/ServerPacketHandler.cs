@@ -33,6 +33,11 @@ namespace ManagementServer.Network
                 data.m_security.Send(loginDataRequestPacket);
                 return PacketHandlerResult.Response;
             }
+            else if (identity == "Tool_Launcher" && flag == 1)
+            {
+                data.m_security.Send(Handler.S_UPDATE.SendServerVersion());
+                return PacketHandlerResult.Response;
+            }
             else
                 return PacketHandlerResult.Block;
         }

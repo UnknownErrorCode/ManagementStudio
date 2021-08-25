@@ -42,9 +42,8 @@ namespace ManagementServer.Handler
 
         internal static Packet SendServerVersion()
         {
-            var version = SQL.LatestVersion();
             Packet loginSuccessPacket = new Packet(0xA001);
-
+            loginSuccessPacket.WriteInt(SQL.LatestVersion());
             return loginSuccessPacket;
         }
     }

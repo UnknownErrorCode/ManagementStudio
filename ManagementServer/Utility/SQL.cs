@@ -89,6 +89,9 @@ namespace ManagementServer.Utility
 
                 sqlConnection.ChangeDatabase(database);
                 adapter.Fill(dataTable);
+
+                sqlConnection.Close();
+
             }
 
             ServerManager.Logger.WriteLogLine(query);
@@ -122,17 +125,24 @@ namespace ManagementServer.Utility
 
         internal static int LatestVersion()
         {
-            sqlConnection.ChangeDatabase(ServerManager.settings.DBDev);
 
             using (SqlCommand command = new SqlCommand("Select TOP 1 MAX(Version) from _ToolUpdates where ToBePatched = 1", sqlConnection))
             {
                 if (command.Connection.State != ConnectionState.Open)
                     command.Connection.Open();
 
-                command.CommandType = CommandType.Text;
-                int version = (int)command.ExecuteScalar();
+                sqlConnection.ChangeDatabase(ServerManager.settings.DBDev);
 
-                return version;
+
+                command.CommandType = CommandType.Text;
+                var version = command.ExecuteScalar();
+
+                command.Connection.Close();
+
+                if (int.TryParse(version.ToString(), out int ver))
+                    return ver;
+
+                return 0;
             }
         }
     }
