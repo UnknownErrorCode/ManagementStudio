@@ -53,7 +53,6 @@
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ClientMemory.cs" />
-    <Compile Include="Handler\C_UPDATE.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +101,9 @@
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
       <Name>ServerFrameworkRes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Handler\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

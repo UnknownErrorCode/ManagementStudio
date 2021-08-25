@@ -12,9 +12,7 @@ namespace RekciDClient.Network
 
         public ClientPacketHandler()
         {
-            base.AddEntry(0xA000, Reply0xA000);
-            base.AddEntry(0xA001, Reply0xA001);
-            base.AddEntry(0xA002, Reply0xA002);
+            base.AddEntry(0xC000, Reply0xC000);
         }
 
 
@@ -25,7 +23,7 @@ namespace RekciDClient.Network
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        private PacketHandlerResult Reply0xA000(ServerData arg1, Packet arg2)
+        private PacketHandlerResult Reply0xC000(ServerData arg1, Packet arg2)
         {
             var prove = arg2.ReadAscii();
             if (prove == "RequestAuthentification")
@@ -39,39 +37,6 @@ namespace RekciDClient.Network
             return PacketHandlerResult.Block;
         }
 
-        /// <summary>
-        /// SERVER_VERSION 
-        /// -- Server sends latest version to client to compare if update is nesseccary
-        /// </summary>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <returns></returns>
-        private PacketHandlerResult Reply0xA001(ServerData arg1, Packet arg2)
-        {
-            var version = arg2.ReadInt();
-            var ClientVersion = Program.MainConfig.ToolServerVersion();
-
-            if (ClientVersion != version)
-                arg1.m_security.Send(Handler.C_UPDATE.RequestFiles(arg1, ClientVersion));
-            //else continue doing stuff...
-
-            return PacketHandlerResult.Block;
-        }
-
-        /// <summary>
-        /// SERVER_UPDATE_FILE
-        ///  -- Server sends file to Client to keep up to date
-        /// </summary>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <returns></returns>
-        private PacketHandlerResult Reply0xA002(ServerData arg1, Packet arg2)
-        {
-            if (Handler.C_UPDATE.ReceiveFile(arg2))
-                return PacketHandlerResult.Block;
-
-
-            return PacketHandlerResult.Disconnect;
-        }
+       
     }
 }

@@ -10,8 +10,10 @@ namespace ManagementServer.Network
         public ServerPacketHandler()
         {
             base.AddEntry(0x2001, Reply0x2001);
-            base.AddEntry(0x1000, Reply0x1000);
-            base.AddEntry(0x1001, Reply0x1001);
+            // client
+            base.AddEntry(0x1000, ReplyLoginRequest);
+            // launcher
+            base.AddEntry(0x3000, ReplyRequestUpdate);
         }
 
 
@@ -28,7 +30,7 @@ namespace ManagementServer.Network
 
             if (identity == "Tool_Client" && flag == 1)
             {
-                Packet loginDataRequestPacket = new Packet(0xA000);
+                Packet loginDataRequestPacket = new Packet(0xC000);
                 loginDataRequestPacket.WriteAscii("RequestAuthentification");
                 data.m_security.Send(loginDataRequestPacket);
                 return PacketHandlerResult.Response;
@@ -43,12 +45,13 @@ namespace ManagementServer.Network
         }
 
         /// <summary>
+        /// 0x1000 includes login data
         /// Client sends login information and server checks its validation
         /// </summary>
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult Reply0x1000(ServerData data, Packet packet)
+        private PacketHandlerResult ReplyLoginRequest(ServerData data, Packet packet)
         {
             var acc = packet.ReadAscii();
             var pwd = packet.ReadAscii();
@@ -63,7 +66,7 @@ namespace ManagementServer.Network
         }
 
 
-        private PacketHandlerResult Reply0x1001(ServerData data, Packet packet)
+        private PacketHandlerResult ReplyRequestUpdate(ServerData data, Packet packet)
         {
             var latestClientVersion = packet.ReadInt();
 

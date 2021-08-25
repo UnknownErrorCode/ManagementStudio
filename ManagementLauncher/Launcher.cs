@@ -14,34 +14,69 @@ namespace ManagementLauncher
 {
     public partial class Launcher : Form
     {
+        public static RichTextBox LogBox;
         internal static LauncherClient MainClient;
         internal static Config.InitializeConfig LConfig;
 
         public Launcher()
         {
             InitializeComponent();
+            LogBox = this.richTextBoxLog;
             LConfig = new Config.InitializeConfig();
             MainClient = new LauncherClient();
             vSroInputBoxHost.ValueText = LConfig.HostIP;
             vSroInputBoxPort.ValueText = LConfig.HostPort.ToString();
+            this.vSroSizableWindow1.Title = $"vSro Studio Launcher v.{LConfig.Version}";
 
-            this.logGridView1.WriteLogLine("Connecting to server... Please wait!");
+            WriteLine("Connecting to server... Please wait!");
             Thread connect = new Thread(TryConnect);
             connect.Start();
         }
 
+        public static void WriteStaticLine(string msg)
+        {
+            if (LogBox.InvokeRequired)
+            {
+                LogBox.Invoke(new Action(() =>
+                {
+                    LogBox.AppendText($"{msg}\n");
+                    LogBox.ScrollToCaret();
+                }));
+            }
+            else
+            {
+                LogBox.AppendText($"{msg}\n");
+                LogBox.ScrollToCaret();
+            }
+        }
+        public void WriteLine(string msg)
+        {
+            if (richTextBoxLog.InvokeRequired)
+            {
+                this.richTextBoxLog.Invoke(new Action(() =>
+                {
+                    this.richTextBoxLog.AppendText($"{msg}\n");
+                    this.richTextBoxLog.ScrollToCaret();
+                }));
+            }
+            else
+            {
+                this.richTextBoxLog.AppendText($"{msg}\n");
+                this.richTextBoxLog.ScrollToCaret();
+            }
+        }
         private void TryConnect()
         {
             try
             {
                 if (MainClient.Connect())
-                    this.logGridView1.Invoke(new Action(() => { this.logGridView1.WriteLogLine("Successfully connected to Server!"); }));
+                    WriteLine("Successfully connected to Server!");
                 else
-                    this.logGridView1.Invoke(new Action(() => { this.logGridView1.WriteLogLine($"Failed to connect to Server!"); }));
+                    WriteLine($"Failed to connect to Server!");
             }
             catch (Exception ex)
             {
-                this.logGridView1.Invoke(new Action(() => { this.logGridView1.WriteLogLine($"Failed to connect to Server! {ex.Message}"); }));
+                WriteLine($"Failed to connect to Server! {ex.Message}"); 
             }
         }
     }

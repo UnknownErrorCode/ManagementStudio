@@ -13,6 +13,19 @@ namespace ManagementServer.Handler
     class S_UPDATE
     {
         /// <summary>
+        /// SERVER => CLIENT  0xA001 include latest version
+        /// -- Sends latest version to client.
+        /// </summary>
+        /// <returns></returns>
+
+        internal static Packet SendServerVersion()
+        {
+            Packet loginSuccessPacket = new Packet(0xA001);
+            loginSuccessPacket.WriteInt(SQL.LatestVersion());
+            return loginSuccessPacket;
+        }
+
+        /// <summary>
         /// SERVER_UPDATE_SEND_FILES -- C_0x1001 -> S_0xA002 -- contains a file with directory information for the Client
         /// </summary>
         /// <param name="data"></param>
@@ -38,13 +51,10 @@ namespace ManagementServer.Handler
                     data.m_security.Send(packeta);
                 }
             }
+
+            data.m_security.Send(new Packet(0xA003));
         }
 
-        internal static Packet SendServerVersion()
-        {
-            Packet loginSuccessPacket = new Packet(0xA001);
-            loginSuccessPacket.WriteInt(SQL.LatestVersion());
-            return loginSuccessPacket;
-        }
+      
     }
 }

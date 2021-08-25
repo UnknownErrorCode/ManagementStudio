@@ -2,6 +2,7 @@
 using ManagementLauncher.Network.Security;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,35 @@ namespace ManagementLauncher.Network
                 if (packet.Opcode == 0xA001)
                 {
                     var version = packet.ReadInt();
+                    if (Launcher.LConfig.Version!= version)
+                    {
+                        Packet RequestUpdate = new Packet(0x3000);
+                        RequestUpdate.WriteInt(Launcher.LConfig.Version);
+                        LauncherClient.LData.m_security.Send(RequestUpdate);
+                    }
+                }
+                else if (packet.Opcode == 0xA002)
+                {
+                    var cversion = packet.ReadInt();
+                    var fileName = packet.ReadAscii();
+                    var fileDire = packet.ReadAscii();
+                    var cBinaryF = packet.ReadByteArray(packet.Remaining);
+
+
+                    if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), fileDire)))
+                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), fileDire));
+
+                    //if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), fileDire, fileName)))
+                    File.Create(Path.Combine(Directory.GetCurrentDirectory(), fileDire, fileName)).Write(cBinaryF, 0, cBinaryF.Length);
+
+                    if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), fileDire, fileName)))
+                        return true;
+
+                    return false;
+                }
+                else if (packet.Opcode == 0xA003)
+                {
+                    Launcher.WriteStaticLine("Update finished!");
 
                 }
             }

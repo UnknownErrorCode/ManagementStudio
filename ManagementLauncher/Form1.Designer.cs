@@ -30,24 +30,14 @@ namespace ManagementLauncher
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Launcher));
-            this.logGridView1 = new ServerFrameworkRes.Ressources.LogGridView();
             this.vSroSizableWindow1 = new ServerFrameworkRes.BasicControls.vSroSizableWindow();
             this.vSroSmallButtonPatch = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.vSroSmallButtonStart = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.vSroSmallButtonClose = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.vSroInputBoxHost = new ServerFrameworkRes.BasicControls.vSroInputBox();
             this.vSroInputBoxPort = new ServerFrameworkRes.BasicControls.vSroInputBox();
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
-            // 
-            // logGridView1
-            // 
-            this.logGridView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.logGridView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logGridView1.Location = new System.Drawing.Point(0, 301);
-            this.logGridView1.Name = "logGridView1";
-            this.logGridView1.Size = new System.Drawing.Size(500, 149);
-            this.logGridView1.TabIndex = 0;
-            this.logGridView1.TypeOfModuleLog = ServerFrameworkRes.Network.ServerStructs.ModuleType.None;
             // 
             // vSroSizableWindow1
             // 
@@ -118,20 +108,32 @@ namespace ManagementLauncher
             this.vSroInputBoxPort.ValueText = "";
             this.vSroInputBoxPort.vSroUseSystemPasswordChar = false;
             // 
-            // Form1
+            // richTextBoxLog
+            // 
+            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxLog.BackColor = System.Drawing.SystemColors.MenuText;
+            this.richTextBoxLog.ForeColor = System.Drawing.Color.White;
+            this.richTextBoxLog.Location = new System.Drawing.Point(38, 301);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.Size = new System.Drawing.Size(423, 119);
+            this.richTextBoxLog.TabIndex = 7;
+            this.richTextBoxLog.Text = "";
+            // 
+            // Launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(500, 450);
+            this.Controls.Add(this.richTextBoxLog);
             this.Controls.Add(this.vSroInputBoxPort);
             this.Controls.Add(this.vSroInputBoxHost);
             this.Controls.Add(this.vSroSmallButtonClose);
             this.Controls.Add(this.vSroSmallButtonStart);
             this.Controls.Add(this.vSroSmallButtonPatch);
-            this.Controls.Add(this.logGridView1);
             this.Controls.Add(this.vSroSizableWindow1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "Launcher";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -139,14 +141,13 @@ namespace ManagementLauncher
         }
 
         #endregion
-
-        private ServerFrameworkRes.Ressources.LogGridView logGridView1;
         private ServerFrameworkRes.BasicControls.vSroSizableWindow vSroSizableWindow1;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonPatch;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonStart;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonClose;
         private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBoxHost;
         private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBoxPort;
+        private System.Windows.Forms.RichTextBox richTextBoxLog;
     }
 }
 

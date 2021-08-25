@@ -14,6 +14,7 @@ namespace ManagementLauncher.Config
         
         internal protected string HostIP { get => GetHostIP(); }
         internal protected ushort HostPort { get => GetHostPort(); }
+        internal protected int Version { get => GetVersion(); }
 
         internal InitializeConfig()
         {
@@ -48,6 +49,19 @@ namespace ManagementLauncher.Config
             {
                 if (ushort.TryParse(ConfigFile.IniReadValue("ToolServer", "Port"), out ushort port))
                     return port;
+            }
+            catch (Exception ex)
+            {
+            }
+            return 0;
+        }
+
+        private int GetVersion()
+        {
+            try
+            {
+                if (int.TryParse(ConfigFile.IniReadValue("ToolServer", "Version"), out int ver))
+                    return ver;
             }
             catch (Exception ex)
             {
