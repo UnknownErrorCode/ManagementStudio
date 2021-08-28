@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DD7D0948-6CA0-4930-8D05-4983767A81D8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>RekciDClient</RootNamespace>
-    <AssemblyName>RekciDClient</AssemblyName>
+    <RootNamespace>ManagementClient</RootNamespace>
+    <AssemblyName>ManagementClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -82,6 +82,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

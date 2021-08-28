@@ -9,7 +9,7 @@ namespace ManagementLauncher.Network
 {
     class LauncherClient
     {
-        private Thread TickerThread;
+        public Thread TickerThread;
         internal  LauncherInterface LInterface { get; set; }
         internal static LauncherData LData { get; set; }
         internal  AsyncClient.AsyncClient LClient;

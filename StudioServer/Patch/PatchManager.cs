@@ -15,7 +15,8 @@ namespace StudioServer.Patch
     {
         public PatchManager()
         {
-            InitializeComponent(); Initialize2ndComponent();
+            InitializeComponent(); 
+            Initialize2ndComponent();
          
         }
 

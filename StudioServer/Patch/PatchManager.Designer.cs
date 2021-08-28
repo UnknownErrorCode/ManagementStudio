@@ -33,15 +33,15 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.FileCount = new System.Windows.Forms.Label();
             this.FileSize = new System.Windows.Forms.Label();
+            this.FileCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -85,6 +85,13 @@
             this.deleteFileToolStripMenuItem.Text = "Delete selected";
             this.deleteFileToolStripMenuItem.Click += new System.EventHandler(this.deleteFileToolStripMenuItem_Click);
             // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh ";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -102,13 +109,6 @@
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Next patch:";
-            // 
-            // refreshToolStripMenuItem
-            // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.refreshToolStripMenuItem.Text = "Refresh ";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // button1
             // 
@@ -153,15 +153,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Patch Information";
             // 
-            // FileCount
-            // 
-            this.FileCount.AutoSize = true;
-            this.FileCount.Location = new System.Drawing.Point(6, 23);
-            this.FileCount.Name = "FileCount";
-            this.FileCount.Size = new System.Drawing.Size(35, 13);
-            this.FileCount.TabIndex = 0;
-            this.FileCount.Text = "label3";
-            // 
             // FileSize
             // 
             this.FileSize.AutoSize = true;
@@ -170,6 +161,15 @@
             this.FileSize.Size = new System.Drawing.Size(35, 13);
             this.FileSize.TabIndex = 1;
             this.FileSize.Text = "label3";
+            // 
+            // FileCount
+            // 
+            this.FileCount.AutoSize = true;
+            this.FileCount.Location = new System.Drawing.Point(6, 23);
+            this.FileCount.Name = "FileCount";
+            this.FileCount.Size = new System.Drawing.Size(35, 13);
+            this.FileCount.TabIndex = 0;
+            this.FileCount.Text = "label3";
             // 
             // PatchManager
             // 

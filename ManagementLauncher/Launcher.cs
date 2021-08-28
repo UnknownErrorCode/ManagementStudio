@@ -17,6 +17,7 @@ namespace ManagementLauncher
         public static RichTextBox LogBox;
         internal static LauncherClient MainClient;
         internal static Config.InitializeConfig LConfig;
+        public static Launcher StaticLauncher;
 
         public Launcher()
         {
@@ -28,6 +29,7 @@ namespace ManagementLauncher
             vSroInputBoxPort.ValueText = LConfig.HostPort.ToString();
             this.vSroSizableWindow1.Title = $"vSro Studio Launcher v.{LConfig.Version}";
 
+            StaticLauncher = this;
             WriteLine("Connecting to server... Please wait!");
             Thread connect = new Thread(TryConnect);
             connect.Start();
@@ -78,6 +80,11 @@ namespace ManagementLauncher
             {
                 WriteLine($"Failed to connect to Server! {ex.Message}"); 
             }
+        }
+
+        private void Launcher_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MainClient.TickerThread.Abort();
         }
     }
 }

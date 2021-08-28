@@ -65,7 +65,12 @@ namespace ManagementServer.Network
             return PacketHandlerResult.Block;
         }
 
-
+        /// <summary>
+        /// CLIENT_SERVER -- Client sends this packet if the version does not match the current version.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="packet"></param>
+        /// <returns></returns>
         private PacketHandlerResult ReplyRequestUpdate(ServerData data, Packet packet)
         {
             var latestClientVersion = packet.ReadInt();

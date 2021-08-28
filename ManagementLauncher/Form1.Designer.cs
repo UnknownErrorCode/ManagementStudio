@@ -135,6 +135,7 @@ namespace ManagementLauncher
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Launcher";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Launcher_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,12 +143,12 @@ namespace ManagementLauncher
 
         #endregion
         private ServerFrameworkRes.BasicControls.vSroSizableWindow vSroSizableWindow1;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonPatch;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonStart;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonClose;
         private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBoxHost;
         private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBoxPort;
         private System.Windows.Forms.RichTextBox richTextBoxLog;
+        internal ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonPatch;
+        internal ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonStart;
     }
 }
 

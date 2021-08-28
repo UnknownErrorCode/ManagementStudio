@@ -52,7 +52,9 @@ namespace ManagementServer.Handler
                 }
             }
 
-            data.m_security.Send(new Packet(0xA003));
+            var updateSuccess = new Packet(0xA003);
+            updateSuccess.WriteInt(SQL.LatestVersion());
+            data.m_security.Send(updateSuccess);
         }
 
       

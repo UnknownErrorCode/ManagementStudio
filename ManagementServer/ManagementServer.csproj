@@ -48,6 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Network\ServerPacketHandler.cs" />
+    <Compile Include="PatchManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatchManager.Designer.cs">
+      <DependentUpon>PatchManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="ServerManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +69,9 @@
     <Compile Include="Utility\InitializeConfig.cs" />
     <Compile Include="Utility\Settings.cs" />
     <Compile Include="Utility\SQL.cs" />
+    <EmbeddedResource Include="PatchManager.resx">
+      <DependentUpon>PatchManager.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ServerManager.resx">
       <DependentUpon>ServerManager.cs</DependentUpon>
     </EmbeddedResource>

@@ -92,5 +92,18 @@ namespace ManagementServer
             startToolStripMenuItem.Enabled = Ticker ? false : true;
             stopToolStripMenuItem.Enabled = Ticker;
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Ticker)
+            {
+                Logger.WriteLogLine("please establish a SQL connection first!");
+                return;
+            }
+            using (var patchManager = new PatchManager())
+            {
+                patchManager.ShowDialog();
+            }
+        }
     }
 }

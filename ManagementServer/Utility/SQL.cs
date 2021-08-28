@@ -34,6 +34,7 @@ namespace ManagementServer.Utility
             return false;
         }
 
+       
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {
             DataTable dataTableProcedure = new DataTable();
@@ -98,6 +99,12 @@ namespace ManagementServer.Utility
             return dataTable;
         }
 
+
+        internal static DataTable GetPatchHistory()
+        {
+            return ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
+        }
+
         public static string[] CheckLogin(string userName, string password, string IP)
         {
             SqlParameter[] regparams = new SqlParameter[4]
@@ -144,6 +151,11 @@ namespace ManagementServer.Utility
 
                 return 0;
             }
+        }
+
+        internal static void UpdateToolFiles(SqlParameter[] paramse)
+        {
+           ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
         }
     }
 }

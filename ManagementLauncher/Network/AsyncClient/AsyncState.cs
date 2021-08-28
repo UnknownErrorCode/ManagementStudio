@@ -151,7 +151,7 @@ namespace ManagementLauncher.Network.AsyncClient
                 {
                     result = Context.Interface.OnReceive(Context, m_read_buffer, e.BytesTransferred);
                 }
-                catch (Exception) { }
+                catch (Exception ex) { }
 
                 if (!result)
                 {

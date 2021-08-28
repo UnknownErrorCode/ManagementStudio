@@ -39,6 +39,8 @@ namespace ManagementServer
             this.serverConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelOnlineUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.patchManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +49,8 @@ namespace ManagementServer
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.patchManagerToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(692, 24);
@@ -97,13 +100,13 @@ namespace ManagementServer
             // sqlConnectionToolStripMenuItem
             // 
             this.sqlConnectionToolStripMenuItem.Name = "sqlConnectionToolStripMenuItem";
-            this.sqlConnectionToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.sqlConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sqlConnectionToolStripMenuItem.Text = "Sql Connection";
             // 
             // serverConnectionToolStripMenuItem
             // 
             this.serverConnectionToolStripMenuItem.Name = "serverConnectionToolStripMenuItem";
-            this.serverConnectionToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.serverConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.serverConnectionToolStripMenuItem.Text = "Server Connection";
             // 
             // statusStrip1
@@ -120,6 +123,21 @@ namespace ManagementServer
             // 
             this.toolStripStatusLabelOnlineUser.Name = "toolStripStatusLabelOnlineUser";
             this.toolStripStatusLabelOnlineUser.Size = new System.Drawing.Size(0, 17);
+            // 
+            // patchManagerToolStripMenuItem
+            // 
+            this.patchManagerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem});
+            this.patchManagerToolStripMenuItem.Name = "patchManagerToolStripMenuItem";
+            this.patchManagerToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.patchManagerToolStripMenuItem.Text = "Patch Manager";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // ServerManager
             // 
@@ -152,6 +170,8 @@ namespace ManagementServer
         private System.Windows.Forms.ToolStripMenuItem serverConnectionToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelOnlineUser;
+        private System.Windows.Forms.ToolStripMenuItem patchManagerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
     }
 }
 
