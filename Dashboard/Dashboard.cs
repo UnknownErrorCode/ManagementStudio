@@ -24,5 +24,15 @@ namespace Dashboard
         {
             splitContainerDashboardText.Panel2Collapsed = false;
         }
+
+        private void SaveTopic()
+        {
+            if (textBoxTopic.TextLength == 0)
+                return;
+            if (richTextBoxEditTopicText.TextLength == 0)
+                return;
+
+            ClientData.m_security.Send(DashboardPackets.AddTopicToDashboard(DashboardMessage.CreateDashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientData.AccountName)));
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace ManagementClient
                     UserControl controlal = (UserControl)Activator.CreateInstance(dll, Network.ClientCore.CInterface.cData);
                     controlal.Dock = DockStyle.Fill;
                     tabPage.Controls.Add(controlal);
-                    tabControl1.TabPages.Add(tabPage);
+                    tabControlPlugins.TabPages.Add(tabPage);
                 }
             }
 

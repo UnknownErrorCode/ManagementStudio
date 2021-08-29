@@ -12,8 +12,16 @@ namespace ManagementServer.Network
             base.AddEntry(0x2001, Reply0x2001);
             // client
             base.AddEntry(0x1000, ReplyLoginRequest);
+            base.AddEntry(0x1001, ReplyAddNewTopicToDashboard);
             // launcher
             base.AddEntry(0x3000, ReplyRequestUpdate);
+
+        }
+
+        private PacketHandlerResult ReplyAddNewTopicToDashboard(ServerData arg1, Packet arg2)
+        {
+
+            return Handler.S_DASHBOARD.TryAddNewTopic(arg1, arg2);
         }
 
 

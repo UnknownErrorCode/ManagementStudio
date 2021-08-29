@@ -28,7 +28,7 @@ namespace ManagementServer.Handler
                 data.m_security.Send(LoginStatus);
                 if (success)
                 {
-                    ((ServerClientData)data).AccountName = result[3];
+                    data.AccountName = result[3];
                     ServerManager.Logger.WriteLogLine($"User: {((ServerClientData)data).AccountName} successfully logged on! ");
                 }
                 else

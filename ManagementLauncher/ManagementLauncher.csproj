@@ -108,13 +108,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServerFrameworkRes\ServerFrameworkRes.csproj">
-      <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>
-      <Name>ServerFrameworkRes</Name>
-    </ProjectReference>
+    <Folder Include="Handler\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Handler\" />
+    <ProjectReference Include="..\ServerFrameworkRes\ServerFrameworkRes.csproj">
+      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
+      <Name>ServerFrameworkRes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

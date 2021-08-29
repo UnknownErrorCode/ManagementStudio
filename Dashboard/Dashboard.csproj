@@ -46,6 +46,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DashboardMessage.cs" />
+    <Compile Include="DashboardPackets.cs" />
     <Compile Include="UserControl1.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>

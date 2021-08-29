@@ -31,8 +31,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainerDashboardText = new System.Windows.Forms.SplitContainer();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxShowTopicText = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxEditTopicText = new System.Windows.Forms.RichTextBox();
             this.vSroSmallButtonSave = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.vSroSmallButtonCancel = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.labelTitle = new System.Windows.Forms.Label();
@@ -86,11 +86,11 @@
             // 
             // splitContainerDashboardText.Panel1
             // 
-            this.splitContainerDashboardText.Panel1.Controls.Add(this.richTextBox1);
+            this.splitContainerDashboardText.Panel1.Controls.Add(this.richTextBoxShowTopicText);
             // 
             // splitContainerDashboardText.Panel2
             // 
-            this.splitContainerDashboardText.Panel2.Controls.Add(this.richTextBox2);
+            this.splitContainerDashboardText.Panel2.Controls.Add(this.richTextBoxEditTopicText);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonSave);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonCancel);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.labelTitle);
@@ -99,24 +99,24 @@
             this.splitContainerDashboardText.SplitterDistance = 307;
             this.splitContainerDashboardText.TabIndex = 1;
             // 
-            // richTextBox1
+            // richTextBoxShowTopicText
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(303, 424);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.richTextBoxShowTopicText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxShowTopicText.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxShowTopicText.Name = "richTextBoxShowTopicText";
+            this.richTextBoxShowTopicText.Size = new System.Drawing.Size(303, 424);
+            this.richTextBoxShowTopicText.TabIndex = 0;
+            this.richTextBoxShowTopicText.Text = "";
             // 
-            // richTextBox2
+            // richTextBoxEditTopicText
             // 
-            this.richTextBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.richTextBoxEditTopicText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox2.Location = new System.Drawing.Point(3, 29);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(315, 362);
-            this.richTextBox2.TabIndex = 4;
-            this.richTextBox2.Text = "";
+            this.richTextBoxEditTopicText.Location = new System.Drawing.Point(3, 29);
+            this.richTextBoxEditTopicText.Name = "richTextBoxEditTopicText";
+            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(315, 362);
+            this.richTextBoxEditTopicText.TabIndex = 4;
+            this.richTextBoxEditTopicText.Text = "";
             // 
             // vSroSmallButtonSave
             // 
@@ -128,6 +128,7 @@
             this.vSroSmallButtonSave.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonSave.TabIndex = 3;
             this.vSroSmallButtonSave.vSroSmallButtonName = "Save";
+            this.vSroSmallButtonSave.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.SaveTopic);
             // 
             // vSroSmallButtonCancel
             // 
@@ -205,8 +206,8 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelAdTopic;
         private System.Windows.Forms.SplitContainer splitContainerDashboardText;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox richTextBoxShowTopicText;
+        private System.Windows.Forms.RichTextBox richTextBoxEditTopicText;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonSave;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonCancel;
         private System.Windows.Forms.Label labelTitle;
