@@ -1,6 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
 
-namespace RekciDClient.Network
+namespace ManagementClient.Network
 {
     internal class ClientData : ServerData
     {

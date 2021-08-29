@@ -1,10 +1,8 @@
-﻿namespace RekciDClient
+﻿namespace ManagementClient
 {
     internal static class ClientMemory
     {
-        public static string LatestAccountName { get; internal set; }
-        public static string LatestPassword { get; internal set; }
-        public static bool Authorized { get; internal set; } 
-
+        public static bool LoggedIn { get; internal set; }
+        public static string[] AllowedPlugin { get; internal set; }
     }
 }

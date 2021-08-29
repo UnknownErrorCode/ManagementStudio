@@ -1,5 +1,5 @@
 ﻿
-namespace RekciDClient
+namespace ManagementClient
 {
     partial class LoginForm
     {
@@ -35,6 +35,7 @@ namespace RekciDClient
             this.vSroInputBox2 = new ServerFrameworkRes.BasicControls.vSroInputBox();
             this.vSroInputBox1 = new ServerFrameworkRes.BasicControls.vSroInputBox();
             this.vSroSizableWindow1 = new ServerFrameworkRes.BasicControls.vSroSizableWindow();
+            this.vSroCheckBoxSaveLogin = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.SuspendLayout();
             // 
             // vSroCheckBox1
@@ -45,14 +46,14 @@ namespace RekciDClient
             this.vSroCheckBox1.Location = new System.Drawing.Point(40, 133);
             this.vSroCheckBox1.MinimumSize = new System.Drawing.Size(16, 16);
             this.vSroCheckBox1.Name = "vSroCheckBox1";
-            this.vSroCheckBox1.Size = new System.Drawing.Size(116, 16);
+            this.vSroCheckBox1.Size = new System.Drawing.Size(137, 16);
             this.vSroCheckBox1.TabIndex = 5;
             this.vSroCheckBox1.vSroCheck = false;
             this.vSroCheckBox1.vSroCheckBoxName = "Show password";
             // 
             // vSroSmallButtonLogin
             // 
-            this.vSroSmallButtonLogin.Location = new System.Drawing.Point(74, 156);
+            this.vSroSmallButtonLogin.Location = new System.Drawing.Point(75, 202);
             this.vSroSmallButtonLogin.MaximumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonLogin.MinimumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonLogin.Name = "vSroSmallButtonLogin";
@@ -95,22 +96,36 @@ namespace RekciDClient
             this.vSroSizableWindow1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vSroSizableWindow1.Location = new System.Drawing.Point(0, 0);
             this.vSroSizableWindow1.Name = "vSroSizableWindow1";
-            this.vSroSizableWindow1.Size = new System.Drawing.Size(325, 202);
+            this.vSroSizableWindow1.Size = new System.Drawing.Size(325, 238);
             this.vSroSizableWindow1.TabIndex = 0;
             this.vSroSizableWindow1.Title = "RekciD Tool Client";
             // 
-            // ClientTool
+            // vSroCheckBoxSaveLogin
+            // 
+            this.vSroCheckBoxSaveLogin.AutoSize = true;
+            this.vSroCheckBoxSaveLogin.BackColor = System.Drawing.Color.Black;
+            this.vSroCheckBoxSaveLogin.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxSaveLogin.Location = new System.Drawing.Point(40, 155);
+            this.vSroCheckBoxSaveLogin.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxSaveLogin.Name = "vSroCheckBoxSaveLogin";
+            this.vSroCheckBoxSaveLogin.Size = new System.Drawing.Size(191, 16);
+            this.vSroCheckBoxSaveLogin.TabIndex = 6;
+            this.vSroCheckBoxSaveLogin.vSroCheck = false;
+            this.vSroCheckBoxSaveLogin.vSroCheckBoxName = "Save user data on login";
+            // 
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(325, 202);
+            this.ClientSize = new System.Drawing.Size(325, 238);
+            this.Controls.Add(this.vSroCheckBoxSaveLogin);
             this.Controls.Add(this.vSroCheckBox1);
             this.Controls.Add(this.vSroSmallButtonLogin);
             this.Controls.Add(this.vSroInputBox2);
             this.Controls.Add(this.vSroInputBox1);
             this.Controls.Add(this.vSroSizableWindow1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "ClientTool";
+            this.Name = "LoginForm";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClose);
             this.Load += new System.EventHandler(this.ClientTool_Load);
@@ -126,6 +141,7 @@ namespace RekciDClient
         private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBox2;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonLogin;
         private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBox1;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxSaveLogin;
     }
 }
 

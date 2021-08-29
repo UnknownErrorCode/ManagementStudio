@@ -53,16 +53,7 @@ namespace ManagementServer.Network
         /// <returns></returns>
         private PacketHandlerResult ReplyLoginRequest(ServerData data, Packet packet)
         {
-            var acc = packet.ReadAscii();
-            var pwd = packet.ReadAscii();
-            //TODO: Version 
-            string[] result = SQL.CheckLogin(acc, pwd, ((ServerClientData)data).UserIP);
-
-            bool.TryParse(result[0], out bool success);
-            if (success)
-                data.m_security.Send(Handler.S_UPDATE.SendServerVersion());
-
-            return PacketHandlerResult.Block;
+            return Handler.S_LOGIN.TryLogin(data, packet);
         }
 
         /// <summary>

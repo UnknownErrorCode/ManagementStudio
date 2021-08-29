@@ -4,13 +4,14 @@ using ServerFrameworkRes.Network.AsyncNetwork;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using ServerFrameworkRes.Network.Security;
 
-namespace RekciDClient.Network
+namespace ManagementClient.Network
 {
     internal static class ClientCore
     {
         private static AsyncClient ClientNetwork = new AsyncClient();
-        private static ClientInterface CInterface = new ClientInterface();
+        public static ClientInterface CInterface = new ClientInterface();
 
         public static bool Connected { get => CInterface.cData.m_connected; }
 
@@ -33,10 +34,15 @@ namespace RekciDClient.Network
 
             return CInterface.cData.m_connected;
         }
-
+        internal static void Send(Packet packet)
+        {
+            if (CInterface.cData.m_connected)
+                CInterface.cData.m_security.Send(packet);
+        }
         internal static void Disconnect()
         {
-            CInterface.cData.m_connected = false;
+            if (CInterface.cData.m_connected)
+                CInterface.cData.m_connected = false;
         }
         private static void TickerThread()
         {

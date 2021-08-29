@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handler\S_LOGIN.cs" />
     <Compile Include="Network\ServerPacketHandler.cs" />
     <Compile Include="PatchManager.cs">
       <SubType>Form</SubType>

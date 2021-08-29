@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RekciDClient
+namespace ManagementClient
 {
     static class Program
     {
-        public static Utility.Config MainConfig = new Utility.Config();
+        internal static Utility.Config MainConfig = new Utility.Config();
+        internal static LoginForm StaticLoginForm;
+        internal static ClientForm StaticClientForm;
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -17,7 +20,9 @@ namespace RekciDClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            StaticLoginForm = new LoginForm();
+            StaticClientForm = new ClientForm();
+            Application.Run(StaticLoginForm);
         }
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="Utility\Config.cs" />
     <Compile Include="Utility\ConfigInterface.cs" />
     <Compile Include="Utility\ConfigLoader.cs" />
+    <Compile Include="Utility\MD5Generator.cs" />
     <EmbeddedResource Include="ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </EmbeddedResource>

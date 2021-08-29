@@ -31,12 +31,14 @@ namespace ManagementServer
 
         public void OnDisconnect(AsyncContext context)
         {
-            //    ServerData context_data = (ServerData)context.User;
-                context.Disconnect();
-            //   context = null;
-            //   context_data = null;
+            ServerData context_data = (ServerClientData)context.User;
+
             ServerMemory.ClientDataPool.Remove($"{context.State.EndPoint}");
-            context = null;
+
+            if (context_data.AccountName != null)
+                SQL.CheckLogout(context_data.AccountName, context_data.UserIP);
+
+            context.Disconnect();
             GC.Collect();
             ServerMemory.OnlineUser--;
 
@@ -46,9 +48,7 @@ namespace ManagementServer
         public void OnError(AsyncContext context, object user)
         {
             if (context != null && context.User != null)
-            {
                 OnDisconnect(context);
-            }
         }
 
         public bool OnReceive(AsyncContext context, byte[] buffer, int count)
@@ -63,7 +63,7 @@ namespace ManagementServer
                 {
                     foreach (Packet packet in packets)
                     {
-                        PacketHandlerResult result =Handler.HandlePacketAction(serverClientData, packet).GetAwaiter().GetResult();
+                        PacketHandlerResult result = Handler.HandlePacketAction(serverClientData, packet).GetAwaiter().GetResult();
                         // byte[] payload = packet.GetBytes();
                         // StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("[{7}][{0:X4}][{1} bytes]{2}{3}{4}{5}{6}", packet.Opcode, payload.Length, packet.Encrypted ? "[Encrypted]" : "", packet.Massive ? "[Massive]" : "", Environment.NewLine, Utility.HexDump(payload), Environment.NewLine, context.Guid));
                         // StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Received Package Opcode: {0:X4}", packet.Opcode));

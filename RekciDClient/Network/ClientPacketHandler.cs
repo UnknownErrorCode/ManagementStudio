@@ -1,11 +1,12 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using ServerFrameworkRes.BasicControls;
+using ServerFrameworkRes.Network.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RekciDClient.Network
+namespace ManagementClient.Network
 {
     class ClientPacketHandler : PacketHandler
     {
@@ -13,6 +14,7 @@ namespace RekciDClient.Network
         public ClientPacketHandler()
         {
             base.AddEntry(0xC000, Reply0xC000);
+            base.AddEntry(0xC001, Reply0xC001LoginStatus);
         }
 
 
@@ -28,15 +30,34 @@ namespace RekciDClient.Network
             var prove = arg2.ReadAscii();
             if (prove == "RequestAuthentification")
             {
-                Packet requestLogin = new Packet(0x1000);
-                requestLogin.WriteAscii(ClientMemory.LatestAccountName);
-                requestLogin.WriteAscii(ClientMemory.LatestPassword);
-                arg1.m_security.Send(requestLogin);
-                return PacketHandlerResult.Response;
+               // Packet requestLogin = new Packet(0x1000);
+               // requestLogin.WriteAscii(ClientMemory.LatestAccountName);
+               // requestLogin.WriteAscii(ClientMemory.LatestPassword);
+               // arg1.m_security.Send(requestLogin);
+               // return PacketHandlerResult.Response;
             }
             return PacketHandlerResult.Block;
         }
 
-       
+       private PacketHandlerResult Reply0xC001LoginStatus(ServerData arg1, Packet arg2)
+        {
+            var ok = arg2.ReadBool();
+            var msg = arg2.ReadAscii();
+            var securityGroup = int.Parse(arg2.ReadAscii());
+            var accountName = arg2.ReadAscii();
+            if (ok)
+            {
+                ClientMemory.LoggedIn = true;
+                Program.StaticLoginForm.Invoke( new Action( () => Program.StaticLoginForm.OnHide()));
+             //   Program.StaticClientForm.Invoke( new Action( () => Program.StaticClientForm.Show()));
+            }
+            else
+            {
+                vSroMessageBox.Show($"Login failed! \n{msg}");
+                return PacketHandlerResult.Block;
+            }
+
+            return PacketHandlerResult.Block;
+        }
     }
 }

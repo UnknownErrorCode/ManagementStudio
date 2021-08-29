@@ -1,6 +1,6 @@
 ﻿using ServerFrameworkRes.BasicControls;
 using System;
-using RekciDClient.Network;
+using ManagementClient.Network;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -9,11 +9,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ServerFrameworkRes.Network.Security;
 
-namespace RekciDClient
+namespace ManagementClient
 {
     public partial class LoginForm : Form
     {
+
         public LoginForm()
         {
             InitializeComponent();
@@ -27,7 +29,14 @@ namespace RekciDClient
             this.vSroInputBox1.ValueText = Program.MainConfig.ToolUser();
             this.vSroInputBox2.ValueText = Program.MainConfig.ToolUserPassword();
             this.vSroCheckBox1.ChangeStatus(Program.MainConfig.ShowPwInText());
+            this.vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData());
             vSroCheckBox1.vSroCheckChange += VSroCheckBox1_vSroCheckChange;
+            vSroCheckBoxSaveLogin.vSroCheckChange += OnCheckChangeSaveUserData;
+        }
+
+        private void OnCheckChangeSaveUserData(object sender, EventArgs e)
+        {
+            Program.MainConfig.ConfigEditor.IniWriteValue("ToolClient", "SaveUserData", vSroCheckBoxSaveLogin.vSroCheck.ToString());
         }
 
         /// <summary>
@@ -48,26 +57,25 @@ namespace RekciDClient
         {
             if (vSroInputBox1.ValueText.Length == 0)
             { vSroMessageBox.Show("Please type in your username!", "Invalid username"); return; }
-            else
-                ClientMemory.LatestAccountName = vSroInputBox1.ValueText;
-
-
 
             if (vSroInputBox2.ValueText.Length == 0)
             { vSroMessageBox.Show("Please type in your password!", "Invalid password"); return; }
-            else
-                ClientMemory.LatestPassword = vSroInputBox2.ValueText;
 
-            this.vSroSmallButtonLogin.Enabled = false;
 
-            Thread startThread = new Thread(Connect);
-            startThread.Start();
+            Program.MainConfig.PToolUser = vSroInputBox1.ValueText;
+            Program.MainConfig.PToolUserPassword = vSroInputBox2.ValueText;
+            Packet requestLogin = new Packet(0x1000);
+            requestLogin.WriteAscii(vSroInputBox1.ValueText);
+            requestLogin.WriteAscii(Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
+            ClientCore.Send(requestLogin);
 
         }
 
         private void ClientTool_Load(object sender, EventArgs e)
         {
-            ClientMemory.Authorized = false;
+            this.vSroSizableWindow1.Title = "Offline";
+            Thread startThread = new Thread(Connect);
+            startThread.Start();
         }
 
 
@@ -78,26 +86,25 @@ namespace RekciDClient
 
             var connected = ClientCore.Start().GetAwaiter().GetResult();
             if (connected)
-            {
-                vSroMessageBox.Show("The connection to server has been established.\nAccount authentification started...", "Connection established");
-                if (ClientMemory.Authorized)
-                {
-                    Application.Run(new ClientForm());
-                    this.Close();
-                }
-            }
+                this.vSroSmallButtonLogin.Invoke(new Action(() => { this.vSroSmallButtonLogin.Enabled = true; }));
             else
             {
                 vSroMessageBox.Show("The connection to server failed", "Connection failed");
-                this.vSroSmallButtonLogin.Invoke(new Action(() => { this.vSroSmallButtonLogin.Enabled = true; }));
+                this.vSroSmallButtonLogin.Invoke(new Action(() => { this.vSroSmallButtonLogin.Enabled = false; }));
             }
+            Invoke(new Action(() => this.vSroSizableWindow1.Title = connected ? "Online" : "Offline"));
         }
 
         private void OnClose(object sender, FormClosingEventArgs e)
         {
-            if (ClientMemory.Authorized != null)
-                if (!ClientMemory.Authorized)
-                    ClientCore.Disconnect();
+            if (!ClientMemory.LoggedIn)
+                ClientCore.Disconnect();
+          
+        }
+        internal void OnHide()
+        {
+            Program.StaticClientForm.Show();
+            this.Visible = false;
         }
     }
 }

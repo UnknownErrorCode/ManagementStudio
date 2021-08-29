@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RekciDClient.Utility
+namespace ManagementClient.Utility
 {
     internal class Config : ConfigLoader, ConfigInterface
     {
@@ -36,5 +36,7 @@ namespace RekciDClient.Utility
         public string ClientExtracted() { return base.ConfigEditor.IniReadValue("ToolClient", "StudioRessources"); }
 
 
+        public string PToolUser { get => ToolUser(); set => base.ConfigEditor.IniWriteValue("ToolClient", "User", value); }
+        public string PToolUserPassword { get => ToolUserPassword(); set => base.ConfigEditor.IniWriteValue("ToolClient", "ToolPassword", value); }
     }
 }

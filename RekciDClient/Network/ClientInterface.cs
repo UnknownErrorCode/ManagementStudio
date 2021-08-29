@@ -3,7 +3,7 @@ using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Network.Security;
 using System.Collections.Generic;
 
-namespace RekciDClient.Network
+namespace ManagementClient.Network
 {
     internal class ClientInterface : IAsyncInterface
     {

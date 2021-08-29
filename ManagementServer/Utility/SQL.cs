@@ -125,6 +125,26 @@ namespace ManagementServer.Utility
             return forsfor;
         }
 
+        public static string[] CheckLogout(string userName, string UserIP)
+        {
+            SqlParameter[] logoutParameter = new SqlParameter[]
+                  {
+                        new SqlParameter("@UserName" ,System.Data.SqlDbType.VarChar,64) { Value = userName },
+                        new SqlParameter("@Password" ,System.Data.SqlDbType.VarChar,128) { Value = "non" },
+                        new SqlParameter("@IP" ,System.Data.SqlDbType.VarChar,15) { Value = UserIP },
+                        new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
+
+                  };
+            var logoutResut = SQL.ReturnDataTableByProcedure("_LoginToolUser", ServerManager.settings.DBDev, logoutParameter).Rows[0];
+
+            string[] forsfor = new string[logoutResut.ItemArray.Length];
+
+            for (int i = 0; i < forsfor.Length; i++)
+                forsfor[i] = logoutResut.ItemArray[i].ToString();
+
+            return forsfor;
+        }
+
         internal static DataTable RequestFilesToUpdate(int latestClientVersion)
         {
             return ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);

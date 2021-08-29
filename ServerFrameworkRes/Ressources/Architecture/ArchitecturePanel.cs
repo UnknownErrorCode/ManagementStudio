@@ -28,7 +28,7 @@ namespace ServerFrameworkRes.Ressources.Architecture
             InitializeComponent();
             foreach (var item in listOfNodeDatas)
             {
-                srNodeDataDictionary.Add(item.SelfBody.AccountName, item);
+               // srNodeDataDictionary.Add(item.SelfBody.AccountName, item);
             }
         }
 

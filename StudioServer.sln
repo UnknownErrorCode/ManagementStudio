@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementClient", "RekciDC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementLauncher", "ManagementLauncher\ManagementLauncher.csproj", "{431F7005-86A0-42F7-9524-B03CA8D126A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{431F7005-86A0-42F7-9524-B03CA8D126A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{431F7005-86A0-42F7-9524-B03CA8D126A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{431F7005-86A0-42F7-9524-B03CA8D126A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E2FC8EEC-3C46-4FD1-A038-2F208DDDCE5E}

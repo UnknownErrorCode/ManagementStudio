@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace ManagementServer.Utility
 {
-   internal class ServerClientData : ServerFrameworkRes.Network.Security.ServerData
+    internal class ServerClientData : ServerFrameworkRes.Network.Security.ServerData
     {
-        internal string AccountName; 
-        internal string UserIP; 
+        //internal string AccountName; 
+        //  internal string UserIP; 
 
 
-        internal ServerClientData(string userIP, byte[] user):base()
+        internal ServerClientData(string userIP, byte[] user) : base()
         {
 
-            UserIP = userIP;
+            base.UserIP = userIP;
             base.m_connected = true;
             base.m_certification_buffer = user;
             base.m_security.GenerateSecurity(false, false, false);
