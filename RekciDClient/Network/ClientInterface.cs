@@ -16,8 +16,8 @@ namespace ManagementClient.Network
         /// <returns></returns>
         public bool OnConnect(AsyncContext context)
         {
-            //cData = new ClientData();
             cData.m_connected = true;
+            cData.UserIP = context.State.EndPoint.ToString().Split(':')[0];
             context.User = cData;
 
             return true;
@@ -32,9 +32,7 @@ namespace ManagementClient.Network
         public void OnError(AsyncContext context, object user)
         {
             if (context != null && context.User != null)
-            {
                 OnDisconnect(context);
-            }
         }
 
         public bool OnReceive(AsyncContext context, byte[] buffer, int count)
@@ -66,9 +64,8 @@ namespace ManagementClient.Network
                 }
             }
             catch (System.Exception ex)
-            {
-                return false;
-            }
+            { return false; }
+
             return true;
         }
 
@@ -86,9 +83,7 @@ namespace ManagementClient.Network
             if (buffers != null)
             {
                 foreach (KeyValuePair<TransferBuffer, Packet> buffer in buffers)
-                {
                     context.Send(buffer.Key.Buffer, 0, buffer.Key.Size);
-                }
             }
         }
     }

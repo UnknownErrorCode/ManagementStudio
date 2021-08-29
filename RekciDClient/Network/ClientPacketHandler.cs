@@ -48,6 +48,7 @@ namespace ManagementClient.Network
             if (ok)
             {
                 ClientMemory.LoggedIn = true;
+                arg1.AccountName = accountName;
                 Program.StaticLoginForm.Invoke( new Action( () => Program.StaticLoginForm.OnHide()));
              //   Program.StaticClientForm.Invoke( new Action( () => Program.StaticClientForm.Show()));
             }
