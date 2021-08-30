@@ -7,7 +7,14 @@ namespace Structs.Dashboard
         public string Title;
         public string Author;
         public DateTime Created;
-        public DateTime Edited;
         public string Text;
+
+        public DashboardMessage(string title, string text, string author)
+        {
+            Title = title;
+            Author = author;
+            Text = text;
+            Created = DateTime.UtcNow;
+        }
     }
 }

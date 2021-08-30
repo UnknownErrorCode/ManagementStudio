@@ -77,6 +77,20 @@ namespace ManagementServer.Utility
             return dataTableProcedure;
         }
 
+        internal static void LogoutEveryone()
+        {
+            using (SqlCommand command = new SqlCommand("UPDATE _ToolUser SET Active = 0 ", sqlConnection))
+            {
+                if (command.Connection.State != ConnectionState.Open)
+                    command.Connection.Open();
+
+                command.Connection.ChangeDatabase(ServerManager.settings.DBDev);
+                command.CommandType = CommandType.Text;
+
+                command.ExecuteNonQuery();
+                command.Connection.Close();
+            }
+        }
 
         private static DataTable ReturnDataTableByQuery(string query, string database)
         {

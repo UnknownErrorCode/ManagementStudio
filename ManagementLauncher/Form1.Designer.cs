@@ -30,12 +30,12 @@ namespace ManagementLauncher
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Launcher));
-            this.vSroSizableWindow1 = new ServerFrameworkRes.BasicControls.vSroSizableWindow();
-            this.vSroSmallButtonPatch = new ServerFrameworkRes.BasicControls.vSroSmallButton();
-            this.vSroSmallButtonStart = new ServerFrameworkRes.BasicControls.vSroSmallButton();
-            this.vSroSmallButtonClose = new ServerFrameworkRes.BasicControls.vSroSmallButton();
-            this.vSroInputBoxHost = new ServerFrameworkRes.BasicControls.vSroInputBox();
-            this.vSroInputBoxPort = new ServerFrameworkRes.BasicControls.vSroInputBox();
+            this.vSroSizableWindow1 = new ManagementLauncher.vSroSizableWindow();
+            this.vSroSmallButtonPatch = new ManagementLauncher.vSroSmallButton();
+            this.vSroSmallButtonStart = new ManagementLauncher.vSroSmallButton();
+            this.vSroSmallButtonClose = new ManagementLauncher.vSroSmallButton();
+            this.vSroInputBoxHost = new ManagementLauncher.vSroInputBox();
+            this.vSroInputBoxPort = new ManagementLauncher.vSroInputBox();
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -142,13 +142,13 @@ namespace ManagementLauncher
         }
 
         #endregion
-        private ServerFrameworkRes.BasicControls.vSroSizableWindow vSroSizableWindow1;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonClose;
-        private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBoxHost;
-        private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBoxPort;
+        private ManagementLauncher.vSroSizableWindow vSroSizableWindow1;
+        private ManagementLauncher.vSroSmallButton vSroSmallButtonClose;
+        private ManagementLauncher.vSroInputBox vSroInputBoxHost;
+        private ManagementLauncher.vSroInputBox vSroInputBoxPort;
         private System.Windows.Forms.RichTextBox richTextBoxLog;
-        internal ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonPatch;
-        internal ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonStart;
+        internal ManagementLauncher.vSroSmallButton vSroSmallButtonPatch;
+        internal ManagementLauncher.vSroSmallButton vSroSmallButtonStart;
     }
 }
 

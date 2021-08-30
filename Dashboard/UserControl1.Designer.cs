@@ -83,6 +83,7 @@
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.OnIdexChange);
             // 
             // splitContainerDashboardText
             // 
@@ -134,7 +135,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxEditTopicText.Location = new System.Drawing.Point(3, 29);
             this.richTextBoxEditTopicText.Name = "richTextBoxEditTopicText";
-            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(303, 341);
+            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(299, 341);
             this.richTextBoxEditTopicText.TabIndex = 4;
             this.richTextBoxEditTopicText.Text = "";
             // 
@@ -165,7 +166,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTopic.Location = new System.Drawing.Point(51, 3);
             this.textBoxTopic.Name = "textBoxTopic";
-            this.textBoxTopic.Size = new System.Drawing.Size(255, 20);
+            this.textBoxTopic.Size = new System.Drawing.Size(251, 20);
             this.textBoxTopic.TabIndex = 0;
             // 
             // statusStrip1
@@ -194,21 +195,21 @@
             // editShownTopicToolStripMenuItem
             // 
             this.editShownTopicToolStripMenuItem.Name = "editShownTopicToolStripMenuItem";
-            this.editShownTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editShownTopicToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.editShownTopicToolStripMenuItem.Text = "Edit shown topic";
             this.editShownTopicToolStripMenuItem.Click += new System.EventHandler(this.editShownTopicToolStripMenuItem_Click);
             // 
             // deleteShownTopicToolStripMenuItem
             // 
             this.deleteShownTopicToolStripMenuItem.Name = "deleteShownTopicToolStripMenuItem";
-            this.deleteShownTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteShownTopicToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.deleteShownTopicToolStripMenuItem.Text = "Delete shown topic";
             this.deleteShownTopicToolStripMenuItem.Click += new System.EventHandler(this.deleteShownTopicToolStripMenuItem_Click);
             // 
             // addNewTopicToolStripMenuItem
             // 
             this.addNewTopicToolStripMenuItem.Name = "addNewTopicToolStripMenuItem";
-            this.addNewTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addNewTopicToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.addNewTopicToolStripMenuItem.Text = "Add new topic";
             this.addNewTopicToolStripMenuItem.Click += new System.EventHandler(this.addNewTopicToolStripMenuItem_Click);
             // 

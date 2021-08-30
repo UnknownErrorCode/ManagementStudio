@@ -29,7 +29,7 @@ namespace Dashboard
             if (ClientData.AccountName == null)
                 return;
 
-            ClientData.m_security.Send(DashboardPackets.AddTopicToDashboard(DashboardMessageGenerator.CreateDashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientData.AccountName)));
+            ClientData.m_security.Send(DashboardPackets.AddTopicToDashboard(new DashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientData.AccountName)));
         }
 
         private void OnCheckTopics(object sender, EventArgs e)
@@ -71,6 +71,12 @@ namespace Dashboard
                
                 ClientData.m_security.Send(DashboardPackets.DeleteTopicFromDashboard(messageToDelete));
             }
+        }
+
+        private void OnIdexChange(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count>0)
+                richTextBoxShowTopicText.Text = ((DashboardMessage)listView1.SelectedItems[0].Tag).Text;
         }
     }
 }

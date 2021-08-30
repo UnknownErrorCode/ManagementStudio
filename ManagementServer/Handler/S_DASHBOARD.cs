@@ -32,7 +32,6 @@ namespace ManagementServer.Handler
             return PacketHandlerResult.Block;
         }
 
-
         internal static PacketHandlerResult TryAddNewTopic(ServerData arg1, Packet arg2)
         {
             var Author = arg2.ReadAscii();
@@ -44,7 +43,7 @@ namespace ManagementServer.Handler
                 Directory.CreateDirectory(Path.Combine(ServerManager.settings.GuidePath, Author)).Create();
 
             if (!File.Exists(Path.Combine(ServerManager.settings.GuidePath, Author,$"{Title}.log")))
-                File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, Author, $"{Title}.log"), $"{Title}\n\n{Text}\n\nCreated:{created.ToString()}");
+                File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, Author, $"{Title}.log"), $"{Title}\n\n{Text}\n\nCreated:{created.ToString()}\n\n Author:{Author}");
 
             var newTopic = new Packet(0xC002);
             newTopic.WriteAscii(Author);

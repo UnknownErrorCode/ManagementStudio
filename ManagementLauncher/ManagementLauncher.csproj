@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>images.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,6 +85,30 @@
     <Compile Include="Network\Security\VisitStream.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="vSroCloseButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="vSroCloseButton.Designer.cs">
+      <DependentUpon>vSroCloseButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vSroInputBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="vSroInputBox.Designer.cs">
+      <DependentUpon>vSroInputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vSroSizableWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="vSroSizableWindow.Designer.cs">
+      <DependentUpon>vSroSizableWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vSroSmallButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="vSroSmallButton.Designer.cs">
+      <DependentUpon>vSroSmallButton.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Launcher.resx">
       <DependentUpon>Launcher.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,6 +121,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="vSroCloseButton.resx">
+      <DependentUpon>vSroCloseButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vSroInputBox.resx">
+      <DependentUpon>vSroInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vSroSizableWindow.resx">
+      <DependentUpon>vSroSizableWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vSroSmallButton.resx">
+      <DependentUpon>vSroSmallButton.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -111,10 +150,7 @@
     <Folder Include="Handler\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServerFrameworkRes\ServerFrameworkRes.csproj">
-      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
-      <Name>ServerFrameworkRes</Name>
-    </ProjectReference>
+    <Content Include="images.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -114,7 +114,7 @@ namespace ManagementServer
                         File.Delete(item);
 
                         PatchManager_Load(null, new EventArgs());
-
+                        this.Text = $"Studio Server Version: [{ServerManager.settings.Version}]";
                     }
                     InitializeConfig.Cfg.IniWriteValue("StudioServer", "Version", $"{ ServerManager.settings.Version + 1}");
                     ServerManager.Logger.WriteLogLine(LogLevel.notify, $"Successfully patched: '{FilesinPatchFolderStringsFull.Length}' Files");

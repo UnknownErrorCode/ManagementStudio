@@ -45,6 +45,7 @@ namespace ManagementServer
             {
                 if (!Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString))
                     return;
+                Utility.SQL.LogoutEveryone();
                 Server = new AsyncServer();
                 Server.Accept(settings.IP, settings.Port, 5, new ServerInterface(), buffer);
 
