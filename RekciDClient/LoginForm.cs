@@ -26,10 +26,10 @@ namespace ManagementClient
         /// </summary>
         private void InitializeCustomnComponent()
         {
-            this.vSroInputBox1.ValueText = Program.MainConfig.ToolUser();
-            this.vSroInputBox2.ValueText = Program.MainConfig.ToolUserPassword();
-            this.vSroCheckBox1.ChangeStatus(Program.MainConfig.ShowPwInText());
-            this.vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData());
+            this.vSroInputBox1.ValueText = Program.MainConfig.PToolUser;
+            this.vSroInputBox2.ValueText = Program.MainConfig.PToolUserPassword;
+            this.vSroCheckBox1.ChangeStatus(Program.MainConfig.ShowPwInText);
+            this.vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData);
             vSroCheckBox1.vSroCheckChange += VSroCheckBox1_vSroCheckChange;
             vSroCheckBoxSaveLogin.vSroCheckChange += OnCheckChangeSaveUserData;
         }
@@ -47,7 +47,7 @@ namespace ManagementClient
         private void VSroCheckBox1_vSroCheckChange(object sender, EventArgs e)
         {
             Program.MainConfig.ConfigEditor.IniWriteValue("ToolClient", "ShowPW", vSroCheckBox1.vSroCheck.ToString());
-            this.vSroInputBox2.vSroUseSystemPasswordChar = Program.MainConfig.ShowPwInText() ? false : true;
+            this.vSroInputBox2.vSroUseSystemPasswordChar = Program.MainConfig.ShowPwInText ? false : true;
         }
 
         /// <summary>

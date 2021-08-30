@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagementClient.Utility
+namespace ClientDataStorage
 {
-    abstract class ConfigLoader
+    public abstract class ConfigLoader
     {
         public  ServerFrameworkRes.InitializeFile ConfigEditor;
         private  string ConfigPath { get => Path.Combine(Directory.GetCurrentDirectory(), "Config"); }

@@ -17,7 +17,7 @@ namespace ManagementClient.Network
 
         internal static async Task<bool> Start()
         {
-            ClientNetwork.Connect(Program.MainConfig.ToolServerIP(), Program.MainConfig.ToolServerPort(), CInterface, CInterface.cData);
+            ClientNetwork.Connect(Program.MainConfig.ToolServerIP, Program.MainConfig.ToolServerPort, CInterface, CInterface.cData);
 
             for (int i = 0; i < 500; i++)
             {

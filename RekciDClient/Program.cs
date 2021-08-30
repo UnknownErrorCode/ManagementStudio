@@ -8,12 +8,12 @@ namespace ManagementClient
 {
     static class Program
     {
-        internal static Utility.Config MainConfig = new Utility.Config();
+        internal static ClientDataStorage.Config MainConfig = new ClientDataStorage.Config();
         internal static LoginForm StaticLoginForm;
         internal static ClientForm StaticClientForm;
 
         /// <summary>
-        /// Der Haupteinstiegspunkt für die Anwendung.
+        /// Main entry point for the application!
         /// </summary>
         [STAThread]
         static void Main()
