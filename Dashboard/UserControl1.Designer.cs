@@ -28,17 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainerDashboardText = new System.Windows.Forms.SplitContainer();
             this.richTextBoxShowTopicText = new System.Windows.Forms.RichTextBox();
+            this.vSroSmallButtonCancel = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.richTextBoxEditTopicText = new System.Windows.Forms.RichTextBox();
             this.vSroSmallButtonSave = new ServerFrameworkRes.BasicControls.vSroSmallButton();
-            this.vSroSmallButtonCancel = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.labelTitle = new System.Windows.Forms.Label();
             this.textBoxTopic = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabelAdTopic = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.editShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerCheckDashboard = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -76,6 +82,7 @@
             this.listView1.Size = new System.Drawing.Size(160, 450);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.List;
             // 
             // splitContainerDashboardText
             // 
@@ -90,11 +97,12 @@
             // 
             // splitContainerDashboardText.Panel2
             // 
+            this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonCancel);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.richTextBoxEditTopicText);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonSave);
-            this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonCancel);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.labelTitle);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.textBoxTopic);
+            this.splitContainerDashboardText.Panel2Collapsed = true;
             this.splitContainerDashboardText.Size = new System.Drawing.Size(636, 428);
             this.splitContainerDashboardText.SplitterDistance = 307;
             this.splitContainerDashboardText.TabIndex = 1;
@@ -104,9 +112,21 @@
             this.richTextBoxShowTopicText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxShowTopicText.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxShowTopicText.Name = "richTextBoxShowTopicText";
-            this.richTextBoxShowTopicText.Size = new System.Drawing.Size(303, 424);
+            this.richTextBoxShowTopicText.ReadOnly = true;
+            this.richTextBoxShowTopicText.Size = new System.Drawing.Size(632, 424);
             this.richTextBoxShowTopicText.TabIndex = 0;
             this.richTextBoxShowTopicText.Text = "";
+            // 
+            // vSroSmallButtonCancel
+            // 
+            this.vSroSmallButtonCancel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.vSroSmallButtonCancel.Location = new System.Drawing.Point(0, 48);
+            this.vSroSmallButtonCancel.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonCancel.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonCancel.Name = "vSroSmallButtonCancel";
+            this.vSroSmallButtonCancel.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonCancel.TabIndex = 2;
+            this.vSroSmallButtonCancel.vSroSmallButtonName = "Cancel";
             // 
             // richTextBoxEditTopicText
             // 
@@ -114,14 +134,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxEditTopicText.Location = new System.Drawing.Point(3, 29);
             this.richTextBoxEditTopicText.Name = "richTextBoxEditTopicText";
-            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(315, 362);
+            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(303, 341);
             this.richTextBoxEditTopicText.TabIndex = 4;
             this.richTextBoxEditTopicText.Text = "";
             // 
             // vSroSmallButtonSave
             // 
-            this.vSroSmallButtonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.vSroSmallButtonSave.Location = new System.Drawing.Point(156, 397);
+            this.vSroSmallButtonSave.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.vSroSmallButtonSave.Location = new System.Drawing.Point(0, 72);
             this.vSroSmallButtonSave.MaximumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonSave.MinimumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonSave.Name = "vSroSmallButtonSave";
@@ -129,17 +149,6 @@
             this.vSroSmallButtonSave.TabIndex = 3;
             this.vSroSmallButtonSave.vSroSmallButtonName = "Save";
             this.vSroSmallButtonSave.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.SaveTopic);
-            // 
-            // vSroSmallButtonCancel
-            // 
-            this.vSroSmallButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.vSroSmallButtonCancel.Location = new System.Drawing.Point(-2, 397);
-            this.vSroSmallButtonCancel.MaximumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonCancel.MinimumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonCancel.Name = "vSroSmallButtonCancel";
-            this.vSroSmallButtonCancel.Size = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonCancel.TabIndex = 2;
-            this.vSroSmallButtonCancel.vSroSmallButtonName = "Cancel";
             // 
             // labelTitle
             // 
@@ -156,25 +165,57 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTopic.Location = new System.Drawing.Point(51, 3);
             this.textBoxTopic.Name = "textBoxTopic";
-            this.textBoxTopic.Size = new System.Drawing.Size(267, 20);
+            this.textBoxTopic.Size = new System.Drawing.Size(255, 20);
             this.textBoxTopic.TabIndex = 0;
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelAdTopic});
+            this.toolStripDropDownButton1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(636, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabelAdTopic
+            // toolStripDropDownButton1
             // 
-            this.toolStripStatusLabelAdTopic.Name = "toolStripStatusLabelAdTopic";
-            this.toolStripStatusLabelAdTopic.Size = new System.Drawing.Size(86, 17);
-            this.toolStripStatusLabelAdTopic.Text = "Add new Topic";
-            this.toolStripStatusLabelAdTopic.Click += new System.EventHandler(this.toolStripStatusLabelAdTopic_Click);
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editShownTopicToolStripMenuItem,
+            this.deleteShownTopicToolStripMenuItem,
+            this.addNewTopicToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 20);
+            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            // 
+            // editShownTopicToolStripMenuItem
+            // 
+            this.editShownTopicToolStripMenuItem.Name = "editShownTopicToolStripMenuItem";
+            this.editShownTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editShownTopicToolStripMenuItem.Text = "Edit shown topic";
+            this.editShownTopicToolStripMenuItem.Click += new System.EventHandler(this.editShownTopicToolStripMenuItem_Click);
+            // 
+            // deleteShownTopicToolStripMenuItem
+            // 
+            this.deleteShownTopicToolStripMenuItem.Name = "deleteShownTopicToolStripMenuItem";
+            this.deleteShownTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteShownTopicToolStripMenuItem.Text = "Delete shown topic";
+            this.deleteShownTopicToolStripMenuItem.Click += new System.EventHandler(this.deleteShownTopicToolStripMenuItem_Click);
+            // 
+            // addNewTopicToolStripMenuItem
+            // 
+            this.addNewTopicToolStripMenuItem.Name = "addNewTopicToolStripMenuItem";
+            this.addNewTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addNewTopicToolStripMenuItem.Text = "Add new topic";
+            this.addNewTopicToolStripMenuItem.Click += new System.EventHandler(this.addNewTopicToolStripMenuItem_Click);
+            // 
+            // timerCheckDashboard
+            // 
+            this.timerCheckDashboard.Interval = 1000;
+            this.timerCheckDashboard.Tick += new System.EventHandler(this.OnCheckTopics);
             // 
             // Dashboard
             // 
@@ -204,7 +245,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelAdTopic;
         private System.Windows.Forms.SplitContainer splitContainerDashboardText;
         private System.Windows.Forms.RichTextBox richTextBoxShowTopicText;
         private System.Windows.Forms.RichTextBox richTextBoxEditTopicText;
@@ -212,5 +252,10 @@
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonCancel;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.TextBox textBoxTopic;
+        private System.Windows.Forms.Timer timerCheckDashboard;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem editShownTopicToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteShownTopicToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addNewTopicToolStripMenuItem;
     }
 }

@@ -30,7 +30,7 @@ namespace ManagementServer
         private void PatchManager_Load(object sender, EventArgs e)
         {
             dataGridViewPatchHistory.DataSource = Utility.SQL.GetPatchHistory();
-
+            listView1.Items.Clear();
             var patchSize = 0;
             var allFiles = Directory.GetFiles(ServerManager.settings.PatchFolderDirectory, "*", SearchOption.AllDirectories);
             foreach (var file in allFiles)
@@ -52,6 +52,7 @@ namespace ManagementServer
 
         private void buttonCancelPatch_Click(object sender, EventArgs e)
         {
+            PatchManager_Load(null, new EventArgs());
             this.buttonPreparePatch.Enabled = true;
             this.buttonCancelPatch.Enabled = false;
             this.buttonPatchShownFiles.Enabled = false;

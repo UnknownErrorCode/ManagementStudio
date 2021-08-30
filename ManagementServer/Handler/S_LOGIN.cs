@@ -20,7 +20,7 @@ namespace ManagementServer.Handler
 
             if (bool.TryParse(result[0], out bool success))
             {
-                var LoginStatus = new Packet(0xC001);
+                var LoginStatus = new Packet(0xC000);
                 LoginStatus.WriteBool(success);
                 LoginStatus.WriteAscii(result[1]);
                 LoginStatus.WriteAscii(result[2]);

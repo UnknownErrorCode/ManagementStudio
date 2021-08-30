@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{70D0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structs", "Structs\Structs.csproj", "{A2F851F6-0F47-400F-B330-484BA4D4FAED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDataStorage", "ClientDataStorage\ClientDataStorage.csproj", "{7C445307-50F3-4455-AD37-382A51A86FBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,14 @@ Global
 		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2F851F6-0F47-400F-B330-484BA4D4FAED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F851F6-0F47-400F-B330-484BA4D4FAED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F851F6-0F47-400F-B330-484BA4D4FAED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F851F6-0F47-400F-B330-484BA4D4FAED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C445307-50F3-4455-AD37-382A51A86FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C445307-50F3-4455-AD37-382A51A86FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C445307-50F3-4455-AD37-382A51A86FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C445307-50F3-4455-AD37-382A51A86FBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

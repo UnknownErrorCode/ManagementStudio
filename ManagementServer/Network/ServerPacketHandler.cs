@@ -12,18 +12,24 @@ namespace ManagementServer.Network
             base.AddEntry(0x2001, Reply0x2001);
             // client
             base.AddEntry(0x1000, ReplyLoginRequest);
-            base.AddEntry(0x1001, ReplyAddNewTopicToDashboard);
+            base.AddEntry(0x1001, Reply0x1001RequestAllTopics);
+            base.AddEntry(0x1002, Reply0x1002AddNewTopic);
+            base.AddEntry(0x1004, Reply0x1004DeleteTopic);
             // launcher
             base.AddEntry(0x3000, ReplyRequestUpdate);
 
         }
 
-        private PacketHandlerResult ReplyAddNewTopicToDashboard(ServerData arg1, Packet arg2)
-        {
+        private PacketHandlerResult Reply0x1001RequestAllTopics(ServerData arg1, Packet arg2)
+            => Handler.S_DASHBOARD.LoadTopics(arg1, arg2);
 
-            return Handler.S_DASHBOARD.TryAddNewTopic(arg1, arg2);
-        }
+        private PacketHandlerResult Reply0x1002AddNewTopic(ServerData arg1, Packet arg2)
+         => Handler.S_DASHBOARD.TryAddNewTopic(arg1, arg2);
 
+        private PacketHandlerResult Reply0x1004DeleteTopic(ServerData arg1, Packet arg2)
+         => Handler.S_DASHBOARD.DeleteTopic(arg1, arg2);
+
+        
 
         /// <summary>
         /// Server receives handshake process packet and verifiels that user is using the originale Tool, no bot or other stuff...
@@ -38,9 +44,6 @@ namespace ManagementServer.Network
 
             if (identity == "Tool_Client" && flag == 1)
             {
-                Packet loginDataRequestPacket = new Packet(0xC000);
-                loginDataRequestPacket.WriteAscii("RequestAuthentification");
-                data.m_security.Send(loginDataRequestPacket);
                 return PacketHandlerResult.Response;
             }
             else if (identity == "Tool_Launcher" && flag == 1)
@@ -60,9 +63,8 @@ namespace ManagementServer.Network
         /// <param name="packet"></param>
         /// <returns></returns>
         private PacketHandlerResult ReplyLoginRequest(ServerData data, Packet packet)
-        {
-            return Handler.S_LOGIN.TryLogin(data, packet);
-        }
+        => Handler.S_LOGIN.TryLogin(data, packet);
+
 
         /// <summary>
         /// CLIENT_SERVER -- Client sends this packet if the version does not match the current version.
@@ -71,12 +73,7 @@ namespace ManagementServer.Network
         /// <param name="packet"></param>
         /// <returns></returns>
         private PacketHandlerResult ReplyRequestUpdate(ServerData data, Packet packet)
-        {
-            var latestClientVersion = packet.ReadInt();
+          => Handler.S_UPDATE.SendFiles(data, packet.ReadInt());
 
-            Handler.S_UPDATE.SendFiles(data, latestClientVersion);
-
-            return PacketHandlerResult.Block;
-        }
     }
 }

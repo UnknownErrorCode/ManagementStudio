@@ -4,10 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5}</ProjectGuid>
+    <ProjectGuid>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Dashboard</RootNamespace>
-    <AssemblyName>Dashboard</AssemblyName>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Structs</RootNamespace>
+    <AssemblyName>Structs</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -16,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\RekciDClient\bin\Debug\Plugins\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,41 +37,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dashboard.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DashboardMessageGenerator.cs" />
-    <Compile Include="DashboardPackets.cs" />
-    <Compile Include="UserControl1.Designer.cs">
-      <DependentUpon>Dashboard.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Dashboard\DashboardMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Dashboard.resx">
-      <DependentUpon>Dashboard.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ClientDataStorage\ClientDataStorage.csproj">
-      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientDataStorage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServerFrameworkRes\ServerFrameworkRes.csproj">
-      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
-      <Name>ServerFrameworkRes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Structs\Structs.csproj">
-      <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
-      <Name>Structs</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

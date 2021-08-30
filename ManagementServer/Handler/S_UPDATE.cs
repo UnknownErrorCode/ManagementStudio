@@ -30,7 +30,7 @@ namespace ManagementServer.Handler
         /// </summary>
         /// <param name="data"></param>
         /// <param name="latestClientVersion"></param>
-        internal static void SendFiles(ServerData data, int latestClientVersion)
+        internal static PacketHandlerResult SendFiles(ServerData data, int latestClientVersion)
         {
             DataTable ToBePatched = SQL.RequestFilesToUpdate(latestClientVersion);
 
@@ -55,6 +55,8 @@ namespace ManagementServer.Handler
             var updateSuccess = new Packet(0xA003);
             updateSuccess.WriteInt(SQL.LatestVersion());
             data.m_security.Send(updateSuccess);
+
+            return PacketHandlerResult.Block;
         }
 
       
