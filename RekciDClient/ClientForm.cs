@@ -36,7 +36,6 @@ namespace ManagementClient
 
         private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ClientMemory.AllowedPlugin = new string[1] {"Dashboard.dll" };
             foreach (string pluginPath in Directory.GetFiles("Plugins\\"))
             {
                 if (pluginPath.Contains(".dll")  && ClientMemory.AllowedPlugin.Contains(pluginPath.Remove(0, 8)))
