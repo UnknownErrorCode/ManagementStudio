@@ -10,6 +10,12 @@ namespace ManagementServer.Handler
 {
     class S_DASHBOARD
     {
+        /// <summary>
+        /// Sends 0xC001 with guides and 0xC003 on successful transfer
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         internal static PacketHandlerResult LoadTopics(ServerData arg1, Packet arg2)
         {
             if (!Directory.Exists(ServerManager.settings.GuidePath))
@@ -31,7 +37,12 @@ namespace ManagementServer.Handler
             arg1.m_security.Send(new Packet(0xC003));
             return PacketHandlerResult.Block;
         }
-
+        /// <summary>
+        /// Broadcasts  0xC002 to each client in order to append new Topic on runtime
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         internal static PacketHandlerResult TryAddNewTopic(ServerData arg1, Packet arg2)
         {
             var Author = arg2.ReadAscii();
@@ -54,6 +65,12 @@ namespace ManagementServer.Handler
             return PacketHandlerResult.Response;
         }
 
+        /// <summary>
+        /// Broadcasts 0xC004 to each client to delete a topic on runtime.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         internal static PacketHandlerResult DeleteTopic(ServerData arg1, Packet arg2)
         {
             var Author = arg2.ReadAscii();

@@ -15,6 +15,7 @@ namespace ManagementClient.Network
 
         public ClientPacketHandler()
         {
+            base.AddEntry(0xB000, Reply0xB000AllowedPlugins);
             base.AddEntry(0xC000, Reply0xC000LoginStatus);
             base.AddEntry(0xC001, Reply0xC001LoadTopicRequest);
             base.AddEntry(0xC002, Reply0xC002NewTopicRequest);
@@ -23,20 +24,23 @@ namespace ManagementClient.Network
 
         }
 
+        private PacketHandlerResult Reply0xB000AllowedPlugins(ServerData arg1, Packet arg2)
+            => CHandler.LoginHandler.AllowedPlugins(arg1, arg2);
+
 
         private PacketHandlerResult Reply0xC000LoginStatus(ServerData arg1, Packet arg2)
-        => CHandler.LoginHandler.LoginStatus(arg1, arg2);
+            => CHandler.LoginHandler.LoginStatus(arg1, arg2);
 
         private PacketHandlerResult Reply0xC001LoadTopicRequest(ServerData arg1, Packet arg2)
-        => CHandler.DashboardHandler.LoadTopicRequest(arg1, arg2);
+            => CHandler.DashboardHandler.LoadTopicRequest(arg1, arg2);
 
         private PacketHandlerResult Reply0xC002NewTopicRequest(ServerData arg1, Packet arg2)
-       => CHandler.DashboardHandler.NewTopicRequest(arg1, arg2);
+            => CHandler.DashboardHandler.NewTopicRequest(arg1, arg2);
 
         private PacketHandlerResult Reply0xC003FinishedLoadingTopics(ServerData arg1, Packet arg2)
-        => CHandler.DashboardHandler.FinishedLoadingTopics(arg1, arg2);
+            => CHandler.DashboardHandler.FinishedLoadingTopics(arg1, arg2);
 
         private PacketHandlerResult Reply0xC004DeleteTopics(ServerData arg1, Packet arg2)
-        => CHandler.DashboardHandler.DeleteTopic(arg1, arg2);
+            => CHandler.DashboardHandler.DeleteTopic(arg1, arg2);
     }
 }

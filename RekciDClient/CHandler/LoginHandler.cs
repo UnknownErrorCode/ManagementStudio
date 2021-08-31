@@ -28,5 +28,15 @@ namespace ManagementClient.CHandler
 
             return PacketHandlerResult.Block;
         }
+
+        internal static PacketHandlerResult AllowedPlugins(ServerData arg1, Packet arg2)
+        {
+            ClientMemory.AllowedPlugin = new string[arg2.ReadInt()];
+
+            for (int i = 0; i < ClientMemory.AllowedPlugin.Length; i++)
+                ClientMemory.AllowedPlugin[i] = arg2.ReadAscii();
+
+            return PacketHandlerResult.Block;
+        }
     }
 }

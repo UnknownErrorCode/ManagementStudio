@@ -34,7 +34,7 @@ namespace ManagementServer.Utility
             return false;
         }
 
-       
+
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {
             DataTable dataTableProcedure = new DataTable();
@@ -115,9 +115,8 @@ namespace ManagementServer.Utility
 
 
         internal static DataTable GetPatchHistory()
-        {
-            return ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
-        }
+        => ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
+
 
         public static string[] CheckLogin(string userName, string password, string IP)
         {
@@ -160,13 +159,10 @@ namespace ManagementServer.Utility
         }
 
         internal static DataTable RequestFilesToUpdate(int latestClientVersion)
-        {
-            return ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
-        }
+            => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
 
         internal static int LatestVersion()
         {
-
             using (SqlCommand command = new SqlCommand("Select TOP 1 MAX(Version) from _ToolUpdates where ToBePatched = 1", sqlConnection))
             {
                 if (command.Connection.State != ConnectionState.Open)
@@ -188,8 +184,9 @@ namespace ManagementServer.Utility
         }
 
         internal static void UpdateToolFiles(SqlParameter[] paramse)
-        {
-           ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
-        }
+            => ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
+
+        internal static DataTable AllowedPlugins(string securityDescription)
+            => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", ServerManager.settings.DBDev);
     }
 }

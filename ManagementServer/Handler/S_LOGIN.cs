@@ -10,6 +10,14 @@ namespace ManagementServer.Handler
 {
     class S_LOGIN
     {
+        /// <summary>
+        /// Sends 0xC000 with LoginStatus, message and SecurityGroup. --
+        /// Also sends 0xB000 on success login with all plugins to load. --
+        /// Also sends 0xB001 on success login with DataTables to load from Database
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="packet"></param>
+        /// <returns></returns>
         internal static PacketHandlerResult TryLogin(ServerData data, Packet packet)
         {
 
@@ -29,7 +37,8 @@ namespace ManagementServer.Handler
                 if (success)
                 {
                     data.AccountName = result[3];
-                    ServerManager.Logger.WriteLogLine($"User: {((ServerClientData)data).AccountName} successfully logged on! ");
+                    ServerManager.Logger.WriteLogLine($"User: {((ServerClientData)data).AccountName} successfully logged on! Start sending Tables ");
+                    data.m_security.Send(S_SECURITYGROUP.SendAllowedPlugins(result[2]));
                 }
                 else
                     ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed login on user: {result[3]} {result[1]}");
