@@ -50,6 +50,7 @@
     <Compile Include="Handler\S_DASHBOARD.cs" />
     <Compile Include="Handler\S_LOGIN.cs" />
     <Compile Include="Handler\S_SECURITYGROUP.cs" />
+    <Compile Include="Handler\S_TABLEDATA.cs" />
     <Compile Include="Network\ServerPacketHandler.cs" />
     <Compile Include="PatchManager.cs">
       <SubType>Form</SubType>

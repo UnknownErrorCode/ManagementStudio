@@ -11,14 +11,18 @@ namespace ManagementServer.Network
         {
             base.AddEntry(0x2001, Reply0x2001);
             // client
-            base.AddEntry(0x1000, ReplyLoginRequest);
+            base.AddEntry(0x0999, Reply0x0999DataTableRequest);
+            base.AddEntry(0x1000, Reply0x1000LoginRequest);
             base.AddEntry(0x1001, Reply0x1001RequestAllTopics);
             base.AddEntry(0x1002, Reply0x1002AddNewTopic);
             base.AddEntry(0x1004, Reply0x1004DeleteTopic);
             // launcher
-            base.AddEntry(0x3000, ReplyRequestUpdate);
+            base.AddEntry(0x3000, Reply0x3000RequestUpdate);
 
         }
+        private PacketHandlerResult Reply0x0999DataTableRequest(ServerData arg1, Packet arg2)
+          => Handler.S_TABLEDATA.SendTableData(arg1, arg2);
+
 
         private PacketHandlerResult Reply0x1001RequestAllTopics(ServerData arg1, Packet arg2)
             => Handler.S_DASHBOARD.LoadTopics(arg1, arg2);
@@ -62,7 +66,7 @@ namespace ManagementServer.Network
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult ReplyLoginRequest(ServerData data, Packet packet)
+        private PacketHandlerResult Reply0x1000LoginRequest(ServerData data, Packet packet)
         => Handler.S_LOGIN.TryLogin(data, packet);
 
 
@@ -72,7 +76,7 @@ namespace ManagementServer.Network
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult ReplyRequestUpdate(ServerData data, Packet packet)
+        private PacketHandlerResult Reply0x3000RequestUpdate(ServerData data, Packet packet)
           => Handler.S_UPDATE.SendFiles(data, packet.ReadInt());
 
     }

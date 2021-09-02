@@ -653,22 +653,31 @@ namespace ServerFrameworkRes.Network.Security
 
         public DataTable ReadDataTable(byte[] array)
         {
-            lock (_lock)
+            try
             {
-                if (!_locked)
+                lock (_lock)
                 {
-                    throw new PacketException("Cannot Read from an unlocked Packet.");
+                    if (!_locked)
+                    {
+                        throw new PacketException("Cannot Read from an unlocked Packet.");
+                    }
+                    DataTable values = new DataTable();
+                    using (MemoryStream memStream = new MemoryStream(array))
+                    {
+                        BinaryFormatter brFormatter = new BinaryFormatter();
+                        values.RemotingFormat = SerializationFormat.Binary;
+                        values = (DataTable)brFormatter.Deserialize(memStream);
+                        memStream.Close();
+                    }
+                    return values;
                 }
-                DataTable values = new DataTable();
-                using (MemoryStream memStream = new MemoryStream())
-                {
-                    BinaryFormatter brFormatter = new BinaryFormatter();
-                    values.RemotingFormat = SerializationFormat.Binary;
-                    values = (DataTable)brFormatter.Deserialize(memStream);
-                    memStream.Close();
-                }
-                return values;
             }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            return null;
         }
 
         #endregion Read

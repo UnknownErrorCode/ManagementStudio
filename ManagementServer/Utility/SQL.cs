@@ -10,7 +10,16 @@ namespace ManagementServer.Utility
         static SqlConnection sqlConnection;
         static string SqlConnectionString { get => ServerManager.settings.SQL_ConnectionString; }
 
+        internal static string[] GetRequiredTableNames(string securityGroup)
+        {
+            var names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _ToolPluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", ServerManager.settings.DBDev).Rows;
+            string[] nameArray = new string[names.Count];
 
+            for (int i = 0; i < names.Count; i++)
+                nameArray[i] = names[i].Field<string>("TableName");
+
+            return nameArray;
+        }
 
         internal static bool TestSQLConnection(string sQL_ConnectionString)
         {
@@ -34,6 +43,8 @@ namespace ManagementServer.Utility
             return false;
         }
 
+        internal static DataTable GetRequestedDataTable(string tableName)
+            => ReturnDataTableByQuery($"SELECT * FROM {tableName}", ServerManager.settings.DBSha);
 
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {

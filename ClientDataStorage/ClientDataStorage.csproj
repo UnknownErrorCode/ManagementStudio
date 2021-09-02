@@ -44,6 +44,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Dashboard\DashboardMemory.cs" />
+    <Compile Include="Database\SRO_VT_SHARD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

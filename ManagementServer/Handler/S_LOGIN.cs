@@ -39,6 +39,7 @@ namespace ManagementServer.Handler
                     data.AccountName = result[3];
                     ServerManager.Logger.WriteLogLine($"User: {((ServerClientData)data).AccountName} successfully logged on! Start sending Tables ");
                     data.m_security.Send(S_SECURITYGROUP.SendAllowedPlugins(result[2]));
+                    data.m_security.Send(S_TABLEDATA.GetDataTables(result[2]));
                 }
                 else
                     ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed login on user: {result[3]} {result[1]}");

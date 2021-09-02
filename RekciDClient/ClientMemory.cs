@@ -8,5 +8,7 @@ namespace ManagementClient
         public static bool LoggedIn { get; internal set; }
         public static string[] AllowedPlugin { get; internal set; }
         public static Dictionary<string, DashboardMessage> DashboardDictionary { get; internal set; } = new Dictionary<string, DashboardMessage>();
+        public static List<string> AllowedDataTables { get; set; }
+        
     }
 }

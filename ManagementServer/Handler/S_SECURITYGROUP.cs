@@ -6,7 +6,7 @@ namespace ManagementServer.Handler
     class S_SECURITYGROUP
     {
         /// <summary>
-        /// Sends all Plugins to load to the Client in order to warrant security group authority
+        /// Sends 0xB000 with all Plugins to load to the Client in order to warrant security group authority
         /// </summary>
         /// <param name="securityGroup"></param>
         /// <returns></returns>
