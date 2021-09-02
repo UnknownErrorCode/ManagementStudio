@@ -30,9 +30,8 @@ namespace ManagementServer.Utility
             bool bool1 = false;
 
             if (!Directory.Exists("Config"))
-            {
                 Directory.CreateDirectory("Config").Create();
-            }
+            
             try
             {
                
@@ -81,9 +80,8 @@ namespace ManagementServer.Utility
             }
 
             finally
-            {
                 cfgPair = new KeyValuePair<string, bool>((string)string1, (bool)bool1);
-            }
+            
             return cfgPair;
         }
     }
