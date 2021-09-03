@@ -1,0 +1,192 @@
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ClientDataStorage.Pk2
+{
+    public class Pk2Class
+    {
+        /// <summary>
+        /// Used to encrypt and decrypt the pk2 stream
+        /// </summary>
+        private Blowfish blowfish = new Blowfish();
+        /// <summary>
+        /// This bKey is used to parse the security blowfish of the pk2 File
+        /// </summary>
+        private byte[] bKey = new byte[] { 0x32, 0xCE, 0xDD, 0x7C, 0xBC, 0xA8 };
+
+        private Pk2File.pk2Header header;
+        private Pk2File.pk2Folder mainFolder;
+        private Pk2File.pk2Folder currentFolder;
+
+        private List<Pk2File.pk2EntryBlock> EntryBlocks = new List<Pk2File.pk2EntryBlock>();
+        public List<Pk2File.pk2File> Files = new List<Pk2File.pk2File>();
+        public List<Pk2File.pk2Folder> Folders = new List<Pk2File.pk2Folder>();
+        private ConcurrentDictionary<string, Pk2File.pk2File> AllFiles = new ConcurrentDictionary<string, Pk2File.pk2File>();
+
+        FileStream fileStream;
+
+        public List<Pk2File.pk2Folder> GetFoldersFromCurrentFolder()
+        {
+            List<Pk2File.pk2Folder> tempList = new List<Pk2File.pk2Folder>();
+            foreach (var subFolder in mainFolder.subfolders)
+            {
+                tempList.Add(subFolder);
+            }
+            return tempList;
+        }
+
+        public Pk2Class(string pk2FilePath)
+        {
+            if (File.Exists(pk2FilePath))
+            {
+                fileStream = new FileStream(pk2FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                blowfish.Initialize(bKey);
+                BinaryReader reader = new BinaryReader(fileStream);
+                header = (Pk2File.pk2Header)BufferToStruct(reader.ReadBytes(256), typeof(Pk2File.pk2Header));
+                currentFolder = new Pk2File.pk2Folder();
+                currentFolder.name = pk2FilePath;
+                currentFolder.files = new List<Pk2File.pk2File>();
+                currentFolder.subfolders = new List<Pk2File.pk2Folder>();
+
+                mainFolder = currentFolder;
+                read(reader.BaseStream.Position);
+            }
+
+        }
+
+        public bool fileExists(string name)
+        {
+            Pk2File.pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
+
+            if (file.position != 0)
+                return true;
+            else
+                return false;
+        }
+
+        public byte[] GetFileByExtract(Pk2File.pk2File file)
+        {
+            using (BinaryReader reader = new BinaryReader(fileStream))
+            {
+                reader.BaseStream.Position = file.position;
+                return reader.ReadBytes((int)file.size);
+            }
+        }
+
+        public void ExtractSingleFile(string CreatePath, Pk2File.pk2File file)
+        {
+            var pathToCreateFile = Path.Combine(CreatePath, file.name);
+            var byteArrayOfSelectedFile = this.GetFileByExtract(file);
+
+            using (FileStream str = File.Create(pathToCreateFile, byteArrayOfSelectedFile.Length, FileOptions.Asynchronous))
+            {
+                str.Write(byteArrayOfSelectedFile, 0, byteArrayOfSelectedFile.Length);
+                str.Close();
+            }
+              
+        }
+
+        public byte[] getFile(string name)
+        {
+            if (fileExists(name))
+            {
+                BinaryReader reader = new BinaryReader(fileStream);
+                Pk2File.pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
+                reader.BaseStream.Position = file.position;
+
+                return reader.ReadBytes((int)file.size);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public List<string> getFileNames()
+        {
+            List<string> tmpList = new List<string>();
+
+            foreach (Pk2File.pk2File file in Files)
+                tmpList.Add(file.name);
+
+            return tmpList;
+        }
+
+        private void read(Int64 position)
+        {
+            BinaryReader reader = new BinaryReader(fileStream);
+            reader.BaseStream.Position = position;
+            List<Pk2File.pk2Folder> tmpFolders = new List<Pk2File.pk2Folder>();
+            Pk2File.pk2EntryBlock entryBlock = (Pk2File.pk2EntryBlock)BufferToStruct(blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2File.pk2EntryBlock)))), typeof(Pk2File.pk2EntryBlock));
+
+            for (int i = 0; i < 20; i++)
+            {
+                Pk2File.pk2Entry entry = entryBlock.entries[i];
+
+                switch (entry.type)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        if (entry.name != "." && entry.name != "..")
+                        {
+                            Pk2File.pk2Folder tmpFolder = new Pk2File.pk2Folder();
+                            tmpFolder.name = entry.name;
+                            tmpFolder.position = BitConverter.ToInt64(entry.position, 0);
+                            tmpFolders.Add(tmpFolder);
+                            Folders.Add(tmpFolder);
+
+                            if (tmpFolder != null && currentFolder.subfolders == null)
+                                currentFolder.subfolders = new List<Pk2File.pk2Folder>();
+
+                            currentFolder.subfolders.Add(tmpFolder);
+                        }
+                        break;
+                    case 2:
+                        {
+                            Pk2File.pk2File tmpFile = new Pk2File.pk2File();
+                            tmpFile.position = entry.Position;
+                            tmpFile.name = entry.name;
+                            tmpFile.size = entry.Size;
+                            tmpFile.parentFolder = currentFolder;
+                            Files.Add(tmpFile);
+
+                            currentFolder.files.Add(tmpFile);
+                            AllFiles.TryAdd(Path.Combine(tmpFile.parentFolder.name, tmpFile.name), tmpFile);
+                        }
+                        break;
+                }
+
+            }
+
+            if (entryBlock.entries[19].nChain != 0)
+                read(entryBlock.entries[19].nChain);
+
+            foreach (Pk2File.pk2Folder folder in tmpFolders)
+            {
+                currentFolder = folder;
+
+                if (folder.files == null)
+                    folder.files = new List<Pk2File.pk2File>();
+                else if (folder.subfolders == null)
+                    folder.subfolders = new List<Pk2File.pk2Folder>();
+
+                read(folder.position);
+            }
+
+        }
+
+        internal object BufferToStruct(byte[] buffer, Type returnStruct)
+        {
+            IntPtr pointer = Marshal.AllocHGlobal(buffer.Length);
+            Marshal.Copy(buffer, 0, pointer, buffer.Length);
+
+            return Marshal.PtrToStructure(pointer, returnStruct);
+        }
+    }
+}
