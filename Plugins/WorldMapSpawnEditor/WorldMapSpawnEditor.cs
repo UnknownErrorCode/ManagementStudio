@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using ServerFrameworkRes.Network.Security;
 
 namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditor: UserControl
     {
-        public WorldMapSpawnEditor(ServerFrameworkRes.Network.Security.ServerData data)
+
+        internal static ServerData StaticServerData { get; set; }
+
+        public WorldMapSpawnEditor(ServerData data)
         {
             InitializeComponent();
         }

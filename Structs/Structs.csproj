@@ -42,10 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard\DashboardMessage.cs" />
+    <Compile Include="Pk2\Pk2Entry.cs" />
+    <Compile Include="Pk2\Pk2EntryBlock.cs" />
+    <Compile Include="Pk2\Pk2File.cs" />
+    <Compile Include="Pk2\Pk2Folder.cs" />
+    <Compile Include="Pk2\Pk2Header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pk2\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

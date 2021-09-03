@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Structs.Pk2;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -20,24 +21,24 @@ namespace ClientDataStorage.Pk2
         /// </summary>
         private byte[] bKey = new byte[] { 0x32, 0xCE, 0xDD, 0x7C, 0xBC, 0xA8 };
 
-        private Pk2File.pk2Header header;
-        private Pk2File.pk2Folder mainFolder;
-        private Pk2File.pk2Folder currentFolder;
+        private Pk2Header header;
+        private Pk2Folder mainFolder;
+        private Pk2Folder currentFolder;
 
-        private List<Pk2File.pk2EntryBlock> EntryBlocks = new List<Pk2File.pk2EntryBlock>();
-        public List<Pk2File.pk2File> Files = new List<Pk2File.pk2File>();
-        public List<Pk2File.pk2Folder> Folders = new List<Pk2File.pk2Folder>();
-        private ConcurrentDictionary<string, Pk2File.pk2File> AllFiles = new ConcurrentDictionary<string, Pk2File.pk2File>();
+        private List<Pk2EntryBlock> EntryBlocks = new List<Pk2EntryBlock>();
+        public List<Pk2File> Files = new List<Pk2File>();
+        public List<Pk2Folder> Folders = new List<Pk2Folder>();
+        private ConcurrentDictionary<string, Pk2File> AllFiles = new ConcurrentDictionary<string, Pk2File>();
 
         FileStream fileStream;
 
-        public List<Pk2File.pk2Folder> GetFoldersFromCurrentFolder()
+        public List<Pk2Folder> GetFoldersFromCurrentFolder()
         {
-            List<Pk2File.pk2Folder> tempList = new List<Pk2File.pk2Folder>();
+            List<Pk2Folder> tempList = new List<Pk2Folder>();
+
             foreach (var subFolder in mainFolder.subfolders)
-            {
                 tempList.Add(subFolder);
-            }
+            
             return tempList;
         }
 
@@ -47,22 +48,23 @@ namespace ClientDataStorage.Pk2
             {
                 fileStream = new FileStream(pk2FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 blowfish.Initialize(bKey);
-                BinaryReader reader = new BinaryReader(fileStream);
-                header = (Pk2File.pk2Header)BufferToStruct(reader.ReadBytes(256), typeof(Pk2File.pk2Header));
-                currentFolder = new Pk2File.pk2Folder();
-                currentFolder.name = pk2FilePath;
-                currentFolder.files = new List<Pk2File.pk2File>();
-                currentFolder.subfolders = new List<Pk2File.pk2Folder>();
+                using (BinaryReader reader = new BinaryReader(fileStream))
+                {
+                    header = (Pk2Header)BufferToStruct(reader.ReadBytes(256), typeof(Pk2Header));
+                    currentFolder = new Pk2Folder();
+                    currentFolder.name = pk2FilePath;
+                    currentFolder.files = new List<Pk2File>();
+                    currentFolder.subfolders = new List<Pk2Folder>();
 
-                mainFolder = currentFolder;
-                read(reader.BaseStream.Position);
+                    mainFolder = currentFolder;
+                    read(reader.BaseStream.Position);
+                }
             }
-
         }
 
         public bool fileExists(string name)
         {
-            Pk2File.pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
+            Pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
 
             if (file.position != 0)
                 return true;
@@ -70,7 +72,7 @@ namespace ClientDataStorage.Pk2
                 return false;
         }
 
-        public byte[] GetFileByExtract(Pk2File.pk2File file)
+        public byte[] GetFileByExtract(Pk2File file)
         {
             using (BinaryReader reader = new BinaryReader(fileStream))
             {
@@ -79,7 +81,7 @@ namespace ClientDataStorage.Pk2
             }
         }
 
-        public void ExtractSingleFile(string CreatePath, Pk2File.pk2File file)
+        public void ExtractSingleFile(string CreatePath, Pk2File file)
         {
             var pathToCreateFile = Path.Combine(CreatePath, file.name);
             var byteArrayOfSelectedFile = this.GetFileByExtract(file);
@@ -89,29 +91,28 @@ namespace ClientDataStorage.Pk2
                 str.Write(byteArrayOfSelectedFile, 0, byteArrayOfSelectedFile.Length);
                 str.Close();
             }
-              
+
         }
 
-        public byte[] getFile(string name)
+        public byte[] GetFile(string name)
         {
             if (fileExists(name))
             {
-                BinaryReader reader = new BinaryReader(fileStream);
-                Pk2File.pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
-                reader.BaseStream.Position = file.position;
-
-                return reader.ReadBytes((int)file.size);
+                using (BinaryReader reader = new BinaryReader(fileStream))
+                {
+                    Pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
+                    reader.BaseStream.Position = file.position;
+                    return reader.ReadBytes((int)file.size);
+                }
             }
             else
-            {
                 return null;
-            }
         }
-        public List<string> getFileNames()
+        public List<string> GetFileNames()
         {
             List<string> tmpList = new List<string>();
 
-            foreach (Pk2File.pk2File file in Files)
+            foreach (Pk2File file in Files)
                 tmpList.Add(file.name);
 
             return tmpList;
@@ -121,12 +122,12 @@ namespace ClientDataStorage.Pk2
         {
             BinaryReader reader = new BinaryReader(fileStream);
             reader.BaseStream.Position = position;
-            List<Pk2File.pk2Folder> tmpFolders = new List<Pk2File.pk2Folder>();
-            Pk2File.pk2EntryBlock entryBlock = (Pk2File.pk2EntryBlock)BufferToStruct(blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2File.pk2EntryBlock)))), typeof(Pk2File.pk2EntryBlock));
+            List<Pk2Folder> tmpFolders = new List<Pk2Folder>();
+            Pk2EntryBlock entryBlock = (Pk2EntryBlock)BufferToStruct(blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2EntryBlock)))), typeof(Pk2EntryBlock));
 
             for (int i = 0; i < 20; i++)
             {
-                Pk2File.pk2Entry entry = entryBlock.entries[i];
+                Pk2Entry entry = entryBlock.entries[i];
 
                 switch (entry.type)
                 {
@@ -135,21 +136,21 @@ namespace ClientDataStorage.Pk2
                     case 1:
                         if (entry.name != "." && entry.name != "..")
                         {
-                            Pk2File.pk2Folder tmpFolder = new Pk2File.pk2Folder();
+                            Pk2Folder tmpFolder = new Pk2Folder();
                             tmpFolder.name = entry.name;
                             tmpFolder.position = BitConverter.ToInt64(entry.position, 0);
                             tmpFolders.Add(tmpFolder);
                             Folders.Add(tmpFolder);
 
                             if (tmpFolder != null && currentFolder.subfolders == null)
-                                currentFolder.subfolders = new List<Pk2File.pk2Folder>();
+                                currentFolder.subfolders = new List<Pk2Folder>();
 
                             currentFolder.subfolders.Add(tmpFolder);
                         }
                         break;
                     case 2:
                         {
-                            Pk2File.pk2File tmpFile = new Pk2File.pk2File();
+                            Pk2File tmpFile = new Pk2File();
                             tmpFile.position = entry.Position;
                             tmpFile.name = entry.name;
                             tmpFile.size = entry.Size;
@@ -167,18 +168,17 @@ namespace ClientDataStorage.Pk2
             if (entryBlock.entries[19].nChain != 0)
                 read(entryBlock.entries[19].nChain);
 
-            foreach (Pk2File.pk2Folder folder in tmpFolders)
+            foreach (Pk2Folder folder in tmpFolders)
             {
                 currentFolder = folder;
 
                 if (folder.files == null)
-                    folder.files = new List<Pk2File.pk2File>();
+                    folder.files = new List<Pk2File>();
                 else if (folder.subfolders == null)
-                    folder.subfolders = new List<Pk2File.pk2Folder>();
+                    folder.subfolders = new List<Pk2Folder>();
 
                 read(folder.position);
             }
-
         }
 
         internal object BufferToStruct(byte[] buffer, Type returnStruct)
