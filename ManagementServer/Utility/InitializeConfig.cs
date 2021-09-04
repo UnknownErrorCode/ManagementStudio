@@ -80,8 +80,10 @@ namespace ManagementServer.Utility
             }
 
             finally
+            { 
                 cfgPair = new KeyValuePair<string, bool>((string)string1, (bool)bool1);
-            
+            }
+
             return cfgPair;
         }
     }

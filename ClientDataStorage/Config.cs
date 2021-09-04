@@ -8,6 +8,7 @@ namespace ClientDataStorage
 {
     public class Config : ConfigLoader
     {
+        public static Config StaticConfig = new Config();
         public Config()
         {
             base.Initialize();

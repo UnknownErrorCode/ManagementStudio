@@ -35,7 +35,7 @@ namespace ClientDataStorage
                 ConfigEditor.IniWriteValue("ToolClient", "ToolPassword", "password");
                 ConfigEditor.IniWriteValue("ToolClient", "QuickLogin", "false");
                 ConfigEditor.IniWriteValue("ToolClient", "ShowPW", "false");
-                ConfigEditor.IniWriteValue("ToolClient", "StudioRessources", "false");
+                ConfigEditor.IniWriteValue("ToolClient", "StudioRessources", "C:\\ClientExtracted");
 
                 ConfigEditor.IniWriteValue("Client", "IP", "111.111.111.111");
                 ConfigEditor.IniWriteValue("Client", "Port", "15779");
