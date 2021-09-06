@@ -43,6 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pk2Ressources.cs" />
+    <Compile Include="RegionPool.cs" />
+    <Compile Include="SingleRegion.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WorldMapPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WorldMapSpawnEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

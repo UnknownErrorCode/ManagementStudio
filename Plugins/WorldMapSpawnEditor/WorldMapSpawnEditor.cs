@@ -20,6 +20,8 @@ namespace WorldMapSpawnEditor
 
         private void loadToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+
+            
             for (int x = 0; x < 255; x++)
             {
                 for (int y = 0; y < 255; y++)
@@ -34,10 +36,6 @@ namespace WorldMapSpawnEditor
                             Location = new Point(x * 256, y * 256),
                             Size = new Size(BackgroundImage.Width, BackgroundImage.Height)
                         };
-                        this.tableLayoutPanel1.Controls.Add(regionBox);
-                        this.tableLayoutPanel1.SetColumn(regionBox, x);
-                        this.tableLayoutPanel1.SetRow(regionBox, y);
-
                     }
                 }
             }
