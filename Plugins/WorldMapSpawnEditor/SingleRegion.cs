@@ -10,6 +10,8 @@ namespace WorldMapSpawnEditor
 {
     internal class SingleRegion : PictureBox
     {
+        private protected ushort wRegionID { get; set; }
+
 
         internal SingleRegion()
         {

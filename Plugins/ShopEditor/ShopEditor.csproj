@@ -42,6 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\TalkWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\TalkWindow.Designer.cs">
+      <DependentUpon>TalkWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ShopEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -64,6 +75,18 @@
       <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>
       <Name>Structs</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\TalkWindow.resx">
+      <DependentUpon>TalkWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShopEditor.resx">
+      <DependentUpon>ShopEditor.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
