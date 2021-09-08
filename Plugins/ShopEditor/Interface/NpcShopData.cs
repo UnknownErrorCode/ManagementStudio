@@ -6,15 +6,15 @@ using System.Linq;
 
 namespace ShopEditor.Interface
 {
-    abstract internal class NpcShopData
+    internal class NpcShopData
     {
         #region Properties
-        string NpcCodeName128 { get; set; } // singular
-        string RefShopGroupCodeName { get; set; } // singular
-        string RefShopCodeName { get; set; } // singular
+        internal string NpcCodeName128 { get; set; } // singular
+        internal string RefShopGroupCodeName { get; set; } // singular
+        internal string RefShopCodeName { get; set; } // singular
 
-        Dictionary<string, string> SN_RefTabGroupCodeNames { get; set; } // probably obsolete
-        Dictionary<string, string> RefShopTabGroups { get; set; } // probably obsolete
+        internal Dictionary<string, string> SN_RefTabGroupCodeNames { get; set; } // probably obsolete
+        internal Dictionary<string, string> RefShopTabGroups { get; set; } // probably obsolete
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace ShopEditor.Interface
         /// _RefShopGroup > _RefMappingShopGroup >_RefMappingShopWithTab > _RefShopItemGroup +_RefShopTabGroup > _RefShopTab  > _RefShopGoods   >Edits can start
         /// </summary>
         /// <param name="npcCodeName128"></param>
-        internal void InitializeNpcShopGroups(string npcCodeName128)
+        internal NpcShopData(string npcCodeName128)
         {
             NpcCodeName128 = npcCodeName128;
 
@@ -71,6 +71,8 @@ namespace ShopEditor.Interface
                     return;
                 }
 
+                RefShopTabGroups = new Dictionary<string, string>();
+                SN_RefTabGroupCodeNames = new Dictionary<string, string>();
                 RefShopTabGroups.Add(item.Field<string>("RefTabGroupCodeName"), ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTabGroup"].Rows.OfType<DataRow>().Single(row => row.Field<string>("CodeName128") == item.Field<string>("RefTabGroupCodeName")).Field<string>("StrID128_Group"));
                 SN_RefTabGroupCodeNames.Add(item.Field<string>("RefTabGroupCodeName"), ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopItemGroup"].Rows.OfType<DataRow>().Single(row => row.Field<string>("CodeName128") == item.Field<string>("RefTabGroupCodeName")).Field<string>("StrID128_Group"));
             }

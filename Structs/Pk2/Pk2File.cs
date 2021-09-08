@@ -2,10 +2,10 @@
 {
     public struct Pk2File
     {
-        public string name;
-        public long position;
-        public uint size;
-        public Pk2Folder parentFolder;
+        public string name { get; set; }
+        public long position { get; set; }
+        public uint size { get; set; }
+        public Pk2Folder parentFolder { get; set; }
 
         public Pk2File(Pk2Entry entry, Pk2Folder pFolder)
         {

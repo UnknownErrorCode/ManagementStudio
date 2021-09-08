@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Media.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Dashboard\DashboardMemory.cs" />

@@ -32,8 +32,6 @@
             this.listViewAllNpcs = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.talkWindow1 = new ShopEditor.TalkWindow();
-            this.button1 = new System.Windows.Forms.Button();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // listViewAllNpcs
@@ -43,6 +41,7 @@
             this.columnHeader1});
             this.listViewAllNpcs.Dock = System.Windows.Forms.DockStyle.Left;
             this.listViewAllNpcs.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listViewAllNpcs.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(218)))), ((int)(((byte)(164)))));
             this.listViewAllNpcs.Location = new System.Drawing.Point(0, 0);
             this.listViewAllNpcs.Name = "listViewAllNpcs";
             this.listViewAllNpcs.Size = new System.Drawing.Size(240, 450);
@@ -69,30 +68,11 @@
             this.talkWindow1.Size = new System.Drawing.Size(387, 450);
             this.talkWindow1.TabIndex = 2;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(688, 73);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // treeView1
-            // 
-            this.treeView1.Location = new System.Drawing.Point(613, 169);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(417, 379);
-            this.treeView1.TabIndex = 4;
-            // 
             // ShopEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Controls.Add(this.treeView1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.talkWindow1);
             this.Controls.Add(this.listViewAllNpcs);
             this.Name = "ShopEditorControl";
@@ -105,7 +85,5 @@
         private System.Windows.Forms.ListView listViewAllNpcs;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private TalkWindow talkWindow1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TreeView treeView1;
     }
 }

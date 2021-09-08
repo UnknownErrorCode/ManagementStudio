@@ -14,7 +14,7 @@ namespace ShopEditor
 {
     public partial class TalkWindow : UserControl
     {
-        private protected NpcShopData NpcShopInformation;
+        private Dictionary<string, NpcShopData> NpcShopInformation = new Dictionary<string, NpcShopData>();
 
         public TalkWindow()
         {
@@ -23,8 +23,15 @@ namespace ShopEditor
 
         internal void OnNpcClick(string npcName)
         {
+            if (!NpcShopInformation.ContainsKey(npcName))
+                NpcShopInformation.Add(npcName, new NpcShopData(npcName));
+
+            foreach (var sn_string in NpcShopInformation[npcName].RefShopTabGroups.Values)
+            {
+                this.splitContainer1.Panel2.Controls.Add(new Label() { Text = sn_string, Tag = npcName, Location = new Point(0, 25 * this.splitContainer1.Panel2.Controls.Count) });
+            }
 
         }
-       
+
     }
 }

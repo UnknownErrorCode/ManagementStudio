@@ -11,7 +11,7 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Reader : Pk2Data
     {
-
+        public  Pk2Folder StaticFile { get => base.Pk2File; }
         public Pk2Reader(string path)
         {
             base.Pk2DataPath = path;
@@ -19,8 +19,7 @@ namespace ClientDataStorage.Pk2
             base.Pk2File = new Pk2Folder() { name = Path.GetFileNameWithoutExtension(path) };
         }
 
-        public override Pk2Folder GetFolder()
-            =>base.Pk2File;
+      
 
         /// <summary>
         /// All folder from the first EntryBlock are subFolder from base.Pk2File.
@@ -33,28 +32,30 @@ namespace ClientDataStorage.Pk2
 
             using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
             {
-
-                Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File };
-
+                Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File , name = base.Pk2File.name};
 
                 if (TryReadFolder(reader, 256, tempFolder, out Pk2Folder newFolder))
                     base.Pk2File = newFolder;        
-
             }
-
         }
 
-
+        public byte[] GetFileByExtract(Pk2File file)
+        {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
+            {
+                reader.BaseStream.Position = file.position;
+                return reader.ReadBytes((int)file.size);
+            }
+        }
         private bool TryReadFolder(BinaryReader reader, Int64 position, Pk2Folder parentFolder, out Pk2Folder unusedMainFolder)
         {
             reader.BaseStream.Position = position;
             try
             {
-                unusedMainFolder = new Pk2Folder() { parentFolder = parentFolder, };
+                unusedMainFolder = new Pk2Folder() { parentFolder = parentFolder.parentFolder, name = parentFolder.name, position = parentFolder.position };
 
                 EntryBlockReader:
                 Pk2EntryBlock entryBlock = (Pk2EntryBlock)BufferToStruct(base.Blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2EntryBlock)))), typeof(Pk2EntryBlock));
-
 
                 for (int entity = 0; entity < entryBlock.entries.Length; entity++)
                 {
@@ -65,13 +66,13 @@ namespace ClientDataStorage.Pk2
                         case Pk2EntryType.Exit:
                             break;
                         case Pk2EntryType.Folder when entry.name != "." && entry.name != "..":
-                            //folder.subfolders.Add(new Pk2Folder(entry) { parentFolder = folder });
-                            var test = new Pk2Folder(entry) { parentFolder = unusedMainFolder.parentFolder };
-                            if (TryReadFolder(reader, entry.Position, test, out Pk2Folder sub))
+                            
+                            if (TryReadFolder(reader, entry.Position, new Pk2Folder(entry) { parentFolder = unusedMainFolder.parentFolder }, out Pk2Folder sub))
                                 unusedMainFolder.subfolders.Add(sub);
                             break;
+
                         case Pk2EntryType.File:
-                            unusedMainFolder.files.Add(new Pk2File(entry, unusedMainFolder));
+                            unusedMainFolder.files.Add(new Pk2File(entry, unusedMainFolder.parentFolder));
                             break;
                         default:
                             break;
@@ -82,64 +83,6 @@ namespace ClientDataStorage.Pk2
                     reader.BaseStream.Position = entryBlock.entries[19].nChain;
                     goto EntryBlockReader;
                 }
-
-                //----------------
-                /*
-                 * 
-                 * 
-                 * 
-                 * 
-                 *   foreach (var subFolda in unusedMainFolder.subfolders)
-                {
-                    if (TryReadFolder(reader,subFolda.position, subFolda, out Pk2Folder sub))
-                    {
-                        subFolda.subfolders.AddRange(sub.subfolders);
-                    }
-                }
-
-
-
-
-
-                List<Pk2Folder> SubFolders = new List<Pk2Folder>();
-                SubFolders.AddRange(folder.subfolders);
-
-                while (SubFolders.Count > 0)
-                {
-                    reader.BaseStream.Position = SubFolders[0].position;
-                    Pk2EntryBlock SubBlock = (Pk2EntryBlock)BufferToStruct(base.Blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2EntryBlock)))), typeof(Pk2EntryBlock));
-
-                    for (int Subentity = 0; Subentity < entryBlock.entries.Length; Subentity++)
-                    {
-                        Pk2Entry entry = entryBlock.entries[entity];
-
-                        switch (entry.type)
-                        {
-                            case Pk2EntryType.Exit:
-                                break;
-                            case Pk2EntryType.Folder when entry.name != "." && entry.name != "..":
-                                folder.subfolders.Add(new Pk2Folder(entry) { parentFolder = folder });
-                                break;
-                            case Pk2EntryType.File:
-                                folder.files.Add(new Pk2File(entry, folder));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if (entryBlock.entries[19].nChain != 0)
-                    {
-                        reader.BaseStream.Position = entryBlock.entries[19].nChain;
-                        //Read again
-                    }
-
-                    SubFolders[0].subfolders.Add();
-                    SubFolders.AddRange(SubFolders[0].subfolders);
-                    SubFolders.RemoveAt(0);
-                }
-                */
-                //----------------
-
             }
             catch (Exception)
             {

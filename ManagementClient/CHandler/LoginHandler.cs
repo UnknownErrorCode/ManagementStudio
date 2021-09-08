@@ -3,6 +3,7 @@ using ServerFrameworkRes.Network.Security;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,7 +80,12 @@ namespace ManagementClient.CHandler
 
             ClientMemory.AllowedDataTables.Remove(tableName);
             if (ClientMemory.AllowedDataTables.Count==0)
-                ClientForm.Logger.WriteLogLine( $"Successfully received  all DataTables!");
+            {
+                ClientForm.Logger.WriteLogLine($"Successfully received  all DataTables!");
+                ClientDataStorage.Client.Media.MediaPk2 = new ClientDataStorage.Pk2.Pk2Reader(Path.Combine(Program.MainConfig.ClientPath, "Media.pk2"));
+                ClientDataStorage.Client.Media.MediaPk2.Read();
+                ManagementClient.Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
+            }
 
             return PacketHandlerResult.Block;
         }

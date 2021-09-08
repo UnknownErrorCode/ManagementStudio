@@ -60,15 +60,16 @@ namespace ManagementClient
             // 
             // loadPluginsToolStripMenuItem
             // 
+            this.loadPluginsToolStripMenuItem.Enabled = false;
             this.loadPluginsToolStripMenuItem.Name = "loadPluginsToolStripMenuItem";
-            this.loadPluginsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.loadPluginsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadPluginsToolStripMenuItem.Text = "Load Plugins";
             this.loadPluginsToolStripMenuItem.Click += new System.EventHandler(this.loadPluginsToolStripMenuItem_Click);
             // 
             // openSettingsToolStripMenuItem
             // 
             this.openSettingsToolStripMenuItem.Name = "openSettingsToolStripMenuItem";
-            this.openSettingsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.openSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openSettingsToolStripMenuItem.Text = "Open Settings";
             // 
             // tabControlPlugins
@@ -105,8 +106,8 @@ namespace ManagementClient
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadPluginsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSettingsToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControlPlugins;
+        internal System.Windows.Forms.ToolStripMenuItem loadPluginsToolStripMenuItem;
     }
 }

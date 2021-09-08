@@ -6,7 +6,7 @@ namespace ClientDataStorage.Pk2
     {
 
 
-        private protected Pk2Folder Pk2File { get; set; }
+        public  Pk2Folder Pk2File { get; internal set; }
 
         /// <summary>
         /// Used to encrypt and decrypt the pk2 stream
@@ -20,11 +20,6 @@ namespace ClientDataStorage.Pk2
         /// Pk2 data directory 
         /// </summary>
         private protected string Pk2DataPath { get; set; }
-
-
-        public abstract Pk2Folder GetFolder();
-
-
         /// <summary>
         /// Read pk2 data with BinaryReader
         /// </summary>

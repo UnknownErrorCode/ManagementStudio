@@ -18,31 +18,35 @@ namespace ShopEditor
         
         internal static ServerData StaticData;
 
-        internal ClientDataStorage.Pk2.Pk2Reader MediaPK2;
+        public ClientDataStorage.Pk2.Pk2Reader MediaPK2 { get; set; }
 
 
         public ShopEditorControl(ServerData data)
         {
             InitializeComponent();
             StaticData = data;
+            InitializeListView();
         }
 
         private void InitializeListView()
         {
-           // if (File.Exists(TextUISystemPath))
-           
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MediaPK2 = new ClientDataStorage.Pk2.Pk2Reader(Path.Combine(ClientDataStorage.Config.StaticConfig.ClientPath, "Media.pk2"));
-            MediaPK2.Read();
-
-            foreach (var item in MediaPK2.GetFolder().subfolders)
+            DataRowCollection test = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows;
+            foreach (DataRow item in test)
             {
-
+                if(!listViewAllNpcs.Items.ContainsKey(item.Field<string>("RefNPCCodeName"))&& (!item.Field<string>("RefNPCCodeName").ToLower().Equals("xxx")))
+                {
+                    ListViewItem listItem = new ListViewItem(item.Field<string>("RefNPCCodeName"));
+                    listViewAllNpcs.Click += ListViewAllNpcs_Click;
+                    listViewAllNpcs.Items.Add(listItem);
+                }
             }
-            this.listViewAllNpcs.Items.Add("");
         }
+
+        private void ListViewAllNpcs_Click(object sender, EventArgs e)
+        {
+            talkWindow1.OnNpcClick(((ListView)sender).SelectedItems[0].Text);
+        }
+
+     
     }
 }
