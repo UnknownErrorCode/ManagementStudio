@@ -28,7 +28,7 @@ namespace ClientDataStorage.Client.Textdata
         /// <param name="textArrayFromTextArray">String array including all rows.</param>
         /// <param name="minSize">Minimum size of Elements.</param>
         /// <returns> IEnumerable of string[] </returns>
-        IEnumerable<string[]> ConvertTextArrayToStructedTextArray(string[] textArrayFromTextArray, byte minSize);
+  //      IEnumerable<string[]> ConvertTextArrayToStructedTextArray(string[] textArrayFromTextArray, byte minSize);
 
         /// <summary>
         /// Converts a byte array to formatted string arrays. The minSize indicates the required Count of one Element

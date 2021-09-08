@@ -14,10 +14,10 @@ namespace ClientDataStorage.Client.Textdata
         public string[] ConvertTextToTextArray(string text)
             => text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(str => !str.StartsWith("//")).ToArray();
 
-        public IEnumerable<string[]> ConvertTextArrayToStructedTextArray(string[] textArray, byte minSize)
+        public IEnumerable<string[]> ConvertTextArrayToStructedText(string[] textArray, byte minSize) 
             => (IEnumerable<string[]>)base.ConvertTextArrayToStructuredTextArray(textArray, minSize);
 
         public IEnumerable<string[]> ConvertByteArrayToStructedTextArray(byte[] byteArray, byte minSize)
-            => ConvertTextArrayToStructedTextArray(ConvertTextToTextArray(ConvertByteArrayToText(byteArray)), minSize);
+            => ConvertTextArrayToStructedText(ConvertTextToTextArray(ConvertByteArrayToText(byteArray)), minSize);
     }
 }
