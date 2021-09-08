@@ -11,15 +11,12 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Reader : Pk2Data
     {
-        public  Pk2Folder StaticFile { get => base.Pk2File; }
         public Pk2Reader(string path)
         {
             base.Pk2DataPath = path;
             base.Blowfish.Initialize(base.bKey);
-            base.Pk2File = new Pk2Folder() { name = Path.GetFileNameWithoutExtension(path) };
+            this.Read();
         }
-
-      
 
         /// <summary>
         /// All folder from the first EntryBlock are subFolder from base.Pk2File.
@@ -27,6 +24,8 @@ namespace ClientDataStorage.Pk2
         /// </summary>
         public override void Read()
         {
+            base.Pk2File = new Pk2Folder() { name = Path.GetFileNameWithoutExtension(base.Pk2DataPath) };
+
             if (!File.Exists(Pk2DataPath))
                 return;
 
@@ -34,12 +33,28 @@ namespace ClientDataStorage.Pk2
             {
                 Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File , name = base.Pk2File.name};
 
-                if (TryReadFolder(reader, 256, tempFolder, out Pk2Folder newFolder))
+                if (GenerateFolder(reader, 256, tempFolder, out Pk2Folder newFolder))
                     base.Pk2File = newFolder;        
             }
         }
 
-        public byte[] GetFileByExtract(Pk2File file)
+        /// <summary>
+        /// Refreshes the Pk2 File
+        /// </summary>
+        /// <returns></returns>
+        public override bool Refresh()
+        {
+            base.Pk2File = null;
+            this.Read();
+            return base.Pk2File != null;
+        }
+
+        /// <summary>
+        /// Returns file as byte array with parameter Pk2File.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public byte[] GetByteArrayByFile(Pk2File file)
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
             {
@@ -47,7 +62,38 @@ namespace ClientDataStorage.Pk2
                 return reader.ReadBytes((int)file.size);
             }
         }
-        private bool TryReadFolder(BinaryReader reader, Int64 position, Pk2Folder parentFolder, out Pk2Folder unusedMainFolder)
+
+        /// <summary>
+        /// Returns file as byte array with parameter Pk2File.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public Pk2File GetFileByDirectory(string dir)
+        {
+            string[] splittedDirectory = dir.Split('\\');
+            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders};
+            //base.Pk2File.subfolders.CopyTo(tempFodler.subfolders.ToArray());
+            for (int i = 0; i < splittedDirectory.Length; i++)
+            {
+                if (i == splittedDirectory.Length - 1 && tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
+                    return tempFodler.files.First(fi => fi.name == splittedDirectory[i]);
+
+                if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i+1]))
+                    tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i+1]);
+            }
+
+            return new Pk2File();
+        }
+
+        /// <summary>
+        /// generates a pk2 Folder with empty SubFolders and Files
+        /// </summary>
+        /// <param name="reader">required for reading bianry pk2 file.</param>
+        /// <param name="position">Indicates the start possition of EntryBlock.</param>
+        /// <param name="parentFolder">ParentFolder required for navigation in file.</param>
+        /// <param name="unusedMainFolder">Generated Folder for "out" method.</param>
+        /// <returns></returns>
+        private bool GenerateFolder(BinaryReader reader, Int64 position, Pk2Folder parentFolder, out Pk2Folder unusedMainFolder)
         {
             reader.BaseStream.Position = position;
             try
@@ -67,7 +113,7 @@ namespace ClientDataStorage.Pk2
                             break;
                         case Pk2EntryType.Folder when entry.name != "." && entry.name != "..":
                             
-                            if (TryReadFolder(reader, entry.Position, new Pk2Folder(entry) { parentFolder = unusedMainFolder.parentFolder }, out Pk2Folder sub))
+                            if (GenerateFolder(reader, entry.Position, new Pk2Folder(entry) { parentFolder = unusedMainFolder.parentFolder }, out Pk2Folder sub))
                                 unusedMainFolder.subfolders.Add(sub);
                             break;
 
@@ -92,7 +138,14 @@ namespace ClientDataStorage.Pk2
             return true;
         }
 
-        internal object BufferToStruct(byte[] buffer, Type returnStruct)
+
+        /// <summary>
+        /// Converts a byte array to required type by marshaling the buffer.
+        /// </summary>
+        /// <param name="buffer">Byte Array to convert.</param>
+        /// <param name="returnStruct">Struct to return</param>
+        /// <returns></returns>
+        private object BufferToStruct(byte[] buffer, Type returnStruct)
         {
             IntPtr pointer = Marshal.AllocHGlobal(buffer.Length);
             Marshal.Copy(buffer, 0, pointer, buffer.Length);

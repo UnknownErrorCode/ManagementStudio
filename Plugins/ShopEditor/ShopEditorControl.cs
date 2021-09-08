@@ -18,9 +18,6 @@ namespace ShopEditor
 
         internal static ServerData StaticData;
 
-        public ClientDataStorage.Pk2.Pk2Reader MediaPK2 { get; set; }
-
-
         public ShopEditorControl(ServerData data)
         {
             InitializeComponent();

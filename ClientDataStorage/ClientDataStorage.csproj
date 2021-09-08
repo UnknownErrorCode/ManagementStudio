@@ -42,6 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\Media.cs" />
+    <Compile Include="Client\Textdata\ITextParser.cs" />
+    <Compile Include="Client\Textdata\TextArrayFormatter.cs" />
+    <Compile Include="Client\Textdata\TextParser.cs" />
+    <Compile Include="Client\Textdata\TextUISystem.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Dashboard\DashboardMemory.cs" />

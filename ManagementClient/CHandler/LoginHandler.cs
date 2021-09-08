@@ -82,8 +82,7 @@ namespace ManagementClient.CHandler
             if (ClientMemory.AllowedDataTables.Count==0)
             {
                 ClientForm.Logger.WriteLogLine($"Successfully received  all DataTables!");
-                ClientDataStorage.Client.Media.MediaPk2 = new ClientDataStorage.Pk2.Pk2Reader(Path.Combine(Program.MainConfig.ClientPath, "Media.pk2"));
-                ClientDataStorage.Client.Media.MediaPk2.Read();
+                ClientDataStorage.Client.Media.InitializeMedia();
                 ManagementClient.Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
             }
 
