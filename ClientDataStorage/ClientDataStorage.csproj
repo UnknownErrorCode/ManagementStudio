@@ -42,9 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\Media.cs" />
-    <Compile Include="Client\Textdata\ITextParser.cs" />
-    <Compile Include="Client\Textdata\TextArrayFormatter.cs" />
-    <Compile Include="Client\Textdata\TextParser.cs" />
+    <Compile Include="Client\Utility\ITextParser.cs" />
+    <Compile Include="Client\Utility\TextArrayFormatter.cs" />
+    <Compile Include="Client\Utility\TextGroupParser.cs" />
+    <Compile Include="Client\Utility\TextParser.cs" />
     <Compile Include="Client\Textdata\TextUISystem.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLoader.cs" />

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard\DashboardMessage.cs" />
+    <Compile Include="Pk2\Media\TextUISystemStruct.cs" />
     <Compile Include="Pk2\Pk2Entry.cs" />
     <Compile Include="Pk2\Pk2EntryBlock.cs" />
     <Compile Include="Pk2\Pk2File.cs" />

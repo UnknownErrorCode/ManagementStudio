@@ -11,6 +11,10 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Reader : Pk2Data
     {
+        /// <summary>
+        /// The Reader is one .pk2 file. Here you can read all informations from the files inside the abstract base class Pk2Data.
+        /// </summary>
+        /// <param name="path"></param>
         public Pk2Reader(string path)
         {
             base.Pk2DataPath = path;
@@ -41,7 +45,7 @@ namespace ClientDataStorage.Pk2
         /// <summary>
         /// Refreshes the Pk2 File
         /// </summary>
-        /// <returns></returns>
+        /// <returns>bool : Weather if refreshing succeeded or not.</returns>
         public override bool Refresh()
         {
             base.Pk2File = null;
@@ -52,8 +56,8 @@ namespace ClientDataStorage.Pk2
         /// <summary>
         /// Returns file as byte array with parameter Pk2File.
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="file">Pk2File from Pk2Data.</param>
+        /// <returns>byte[] : Raw bytes from Pk2File. </returns>
         public byte[] GetByteArrayByFile(Pk2File file)
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
@@ -67,12 +71,12 @@ namespace ClientDataStorage.Pk2
         /// Returns file as byte array with parameter Pk2File.
         /// </summary>
         /// <param name="file"></param>
-        /// <returns></returns>
+        /// <returns>Pk2File from FolderDirectory</returns>
         public Pk2File GetFileByDirectory(string dir)
         {
             string[] splittedDirectory = dir.Split('\\');
             Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders};
-            //base.Pk2File.subfolders.CopyTo(tempFodler.subfolders.ToArray());
+           
             for (int i = 0; i < splittedDirectory.Length; i++)
             {
                 if (i == splittedDirectory.Length - 1 && tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
@@ -81,18 +85,17 @@ namespace ClientDataStorage.Pk2
                 if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i+1]))
                     tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i+1]);
             }
-
             return new Pk2File();
         }
 
         /// <summary>
-        /// generates a pk2 Folder with empty SubFolders and Files
+        /// Generates a pk2 Folder with empty SubFolders and Files
         /// </summary>
-        /// <param name="reader">required for reading bianry pk2 file.</param>
+        /// <param name="reader">Required for reading bianry pk2 file.</param>
         /// <param name="position">Indicates the start possition of EntryBlock.</param>
         /// <param name="parentFolder">ParentFolder required for navigation in file.</param>
         /// <param name="unusedMainFolder">Generated Folder for "out" method.</param>
-        /// <returns></returns>
+        /// <returns>bool : Weather if Generating succeeded or not.</returns>
         private bool GenerateFolder(BinaryReader reader, Int64 position, Pk2Folder parentFolder, out Pk2Folder unusedMainFolder)
         {
             reader.BaseStream.Position = position;
@@ -144,7 +147,7 @@ namespace ClientDataStorage.Pk2
         /// </summary>
         /// <param name="buffer">Byte Array to convert.</param>
         /// <param name="returnStruct">Struct to return</param>
-        /// <returns></returns>
+        /// <returns>object : object of Type from Byte[].</returns>
         private object BufferToStruct(byte[] buffer, Type returnStruct)
         {
             IntPtr pointer = Marshal.AllocHGlobal(buffer.Length);
