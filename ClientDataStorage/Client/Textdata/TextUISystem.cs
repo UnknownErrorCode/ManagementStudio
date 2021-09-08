@@ -6,9 +6,17 @@ namespace ClientDataStorage.Client.Textdata
 {
     public class TextUISystem : TextParser
     {
-        public  ConcurrentDictionary<string, TextUISystemStruct> UIIT_Strings = new ConcurrentDictionary<string, TextUISystemStruct>();
-       
+        public ConcurrentDictionary<string, TextUISystemStruct> UIIT_Strings = new ConcurrentDictionary<string, TextUISystemStruct>();
+
         public TextUISystem()
-            => base.ConvertByteArrayToStructedTextArray(Media.MediaPk2.GetByteArrayByFile(Media.MediaPk2.GetFileByDirectory("Media\\server_dep\\silkroad\\textdata\\textuisystem.txt")), 16).ToList().ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
+        {
+            var t1 = Media.MediaPk2.GetFileByDirectory("Media\\server_dep\\silkroad\\textdata\\textuisystem.txt");
+            var t2 = Media.MediaPk2.GetByteArrayByFile(t1);
+
+
+            var t3 = base.ConvertByteArrayToStructedTextArray(t2, 16).ToList();
+            t3.ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
+
+        }
     }
 }

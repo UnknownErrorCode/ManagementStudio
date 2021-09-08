@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage.Pk2
 {
-    public class Pk2Reader : Pk2Data
+    public  class Pk2Reader : Pk2Data
     {
         /// <summary>
         /// The Reader is one .pk2 file. Here you can read all informations from the files inside the abstract base class Pk2Data.
