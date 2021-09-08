@@ -1,6 +1,6 @@
 ﻿namespace Dashboard
 {
-    partial class Dashboard
+    partial class DashboardControl
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardControl));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainerDashboardText = new System.Windows.Forms.SplitContainer();
@@ -98,9 +98,9 @@
             // 
             // splitContainerDashboardText.Panel2
             // 
+            this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonSave);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonCancel);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.richTextBoxEditTopicText);
-            this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonSave);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.labelTitle);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.textBoxTopic);
             this.splitContainerDashboardText.Panel2Collapsed = true;
@@ -121,7 +121,7 @@
             // vSroSmallButtonCancel
             // 
             this.vSroSmallButtonCancel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.vSroSmallButtonCancel.Location = new System.Drawing.Point(0, 48);
+            this.vSroSmallButtonCancel.Location = new System.Drawing.Point(0, 72);
             this.vSroSmallButtonCancel.MaximumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonCancel.MinimumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonCancel.Name = "vSroSmallButtonCancel";
@@ -131,18 +131,19 @@
             // 
             // richTextBoxEditTopicText
             // 
-            this.richTextBoxEditTopicText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.richTextBoxEditTopicText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxEditTopicText.Location = new System.Drawing.Point(3, 29);
             this.richTextBoxEditTopicText.Name = "richTextBoxEditTopicText";
-            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(299, 341);
+            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(295, 341);
             this.richTextBoxEditTopicText.TabIndex = 4;
             this.richTextBoxEditTopicText.Text = "";
             // 
             // vSroSmallButtonSave
             // 
             this.vSroSmallButtonSave.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.vSroSmallButtonSave.Location = new System.Drawing.Point(0, 72);
+            this.vSroSmallButtonSave.Location = new System.Drawing.Point(0, 48);
             this.vSroSmallButtonSave.MaximumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonSave.MinimumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonSave.Name = "vSroSmallButtonSave";
@@ -166,7 +167,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTopic.Location = new System.Drawing.Point(51, 3);
             this.textBoxTopic.Name = "textBoxTopic";
-            this.textBoxTopic.Size = new System.Drawing.Size(251, 20);
+            this.textBoxTopic.Size = new System.Drawing.Size(247, 20);
             this.textBoxTopic.TabIndex = 0;
             // 
             // statusStrip1
@@ -218,12 +219,12 @@
             this.timerCheckDashboard.Interval = 1000;
             this.timerCheckDashboard.Tick += new System.EventHandler(this.OnCheckTopics);
             // 
-            // Dashboard
+            // DashboardControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
-            this.Name = "Dashboard";
+            this.Name = "DashboardControl";
             this.Size = new System.Drawing.Size(800, 450);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

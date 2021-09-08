@@ -1,5 +1,5 @@
 ﻿
-namespace ShopEditor.Interface
+namespace ShopEditor
 {
     partial class TalkWindow
     {
@@ -79,11 +79,14 @@ namespace ShopEditor.Interface
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.Controls.Add(this.labelNpcName);
             this.Controls.Add(this.splitContainer1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(218)))), ((int)(((byte)(164)))));
+            this.MaximumSize = new System.Drawing.Size(387, 450);
+            this.MinimumSize = new System.Drawing.Size(387, 450);
             this.Name = "TalkWindow";
             this.Size = new System.Drawing.Size(387, 450);
             this.splitContainer1.Panel1.ResumeLayout(false);

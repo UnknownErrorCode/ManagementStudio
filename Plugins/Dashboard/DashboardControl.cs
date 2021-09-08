@@ -8,11 +8,11 @@ using Structs.Dashboard;
 
 namespace Dashboard
 {
-    public partial class Dashboard : UserControl
+    public partial class DashboardControl : UserControl
     {
         internal static ServerData ClientData;
 
-        public Dashboard(ServerData data)
+        public DashboardControl(ServerData data)
         {
             InitializeComponent();
             ClientData = data;

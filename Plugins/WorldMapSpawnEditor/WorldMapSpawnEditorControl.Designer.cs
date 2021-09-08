@@ -1,6 +1,6 @@
 ﻿namespace WorldMapSpawnEditor
 {
-    partial class WorldMapSpawnEditor
+    partial class WorldMapSpawnEditorControl
     {
         /// <summary>
         /// Required designer variable.

@@ -43,25 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pk2Ressources.cs" />
-    <Compile Include="RegionPool.cs" />
-    <Compile Include="SingleRegion.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WorldMapPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WorldMapSpawnEditor.cs">
+    <Compile Include="WorldMapSpawnEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WorldMapSpawnEditor.Designer.cs">
-      <DependentUpon>WorldMapSpawnEditor.cs</DependentUpon>
+    <Compile Include="WorldMapSpawnEditorControl.Designer.cs">
+      <DependentUpon>WorldMapSpawnEditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WorldMapSpawnEditor.resx">
-      <DependentUpon>WorldMapSpawnEditor.cs</DependentUpon>
+    <EmbeddedResource Include="WorldMapSpawnEditorControl.resx">
+      <DependentUpon>WorldMapSpawnEditorControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

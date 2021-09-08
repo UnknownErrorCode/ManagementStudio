@@ -42,19 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dashboard.cs">
+    <Compile Include="DashboardControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DashboardPackets.cs" />
-    <Compile Include="UserControl1.Designer.cs">
-      <DependentUpon>Dashboard.cs</DependentUpon>
+    <Compile Include="DashboardControl.Designer.cs">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Dashboard.resx">
-      <DependentUpon>Dashboard.cs</DependentUpon>
+    <EmbeddedResource Include="DashboardControl.resx">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

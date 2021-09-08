@@ -123,6 +123,8 @@ namespace ClientDataStorage.Pk2
             BinaryReader reader = new BinaryReader(fileStream);
             reader.BaseStream.Position = position;
             List<Pk2Folder> tmpFolders = new List<Pk2Folder>();
+
+
             Pk2EntryBlock entryBlock = (Pk2EntryBlock)BufferToStruct(blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2EntryBlock)))), typeof(Pk2EntryBlock));
 
             for (int i = 0; i < 20; i++)
@@ -131,9 +133,9 @@ namespace ClientDataStorage.Pk2
 
                 switch (entry.type)
                 {
-                    case 0:
+                    case Pk2EntryType.Exit:
                         break;
-                    case 1:
+                    case Pk2EntryType.Folder:
                         if (entry.name != "." && entry.name != "..")
                         {
                             Pk2Folder tmpFolder = new Pk2Folder();
@@ -148,7 +150,7 @@ namespace ClientDataStorage.Pk2
                             currentFolder.subfolders.Add(tmpFolder);
                         }
                         break;
-                    case 2:
+                    case Pk2EntryType.File:
                         {
                             Pk2File tmpFile = new Pk2File();
                             tmpFile.position = entry.Position;

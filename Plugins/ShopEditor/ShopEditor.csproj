@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\NpcShopData.cs" />
     <Compile Include="Interface\TalkWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -53,11 +54,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ShopEditor.cs">
+    <Compile Include="ShopEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ShopEditor.Designer.cs">
-      <DependentUpon>ShopEditor.cs</DependentUpon>
+    <Compile Include="ShopEditorControl.Designer.cs">
+      <DependentUpon>ShopEditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
@@ -84,8 +85,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ShopEditor.resx">
-      <DependentUpon>ShopEditor.cs</DependentUpon>
+    <EmbeddedResource Include="ShopEditorControl.resx">
+      <DependentUpon>ShopEditorControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

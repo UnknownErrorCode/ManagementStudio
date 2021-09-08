@@ -42,12 +42,16 @@ namespace ManagementClient
                 {
                     Assembly plugin = Assembly.LoadFrom(pluginPath);
                     TabPage tabPage = new TabPage(pluginPath.Remove(0, 8));
-                    string typeName = pluginPath.Remove(0, 8).Replace(".dll", "");
-                    Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
-                    UserControl controlal = (UserControl)Activator.CreateInstance(dll, Network.ClientCore.CInterface.cData);
-                    controlal.Dock = DockStyle.Fill;
-                    tabPage.Controls.Add(controlal);
-                    tabControlPlugins.TabPages.Add(tabPage);
+                    string typeName = pluginPath.Remove(0, 8).Replace(".dll", "Control");
+                    if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
+                    {
+                        Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
+                        UserControl controlal = (UserControl)Activator.CreateInstance(dll, Network.ClientCore.CInterface.cData);
+                        controlal.Dock = DockStyle.Fill;
+                        tabPage.Controls.Add(controlal);
+                        tabControlPlugins.TabPages.Add(tabPage);
+                    }
+                        
                 }
             }
 

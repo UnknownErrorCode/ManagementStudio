@@ -14,7 +14,7 @@ namespace ClientDataStorage
             base.Initialize();
         }
 
-        public string ClientDataPath{ get => base.ConfigEditor.IniReadValue("Client", "Path"); set => base.ConfigEditor.IniWriteValue("Client", "Path", value); }
+        public string ClientPath{ get => base.ConfigEditor.IniReadValue("Client", "Path"); set => base.ConfigEditor.IniWriteValue("Client", "Path", value); }
         public string ClientIP{ get =>  base.ConfigEditor.IniReadValue("Client", "IP"); set => base.ConfigEditor.IniWriteValue("Client", "IP", value); }
         public int ClientPort{ get =>  int.Parse(base.ConfigEditor.IniReadValue("Client", "Port")); set => base.ConfigEditor.IniWriteValue("Client", "Port", value.ToString()); }
         public string ClientVersion{ get =>  base.ConfigEditor.IniReadValue("Client", "Version"); set => base.ConfigEditor.IniWriteValue("Client", "Version", value.ToString()); }
