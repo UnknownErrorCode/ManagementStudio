@@ -55,6 +55,9 @@ namespace ShopEditor.Interface
                 vSroMessageBox.Show($"No RefTabGroupCodeNames found for \nNPC: {npcCodeName128}\nGroupName:{this.RefShopGroupCodeName}\nShopCodeName:{this.RefShopCodeName}", "Error loading RefMappingShopWithTab");
                 return;
             }
+
+            RefShopTabGroups = new Dictionary<string, string>();
+            SN_RefTabGroupCodeNames = new Dictionary<string, string>();
             foreach (DataRow item in ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopWithTab"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefShopCodeName") == this.RefShopCodeName))
             {
                 //Collect StrID128_Group from _RefShopItemGroup by RefTabGroupCodeName
@@ -71,8 +74,6 @@ namespace ShopEditor.Interface
                     return;
                 }
 
-                RefShopTabGroups = new Dictionary<string, string>();
-                SN_RefTabGroupCodeNames = new Dictionary<string, string>();
                 RefShopTabGroups.Add(item.Field<string>("RefTabGroupCodeName"), ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTabGroup"].Rows.OfType<DataRow>().Single(row => row.Field<string>("CodeName128") == item.Field<string>("RefTabGroupCodeName")).Field<string>("StrID128_Group"));
                 SN_RefTabGroupCodeNames.Add(item.Field<string>("RefTabGroupCodeName"), ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopItemGroup"].Rows.OfType<DataRow>().Single(row => row.Field<string>("CodeName128") == item.Field<string>("RefTabGroupCodeName")).Field<string>("StrID128_Group"));
             }

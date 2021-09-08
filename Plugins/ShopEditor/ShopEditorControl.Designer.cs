@@ -43,16 +43,18 @@
             this.listViewAllNpcs.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listViewAllNpcs.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(218)))), ((int)(((byte)(164)))));
             this.listViewAllNpcs.Location = new System.Drawing.Point(0, 0);
+            this.listViewAllNpcs.MultiSelect = false;
             this.listViewAllNpcs.Name = "listViewAllNpcs";
             this.listViewAllNpcs.Size = new System.Drawing.Size(240, 450);
             this.listViewAllNpcs.TabIndex = 1;
             this.listViewAllNpcs.UseCompatibleStateImageBehavior = false;
             this.listViewAllNpcs.View = System.Windows.Forms.View.Details;
+            this.listViewAllNpcs.SelectedIndexChanged += new System.EventHandler(this.listViewAllNpcs_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "All Shops";
-            this.columnHeader1.Width = 120;
+            this.columnHeader1.Width = 235;
             // 
             // talkWindow1
             // 
@@ -82,8 +84,8 @@
         }
 
         #endregion
-        private System.Windows.Forms.ListView listViewAllNpcs;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private TalkWindow talkWindow1;
+        private System.Windows.Forms.ListView listViewAllNpcs;
     }
 }
