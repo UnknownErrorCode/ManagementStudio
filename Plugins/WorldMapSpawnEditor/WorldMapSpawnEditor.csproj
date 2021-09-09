@@ -42,6 +42,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Params.cs" />
+    <Compile Include="Controls\SRAdvancedElixir.cs" />
+    <Compile Include="Controls\SRAttackPet.cs" />
+    <Compile Include="Controls\SRBuff.cs" />
+    <Compile Include="Controls\SRCoord.cs" />
+    <Compile Include="Controls\SRCoS.cs" />
+    <Compile Include="Controls\SRCoService.cs" />
+    <Compile Include="Controls\SRDrop.cs" />
+    <Compile Include="Controls\SREntity.cs" />
+    <Compile Include="Controls\SREquipable.cs" />
+    <Compile Include="Controls\SREtc.cs" />
+    <Compile Include="Controls\SRFortressCos.cs" />
+    <Compile Include="Controls\SRFortressStruct.cs" />
+    <Compile Include="Controls\SRGuide.cs" />
+    <Compile Include="Controls\SRItem.cs" />
+    <Compile Include="Controls\SRItemExchange.cs" />
+    <Compile Include="Controls\SRSkillZone.cs" />
+    <Compile Include="Controls\SRTimeStamp.cs" />
+    <Compile Include="Controls\SRItemStall1.cs" />
+    <Compile Include="Controls\SRMagicOption.cs" />
+    <Compile Include="Controls\SRMask.cs" />
+    <Compile Include="Controls\SRMob.cs" />
+    <Compile Include="Controls\SRModel.cs" />
+    <Compile Include="Controls\SRNpc.cs" />
+    <Compile Include="Controls\SRPickPet.cs" />
+    <Compile Include="Controls\SRPlayer.cs" />
+    <Compile Include="Controls\SRRentable.cs" />
+    <Compile Include="Controls\SRSkill.cs" />
+    <Compile Include="Controls\SRSocket.cs" />
+    <Compile Include="Controls\SRStall.cs" />
+    <Compile Include="Controls\SRTeleport.cs" />
+    <Compile Include="Controls\SRTeleportOption.cs" />
+    <Compile Include="Controls\SRTypes.cs" />
+    <Compile Include="Controls\xDictionary.cs" />
+    <Compile Include="Controls\xList.cs" />
+    <Compile Include="Controls\xMap.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\xMapControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\xMapTile.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataManager.cs" />
     <Compile Include="Pk2Ressources.cs" />
     <Compile Include="WorldMapSpawnEditorControl.cs">
       <SubType>UserControl</SubType>
