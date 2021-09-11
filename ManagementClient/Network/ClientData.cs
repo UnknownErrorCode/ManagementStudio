@@ -4,8 +4,6 @@ namespace ManagementClient.Network
 {
     internal class ClientData : ServerData
     {
-      
-
         internal string AccountName;
         internal ClientData() : base()
         {

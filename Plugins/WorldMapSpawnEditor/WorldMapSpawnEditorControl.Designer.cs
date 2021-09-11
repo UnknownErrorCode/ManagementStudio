@@ -32,7 +32,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mapControlMainWindow = new WorldMapSpawnEditor.MapRessources.MapControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
+            this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -48,6 +50,7 @@
             // splitContainerMain.Panel1
             // 
             this.splitContainerMain.Panel1.AutoScroll = true;
+            this.splitContainerMain.Panel1.Controls.Add(this.mapControlMainWindow);
             // 
             // splitContainerMain.Panel2
             // 
@@ -81,14 +84,26 @@
             this.loadToolStripMenuItem.Text = "Load Worldmap";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // WorldMapSpawnEditor
+            // mapControlMainWindow
+            // 
+            this.mapControlMainWindow.BackColor = System.Drawing.Color.Black;
+            this.mapControlMainWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapControlMainWindow.Location = new System.Drawing.Point(0, 0);
+            this.mapControlMainWindow.Name = "mapControlMainWindow";
+            this.mapControlMainWindow.Size = new System.Drawing.Size(610, 446);
+            this.mapControlMainWindow.TabIndex = 0;
+            this.mapControlMainWindow.VSync = false;
+            this.mapControlMainWindow.Load += new System.EventHandler(this.mapControlMainWindow_Load);
+            // 
+            // WorldMapSpawnEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainerMain);
             this.DoubleBuffered = true;
-            this.Name = "WorldMapSpawnEditor";
+            this.Name = "WorldMapSpawnEditorControl";
             this.Size = new System.Drawing.Size(800, 450);
+            this.splitContainerMain.Panel1.ResumeLayout(false);
             this.splitContainerMain.Panel2.ResumeLayout(false);
             this.splitContainerMain.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
@@ -105,5 +120,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private MapRessources.MapControl mapControlMainWindow;
     }
 }

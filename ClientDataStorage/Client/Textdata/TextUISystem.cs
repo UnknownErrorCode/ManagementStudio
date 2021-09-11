@@ -14,7 +14,7 @@ namespace ClientDataStorage.Client.Textdata
             var t2 = Media.MediaPk2.GetByteArrayByFile(t1);
 
 
-            var t3 = base.ConvertByteArrayToStructedTextArray(t2, 16).ToList();
+            var t3 = base.ConvertByteArrayToStructedTextArray(t2, 16, "\t".ToCharArray()).ToList();
             t3.ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
 
         }

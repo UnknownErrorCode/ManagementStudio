@@ -17,8 +17,8 @@ namespace ClientDataStorage.Client
         public static void InitializeMedia()
         {
             MediaPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Media.pk2");
-            StaticTextuiSystem = new Textdata.TextUISystem();
 
+            StaticTextuiSystem = new Textdata.TextUISystem();
         }
     }
 }

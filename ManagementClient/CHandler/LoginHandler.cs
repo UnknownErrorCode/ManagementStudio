@@ -83,6 +83,7 @@ namespace ManagementClient.CHandler
             {
                 ClientForm.Logger.WriteLogLine($"Successfully received  all DataTables!");
                 ClientDataStorage.Client.Media.InitializeMedia();
+                ClientDataStorage.Client.Map.Initialize();
                 ManagementClient.Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
             }
 

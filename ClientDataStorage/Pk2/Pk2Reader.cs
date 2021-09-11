@@ -75,7 +75,7 @@ namespace ClientDataStorage.Pk2
         public Pk2File GetFileByDirectory(string dir)
         {
             string[] splittedDirectory = dir.Split('\\');
-            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders};
+            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files};
            
             for (int i = 0; i < splittedDirectory.Length; i++)
             {
@@ -121,7 +121,7 @@ namespace ClientDataStorage.Pk2
                             break;
 
                         case Pk2EntryType.File:
-                            unusedMainFolder.files.Add(new Pk2File(entry, unusedMainFolder.parentFolder));
+                            unusedMainFolder.files.Add(new Pk2File(entry, unusedMainFolder));
                             break;
                         default:
                             break;

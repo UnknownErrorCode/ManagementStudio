@@ -28,7 +28,7 @@ namespace WorldMapSpawnEditor.Controls
 			this.m_ViewPoint = new SRCoord(0, 0);
 			this.m_Zoom = 0;
 			base.Size = new Size(600, 600);
-			this.m_TileSize = new Size((int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero), (int)Math.Round(base.Height / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero));
+			this.m_TileSize = new Size((int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero), (int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero));
 			this.m_TileCount = 2 * m_Zoom + 3;
 			// Create layer
 			SelectMapLayer(m_ViewPoint.Region);
@@ -52,7 +52,7 @@ namespace WorldMapSpawnEditor.Controls
 			set
 			{
 				base.Size = value;
-				this.m_TileSize = new Size((int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero), (int)Math.Round(base.Height / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero));
+				this.m_TileSize = new Size((int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero), (int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero));
 				RemoveTiles();
 				UpdateTiles();
 				UpdateMarkerLocations();
@@ -69,7 +69,7 @@ namespace WorldMapSpawnEditor.Controls
 				if (value != m_Zoom)
 				{
 					m_Zoom = value;
-					m_TileSize = new Size((int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero), (int)Math.Round(base.Height / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero));
+					m_TileSize = new Size((int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero), (int)Math.Round(base.Width / (2.0 * m_Zoom + 1), MidpointRounding.AwayFromZero));
 					m_TileCount = 2 * m_Zoom + 3;
 					RemoveTiles();
 					UpdateTiles();

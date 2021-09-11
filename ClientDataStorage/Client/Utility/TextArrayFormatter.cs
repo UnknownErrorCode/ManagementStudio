@@ -16,12 +16,12 @@ namespace ClientDataStorage.Client.Textdata
         /// <param name="array">The string after NewLine split</param>
         /// <param name="minSize">Minimum Array Length</param>
         /// <returns>IEnumerator<string[]> Formatted Strings</returns>
-        internal IEnumerable<string[]> ConvertTextArrayToStructuredTextArray(string[] array, byte minSize)
+        internal IEnumerable<string[]> ConvertTextArrayToStructuredTextArray(string[] array, byte minSize, char[] splitCharakterArray)
         {
             var FormattedStringArray = new List<string[]>();
             for (int i = 0; i < array.Length; i++)
-                if (array[i].Split('\t').Length >= minSize)
-                    FormattedStringArray.Add(array[i].Split('\t'));
+                if (array[i].Split(splitCharakterArray).Length >= minSize)
+                    FormattedStringArray.Add(array[i].Split(splitCharakterArray));
 
             return FormattedStringArray.AsEnumerable();
         }

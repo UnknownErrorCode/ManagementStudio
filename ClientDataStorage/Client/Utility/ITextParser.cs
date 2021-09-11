@@ -36,6 +36,6 @@ namespace ClientDataStorage.Client.Textdata
         /// <param name="textArrayFromByte">Raw byte array from read file.</param>
         /// <param name="minSize">Minimum size of Elements.</param>
         /// <returns> IEnumerable of string[] </returns>
-        IEnumerable<string[]> ConvertByteArrayToStructedTextArray(byte[] textArrayFromByte, byte minSize);
+        IEnumerable<string[]> ConvertByteArrayToStructedTextArray(byte[] textArrayFromByte, byte minSize, char[] splitCharArray);
     }
 }
