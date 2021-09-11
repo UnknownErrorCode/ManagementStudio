@@ -96,6 +96,12 @@
     <Compile Include="MapRessources\MapControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="OldMapGL\MapViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OldMapGL\MeshTexture.cs" />
+    <Compile Include="OldMapGL\OFile.cs" />
+    <Compile Include="OldMapGL\Terrain.cs" />
     <Compile Include="Pk2Ressources.cs" />
     <Compile Include="WorldMapSpawnEditorControl.cs">
       <SubType>UserControl</SubType>
@@ -107,6 +113,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="OldMapGL\MapViewer.resx">
+      <DependentUpon>MapViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WorldMapSpawnEditorControl.resx">
       <DependentUpon>WorldMapSpawnEditorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -128,9 +137,6 @@
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="OldMapGL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

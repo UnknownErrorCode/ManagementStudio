@@ -26,6 +26,8 @@ namespace WorldMapSpawnEditor
         public WorldMapSpawnEditorControl(ServerData data)
         {
             InitializeComponent();
+            this.splitContainerMain.Panel1.Controls.Clear();
+            this.splitContainerMain.Panel1.Controls.Add(new OldMapGL.MapViewer());
 
         }
         public void Render()
@@ -163,8 +165,8 @@ namespace WorldMapSpawnEditor
         private void mapControlMainWindow_Load(object sender, EventArgs e)
         {
 
-            this.mapControlMainWindow.MouseWheel += new MouseEventHandler(glControl1_Scroll);
-            this.mapControlMainWindow.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseWheel);
+           this.mapControlMainWindow.MouseWheel += new MouseEventHandler(glControl1_Scroll);
+           this.mapControlMainWindow.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseWheel);
 
             GL.ClearColor(Color.Black);
             GL.MatrixMode(MatrixMode.Modelview);

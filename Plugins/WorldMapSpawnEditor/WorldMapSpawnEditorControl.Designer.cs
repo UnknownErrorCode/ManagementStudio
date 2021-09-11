@@ -86,14 +86,14 @@
             // 
             // mapControlMainWindow
             // 
-            this.mapControlMainWindow.BackColor = System.Drawing.Color.Black;
-            this.mapControlMainWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mapControlMainWindow.Location = new System.Drawing.Point(0, 0);
-            this.mapControlMainWindow.Name = "mapControlMainWindow";
-            this.mapControlMainWindow.Size = new System.Drawing.Size(610, 446);
-            this.mapControlMainWindow.TabIndex = 0;
-            this.mapControlMainWindow.VSync = false;
-            this.mapControlMainWindow.Load += new System.EventHandler(this.mapControlMainWindow_Load);
+             this.mapControlMainWindow.BackColor = System.Drawing.Color.Black;
+             this.mapControlMainWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+             this.mapControlMainWindow.Location = new System.Drawing.Point(0, 0);
+             this.mapControlMainWindow.Name = "mapControlMainWindow";
+             this.mapControlMainWindow.Size = new System.Drawing.Size(610, 446);
+             this.mapControlMainWindow.TabIndex = 0;
+             this.mapControlMainWindow.VSync = false;
+             this.mapControlMainWindow.Load += new System.EventHandler(this.mapControlMainWindow_Load);
             // 
             // WorldMapSpawnEditorControl
             // 
