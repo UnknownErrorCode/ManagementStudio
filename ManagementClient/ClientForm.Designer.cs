@@ -35,6 +35,9 @@ namespace ManagementClient
             this.loadPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlPlugins = new System.Windows.Forms.TabControl();
+            this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +56,8 @@ namespace ManagementClient
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadPluginsToolStripMenuItem,
-            this.openSettingsToolStripMenuItem});
+            this.openSettingsToolStripMenuItem,
+            this.logToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -80,6 +84,28 @@ namespace ManagementClient
             this.tabControlPlugins.SelectedIndex = 0;
             this.tabControlPlugins.Size = new System.Drawing.Size(964, 607);
             this.tabControlPlugins.TabIndex = 1;
+            // 
+            // logToolStripMenuItem
+            // 
+            this.logToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showToolStripMenuItem,
+            this.hideToolStripMenuItem});
+            this.logToolStripMenuItem.Name = "logToolStripMenuItem";
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logToolStripMenuItem.Text = "Log";
+            // 
+            // showToolStripMenuItem
+            // 
+            this.showToolStripMenuItem.Name = "showToolStripMenuItem";
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showToolStripMenuItem.Text = "Show";
+            this.showToolStripMenuItem.Click += new System.EventHandler(this.showToolStripMenuItem_Click);
+            // 
+            // hideToolStripMenuItem
+            // 
+            this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
+            this.hideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hideToolStripMenuItem.Text = "Hide";
             // 
             // ClientForm
             // 
@@ -109,5 +135,8 @@ namespace ManagementClient
         private System.Windows.Forms.ToolStripMenuItem openSettingsToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControlPlugins;
         internal System.Windows.Forms.ToolStripMenuItem loadPluginsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
     }
 }

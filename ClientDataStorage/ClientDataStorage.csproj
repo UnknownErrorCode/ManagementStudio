@@ -62,6 +62,7 @@
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Dashboard\DashboardMemory.cs" />
     <Compile Include="Database\SRO_VT_SHARD.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Pk2\BlowfishKey.cs" />
     <Compile Include="Pk2\IPk2Data.cs" />
     <Compile Include="Pk2\Pk2Class.cs" />

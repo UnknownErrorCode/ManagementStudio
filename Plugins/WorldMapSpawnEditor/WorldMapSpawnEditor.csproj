@@ -93,9 +93,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataManager.cs" />
+    <Compile Include="MapRessources\IMapControl.cs" />
     <Compile Include="MapRessources\MapControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="MapRessources\RegionTerrain.cs" />
     <Compile Include="OldMapGL\MapViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +115,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MapRessources\MapControl.resx">
+      <DependentUpon>MapControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OldMapGL\MapViewer.resx">
       <DependentUpon>MapViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,5 +143,6 @@
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

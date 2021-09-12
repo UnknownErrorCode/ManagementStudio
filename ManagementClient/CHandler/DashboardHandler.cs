@@ -49,14 +49,14 @@ namespace ManagementClient.CHandler
 
             DashboardMemory.ChangesAviable = true;
 
-            ClientForm.Logger.WriteLogLine($"User: {author} added new Topic:{title} to dashboard!");
+            ClientDataStorage.Log.Logger.WriteLogLine($"User: {author} added new Topic:{title} to dashboard!");
             return PacketHandlerResult.Block;
         }
 
 
         internal static  PacketHandlerResult FinishedLoadingTopics(ServerData arg1, Packet arg2)
         {
-            ClientForm.Logger.WriteLogLine($"Successfully load {DashboardMemory.TopicDictionary.Count} topics to dashboard!");
+            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load {DashboardMemory.TopicDictionary.Count} topics to dashboard!");
             return PacketHandlerResult.Block;
         }
 
@@ -71,7 +71,7 @@ namespace ManagementClient.CHandler
                 DashboardMemory.TopicDictionary.Remove(Title);
 
             DashboardMemory.ChangesAviable = true;
-            ClientForm.Logger.WriteLogLine($"{Remover} successfully deleted topic: {Title} from {Author}!");
+            ClientDataStorage.Log.Logger.WriteLogLine($"{Remover} successfully deleted topic: {Title} from {Author}!");
             return PacketHandlerResult.Block;
         }
     }

@@ -36,6 +36,7 @@ namespace ShopEditor
                     listViewAllNpcs.Items.Add(listItem);
                 }
             }
+            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Npc Shops. Count:[{listViewAllNpcs.Items.Count}]");
         }
 
         private void listViewAllNpcs_SelectedIndexChanged(object sender, EventArgs e)

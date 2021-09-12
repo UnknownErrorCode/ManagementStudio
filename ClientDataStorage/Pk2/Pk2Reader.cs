@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage.Pk2
 {
-    public  class Pk2Reader : Pk2Data
+    public class Pk2Reader : Pk2Data
     {
         /// <summary>
         /// The Reader is one .pk2 file. Here you can read all informations from the files inside the abstract base class Pk2Data.
@@ -35,11 +35,22 @@ namespace ClientDataStorage.Pk2
 
             using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
             {
-                Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File , name = base.Pk2File.name};
+                Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File, name = base.Pk2File.name };
 
                 if (GenerateFolder(reader, 256, tempFolder, out Pk2Folder newFolder))
-                    base.Pk2File = newFolder;        
+                    base.Pk2File = newFolder;
             }
+        }
+
+        public bool GetByteArrayByDirectory(string directory, out byte[] fileArray)
+        {
+            fileArray = null;
+            var file = GetFileByDirectory(directory);
+            if (file.name == null)
+                return false;
+
+            fileArray = GetByteArrayByFile(file);
+            return true;
         }
 
         /// <summary>
@@ -75,15 +86,19 @@ namespace ClientDataStorage.Pk2
         public Pk2File GetFileByDirectory(string dir)
         {
             string[] splittedDirectory = dir.Split('\\');
-            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files};
-           
+            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files };
+
             for (int i = 0; i < splittedDirectory.Length; i++)
             {
-                if (i == splittedDirectory.Length - 1 && tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
-                    return tempFodler.files.First(fi => fi.name == splittedDirectory[i]);
+                if (i == splittedDirectory.Length - 1)
+                    if (tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
+                        return tempFodler.files.First(fi => fi.name == splittedDirectory[i]);
+                    else
+                        return new Pk2File();
 
-                if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i+1]))
-                    tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i+1]);
+
+                if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i + 1]))
+                    tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i + 1]);
             }
             return new Pk2File();
         }
@@ -103,7 +118,7 @@ namespace ClientDataStorage.Pk2
             {
                 unusedMainFolder = new Pk2Folder() { parentFolder = parentFolder.parentFolder, name = parentFolder.name, position = parentFolder.position };
 
-                EntryBlockReader:
+            EntryBlockReader:
                 Pk2EntryBlock entryBlock = (Pk2EntryBlock)BufferToStruct(base.Blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2EntryBlock)))), typeof(Pk2EntryBlock));
 
                 for (int entity = 0; entity < entryBlock.entries.Length; entity++)
@@ -115,7 +130,7 @@ namespace ClientDataStorage.Pk2
                         case Pk2EntryType.Exit:
                             break;
                         case Pk2EntryType.Folder when entry.name != "." && entry.name != "..":
-                            
+
                             if (GenerateFolder(reader, entry.Position, new Pk2Folder(entry) { parentFolder = unusedMainFolder.parentFolder }, out Pk2Folder sub))
                                 unusedMainFolder.subfolders.Add(sub);
                             break;

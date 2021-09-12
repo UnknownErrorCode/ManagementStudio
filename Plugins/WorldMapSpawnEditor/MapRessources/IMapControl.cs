@@ -1,0 +1,18 @@
+﻿using ClientDataStorage.Client.Files;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WorldMapSpawnEditor.MapRessources
+{
+    public interface IMapControl
+    {
+
+        void Render();
+        void Draw(mFile meshFile);
+        void Scarle(int x, int y, int z);
+        void LoadGL(object sender, EventArgs arg);
+    }
+}

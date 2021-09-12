@@ -15,12 +15,12 @@ namespace ManagementClient
 {
     public partial class ClientForm : Form
     {
-        internal static LogGridView Logger = new LogGridView() { Dock = DockStyle.Bottom};
         public ClientForm()
         {
             InitializeComponent();
-            this.Controls.Add(Logger);
-            Logger.WriteLogLine("Successfully initialized!");
+            ClientDataStorage.Log.Logger = new LogGridView() { Dock = DockStyle.Bottom };
+            this.Controls.Add(ClientDataStorage.Log.Logger);
+            ClientDataStorage.Log.Logger.WriteLogLine("Successfully initialized!");
         }
 
         private void OnClose(object sender, FormClosingEventArgs e)
@@ -31,7 +31,6 @@ namespace ManagementClient
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-
         }
 
         private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -57,6 +56,12 @@ namespace ManagementClient
 
             this.loadPluginsToolStripMenuItem.Checked = true;
             this.loadPluginsToolStripMenuItem.Enabled = false;
+        }
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!ClientDataStorage.Log.Logger.Visible)
+                ClientDataStorage.Log.Logger.Show();
         }
     }
 }

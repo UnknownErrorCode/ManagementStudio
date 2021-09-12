@@ -22,6 +22,9 @@ namespace ClientDataStorage.Client.Files
         #endregion
         public mFile(Pk2File pk2file)
         {
+            if (pk2file.name == null)
+                return;
+
             X = pk2file.parentFolder.name;
             y = pk2file.name.Replace(".m", "");
 

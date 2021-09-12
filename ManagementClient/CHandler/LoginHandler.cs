@@ -71,7 +71,7 @@ namespace ManagementClient.CHandler
             DataTable table = arg2.ReadDataTable(bytearr);
             table.TableName = tableName;
 
-            ClientForm.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
+            ClientDataStorage.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
 
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains(tableName))
                 ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Remove(tableName);
@@ -81,9 +81,14 @@ namespace ManagementClient.CHandler
             ClientMemory.AllowedDataTables.Remove(tableName);
             if (ClientMemory.AllowedDataTables.Count==0)
             {
-                ClientForm.Logger.WriteLogLine($"Successfully received  all DataTables!");
+                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
+
                 ClientDataStorage.Client.Media.InitializeMedia();
+                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
+
                 ClientDataStorage.Client.Map.Initialize();
+                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
+
                 ManagementClient.Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
             }
 
