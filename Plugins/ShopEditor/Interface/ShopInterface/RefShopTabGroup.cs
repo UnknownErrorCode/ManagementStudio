@@ -35,7 +35,7 @@ namespace ShopEditor.Interface.ShopInterface
                 ShopTabs[i] = new RefShopTab(tempShopTabs[i].Field<string>("CodeName128"), tempShopTabs[i].Field<string>("StrID128_Tab"));
 
             //Due to different tables, the StrID128_Name needs to be set manually.
-            StrID128Name = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTabGroup"].Rows.OfType<DataRow>().First().Field<string>("StrID128_Group");
+            StrID128Name = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTabGroup"].Rows.OfType<DataRow>().First( row => row.Field<string>("CodeName128") == Name).Field<string>("StrID128_Group");
 
         }
 
