@@ -1,27 +1,18 @@
 ﻿using System.Windows.Forms;
 using ServerFrameworkRes.Network.Security;
 using System.IO;
-using System.Drawing;
 using System.Reflection;
-using WorldMapSpawnEditor.Controls;
 using ClientDataStorage.Client.Files;
-using OpenTK.Graphics.OpenGL;
 using System;
-using System.Drawing.Imaging;
 using ClientDataStorage.Client;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
-        mFile Mfile { get; set; }
         internal static ServerData StaticServerData { get; set; }
         private protected static string ExtractedClientPath { get => ClientDataStorage.Config.StaticConfig.ClientExtracted; }
         private protected static string MinimapFileDirectory { get => Path.Combine(ExtractedClientPath, "media", "minimap"); }
-
-
 
         private MapRessources.MapControl mapViewWindow;
 

@@ -43,6 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\NpcShopData.cs" />
+    <Compile Include="Interface\ShopInterface\RefPackageItem.cs" />
+    <Compile Include="Interface\ShopInterface\RefPricePolicyOfItem.cs" />
+    <Compile Include="Interface\ShopInterface\RefScrapOfPackageItem.cs" />
+    <Compile Include="Interface\ShopInterface\RefShop.cs" />
+    <Compile Include="Interface\ShopInterface\RefShopGood.cs" />
+    <Compile Include="Interface\ShopInterface\RefShopGroup.cs" />
+    <Compile Include="Interface\ShopInterface\RefShopTab.cs" />
+    <Compile Include="Interface\ShopInterface\RefShopTabGroup.cs" />
     <Compile Include="Interface\TalkWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
