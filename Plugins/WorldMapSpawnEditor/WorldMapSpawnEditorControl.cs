@@ -46,7 +46,7 @@ namespace WorldMapSpawnEditor
 
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-            => mapViewWindow.Draw(new mFile(Map.MapPk2.GetFileByDirectory("Map\\98\\94.m")));
+            => mapViewWindow.Draw(new mFile(Map.MapPk2.GetFileByDirectory("Map\\98\\94.m")), false);
 
         private void loadNewViewerToolStripMenuItem_Click(object sender, EventArgs e)
             => mapViewWindow.Draw(new mFile(Map.MapPk2.GetFileByDirectory("Map\\98\\94.m")), true);

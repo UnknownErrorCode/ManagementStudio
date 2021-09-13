@@ -8,10 +8,16 @@ using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor.MapRessources
 {
+    /// <summary>
+    /// GLControl used to illustrate the 3d models to the user
+    /// </summary>
     class MapControl : OpenTK.GLControl, IMapControl
     {
         RegionTerrain CurrentTerrain;
 
+        /// <summary>
+        /// Defines the current status of the GLControl
+        /// </summary>
         private enum MapStatus
         {
             Unload = 0x00,
@@ -36,23 +42,13 @@ namespace WorldMapSpawnEditor.MapRessources
         }
         bool newload = false;
 
-        public void Draw(mFile meshFile)
-        {
-            newload = false;
-            if (this.ContextStatus != MapStatus.Stopped && this.ContextStatus != MapStatus.Unload)
-                return;
-
-            x = 0; y = 0;
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.Viewport(0, 0, this.Width, this.Width);
-
-            CurrentTerrain = new RegionTerrain(meshFile);
-            this.ContextStatus = MapStatus.Finished;
-
-        }
+        /// <summary>
+        /// Defines the .m file from Map.pk2
+        /// </summary>
+        /// <param name="meshFile"></param>
         public void Draw(mFile meshFile, bool lo)
         {
-            newload = true;
+            newload = lo;
             if (this.ContextStatus != MapStatus.Stopped && this.ContextStatus != MapStatus.Unload)
                 return;
 
@@ -121,9 +117,7 @@ namespace WorldMapSpawnEditor.MapRessources
         {
             if (ContextStatus == MapStatus.Unload)
                 return;
-
         }
-
 
         private void glControl1_Scroll(object sender, MouseEventArgs e)
         {

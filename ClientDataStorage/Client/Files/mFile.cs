@@ -10,8 +10,8 @@ namespace ClientDataStorage.Client.Files
 {
     public class mFile
     {
-        private string X;
-        private string y;
+        public int X;
+        public int Y;
         public char[] Header { get; }
         public Dictionary<System.Drawing.Point, MapMeshBlock> Blocks = new Dictionary<System.Drawing.Point, MapMeshBlock>();
 
@@ -25,8 +25,14 @@ namespace ClientDataStorage.Client.Files
             if (pk2file.name == null)
                 return;
 
-            X = pk2file.parentFolder.name;
-            y = pk2file.name.Replace(".m", "");
+            if (!int.TryParse(pk2file.parentFolder.name, out int xCoordinate))
+                return;
+            if (!int.TryParse(pk2file.name.Replace(".m", ""), out int yCoordinate))
+                return;
+
+
+            X = xCoordinate;
+            Y = yCoordinate;
 
             byte[] buffer = Client.Map.MapPk2.GetByteArrayByFile(pk2file);
 
