@@ -69,18 +69,20 @@ namespace WorldMapSpawnEditor.MapRessources
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X - 1}.m"))
                 {
-                    if (!Map.AllmFiles.ContainsKey(new Point(meshFile.X - 1, meshFile.Y - 1)))
-                        Map.AllmFiles.Add(new Point(meshFile.X - 1, meshFile.Y - 1), new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y - 1}\\{meshFile.X - 1}.m")));
+                    var newPoint = new Point(meshFile.X - 1, meshFile.Y-1);
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(-1, -1), new RegionTerrain(Map.AllmFiles[new Point(meshFile.X - 1, meshFile.Y - 1)]));
+                    LinkedRegions.Add(new Point(-1, -1), new RegionTerrain(Map.AllmFiles[newPoint]));
                 }
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X }.m"))
                 {
-                    if (!Map.AllmFiles.ContainsKey(new Point(meshFile.X, meshFile.Y - 1)))
-                        Map.AllmFiles.Add(new Point(meshFile.X, meshFile.Y - 1), new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y - 1}\\{meshFile.X }.m")));
+                    var newPoint = new Point(meshFile.X , meshFile.Y-1);
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X }.m")));
 
-                    LinkedRegions.Add(new Point(0, -1), new RegionTerrain(Map.AllmFiles[new Point(meshFile.X, meshFile.Y - 1)]));
+                    LinkedRegions.Add(new Point(0, -1), new RegionTerrain(Map.AllmFiles[newPoint]));
                 }
 
 
@@ -104,14 +106,42 @@ namespace WorldMapSpawnEditor.MapRessources
 
                 }
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X}.m"))
-                    LinkedRegions.Add(new Point(0, 1), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y + 1}\\{meshFile.X}.m"))));
+                {
+                    var newPoint = new Point(meshFile.X , meshFile.Y + 1);
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+
+                    LinkedRegions.Add(new Point(0, 1), new RegionTerrain(Map.AllmFiles[newPoint]));
+                }
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X + 1}.m"))
-                    LinkedRegions.Add(new Point(1, 1), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y + 1}\\{meshFile.X + 1}.m"))));
+                {
+
+                    var newPoint = new Point(meshFile.X+1, meshFile.Y + 1);
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+
+                    LinkedRegions.Add(new Point(1, 1), new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                }
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y }\\{meshFile.X + 1}.m"))
-                    LinkedRegions.Add(new Point(1, 0), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y }\\{meshFile.X + 1}.m"))));
+                {
+                    var newPoint = new Point(meshFile.X + 1, meshFile.Y );
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+
+                    LinkedRegions.Add(new Point(1, 0), new RegionTerrain(Map.AllmFiles[newPoint]));
+                }
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y }\\{meshFile.X - 1}.m"))
-                    LinkedRegions.Add(new Point(-1, 0), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y }\\{meshFile.X - 1}.m"))));
+                {
+
+                    var newPoint = new Point(meshFile.X - 1, meshFile.Y );
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+
+
+                    LinkedRegions.Add(new Point(-1, 0), new RegionTerrain(Map.AllmFiles[newPoint]));
+                }
 
             }
             else
