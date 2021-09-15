@@ -184,7 +184,7 @@ namespace WorldMapSpawnEditor.MapRessources
                     }
                 }
                 else
-                    CurrentTerrain.DrawTerrain();
+                    CurrentTerrain.DrawTerrain(true);
 
                 GL.PopMatrix();
                 this.ContextStatus = MapStatus.Stopped;

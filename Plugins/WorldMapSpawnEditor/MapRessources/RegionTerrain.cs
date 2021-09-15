@@ -16,8 +16,8 @@ namespace WorldMapSpawnEditor.MapRessources
         public mFile MFile;
         Dictionary<int, int> vSroTextureOpenTKTexture = new Dictionary<int, int>();
         private protected readonly string pathPrefix = $"Map\\tile2d\\";
-        private float[][][] Heights = new float[36][][];
-        private int[][][] Tex = new int[36][][];
+       //private float[][][] Heights = new float[36][][];
+       //private int[][][] Tex = new int[36][][];
 
         /// <summary>
         /// Converts a  .m file into a OpenTK Terrain
@@ -26,6 +26,7 @@ namespace WorldMapSpawnEditor.MapRessources
         public RegionTerrain(mFile file)
         {
             MFile = file;
+            /*
             int counter = 0;
             foreach (var item in file.Blocks)
             {
@@ -48,6 +49,7 @@ namespace WorldMapSpawnEditor.MapRessources
                 }
                 counter++;
             }
+            */
             this.GetTextures();
         }
 
@@ -65,24 +67,24 @@ namespace WorldMapSpawnEditor.MapRessources
                     {
                         for (int cellY = 0; cellY < 17; ++cellY)
                         {
-                            if (!vSroTextureOpenTKTexture.ContainsKey(this.Tex[blocks][cellX][cellY]))
+                            if (!vSroTextureOpenTKTexture.ContainsKey(MFile.Blocks[new Point(blockx, blocky)].MapCells[new Point(cellY, cellX)].texture))
                             {
                                 int OpenTKTextureID = GL.GenTexture();
                                 GL.BindTexture(TextureTarget.Texture2D, OpenTKTextureID);
 
-                                var textureID = this.Tex[blocks][cellX][cellY];
+                               // var textureID = this.Tex[blocks][cellX][cellY];
                                 var textureID2 = MFile.Blocks[new Point(blockx, blocky)].MapCells[new Point(cellY, cellX)].texture;
 
-                                if (!Map.TileTextureDictionary.ContainsKey(textureID))
-                                    if (Map.MapPk2.GetByteArrayByDirectory($"Map\\tile2d\\{Map.Tile2d_ifo.TexturePaths[textureID]}", out byte[] filebytearray))
-                                        Map.TileTextureDictionary.Add(textureID, new DDSImage(filebytearray, true));
+                                if (!Map.TileTextureDictionary.ContainsKey(textureID2))
+                                    if (Map.MapPk2.GetByteArrayByDirectory($"Map\\tile2d\\{Map.Tile2d_ifo.TexturePaths[textureID2]}", out byte[] filebytearray))
+                                        Map.TileTextureDictionary.Add(textureID2, new DDSImage(filebytearray, true));
 
-                                System.Drawing.Bitmap bitmapImage = Map.TileTextureDictionary[textureID].BitmapImage;
+                                System.Drawing.Bitmap bitmapImage = Map.TileTextureDictionary[textureID2].BitmapImage;
                                 BitmapData bitmapdata = bitmapImage.LockBits(new Rectangle(0, 0, bitmapImage.Width, bitmapImage.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bitmapdata.Width, bitmapdata.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bitmapdata.Scan0);
                                 bitmapImage.UnlockBits(bitmapdata);
                                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, 9729);
-                                vSroTextureOpenTKTexture.Add(textureID, OpenTKTextureID);
+                                vSroTextureOpenTKTexture.Add(textureID2, OpenTKTextureID);
                             }
                         }
                     }
@@ -229,6 +231,8 @@ namespace WorldMapSpawnEditor.MapRessources
         /// <summary>
         /// Draws the RegionTerrain into OpenTK.Graphics.GL memory 
         /// </summary>
+        /// 
+        /*
         public void DrawTerrain()
         {
             GL.Color3(byte.MaxValue, byte.MaxValue, byte.MaxValue);
@@ -258,5 +262,6 @@ namespace WorldMapSpawnEditor.MapRessources
                 }
             }
         }
+        */
     }
 }
