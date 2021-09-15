@@ -51,10 +51,19 @@ namespace WorldMapSpawnEditor.MapRessources
             newload = lo;
             if (this.ContextStatus != MapStatus.Stopped && this.ContextStatus != MapStatus.Unload)
                 return;
-
-            x = 0; y = 0;
             GL.MatrixMode(MatrixMode.Projection);
-            GL.Viewport(0, 0, this.Width, this.Width);
+
+            if (lo)
+            {
+                x = meshFile.X * 320; y = meshFile.Y * 320;
+                GL.Viewport(x, y, this.Width, this.Width);
+
+            }
+            else
+            {
+                x = 0; y = 0;
+                GL.Viewport(0, 0, this.Width, this.Width);
+            }
 
             CurrentTerrain = new RegionTerrain(meshFile);
             this.ContextStatus = MapStatus.Finished;
@@ -78,6 +87,7 @@ namespace WorldMapSpawnEditor.MapRessources
                 GL.Scale(this.Zoom, this.Zoom, this.Zoom);
                 GL.Rotate((double)this.RotationHorizontal / 100.0, 0.0, 1.0, 0.0);
                 GL.Rotate((double)this.RotateVertical / 100.0, 1.0, 0.0, 0.0);
+                //GL.Viewport(x, y, 255 * 320, 255 * 320);
                 GL.Viewport(x, y, this.Width, this.Width);
                 GL.Translate(-960f, -960f, 0.0f);
                 if (newload)
@@ -91,10 +101,6 @@ namespace WorldMapSpawnEditor.MapRessources
             this.SwapBuffers();
         }
 
-        public void Scarle(int x, int y, int z)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public void LoadGL(object sender, EventArgs arg)
         {
@@ -105,7 +111,7 @@ namespace WorldMapSpawnEditor.MapRessources
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             GL.Ortho(0.0, 1920.0, 0.0, 1920.0, -5000.0, 5000.0);
-            GL.Viewport(0, 0, ViewPoint.Width, ViewPoint.Width);
+            GL.Viewport(0, 0, this.Width, this.Width);
             GL.PointSize(3f);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -126,9 +132,9 @@ namespace WorldMapSpawnEditor.MapRessources
                 return;
             this.Zoom += (double)e.Delta / 300.0;
             this.ContextStatus = MapStatus.Finished;
-            if (this.Zoom >= 0.1)
+            if (this.Zoom >= 0.01)
                 return;
-            this.Zoom = 0.1;
+            this.Zoom = 0.01;
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -143,13 +149,25 @@ namespace WorldMapSpawnEditor.MapRessources
         public void OnKeyboardCameraMove(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.W)
-                y += 10;
+                if (y < 320 * 256)
+                    y += 100;
+                else
+                    return;
             else if (e.KeyCode == Keys.S)
-                y -= 10;
+                if (y > -1000)
+                    y -= 100;
+                else
+                    return;
             else if (e.KeyCode == Keys.D)
-                x += 10;
+                if (x < 320 * 256)
+                    x += 100;
+                else
+                    return;
             else if (e.KeyCode == Keys.A)
-                x -= 10;
+                if (x > 0)
+                    x -= 100;
+                else
+                    return;
             else if (e.KeyCode == Keys.Q)
             {
                 if (RotateVertical <= 18000)

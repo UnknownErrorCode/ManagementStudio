@@ -12,7 +12,6 @@ namespace WorldMapSpawnEditor.MapRessources
 
         void Render();
         void Draw(mFile meshFile, bool newwLoad);
-        void Scarle(int x, int y, int z);
         void LoadGL(object sender, EventArgs arg);
     }
 }
