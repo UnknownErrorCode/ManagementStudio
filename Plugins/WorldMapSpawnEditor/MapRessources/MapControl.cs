@@ -1,8 +1,10 @@
 ﻿
+using ClientDataStorage.Client;
 using ClientDataStorage.Client.Files;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,7 +16,7 @@ namespace WorldMapSpawnEditor.MapRessources
     class MapControl : OpenTK.GLControl, IMapControl
     {
         RegionTerrain CurrentTerrain;
-
+        Dictionary<Point, RegionTerrain> LinkedRegions = new Dictionary<Point, RegionTerrain>(8);
         /// <summary>
         /// Defines the current status of the GLControl
         /// </summary>
@@ -55,8 +57,61 @@ namespace WorldMapSpawnEditor.MapRessources
 
             if (lo)
             {
-                x = meshFile.X * 320; y = meshFile.Y * 320;
+                x = 0; y = 0;
                 GL.Viewport(x, y, this.Width, this.Width);
+
+                if (LinkedRegions.Count > 0)
+                {
+                    LinkedRegions.Clear();
+                    GC.Collect();
+                }
+                //LinkedRegions = new Dictionary<Point, RegionTerrain>(8);
+
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X - 1}.m"))
+                {
+                    if (!Map.AllmFiles.ContainsKey(new Point(meshFile.X - 1, meshFile.Y - 1)))
+                        Map.AllmFiles.Add(new Point(meshFile.X - 1, meshFile.Y - 1), new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y - 1}\\{meshFile.X - 1}.m")));
+
+                    LinkedRegions.Add(new Point(-1, -1), new RegionTerrain(Map.AllmFiles[new Point(meshFile.X - 1, meshFile.Y - 1)]));
+                }
+
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X }.m"))
+                {
+                    if (!Map.AllmFiles.ContainsKey(new Point(meshFile.X, meshFile.Y - 1)))
+                        Map.AllmFiles.Add(new Point(meshFile.X, meshFile.Y - 1), new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y - 1}\\{meshFile.X }.m")));
+
+                    LinkedRegions.Add(new Point(0, -1), new RegionTerrain(Map.AllmFiles[new Point(meshFile.X, meshFile.Y - 1)]));
+                }
+
+
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X + 1}.m"))
+                {
+                    var newPoint = new Point(meshFile.X + 1, meshFile.Y - 1);
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+
+                    LinkedRegions.Add(new Point(1, -1), new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                }
+
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X - 1}.m"))
+                {
+                    var newPoint = new Point(meshFile.X - 1, meshFile.Y + 1);
+                    if (!Map.AllmFiles.ContainsKey(newPoint))
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+
+                    LinkedRegions.Add(new Point(-1, 1), new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                }
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X}.m"))
+                    LinkedRegions.Add(new Point(0, 1), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y + 1}\\{meshFile.X}.m"))));
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X + 1}.m"))
+                    LinkedRegions.Add(new Point(1, 1), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y + 1}\\{meshFile.X + 1}.m"))));
+
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y }\\{meshFile.X + 1}.m"))
+                    LinkedRegions.Add(new Point(1, 0), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y }\\{meshFile.X + 1}.m"))));
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y }\\{meshFile.X - 1}.m"))
+                    LinkedRegions.Add(new Point(-1, 0), new RegionTerrain(new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{meshFile.Y }\\{meshFile.X - 1}.m"))));
 
             }
             else
@@ -91,7 +146,13 @@ namespace WorldMapSpawnEditor.MapRessources
                 GL.Viewport(x, y, this.Width, this.Width);
                 GL.Translate(-960f, -960f, 0.0f);
                 if (newload)
+                {
                     CurrentTerrain.DrawTerrain(true);
+                    foreach (var item in LinkedRegions)
+                    {
+                        item.Value.DrawTerrain(true, item.Key);
+                    }
+                }
                 else
                     CurrentTerrain.DrawTerrain();
 
@@ -148,22 +209,22 @@ namespace WorldMapSpawnEditor.MapRessources
 
         public void OnKeyboardCameraMove(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.W)
+            if (e.KeyCode == Keys.S)
                 if (y < 320 * 256)
                     y += 100;
                 else
                     return;
-            else if (e.KeyCode == Keys.S)
+            else if (e.KeyCode == Keys.W)
                 if (y > -1000)
                     y -= 100;
                 else
                     return;
-            else if (e.KeyCode == Keys.D)
+            else if (e.KeyCode == Keys.A)
                 if (x < 320 * 256)
                     x += 100;
                 else
                     return;
-            else if (e.KeyCode == Keys.A)
+            else if (e.KeyCode == Keys.D)
                 if (x > 0)
                     x -= 100;
                 else

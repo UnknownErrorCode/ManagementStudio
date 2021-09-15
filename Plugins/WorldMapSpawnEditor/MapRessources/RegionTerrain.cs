@@ -13,7 +13,7 @@ namespace WorldMapSpawnEditor.MapRessources
 {
     class RegionTerrain
     {
-       public  mFile MFile;
+        public mFile MFile;
         Dictionary<int, int> vSroTextureOpenTKTexture = new Dictionary<int, int>();
         private protected readonly string pathPrefix = $"Map\\tile2d\\";
         private float[][][] Heights = new float[36][][];
@@ -120,32 +120,32 @@ namespace WorldMapSpawnEditor.MapRessources
                             var y2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
                             var y3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
                             var y4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-                     
-                            var Nx1 = (double)(cellx * 20 + (index1 % 6) * 320) + (MFile.X * 320);
-                            var Nx2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320) + (MFile.X * 320);
-                            var Nx3 = (double)(cellx * 20 + (index1 % 6) * 320) + (MFile.X * 320);
-                            var Nx4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320) + (MFile.X * 320);
 
-                            var ny1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (MFile.Y * 320);
-                            var ny2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (MFile.Y * 320);
-                            var ny3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (MFile.Y * 320);
-                            var ny4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (MFile.Y * 320);
+                            var Nx1 = (double)(cellx * 20 + (index1 % 6) * 320);
+                            var Nx2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
+                            var Nx3 = (double)(cellx * 20 + (index1 % 6) * 320);
+                            var Nx4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
+
+                            var ny1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+                            var ny2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+                            var ny3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+                            var ny4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
 
 
-                            GL.TexCoord2((float)cellx / 2f , (float)celly / 2f );
-                           // GL.Vertex3((double)(cellx * 20 + (index1 % 6) * 320), (double)((celly * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)meshCell.Height);
-                            GL.Vertex3(Nx1,ny1 , (double)meshCell.Height);
+                            GL.TexCoord2((float)cellx / 2f, (float)celly / 2f);
+                            // GL.Vertex3((double)(cellx * 20 + (index1 % 6) * 320), (double)((celly * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)meshCell.Height);
+                            GL.Vertex3(Nx1, ny1, (double)meshCell.Height);
 
-                            GL.TexCoord2((float)(cellx + 1) / 2f , (float)celly / 2f );
-                           // GL.Vertex3((double)((cellx + 1) * 20 + index1 % 6 * 320), (double)((celly * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly, cellx + 1)].Height);
-                            GL.Vertex3(Nx2, ny2 , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly, cellx + 1)].Height);
+                            GL.TexCoord2((float)(cellx + 1) / 2f, (float)celly / 2f);
+                            // GL.Vertex3((double)((cellx + 1) * 20 + index1 % 6 * 320), (double)((celly * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly, cellx + 1)].Height);
+                            GL.Vertex3(Nx2, ny2, (double)MFile.Blocks[blockPoint].MapCells[new Point(celly, cellx + 1)].Height);
 
-                            GL.TexCoord2((float)cellx / 2f , (float)(celly + 1) / 2f );
+                            GL.TexCoord2((float)cellx / 2f, (float)(celly + 1) / 2f);
                             //GL.Vertex3((double)(cellx * 20 + index1 % 6 * 320), (double)(((celly + 1) * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx)].Height);
                             GL.Vertex3(Nx3, ny3, (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx)].Height);
 
-                            GL.TexCoord2((float)(cellx + 1) / 2f , (float)(celly + 1) / 2f );
-                            GL.Vertex3(Nx4, ny4 , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx + 1)].Height);
+                            GL.TexCoord2((float)(cellx + 1) / 2f, (float)(celly + 1) / 2f);
+                            GL.Vertex3(Nx4, ny4, (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx + 1)].Height);
                             //GL.Vertex3((double)((cellx + 1) * 20 + index1 % 6 * 320), (double)(((celly + 1) * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx + 1)].Height);
 
                             GL.End();
@@ -156,6 +156,74 @@ namespace WorldMapSpawnEditor.MapRessources
                 }
             }
         }
+
+        public void DrawTerrain(bool newload, Point point)
+        {
+
+            var index1 = 0;
+            for (int blockX = 0; blockX < 6; blockX++)
+            {
+                for (int blockY = 0; blockY < 6; blockY++)
+                {
+                    var blockPoint = new Point(blockX, blockY);
+                    for (int cellx = 0; cellx < 16; ++cellx)
+                    {
+                        for (int celly = 0; celly < 16; ++celly)
+                        {
+                            var meshCell = MFile.Blocks[blockPoint].MapCells[new Point(celly, cellx)];
+                            var OpenTKTextureID = vSroTextureOpenTKTexture[meshCell.texture];
+
+                            GL.Enable(EnableCap.Texture2D);
+                            GL.BindTexture(TextureTarget.Texture2D, OpenTKTextureID);
+                            GL.Begin(PrimitiveType.TriangleStrip);
+
+                            var x1 = (double)(cellx * 20 + (index1 % 6) * 320);
+                            var x2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
+                            var x3 = (double)(cellx * 20 + (index1 % 6) * 320);
+                            var x4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
+
+                            var y1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+                            var y2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+                            var y3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+                            var y4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+
+                            var Nx1 = (double)(cellx * 20 + (index1 % 6) * 320) + (point.X * 1920);
+                            var Nx2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320) + (point.X * 1920);
+                            var Nx3 = (double)(cellx * 20 + (index1 % 6) * 320) + (point.X * 1920);
+                            var Nx4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320) + (point.X * 1920);
+
+                            var ny1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);
+                            var ny2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);
+                            var ny3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);
+                            var ny4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);
+
+
+                            GL.TexCoord2((float)cellx / 2f, (float)celly / 2f);
+                            // GL.Vertex3((double)(cellx * 20 + (index1 % 6) * 320), (double)((celly * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)meshCell.Height);
+                            GL.Vertex3(Nx1, ny1, (double)meshCell.Height);
+
+                            GL.TexCoord2((float)(cellx + 1) / 2f, (float)celly / 2f);
+                            // GL.Vertex3((double)((cellx + 1) * 20 + index1 % 6 * 320), (double)((celly * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly, cellx + 1)].Height);
+                            GL.Vertex3(Nx2, ny2, (double)MFile.Blocks[blockPoint].MapCells[new Point(celly, cellx + 1)].Height);
+
+                            GL.TexCoord2((float)cellx / 2f, (float)(celly + 1) / 2f);
+                            //GL.Vertex3((double)(cellx * 20 + index1 % 6 * 320), (double)(((celly + 1) * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx)].Height);
+                            GL.Vertex3(Nx3, ny3, (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx)].Height);
+
+                            GL.TexCoord2((float)(cellx + 1) / 2f, (float)(celly + 1) / 2f);
+                            GL.Vertex3(Nx4, ny4, (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx + 1)].Height);
+                            //GL.Vertex3((double)((cellx + 1) * 20 + index1 % 6 * 320), (double)(((celly + 1) * 20) + Math.Floor((double)index1 / 6.0) * 320.0) , (double)MFile.Blocks[blockPoint].MapCells[new Point(celly + 1, cellx + 1)].Height);
+
+                            GL.End();
+                            GL.Disable(EnableCap.Texture2D);
+                        }
+                    }
+                    index1++;
+                }
+            }
+        }
+
+
 
 
         /// <summary>

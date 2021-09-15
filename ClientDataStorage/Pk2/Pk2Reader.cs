@@ -78,6 +78,26 @@ namespace ClientDataStorage.Pk2
             }
         }
 
+
+
+        public bool FileExists(string dir)
+        {
+            string[] splittedDirectory = dir.Split('\\');
+            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files };
+
+            for (int i = 0; i < splittedDirectory.Length; i++)
+            {
+                if (i == splittedDirectory.Length - 1)
+                    if (tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
+                        return true;
+                    else
+                        return false;
+
+                if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i + 1]))
+                    tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i + 1]);
+            }
+            return false;
+        }
         /// <summary>
         /// Returns file as byte array with parameter Pk2File.
         /// </summary>
