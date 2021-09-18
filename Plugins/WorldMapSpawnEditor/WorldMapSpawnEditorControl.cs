@@ -20,8 +20,9 @@ namespace WorldMapSpawnEditor
         {
             InitializeComponent();
             mapViewWindow = new MapRessources.MapControl(this.splitContainerMain.Panel1);
-            InitializePerformance(this);
+            //InitializePerformance(this);
         }
+        
 
         /// <summary>
         /// Sets the panel to Doublebuffered = true; 
@@ -37,10 +38,14 @@ namespace WorldMapSpawnEditor
 
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-            => mapViewWindow.Draw(new mFile(Map.MapPk2.GetFileByDirectory("Map\\98\\94.m")), false);
+            => mapViewWindow.Draw(new mFile(Map.MapPk2.GetFileByDirectory("Map\\94\\137.m")), false);
 
         private void loadNewViewerToolStripMenuItem_Click(object sender, EventArgs e)
-            => mapViewWindow.Draw(new mFile(Map.MapPk2.GetFileByDirectory("Map\\90\\90.m")), true);
+            => mapViewWindow.Draw(new mFile(Map.MapPk2.GetFileByDirectory("Map\\90\\137.m")), true);
 
+        private void loadGameOnTab2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mapViewWindow = new MapRessources.MapControl(this.splitContainerMain.Panel1);
+        }
     }
 }

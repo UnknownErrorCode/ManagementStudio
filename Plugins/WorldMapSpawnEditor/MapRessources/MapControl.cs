@@ -1,7 +1,6 @@
 ﻿
 using ClientDataStorage.Client;
 using ClientDataStorage.Client.Files;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,9 @@ namespace WorldMapSpawnEditor.MapRessources
     /// </summary>
     class MapControl : OpenTK.GLControl, IMapControl
     {
+
         RegionTerrain CurrentTerrain;
+        Dictionary<Point, RegionTerrain> AllTerrains = new Dictionary<Point, RegionTerrain>();
         Dictionary<Point, RegionTerrain> LinkedRegions = new Dictionary<Point, RegionTerrain>(8);
         /// <summary>
         /// Defines the current status of the GLControl
@@ -50,6 +51,9 @@ namespace WorldMapSpawnEditor.MapRessources
         /// <param name="meshFile"></param>
         public void Draw(mFile meshFile, bool lo)
         {
+            if (meshFile.Blocks.Count != 36)
+                return;
+
             newload = lo;
             if (this.ContextStatus != MapStatus.Stopped && this.ContextStatus != MapStatus.Unload)
                 return;
@@ -58,101 +62,130 @@ namespace WorldMapSpawnEditor.MapRessources
             if (lo)
             {
                 x = 0; y = 0;
-                GL.Viewport(x, y, this.Width, this.Width);
+                // GL.Viewport(x, y, this.Width, this.Height);
 
                 if (LinkedRegions.Count > 0)
-                {
                     LinkedRegions.Clear();
-                    GC.Collect();
-                }
-                //LinkedRegions = new Dictionary<Point, RegionTerrain>(8);
+
+                ///  ^
+                ///  Y
+                ///  |
+                ///  |
+                ///  |
+                ///  |
+                ///  |
+                ///  |
+                ///  |_________________ x >
+
+
+
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X - 1}.m"))
                 {
-                    var newPoint = new Point(meshFile.X - 1, meshFile.Y-1);
+                    var newPoint = new Point(meshFile.X - 1, meshFile.Y - 1);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
                         Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(-1, -1), new RegionTerrain(Map.AllmFiles[newPoint]));
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                    LinkedRegions.Add(new Point(-1, -1), AllTerrains[newPoint]);
                 }
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X }.m"))
                 {
-                    var newPoint = new Point(meshFile.X , meshFile.Y-1);
+                    var newPoint = new Point(meshFile.X, meshFile.Y - 1);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
-                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X }.m")));
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(0, -1), new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                    LinkedRegions.Add(new Point(0, -1), AllTerrains[newPoint]);
                 }
-
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y - 1}\\{meshFile.X + 1}.m"))
                 {
                     var newPoint = new Point(meshFile.X + 1, meshFile.Y - 1);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
-                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(1, -1), new RegionTerrain(Map.AllmFiles[newPoint]));
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
 
+                    LinkedRegions.Add(new Point(1, -1), AllTerrains[newPoint]);
                 }
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X - 1}.m"))
                 {
                     var newPoint = new Point(meshFile.X - 1, meshFile.Y + 1);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
-                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(-1, 1), new RegionTerrain(Map.AllmFiles[newPoint]));
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
 
+                    LinkedRegions.Add(new Point(-1, 1), AllTerrains[newPoint]);
                 }
+
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X}.m"))
                 {
-                    var newPoint = new Point(meshFile.X , meshFile.Y + 1);
+                    var newPoint = new Point(meshFile.X, meshFile.Y + 1);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
-                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(0, 1), new RegionTerrain(Map.AllmFiles[newPoint]));
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                    LinkedRegions.Add(new Point(0, 1), AllTerrains[newPoint]);
                 }
+
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y + 1}\\{meshFile.X + 1}.m"))
                 {
-
-                    var newPoint = new Point(meshFile.X+1, meshFile.Y + 1);
+                    var newPoint = new Point(meshFile.X + 1, meshFile.Y + 1);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
-                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(1, 1), new RegionTerrain(Map.AllmFiles[newPoint]));
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
 
+                    LinkedRegions.Add(new Point(1, 1), AllTerrains[newPoint]);
                 }
 
                 if (Map.MapPk2.FileExists($"Map\\{meshFile.Y }\\{meshFile.X + 1}.m"))
                 {
-                    var newPoint = new Point(meshFile.X + 1, meshFile.Y );
+                    var newPoint = new Point(meshFile.X + 1, meshFile.Y);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
-                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
-                    LinkedRegions.Add(new Point(1, 0), new RegionTerrain(Map.AllmFiles[newPoint]));
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
+
+                    LinkedRegions.Add(new Point(1, 0), AllTerrains[newPoint]);
                 }
-                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y }\\{meshFile.X - 1}.m"))
+
+                if (Map.MapPk2.FileExists($"Map\\{meshFile.Y}\\{meshFile.X - 1 }.m"))
                 {
-
-                    var newPoint = new Point(meshFile.X - 1, meshFile.Y );
+                    var newPoint = new Point(meshFile.X - 1, meshFile.Y);
                     if (!Map.AllmFiles.ContainsKey(newPoint))
-                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y}\\{newPoint.X}.m")));
+                        Map.AllmFiles.Add(newPoint, new mFile(Map.MapPk2.GetFileByDirectory($"Map\\{newPoint.Y }\\{newPoint.X}.m")));
 
+                    if (!AllTerrains.ContainsKey(newPoint))
+                        AllTerrains.Add(newPoint, new RegionTerrain(Map.AllmFiles[newPoint]));
 
-                    LinkedRegions.Add(new Point(-1, 0), new RegionTerrain(Map.AllmFiles[newPoint]));
+                    LinkedRegions.Add(new Point(-1, 0), AllTerrains[newPoint]);
                 }
-
             }
             else
             {
                 x = 0; y = 0;
-                GL.Viewport(0, 0, this.Width, this.Width);
+                // GL.Viewport(0, 0, this.Width, this.Width);
             }
 
             CurrentTerrain = new RegionTerrain(meshFile);
             this.ContextStatus = MapStatus.Finished;
-
+            // GC.Collect();
         }
 
 
@@ -164,6 +197,8 @@ namespace WorldMapSpawnEditor.MapRessources
 
             if (this.ContextStatus == MapStatus.Finished)
             {
+                GL.MatrixMode(MatrixMode.Projection);
+                GL.Viewport(x, y, this.Width, this.Width);
                 GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
                 GL.MatrixMode(MatrixMode.Modelview);
                 GL.LoadIdentity();
@@ -173,15 +208,13 @@ namespace WorldMapSpawnEditor.MapRessources
                 GL.Rotate((double)this.RotationHorizontal / 100.0, 0.0, 1.0, 0.0);
                 GL.Rotate((double)this.RotateVertical / 100.0, 1.0, 0.0, 0.0);
                 //GL.Viewport(x, y, 255 * 320, 255 * 320);
-                GL.Viewport(x, y, this.Width, this.Width);
+                
                 GL.Translate(-960f, -960f, 0.0f);
                 if (newload)
                 {
                     CurrentTerrain.DrawTerrain(true);
                     foreach (var item in LinkedRegions)
-                    {
                         item.Value.DrawTerrain(true, item.Key);
-                    }
                 }
                 else
                     CurrentTerrain.DrawTerrain(true);
@@ -201,11 +234,11 @@ namespace WorldMapSpawnEditor.MapRessources
             GL.ClearColor(Color.Black);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(0.0, 1920.0, 0.0, 1920.0, -5000.0, 5000.0);
+            GL.Ortho(0.0, 1920.0 * 6, 0.0, 1920.0 * 6, -5000.0, 5000.0);
             GL.Viewport(0, 0, this.Width, this.Width);
             GL.PointSize(3f);
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusDstAlpha);
             GL.Enable(EnableCap.DepthTest);
             Application.Idle += new EventHandler(this.Application_Idle);
         }
@@ -221,11 +254,13 @@ namespace WorldMapSpawnEditor.MapRessources
             var cp = this.PointToClient(e.Location);
             if (this.ContextStatus != MapStatus.Stopped || this.ContextStatus == MapStatus.Unload || e.X >= this.Width || e.Y >= this.Height)
                 return;
-            this.Zoom += (double)e.Delta / 300.0;
+            this.Zoom += (double)e.Delta / 300.0; ;
             this.ContextStatus = MapStatus.Finished;
+
             if (this.Zoom >= 0.01)
                 return;
             this.Zoom = 0.01;
+
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -255,18 +290,22 @@ namespace WorldMapSpawnEditor.MapRessources
                 else
                     return;
             else if (e.KeyCode == Keys.D)
-                if (x > 0)
+                if (x > -10000)
                     x -= 100;
                 else
                     return;
             else if (e.KeyCode == Keys.Q)
-            {
                 if (RotateVertical <= 18000)
-                { RotateVertical += 100; }
-            }
+                    RotateVertical += 1000;
+                else
+                    return;
             else if (e.KeyCode == Keys.E)
-                if (RotateVertical >= 100)
-                    RotateVertical -= 100;
+                if (RotateVertical >= 1000)
+                    RotateVertical -= 1000;
+                else
+                    return;
+
+
             ContextStatus = MapStatus.Finished;
         }
     }

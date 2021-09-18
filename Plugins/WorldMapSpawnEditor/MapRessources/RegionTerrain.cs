@@ -123,15 +123,15 @@ namespace WorldMapSpawnEditor.MapRessources
                             var y3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
                             var y4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
 
-                            var Nx1 = (double)(cellx * 20 + (index1 % 6) * 320);
-                            var Nx2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
-                            var Nx3 = (double)(cellx * 20 + (index1 % 6) * 320);
-                            var Nx4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
+                            var Nx1 = (double)(cellx * 20 + (index1 % 6) * 320);// + (MFile.X*1920);
+                            var Nx2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);//+ (MFile.X * 1920);
+                            var Nx3 = (double)(cellx * 20 + (index1 % 6) * 320);// + (MFile.X * 1920);
+                            var Nx4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);// + (MFile.X * 1920);
 
-                            var ny1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-                            var ny2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-                            var ny3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-                            var ny4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
+                            var ny1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);// + (MFile.Y * 1920);
+                            var ny2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);// + (MFile.Y * 1920);
+                            var ny3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);// + (MFile.Y * 1920);
+                            var ny4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);// + (MFile.Y * 1920);
 
 
                             GL.TexCoord2((float)cellx / 2f, (float)celly / 2f);
@@ -179,22 +179,12 @@ namespace WorldMapSpawnEditor.MapRessources
                             GL.BindTexture(TextureTarget.Texture2D, OpenTKTextureID);
                             GL.Begin(PrimitiveType.TriangleStrip);
 
-                            var x1 = (double)(cellx * 20 + (index1 % 6) * 320);
-                            var x2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
-                            var x3 = (double)(cellx * 20 + (index1 % 6) * 320);
-                            var x4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320);
-
-                            var y1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-                            var y2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-                            var y3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-                            var y4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0);
-
                             var Nx1 = (double)(cellx * 20 + (index1 % 6) * 320) + (point.X * 1920);
-                            var Nx2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320) + (point.X * 1920);
-                            var Nx3 = (double)(cellx * 20 + (index1 % 6) * 320) + (point.X * 1920);
+                            var Nx2 = (double)((cellx + 1) * 20 + (index1 % 6) * 320)+ (point.X * 1920);
+                            var Nx3 = (double)(cellx * 20 + (index1 % 6) * 320)+ (point.X * 1920);
                             var Nx4 = (double)((cellx + 1) * 20 + (index1 % 6) * 320) + (point.X * 1920);
 
-                            var ny1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);
+                            var ny1 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0)+ (point.Y * 1920);
                             var ny2 = (double)(celly * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);
                             var ny3 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);
                             var ny4 = (double)((celly + 1) * 20 + Math.Floor((double)index1 / 6.0) * 320.0) + (point.Y * 1920);

@@ -36,6 +36,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.loadGameOnTab2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
@@ -76,7 +77,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
-            this.loadNewViewerToolStripMenuItem});
+            this.loadNewViewerToolStripMenuItem,
+            this.loadGameOnTab2ToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -127,6 +129,13 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // loadGameOnTab2ToolStripMenuItem
+            // 
+            this.loadGameOnTab2ToolStripMenuItem.Name = "loadGameOnTab2ToolStripMenuItem";
+            this.loadGameOnTab2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadGameOnTab2ToolStripMenuItem.Text = "Load Game on Tab2";
+            this.loadGameOnTab2ToolStripMenuItem.Click += new System.EventHandler(this.loadGameOnTab2ToolStripMenuItem_Click);
+            // 
             // WorldMapSpawnEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,5 +166,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ToolStripMenuItem loadGameOnTab2ToolStripMenuItem;
     }
 }

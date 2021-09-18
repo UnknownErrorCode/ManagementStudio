@@ -25,9 +25,9 @@ namespace ClientDataStorage.Client.Files
             if (pk2file.name == null)
                 return;
 
-            if (!int.TryParse(pk2file.parentFolder.name, out int xCoordinate))
+            if (!int.TryParse(pk2file.parentFolder.name, out int yCoordinate))
                 return;
-            if (!int.TryParse(pk2file.name.Replace(".m", ""), out int yCoordinate))
+            if (!int.TryParse(pk2file.name.Replace(".m", ""), out int xCoordinate))
                 return;
 
 
