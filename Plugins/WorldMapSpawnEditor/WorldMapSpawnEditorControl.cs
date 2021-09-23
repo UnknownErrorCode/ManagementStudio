@@ -5,24 +5,25 @@ using System.Reflection;
 using ClientDataStorage.Client.Files;
 using System;
 using ClientDataStorage.Client;
+using WorldMapSpawnEditor.MapGame;
 
 namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
+        MapControl mapViewWindow = new MapControl();
         internal static ServerData StaticServerData { get; set; }
         private protected static string ExtractedClientPath { get => ClientDataStorage.Config.StaticConfig.ClientExtracted; }
         private protected static string MinimapFileDirectory { get => Path.Combine(ExtractedClientPath, "media", "minimap"); }
 
-        private MapRessources.MapControl mapViewWindow;
 
         public WorldMapSpawnEditorControl(ServerData data)
         {
             InitializeComponent();
-            mapViewWindow = new MapRessources.MapControl(this.splitContainerMain.Panel1);
+            this.splitContainerMain.Panel1.Controls.Add(mapViewWindow);
             //InitializePerformance(this);
         }
-        
+
 
         /// <summary>
         /// Sets the panel to Doublebuffered = true; 
@@ -45,7 +46,7 @@ namespace WorldMapSpawnEditor
 
         private void loadGameOnTab2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            mapViewWindow = new MapRessources.MapControl(this.splitContainerMain.Panel1);
+            
         }
     }
 }

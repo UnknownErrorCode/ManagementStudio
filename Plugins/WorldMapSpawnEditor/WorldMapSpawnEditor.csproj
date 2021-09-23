@@ -48,10 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MapRessources\IMapControl.cs" />
-    <Compile Include="MapRessources\MapControl.cs">
+    <Compile Include="MapGame\Game.cs" />
+    <Compile Include="MapGame\MapControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="MapRessources\IMapControl.cs" />
     <Compile Include="MapRessources\RegionTerrain.cs" />
     <Compile Include="Pk2Ressources.cs" />
     <Compile Include="WorldMapSpawnEditorControl.cs">
@@ -64,9 +65,6 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MapRessources\MapControl.resx">
-      <DependentUpon>MapControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="WorldMapSpawnEditorControl.resx">
       <DependentUpon>WorldMapSpawnEditorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,9 +83,7 @@
       <Name>Structs</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MapGame\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
