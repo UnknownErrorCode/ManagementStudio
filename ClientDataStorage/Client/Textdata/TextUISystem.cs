@@ -4,19 +4,25 @@ using System.Linq;
 
 namespace ClientDataStorage.Client.Textdata
 {
+    /// <summary>
+    /// Contains all Text User Interface System elements from Media.pk2.
+    /// </summary>
     public class TextUISystem : TextParser
     {
+        /// <summary>
+        /// Dictionary of Text User Interface System elements.
+        /// </summary>
         public ConcurrentDictionary<string, TextUISystemStruct> UIIT_Strings = new ConcurrentDictionary<string, TextUISystemStruct>();
 
         public TextUISystem()
         {
-            var t1 = Media.MediaPk2.GetFileByDirectory("Media\\server_dep\\silkroad\\textdata\\textuisystem.txt");
-            var t2 = Media.MediaPk2.GetByteArrayByFile(t1);
-
-
-            var t3 = base.ConvertByteArrayToStructedTextArray(t2, 16, "\t".ToCharArray()).ToList();
-            t3.ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
-
+            if (Media.MediaPk2.GetByteArrayByDirectory("Media\\server_dep\\silkroad\\textdata\\textuisystem.txt", out byte[] file))
+            {
+                base.ConvertByteArrayToStructedTextArray(file, 16, "\t".ToCharArray()).ToList().ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
+            }
         }
+
+        public TextUISystem(byte[] file)
+            => base.ConvertByteArrayToStructedTextArray(file, 16, "\t".ToCharArray()).ToList().ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
     }
 }

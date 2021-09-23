@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage
 {
-    public static class Log
+    public static class Log 
     {
         public static LogGridView Logger = new LogGridView();
-
     }
 }
