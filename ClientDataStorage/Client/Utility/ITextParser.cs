@@ -16,19 +16,18 @@ namespace ClientDataStorage.Client.Textdata
         string ConvertByteArrayToText(byte[] array);
 
         /// <summary>
+        /// Converts the raw byte[] from file to string[] consisting of each line from text file.
+        /// </summary>
+        /// <param name="sourceFile"></param>
+        /// <returns>string[] All lines from file.</returns>
+        string[] ConvertByteArrayToTextArray(byte[] sourceFile);
+
+        /// <summary>
         /// Converts one string to an array including all lines.
         /// </summary>
         /// <param name="text">Text of byte array.</param>
         /// <returns>string[] All lines of text</returns>
         string[] ConvertTextToTextArray(string text);
-
-        /// <summary>
-        /// Converts an string array including all lines from text file to splitted rows. The minSize indicates the required Count of one Element.
-        /// </summary>
-        /// <param name="textArrayFromTextArray">String array including all rows.</param>
-        /// <param name="minSize">Minimum size of Elements.</param>
-        /// <returns> IEnumerable of string[] </returns>
-  //      IEnumerable<string[]> ConvertTextArrayToStructedTextArray(string[] textArrayFromTextArray, byte minSize);
 
         /// <summary>
         /// Converts a byte array to formatted string arrays. The minSize indicates the required Count of one Element

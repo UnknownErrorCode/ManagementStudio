@@ -19,10 +19,11 @@ namespace ShopEditor
         /// </summary>
         private Dictionary<string, NpcShopData> NpcShopInformation = new Dictionary<string, NpcShopData>();
 
+        /// <summary>
+        /// Communication window like click on an NPC. This window has to be static and aviable only 1 times in the entired application!!!
+        /// </summary>
         public TalkWindow()
-        {
-            InitializeComponent();
-        }
+           => InitializeComponent();
 
         /// <summary>
         /// Task to complete when NPC gets selected.
@@ -42,7 +43,6 @@ namespace ShopEditor
                 foreach (var store in group.ShopGroup)
                     foreach (var tabgroup in store.TabGroups)
                         this.splitContainer1.Panel2.Controls.Add(new Label() { AutoSize = true, Text = tabgroup.StrID128Name, Tag = npcName, Location = new Point(0, 20 * this.splitContainer1.Panel2.Controls.Count) });
-
         }
     }
 }

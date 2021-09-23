@@ -42,17 +42,6 @@ namespace ClientDataStorage.Pk2
             }
         }
 
-        public bool GetByteArrayByDirectory(string directory, out byte[] fileArray)
-        {
-            fileArray = null;
-            var file = GetFileByDirectory(directory);
-            if (file.name == null)
-                return false;
-
-            fileArray = GetByteArrayByFile(file);
-            return true;
-        }
-
         /// <summary>
         /// Refreshes the Pk2 File
         /// </summary>
@@ -65,11 +54,28 @@ namespace ClientDataStorage.Pk2
         }
 
         /// <summary>
+        /// Seek the file by directory and returns it as raw byte array
+        /// </summary>
+        /// <param name="directory">Directory of the file inside the pk2 data.</param>
+        /// <param name="fileArray">out byte[] array</param>
+        /// <returns>byte[] raw array</returns>
+        public override bool GetByteArrayByDirectory(string directory, out byte[] fileArray)
+        {
+            fileArray = null;
+            var file = GetFileByDirectory(directory);
+            if (file.name == null)
+                return false;
+
+            fileArray = GetByteArrayByFile(file);
+            return true;
+        }
+
+        /// <summary>
         /// Returns file as byte array with parameter Pk2File.
         /// </summary>
         /// <param name="file">Pk2File from Pk2Data.</param>
         /// <returns>byte[] : Raw bytes from Pk2File. </returns>
-        public byte[] GetByteArrayByFile(Pk2File file)
+        public override byte[] GetByteArrayByFile(Pk2File file)
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
             {
@@ -78,9 +84,12 @@ namespace ClientDataStorage.Pk2
             }
         }
 
-
-
-        public bool FileExists(string dir)
+        /// <summary>
+        /// Check if file exists in certain pk2 data. 
+        /// </summary>
+        /// <param name="dir">Directory of file inside the pk2 data.</param>
+        /// <returns>bool exists</returns>
+        public override bool FileExists(string dir)
         {
             string[] splittedDirectory = dir.Split('\\');
             Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files };
@@ -98,12 +107,13 @@ namespace ClientDataStorage.Pk2
             }
             return false;
         }
+
         /// <summary>
-        /// Returns file as byte array with parameter Pk2File.
+        /// Returns file by directory of pk2 file.
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="dir"></param>
         /// <returns>Pk2File from FolderDirectory</returns>
-        public Pk2File GetFileByDirectory(string dir)
+        public override Pk2File GetFileByDirectory(string dir)
         {
             string[] splittedDirectory = dir.Split('\\');
             Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files };
@@ -175,7 +185,6 @@ namespace ClientDataStorage.Pk2
             }
             return true;
         }
-
 
         /// <summary>
         /// Converts a byte array to required type by marshaling the buffer.

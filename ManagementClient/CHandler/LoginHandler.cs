@@ -12,6 +12,12 @@ namespace ManagementClient.CHandler
 {
     class LoginHandler
     {
+        /// <summary>
+        /// The Login user status consists of either success or fail, resultMessage, Security Group and real AccountName. 
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns>PacketHandlerResult result</returns>
         internal static PacketHandlerResult LoginStatus(ServerData arg1, Packet arg2)
         {
             var ok = arg2.ReadBool();
@@ -31,6 +37,12 @@ namespace ManagementClient.CHandler
             return PacketHandlerResult.Block;
         }
 
+        /// <summary>
+        /// Receives a string[] of all .dll Plugins that the application is permitted to load.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns>PacketHandlerResult result</returns>
         internal static PacketHandlerResult AllowedPlugins(ServerData arg1, Packet arg2)
         {
             ClientMemory.AllowedPlugin = new string[arg2.ReadInt()];
@@ -41,6 +53,12 @@ namespace ManagementClient.CHandler
             return PacketHandlerResult.Block;
         }
 
+        /// <summary>
+        /// Receives a string[] of all DataTables that the application is permitted to load.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns>PacketHandlerResult result</returns>
         internal static PacketHandlerResult AllowedDataTable(ServerData arg1, Packet arg2)
         {
             string[] tableNames = new string[arg2.ReadInt()];
@@ -64,6 +82,12 @@ namespace ManagementClient.CHandler
             return PacketHandlerResult.Block;
         }
 
+        /// <summary>
+        /// Receives a DataTable from the server and stores it into the SRO_VT_SHARD DataSet.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns>PacketHandlerResult result</returns>
         internal static PacketHandlerResult ReceiveDataTable(ServerData arg1, Packet arg2)
         {
             var tableName = arg2.ReadAscii();
@@ -83,10 +107,10 @@ namespace ManagementClient.CHandler
             {
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
 
-                ClientDataStorage.Client.Media.InitializeMedia();
+                ClientDataStorage.Client.Media.InitializeMediaAsync();
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
 
-                ClientDataStorage.Client.Map.Initialize();
+                ClientDataStorage.Client.Map.InitializeMapAsync();
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
 
                 ManagementClient.Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));

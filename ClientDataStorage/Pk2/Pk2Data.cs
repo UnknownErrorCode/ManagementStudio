@@ -34,5 +34,35 @@ namespace ClientDataStorage.Pk2
         /// Refreshs the Pk2File of changes
         /// </summary>
         public abstract bool Refresh();
+
+        /// <summary>
+        /// Check if file exists in certain pk2 data. 
+        /// </summary>
+        /// <param name="dir">Directory of file inside the pk2 data.</param>
+        /// <returns>bool exists</returns>
+        public abstract bool FileExists(string dir);
+
+        /// <summary>
+        /// Returns file by directory of pk2 file.
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns>Pk2File from FolderDirectory</returns>
+        public abstract Pk2File GetFileByDirectory(string dir);
+
+        /// <summary>
+        /// Returns file as byte array with parameter Pk2File.
+        /// </summary>
+        /// <param name="file">Pk2File from Pk2Data.</param>
+        /// <returns>byte[] : Raw bytes from Pk2File. </returns>
+        public abstract byte[] GetByteArrayByFile(Pk2File file);
+
+        /// <summary>
+        /// Seek the file by directory and returns it as raw byte array
+        /// </summary>
+        /// <param name="directory">Directory of the file inside the pk2 data.</param>
+        /// <param name="fileArray">out byte[] array</param>
+        /// <returns>byte[] raw array</returns>
+        public abstract bool GetByteArrayByDirectory(string dir, out byte[] file);
+
     }
 }

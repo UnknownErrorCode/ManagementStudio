@@ -44,12 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\Files\DSSImage.cs" />
-    <Compile Include="Client\Files\MapMeshBlock.cs" />
-    <Compile Include="Client\Files\MapMeshCell.cs" />
-    <Compile Include="Client\Files\MapObject.cs" />
-    <Compile Include="Client\Files\o2File.cs" />
-    <Compile Include="Client\Files\mFile.cs" />
+    <Compile Include="Client\Files\ddj\DSSImage.cs" />
+    <Compile Include="Client\Files\m\MapMeshBlock.cs" />
+    <Compile Include="Client\Files\m\MapMeshCell.cs" />
+    <Compile Include="Client\Files\o2\MapObject.cs" />
+    <Compile Include="Client\Files\o2\o2File.cs" />
+    <Compile Include="Client\Files\m\mFile.cs" />
     <Compile Include="Client\Map.cs" />
     <Compile Include="Client\Media.cs" />
     <Compile Include="Client\Textdata\Tile2dIFOFile.cs" />
