@@ -79,10 +79,11 @@ namespace ManagementClient.CHandler
             ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Add(table);
 
             ClientMemory.AllowedDataTables.Remove(tableName);
+
             if (ClientMemory.AllowedDataTables.Count==0)
             {
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
-
+                
                 ClientDataStorage.Client.Media.InitializeMedia();
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
 

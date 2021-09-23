@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapGame\Game.cs" />
+    <Compile Include="MapGame\MapCamera.cs" />
     <Compile Include="MapGame\MapControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
