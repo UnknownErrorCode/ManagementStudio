@@ -1,4 +1,7 @@
-﻿using ClientDataStorage.Client.Files;
+﻿using ClientDataStorage.Client;
+using ClientDataStorage.Client.Files;
+using ShopEditor.Interface.ShopInterface;
+using Structs.Pk2.Media;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,54 +16,89 @@ namespace ShopEditor.Interface
 {
     public partial class ShopTabGroupWindow : Form
     {
-        private ShopTabWindow[] ShopTabs { get; set; }
+        private BlueShopTabWindow[] ShopBlueTabWindows;
 
+        private protected const string TabOnUIPath = "Media\\interface\\ifcommon\\com_tab_on.ddj";
+        private protected const string TabOffUIPath = "Media\\interface\\ifcommon\\com_tab_off.ddj";
 
-
-        internal ShopTabGroupWindow(ShopInterface.RefShopTabGroup shopTabGroup)
+        public  string ShopTitle { get => labelShopTabGroup.Text; set => labelShopTabGroup.Text = value; }
+        public byte CurrentPageIndex { get => byte.Parse(labelPageIndex.Text); set => labelPageIndex.Text = $"{value}"; }
+        private BlueShopTabWindow DisplayedBlueTab { get; set ; }
+        internal ShopTabGroupWindow(RefShopTabGroup shopTabGroup)
         {
             InitializeComponent();
+            InitializeUIElements(shopTabGroup.StrID128Name);
+            if (GenerateShopTabWindows(shopTabGroup, out ShopBlueTabWindows))
+                this.Controls.AddRange(ShopBlueTabWindows);
 
-            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey("Media\\interface\\ifcommon\\com_tab_on.ddj"))
-                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory("Media\\interface\\ifcommon\\com_tab_on.ddj", out byte[] ddjbytearray))
-                    ClientDataStorage.Client.Media.DDJFiles.Add("Media\\interface\\ifcommon\\com_tab_on.ddj", new DDJImage(ddjbytearray));
+            DisplaySingleTabPage(ShopBlueTabWindows[0], CurrentPageIndex);
+        }
 
-            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey("Media\\interface\\ifcommon\\com_tab_off.ddj"))
-                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory("Media\\interface\\ifcommon\\com_tab_off.ddj", out byte[] ddjbytearray2))
-                    ClientDataStorage.Client.Media.DDJFiles.Add("Media\\interface\\ifcommon\\com_tab_off.ddj", new DDJImage(ddjbytearray2));
+        private bool GenerateShopTabWindows(RefShopTabGroup shopTabGroup, out BlueShopTabWindow[] shopTabWindows)
+        {
+            shopTabWindows = new BlueShopTabWindow[shopTabGroup.ShopTabs.Length];
 
-            ShopTabs = new ShopTabWindow[shopTabGroup.ShopTabs.Length];
-      
             for (int i = 0; i < shopTabGroup.ShopTabs.Length; i++)
-                ShopTabs[i] = new ShopTabWindow(shopTabGroup.ShopTabs[i], (byte)i);
+                shopTabWindows[i] = new BlueShopTabWindow(shopTabGroup.ShopTabs[i], (byte)i);
 
-            foreach (var tabWindow in ShopTabs)
-            {
-                if (tabWindow == null)
-                    return;
+            foreach (var tabWindow in ShopBlueTabWindows)
+                if (tabWindow != null)
+                {
+                    tabWindow.MouseClick += TabWindow_MouseClick;
+                    tabWindow.StrIDLabel.MouseClick += TabWindow_onLabelClick;
+                }
 
-                tabWindow.MouseClick += TabWindow_MouseClick;
-                this.Controls.Add(tabWindow);
-            }
+            return shopTabWindows[0].SingleTabPages != null ;
+        }
+
+
+        private void InitializeUIElements(string title)
+        {
+
+            //ShopTitle = Media.StaticTextuiSystem.UIIT_Strings.TryGetValue(title, out TextUISystemStruct str) ? str.Viethnam : title;
+
+            this.CurrentPageIndex = 0;
+            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(TabOnUIPath))
+                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(TabOnUIPath, out byte[] ddjbytearray))
+                    ClientDataStorage.Client.Media.DDJFiles.Add(TabOnUIPath, new DDJImage(ddjbytearray));
+
+            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(TabOffUIPath))
+                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(TabOffUIPath, out byte[] ddjbytearray2))
+                    ClientDataStorage.Client.Media.DDJFiles.Add(TabOffUIPath, new DDJImage(ddjbytearray2));
         }
 
         private void TabWindow_MouseClick(object sender, MouseEventArgs e)
+            => DisplaySingleTabPage((BlueShopTabWindow)sender, 0);
+        private void TabWindow_onLabelClick(object sender, MouseEventArgs e)
+            => DisplaySingleTabPage((BlueShopTabWindow)((Label)sender).Tag, 0);
+
+        private void DisplaySingleTabPage(BlueShopTabWindow window,byte page)
         {
-            for (int i = 0; i < ShopTabs.Length; i++)
-                ShopTabs[i].Active = false;
-            
-            ((ShopTabWindow)sender).Active = true;
-
-            
-
+            DisabeTabFocus();
+            window.Active = true;
             this.panelCurrentPage.Controls.Clear();
-            if (((ShopTabWindow)sender).Pages.Length>0)
-            {
-                this.panelCurrentPage.Controls.Add(((ShopTabWindow)sender).Pages[0]);
-                this.label1.Text = ((ShopTabWindow)sender).Pages[0].PageIndex.ToString();
-                return;
-            }
-            this.label1.Text = "0";
+            DisplayedBlueTab = window;
+            if (DisplayedBlueTab.SingleTabPages !=null)
+                if (DisplayedBlueTab.SingleTabPages.Length > 0)
+                    this.panelCurrentPage.Controls.Add(DisplayedBlueTab.SingleTabPages[page]);
+
+
+            this.CurrentPageIndex = DisplayedBlueTab.SingleTabPages != null ? DisplayedBlueTab.SingleTabPages.Length > 0 ? DisplayedBlueTab.SingleTabPages[page].PageIndex : page :(byte) 0 ;
+        }
+
+        private void DisabeTabFocus()
+            => ShopBlueTabWindows.ToList().ForEach(tw => tw.Active = false);
+
+        private void ShowNextPage(object sender, MouseEventArgs e)
+        {
+            if (DisplayedBlueTab.SingleTabPages.Length > CurrentPageIndex)
+                DisplaySingleTabPage(DisplayedBlueTab, CurrentPageIndex);
+        }
+
+        private void ShowPreviousPage(object sender, MouseEventArgs e)
+        {
+            if (CurrentPageIndex>1)
+                DisplaySingleTabPage(DisplayedBlueTab, (byte)(CurrentPageIndex-2));
         }
     }
 }

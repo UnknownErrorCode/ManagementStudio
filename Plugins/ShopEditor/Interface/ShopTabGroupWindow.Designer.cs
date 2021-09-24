@@ -32,8 +32,10 @@ namespace ShopEditor.Interface
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShopTabGroupWindow));
             this.labelShopTabGroup = new System.Windows.Forms.Label();
             this.vSroCloseButton1 = new ServerFrameworkRes.BasicControls.vSroCloseButton();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelPageIndex = new System.Windows.Forms.Label();
             this.panelCurrentPage = new System.Windows.Forms.Panel();
+            this.panelNextPage = new System.Windows.Forms.Panel();
+            this.panelPrePage = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // labelShopTabGroup
@@ -55,15 +57,15 @@ namespace ShopEditor.Interface
             this.vSroCloseButton1.Size = new System.Drawing.Size(15, 15);
             this.vSroCloseButton1.TabIndex = 1;
             // 
-            // label1
+            // labelPageIndex
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(118, 255);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "0";
+            this.labelPageIndex.AutoSize = true;
+            this.labelPageIndex.BackColor = System.Drawing.Color.Transparent;
+            this.labelPageIndex.Location = new System.Drawing.Point(118, 255);
+            this.labelPageIndex.Name = "labelPageIndex";
+            this.labelPageIndex.Size = new System.Drawing.Size(13, 13);
+            this.labelPageIndex.TabIndex = 2;
+            this.labelPageIndex.Text = "0";
             // 
             // panelCurrentPage
             // 
@@ -73,14 +75,34 @@ namespace ShopEditor.Interface
             this.panelCurrentPage.Size = new System.Drawing.Size(218, 182);
             this.panelCurrentPage.TabIndex = 3;
             // 
+            // panelNextPage
+            // 
+            this.panelNextPage.BackColor = System.Drawing.Color.Transparent;
+            this.panelNextPage.Location = new System.Drawing.Point(135, 254);
+            this.panelNextPage.Name = "panelNextPage";
+            this.panelNextPage.Size = new System.Drawing.Size(15, 15);
+            this.panelNextPage.TabIndex = 4;
+            this.panelNextPage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ShowNextPage);
+            // 
+            // panelPrePage
+            // 
+            this.panelPrePage.BackColor = System.Drawing.Color.Transparent;
+            this.panelPrePage.Location = new System.Drawing.Point(101, 254);
+            this.panelPrePage.Name = "panelPrePage";
+            this.panelPrePage.Size = new System.Drawing.Size(15, 15);
+            this.panelPrePage.TabIndex = 5;
+            this.panelPrePage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ShowPreviousPage);
+            // 
             // ShopTabGroupWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(252, 370);
+            this.Controls.Add(this.panelPrePage);
+            this.Controls.Add(this.panelNextPage);
             this.Controls.Add(this.panelCurrentPage);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelPageIndex);
             this.Controls.Add(this.vSroCloseButton1);
             this.Controls.Add(this.labelShopTabGroup);
             this.DoubleBuffered = true;
@@ -99,7 +121,9 @@ namespace ShopEditor.Interface
 
         private System.Windows.Forms.Label labelShopTabGroup;
         private ServerFrameworkRes.BasicControls.vSroCloseButton vSroCloseButton1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelPageIndex;
         private System.Windows.Forms.Panel panelCurrentPage;
+        private System.Windows.Forms.Panel panelNextPage;
+        private System.Windows.Forms.Panel panelPrePage;
     }
 }

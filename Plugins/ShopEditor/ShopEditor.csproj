@@ -60,7 +60,7 @@
     <Compile Include="Interface\ShopTabGroupWindow.Designer.cs">
       <DependentUpon>ShopTabGroupWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interface\ShopTabWindow.cs">
+    <Compile Include="Interface\BlueShopTabWindow.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interface\SingleTabPageWindow.cs">
