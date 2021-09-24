@@ -1,4 +1,5 @@
-﻿using Structs.Pk2;
+﻿using ClientDataStorage.Client.Files;
+using Structs.Pk2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ namespace ClientDataStorage.Client
         /// TextUISystem from Media.pk2
         /// </summary>
         public static Textdata.TextUISystem StaticTextuiSystem { get; set; }
+
+        /// <summary>
+        /// Contains all necessary ddj images.
+        /// </summary>
+        public static Dictionary<string, DDJImage> DDJFiles = new Dictionary<string, DDJImage>();
 
         /// <summary>
         /// Initialize Media syncronous.

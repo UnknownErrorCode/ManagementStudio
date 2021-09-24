@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Files\ddj\DDJImage.cs" />
     <Compile Include="Client\Files\ddj\DSSImage.cs" />
     <Compile Include="Client\Files\m\MapMeshBlock.cs" />
     <Compile Include="Client\Files\m\MapMeshCell.cs" />

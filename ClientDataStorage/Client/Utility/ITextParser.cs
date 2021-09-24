@@ -13,7 +13,7 @@ namespace ClientDataStorage.Client.Textdata
         /// </summary>
         /// <param name="array">The pure byte array.</param>
         /// <returns>string Text of file</returns>
-        string ConvertByteArrayToText(byte[] array);
+        string ConvertByteArrayToUnicodeText(byte[] array);
 
         /// <summary>
         /// Converts the raw byte[] from file to string[] consisting of each line from text file.

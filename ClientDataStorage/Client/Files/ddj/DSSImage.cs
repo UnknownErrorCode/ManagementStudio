@@ -362,6 +362,7 @@ namespace ClientDataStorage.Client.Files
 
         private void DecompressARGB()
         {
+            DecompressDXT3();
         }
 
         private void DecompressDXT1()

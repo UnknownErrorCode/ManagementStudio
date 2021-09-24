@@ -5,11 +5,11 @@ namespace ShopEditor.Interface.ShopInterface
 {
     internal class RefShopGood
     {
-        private string PackageItemCodeName { get; set; }
-        private byte SlotIndex { get; set; }
-        private RefPackageItem PackageItem { get; set; }
-        private RefScrapOfPackageItem ScrapOfPackageItem { get; set; }
-        private RefPricePolicyOfItem[] PricePolicyOfItem { get; set; }
+        internal string PackageItemCodeName { get; set; }
+        internal byte SlotIndex { get; set; }
+        internal RefPackageItem PackageItem { get; set; }
+        internal RefScrapOfPackageItem ScrapOfPackageItem { get; set; }
+        internal RefPricePolicyOfItem[] PricePolicyOfItem { get; set; }
 
         internal RefShopGood(string refPackageItemCodeName, byte slotIndex)
         {

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ClientDataStorage.Client
 {
-    public class Tile2dIFOFile : TextParser
+    public class Tile2dIFOFile 
     {
         public string[] TexturePaths;
 
@@ -11,8 +11,8 @@ namespace ClientDataStorage.Client
         {
             if (Map.MapPk2.GetByteArrayByDirectory("Map\\tile2d.ifo", out byte[] array))
             {
-                var t45 = base.ConvertByteArrayToText(array);
-                var t5 = base.ConvertTextToTextArray(t45).Where(text => text.Length > 24).ToArray();
+                var t45 = TextParser.StaticTextParser.ConvertByteArrayToAsciiText(array);
+                var t5 = TextParser.StaticTextParser.ConvertTextToTextArray(t45).Where(text => text.Length > 24).ToArray();
                 int counter = 0;
                 TexturePaths = new string[t5.Length];
                 foreach (var arrays in t5)

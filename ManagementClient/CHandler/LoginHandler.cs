@@ -108,9 +108,6 @@ namespace ManagementClient.CHandler
             {
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
 
-                
-                ClientDataStorage.Client.Media.InitializeMedia();
-
 
                 ClientDataStorage.Client.Media.InitializeMediaAsync();
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");

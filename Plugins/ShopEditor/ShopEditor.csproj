@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\NpcShopData.cs" />
+    <Compile Include="Interface\ShopGoodWindow.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Interface\ShopInterface\RefPackageItem.cs" />
     <Compile Include="Interface\ShopInterface\RefPricePolicyOfItem.cs" />
     <Compile Include="Interface\ShopInterface\RefScrapOfPackageItem.cs" />
@@ -51,6 +54,18 @@
     <Compile Include="Interface\ShopInterface\RefShopGroup.cs" />
     <Compile Include="Interface\ShopInterface\RefShopTab.cs" />
     <Compile Include="Interface\ShopInterface\RefShopTabGroup.cs" />
+    <Compile Include="Interface\ShopTabGroupWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\ShopTabGroupWindow.Designer.cs">
+      <DependentUpon>ShopTabGroupWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\ShopTabWindow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Interface\SingleTabPageWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Interface\TalkWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +101,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Interface\ShopTabGroupWindow.resx">
+      <DependentUpon>ShopTabGroupWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\SingleTabPageWindow.resx">
+      <DependentUpon>SingleTabPageWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\TalkWindow.resx">
       <DependentUpon>TalkWindow.cs</DependentUpon>
     </EmbeddedResource>

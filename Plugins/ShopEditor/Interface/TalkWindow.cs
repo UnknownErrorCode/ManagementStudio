@@ -1,5 +1,6 @@
 ﻿using ServerFrameworkRes.BasicControls;
 using ShopEditor.Interface;
+using ShopEditor.Interface.ShopInterface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,7 +43,41 @@ namespace ShopEditor
             foreach (var group in NpcShopInformation[npcName].ShopGroups)
                 foreach (var store in group.ShopGroup)
                     foreach (var tabgroup in store.TabGroups)
-                        this.splitContainer1.Panel2.Controls.Add(new Label() { AutoSize = true, Text = tabgroup.StrID128Name, Tag = npcName, Location = new Point(0, 20 * this.splitContainer1.Panel2.Controls.Count) });
+                    {
+                        if (tabgroup.StrID128Name == null)
+                            continue;
+
+                        this.splitContainer1.Panel2.Controls.Add(CreateLabel(npcName, tabgroup));
+                    }
         }
+
+
+        private Label CreateLabel(string npcName, RefShopTabGroup shopTabGroup)
+        {
+            var label = new Label()
+            {
+                AutoSize = true,
+                Location = new Point(0, 20 * this.splitContainer1.Panel2.Controls.Count),
+                Text = ClientDataStorage.Client.Media.StaticTextuiSystem.UIIT_Strings.TryGetValue(shopTabGroup.StrID128Name, out Structs.Pk2.Media.TextUISystemStruct element) ? element.Viethnam : shopTabGroup.StrID128Name,
+                Tag =shopTabGroup
+            };
+
+            label.MouseEnter += Label_MouseEnter;
+            label.MouseLeave += Label_MouseLeave;
+            label.MouseClick += Label_MouseClick;
+
+            return label;
+        }
+
+        private void Label_MouseClick(object sender, MouseEventArgs e)
+            => new ShopTabGroupWindow((RefShopTabGroup)((Label)sender).Tag).Show();
+
+        private void Label_MouseLeave(object sender, EventArgs e)
+            => ((Label)sender).ForeColor = Color.FromArgb(239, 218, 164);
+
+
+        private void Label_MouseEnter(object sender, EventArgs e)
+            => ((Label)sender).ForeColor = Color.FromArgb(255, 138, 0);
+
     }
 }

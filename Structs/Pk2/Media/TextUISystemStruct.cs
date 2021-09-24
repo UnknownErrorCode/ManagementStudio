@@ -40,12 +40,12 @@ namespace Structs.Pk2.Media
             Japan = array[7];
             English = array[8];
             Viethnam = array[9];
-            Thailand = array[10];
-            Russian = array[11];
-            Turkish = array[12];
-            Spanish = array[13];
-            Arabic = array[14];
-            Deutch = array[15];
+            Thailand =""; // obsolete array[10] ==null ? "" : array[10];
+            Russian = ""; // obsolete array[11] == null ? "" : array[11];
+            Turkish = ""; // obsolete array[12] == null ? "" : array[12];
+            Spanish = ""; // obsolete array[13] == null ? "" : array[13];
+            Arabic =  ""; // obsolete array[14] == null ? "" :  array[14];
+            Deutch = "";  // obsolete array[15] == null ? "" :  array[15];
         }
     }
 }
