@@ -29,7 +29,7 @@ namespace ShopEditor.Interface
         {
             int ordinate = Convert.ToInt32(Math.Floor(slotIndex / 6d));
             int abszesse = slotIndex % 6;
-            return new Point(abszesse*36, ordinate * 36);
+            return new Point(abszesse*36+4, ordinate * 36+4);
         }
     }
 }

@@ -6,23 +6,26 @@ namespace ShopEditor.Interface
 {
     internal class ShopTabWindow : Panel
     {
-        internal bool Active { get; set; }
+        private bool active;
+        internal bool Active { get => active; set { active = value;  this.BackgroundImage = value ? ClientDataStorage.Client.Media.DDJFiles["Media\\interface\\ifcommon\\com_tab_on.ddj"].BitmapImage : ClientDataStorage.Client.Media.DDJFiles["Media\\interface\\ifcommon\\com_tab_off.ddj"].BitmapImage; } }
         private ShopInterface.RefShopTab TabPage { get; set; }
 
         internal SingleTabPageWindow[] Pages;
+        internal ShopTabWindow()
+        {
+        }
 
-
-        internal ShopTabWindow(ShopInterface.RefShopTab page)
+            internal ShopTabWindow(ShopInterface.RefShopTab page, byte index)
         {
             TabPage = page;
-            this.Size = new Size(72, 24);
-            this.Location = new Point(15 + ((page.TabPageIndex - 1) * 72), 34);
+            this.Size = new Size(60, 24);
+            this.Location = new Point(6 + ((index) * 60), 34);
             ForeColor = Color.Transparent;
-            Image img = ClientDataStorage.Client.Media.DDJFiles["Media\\interface\\ifcommon\\ifcommon\\com_long_tab_off.ddj"].BitmapImage;
-           
-            this.BackgroundImage = img;
+            Active = false;
             if (TabPage.ShopGoods == null)
-                return;
+            { 
+                Pages= new SingleTabPageWindow[0]; return;
+            }
 
             if (Enumerable.Range(0, 29).Contains(TabPage.ShopGoods.Length))
             {
