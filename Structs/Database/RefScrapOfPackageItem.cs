@@ -1,29 +1,28 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 
-namespace ShopEditor.Interface.ShopInterface
+namespace Structs.Database
 {
-    internal struct RefScrapOfPackageItem
+    public struct RefScrapOfPackageItem
     {
-        byte    Service;
-        string  RefPackageItemCodeName;
-        string  RefItemCodeName;
-        byte    OptLevel;
-        long    Variance;
-        int     Data;
-        byte    MagParamNum;
-        long    MagParam1 ;
-        long    MagParam2 ;
-        long    MagParam3 ;
-        long    MagParam4 ;
-        long    MagParam5 ;
-        long    MagParam6 ;
-        long    MagParam7 ;
-        long    MagParam8 ;
-        long    MagParam9 ;
-        long    MagParam10;
-        long    MagParam11;
-        long    MagParam12;
+        byte Service;
+        string RefPackageItemCodeName;
+        string RefItemCodeName;
+        byte OptLevel;
+        long Variance;
+        int Data;
+        byte MagParamNum;
+        long MagParam1;
+        long MagParam2;
+        long MagParam3;
+        long MagParam4;
+        long MagParam5;
+        long MagParam6;
+        long MagParam7;
+        long MagParam8;
+        long MagParam9;
+        long MagParam10;
+        long MagParam11;
+        long MagParam12;
         public RefScrapOfPackageItem(DataRow row)
         {
             Service = row.Field<byte>("Service");

@@ -7,10 +7,10 @@ using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor
 {
-    class WorldMap2dPanel : Panel
+    abstract class WorldMap2dPanel : Panel
     {
-
-        internal WorldMap2dPanel() : base() 
+        internal ContextMenuStrip RegionContextMenu = new ContextMenuStrip();
+        internal WorldMap2dPanel() : base()
         {
             InitializeComponents();
         }
@@ -20,16 +20,35 @@ namespace WorldMapSpawnEditor
             this.DoubleBuffered = true;
             this.Dock = DockStyle.Fill;
             this.AutoSize = true;
-            this.AutoScroll = true; 
+            this.AutoScroll = true;
+            RegionContextMenu.Items.Add("Create Spawn");
+            RegionContextMenu.Items.Add("Save Coordinate");
+
             base.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
         }
 
-        public void ScarleRegions(float delta)
+        private void SaveCoordinateClickContext(object sender, EventArgs e)
         {
-            var factor = new System.Drawing.SizeF(1 + (delta / 10f), 1 + (delta / 10f));
-            //this.ScaleControl(factor, BoundsSpecified.All);
-
+            throw new NotImplementedException();
         }
+
+        private void CreateSpawnClickContext(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IEnumerable<T> GetControlsOfType<T>(Control root)
+   where T : Control
+        {
+            var t = root as T;
+            if (t != null)
+                yield return t;
+
+            foreach (Control c in root.Controls)
+                foreach (var i in GetControlsOfType<T>(c))
+                    yield return i;
+        }
+
     }
 }

@@ -42,6 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard\DashboardMessage.cs" />
+    <Compile Include="Database\Rarity.cs" />
+    <Compile Include="Database\RefObjChar.cs" />
+    <Compile Include="Database\RefObjCommon.cs" />
+    <Compile Include="Database\RefPackageItem.cs" />
+    <Compile Include="Database\RefPricePolicyOfItem.cs" />
+    <Compile Include="Database\RefScrapOfPackageItem.cs" />
+    <Compile Include="Database\RefTeleport.cs" />
+    <Compile Include="Database\Tab_RefHive.cs" />
+    <Compile Include="Database\Tab_RefNest.cs" />
+    <Compile Include="Database\Tab_RefTactics.cs" />
     <Compile Include="Pk2\Media\TextUISystemStruct.cs" />
     <Compile Include="Pk2\Pk2Entry.cs" />
     <Compile Include="Pk2\Pk2EntryBlock.cs" />

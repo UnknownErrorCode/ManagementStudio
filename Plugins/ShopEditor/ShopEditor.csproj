@@ -46,9 +46,6 @@
     <Compile Include="Interface\ShopGoodWindow.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Interface\ShopInterface\RefPackageItem.cs" />
-    <Compile Include="Interface\ShopInterface\RefPricePolicyOfItem.cs" />
-    <Compile Include="Interface\ShopInterface\RefScrapOfPackageItem.cs" />
     <Compile Include="Interface\ShopInterface\RefShop.cs" />
     <Compile Include="Interface\ShopInterface\RefShopGood.cs" />
     <Compile Include="Interface\ShopInterface\RefShopGroup.cs" />

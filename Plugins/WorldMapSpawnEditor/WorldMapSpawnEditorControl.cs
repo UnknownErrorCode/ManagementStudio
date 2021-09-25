@@ -12,20 +12,15 @@ namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
-        WorldMap2dPanel map2DPanel = new WorldMap2dPanel();
         int LastZoomFactor = 0;
 
         _2dMapViewer.Continent Cont;
         internal static ServerData StaticServerData { get; set; }
-       
+
         public WorldMapSpawnEditorControl(ServerData data)
         {
             InitializeComponent();
             InitializeContinentListView();
-            this.splitContainer2dViewer.Panel1.Controls.Add(map2DPanel);
-            //InitializePerformance(this);
-
-            
         }
 
 
@@ -57,33 +52,21 @@ namespace WorldMapSpawnEditor
 
         private void OnIndexChanged(object sender, EventArgs e)
         {
-            map2DPanel.Controls.Clear();
+            this.splitContainer2dViewer.Panel1.Controls.Clear();
             if (listView1.SelectedItems.Count > 0)
             {
-                 Cont = new _2dMapViewer.Continent(listView1.SelectedItems[0].Text);
-
-                GetMinXMaxY(out int  minX , out int maxY );
-
-
-                for (int i2 = 0; i2 < Cont.Regions.Length; i2++)
-                    Cont.Regions[i2].Location = new System.Drawing.Point((Cont.Regions[i2].X * 256) - (256 * minX), (((Cont.Regions[i2].Y * 256) - 65536 ) * -1 ) -(((256 * maxY) - 65536) * -1));
-
-                map2DPanel.Controls.AddRange(Cont.Regions);
+                Cont = new _2dMapViewer.Continent(listView1.SelectedItems[0].Text);
+                Cont.DrawRegions();
+                this.splitContainer2dViewer.Panel1.Controls.Add(Cont);
             }
         }
 
+
         private void ZoomChange(object sender, EventArgs e)
         {
-            var delta =trackBarZoom.Value- LastZoomFactor;
+            var delta = trackBarZoom.Value - LastZoomFactor;
             LastZoomFactor = trackBarZoom.Value;
-
-            GetMinXMaxY(out int minX, out int maxY );
-
-            foreach (Control item in map2DPanel.Controls)
-            {
-                item.Size = new System.Drawing.Size(item.Size.Width - delta * 8, item.Size.Height - delta * 8);
-                item.Location = new System.Drawing.Point((((_2dMapViewer.Region)item).X * item.Size.Width) - (item.Size.Width * minX), (((((_2dMapViewer.Region)item).Y * item.Size.Width) - item.Size.Width^2) * -1) - (((item.Size.Width * maxY) - item.Size.Width^2) * -1));
-            }
+            Cont.OnZoom(delta);
         }
 
         private void GetMinXMaxY(out int minX, out int maxY)
@@ -98,5 +81,7 @@ namespace WorldMapSpawnEditor
                     maxY = Cont.Regions[i].Y;
             }
         }
+
+        
     }
 }

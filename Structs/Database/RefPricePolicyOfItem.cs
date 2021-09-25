@@ -1,15 +1,15 @@
 ﻿using System.Data;
 
-namespace ShopEditor.Interface.ShopInterface
+namespace Structs.Database
 {
-    internal struct RefPricePolicyOfItem
+    public struct RefPricePolicyOfItem
     {
         internal byte Service { get; set; }
         internal string RefPackageItemCodeName { get; set; }
         internal int PaymentDevice { get; set; }
         internal int Cost { get; set; }
 
-        internal RefPricePolicyOfItem(DataRow row)
+        public RefPricePolicyOfItem(DataRow row)
         {
             Service = row.Field<byte>("Service");
             RefPackageItemCodeName = row.Field<string>("RefPackageItemCodeName");

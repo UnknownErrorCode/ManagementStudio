@@ -48,10 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2dMapViewer\Continent.cs" />
+    <Compile Include="2dMapViewer\Continent.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="2dMapViewer\Region.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="2dMapViewer\RegionSpawn.cs" />
+    <Compile Include="2dMapViewer\SingleSpawn.cs" />
     <Compile Include="MapGame\Game.cs" />
     <Compile Include="MapGame\MapCamera.cs" />
     <Compile Include="MapGame\MapControl.cs">
