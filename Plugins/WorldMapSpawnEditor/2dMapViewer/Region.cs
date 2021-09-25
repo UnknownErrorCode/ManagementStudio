@@ -33,7 +33,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
             this.BackgroundImageLayout = ImageLayout.Stretch;
             this.DoubleBuffered = true;
 
-            this.Resize += Region_Resize;
+            this.MouseClick += Region_MouseClick;
 
 
             if (regionID>0)
@@ -53,9 +53,16 @@ namespace WorldMapSpawnEditor._2dMapViewer
             }
         }
 
-        private void Region_Resize(object sender, EventArgs e)
+        private void Region_MouseClick(object sender, MouseEventArgs e)
         {
-            var test = this.Size;
+            var test = e.Location;
+            var curSize = this.Size.Width;
+            var factoring = 1920 / curSize;
+            var realPosition = new System.Drawing.Point(e.X * factoring,(( e.Y * factoring) - 1920 ) * -1);
+            // CreateGraphics().DrawEllipse(new System.Drawing.Pen(System.Drawing.Color.Red), new System.Drawing.RectangleF(e.X, e.Y, 10f, 10f));
+            System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
+            CreateGraphics().DrawString($"X:{realPosition.X} Y:{realPosition.Y} RegionID:{this.RegionID}",new System.Drawing.Font("Arial",12f), brush, e.X, e.Y);
         }
+
     }
 }
