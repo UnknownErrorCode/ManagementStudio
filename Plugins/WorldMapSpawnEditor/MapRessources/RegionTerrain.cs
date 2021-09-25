@@ -16,8 +16,7 @@ namespace WorldMapSpawnEditor.MapRessources
         public mFile MFile;
         Dictionary<int, int> vSroTextureOpenTKTexture = new Dictionary<int, int>();
         private protected readonly string pathPrefix = $"Map\\tile2d\\";
-       //private float[][][] Heights = new float[36][][];
-       //private int[][][] Tex = new int[36][][];
+       
 
         /// <summary>
         /// Converts a  .m file into a OpenTK Terrain
@@ -26,30 +25,7 @@ namespace WorldMapSpawnEditor.MapRessources
         public RegionTerrain(mFile file)
         {
             MFile = file;
-            /*
-            int counter = 0;
-            foreach (var item in file.Blocks)
-            {
-                this.Heights[counter] = new float[17][];
-                this.Tex[counter] = new int[17][];
-
-                for (int i = 0; i < 17; i++)
-                {
-                    this.Heights[counter][i] = new float[17];
-                    this.Tex[counter][i] = new int[17];
-                }
-
-                for (int index2 = 0; index2 < 17; ++index2)
-                {
-                    for (int index3 = 0; index3 < 17; ++index3)
-                    {
-                        this.Heights[counter][index3][index2] = item.Value.MapCells[new System.Drawing.Point(index2, index3)].Height;
-                        this.Tex[counter][index3][index2] = item.Value.MapCells[new System.Drawing.Point(index2, index3)].texture;
-                    }
-                }
-                counter++;
-            }
-            */
+            
             this.GetTextures();
         }
 
@@ -214,44 +190,5 @@ namespace WorldMapSpawnEditor.MapRessources
                 }
             }
         }
-
-
-
-
-        /// <summary>
-        /// Draws the RegionTerrain into OpenTK.Graphics.GL memory 
-        /// </summary>
-        /// 
-        /*
-        public void DrawTerrain()
-        {
-            GL.Color3(byte.MaxValue, byte.MaxValue, byte.MaxValue);
-
-
-            for (int index1 = 0; index1 < 36; ++index1)
-            {
-                for (int index2 = 0; index2 < 16; ++index2)
-                {
-                    for (int index3 = 0; index3 < 16; ++index3)
-                    {
-                        var textureID = vSroTextureOpenTKTexture[(this.Tex[index1][index2][index3])];
-                        GL.Enable(EnableCap.Texture2D);
-                        GL.BindTexture(TextureTarget.Texture2D, textureID);
-                        GL.Begin(PrimitiveType.TriangleStrip);
-                        GL.TexCoord2((float)index2 / 2f, (float)index3 / 2f);
-                        GL.Vertex3((double)(index2 * 20 + index1 % 6 * 320), (double)(index3 * 20) + Math.Floor((double)index1 / 6.0) * 320.0, (double)this.Heights[index1][index2][index3]);
-                        GL.TexCoord2((float)(index2 + 1) / 2f, (float)index3 / 2f);
-                        GL.Vertex3((double)((index2 + 1) * 20 + index1 % 6 * 320), (double)(index3 * 20) + Math.Floor((double)index1 / 6.0) * 320.0, (double)this.Heights[index1][index2 + 1][index3]);
-                        GL.TexCoord2((float)index2 / 2f, (float)(index3 + 1) / 2f);
-                        GL.Vertex3((double)(index2 * 20 + index1 % 6 * 320), (double)((index3 + 1) * 20) + Math.Floor((double)index1 / 6.0) * 320.0, (double)this.Heights[index1][index2][index3 + 1]);
-                        GL.TexCoord2((float)(index2 + 1) / 2f, (float)(index3 + 1) / 2f);
-                        GL.Vertex3((double)((index2 + 1) * 20 + index1 % 6 * 320), (double)((index3 + 1) * 20) + Math.Floor((double)index1 / 6.0) * 320.0, (double)this.Heights[index1][index2 + 1][index3 + 1]);
-                        GL.End();
-                        GL.Disable(EnableCap.Texture2D);
-                    }
-                }
-            }
-        }
-        */
     }
 }

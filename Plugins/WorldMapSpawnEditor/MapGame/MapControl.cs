@@ -275,6 +275,7 @@ namespace WorldMapSpawnEditor.MapGame
         const float sensitivity = 0.2f;
         private void glControl1_Scroll(object sender, MouseEventArgs e)
         {
+
             var cp = this.PointToClient(e.Location);
             if (this.ContextStatus != MapStatus.Stopped || this.ContextStatus == MapStatus.Unload || e.X >= this.Width || e.Y >= this.Height)
                 return;
@@ -298,7 +299,9 @@ namespace WorldMapSpawnEditor.MapGame
 
         public void OnKeyboardCameraMove(object sender, KeyEventArgs e)
         {
-camera.Move(e);
+            if (ContextStatus == MapStatus.Unload || ContextStatus == MapStatus.Loading)
+                return;
+            camera.Move(e);
             
             if (e.KeyCode == Keys.S)
                 if (y < 320 * 256)

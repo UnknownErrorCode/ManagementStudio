@@ -48,6 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="2dMapViewer\Continent.cs" />
+    <Compile Include="2dMapViewer\Region.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MapGame\Game.cs" />
     <Compile Include="MapGame\MapCamera.cs" />
     <Compile Include="MapGame\MapControl.cs">
@@ -56,6 +60,9 @@
     <Compile Include="MapRessources\IMapControl.cs" />
     <Compile Include="MapRessources\RegionTerrain.cs" />
     <Compile Include="Pk2Ressources.cs" />
+    <Compile Include="WorldMap2dPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WorldMapSpawnEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

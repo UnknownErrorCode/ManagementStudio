@@ -30,19 +30,22 @@
         {
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadNewViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.loadGameOnTab2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer2dViewer = new System.Windows.Forms.SplitContainer();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.trackBarZoom = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
+            this.splitContainer2dViewer.Panel2.SuspendLayout();
+            this.splitContainer2dViewer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainerMain
@@ -65,37 +68,11 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(175, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem,
-            this.loadNewViewerToolStripMenuItem,
-            this.loadGameOnTab2ToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadToolStripMenuItem.Text = "Load Worldmap";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
-            // 
-            // loadNewViewerToolStripMenuItem
-            // 
-            this.loadNewViewerToolStripMenuItem.Name = "loadNewViewerToolStripMenuItem";
-            this.loadNewViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadNewViewerToolStripMenuItem.Text = "LoadNewViewer";
-            this.loadNewViewerToolStripMenuItem.Click += new System.EventHandler(this.loadNewViewerToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -121,6 +98,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.splitContainer2dViewer);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -129,12 +107,43 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // loadGameOnTab2ToolStripMenuItem
+            // splitContainer2dViewer
             // 
-            this.loadGameOnTab2ToolStripMenuItem.Name = "loadGameOnTab2ToolStripMenuItem";
-            this.loadGameOnTab2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadGameOnTab2ToolStripMenuItem.Text = "Load Game on Tab2";
-            this.loadGameOnTab2ToolStripMenuItem.Click += new System.EventHandler(this.loadGameOnTab2ToolStripMenuItem_Click);
+            this.splitContainer2dViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer2dViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2dViewer.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2dViewer.Name = "splitContainer2dViewer";
+            // 
+            // splitContainer2dViewer.Panel2
+            // 
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.trackBarZoom);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.listView1);
+            this.splitContainer2dViewer.Size = new System.Drawing.Size(786, 418);
+            this.splitContainer2dViewer.SplitterDistance = 523;
+            this.splitContainer2dViewer.TabIndex = 0;
+            // 
+            // listView1
+            // 
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.listView1.Location = new System.Drawing.Point(0, 198);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(255, 216);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // trackBarZoom
+            // 
+            this.trackBarZoom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.trackBarZoom.Location = new System.Drawing.Point(0, 153);
+            this.trackBarZoom.Maximum = 100;
+            this.trackBarZoom.Name = "trackBarZoom";
+            this.trackBarZoom.Size = new System.Drawing.Size(255, 45);
+            this.trackBarZoom.TabIndex = 1;
+            this.trackBarZoom.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBarZoom.Scroll += new System.EventHandler(this.ZoomChange);
             // 
             // WorldMapSpawnEditorControl
             // 
@@ -148,10 +157,14 @@
             this.splitContainerMain.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
             this.splitContainerMain.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.splitContainer2dViewer.Panel2.ResumeLayout(false);
+            this.splitContainer2dViewer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).EndInit();
+            this.splitContainer2dViewer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -160,12 +173,12 @@
 
         private System.Windows.Forms.SplitContainer splitContainerMain;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadNewViewerToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ToolStripMenuItem loadGameOnTab2ToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer2dViewer;
+        private WorldMap2dPanel worldMap2dPanel1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.TrackBar trackBarZoom;
     }
 }
