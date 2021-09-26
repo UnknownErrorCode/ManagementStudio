@@ -13,6 +13,11 @@ namespace WorldMapSpawnEditor._2dMapViewer
         string ContinentName { get; set; }
 
         /// <summary>
+        /// Get or set the latest zoom value. 
+        /// </summary>
+        internal int LastZoomFactor { get; set; }
+
+        /// <summary>
         /// Array of Region that exists on the Continent.
         /// </summary>
         internal Region[] Regions { get; set; }
@@ -25,6 +30,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
         {
             ContinentName = name;
             InitializeComponents();
+            GC.Collect();
         }
 
         /// <summary>
@@ -48,10 +54,20 @@ namespace WorldMapSpawnEditor._2dMapViewer
             {
                 Regions[i].MouseClick += Region_MouseClick;
                 Regions[i].Location = new System.Drawing.Point((Regions[i].X * 256) - (256 * minX), (((Regions[i].Y * 256) - 65536) * -1) - (((256 * maxY) - 65536) * -1));
-                foreach(var mob in Regions[i].Spawns.MonsterOnRegion )
+                foreach (var mob in Regions[i].MonsterOnRegion)
                 {
-                    mob.MouseClick += Mob_Click;
+                    mob.MouseClick += Spawn_Click;
                     SpawnToolTip.SetToolTip(mob, (mob.Spawn.ObjCommon.CodeName128));
+                }
+                foreach (var umob in Regions[i].UniqueMonsterOnRegion)
+                {
+                    umob.MouseClick += Spawn_Click;
+                    SpawnToolTip.SetToolTip(umob, (umob.Spawn.ObjCommon.CodeName128));
+                }
+                foreach (var npc in Regions[i].NpcOnRegion)
+                {
+                    npc.MouseClick += Spawn_Click;
+                    SpawnToolTip.SetToolTip(npc, (npc.Spawn.ObjCommon.CodeName128));
                 }
             }
             this.SuspendLayout();
@@ -59,9 +75,9 @@ namespace WorldMapSpawnEditor._2dMapViewer
             this.ResumeLayout();
         }
 
-        private void Mob_Click(object sender, EventArgs e)
+        private void Spawn_Click(object sender, EventArgs e)
         {
-            using (WorldMapSpawnEditor._2dMapViewer.Forms.SpawnEditor editor = new Forms.SpawnEditor(((Monster)sender).Spawn))
+            using (WorldMapSpawnEditor._2dMapViewer.Forms.SpawnEditor editor = new Forms.SpawnEditor(((ISpawn)sender).Spawn))
             {
                 editor.ShowDialog();
             }
@@ -104,8 +120,9 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// Resizes and locates the Regions on the Continent.
         /// </summary>
         /// <param name="delta"></param>
-        internal void OnZoom(int delta)
+        internal void OnZoom(int zoomFactor)
         {
+            var delta =  zoomFactor - LastZoomFactor;
             GetMinXMaxY(out int minX, out int maxY);
             this.SuspendLayout();
             foreach (Region item in GetControlsOfType<Region>(this))
@@ -114,6 +131,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
                 item.Location = new System.Drawing.Point((((_2dMapViewer.Region)item).X * item.Size.Width) - (item.Size.Width * minX), (((((_2dMapViewer.Region)item).Y * item.Size.Width) - item.Size.Width ^ 2) * -1) - (((item.Size.Width * maxY) - item.Size.Width ^ 2) * -1));
             }
             this.ResumeLayout();
+            LastZoomFactor = zoomFactor;
         }
 
         /// <summary>

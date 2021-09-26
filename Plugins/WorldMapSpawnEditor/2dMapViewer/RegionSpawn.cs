@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor._2dMapViewer
 {
-    class RegionSpawn
+    abstract class RegionSpawn : PictureBox
     {
         /// <summary>
         /// Region Identifier.
@@ -53,6 +54,44 @@ namespace WorldMapSpawnEditor._2dMapViewer
 
                 if (GenerateSpawns(SpawnsOnRegion, out MonsterOnRegion, out UniqueMonsterOnRegion, out NpcOnRegion))
                 {
+                    if (this.InvokeRequired)
+                    {
+                        this.SuspendLayout();
+
+                        if (MonsterOnRegion.Count > 0)
+                            Invoke((MethodInvoker)delegate
+                            {
+                                this.Controls.AddRange(MonsterOnRegion.ToArray());
+                            });
+
+                        if (UniqueMonsterOnRegion.Count > 0)
+                            Invoke((MethodInvoker)delegate
+                            {
+                                this.Controls.AddRange(UniqueMonsterOnRegion.ToArray());
+                            });
+
+                        if (NpcOnRegion.Count > 0)
+                            Invoke((MethodInvoker)delegate
+                            {
+                                this.Controls.AddRange(NpcOnRegion.ToArray());
+                            });
+
+                        this.ResumeLayout();
+                        return;
+                    }
+
+                    this.SuspendLayout();
+
+                    if (MonsterOnRegion.Count > 0)
+                        this.Controls.AddRange(MonsterOnRegion.ToArray());
+
+
+                    if (UniqueMonsterOnRegion.Count > 0)
+                        this.Controls.AddRange(UniqueMonsterOnRegion.ToArray());
+                    if (NpcOnRegion.Count > 0)
+                        this.Controls.AddRange(NpcOnRegion.ToArray());
+
+                    this.ResumeLayout();
                 }
             }
         }
@@ -72,11 +111,8 @@ namespace WorldMapSpawnEditor._2dMapViewer
             if (SpawnsOnRegion.Count <= 0)
                 return false;
 
-            Monster tempMonster = null;
             foreach (SingleSpawn spawn in SpawnsOnRegion.Where(mob => mob.ObjCommon.TypeID1 == 1 && mob.ObjCommon.TypeID2 == 2 && mob.ObjCommon.TypeID3 == 1 && mob.ObjCommon.TypeID4 == 1 && mob.ObjCommon.Rarity != Rarity.Unique))
-            {
                 MonsterOnRegion.Add(new Monster(spawn));
-            }
             foreach (SingleSpawn spawn in SpawnsOnRegion.Where(unique => unique.ObjCommon.TypeID1 == 1 && unique.ObjCommon.TypeID2 == 2 && unique.ObjCommon.TypeID3 == 1 && unique.ObjCommon.TypeID4 == 1 && unique.ObjCommon.Rarity == Rarity.Unique))
                 UniqueMonsterOnRegion.Add(new UniqueMonster(spawn));
             foreach (SingleSpawn spawn in SpawnsOnRegion.Where(npc => npc.ObjCommon.TypeID1 == 1 && npc.ObjCommon.TypeID2 == 2 && npc.ObjCommon.TypeID3 == 2 && npc.ObjCommon.TypeID4 == 0))
@@ -84,9 +120,5 @@ namespace WorldMapSpawnEditor._2dMapViewer
 
             return true;
         }
-    }
-    class Teleport
-    {
-
     }
 }

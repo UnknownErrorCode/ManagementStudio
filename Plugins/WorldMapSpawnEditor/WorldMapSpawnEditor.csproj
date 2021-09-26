@@ -69,11 +69,14 @@
     <Compile Include="2dMapViewer\Forms\SpawnEditor.Designer.cs">
       <DependentUpon>SpawnEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="2dMapViewer\RegionSpawn.cs" />
+    <Compile Include="2dMapViewer\RegionSpawn.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="2dMapViewer\SingleSpawn.cs" />
     <Compile Include="2dMapViewer\Controls\UniqueMonster.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="2dMapViewer\Teleport.cs" />
     <Compile Include="MapGame\Game.cs" />
     <Compile Include="MapGame\MapCamera.cs" />
     <Compile Include="MapGame\MapControl.cs">

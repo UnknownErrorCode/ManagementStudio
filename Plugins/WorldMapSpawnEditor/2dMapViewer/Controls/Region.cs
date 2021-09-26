@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor._2dMapViewer
 {
-    class Region : PictureBox
+    class Region : RegionSpawn
     {
         #region Properties
         /// <summary>
@@ -23,10 +23,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// </summary>
         short RegionID { get; set; }
 
-        /// <summary>
-        /// Contains all Spawn Controls for the Region.
-        /// </summary>
-        internal RegionSpawn Spawns { get; set; }
         #endregion
 
 
@@ -41,13 +37,12 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// Region contains all information about spawns.
         /// </summary>
         /// <param name="regionID"></param>
-        internal Region(short regionID)
+        internal Region(short regionID) : base(regionID)
         {
             RegionID = regionID;
             InitializeProperties();
             InitializeComponents();
 
-            InitializeSpawns();
         }
 
         /// <summary>
@@ -77,45 +72,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
                 this.BackgroundImage = System.Drawing.Image.FromFile(Path.Combine(ClientDataStorage.Config.StaticConfig.ClientExtracted, TexturePath.Replace(".ddj", ".jpg")));
             else
                 this.BackColor = System.Drawing.Color.Black;
-        }
-
-        /// <summary>
-        /// Adds all Spawn Controls on the Region.
-        /// </summary>
-        private void InitializeSpawns()
-        {
-            Spawns = new RegionSpawn(RegionID);
-
-            if (this.InvokeRequired)
-            {
-                this.SuspendLayout();
-
-                if (Spawns.MonsterOnRegion.Count > 0)
-                    Invoke(new Action(() => this.Controls.AddRange(Spawns.MonsterOnRegion.ToArray())));
-
-                if (Spawns.UniqueMonsterOnRegion.Count > 0)
-                    Invoke(new Action(() => this.Controls.AddRange(Spawns.UniqueMonsterOnRegion.ToArray())));
-
-                if (Spawns.NpcOnRegion.Count > 0)
-                    Invoke(new Action(() => this.Controls.AddRange(Spawns.NpcOnRegion.ToArray())));
-
-                this.ResumeLayout();
-                return;
-            }
-
-            this.SuspendLayout();
-
-            if (Spawns.MonsterOnRegion.Count > 0)
-                this.Controls.AddRange(Spawns.MonsterOnRegion.ToArray());
-
-
-            if (Spawns.UniqueMonsterOnRegion.Count > 0)
-                this.Controls.AddRange(Spawns.UniqueMonsterOnRegion.ToArray());
-            if (Spawns.NpcOnRegion.Count > 0)
-                this.Controls.AddRange(Spawns.NpcOnRegion.ToArray());
-
-            this.ResumeLayout();
-
         }
 
         /// <summary>

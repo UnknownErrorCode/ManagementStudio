@@ -20,10 +20,7 @@ namespace WorldMapSpawnEditor
 
         #region 2D Map Viewer
 
-        /// <summary>
-        /// Get or set the latest zoom value. 
-        /// </summary>
-        int LastZoomFactor { get; set; }
+      
 
         /// <summary>
         /// Pools alrady load Continents inside the Dictionary to prevent load time.
@@ -105,14 +102,15 @@ namespace WorldMapSpawnEditor
         private void OnIndexChanged(object sender, EventArgs e)
         {
             this.splitContainer2dViewer.Panel1.Controls.Clear();
-            LastZoomFactor = 0;
-            trackBarZoom.Value = 0;
+           
 
             if (listView1.SelectedItems.Count > 0)
             {
-                ChangeContinent(listView1.SelectedItems[0].Text);
-                this.splitContainer2dViewer.Panel1.Controls.Add(DisplayedContinent);
+                this.splitContainer2dViewer.Panel1.Controls.Add(Continents[listView1.SelectedItems[0].Text]);
+
+                trackBarZoom.Value = Continents[listView1.SelectedItems[0].Text].LastZoomFactor;
             }
+            GC.Collect();
         }
 
         /// <summary>
@@ -123,9 +121,8 @@ namespace WorldMapSpawnEditor
         private void ZoomChange(object sender, EventArgs e)
         {
             this.SuspendLayout();
-            DisplayedContinent.AutoScrollPosition = new System.Drawing.Point(0, 0);
-            DisplayedContinent.OnZoom(trackBarZoom.Value - LastZoomFactor);
-            LastZoomFactor = trackBarZoom.Value;
+            Continents[listView1.SelectedItems[0].Text].AutoScrollPosition = new System.Drawing.Point(0, 0);
+            Continents[listView1.SelectedItems[0].Text].OnZoom(trackBarZoom.Value);
             this.ResumeLayout();
         }
 
