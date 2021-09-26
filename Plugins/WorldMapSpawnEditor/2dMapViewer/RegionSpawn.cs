@@ -72,8 +72,11 @@ namespace WorldMapSpawnEditor._2dMapViewer
             if (SpawnsOnRegion.Count <= 0)
                 return false;
 
+            Monster tempMonster = null;
             foreach (SingleSpawn spawn in SpawnsOnRegion.Where(mob => mob.ObjCommon.TypeID1 == 1 && mob.ObjCommon.TypeID2 == 2 && mob.ObjCommon.TypeID3 == 1 && mob.ObjCommon.TypeID4 == 1 && mob.ObjCommon.Rarity != Rarity.Unique))
+            {
                 MonsterOnRegion.Add(new Monster(spawn));
+            }
             foreach (SingleSpawn spawn in SpawnsOnRegion.Where(unique => unique.ObjCommon.TypeID1 == 1 && unique.ObjCommon.TypeID2 == 2 && unique.ObjCommon.TypeID3 == 1 && unique.ObjCommon.TypeID4 == 1 && unique.ObjCommon.Rarity == Rarity.Unique))
                 UniqueMonsterOnRegion.Add(new UniqueMonster(spawn));
             foreach (SingleSpawn spawn in SpawnsOnRegion.Where(npc => npc.ObjCommon.TypeID1 == 1 && npc.ObjCommon.TypeID2 == 2 && npc.ObjCommon.TypeID3 == 2 && npc.ObjCommon.TypeID4 == 0))

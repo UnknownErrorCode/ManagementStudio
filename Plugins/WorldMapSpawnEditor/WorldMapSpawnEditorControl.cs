@@ -5,11 +5,20 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 using WorldMapSpawnEditor._2dMapViewer;
+using System.Threading.Tasks;
 
 namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
+
+
+        /// <summary>
+        /// ServerData from Client.
+        /// </summary>
+        internal static ServerData StaticServerData { get; set; }
+
+        #region 2D Map Viewer
 
         /// <summary>
         /// Get or set the latest zoom value. 
@@ -17,57 +26,24 @@ namespace WorldMapSpawnEditor
         int LastZoomFactor { get; set; }
 
         /// <summary>
-        /// ServerData from Client.
-        /// </summary>
-        internal static ServerData StaticServerData { get; set; }
-
-        /// <summary>
         /// Pools alrady load Continents inside the Dictionary to prevent load time.
         /// </summary>
-        Dictionary<string, _2dMapViewer.Continent> Continents = new Dictionary<string, _2dMapViewer.Continent>();
+        Dictionary<string, Continent> Continents = new Dictionary<string, Continent>();
 
         /// <summary>
         /// Displayed Continent that is shown to the user.
         /// </summary>
         _2dMapViewer.Continent DisplayedContinent;
 
+        #endregion
 
         public WorldMapSpawnEditorControl(ServerData data)
         {
             InitializeComponent();
-            InitializeContinentListView();
+            Task.Run(() => InitializeContinentListView());
             InitializePerformance(this);
         }
 
-        /// <summary>
-        /// Gets a ListView of all existing ContinentNames in _RefRegion.
-        /// </summary>
-        private void InitializeContinentListView()
-        {
-            var Continents = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefRegion"].Rows;
-
-            foreach (DataRow item in Continents)
-            {
-                if (!listView1.Items.ContainsKey(item.Field<string>("ContinentName")))
-                    listView1.Items.Add(new ListViewItem(item.Field<string>("ContinentName")) { Name = item.Field<string>("ContinentName") });
-            }
-        }
-
-        /// <summary>
-        /// Gets called when the Continent View changes.
-        /// </summary>
-        /// <param name="continentName"></param>
-        /// <param name="continent"></param>
-        private void ChangeContinent(string continentName, out Continent continent)
-        {
-            if (!Continents.ContainsKey(continentName))
-            {
-                continent = new Continent(continentName);
-                Continents.Add(continentName, continent);
-            }
-            else
-                continent = Continents[listView1.SelectedItems[0].Text];
-        }
 
         /// <summary>
         /// Sets the panel to Doublebuffered = true; 
@@ -81,6 +57,46 @@ namespace WorldMapSpawnEditor
                     null, c, new object[] { true });
         }
 
+
+        #region 2D Continent Viewer
+
+        /// <summary>
+        /// Gets a ListView of all existing ContinentNames in _RefRegion.
+        /// </summary>
+        private void InitializeContinentListView()
+        {
+            var allRegions = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefRegion"].Rows;
+
+            List<string> list = new List<string>();
+            foreach (DataRow item in allRegions)
+            {
+                if (!list.Contains(item.Field<string>("ContinentName")))
+                    list.Add(item.Field<string>("ContinentName"));
+            }
+
+            foreach (var contin in list)
+                if (!Continents.ContainsKey(contin))
+                    Task.Run(() => GenerateContinent(contin)); 
+        }
+
+
+        private void GenerateContinent(string Continentname)
+        {
+            Continents.Add(Continentname, new Continent(Continentname));
+            listView1.Invoke((MethodInvoker)delegate { listView1.Items.Add(Continentname); });
+
+        }
+
+        /// <summary>
+        /// Gets called when the Continent View changes.
+        /// </summary>
+        /// <param name="continentName"></param>
+        /// <param name="continent"></param>
+        private void ChangeContinent(string continentName)
+        {
+             DisplayedContinent = Continents[listView1.SelectedItems[0].Text];
+        }
+
         /// <summary>
         /// Runs when a new Continent gets clicked.
         /// </summary>
@@ -90,10 +106,11 @@ namespace WorldMapSpawnEditor
         {
             this.splitContainer2dViewer.Panel1.Controls.Clear();
             LastZoomFactor = 0;
+            trackBarZoom.Value = 0;
 
             if (listView1.SelectedItems.Count > 0)
             {
-                ChangeContinent(listView1.SelectedItems[0].Text, out DisplayedContinent);
+                ChangeContinent(listView1.SelectedItems[0].Text);
                 this.splitContainer2dViewer.Panel1.Controls.Add(DisplayedContinent);
             }
         }
@@ -105,12 +122,10 @@ namespace WorldMapSpawnEditor
         /// <param name="e"></param>
         private void ZoomChange(object sender, EventArgs e)
         {
-            DisplayedContinent.Visible = false;
             this.SuspendLayout();
             DisplayedContinent.AutoScrollPosition = new System.Drawing.Point(0, 0);
             DisplayedContinent.OnZoom(trackBarZoom.Value - LastZoomFactor);
             LastZoomFactor = trackBarZoom.Value;
-            DisplayedContinent.Visible = true;
             this.ResumeLayout();
         }
 
@@ -131,5 +146,7 @@ namespace WorldMapSpawnEditor
                     maxY = DisplayedContinent.Regions[i].Y;
             }
         }
+
+        #endregion
     }
 }

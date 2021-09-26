@@ -38,6 +38,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
             
             Regions = new Region[allRegions.Length];
 
+
             for (int i = 0; i < Regions.Length; i++)
                 Regions[i] = new Region(allRegions[i].Field<short>("wRegionID")) { };
 
@@ -47,10 +48,23 @@ namespace WorldMapSpawnEditor._2dMapViewer
             {
                 Regions[i].MouseClick += Region_MouseClick;
                 Regions[i].Location = new System.Drawing.Point((Regions[i].X * 256) - (256 * minX), (((Regions[i].Y * 256) - 65536) * -1) - (((256 * maxY) - 65536) * -1));
+                foreach(var mob in Regions[i].Spawns.MonsterOnRegion )
+                {
+                    mob.MouseClick += Mob_Click;
+                    SpawnToolTip.SetToolTip(mob, (mob.Spawn.ObjCommon.CodeName128));
+                }
             }
             this.SuspendLayout();
             this.Controls.AddRange(Regions);
             this.ResumeLayout();
+        }
+
+        private void Mob_Click(object sender, EventArgs e)
+        {
+            using (WorldMapSpawnEditor._2dMapViewer.Forms.SpawnEditor editor = new Forms.SpawnEditor(((Monster)sender).Spawn))
+            {
+                editor.ShowDialog();
+            }
         }
 
         /// <summary>

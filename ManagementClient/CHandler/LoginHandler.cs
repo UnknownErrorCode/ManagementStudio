@@ -67,9 +67,9 @@ namespace ManagementClient.CHandler
                 tableNames[i] = arg2.ReadAscii();
 
             var listOfPackets = new List<Packet>(tableNames.Length);
+            ClientMemory.AllowedDataTables = new List<string>(tableNames.Length);
             foreach (var table in tableNames)
             {
-                ClientMemory.AllowedDataTables = new List<string>(tableNames.Length);
                 ClientMemory.AllowedDataTables.Add(table);
                 Packet tableRequestPacket = new Packet(0x0999, false, true);
                 tableRequestPacket.WriteAscii(table);
@@ -91,11 +91,29 @@ namespace ManagementClient.CHandler
         internal static PacketHandlerResult ReceiveDataTable(ServerData arg1, Packet arg2)
         {
             var tableName = arg2.ReadAscii();
+            PoolDataTable(tableName, arg2);
+
+            ClientDataStorage.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
+
+            if (ClientMemory.AllowedDataTables.Count == 0)
+            {
+                Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
+                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
+            }
+
+            return PacketHandlerResult.Block;
+        }
+
+        /// <summary>
+        /// Save or update the Table in memory
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="arg2"></param>
+        private static async void PoolDataTable(string tableName, Packet arg2)
+        {
             var bytearr = arg2.ReadByteArray(arg2.Remaining);
             DataTable table = arg2.ReadDataTable(bytearr);
             table.TableName = tableName;
-
-            ClientDataStorage.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
 
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains(tableName))
                 ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Remove(tableName);
@@ -104,21 +122,7 @@ namespace ManagementClient.CHandler
 
             ClientMemory.AllowedDataTables.Remove(tableName);
 
-            if (ClientMemory.AllowedDataTables.Count==0)
-            {
-                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
-
-
-                ClientDataStorage.Client.Media.InitializeMediaAsync();
-                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
-
-                ClientDataStorage.Client.Map.InitializeMapAsync();
-                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
-
-                ManagementClient.Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
-            }
-
-            return PacketHandlerResult.Block;
+            await Task.Delay(1);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// <summary>
         /// Contains all Spawn Controls for the Region.
         /// </summary>
-        RegionSpawn Spawns { get; set; }
+        internal RegionSpawn Spawns { get; set; }
         #endregion
 
 
@@ -47,7 +47,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
             InitializeProperties();
             InitializeComponents();
 
-            Task.Run(() => InitializeSpawns());
+            InitializeSpawns();
         }
 
         /// <summary>
@@ -71,9 +71,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
             this.Size = new System.Drawing.Size(256, 256);
             this.BackgroundImageLayout = ImageLayout.Stretch;
             this.DoubleBuffered = true;
-            
-
-            this.MouseClick += Region_MouseClick;
             this.Resize += Region_Resize;
 
             if (File.Exists(Path.Combine(ClientDataStorage.Config.StaticConfig.ClientExtracted, TexturePath.Replace(".ddj", ".jpg"))))
@@ -83,7 +80,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
         }
 
         /// <summary>
-        /// Initialize all Spawn Controls on the Region.
+        /// Adds all Spawn Controls on the Region.
         /// </summary>
         private void InitializeSpawns()
         {
@@ -128,6 +125,12 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// <param name="e"></param>
         private void Region_Resize(object sender, EventArgs e)
         {
+
+            foreach (Control item in Controls)
+            {
+                var test = item.Text;
+            }
+
             foreach (Npc item in WorldMap2dPanel.GetControlsOfType<Npc>(this))
                 item.Location = new System.Drawing.Point((int)Math.Round(item.Spawn.Nest.fLocalPosX / (1920f / this.Width), 0) - 6, (int)Math.Round((item.Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1) - 6);
             
@@ -136,17 +139,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
             
             foreach (UniqueMonster item in WorldMap2dPanel.GetControlsOfType<UniqueMonster>(this))
                 item.Location = new System.Drawing.Point((int)Math.Round(item.Spawn.Nest.fLocalPosX / (1920f / this.Width), 0)-6, (int)Math.Round((item.Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1)-6);
-        }
-
-        /// <summary>
-        /// Opens ContextMenu when user clicks the Region.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Region_MouseClick(object sender, MouseEventArgs e)
-        {
-           // var CurrentPositionX = (1920f / ((Region)sender).Width) * e.X;
-           // var CurrentPositionY = ((1920f / ((Region)sender).Width) * e.Y - 1920f) * -1;
         }
     }
 }

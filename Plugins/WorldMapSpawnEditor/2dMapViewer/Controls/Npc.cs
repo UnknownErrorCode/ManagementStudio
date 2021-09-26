@@ -15,7 +15,10 @@ namespace WorldMapSpawnEditor._2dMapViewer
 
         private void Npc_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            using (_2dMapViewer.Forms. SpawnEditor edit = new Forms.SpawnEditor(Spawn) )
+            {
+                edit.ShowDialog();
+            }
         }
 
 

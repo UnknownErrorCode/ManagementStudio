@@ -18,6 +18,7 @@ namespace ServerFrameworkRes.Ressources
         public LogGridView( )
         {
             InitializeComponent();
+            Dock = DockStyle.Bottom;
         }
 
         public void WriteLogLine(string message)

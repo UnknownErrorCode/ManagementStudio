@@ -11,6 +11,7 @@ namespace WorldMapSpawnEditor
     {
         internal ContextMenuStrip RegionContextMenu = new ContextMenuStrip();
 
+        internal ToolTip SpawnToolTip = new ToolTip() { InitialDelay = 100, AutoPopDelay = 0, ReshowDelay = 100 };
         internal WorldMap2dPanel()
         {
             InitializeComponents();

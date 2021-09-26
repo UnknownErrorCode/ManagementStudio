@@ -81,8 +81,7 @@
     </Compile>
     <Compile Include="MapRessources\IMapControl.cs" />
     <Compile Include="MapRessources\RegionTerrain.cs" />
-    <Compile Include="Pk2Ressources.cs" />
-    <Compile Include="WorldMap2dPanel.cs">
+    <Compile Include="2dMapViewer\Controls\WorldMap2dPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WorldMapSpawnEditorControl.cs">

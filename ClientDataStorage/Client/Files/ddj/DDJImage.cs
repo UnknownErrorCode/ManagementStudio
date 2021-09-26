@@ -619,7 +619,7 @@ namespace ClientDataStorage.Client.Files
         #region Decompress Methods
         private byte[] DecompressData(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
-            System.Diagnostics.Debug.WriteLine(pixelFormat);
+            //System.Diagnostics.Debug.WriteLine(pixelFormat);
             // allocate bitmap
             byte[] rawData = null;
 

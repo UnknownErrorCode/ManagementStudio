@@ -2,7 +2,7 @@
 {
 	public struct Tab_RefNest
 	{
-		public int dwNestID { get; set; }
+		public int dwNestID { get; private set; }
 		public int dwHiveID { get; set; }
 		public int dwTacticsID { get; set; }
 		public short nRegionDBID { get; set; }

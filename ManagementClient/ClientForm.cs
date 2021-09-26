@@ -18,9 +18,23 @@ namespace ManagementClient
         public ClientForm()
         {
             InitializeComponent();
-            ClientDataStorage.Log.Logger = new LogGridView() { Dock = DockStyle.Bottom };
-            this.Controls.Add(ClientDataStorage.Log.Logger);
+            InitializeLogger();
+            InitializePk2Files();
+            
             ClientDataStorage.Log.Logger.WriteLogLine("Successfully initialized!");
+        }
+
+        private void InitializeLogger()
+            => this.Controls.Add(ClientDataStorage.Log.Logger);
+
+        private void InitializePk2Files()
+        {
+            ClientDataStorage.Client.Media.InitializeMediaAsync();
+            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
+
+            ClientDataStorage.Client.Map.InitializeMapAsync();
+            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
+
         }
 
         private void OnClose(object sender, FormClosingEventArgs e)

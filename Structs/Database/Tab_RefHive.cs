@@ -2,9 +2,15 @@
 
 namespace Structs.Database
 {
+	/// <summary>
+	/// This is the Hive of vSro.
+	/// </summary>
 	public struct Tab_RefHive
 	{
-		public int dwHiveID { get; set; }
+		/// <summary>
+		/// This is the Identifier of the hive.
+		/// </summary>
+		public int dwHiveID { get; private set; }
 		public byte btKeepMonsterCountType { get; set; }
 		public int dwOverwriteMaxTotalCount { get; set; }
 		public float fMonsterCountPerPC { get; set; }

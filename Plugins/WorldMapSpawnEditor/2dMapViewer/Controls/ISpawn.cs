@@ -11,7 +11,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// <summary>
         /// Contains all Database Informations about the spawn.
         /// </summary>
-        public SingleSpawn Spawn { get; }
+        public SingleSpawn Spawn { get; private set; }
 
         /// <summary>
         /// Image of the spawn.
@@ -32,6 +32,13 @@ namespace WorldMapSpawnEditor._2dMapViewer
             DrawBackgroundImage();
         }
 
+
+
+        public void UpdateISpawn(SingleSpawn newSpawn)
+        {
+            Spawn = newSpawn;
+            this.Location = new Point((int)Math.Round(Spawn.Nest.fLocalPosX / 7.5f, 0) - 6, (int)Math.Round((Spawn.Nest.fLocalPosZ / 7.5f - 256) * -1) - 6);
+        }
         /// <summary>
         /// Draws the Background Image from "ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(ImgPath, out byte[] file)".
         /// </summary>
@@ -42,13 +49,14 @@ namespace WorldMapSpawnEditor._2dMapViewer
                 if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(ImgPath, out byte[] file))
                 {
                     DDJImage DDJFile = new DDJImage(file);
-                    DDSImage DDSFile = new DDSImage(file, true);
-
+                    ClientDataStorage.Client.Media.DDJFiles.Add(ImgPath, DDJFile);
                     this.BackgroundImage = DDJFile.BitmapImage;
                     return;
                 }
+                this.BackColor = Color.Orange;
             }
-            this.BackColor = Color.Orange;
+            else
+                this.BackgroundImage = ClientDataStorage.Client.Media.DDJFiles[ImgPath].BitmapImage;
         }
     }
 }

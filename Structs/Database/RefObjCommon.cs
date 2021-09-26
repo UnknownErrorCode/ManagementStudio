@@ -5,7 +5,7 @@ namespace Structs.Database
     public struct RefObjCommon
     {
         public int Service { get; set; }
-        public int ID { get; set; }
+        public int ID { get; private set; }
         public string CodeName128 { get; set; }
         public string ObjName128 { get; set; }
         public string OrgObjCodeName128 { get; set; }
