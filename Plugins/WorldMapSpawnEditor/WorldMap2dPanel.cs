@@ -10,7 +10,8 @@ namespace WorldMapSpawnEditor
     abstract class WorldMap2dPanel : Panel
     {
         internal ContextMenuStrip RegionContextMenu = new ContextMenuStrip();
-        internal WorldMap2dPanel() : base()
+
+        internal WorldMap2dPanel()
         {
             InitializeComponents();
         }
@@ -24,22 +25,19 @@ namespace WorldMapSpawnEditor
             RegionContextMenu.Items.Add("Create Spawn");
             RegionContextMenu.Items.Add("Save Coordinate");
 
+            RegionContextMenu.Items[0].Click += CreateSpawnClickContext;
+            RegionContextMenu.Items[1].Click += SaveCoordinateClickContext;
+
             base.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
         }
 
-        private void SaveCoordinateClickContext(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void SaveCoordinateClickContext(object sender, EventArgs e);
 
-        private void CreateSpawnClickContext(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void CreateSpawnClickContext(object sender, EventArgs e);
 
         public static IEnumerable<T> GetControlsOfType<T>(Control root)
-   where T : Control
+            where T : Control
         {
             var t = root as T;
             if (t != null)
@@ -49,6 +47,5 @@ namespace WorldMapSpawnEditor
                 foreach (var i in GetControlsOfType<T>(c))
                     yield return i;
         }
-
     }
 }

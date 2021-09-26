@@ -3,49 +3,49 @@ namespace Structs.Database
 {
 	public struct Tab_RefTactics
 	{
-		public int dwTacticsID;
-		public int dwObjID;
-		public byte btAIQoS;
-		public int nMaxStamina;
-		public byte btMaxStaminaVariance;
-		public int nSightRange;
-		public byte btAggressType;
-		public int AggressData;
-		public byte btChangeTarget;
-		public byte btHelpRequestTo;
-		public byte btHelpResponseTo;
-		public byte btBattleStyle;
-		public int BattleStyleData;
-		public byte btDiversionBasis;
-		public int DiversionBasisData1;
-		public int DiversionBasisData2;
-		public int DiversionBasisData3;
-		public int DiversionBasisData4;
-		public int DiversionBasisData5;
-		public int DiversionBasisData6;
-		public int DiversionBasisData7;
-		public int DiversionBasisData8;
-		public byte btDiversionKeepBasis;
-		public int DiversionKeepBasisData1;
-		public int DiversionKeepBasisData2;
-		public int DiversionKeepBasisData3;
-		public int DiversionKeepBasisData4;
-		public int DiversionKeepBasisData5;
-		public int DiversionKeepBasisData6;
-		public int DiversionKeepBasisData7;
-		public int DiversionKeepBasisData8;
-		public byte btKeepDistance;
-		public int KeepDistanceData;
-		public byte btTraceType;
-		public byte btTraceBoundary;
-		public int TraceData;
-		public byte btHomingType;
-		public int HomingData;
-		public byte btAggressTypeOnHoming;
-		public byte btFleeType;
-		public int dwChampionTacticsID;
-		public int AdditionOptionFlag;
-		public string szDescString128;
+		public int dwTacticsID { get; set; }
+		public int dwObjID { get; set; }
+		public byte btAIQoS { get; set; }
+		public int nMaxStamina { get; set; }
+		public byte btMaxStaminaVariance { get; set; }
+		public int nSightRange { get; set; }
+		public byte btAggressType { get; set; }
+		public int AggressData { get; set; }
+		public byte btChangeTarget { get; set; }
+		public byte btHelpRequestTo { get; set; }
+		public byte btHelpResponseTo { get; set; }
+		public byte btBattleStyle { get; set; }
+		public int BattleStyleData { get; set; }
+		public byte btDiversionBasis { get; set; }
+		public int DiversionBasisData1 { get; set; }
+		public int DiversionBasisData2 { get; set; }
+		public int DiversionBasisData3 { get; set; }
+		public int DiversionBasisData4 { get; set; }
+		public int DiversionBasisData5 { get; set; }
+		public int DiversionBasisData6 { get; set; }
+		public int DiversionBasisData7 { get; set; }
+		public int DiversionBasisData8 { get; set; }
+		public byte btDiversionKeepBasis { get; set; }
+		public int DiversionKeepBasisData1 { get; set; }
+		public int DiversionKeepBasisData2 { get; set; }
+		public int DiversionKeepBasisData3 { get; set; }
+		public int DiversionKeepBasisData4 { get; set; }
+		public int DiversionKeepBasisData5 { get; set; }
+		public int DiversionKeepBasisData6 { get; set; }
+		public int DiversionKeepBasisData7 { get; set; }
+		public int DiversionKeepBasisData8 { get; set; }
+		public byte btKeepDistance { get; set; }
+		public int KeepDistanceData { get; set; }
+		public byte btTraceType { get; set; }
+		public byte btTraceBoundary { get; set; }
+		public int TraceData { get; set; }
+		public byte btHomingType { get; set; }
+		public int HomingData { get; set; }
+		public byte btAggressTypeOnHoming { get; set; }
+		public byte btFleeType { get; set; }
+		public int dwChampionTacticsID { get; set; }
+		public int AdditionOptionFlag { get; set; }
+		public string szDescString128 { get; set; }
 
 		public Tab_RefTactics(object[] row)
 		{

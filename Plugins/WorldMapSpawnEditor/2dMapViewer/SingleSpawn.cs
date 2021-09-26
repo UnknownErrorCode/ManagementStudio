@@ -5,15 +5,15 @@ using System.Linq;
 
 namespace WorldMapSpawnEditor._2dMapViewer
 {
-    class SingleSpawn
+    public class SingleSpawn
     {
-       internal Tab_RefNest Nest { get; set; }
-       internal Tab_RefHive Hive { get; set; }
-       internal Tab_RefTactics Tactics { get; set; }
-       internal RefObjCommon ObjCommon { get; set; }
-       internal RefObjChar ObjChar { get; set; }
+       public Tab_RefNest Nest { get; set; }
+       public Tab_RefHive Hive { get; set; }
+       public Tab_RefTactics Tactics { get; set; }
+       public RefObjCommon ObjCommon { get; set; }
+       public RefObjChar ObjChar { get; set; }
 
-        internal SingleSpawn(Tab_RefNest nest)
+        public SingleSpawn(Tab_RefNest nest)
         {
             Nest = nest;
             if (SRO_VT_SHARD.dbo.Tables["Tab_RefHive"].Rows.OfType<DataRow>().Any(hive => hive.Field<int>("dwHiveID") == Nest.dwHiveID))

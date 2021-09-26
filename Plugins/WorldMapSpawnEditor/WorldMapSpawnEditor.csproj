@@ -48,14 +48,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2dMapViewer\Continent.cs">
+    <Compile Include="2dMapViewer\Controls\Continent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2dMapViewer\Region.cs">
+    <Compile Include="2dMapViewer\Controls\Region.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2dMapViewer\Controls\ISpawn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2dMapViewer\Controls\Monster.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2dMapViewer\Controls\Npc.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2dMapViewer\Forms\SpawnEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2dMapViewer\Forms\SpawnEditor.Designer.cs">
+      <DependentUpon>SpawnEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="2dMapViewer\RegionSpawn.cs" />
     <Compile Include="2dMapViewer\SingleSpawn.cs" />
+    <Compile Include="2dMapViewer\Controls\UniqueMonster.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MapGame\Game.cs" />
     <Compile Include="MapGame\MapCamera.cs" />
     <Compile Include="MapGame\MapControl.cs">
@@ -77,6 +95,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="2dMapViewer\Forms\SpawnEditor.resx">
+      <DependentUpon>SpawnEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WorldMapSpawnEditorControl.resx">
       <DependentUpon>WorldMapSpawnEditorControl.cs</DependentUpon>
     </EmbeddedResource>

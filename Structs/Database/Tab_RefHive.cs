@@ -4,16 +4,16 @@ namespace Structs.Database
 {
 	public struct Tab_RefHive
 	{
-		public int dwHiveID;
-		public byte btKeepMonsterCountType;
-		public int dwOverwriteMaxTotalCount;
-		public float fMonsterCountPerPC;
-		public int dwSpawnSpeedIncreaseRate;
-		public int dwMaxIncreaseRate;
-		public byte btFlag;
-		public Int16 GameWorldID;
-		public Int16 HatchObjType;
-		public string szDescString128;
+		public int dwHiveID { get; set; }
+		public byte btKeepMonsterCountType { get; set; }
+		public int dwOverwriteMaxTotalCount { get; set; }
+		public float fMonsterCountPerPC { get; set; }
+		public int dwSpawnSpeedIncreaseRate { get; set; }
+		public int dwMaxIncreaseRate { get; set; }
+		public byte btFlag { get; set; }
+		public Int16 GameWorldID { get; set; }
+		public Int16 HatchObjType { get; set; }
+		public string szDescString128 { get; set; }
 
 		public Tab_RefHive(object[] row)
 		{

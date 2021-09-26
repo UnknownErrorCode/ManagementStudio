@@ -1,29 +1,45 @@
-﻿using ClientDataStorage.Client.Files;
-using Structs.Database;
-using System;
+﻿using Structs.Database;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor._2dMapViewer
 {
     class RegionSpawn
     {
+        /// <summary>
+        /// Region Identifier.
+        /// </summary>
         private short RegionID { get; set; }
 
+        /// <summary>
+        /// List of all Monster Controls.
+        /// </summary>
         internal List<Monster> MonsterOnRegion = new List<Monster>();
+
+        /// <summary>
+        /// List of all UniqueMonster Controls.
+        /// </summary>
         internal List<UniqueMonster> UniqueMonsterOnRegion = new List<UniqueMonster>();
+
+        /// <summary>
+        /// List of all Npc Controls.
+        /// </summary>
         internal List<Npc> NpcOnRegion = new List<Npc>();
 
+        /// <summary>
+        /// Contains all Controls that are required to display on the Map
+        /// </summary>
+        /// <param name="regID"></param>
         internal RegionSpawn(short regID)
         {
             RegionID = regID;
             InitializeSpawns();
         }
 
+        /// <summary>
+        /// Initialize Spawns on the Region.
+        /// </summary>
         private void InitializeSpawns()
         {
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["Tab_RefNest"].Rows.OfType<DataRow>().Any(row => row.Field<short>("nRegionDBID") == RegionID))
@@ -41,6 +57,14 @@ namespace WorldMapSpawnEditor._2dMapViewer
             }
         }
 
+        /// <summary>
+        /// Generates all Controls on the RegionID.
+        /// </summary>
+        /// <param name="SpawnsOnRegion"></param>
+        /// <param name="monsterOnRegion"></param>
+        /// <param name="uniqueMonsterOnRegion"></param>
+        /// <param name="npcOnRegion"></param>
+        /// <returns>bool Weather it succeed or fail to generate the Controls.</returns>
         private bool GenerateSpawns(List<SingleSpawn> SpawnsOnRegion, out List<Monster> monsterOnRegion, out List<UniqueMonster> uniqueMonsterOnRegion, out List<Npc> npcOnRegion)
         {
             monsterOnRegion = new List<Monster>(); uniqueMonsterOnRegion = new List<UniqueMonster>(); npcOnRegion = new List<Npc>();
@@ -57,85 +81,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
 
             return true;
         }
-    }
-
-
-    abstract class ISpawn : Panel
-    {
-        public SingleSpawn Spawn { get; }
-         public string ImgPath { get; set; }
-
-        public ISpawn(SingleSpawn spawn, int size, string mediaPath)
-        {
-            Spawn = spawn;
-            ImgPath = mediaPath;
-            this.DoubleBuffered = true;
-            this.Size = new Size(12, 12);
-            this.BackgroundImageLayout = ImageLayout.Stretch;
-            this.Location = new Point((int)Math.Round(spawn.Nest.fLocalPosX / 7.5f,0)-6 , (int) Math.Round((spawn.Nest.fLocalPosZ / 7.5f - 256 )* -1) -6);
-            DrawBackgroundImage();
-        }
-
-        private void DrawBackgroundImage()
-        {
-            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(ImgPath))
-            {
-                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(ImgPath, out byte[] file))
-                {
-                    DDJImage DDJFile = new DDJImage(file);
-                    DDSImage DDSFile = new DDSImage(file, true);
-
-                    this.BackgroundImage = DDJFile.BitmapImage;
-                    return;
-                }
-            }
-            this.BackColor = Color.Orange;
-        }
-    }
-
-
-    class Monster : ISpawn
-    {
-        internal Monster(SingleSpawn spawn) : base(spawn, 8, "Media\\interface\\minimap\\mm_sign_monster.ddj")
-        {
-            this.Click += Monster_Click;
-            ToolTip tip = new ToolTip() { InitialDelay = 100, AutoPopDelay = 0, ReshowDelay = 100 };
-            tip.SetToolTip(this, spawn.ObjCommon.CodeName128);
-        }
-
-        private void Monster_Click(object sender, EventArgs e)
-        {
-            
-        }
-    }
-
-
-    class UniqueMonster : ISpawn
-    {
-        internal UniqueMonster(SingleSpawn spawn) : base(spawn, 12, "Media\\interface\\minimap\\mm_sign_unique.ddj")
-        {
-            this.Click += UniqueMonster_Click; ;
-        }
-
-        private void UniqueMonster_Click(object sender, EventArgs e)
-        {
-        }
-    }
-
-    class Npc : ISpawn
-    {
-
-        internal Npc(SingleSpawn spawn) : base(spawn, 8, "Media\\interface\\minimap\\mm_sign_npc.ddj")
-        {
-            this.Click += Npc_Click; ;
-        }
-
-        private void Npc_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
     class Teleport
     {
