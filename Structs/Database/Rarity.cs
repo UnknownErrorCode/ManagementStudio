@@ -2,6 +2,10 @@
 
 namespace Structs.Database
 {
+
+    /// <summary>
+    /// Defines the rarity of each monster / item ingame.
+    /// </summary>
     [Flags]
     public enum Rarity : byte
     {

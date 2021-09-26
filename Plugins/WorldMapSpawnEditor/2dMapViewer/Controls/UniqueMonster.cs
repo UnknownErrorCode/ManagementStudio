@@ -14,6 +14,10 @@ namespace WorldMapSpawnEditor._2dMapViewer
 
         private void UniqueMonster_Click(object sender, EventArgs e)
         {
+            using (WorldMapSpawnEditor._2dMapViewer.Forms.SpawnEditor edit = new Forms.SpawnEditor(Spawn))
+            {
+                edit.ShowDialog();
+            }
         }
     }
 }
