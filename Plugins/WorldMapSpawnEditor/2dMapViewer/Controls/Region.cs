@@ -128,17 +128,8 @@ namespace WorldMapSpawnEditor._2dMapViewer
 
             foreach (Control item in Controls)
             {
-                var test = item.Text;
+                item.Location = new System.Drawing.Point((int)Math.Round(((ISpawn)item).Spawn.Nest.fLocalPosX / (1920f / this.Width), 0) - 6, (int)Math.Round((((ISpawn)item).Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1) - 6);
             }
-
-            foreach (Npc item in WorldMap2dPanel.GetControlsOfType<Npc>(this))
-                item.Location = new System.Drawing.Point((int)Math.Round(item.Spawn.Nest.fLocalPosX / (1920f / this.Width), 0) - 6, (int)Math.Round((item.Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1) - 6);
-            
-            foreach (Monster item in WorldMap2dPanel.GetControlsOfType<Monster>(this))
-                item.Location = new System.Drawing.Point((int)Math.Round(item.Spawn.Nest.fLocalPosX / (1920f / this.Width), 0)-6, (int)Math.Round((item.Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1)-6);
-            
-            foreach (UniqueMonster item in WorldMap2dPanel.GetControlsOfType<UniqueMonster>(this))
-                item.Location = new System.Drawing.Point((int)Math.Round(item.Spawn.Nest.fLocalPosX / (1920f / this.Width), 0)-6, (int)Math.Round((item.Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1)-6);
         }
     }
 }
