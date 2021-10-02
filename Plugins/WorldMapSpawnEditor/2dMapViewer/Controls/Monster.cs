@@ -10,7 +10,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
     {
         internal Monster(SingleSpawn spawn) : base(spawn, 8, "Media\\interface\\minimap\\mm_sign_monster.ddj")
         {
-          
         }
     }
 }

@@ -54,21 +54,21 @@ namespace WorldMapSpawnEditor._2dMapViewer
             {
                 Regions[i].MouseClick += Region_MouseClick;
                 Regions[i].Location = new System.Drawing.Point((Regions[i].X * 256) - (256 * minX), (((Regions[i].Y * 256) - 65536) * -1) - (((256 * maxY) - 65536) * -1));
-                foreach (var mob in Regions[i].MonsterOnRegion)
-                {
-                    mob.MouseClick += Spawn_Click;
-                    SpawnToolTip.SetToolTip(mob, (mob.Spawn.ObjCommon.CodeName128));
-                }
-                foreach (var umob in Regions[i].UniqueMonsterOnRegion)
-                {
-                    umob.MouseClick += Spawn_Click;
-                    SpawnToolTip.SetToolTip(umob, (umob.Spawn.ObjCommon.CodeName128));
-                }
-                foreach (var npc in Regions[i].NpcOnRegion)
-                {
-                    npc.MouseClick += Spawn_Click;
-                    SpawnToolTip.SetToolTip(npc, (npc.Spawn.ObjCommon.CodeName128));
-                }
+             //  foreach (var mob in Regions[i].MonsterOnRegion)
+             //  {
+             //      mob.MouseClick += Spawn_Click;
+             //      SpawnToolTip.SetToolTip(mob, (mob.Spawn.ObjCommon.CodeName128));
+             //  }
+             //  foreach (var umob in Regions[i].UniqueMonsterOnRegion)
+             //  {
+             //      umob.MouseClick += Spawn_Click;
+             //      SpawnToolTip.SetToolTip(umob, (umob.Spawn.ObjCommon.CodeName128));
+             //  }
+             //  foreach (var npc in Regions[i].NpcOnRegion)
+             //  {
+             //      npc.MouseClick += Spawn_Click;
+             //      SpawnToolTip.SetToolTip(npc, (npc.Spawn.ObjCommon.CodeName128));
+             //  }
             }
             this.SuspendLayout();
             this.Controls.AddRange(Regions);

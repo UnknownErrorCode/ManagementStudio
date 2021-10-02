@@ -6,6 +6,9 @@ using System.Data;
 using System.Collections.Generic;
 using WorldMapSpawnEditor._2dMapViewer;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace WorldMapSpawnEditor
 {
@@ -20,7 +23,7 @@ namespace WorldMapSpawnEditor
 
         #region 2D Map Viewer
 
-      
+
 
         /// <summary>
         /// Pools alrady load Continents inside the Dictionary to prevent load time.
@@ -37,9 +40,14 @@ namespace WorldMapSpawnEditor
         public WorldMapSpawnEditorControl(ServerData data)
         {
             InitializeComponent();
-            Task.Run(() => InitializeContinentListView());
+            // Task.Run(() => InitializeContinentListView());
             InitializePerformance(this);
+            tabPage2.Controls.Add(new MapGraphics.GraphicsPanel());
         }
+
+        
+
+        
 
 
         /// <summary>
@@ -73,7 +81,7 @@ namespace WorldMapSpawnEditor
 
             foreach (var contin in list)
                 if (!Continents.ContainsKey(contin))
-                    Task.Run(() => GenerateContinent(contin)); 
+                    Task.Run(() => GenerateContinent(contin));
         }
 
 
@@ -91,7 +99,7 @@ namespace WorldMapSpawnEditor
         /// <param name="continent"></param>
         private void ChangeContinent(string continentName)
         {
-             DisplayedContinent = Continents[listView1.SelectedItems[0].Text];
+            DisplayedContinent = Continents[listView1.SelectedItems[0].Text];
         }
 
         /// <summary>
@@ -102,7 +110,6 @@ namespace WorldMapSpawnEditor
         private void OnIndexChanged(object sender, EventArgs e)
         {
             this.splitContainer2dViewer.Panel1.Controls.Clear();
-           
 
             if (listView1.SelectedItems.Count > 0)
             {
@@ -145,5 +152,8 @@ namespace WorldMapSpawnEditor
         }
 
         #endregion
+
+      
+
     }
 }

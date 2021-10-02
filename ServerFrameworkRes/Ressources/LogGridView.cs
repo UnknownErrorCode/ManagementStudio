@@ -15,7 +15,7 @@ namespace ServerFrameworkRes.Ressources
     {
         private ReportLog Reporter { get => new ReportLog(TypeOfModuleLog); }
         public ModuleType TypeOfModuleLog { get; set; }
-        public LogGridView( )
+        public LogGridView()
         {
             InitializeComponent();
             Dock = DockStyle.Bottom;
@@ -23,7 +23,7 @@ namespace ServerFrameworkRes.Ressources
 
         public void WriteLogLine(string message)
         {
-           WriteLogLine(LogLevel.notify, message);
+            WriteLogLine(LogLevel.notify, message);
         }
 
         public void WriteLogLine(LogLevel Level, string message)
@@ -34,33 +34,37 @@ namespace ServerFrameworkRes.Ressources
                 message,
                 DateTime.Now.ToString("yyyy-MM-dd  HH:mm:ss fff ")
             };
-            DataGridViewRow r = new DataGridViewRow()
-            {Height = 15 };
-            r.CreateCells(dataGridView1); 
-            r.SetValues(LogArray);
-
-            switch (Level)
+            using (DataGridViewRow r = new DataGridViewRow())
             {
-                case LogLevel.fatal:
-                    r.DefaultCellStyle.ForeColor = Color.Red;
-                    break;
-                case LogLevel.notify:
-                    r.DefaultCellStyle.ForeColor = Color.Black;
-                    break;
-                case LogLevel.warning:
-                    r.DefaultCellStyle.ForeColor = Color.Violet;
-                    break;
-                default:
-                    r.DefaultCellStyle.ForeColor = Color.Black;
-                    break;
-            }
+                r.Height = 15;
 
-           // dataGridView1.Rows.Add(r);
-            dataGridView1.Invoke(new Action(() => { dataGridView1.Rows.Add(r); }));
-           // dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
-            dataGridView1.Invoke(new Action(() => { dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1; }));
-            r.Dispose();
-           // dataGridView1.ClearSelection();
+                r.CreateCells(dataGridView1);
+                r.SetValues(LogArray);
+
+
+                switch (Level)
+                {
+                    case LogLevel.fatal:
+                        r.DefaultCellStyle.ForeColor = Color.Red;
+                        break;
+                    case LogLevel.notify:
+                        r.DefaultCellStyle.ForeColor = Color.Black;
+                        break;
+                    case LogLevel.warning:
+                        r.DefaultCellStyle.ForeColor = Color.Violet;
+                        break;
+                    default:
+                        r.DefaultCellStyle.ForeColor = Color.Black;
+                        break;
+                }
+
+                // dataGridView1.Rows.Add(r);
+                dataGridView1.Invoke(new Action(() => { dataGridView1.Rows.Add(r); }));
+                // dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
+                dataGridView1.Invoke(new Action(() => { dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1; }));
+            }
+            
+            // dataGridView1.ClearSelection();
             dataGridView1.Invoke(new Action(() => { dataGridView1.ClearSelection(); }));
         }
 
@@ -79,7 +83,7 @@ namespace ServerFrameworkRes.Ressources
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-             WriteLogLine(Reporter.SaveReportLog(dataGridView1));
+            WriteLogLine(Reporter.SaveReportLog(dataGridView1));
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -54,15 +54,9 @@
     <Compile Include="2dMapViewer\Controls\Region.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2dMapViewer\Controls\ISpawn.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="2dMapViewer\Controls\Monster.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="2dMapViewer\Controls\Npc.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="2dMapViewer\Controls\ISpawn.cs" />
+    <Compile Include="2dMapViewer\Controls\Monster.cs" />
+    <Compile Include="2dMapViewer\Controls\Npc.cs" />
     <Compile Include="2dMapViewer\Forms\SpawnEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,15 +67,17 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="2dMapViewer\SingleSpawn.cs" />
-    <Compile Include="2dMapViewer\Controls\UniqueMonster.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="2dMapViewer\Controls\UniqueMonster.cs" />
     <Compile Include="2dMapViewer\Teleport.cs" />
     <Compile Include="MapGame\Game.cs" />
     <Compile Include="MapGame\MapCamera.cs" />
     <Compile Include="MapGame\MapControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="MapGraphics\GraphicsPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MapGraphics\RegionGraphic.cs" />
     <Compile Include="MapRessources\IMapControl.cs" />
     <Compile Include="MapRessources\RegionTerrain.cs" />
     <Compile Include="2dMapViewer\Controls\WorldMap2dPanel.cs">

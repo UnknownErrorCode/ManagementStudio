@@ -52,7 +52,9 @@ namespace WorldMapSpawnEditor._2dMapViewer
                 for (int i = 0; i < nestsOnRegion.Length; i++)
                     SpawnsOnRegion.Add(new SingleSpawn(new Tab_RefNest(nestsOnRegion[i].ItemArray)));
 
-                if (GenerateSpawns(SpawnsOnRegion, out MonsterOnRegion, out UniqueMonsterOnRegion, out NpcOnRegion))
+                /*
+                 
+                  if (GenerateSpawns(SpawnsOnRegion, out MonsterOnRegion, out UniqueMonsterOnRegion, out NpcOnRegion))
                 {
                     if (this.InvokeRequired)
                     {
@@ -92,7 +94,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
                         this.Controls.AddRange(NpcOnRegion.ToArray());
 
                     this.ResumeLayout();
-                }
+                }*/
             }
         }
 

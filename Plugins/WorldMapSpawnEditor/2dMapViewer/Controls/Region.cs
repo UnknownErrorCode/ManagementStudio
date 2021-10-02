@@ -84,7 +84,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
 
             foreach (Control item in Controls)
             {
-                item.Location = new System.Drawing.Point((int)Math.Round(((ISpawn)item).Spawn.Nest.fLocalPosX / (1920f / this.Width), 0) - 6, (int)Math.Round((((ISpawn)item).Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1) - 6);
+              //  item.Location = new System.Drawing.Point((int)Math.Round(((ISpawn)item).Spawn.Nest.fLocalPosX / (1920f / this.Width), 0) - 6, (int)Math.Round((((ISpawn)item).Spawn.Nest.fLocalPosZ / (1920f / this.Width) - this.Width) * -1) - 6);
             }
         }
     }
