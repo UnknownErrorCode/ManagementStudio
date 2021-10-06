@@ -32,19 +32,20 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer2dViewer = new System.Windows.Forms.SplitContainer();
-            this.trackBarZoom = new System.Windows.Forms.TrackBar();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBarLoadSpawns = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabelSpawnsLoad = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
-            this.splitContainer2dViewer.Panel2.SuspendLayout();
+            this.splitContainer2dViewer.Panel1.SuspendLayout();
             this.splitContainer2dViewer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).BeginInit();
             this.contextMenuStripRegionClick.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -76,37 +77,12 @@
             this.splitContainer2dViewer.Location = new System.Drawing.Point(3, 3);
             this.splitContainer2dViewer.Name = "splitContainer2dViewer";
             // 
-            // splitContainer2dViewer.Panel2
+            // splitContainer2dViewer.Panel1
             // 
-            this.splitContainer2dViewer.Panel2.Controls.Add(this.trackBarZoom);
-            this.splitContainer2dViewer.Panel2.Controls.Add(this.listView1);
+            this.splitContainer2dViewer.Panel1.Controls.Add(this.statusStrip1);
             this.splitContainer2dViewer.Size = new System.Drawing.Size(786, 418);
             this.splitContainer2dViewer.SplitterDistance = 523;
             this.splitContainer2dViewer.TabIndex = 1;
-            // 
-            // trackBarZoom
-            // 
-            this.trackBarZoom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.trackBarZoom.LargeChange = 1;
-            this.trackBarZoom.Location = new System.Drawing.Point(0, 153);
-            this.trackBarZoom.Maximum = 50;
-            this.trackBarZoom.Name = "trackBarZoom";
-            this.trackBarZoom.Size = new System.Drawing.Size(255, 45);
-            this.trackBarZoom.TabIndex = 1;
-            this.trackBarZoom.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBarZoom.Scroll += new System.EventHandler(this.ZoomChange);
-            // 
-            // listView1
-            // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.listView1.Location = new System.Drawing.Point(0, 198);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(255, 216);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // tabPage2
             // 
@@ -141,6 +117,28 @@
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBarLoadSpawns,
+            this.toolStripStatusLabelSpawnsLoad});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 392);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(519, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBarLoadSpawns
+            // 
+            this.toolStripProgressBarLoadSpawns.Name = "toolStripProgressBarLoadSpawns";
+            this.toolStripProgressBarLoadSpawns.Size = new System.Drawing.Size(100, 16);
+            // 
+            // toolStripStatusLabelSpawnsLoad
+            // 
+            this.toolStripStatusLabelSpawnsLoad.Name = "toolStripStatusLabelSpawnsLoad";
+            this.toolStripStatusLabelSpawnsLoad.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabelSpawnsLoad.Text = "toolStripStatusLabel1";
+            // 
             // WorldMapSpawnEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -151,12 +149,13 @@
             this.Size = new System.Drawing.Size(800, 450);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.splitContainer2dViewer.Panel2.ResumeLayout(false);
-            this.splitContainer2dViewer.Panel2.PerformLayout();
+            this.splitContainer2dViewer.Panel1.ResumeLayout(false);
+            this.splitContainer2dViewer.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).EndInit();
             this.splitContainer2dViewer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).EndInit();
             this.contextMenuStripRegionClick.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -167,10 +166,11 @@
         private System.Windows.Forms.TabPage tabPage2;
         private WorldMap2dPanel worldMap2dPanel1;
         private System.Windows.Forms.SplitContainer splitContainer2dViewer;
-        private System.Windows.Forms.TrackBar trackBarZoom;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripRegionClick;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateSpawn;
         private System.Windows.Forms.ToolStripMenuItem saveCoordinateToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpawnsLoad;
+        public System.Windows.Forms.ToolStripProgressBar toolStripProgressBarLoadSpawns;
     }
 }

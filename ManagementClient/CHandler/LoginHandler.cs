@@ -97,8 +97,13 @@ namespace ManagementClient.CHandler
 
             if (ClientMemory.AllowedDataTables.Count == 0)
             {
-                Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
                 ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
+
+                ClientDataStorage.Log.Logger.WriteLogLine($"Start initialize Databases for Client usage...");
+                ClientDataStorage.Database.SRO_VT_SHARD.InitializeDBShard();
+                ClientDataStorage.Log.Logger.WriteLogLine($"Finished initialize Databases");
+
+                Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
             }
 
             return PacketHandlerResult.Block;

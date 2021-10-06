@@ -44,7 +44,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// <summary>
         /// Texture for single Spawn   !obsolete!
         /// </summary>
-        public Bitmap Texture { get; set; }
+       // public Bitmap Texture { get; set; }
 
         #endregion
 
@@ -55,14 +55,14 @@ namespace WorldMapSpawnEditor._2dMapViewer
         public ISpawn(SingleSpawn spawn, int size, string mediaPath)
         {
             Spawn = spawn;
-            ImgPath = mediaPath;
+            //ImgPath = mediaPath;
             RegionID = spawn.Nest.nRegionDBID;
             InitializeProperties();
             //this.DoubleBuffered = true;
             //this.Size = new Size(12, 12);
             //this.BackgroundImageLayout = ImageLayout.Stretch;
             Location = new Point(X * (int)Math.Round(spawn.Nest.fLocalPosX / 7.5f, 0) - 4, Y *(int)Math.Round((spawn.Nest.fLocalPosZ / 7.5f - 256) * -1) - 4);
-            DrawBackgroundImage();
+           // DrawBackgroundImage();
         }
 
 
@@ -99,7 +99,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
                     ClientDataStorage.Client.Media.DDJFiles.Add(ImgPath, DDJFile);
                 }
             }
-                this.Texture = ClientDataStorage.Client.Media.DDJFiles[ImgPath].BitmapImage;
+                //this.Texture = ClientDataStorage.Client.Media.DDJFiles[ImgPath].BitmapImage;
         }
     }
 }

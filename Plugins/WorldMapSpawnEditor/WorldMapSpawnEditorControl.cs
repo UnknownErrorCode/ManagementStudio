@@ -14,7 +14,10 @@ namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
+        int SpawnCount { get => toolStripProgressBarLoadSpawns.Maximum; set => toolStripProgressBarLoadSpawns.Maximum = value; }
+        internal  int SpawnCounter { get => toolStripProgressBarLoadSpawns.Value; set => toolStripProgressBarLoadSpawns.Value = value; }
 
+        MapGraphics.GraphicsPanel MapPanel = new MapGraphics.GraphicsPanel();
 
         /// <summary>
         /// ServerData from Client.
@@ -42,10 +45,27 @@ namespace WorldMapSpawnEditor
             InitializeComponent();
             // Task.Run(() => InitializeContinentListView());
             InitializePerformance(this);
-            tabPage2.Controls.Add(new MapGraphics.GraphicsPanel());
+            splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
+            StatusThread();
         }
 
         
+        private async Task StatusThread()
+        {
+            while (MapPanel.MaxSpawnCount == 0)
+                await Task.Delay(100);
+
+            SpawnCount = MapPanel.MaxSpawnCount;
+
+            while (!MapPanel.Initialized)
+            {
+                SpawnCounter = MapPanel.AllMonsters.Count + MapPanel.AllUniqueMonsters.Count + MapPanel.AllNpcs.Count;
+                toolStripStatusLabelSpawnsLoad.Text = $"{SpawnCounter}/{SpawnCount} Spawns";
+                await Task.Delay(100);
+            }
+            SpawnCounter = SpawnCount;
+            toolStripStatusLabelSpawnsLoad.Text = $"{SpawnCounter}/{SpawnCount} Spawns";
+        }
 
         
 
@@ -65,74 +85,7 @@ namespace WorldMapSpawnEditor
 
         #region 2D Continent Viewer
 
-        /// <summary>
-        /// Gets a ListView of all existing ContinentNames in _RefRegion.
-        /// </summary>
-        private void InitializeContinentListView()
-        {
-            var allRegions = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefRegion"].Rows;
-
-            List<string> list = new List<string>();
-            foreach (DataRow item in allRegions)
-            {
-                if (!list.Contains(item.Field<string>("ContinentName")))
-                    list.Add(item.Field<string>("ContinentName"));
-            }
-
-            foreach (var contin in list)
-                if (!Continents.ContainsKey(contin))
-                    Task.Run(() => GenerateContinent(contin));
-        }
-
-
-        private void GenerateContinent(string Continentname)
-        {
-            Continents.Add(Continentname, new Continent(Continentname));
-            listView1.Invoke((MethodInvoker)delegate { listView1.Items.Add(Continentname); });
-
-        }
-
-        /// <summary>
-        /// Gets called when the Continent View changes.
-        /// </summary>
-        /// <param name="continentName"></param>
-        /// <param name="continent"></param>
-        private void ChangeContinent(string continentName)
-        {
-            DisplayedContinent = Continents[listView1.SelectedItems[0].Text];
-        }
-
-        /// <summary>
-        /// Runs when a new Continent gets clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnIndexChanged(object sender, EventArgs e)
-        {
-            this.splitContainer2dViewer.Panel1.Controls.Clear();
-
-            if (listView1.SelectedItems.Count > 0)
-            {
-                this.splitContainer2dViewer.Panel1.Controls.Add(Continents[listView1.SelectedItems[0].Text]);
-
-                trackBarZoom.Value = Continents[listView1.SelectedItems[0].Text].LastZoomFactor;
-            }
-            GC.Collect();
-        }
-
-        /// <summary>
-        /// Calculates the zoom factor for the Continent
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ZoomChange(object sender, EventArgs e)
-        {
-            this.SuspendLayout();
-            Continents[listView1.SelectedItems[0].Text].AutoScrollPosition = new System.Drawing.Point(0, 0);
-            Continents[listView1.SelectedItems[0].Text].OnZoom(trackBarZoom.Value);
-            this.ResumeLayout();
-        }
-
+        
         /// <summary>
         /// Returns the minimum of x Coortinate and Maximum of Y Coordinate to know how to trim empty space and reset the view to 0,0 .
         /// </summary>
