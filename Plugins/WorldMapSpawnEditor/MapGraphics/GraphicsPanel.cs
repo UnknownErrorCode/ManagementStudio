@@ -125,11 +125,53 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
+
+        List<Rectangle> Recs = new List<Rectangle>();
         private void GraphicsPanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 MouseDownPoint = e.Location;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                var regionX = ((MovingPoint.X - e.X) / PictureSize) * -1;
+                var regionY = ((MovingPoint.Y - e.Y) / PictureSize) + 128;
+
+                var tregionX = ((float)(MovingPoint.X - e.X) / PictureSize) * -1;
+                var tregionY = ((float)(MovingPoint.Y - e.Y) / PictureSize) + 128;
+
+                var realCoordX = (tregionX - regionX) * (1920);
+                var realCoordY = (tregionY - regionY) * (1920) + 1920;
+
+
+                string hexRegionID = $"{regionY.ToString("X")}{regionX.ToString("X")}";
+
+                var regionID = Convert.ToInt16(Convert.ToInt32(hexRegionID, 16));
+
+                var rangeX = Enumerable.Range((int)realCoordX - ((1920 / PictureSize) * 4), ((1920 / PictureSize) * 8));
+                var rangeY = Enumerable.Range((int)realCoordY - ((1920 / PictureSize) * 4), (1920 / PictureSize) * 8);
+
+                var drawxPos = ((MovingPoint.X - e.X) ) * -1;
+                var drawyPos = ((MovingPoint.Y - e.Y) ) - ;
+                var Rectangle = new Rectangle(drawxPos, drawyPos, 1000, 1000);
+                Recs.Add(Rectangle);
+                //this.CreateGraphics().DrawEllipse(Pens.Blue, drawxPos - 5, drawyPos - 5, 10, 10);
+                //this.CreateGraphics().DrawEllipse(Pens.Blue, e.X - 5, e.Y - 5, 10, 10);
+                foreach (var mob in AllMonsters.Values.Where(mob => mob.Spawn.Nest.nRegionDBID == regionID))
+                {
+                    if (rangeX.Contains((int)mob.Spawn.Nest.fLocalPosX) && rangeY.Contains((int)mob.Spawn.Nest.fLocalPosZ))
+                    {
+                        ClientDataStorage.Log.Logger.WriteLogLine($"Catched mob {mob.Spawn.ObjCommon.CodeName128}");
+                    }
+                }
+                foreach (var umob in AllUniqueMonsters.Values.Where(umob => umob.Spawn.Nest.nRegionDBID == regionID))
+                {
+                    if (rangeX.Contains((int)umob.Spawn.Nest.fLocalPosX) && rangeY.Contains((int)umob.Spawn.Nest.fLocalPosZ))
+                    {
+
+                    }
+                }
             }
         }
 
@@ -139,6 +181,11 @@ namespace WorldMapSpawnEditor.MapGraphics
 
             var regionPoint = new Point(0, 0);
             var panelPoint = new Point(0, 0);
+
+            foreach (var item in Recs)
+            {
+                e.Graphics.DrawEllipse(Pens.OrangeRed, item.X + MovingPoint.X, item.Y + MovingPoint.Y, item.Height, item.Width);
+            }
             for (int x = 0; x < 256; x++)
             {
                 regionPoint.X = x;
@@ -172,7 +219,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                     unique.Value.UpdateISpawn(PictureSize);
                     var spawnLocationX = (unique.Value.X * PictureSize + MovingPoint.X) + unique.Value.Location.X;
                     var spawnLocationY = ((((unique.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + unique.Value.Location.Y;
-                    e.Graphics.DrawImage(UMonsterImage, spawnLocationX, spawnLocationY, UMonsterImage.Width, UMonsterImage.Height);
+                    e.Graphics.DrawImage(UMonsterImage, spawnLocationX - UMonsterImage.Width / 2, spawnLocationY - UMonsterImage.Width / 2, UMonsterImage.Width, UMonsterImage.Height);
                     e.Graphics.DrawEllipse(Pens.Green, spawnLocationX - ((unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize), unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize));
                     e.Graphics.DrawEllipse(Pens.Yellow, spawnLocationX - ((unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize), unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize));
                 }
@@ -181,9 +228,9 @@ namespace WorldMapSpawnEditor.MapGraphics
                     mob.Value.UpdateISpawn(PictureSize);
                     var spawnLocationX = (mob.Value.X * PictureSize + MovingPoint.X) + mob.Value.Location.X;
                     var spawnLocationY = ((((mob.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + mob.Value.Location.Y;
-                    e.Graphics.DrawImage(MonsterImage, spawnLocationX, spawnLocationY, MonsterImage.Width, MonsterImage.Height);
-                    e.Graphics.DrawEllipse(Pens.Gray, spawnLocationX - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize));
-                    e.Graphics.DrawEllipse(Pens.Red, spawnLocationX - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize));
+                    e.Graphics.DrawImage(MonsterImage, spawnLocationX - MonsterImage.Width / 2, spawnLocationY - MonsterImage.Width / 2, MonsterImage.Width, MonsterImage.Height);
+                    // e.Graphics.DrawEllipse(Pens.Gray, spawnLocationX - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize));
+                    // e.Graphics.DrawEllipse(Pens.Red, spawnLocationX - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize));
                 }
             }
 
@@ -198,7 +245,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
             if (e.Delta < 0 && PictureSize < 6)
                 return;
-            else if (e.Delta > 0 && PictureSize > 300)
+            else if (e.Delta > 0 && PictureSize > 900)
                 return;
             //OldPicSize = PictureSize;
             PictureSize = e.Delta < 0 ? PictureSize - 6 : PictureSize + 6;
