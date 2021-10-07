@@ -20,6 +20,8 @@ namespace ShopEditor
         /// </summary>
         private Dictionary<string, NpcShopData> NpcShopInformation = new Dictionary<string, NpcShopData>();
 
+        public static ToolTip ShopToolTip = new ToolTip();
+
         /// <summary>
         /// Communication window like click on an NPC. This window has to be static and aviable only 1 times in the entired application!!!
         /// </summary>

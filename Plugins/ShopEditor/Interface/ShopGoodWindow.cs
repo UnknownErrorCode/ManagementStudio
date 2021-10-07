@@ -10,12 +10,12 @@ namespace ShopEditor.Interface
         private string IconPath { get => $"Media\\icon\\{Good.PackageItem.AssocFileIcon}"; }
         internal ShopInterface.RefShopGood Good { get; set; }
 
+        
         internal ShopGoodWindow(ShopInterface.RefShopGood good)
         {
             Good = good;
             this.Size = new System.Drawing.Size(32, 32);
             this.Location = GetPositionBySlotIndex(good.SlotIndex);
-
             if (!Media.DDJFiles.ContainsKey(IconPath))
                 if (Media.MediaPk2.GetByteArrayByDirectory(IconPath, out byte[] file))
                     Media.DDJFiles.Add(IconPath, new ClientDataStorage.Client.Files.DDJImage(file));
@@ -23,6 +23,8 @@ namespace ShopEditor.Interface
             if (Media.DDJFiles.ContainsKey(IconPath))
                 this.BackgroundImage = Media.DDJFiles[IconPath].BitmapImage;
             Media.DDJFiles[IconPath].BitmapImage.Save($".\\{Good.PackageItemCodeName}.png");
+            TalkWindow.ShopToolTip.SetToolTip(this, this.Good.ScrapOfPackageItem.RefItemCodeName);
+
         }
 
         private Point GetPositionBySlotIndex(byte slotIndex)
