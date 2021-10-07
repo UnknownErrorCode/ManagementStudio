@@ -152,8 +152,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                 var rangeX = Enumerable.Range((int)realCoordX - ((1920 / PictureSize) * 4), ((1920 / PictureSize) * 8));
                 var rangeY = Enumerable.Range((int)realCoordY - ((1920 / PictureSize) * 4), (1920 / PictureSize) * 8);
 
-                var drawxPos = ((MovingPoint.X - e.X) ) * -1;
-                var drawyPos = ((MovingPoint.Y - e.Y) ) - ;
+                var drawxPos = ((MovingPoint.X - e.X ) );
+                var drawyPos =  ((MovingPoint.Y  - e.Y) ) ;
                 var Rectangle = new Rectangle(drawxPos, drawyPos, 1000, 1000);
                 Recs.Add(Rectangle);
                 //this.CreateGraphics().DrawEllipse(Pens.Blue, drawxPos - 5, drawyPos - 5, 10, 10);
