@@ -8,12 +8,15 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Reader : Pk2Data
     {
+        public bool Initialized { get; }
+
         /// <summary>
         /// The Reader is one .pk2 file. Here you can read all informations from the files inside the abstract base class Pk2Data.
         /// </summary>
         /// <param name="path"></param>
         public Pk2Reader(string path)
         {
+            Initialized = File.Exists(path);
             base.Pk2DataPath = path;
             base.Blowfish.Initialize(base.bKey);
             this.Read();

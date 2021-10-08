@@ -113,6 +113,10 @@
       <Project>{0160bbec-b1a7-4e52-9443-f0d2c1f97920}</Project>
       <Name>ShopEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plugins\SkillEditor\SkillEditor.csproj">
+      <Project>{fa562ad1-2f9b-4bc7-853d-5cd1b2a9aadb}</Project>
+      <Name>SkillEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Plugins\WorldMapSpawnEditor\WorldMapSpawnEditor.csproj">
       <Project>{ecd8fda9-e279-4cf0-9f5d-dc639188c35b}</Project>
       <Name>WorldMapSpawnEditor</Name>

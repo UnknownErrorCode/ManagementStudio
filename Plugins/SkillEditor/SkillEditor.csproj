@@ -4,11 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</ProjectGuid>
+    <ProjectGuid>{FA562AD1-2F9B-4BC7-853D-5CD1B2A9AADB}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Structs</RootNamespace>
-    <AssemblyName>Structs</AssemblyName>
+    <RootNamespace>SkillEditor</RootNamespace>
+    <AssemblyName>SkillEditor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -17,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\ManagementClient\bin\Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,32 +36,43 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dashboard\DashboardMessage.cs" />
-    <Compile Include="Database\Rarity.cs" />
-    <Compile Include="Database\RefObjChar.cs" />
-    <Compile Include="Database\RefObjCommon.cs" />
-    <Compile Include="Database\RefPackageItem.cs" />
-    <Compile Include="Database\RefPricePolicyOfItem.cs" />
-    <Compile Include="Database\RefScrapOfPackageItem.cs" />
-    <Compile Include="Database\RefSkill.cs" />
-    <Compile Include="Database\RefSkillGroup.cs" />
-    <Compile Include="Database\RefSkillMastery.cs" />
-    <Compile Include="Database\RefTeleport.cs" />
-    <Compile Include="Database\Tab_RefHive.cs" />
-    <Compile Include="Database\Tab_RefNest.cs" />
-    <Compile Include="Database\Tab_RefTactics.cs" />
-    <Compile Include="Pk2\Media\TextUISystemStruct.cs" />
-    <Compile Include="Pk2\Pk2Entry.cs" />
-    <Compile Include="Pk2\Pk2EntryBlock.cs" />
-    <Compile Include="Pk2\Pk2File.cs" />
-    <Compile Include="Pk2\Pk2Folder.cs" />
-    <Compile Include="Pk2\Pk2Header.cs" />
+    <Compile Include="SkillEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SkillEditorControl.Designer.cs">
+      <DependentUpon>SkillEditorControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\ClientDataStorage\ClientDataStorage.csproj">
+      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
+      <Name>ClientDataStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Editors\Editors.csproj">
+      <Project>{5185c5c8-39d7-48ed-b45e-231dc36a3f10}</Project>
+      <Name>Editors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ServerFrameworkRes\ServerFrameworkRes.csproj">
+      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
+      <Name>ServerFrameworkRes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structs\Structs.csproj">
+      <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>
+      <Name>Structs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SkillEditorControl.resx">
+      <DependentUpon>SkillEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

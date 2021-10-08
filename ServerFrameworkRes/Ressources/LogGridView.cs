@@ -48,10 +48,10 @@ namespace ServerFrameworkRes.Ressources
                         r.DefaultCellStyle.ForeColor = Color.Red;
                         break;
                     case LogLevel.notify:
-                        r.DefaultCellStyle.ForeColor = Color.Black;
+                        r.DefaultCellStyle.ForeColor = Color.RoyalBlue;
                         break;
                     case LogLevel.warning:
-                        r.DefaultCellStyle.ForeColor = Color.Violet;
+                        r.DefaultCellStyle.ForeColor = Color.OrangeRed;
                         break;
                     default:
                         r.DefaultCellStyle.ForeColor = Color.Black;
