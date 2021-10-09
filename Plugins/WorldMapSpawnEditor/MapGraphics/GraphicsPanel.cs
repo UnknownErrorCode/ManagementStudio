@@ -141,6 +141,16 @@ namespace WorldMapSpawnEditor.MapGraphics
                 var tregionX = ((float)(MovingPoint.X - e.X) / PictureSize) * -1;
                 var tregionY = ((float)(MovingPoint.Y - e.Y) / PictureSize) + 128;
 
+                var spawnPanelLocation = e.X + (MovingPoint.X * -1) ;
+
+                var rangeXCoordPanel = Enumerable.Range((int)e.X -  4, 8);
+                var rangeYCoordPanel = Enumerable.Range((int)e.Y -  4, 8);
+
+                foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X )+ ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
+                {
+                  
+                }
+
                 var realCoordX = (tregionX - regionX) * (1920);
                 var realCoordY = (tregionY - regionY) * (1920) + 1920;
 
