@@ -1,4 +1,5 @@
 ﻿using System;
+using Editors.Spawn;
 
 namespace WorldMapSpawnEditor._2dMapViewer
 {

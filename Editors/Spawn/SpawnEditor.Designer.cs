@@ -1,5 +1,5 @@
 ﻿
-namespace WorldMapSpawnEditor._2dMapViewer.Forms
+namespace Editors.Spawn
 {
     partial class SpawnEditor
     {
@@ -39,16 +39,16 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.buttonNestShowUpdate = new System.Windows.Forms.Button();
+            this.buttonShowUpdateNest = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.buttonShowUpdateHive = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.buttonShowUpdateTactics = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.buttonShowUpdateCommon = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.buttonShowUpdateChar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // propertyGrid1
@@ -146,15 +146,15 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             this.label5.TabIndex = 9;
             this.label5.Text = "_RefObjChar";
             // 
-            // buttonNestShowUpdate
+            // buttonShowUpdateNest
             // 
-            this.buttonNestShowUpdate.Location = new System.Drawing.Point(3, 371);
-            this.buttonNestShowUpdate.Name = "buttonNestShowUpdate";
-            this.buttonNestShowUpdate.Size = new System.Drawing.Size(91, 23);
-            this.buttonNestShowUpdate.TabIndex = 10;
-            this.buttonNestShowUpdate.Text = "Show Update";
-            this.buttonNestShowUpdate.UseVisualStyleBackColor = true;
-            this.buttonNestShowUpdate.Click += new System.EventHandler(this.ShowNestUpdate);
+            this.buttonShowUpdateNest.Location = new System.Drawing.Point(3, 371);
+            this.buttonShowUpdateNest.Name = "buttonShowUpdateNest";
+            this.buttonShowUpdateNest.Size = new System.Drawing.Size(91, 23);
+            this.buttonShowUpdateNest.TabIndex = 10;
+            this.buttonShowUpdateNest.Text = "Show Update";
+            this.buttonShowUpdateNest.UseVisualStyleBackColor = true;
+            this.buttonShowUpdateNest.Click += new System.EventHandler(this.ShowNestUpdate);
             // 
             // button2
             // 
@@ -174,15 +174,15 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // buttonShowUpdateHive
             // 
-            this.button4.Location = new System.Drawing.Point(197, 371);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(91, 23);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.ShowUpdateHive);
+            this.buttonShowUpdateHive.Location = new System.Drawing.Point(197, 371);
+            this.buttonShowUpdateHive.Name = "buttonShowUpdateHive";
+            this.buttonShowUpdateHive.Size = new System.Drawing.Size(91, 23);
+            this.buttonShowUpdateHive.TabIndex = 12;
+            this.buttonShowUpdateHive.Text = "Show Update";
+            this.buttonShowUpdateHive.UseVisualStyleBackColor = true;
+            this.buttonShowUpdateHive.Click += new System.EventHandler(this.ShowUpdateHive);
             // 
             // button5
             // 
@@ -193,15 +193,15 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             this.button5.Text = "button5";
             this.button5.UseVisualStyleBackColor = true;
             // 
-            // button6
+            // buttonShowUpdateTactics
             // 
-            this.button6.Location = new System.Drawing.Point(391, 371);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(91, 23);
-            this.button6.TabIndex = 14;
-            this.button6.Text = "button6";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.ShowUpdateTactics);
+            this.buttonShowUpdateTactics.Location = new System.Drawing.Point(391, 371);
+            this.buttonShowUpdateTactics.Name = "buttonShowUpdateTactics";
+            this.buttonShowUpdateTactics.Size = new System.Drawing.Size(91, 23);
+            this.buttonShowUpdateTactics.TabIndex = 14;
+            this.buttonShowUpdateTactics.Text = "Show Update";
+            this.buttonShowUpdateTactics.UseVisualStyleBackColor = true;
+            this.buttonShowUpdateTactics.Click += new System.EventHandler(this.ShowUpdateTactics);
             // 
             // button7
             // 
@@ -212,15 +212,15 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             this.button7.Text = "button7";
             this.button7.UseVisualStyleBackColor = true;
             // 
-            // button8
+            // buttonShowUpdateCommon
             // 
-            this.button8.Location = new System.Drawing.Point(585, 371);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(91, 23);
-            this.button8.TabIndex = 16;
-            this.button8.Text = "button8";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.ShowUpdateCommon);
+            this.buttonShowUpdateCommon.Location = new System.Drawing.Point(585, 371);
+            this.buttonShowUpdateCommon.Name = "buttonShowUpdateCommon";
+            this.buttonShowUpdateCommon.Size = new System.Drawing.Size(91, 23);
+            this.buttonShowUpdateCommon.TabIndex = 16;
+            this.buttonShowUpdateCommon.Text = "Show Update";
+            this.buttonShowUpdateCommon.UseVisualStyleBackColor = true;
+            this.buttonShowUpdateCommon.Click += new System.EventHandler(this.ShowUpdateCommon);
             // 
             // button9
             // 
@@ -231,15 +231,15 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             this.button9.Text = "button9";
             this.button9.UseVisualStyleBackColor = true;
             // 
-            // button10
+            // buttonShowUpdateChar
             // 
-            this.button10.Location = new System.Drawing.Point(779, 371);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(91, 23);
-            this.button10.TabIndex = 18;
-            this.button10.Text = "button10";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.ShowUpdateChar);
+            this.buttonShowUpdateChar.Location = new System.Drawing.Point(779, 371);
+            this.buttonShowUpdateChar.Name = "buttonShowUpdateChar";
+            this.buttonShowUpdateChar.Size = new System.Drawing.Size(91, 23);
+            this.buttonShowUpdateChar.TabIndex = 18;
+            this.buttonShowUpdateChar.Text = "Show Update";
+            this.buttonShowUpdateChar.UseVisualStyleBackColor = true;
+            this.buttonShowUpdateChar.Click += new System.EventHandler(this.ShowUpdateChar);
             // 
             // SpawnEditor
             // 
@@ -247,15 +247,15 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 450);
             this.Controls.Add(this.button9);
-            this.Controls.Add(this.button10);
+            this.Controls.Add(this.buttonShowUpdateChar);
             this.Controls.Add(this.button7);
-            this.Controls.Add(this.button8);
+            this.Controls.Add(this.buttonShowUpdateCommon);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.buttonShowUpdateTactics);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.buttonShowUpdateHive);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.buttonNestShowUpdate);
+            this.Controls.Add(this.buttonShowUpdateNest);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
@@ -285,15 +285,15 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button buttonNestShowUpdate;
+        private System.Windows.Forms.Button buttonShowUpdateNest;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button buttonShowUpdateHive;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button buttonShowUpdateTactics;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button buttonShowUpdateCommon;
         private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button buttonShowUpdateChar;
     }
 }

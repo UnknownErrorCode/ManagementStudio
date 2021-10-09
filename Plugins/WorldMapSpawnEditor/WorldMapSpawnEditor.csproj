@@ -30,12 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,41 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2dMapViewer\Controls\Continent.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="2dMapViewer\Controls\Region.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="2dMapViewer\Controls\ISpawn.cs" />
     <Compile Include="2dMapViewer\Controls\Monster.cs" />
     <Compile Include="2dMapViewer\Controls\Npc.cs" />
-    <Compile Include="2dMapViewer\Forms\SpawnEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2dMapViewer\Forms\SpawnEditor.Designer.cs">
-      <DependentUpon>SpawnEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="2dMapViewer\RegionSpawn.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="2dMapViewer\SingleSpawn.cs" />
     <Compile Include="2dMapViewer\Controls\UniqueMonster.cs" />
-    <Compile Include="2dMapViewer\Teleport.cs" />
-    <Compile Include="MapGame\Game.cs" />
-    <Compile Include="MapGame\MapCamera.cs" />
-    <Compile Include="MapGame\MapControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="MapGraphics\GraphicsPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MapGraphics\RegionGraphic.cs" />
-    <Compile Include="MapRessources\IMapControl.cs" />
-    <Compile Include="MapRessources\RegionTerrain.cs" />
-    <Compile Include="2dMapViewer\Controls\WorldMap2dPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="WorldMapSpawnEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -93,9 +60,6 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="2dMapViewer\Forms\SpawnEditor.resx">
-      <DependentUpon>SpawnEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="WorldMapSpawnEditorControl.resx">
       <DependentUpon>WorldMapSpawnEditorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +68,10 @@
     <ProjectReference Include="..\..\ClientDataStorage\ClientDataStorage.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
       <Name>ClientDataStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Editors\Editors.csproj">
+      <Project>{5185c5c8-39d7-48ed-b45e-231dc36a3f10}</Project>
+      <Name>Editors</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
@@ -115,9 +83,5 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <None Include="OpenTK.dll.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

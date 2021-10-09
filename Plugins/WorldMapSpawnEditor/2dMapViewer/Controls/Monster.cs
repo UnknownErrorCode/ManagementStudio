@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Editors.Spawn;
+using System;
 using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor._2dMapViewer

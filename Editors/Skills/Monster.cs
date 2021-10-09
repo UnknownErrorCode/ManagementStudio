@@ -8,9 +8,20 @@ namespace Editors.Skills
     {
         public RefObjCommon ObjCommon { get; set; }
         public RefObjChar ObjChar { get; set; }
+
+        /// <summary>
+        /// Contains all assigned skills for this Monster.
+        /// </summary>
         public List<RefSkill> Skills { get; set; } = new List<RefSkill>();
 
         public Monster(int ObjCommonID)
+            => Initialize(ObjCommonID);
+
+        /// <summary>
+        /// Initialize the Monster by the given RefObjCommon.ID key.
+        /// </summary>
+        /// <param name="ObjCommonID"></param>
+        private void Initialize(int ObjCommonID)
         {
             ObjCommon = SRO_VT_SHARD._RefObjCommon[ObjCommonID];
             ObjChar = SRO_VT_SHARD._RefObjChar[ObjCommon.Link];

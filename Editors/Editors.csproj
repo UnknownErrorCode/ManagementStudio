@@ -51,11 +51,21 @@
     <Compile Include="Skills\SkillEditor.Designer.cs">
       <DependentUpon>SkillEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Spawn\SingleSpawn.cs" />
+    <Compile Include="Spawn\SpawnEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Spawn\SpawnEditor.Designer.cs">
+      <DependentUpon>SpawnEditor.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Skills\SkillEditor.resx">
       <DependentUpon>SkillEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Spawn\SpawnEditor.resx">
+      <DependentUpon>SpawnEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

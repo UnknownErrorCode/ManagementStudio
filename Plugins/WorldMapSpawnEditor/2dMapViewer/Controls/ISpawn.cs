@@ -1,7 +1,7 @@
 ﻿using ClientDataStorage.Client.Files;
 using System;
+using Editors.Spawn;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor._2dMapViewer
 {
@@ -9,7 +9,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
     public abstract class ISpawn // : Panel
     {
         #region Properties
-
 
         /// <summary>
         /// Contains all Database Informations about the spawn.
@@ -55,14 +54,9 @@ namespace WorldMapSpawnEditor._2dMapViewer
         public ISpawn(SingleSpawn spawn, int size, string mediaPath)
         {
             Spawn = spawn;
-            //ImgPath = mediaPath;
             RegionID = spawn.Nest.nRegionDBID;
             InitializeProperties();
-            //this.DoubleBuffered = true;
-            //this.Size = new Size(12, 12);
-            //this.BackgroundImageLayout = ImageLayout.Stretch;
             Location = new Point(X * (int)Math.Round(spawn.Nest.fLocalPosX / 7.5f, 0) - 4, Y *(int)Math.Round((spawn.Nest.fLocalPosZ / 7.5f - 256) * -1) - 4);
-           // DrawBackgroundImage();
         }
 
 
@@ -84,22 +78,6 @@ namespace WorldMapSpawnEditor._2dMapViewer
                 Y = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(0, 2), 16));
                 X = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(2, 2), 16));
             }
-        }
-
-        /// <summary>
-        /// Draws the Background Image from "ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(ImgPath, out byte[] file)".
-        /// </summary>
-        private void DrawBackgroundImage()
-        {
-            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(ImgPath))
-            {
-                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(ImgPath, out byte[] file))
-                {
-                    DDJImage DDJFile = new DDJImage(file);
-                    ClientDataStorage.Client.Media.DDJFiles.Add(ImgPath, DDJFile);
-                }
-            }
-                //this.Texture = ClientDataStorage.Client.Media.DDJFiles[ImgPath].BitmapImage;
         }
     }
 }

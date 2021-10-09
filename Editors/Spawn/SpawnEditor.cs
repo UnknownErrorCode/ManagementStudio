@@ -10,17 +10,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WorldMapSpawnEditor._2dMapViewer.Forms
+namespace Editors.Spawn
 {
     public partial class SpawnEditor : Form
     {
+        #region Property
+        /// <summary>
+        /// SingleSpawn to update. All displayed informations relates to the CuttentSpawn.
+        /// </summary>
         public SingleSpawn CurrentSpawn { get; set; }
+
+        #endregion
+
+        #region Fields
 
         Dictionary<string, string> NestUpdateValues = new Dictionary<string, string>();
         Dictionary<string, string> HiveUpdateValues = new Dictionary<string, string>();
         Dictionary<string, string> TacticsUpdateValues = new Dictionary<string, string>();
         Dictionary<string, string> ObjCommonUpdateValues = new Dictionary<string, string>();
         Dictionary<string, string> ObjCharUpdateValues = new Dictionary<string, string>();
+        
+        #endregion 
 
         internal SpawnEditor(SingleSpawn spawn)
         {
@@ -46,7 +56,11 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             propertyGrid5.Refresh();
         }
 
-
+        /// <summary>
+        /// Shows the Update Query prepared for MS SQL Server Management Studio.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         #region Show Query Click Voids
         private void ShowNestUpdate(object sender, EventArgs e)
         {
@@ -80,6 +94,11 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
 
         #endregion
 
+        /// <summary>
+        /// Appends the changes from the different PropertyGrids into the Update List. This is required to update changed values only.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="e"></param>
         #region Property Grid Change Void
 
         private void ChangeNestValue(object s, PropertyValueChangedEventArgs e)
@@ -98,7 +117,6 @@ namespace WorldMapSpawnEditor._2dMapViewer.Forms
             => UpdateObject(ref ObjCharUpdateValues, e.ChangedItem.Label, e.ChangedItem.Value.ToString());
 
         #endregion
-
 
         /// <summary>
         /// Stores the update values and columns inside a Dictionary to avoid updating non changed values.
