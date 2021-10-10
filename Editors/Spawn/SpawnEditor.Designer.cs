@@ -68,7 +68,7 @@ namespace Editors.Spawn
             this.propertyGrid2.Location = new System.Drawing.Point(197, 23);
             this.propertyGrid2.Name = "propertyGrid2";
             this.propertyGrid2.Size = new System.Drawing.Size(188, 342);
-            this.propertyGrid2.TabIndex = 1;
+            this.propertyGrid2.TabIndex = 3;
             this.propertyGrid2.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeHive);
             // 
             // propertyGrid3
@@ -78,7 +78,7 @@ namespace Editors.Spawn
             this.propertyGrid3.Location = new System.Drawing.Point(391, 23);
             this.propertyGrid3.Name = "propertyGrid3";
             this.propertyGrid3.Size = new System.Drawing.Size(188, 342);
-            this.propertyGrid3.TabIndex = 2;
+            this.propertyGrid3.TabIndex = 6;
             this.propertyGrid3.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeTacticsValue);
             // 
             // propertyGrid4
@@ -88,7 +88,7 @@ namespace Editors.Spawn
             this.propertyGrid4.Location = new System.Drawing.Point(585, 23);
             this.propertyGrid4.Name = "propertyGrid4";
             this.propertyGrid4.Size = new System.Drawing.Size(188, 342);
-            this.propertyGrid4.TabIndex = 3;
+            this.propertyGrid4.TabIndex = 9;
             this.propertyGrid4.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjCommonValue);
             // 
             // propertyGrid5
@@ -98,7 +98,7 @@ namespace Editors.Spawn
             this.propertyGrid5.Location = new System.Drawing.Point(779, 23);
             this.propertyGrid5.Name = "propertyGrid5";
             this.propertyGrid5.Size = new System.Drawing.Size(188, 342);
-            this.propertyGrid5.TabIndex = 4;
+            this.propertyGrid5.TabIndex = 12;
             this.propertyGrid5.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjChar);
             // 
             // label1
@@ -107,7 +107,7 @@ namespace Editors.Spawn
             this.label1.Location = new System.Drawing.Point(12, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 13);
-            this.label1.TabIndex = 5;
+            this.label1.TabIndex = 15;
             this.label1.Text = "Tab_RefNest";
             // 
             // label2
@@ -116,7 +116,7 @@ namespace Editors.Spawn
             this.label2.Location = new System.Drawing.Point(194, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
-            this.label2.TabIndex = 6;
+            this.label2.TabIndex = 16;
             this.label2.Text = "Tab_RefHive";
             // 
             // label3
@@ -125,7 +125,7 @@ namespace Editors.Spawn
             this.label3.Location = new System.Drawing.Point(576, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 13);
-            this.label3.TabIndex = 8;
+            this.label3.TabIndex = 18;
             this.label3.Text = "_RefObjCommon";
             // 
             // label4
@@ -134,7 +134,7 @@ namespace Editors.Spawn
             this.label4.Location = new System.Drawing.Point(394, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(84, 13);
-            this.label4.TabIndex = 7;
+            this.label4.TabIndex = 17;
             this.label4.Text = "Tab_RefTactics";
             // 
             // label5
@@ -143,7 +143,7 @@ namespace Editors.Spawn
             this.label5.Location = new System.Drawing.Point(776, 7);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 13);
-            this.label5.TabIndex = 9;
+            this.label5.TabIndex = 19;
             this.label5.Text = "_RefObjChar";
             // 
             // buttonShowUpdateNest
@@ -152,7 +152,7 @@ namespace Editors.Spawn
             this.buttonShowUpdateNest.Location = new System.Drawing.Point(3, 371);
             this.buttonShowUpdateNest.Name = "buttonShowUpdateNest";
             this.buttonShowUpdateNest.Size = new System.Drawing.Size(91, 23);
-            this.buttonShowUpdateNest.TabIndex = 10;
+            this.buttonShowUpdateNest.TabIndex = 1;
             this.buttonShowUpdateNest.Text = "Show Update";
             this.buttonShowUpdateNest.UseVisualStyleBackColor = true;
             this.buttonShowUpdateNest.Click += new System.EventHandler(this.ShowNestUpdate);
@@ -163,7 +163,7 @@ namespace Editors.Spawn
             this.button2.Location = new System.Drawing.Point(100, 371);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(91, 23);
-            this.button2.TabIndex = 11;
+            this.button2.TabIndex = 2;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
             // 
@@ -173,7 +173,7 @@ namespace Editors.Spawn
             this.button3.Location = new System.Drawing.Point(294, 371);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(91, 23);
-            this.button3.TabIndex = 13;
+            this.button3.TabIndex = 5;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
             // 
@@ -183,7 +183,7 @@ namespace Editors.Spawn
             this.buttonShowUpdateHive.Location = new System.Drawing.Point(197, 371);
             this.buttonShowUpdateHive.Name = "buttonShowUpdateHive";
             this.buttonShowUpdateHive.Size = new System.Drawing.Size(91, 23);
-            this.buttonShowUpdateHive.TabIndex = 12;
+            this.buttonShowUpdateHive.TabIndex = 4;
             this.buttonShowUpdateHive.Text = "Show Update";
             this.buttonShowUpdateHive.UseVisualStyleBackColor = true;
             this.buttonShowUpdateHive.Click += new System.EventHandler(this.ShowUpdateHive);
@@ -194,7 +194,7 @@ namespace Editors.Spawn
             this.button5.Location = new System.Drawing.Point(488, 371);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(91, 23);
-            this.button5.TabIndex = 15;
+            this.button5.TabIndex = 8;
             this.button5.Text = "button5";
             this.button5.UseVisualStyleBackColor = true;
             // 
@@ -204,7 +204,7 @@ namespace Editors.Spawn
             this.buttonShowUpdateTactics.Location = new System.Drawing.Point(391, 371);
             this.buttonShowUpdateTactics.Name = "buttonShowUpdateTactics";
             this.buttonShowUpdateTactics.Size = new System.Drawing.Size(91, 23);
-            this.buttonShowUpdateTactics.TabIndex = 14;
+            this.buttonShowUpdateTactics.TabIndex = 7;
             this.buttonShowUpdateTactics.Text = "Show Update";
             this.buttonShowUpdateTactics.UseVisualStyleBackColor = true;
             this.buttonShowUpdateTactics.Click += new System.EventHandler(this.ShowUpdateTactics);
@@ -215,7 +215,7 @@ namespace Editors.Spawn
             this.button7.Location = new System.Drawing.Point(682, 371);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(91, 23);
-            this.button7.TabIndex = 17;
+            this.button7.TabIndex = 11;
             this.button7.Text = "button7";
             this.button7.UseVisualStyleBackColor = true;
             // 
@@ -225,7 +225,7 @@ namespace Editors.Spawn
             this.buttonShowUpdateCommon.Location = new System.Drawing.Point(585, 371);
             this.buttonShowUpdateCommon.Name = "buttonShowUpdateCommon";
             this.buttonShowUpdateCommon.Size = new System.Drawing.Size(91, 23);
-            this.buttonShowUpdateCommon.TabIndex = 16;
+            this.buttonShowUpdateCommon.TabIndex = 10;
             this.buttonShowUpdateCommon.Text = "Show Update";
             this.buttonShowUpdateCommon.UseVisualStyleBackColor = true;
             this.buttonShowUpdateCommon.Click += new System.EventHandler(this.ShowUpdateCommon);
@@ -236,7 +236,7 @@ namespace Editors.Spawn
             this.button9.Location = new System.Drawing.Point(876, 371);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(91, 23);
-            this.button9.TabIndex = 19;
+            this.button9.TabIndex = 14;
             this.button9.Text = "button9";
             this.button9.UseVisualStyleBackColor = true;
             // 
@@ -246,7 +246,7 @@ namespace Editors.Spawn
             this.buttonShowUpdateChar.Location = new System.Drawing.Point(779, 371);
             this.buttonShowUpdateChar.Name = "buttonShowUpdateChar";
             this.buttonShowUpdateChar.Size = new System.Drawing.Size(91, 23);
-            this.buttonShowUpdateChar.TabIndex = 18;
+            this.buttonShowUpdateChar.TabIndex = 13;
             this.buttonShowUpdateChar.Text = "Show Update";
             this.buttonShowUpdateChar.UseVisualStyleBackColor = true;
             this.buttonShowUpdateChar.Click += new System.EventHandler(this.ShowUpdateChar);
