@@ -29,6 +29,8 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Fields
 
+        ToolTip tip = new ToolTip();
+
         /// <summary>
         /// The Location of the mouse while dragging and swiping.
         /// </summary>
@@ -76,6 +78,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.MouseUp += GraphicsPanel_MouseUp;
             this.MouseDown += GraphicsPanel_MouseDown;
             this.MouseWheel += GraphicsPanel_MouseWheel;
+            this.MouseMove += GraphicsPanel_MouseHover;
 
             InitializeSpawnImage(NpcIconPath, 8, out NpcImage);
             InitializeSpawnImage(MonsterIconPath, 8, out MonsterImage);
@@ -86,6 +89,26 @@ namespace WorldMapSpawnEditor.MapGraphics
             Task.Run(() => InitializeWorldGraphics());
             Task.Run(() => InitializeSpawnGraphics());
         }
+
+        private void GraphicsPanel_MouseHover(object sender, MouseEventArgs e)
+        {
+            var rangeXCoordPanel = Enumerable.Range((int)e.X - 8, 16);
+            var rangeYCoordPanel = Enumerable.Range((int)e.Y - 8, 16);
+
+            foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
+            {
+                tip.Show(npc.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 2, e.Y + 2, 5000);
+            }
+            foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
+            {
+                tip.Show(mob.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 20, e.Y + 2, 5000);
+            }
+            foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
+            {
+                tip.Show(umob.Value.Spawn.ObjCommon.CodeName128, Parent, e.X+2, e.Y+2, 5000);
+            }
+        }
+
         private void InitializeSpawnImage(string pk2PathString, int ImageSize, out Bitmap image)
         {
             if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(pk2PathString))
@@ -138,7 +161,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                 MovingPoint.X += delta.X;
                 MovingPoint.Y += delta.Y;
 
-
                 this.Invalidate();
             }
         }
@@ -155,13 +177,9 @@ namespace WorldMapSpawnEditor.MapGraphics
                 var regionX = ((MovingPoint.X - e.X) / PictureSize) * -1;
                 var regionY = ((MovingPoint.Y - e.Y) / PictureSize) + 128;
 
-                var tregionX = ((float)(MovingPoint.X - e.X) / PictureSize) * -1;
-                var tregionY = ((float)(MovingPoint.Y - e.Y) / PictureSize) + 128;
 
-                var spawnPanelLocation = e.X + (MovingPoint.X * -1);
-
-                var rangeXCoordPanel = Enumerable.Range((int)e.X - 4, 8);
-                var rangeYCoordPanel = Enumerable.Range((int)e.Y - 4, 8);
+                var rangeXCoordPanel = Enumerable.Range((int)e.X -8, 16);
+                var rangeYCoordPanel = Enumerable.Range((int)e.Y -8, 16);
 
                 foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
@@ -170,7 +188,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                 foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
                     ClientDataStorage.Log.Logger.WriteLogLine($"Catched Monster:[{mob.Value.Spawn.ObjCommon.CodeName128}]");
-
+                    Editors.Spawn.SpawnEditor Editor = new SpawnEditor(mob.Value.Spawn);
+                    Editor.Show();
                 }
                 foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
@@ -181,8 +200,6 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void GraphicsPanel_Paint(object sender, PaintEventArgs e)
         {
-
-
             var regionPoint = new Point(0, 0);
             var panelPoint = new Point(0, 0);
 
@@ -204,7 +221,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                     else
                     {
                         e.Graphics.DrawRectangle(Pens.Red, new Rectangle(panelPoint, new Size(PictureSize, PictureSize)));
-                        //e.Graphics.DrawString($"{x}x{z}",SystemFonts.DefaultFont,Brushes.Red, new Rectangle(panelPoint, new Size(PictureSize, PictureSize)));
                     }
                 }
             }

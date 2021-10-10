@@ -6,7 +6,7 @@ using System.Drawing;
 namespace WorldMapSpawnEditor._2dMapViewer
 {
     
-    public abstract class ISpawn // : Panel
+    public abstract class ISpawn 
     {
         #region Properties
 
@@ -56,7 +56,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
             Spawn = spawn;
             RegionID = spawn.Nest.nRegionDBID;
             InitializeProperties();
-            Location = new Point(X * (int)Math.Round(spawn.Nest.fLocalPosX / 7.5f, 0) - 4, Y *(int)Math.Round((spawn.Nest.fLocalPosZ / 7.5f - 256) * -1) - 4);
+            Location = new Point(X * (int)Math.Round(spawn.Nest.fLocalPosX / 7.5f, 0) , Y *(int)Math.Round((spawn.Nest.fLocalPosZ / 7.5f - 256) * -1) );
         }
 
 
@@ -64,7 +64,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
         public void UpdateISpawn(int RegionSize)
         {
             //Spawn = newSpawn;
-            this.Location = new Point(  ((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0) - 4), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize)- RegionSize) * -1) - 4);
+            this.Location = new Point(  ((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0) ), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize)- RegionSize) * -1) );
         }
 
         /// <summary>

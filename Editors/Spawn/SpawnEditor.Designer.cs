@@ -148,6 +148,7 @@ namespace Editors.Spawn
             // 
             // buttonShowUpdateNest
             // 
+            this.buttonShowUpdateNest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonShowUpdateNest.Location = new System.Drawing.Point(3, 371);
             this.buttonShowUpdateNest.Name = "buttonShowUpdateNest";
             this.buttonShowUpdateNest.Size = new System.Drawing.Size(91, 23);
@@ -158,6 +159,7 @@ namespace Editors.Spawn
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button2.Location = new System.Drawing.Point(100, 371);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(91, 23);
@@ -167,6 +169,7 @@ namespace Editors.Spawn
             // 
             // button3
             // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button3.Location = new System.Drawing.Point(294, 371);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(91, 23);
@@ -176,6 +179,7 @@ namespace Editors.Spawn
             // 
             // buttonShowUpdateHive
             // 
+            this.buttonShowUpdateHive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonShowUpdateHive.Location = new System.Drawing.Point(197, 371);
             this.buttonShowUpdateHive.Name = "buttonShowUpdateHive";
             this.buttonShowUpdateHive.Size = new System.Drawing.Size(91, 23);
@@ -186,6 +190,7 @@ namespace Editors.Spawn
             // 
             // button5
             // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button5.Location = new System.Drawing.Point(488, 371);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(91, 23);
@@ -195,6 +200,7 @@ namespace Editors.Spawn
             // 
             // buttonShowUpdateTactics
             // 
+            this.buttonShowUpdateTactics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonShowUpdateTactics.Location = new System.Drawing.Point(391, 371);
             this.buttonShowUpdateTactics.Name = "buttonShowUpdateTactics";
             this.buttonShowUpdateTactics.Size = new System.Drawing.Size(91, 23);
@@ -205,6 +211,7 @@ namespace Editors.Spawn
             // 
             // button7
             // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button7.Location = new System.Drawing.Point(682, 371);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(91, 23);
@@ -214,6 +221,7 @@ namespace Editors.Spawn
             // 
             // buttonShowUpdateCommon
             // 
+            this.buttonShowUpdateCommon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonShowUpdateCommon.Location = new System.Drawing.Point(585, 371);
             this.buttonShowUpdateCommon.Name = "buttonShowUpdateCommon";
             this.buttonShowUpdateCommon.Size = new System.Drawing.Size(91, 23);
@@ -224,6 +232,7 @@ namespace Editors.Spawn
             // 
             // button9
             // 
+            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button9.Location = new System.Drawing.Point(876, 371);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(91, 23);
@@ -233,6 +242,7 @@ namespace Editors.Spawn
             // 
             // buttonShowUpdateChar
             // 
+            this.buttonShowUpdateChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonShowUpdateChar.Location = new System.Drawing.Point(779, 371);
             this.buttonShowUpdateChar.Name = "buttonShowUpdateChar";
             this.buttonShowUpdateChar.Size = new System.Drawing.Size(91, 23);

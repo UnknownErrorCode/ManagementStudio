@@ -32,17 +32,18 @@ namespace Editors.Spawn
         
         #endregion 
 
-        internal SpawnEditor(SingleSpawn spawn)
+        public SpawnEditor(SingleSpawn spawn)
         {
             InitializeComponent();
             CurrentSpawn = spawn;
             InitializeSpawn();
+            this.Text = CurrentSpawn.ObjCommon.CodeName128;
         }
 
         /// <summary>
         /// Initialize the spawn informations to the property grids.
         /// </summary>
-        internal void InitializeSpawn()
+        private void InitializeSpawn()
         {
             propertyGrid1.SelectedObject = CurrentSpawn.Nest;
             propertyGrid2.SelectedObject = CurrentSpawn.Hive;
