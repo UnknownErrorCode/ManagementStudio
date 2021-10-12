@@ -18,12 +18,12 @@ namespace ClientDataStorage.Client.Files
         /// <summary>
         /// 0x00 = Water, 0x01 = Ice, FF = Solid
         /// </summary>
-        public byte Density { get; set; }
+        public byte WaterType { get; set; }
 
         /// <summary>
         /// related to Block.Density (see screens)
         /// </summary>
-        public byte UnkByte0 { get; set; }
+        public byte WaterWaveType { get; set; }
 
         /// <summary>
         /// Sea level height
@@ -48,7 +48,7 @@ namespace ClientDataStorage.Client.Files
         /// <summary>
         /// unknown.
         /// </summary>
-        public byte[] UnkBuffer0 { get; set; }
+        public byte[] Reserved { get; set; }
 
 
         public MapMeshBlock(char[] blockName, Dictionary<Point, MapMeshCell> mapCells, byte density, byte unkByte0, float seaLevel, List<KeyValuePair<byte, byte>> extraMin, float heightMax, float heightMin, byte[] unkBuffer0)
@@ -58,9 +58,9 @@ namespace ClientDataStorage.Client.Files
             ExtraMin = extraMin;
             HeightMax = heightMax;
             HeightMin = heightMin;
-            UnkBuffer0 = unkBuffer0;
-            Density = density;
-            UnkByte0 = unkByte0;
+            Reserved = unkBuffer0;
+            WaterType = density;
+            WaterWaveType = unkByte0;
             SeaLevel = seaLevel;
         }
 

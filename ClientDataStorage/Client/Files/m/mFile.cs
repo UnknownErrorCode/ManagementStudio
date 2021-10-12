@@ -13,12 +13,12 @@ namespace ClientDataStorage.Client.Files
         /// <summary>
         /// X coordinate of .m file.
         /// </summary>
-        public int X { get; private set; }
+        public byte X { get; private set; }
 
         /// <summary>
         /// Y coordinate of .m file.
         /// </summary>
-        public int Y { get; private set; }
+        public byte Y { get; private set; }
 
         /// <summary>
         /// JMX Header file of version
@@ -34,22 +34,42 @@ namespace ClientDataStorage.Client.Files
         /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
         /// </summary>
         /// <param name="pk2file"></param>
-        public mFile(Pk2File pk2file)
+        public mFile(Pk2File pk2file) 
         {
             if (pk2file.name == null)
                 return;
 
-            if (!int.TryParse(pk2file.parentFolder.name, out int yCoordinate))
+            if (!byte.TryParse(pk2file.parentFolder.name, out byte yCoordinate))
                 return;
 
-            if (!int.TryParse(pk2file.name.Replace(".m", ""), out int xCoordinate))
+            if (!byte.TryParse(pk2file.name.Replace(".m", ""), out byte xCoordinate))
                 return;
+            
+            byte[] buffer = Client.Map.MapPk2.GetByteArrayByFile(pk2file);
 
+            Initialize(buffer, xCoordinate, yCoordinate);
 
+        }
+
+        /// <summary>
+        /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="xCoordinate"></param>
+        /// <param name="yCoordinate"></param>
+        public mFile(byte[] buffer, byte xCoordinate, byte yCoordinate)
+            => Initialize(buffer, xCoordinate, yCoordinate);
+
+        /// <summary>
+        /// initialize the mFile by byte array, x and y coordinate.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="xCoordinate"></param>
+        /// <param name="yCoordinate"></param>
+        private void Initialize(byte[] buffer, byte xCoordinate, byte yCoordinate)
+        {
             X = xCoordinate;
             Y = yCoordinate;
-
-            byte[] buffer = Client.Map.MapPk2.GetByteArrayByFile(pk2file);
 
             using (MemoryStream strea = new MemoryStream(buffer))
             {
@@ -57,20 +77,20 @@ namespace ClientDataStorage.Client.Files
                 {
                     Header = readBin.ReadChars(12);
 
-                    var counter = 0;
                     for (int xBlock = 0; xBlock < 6; xBlock++)
                     {
                         for (int yBlock = 0; yBlock < 6; yBlock++)
                         {
                             var Cells = new Dictionary<System.Drawing.Point, MapMeshCell>();
                             var blockName = UnicodeEncoding.UTF8.GetChars(readBin.ReadBytes(6));
+
                             for (int Cellx = 0; Cellx < 17; Cellx++)
                             {
                                 for (int Celly = 0; Celly < 17; Celly++)
                                 {
                                     var hei = readBin.ReadSingle();
                                     var tex = readBin.ReadByte();
-                                    var bri = (byte)readBin.ReadByte();
+                                    var bri = readBin.ReadByte();
                                     var skip = readBin.ReadByte();
 
                                     try
@@ -82,14 +102,13 @@ namespace ClientDataStorage.Client.Files
                                     }
                                 }
                             }
-                            counter++;
 
-                            var Density = readBin.ReadByte();
-                            var UnkByte0 = readBin.ReadByte();
-                            var SeaLevel = readBin.ReadSingle();
+                            var waterType = readBin.ReadByte();
+                            var waterWaveType = readBin.ReadByte();
+                            var WaterHeight = readBin.ReadSingle();
                             var ExtraMinMax = new List<KeyValuePair<byte, byte>>();
 
-                            for (int i = 0; i < 256; i++)
+                            for (int mapMeshTile = 0; mapMeshTile < 256; mapMeshTile++)
                             {
                                 var extraMin = readBin.ReadByte();
                                 var extraMax = readBin.ReadByte();
@@ -98,8 +117,8 @@ namespace ClientDataStorage.Client.Files
 
                             var HeightMax = readBin.ReadSingle();
                             var HeightMin = readBin.ReadSingle();
-                            var unkBuffer0 = readBin.ReadBytes(20);
-                            Blocks.Add(new System.Drawing.Point(xBlock, yBlock), new MapMeshBlock(blockName, Cells, Density, UnkByte0, SeaLevel, ExtraMinMax, HeightMax, HeightMin, unkBuffer0));
+                            var reserved = readBin.ReadBytes(20);
+                            Blocks.Add(new System.Drawing.Point(xBlock, yBlock), new MapMeshBlock( blockName,  Cells, waterType, waterWaveType, WaterHeight, ExtraMinMax, HeightMax, HeightMin, reserved));
                         }
                     }
                 }

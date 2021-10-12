@@ -44,6 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Files\bsr\bsrFile.cs" />
+    <Compile Include="Client\Files\bsr\CPrimMaterialSet.cs" />
+    <Compile Include="Client\Files\bsr\CPrimMesh.cs" />
+    <Compile Include="Client\Files\bsr\ObjectGeneralInfo.cs" />
+    <Compile Include="Client\Files\bsr\ResourceType.cs" />
     <Compile Include="Client\Files\ddj\DDJImage.cs" />
     <Compile Include="Client\Files\ddj\DSSImage.cs" />
     <Compile Include="Client\Files\m\MapMeshBlock.cs" />
