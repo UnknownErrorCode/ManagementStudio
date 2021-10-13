@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Files\bsr\AnimationEvent.cs" />
+    <Compile Include="Client\Files\bsr\AnimationType.cs" />
     <Compile Include="Client\Files\bsr\CPrimAniGroup.cs" />
+    <Compile Include="Client\Files\bsr\CPrimAniTypeData.cs" />
     <Compile Include="Client\Files\bsr\CPrimMeshGroup.cs" />
     <Compile Include="Client\Files\bsr\JMXbsrFile.cs" />
     <Compile Include="Client\Files\bsr\CPrimMaterialSet.cs" />
