@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage.Client.Files.bsr
 {
-    public class bsrFile
+    public class JMXbsrFile
     {
 
         /// <summary>
@@ -84,14 +84,44 @@ namespace ClientDataStorage.Client.Files.bsr
         #endregion
 
         #region SkeletonOffset
-
+        /// <summary>
+        /// if has Skeleton CPrimBranch gets read.
+        /// </summary>
         uint hasSkeleton;
 
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
         uint skeletonPathLength;
+
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
         string skeletonPath;
 
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
         uint attachmentBoneLength;
+
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
         string attachmentBone;
+        #endregion
+
+        #region PrimGroupOffset
+
+        uint meshGroupCnt;
+        List<CPrimMeshGroup> MeshGroupList;
+
+        #endregion
+
+        #region PrimAniGroupOffset
+
+        uint aniGroupCnt;
+
+        List<CPrimAniGroup> AniGroupList;
         #endregion
     }
 }
@@ -103,29 +133,6 @@ namespace ClientDataStorage.Client.Files.bsr
 
 
 
-//SkeletonOffset (Branch)
-4   uint    hasSkeleton
-if(hasSkeleton == 1)
-{    
-    //CPrimBranch
-    4   uint    skeletonPath.Length
-    *   string  skeletonPath
-    
-    //CPrimBone
-    4   uint    attachmentBone.Length
-    *   string  attachmentBone
-}
-
-//PrimGroupOffset
-4   uint    meshGroupCnt
-for (int i = 0; i < meshGroupCnt; i++)
-{       
-    4   uint    meshGroupName.Length
-    *   string  meshGroupName
-    4   uint    meshFileCnt
-    for (int ii = 0; ii < meshFileCnt; ii++)
-        4   uint    meshFileIdx             //from pMeshFileList
-}
 
 //PrimAniGroupOffset
 4   uint    aniGroupCnt

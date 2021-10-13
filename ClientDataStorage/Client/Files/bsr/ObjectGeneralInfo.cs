@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage.Client.Files.bsr
 {
-    class ObjectGeneralInfo
+   public class ObjectGeneralInfo
     {
        internal ResourceType Type;
        internal uint NameLength;

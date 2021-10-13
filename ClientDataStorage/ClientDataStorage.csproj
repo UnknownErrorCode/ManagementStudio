@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\Files\bsr\bsrFile.cs" />
+    <Compile Include="Client\Files\bsr\CPrimAniGroup.cs" />
+    <Compile Include="Client\Files\bsr\CPrimMeshGroup.cs" />
+    <Compile Include="Client\Files\bsr\JMXbsrFile.cs" />
     <Compile Include="Client\Files\bsr\CPrimMaterialSet.cs" />
     <Compile Include="Client\Files\bsr\CPrimMesh.cs" />
     <Compile Include="Client\Files\bsr\ObjectGeneralInfo.cs" />
