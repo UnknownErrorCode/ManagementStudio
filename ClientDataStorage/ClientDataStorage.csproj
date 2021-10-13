@@ -46,12 +46,14 @@
   <ItemGroup>
     <Compile Include="Client\Files\bsr\AnimationEvent.cs" />
     <Compile Include="Client\Files\bsr\AnimationType.cs" />
+    <Compile Include="Client\Files\bsr\CModDataSet.cs" />
     <Compile Include="Client\Files\bsr\CPrimAniGroup.cs" />
     <Compile Include="Client\Files\bsr\CPrimAniTypeData.cs" />
     <Compile Include="Client\Files\bsr\CPrimMeshGroup.cs" />
     <Compile Include="Client\Files\bsr\JMXbsrFile.cs" />
     <Compile Include="Client\Files\bsr\CPrimMaterialSet.cs" />
     <Compile Include="Client\Files\bsr\CPrimMesh.cs" />
+    <Compile Include="Client\Files\bsr\ModDataType.cs" />
     <Compile Include="Client\Files\bsr\ObjectGeneralInfo.cs" />
     <Compile Include="Client\Files\bsr\ResourceType.cs" />
     <Compile Include="Client\Files\ddj\DDJImage.cs" />

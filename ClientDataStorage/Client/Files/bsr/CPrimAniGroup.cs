@@ -2,14 +2,16 @@
 
 namespace ClientDataStorage.Client.Files.bsr
 {
+    /// <summary>
+    /// AnimationGroupName, List of AnimationTypeData.
+    /// </summary>
     internal class CPrimAniGroup
     {
 
-        uint groupNameLength;
-        string groupName;
+        uint groupNameLength{get; set;}
+        string groupName{get; set;}
 
-        uint aniCount;
-        List<CPrimAniTypeData> PrimAniTypeDataList;
+        uint aniCount{get; set;}
+        List<CPrimAniTypeData> PrimAniTypeDataList { get; set; } = new List<CPrimAniTypeData>();
     }
-   
 }

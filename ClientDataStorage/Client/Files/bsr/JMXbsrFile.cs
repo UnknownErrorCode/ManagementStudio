@@ -123,6 +123,12 @@ namespace ClientDataStorage.Client.Files.bsr
 
         List<CPrimAniGroup> AniGroupList;
         #endregion
+
+        #region ModPaletteOffset
+
+        uint modSetCnt;
+        List<CModDataSet> ModSetDataSetList;
+        #endregion
     }
 }
 
@@ -133,36 +139,6 @@ namespace ClientDataStorage.Client.Files.bsr
 
 
 
-
-//PrimAniGroupOffset
-4   uint    aniGroupCnt
-for (int i = 0; i < aniGroupCnt; i++)
-{       
-    4   uint    groupName.Length
-    *   string  groupName
-
-    //PrimAniTypeData
-    4   uint    aniCount
-    for (int ii = 0; ii < aniCount; ii++)
-    {                
-        4   uint    animation.Type          //see ResourceAnimationType
-        4   uint    animation.FileIndex
-
-        4   uint    eventCnt
-        for (int iii = 0; iii < eventCnt; iii++)
-        {
-            4   uint    event.KeyTime
-            4   uint    event.Type
-            4   uint    event.unkValue0
-            4   uint    event.unkValue1
-        }
-
-        4   uint    walkPointCnt
-        4   float   walkLength
-        for (int iii = 0; iii < walkPointCnt; iii++)
-            8   Vector2 walkGraphPoint
-    }
-}
 
 //ModPaletteOffset (CModPalette)
 //-> SystemModSets

@@ -4,17 +4,15 @@ namespace ClientDataStorage.Client.Files.bsr
 {
     internal class CPrimAniTypeData
     {
-        AnimationType animationType;
-        uint animationFileIndex;
-        uint AnimationEventCount;
+        AnimationType animationType{get; set;}
+        uint animationFileIndex{get; set;}
+        uint AnimationEventCount{get; set;}
 
-        List<AnimationEvent> AnimationEventList;
+        List<AnimationEvent> AnimationEventList { get; set; } = new List<AnimationEvent>();
 
-
-        uint walkPointCnt;
-        float walkLength;
-        List<float[]> WalkGraphPointList
-
+        uint walkPointCnt{get; set;}
+        float walkLength{get; set;}
+        List<float[]> WalkGraphPointList { get; set; } = new List<float[]>();
 
     }
 }
