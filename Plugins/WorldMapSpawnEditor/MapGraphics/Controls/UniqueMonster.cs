@@ -1,14 +1,14 @@
 ﻿using System;
 using Editors.Spawn;
 
-namespace WorldMapSpawnEditor._2dMapViewer
+namespace WorldMapSpawnEditor.MapGraphics
 {
     /// <summary>
     /// A single UniqueMonster spawn Control.
     /// </summary>
     class UniqueMonster : ISpawn
     {
-        internal UniqueMonster(SingleSpawn spawn) : base(spawn, 12, "Media\\interface\\minimap\\mm_sign_unique.ddj")
+        internal UniqueMonster(SingleSpawn spawn) : base(spawn)
         {
         }
     }

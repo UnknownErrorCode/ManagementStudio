@@ -42,14 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2dMapViewer\Controls\ISpawn.cs" />
-    <Compile Include="2dMapViewer\Controls\Monster.cs" />
-    <Compile Include="2dMapViewer\Controls\Npc.cs" />
-    <Compile Include="2dMapViewer\Controls\UniqueMonster.cs" />
+    <Compile Include="MapGraphics\Controls\ISpawn.cs" />
+    <Compile Include="MapGraphics\Controls\Monster.cs" />
+    <Compile Include="MapGraphics\Controls\Npc.cs" />
+    <Compile Include="MapGraphics\Controls\UniqueMonster.cs" />
     <Compile Include="MapGraphics\GraphicsPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MapGraphics\RegionGraphic.cs" />
+    <Compile Include="MapGuide\MapGuidePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WorldMapSpawnEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

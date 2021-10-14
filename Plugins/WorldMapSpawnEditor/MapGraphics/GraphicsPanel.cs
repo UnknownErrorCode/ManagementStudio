@@ -168,6 +168,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                     continue;
                 }
             }
+
+
             Initialized = true;
         }
 

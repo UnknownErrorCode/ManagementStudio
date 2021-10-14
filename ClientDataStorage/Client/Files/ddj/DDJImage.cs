@@ -74,6 +74,7 @@ namespace ClientDataStorage.Client.Files
                     throw new InvalidFileHeaderException();
                 }
 
+                //here is the fail somehow
                 data = this.ReadData(reader, header);
                 if (data != null)
                 {
