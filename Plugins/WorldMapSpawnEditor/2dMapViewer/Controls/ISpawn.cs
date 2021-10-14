@@ -40,13 +40,7 @@ namespace WorldMapSpawnEditor._2dMapViewer
         /// </summary>
         public Point Location { get; set; }
 
-        /// <summary>
-        /// Texture for single Spawn   !obsolete!
-        /// </summary>
-       // public Bitmap Texture { get; set; }
-
         #endregion
-
 
         /// <summary>
         /// Raw logic of a single spawn. (Monster, UniqueMonster, Npc)
@@ -59,8 +53,10 @@ namespace WorldMapSpawnEditor._2dMapViewer
             Location = new Point(X * (int)Math.Round(spawn.Nest.fLocalPosX / 7.5f, 0) , Y *(int)Math.Round((spawn.Nest.fLocalPosZ / 7.5f - 256) * -1) );
         }
 
-
-
+        /// <summary>
+        /// Updates the position of the spawn
+        /// </summary>
+        /// <param name="RegionSize"></param>
         public void UpdateISpawn(int RegionSize)
         {
             //Spawn = newSpawn;

@@ -28,7 +28,9 @@ namespace WorldMapSpawnEditor.MapGraphics
         #endregion
 
         #region Fields
-
+        /// <summary>
+        /// Unique tooltip used for anyting that requires a Tip to display to avoid creating duplicate tooltips.
+        /// </summary>
         ToolTip tip = new ToolTip();
 
         /// <summary>
@@ -50,22 +52,26 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal Dictionary<int, UniqueMonster> AllUniqueMonsters = new Dictionary<int, UniqueMonster>();
         internal Dictionary<int, Npc> AllNpcs = new Dictionary<int, Npc>();
 
-
+        #region Spawn Bitmap Images
         private protected Bitmap NpcImage;
         private protected Bitmap MonsterImage;
         private protected Bitmap UMonsterImage;
+        #endregion
 
+        #region Spawn Bitmap Image Paths
         private protected readonly string NpcIconPath = "Media\\interface\\minimap\\mm_sign_npc.ddj";
         private protected readonly string MonsterIconPath = "Media\\interface\\minimap\\mm_sign_monster.ddj";
         private protected readonly string UMonsterIconPath = "Media\\interface\\minimap\\mm_sign_unique.ddj";
-
+        #endregion
         #endregion
 
         internal GraphicsPanel()
             => InitializeComponents();
 
 
-
+        /// <summary>
+        /// Initializes all required components for the WorldMap viewer
+        /// </summary>
         private void InitializeComponents()
         {
             this.AutoSize = true;
@@ -78,7 +84,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.MouseUp += GraphicsPanel_MouseUp;
             this.MouseDown += GraphicsPanel_MouseDown;
             this.MouseWheel += GraphicsPanel_MouseWheel;
-            this.MouseMove += GraphicsPanel_MouseHover;
+            this.MouseMove += GraphicsPanel_MouseMove;
 
             InitializeSpawnImage(NpcIconPath, 8, out NpcImage);
             InitializeSpawnImage(MonsterIconPath, 8, out MonsterImage);
@@ -90,7 +96,12 @@ namespace WorldMapSpawnEditor.MapGraphics
             Task.Run(() => InitializeSpawnGraphics());
         }
 
-        private void GraphicsPanel_MouseHover(object sender, MouseEventArgs e)
+        /// <summary>
+        /// On Mouse Move it calculates the neccesary informations from each spawn below the cursor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GraphicsPanel_MouseMove(object sender, MouseEventArgs e)
         {
             var rangeXCoordPanel = Enumerable.Range((int)e.X - 8, 16);
             var rangeYCoordPanel = Enumerable.Range((int)e.Y - 8, 16);
@@ -109,6 +120,12 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
+        /// <summary>
+        /// Initializes all Spawn Images to the Panel.
+        /// </summary>
+        /// <param name="pk2PathString"></param>
+        /// <param name="ImageSize"></param>
+        /// <param name="image"></param>
         private void InitializeSpawnImage(string pk2PathString, int ImageSize, out Bitmap image)
         {
             if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(pk2PathString))
@@ -121,6 +138,9 @@ namespace WorldMapSpawnEditor.MapGraphics
             image = ClientDataStorage.Client.Media.DDJFiles[pk2PathString].BitmapImage;
         }
 
+        /// <summary>
+        /// Defines weather the spawn is a monster, npc or smthing else...
+        /// </summary>
         private void InitializeSpawnGraphics()
         {
             foreach (var nest in ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest)
@@ -151,8 +171,11 @@ namespace WorldMapSpawnEditor.MapGraphics
             Initialized = true;
         }
 
-
-
+        /// <summary>
+        /// On mouse up. Required for moving the view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GraphicsPanel_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Location != MouseDownPoint && e.Button == MouseButtons.Left)
@@ -165,7 +188,11 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
-
+        /// <summary>
+        /// On mouse down. Required for releasing the view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GraphicsPanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -198,6 +225,11 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
+        /// <summary>
+        /// When the panel gets repainted it after invalidate.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GraphicsPanel_Paint(object sender, PaintEventArgs e)
         {
             var regionPoint = new Point(0, 0);
@@ -252,9 +284,12 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
 
         }
-        // int OldPicSize = 256;
 
-
+        /// <summary>
+        /// on scroll for zoom. TODO: keep position on scroll to Mouse Cursor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GraphicsPanel_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta < 0 && PictureSize < 6)
@@ -267,8 +302,9 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.Invalidate();
         }
 
-
-
+        /// <summary>
+        /// Initialize the entired _RefRegion map into the application for faster loadup.
+        /// </summary>
         private void InitializeWorldGraphics()
         {
             var allRegions = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefRegion"].Rows;
