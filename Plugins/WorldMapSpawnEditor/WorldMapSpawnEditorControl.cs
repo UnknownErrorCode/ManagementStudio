@@ -4,7 +4,6 @@ using System.Reflection;
 using System;
 using System.Data;
 using System.Collections.Generic;
-using WorldMapSpawnEditor._2dMapViewer;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
