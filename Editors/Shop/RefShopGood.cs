@@ -2,17 +2,17 @@
 using System.Data;
 using System.Linq;
 
-namespace ShopEditor.Interface.ShopInterface
+namespace Editors.Shop
 {
-    internal class RefShopGood
+    public class RefShopGood
     {
-        internal string PackageItemCodeName { get; set; }
-        internal byte SlotIndex { get; set; }
-        internal RefPackageItem PackageItem { get; set; }
-        internal RefScrapOfPackageItem ScrapOfPackageItem { get; set; }
-        internal RefPricePolicyOfItem[] PricePolicyOfItem { get; set; }
+        public string PackageItemCodeName { get; set; }
+        public byte SlotIndex { get; set; }
+        public RefPackageItem PackageItem { get; set; }
+        public RefScrapOfPackageItem ScrapOfPackageItem { get; set; }
+        public RefPricePolicyOfItem[] PricePolicyOfItem { get; set; }
 
-        internal RefShopGood(string refPackageItemCodeName, byte slotIndex)
+        public RefShopGood(string refPackageItemCodeName, byte slotIndex)
         {
             PackageItemCodeName = refPackageItemCodeName;
             SlotIndex = slotIndex;

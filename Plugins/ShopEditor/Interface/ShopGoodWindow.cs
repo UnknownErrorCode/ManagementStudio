@@ -1,4 +1,5 @@
 ﻿using ClientDataStorage.Client;
+using Editors.Shop;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,10 +9,10 @@ namespace ShopEditor.Interface
     internal class ShopGoodWindow : Panel
     {
         private string IconPath { get => $"Media\\icon\\{Good.PackageItem.AssocFileIcon}"; }
-        internal ShopInterface.RefShopGood Good { get; set; }
+        internal RefShopGood Good { get; set; }
 
         
-        internal ShopGoodWindow(ShopInterface.RefShopGood good)
+        internal ShopGoodWindow(RefShopGood good)
         {
             Good = good;
             this.Size = new System.Drawing.Size(32, 32);
@@ -24,7 +25,13 @@ namespace ShopEditor.Interface
                 this.BackgroundImage = Media.DDJFiles[IconPath].BitmapImage;
             Media.DDJFiles[IconPath].BitmapImage.Save($".\\{Good.PackageItemCodeName}.png");
             TalkWindow.ShopToolTip.SetToolTip(this, this.Good.ScrapOfPackageItem.RefItemCodeName);
+            this.Click += ShopGoodWindow_Click;
+        }
 
+        private void ShopGoodWindow_Click(object sender, EventArgs e)
+        {
+            var ed = new Editors.Shop.ShopEditor(Good);
+            ed.Show();
         }
 
         private Point GetPositionBySlotIndex(byte slotIndex)

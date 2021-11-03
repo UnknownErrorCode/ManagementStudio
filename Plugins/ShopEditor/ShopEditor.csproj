@@ -47,7 +47,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interface\ShopInterface\RefShop.cs" />
-    <Compile Include="Interface\ShopInterface\RefShopGood.cs" />
     <Compile Include="Interface\ShopInterface\RefShopGroup.cs" />
     <Compile Include="Interface\ShopInterface\RefShopTab.cs" />
     <Compile Include="Interface\ShopInterface\RefShopTabGroup.cs" />
@@ -87,6 +86,10 @@
     <ProjectReference Include="..\..\ClientDataStorage\ClientDataStorage.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
       <Name>ClientDataStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Editors\Editors.csproj">
+      <Project>{5185c5c8-39d7-48ed-b45e-231dc36a3f10}</Project>
+      <Name>Editors</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>

@@ -1,4 +1,4 @@
-﻿using ShopEditor.Interface.ShopInterface;
+﻿using Editors.Shop;
 using System.Windows.Forms;
 
 namespace ShopEditor.Interface
@@ -42,7 +42,6 @@ namespace ShopEditor.Interface
             for (int i = 0; i < ShopGoodsOnPage.Length; i++)
                 this.Controls.Add(ShopGoodsOnPage[i]);
 
-            this.ResumeLayout(false);
         }
 
         private void InitializeComponent()
