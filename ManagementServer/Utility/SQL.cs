@@ -111,12 +111,10 @@ namespace ManagementServer.Utility
             using (SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection))
             {
                 if (sqlConnection.State != ConnectionState.Open)
-                    sqlConnection.Open();
+                    sqlConnection.OpenAsync();
 
                 sqlConnection.ChangeDatabase(database);
                 adapter.Fill(dataTable);
-
-                sqlConnection.Close();
 
             }
 

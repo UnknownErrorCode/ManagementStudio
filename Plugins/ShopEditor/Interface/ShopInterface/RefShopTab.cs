@@ -9,7 +9,7 @@ namespace ShopEditor.Interface.ShopInterface
         internal protected string Name { get; set; }
         internal protected byte TabPageIndex { get; set; }
         internal protected string StrID128Name { get; set; }
-        internal RefShopGood[] ShopGoods { get; set; }
+        internal CIShopGood[] ShopGoods { get; set; }
 
         internal RefShopTab(string refShopTabCodeName, string StrID_CodeName128)
         {
@@ -26,10 +26,11 @@ namespace ShopEditor.Interface.ShopInterface
                 return;
 
             var allGoodsOnTab = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGoods"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefTabCodeName") == this.Name && row.Field<byte>("Service") == 1).ToArray();
-            ShopGoods = new RefShopGood[allGoodsOnTab.Length];
+            ShopGoods = new CIShopGood[allGoodsOnTab.Length];
 
             for (int i = 0; i < allGoodsOnTab.Length; i++)
-                ShopGoods[i] = new RefShopGood(allGoodsOnTab[i].Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
+                ShopGoods[i] = new CIShopGood(new Structs.Database.RefShopGood(allGoodsOnTab[i].ItemArray));// Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
+                //ShopGoods[i] = new RefShopGood(allGoodsOnTab[i].Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
         }
     }
 }

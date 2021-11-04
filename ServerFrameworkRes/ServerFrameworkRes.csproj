@@ -124,6 +124,7 @@
     <Compile Include="Network\Security\IPacketHandler.cs" />
     <Compile Include="Network\Security\PacketHandler.cs" />
     <Compile Include="Network\Security\PacketHandlerResult.cs" />
+    <Compile Include="Network\Security\PacketID.cs" />
     <Compile Include="Network\Security\SecurityException.cs" />
     <Compile Include="Network\Security\SecurityManager.cs" />
     <Compile Include="Network\Security\ServerData.cs" />
@@ -212,6 +213,11 @@
       <DependentUpon>LogGridView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Structs\Structs.csproj">
+      <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
+      <Name>Structs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

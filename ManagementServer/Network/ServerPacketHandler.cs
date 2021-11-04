@@ -16,10 +16,17 @@ namespace ManagementServer.Network
             base.AddEntry(0x1001, Reply0x1001RequestAllTopics);
             base.AddEntry(0x1002, Reply0x1002AddNewTopic);
             base.AddEntry(0x1004, Reply0x1004DeleteTopic);
+
+            base.AddEntry(0x1010, Reply0x1010ShopItemPriceUpdate);
+
+
             // launcher
             base.AddEntry(0x3000, Reply0x3000RequestUpdate);
 
         }
+
+        
+
         private PacketHandlerResult Reply0x0999DataTableRequest(ServerData arg1, Packet arg2)
           => Handler.S_TABLEDATA.SendTableData(arg1, arg2);
 
@@ -33,7 +40,9 @@ namespace ManagementServer.Network
         private PacketHandlerResult Reply0x1004DeleteTopic(ServerData arg1, Packet arg2)
          => Handler.S_DASHBOARD.DeleteTopic(arg1, arg2);
 
-        
+        private PacketHandlerResult Reply0x1010ShopItemPriceUpdate(ServerData arg1, Packet arg2)
+            => Handler.S_SHOPEDITOR.UpdatePrice(arg1, arg2);
+
 
         /// <summary>
         /// Server receives handshake process packet and verifiels that user is using the originale Tool, no bot or other stuff...

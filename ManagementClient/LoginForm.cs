@@ -106,5 +106,13 @@ namespace ManagementClient
             Program.StaticClientForm.Show();
             this.Visible = false;
         }
+
+        private void vSroInputBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar =='\n')
+            {
+                vSroSmallButtonLogin_vSroClickEvent();
+            }
+        }
     }
 }

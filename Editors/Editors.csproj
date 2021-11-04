@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shop\RefShopGood.cs" />
+    <Compile Include="Shop\CIShopGood.cs" />
     <Compile Include="Shop\ShopEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +68,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Shop\ShopEditor.resx">
+      <DependentUpon>ShopEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Skills\SkillEditor.resx">
       <DependentUpon>SkillEditor.cs</DependentUpon>
     </EmbeddedResource>

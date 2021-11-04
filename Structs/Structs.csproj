@@ -48,6 +48,7 @@
     <Compile Include="Database\RefPackageItem.cs" />
     <Compile Include="Database\RefPricePolicyOfItem.cs" />
     <Compile Include="Database\RefScrapOfPackageItem.cs" />
+    <Compile Include="Database\RefShopGood.cs" />
     <Compile Include="Database\RefSkill.cs" />
     <Compile Include="Database\RefSkillGroup.cs" />
     <Compile Include="Database\RefSkillMastery.cs" />

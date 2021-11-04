@@ -75,6 +75,7 @@ namespace ManagementClient
             this.vSroInputBox2.TitleText = "Password:";
             this.vSroInputBox2.ValueText = "";
             this.vSroInputBox2.vSroUseSystemPasswordChar = true;
+            this.vSroInputBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.vSroInputBox2_KeyPress);
             // 
             // vSroInputBox1
             // 

@@ -24,7 +24,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// TexturePath is combined by  {X}x{Y}.ddj.
         /// </summary>
-        private protected string TexturePath { get => $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{X}x{Z}.png"; }
+        private protected string TexturePath { get => $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{X}x{Z}.JPG"; }
 
         /// <summary>
         /// Region texture from media/minimap.
@@ -43,15 +43,15 @@ namespace WorldMapSpawnEditor.MapGraphics
                 X = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(2, 2), 16));
 
                 #region temp use of pk2 file
-                if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey($"Media\\minimap\\{X}x{Z}.ddj"))
-                {
-                    if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory($"Media\\minimap\\{X}x{Z}.ddj", out byte[] rawByteimage))
-                        ClientDataStorage.Client.Media.DDJFiles.Add($"Media\\minimap\\{X}x{Z}.png", new ClientDataStorage.Client.Files.DDJImage(rawByteimage));
-                }
-                RegionLayer = ClientDataStorage.Client.Media.DDJFiles[$"Media\\minimap\\{X}x{Z}.ddj"].BitmapImage;
+               //if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey($"Media\\minimap\\{X}x{Z}.ddj"))
+               //{
+               //    if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory($"Media\\minimap\\{X}x{Z}.ddj", out byte[] rawByteimage))
+               //        ClientDataStorage.Client.Media.DDJFiles.Add($"Media\\minimap\\{X}x{Z}.png", new ClientDataStorage.Client.Files.DDJImage(rawByteimage));
+               //}
+               //RegionLayer = ClientDataStorage.Client.Media.DDJFiles[$"Media\\minimap\\{X}x{Z}.ddj"].BitmapImage;
                 #endregion
-                //if (File.Exists(TexturePath))
-                //    RegionLayer = Image.FromFile(TexturePath);
+                if (File.Exists(TexturePath))
+                    RegionLayer = Image.FromFile(TexturePath);
             }
         }
     }

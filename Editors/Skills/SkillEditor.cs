@@ -46,15 +46,15 @@ namespace Editors.Skills
 
             for (int i = 0; i < ((Monster)propertyGrid1.SelectedObject).Skills.Count; i++)
             {
-                updatestring =  $"{updatestring} DefaultSkill_{i+1} = {((Monster)propertyGrid1.SelectedObject).Skills[i].ID}, ";
+                updatestring = $"{updatestring} DefaultSkill_{i + 1} = {((Monster)propertyGrid1.SelectedObject).Skills[i].ID}, ";
             }
             updatestring = $"{updatestring.Substring(0, updatestring.Length - 2)} WHERE ID = {((Monster)propertyGrid1.SelectedObject).ObjChar.ID} ";
             richTextBoxUpdateQuery.Text = updatestring;
-            
-                
-                foreach (var item in ((Monster)propertyGrid1.SelectedObject).Skills)
+
+
+            foreach (var item in ((Monster)propertyGrid1.SelectedObject).Skills)
             {
-               
+
             }
         }
     }

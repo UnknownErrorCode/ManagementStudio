@@ -15,7 +15,7 @@ namespace ShopEditor.Interface
         /// </summary>
         internal ShopGoodWindow[] ShopGoodsOnPage;
 
-        public SingleTabPageWindow(byte page, RefShopGood[] goodsOnPage)
+        public SingleTabPageWindow(byte page, CIShopGood[] goodsOnPage)
         {
             PageIndex = page;
             InitializeComponent();
@@ -27,7 +27,7 @@ namespace ShopEditor.Interface
         /// Initialize all Goods on this Page.
         /// </summary>
         /// <param name="goodsOnPage">Raw goods without UI Elements.</param>
-        private void InitializeShopGoods(RefShopGood[] goodsOnPage)
+        private void InitializeShopGoods(CIShopGood[] goodsOnPage)
         {
             ShopGoodsOnPage = new ShopGoodWindow[goodsOnPage.Length];
             for (int i = 0; i < goodsOnPage.Length; i++)

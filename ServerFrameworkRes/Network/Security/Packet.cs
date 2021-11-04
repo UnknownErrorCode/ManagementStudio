@@ -359,10 +359,7 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        public string ReadAscii()
-        {
-            return ReadAscii(1252);
-        }
+        public string ReadAscii() => ReadAscii(1252);
 
         public string ReadAscii(int codepage)
         {
@@ -650,6 +647,7 @@ namespace ServerFrameworkRes.Network.Security
                 return values;
             }
         }
+      
 
         public DataTable ReadDataTable(byte[] array)
         {
@@ -1071,6 +1069,20 @@ namespace ServerFrameworkRes.Network.Security
         public void WritePaddedString<TPaddedString>(TPaddedString value) where TPaddedString : Unmanaged.IMarshalled, IPaddedString
         {
             this.WriteMarshalled<TPaddedString>(value);
+        }
+
+        public void WriteStruct<T>(T structure) where T : struct
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+
+                var bytes = Unmanaged.StructToBuffer2(structure);
+                _writer.Write(bytes);
+            }
         }
 
         #region WriteArray

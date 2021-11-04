@@ -46,6 +46,7 @@
     <Compile Include="Interface\ShopGoodWindow.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Interface\ShopInterface\EditorInterface.cs" />
     <Compile Include="Interface\ShopInterface\RefShop.cs" />
     <Compile Include="Interface\ShopInterface\RefShopGroup.cs" />
     <Compile Include="Interface\ShopInterface\RefShopTab.cs" />
