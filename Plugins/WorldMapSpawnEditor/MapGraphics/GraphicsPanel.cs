@@ -207,13 +207,18 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                 var strx = regionX.ToString("X");
                 var stry = regionY.ToString("X");
-                var strin = $"0x{stry}{strx}";
-                var regionID = Convert.ToInt32(strin);
+                var strin = $"{stry}{strx}";
+
+                var regionID = Convert.ToInt32(strin, 16);
 
 
-                float fRegX = ((MovingPoint.X - e.X)) * -1 - (regionX * PictureSize);
-                float fRegY = 0;
+                float fRegX = ((regionX) * PictureSize + (MovingPoint.X - e.X) - PictureSize) * -1;
+                float RegX = fRegX * (1920 / PictureSize);
 
+                float fRegY = (((MovingPoint.Y - e.Y) ) - (regionY * PictureSize)  + (128 * PictureSize)) * -1;
+                float RegY = fRegY * (1920 / PictureSize);
+
+                
                 var rangeXCoordPanel = Enumerable.Range((int)e.X - 8, 16);
                 var rangeYCoordPanel = Enumerable.Range((int)e.Y - 8, 16);
 
