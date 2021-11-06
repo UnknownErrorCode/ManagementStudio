@@ -11,11 +11,7 @@ namespace ManagementServer.Handler
 
             try
             {
-                var obj = arg2.ReadStruct<RefPricePolicyOfItem>();// arg2.ReadStruct<RefPricePolicyOfItem>();
-                if (obj.RefPackageItemCodeName.Length > 0)
-                {
-
-                }
+               
             }
             catch (Exception ex)
             {

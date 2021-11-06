@@ -122,6 +122,7 @@
     <Compile Include="Network\Handler\Utility.cs" />
     <Compile Include="Network\Security\Blowfish.cs" />
     <Compile Include="Network\Security\IPacketHandler.cs" />
+    <Compile Include="Network\Security\PacketFormat\C_S_UpdateShopItemPrice.cs" />
     <Compile Include="Network\Security\PacketHandler.cs" />
     <Compile Include="Network\Security\PacketHandlerResult.cs" />
     <Compile Include="Network\Security\PacketID.cs" />

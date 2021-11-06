@@ -27,7 +27,7 @@ namespace ManagementServer.Handler
         {
        
                 var tableName = arg2.ReadAscii();
-                DataTable table = Utility.SQL.GetRequestedDataTable(tableName);
+               // DataTable table = Utility.SQL.GetRequestedDataTable(tableName);
                 Packet tablePacket = new Packet(0xB002, false, true);
                 tablePacket.WriteAscii(tableName);
                 tablePacket.WriteDataTable(Utility.SQL.GetRequestedDataTable(tableName));

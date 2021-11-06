@@ -107,7 +107,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
             foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
             {
-                tip.Show(npc.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 2, e.Y + 2, 5000);
+                tip.Show(npc.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 20, e.Y + 2, 5000);
             }
             foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
             {
@@ -115,7 +115,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
             {
-                tip.Show(umob.Value.Spawn.ObjCommon.CodeName128, Parent, e.X+2, e.Y+2, 5000);
+                tip.Show(umob.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 20, e.Y + 2, 5000);
             }
         }
 
@@ -202,16 +202,26 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             else if (e.Button == MouseButtons.Right)
             {
-                var regionX = ((MovingPoint.X - e.X) / PictureSize) * -1;
-                var regionY = ((MovingPoint.Y - e.Y) / PictureSize) + 128;
+                var regionX = ((MovingPoint.X - e.X) / PictureSize) * -1 + 1;
+                var regionY = ((MovingPoint.Y - e.Y) / PictureSize) + 129;
+
+                var strx = regionX.ToString("X");
+                var stry = regionY.ToString("X");
+                var strin = $"0x{stry}{strx}";
+                var regionID = Convert.ToInt32(strin);
 
 
-                var rangeXCoordPanel = Enumerable.Range((int)e.X -8, 16);
-                var rangeYCoordPanel = Enumerable.Range((int)e.Y -8, 16);
+                float fRegX = ((MovingPoint.X - e.X)) * -1 - (regionX * PictureSize);
+                float fRegY = 0;
+
+                var rangeXCoordPanel = Enumerable.Range((int)e.X - 8, 16);
+                var rangeYCoordPanel = Enumerable.Range((int)e.Y - 8, 16);
 
                 foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
                     ClientDataStorage.Log.Logger.WriteLogLine($"Catched NPC:[{npc.Value.Spawn.ObjCommon.CodeName128}]");
+                    SpawnEditor Editor = new SpawnEditor(npc.Value.Spawn);
+                    Editor.Show();
                 }
                 foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
@@ -222,6 +232,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                 foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
                     ClientDataStorage.Log.Logger.WriteLogLine($"Catched Unique:[{umob.Value.Spawn.ObjCommon.CodeName128}]");
+                    SpawnEditor Editor = new SpawnEditor(umob.Value.Spawn);
+                    Editor.Show();
                 }
             }
         }
@@ -236,7 +248,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             var regionPoint = new Point(0, 0);
             var panelPoint = new Point(0, 0);
 
-          
+
             for (int x = 0; x < 256; x++)
             {
                 regionPoint.X = x;
