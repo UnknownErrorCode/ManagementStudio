@@ -34,7 +34,7 @@ namespace ClientDataStorage.Client.Files
         /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
         /// </summary>
         /// <param name="pk2file"></param>
-        public mFile(Pk2File pk2file) 
+        public mFile(Pk2File pk2file)
         {
             if (pk2file.name == null)
                 return;
@@ -44,7 +44,7 @@ namespace ClientDataStorage.Client.Files
 
             if (!byte.TryParse(pk2file.name.Replace(".m", ""), out byte xCoordinate))
                 return;
-            
+
             byte[] buffer = Client.Map.MapPk2.GetByteArrayByFile(pk2file);
 
             Initialize(buffer, xCoordinate, yCoordinate);
@@ -118,7 +118,7 @@ namespace ClientDataStorage.Client.Files
                             var HeightMax = readBin.ReadSingle();
                             var HeightMin = readBin.ReadSingle();
                             var reserved = readBin.ReadBytes(20);
-                            Blocks.Add(new System.Drawing.Point(xBlock, yBlock), new MapMeshBlock( blockName,  Cells, waterType, waterWaveType, WaterHeight, ExtraMinMax, HeightMax, HeightMin, reserved));
+                            Blocks.Add(new System.Drawing.Point(xBlock, yBlock), new MapMeshBlock(blockName, Cells, waterType, waterWaveType, WaterHeight, ExtraMinMax, HeightMax, HeightMin, reserved));
                         }
                     }
                 }
@@ -180,6 +180,88 @@ namespace ClientDataStorage.Client.Files
                 return Blocks[p].MapCells[p];
             else
                 return null;
+        }
+
+        public bool GetHightByfPoint(float regX, float regY, out float Z)
+        {
+            Z = 0.0f;
+             BlockEntry(regX, out byte BlockX);
+             BlockEntry(regY, out byte BlockY);
+
+            CellEntry(regX, false, out byte CellX);
+            CellEntry(regY, true, out byte CellY);
+
+            var Point1 = new System.Drawing.Point(BlockX, BlockY);
+            var Point2 = new System.Drawing.Point(CellX, CellY);
+
+            Z = this.Blocks[Point1].MapCells[Point2].Height;
+
+            return true;
+        }
+
+
+        private static bool BlockEntry(float regX, out byte blockX)
+        {
+            blockX = 0;
+
+            if (Enumerable.Range(0, 320).Contains((int)regX))
+                blockX = 0;
+            else if (Enumerable.Range(320, 320).Contains((int)regX))
+                blockX = 1;
+            else if (Enumerable.Range(640, 320).Contains((int)regX))
+                blockX = 2;
+            else if (Enumerable.Range(960, 320).Contains((int)regX))
+                blockX = 3;
+            else if (Enumerable.Range(1280, 320).Contains((int)regX))
+                blockX = 4;
+            else if (Enumerable.Range(1600, 320).Contains((int)regX))
+                blockX = 5;
+            else
+                return false;
+
+            return true;
+        }
+
+        private static bool CellEntry(float reg, bool reverse, out byte Cell)
+        {
+            Cell = 0;
+
+            if (Enumerable.Range(0, 120).Contains((int)reg))
+                Cell = reverse ? (byte)15 : (byte)0;
+            else if (Enumerable.Range(120, 120).Contains((int)reg))
+                Cell = reverse ? (byte)14 : (byte)1;
+            else if (Enumerable.Range(240, 120).Contains((int)reg))
+                Cell = reverse ? (byte)13 : (byte)2;
+            else if (Enumerable.Range(360, 120).Contains((int)reg))
+                Cell = reverse ? (byte)12 : (byte)3;
+            else if (Enumerable.Range(480, 120).Contains((int)reg))
+                Cell = reverse ? (byte)11 : (byte)4;
+            else if (Enumerable.Range(600, 120).Contains((int)reg))
+                Cell = reverse ? (byte)10 : (byte)5;
+            else if (Enumerable.Range(720, 120).Contains((int)reg))
+                Cell = reverse ? (byte)9 : (byte)6;
+            else if (Enumerable.Range(840, 120).Contains((int)reg))
+                Cell = reverse ? (byte)8 : (byte)7;
+            else if (Enumerable.Range(960, 120).Contains((int)reg))
+                Cell = reverse ? (byte)7 : (byte)8;
+            else if (Enumerable.Range(1080, 120).Contains((int)reg))
+                Cell = reverse ? (byte)6 : (byte)9;
+            else if (Enumerable.Range(1200, 120).Contains((int)reg))
+                Cell = reverse ? (byte)5 : (byte)10;
+            else if (Enumerable.Range(1320, 120).Contains((int)reg))
+                Cell = reverse ? (byte)4 : (byte)11;
+            else if (Enumerable.Range(1440, 120).Contains((int)reg))
+                Cell = reverse ? (byte)3 : (byte)12;
+            else if (Enumerable.Range(1560, 120).Contains((int)reg))
+                Cell = reverse ? (byte)2 : (byte)13;
+            else if (Enumerable.Range(1680, 120).Contains((int)reg))
+                Cell = reverse ? (byte)1 : (byte)14;
+            else if (Enumerable.Range(1800, 120).Contains((int)reg))
+                Cell = reverse ? (byte)0 : (byte)15;
+            else
+                return false;
+
+            return true;
         }
     }
 }

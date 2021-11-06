@@ -60,7 +60,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         /// <param name="RegionSize"></param>
         public void UpdateISpawn(int RegionSize)
-            => this.Location = new Point(((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0)), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize) - RegionSize) * -1));
+            => this.Location = new Point(((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0)), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize)) * -1));
 
 
         /// <summary>

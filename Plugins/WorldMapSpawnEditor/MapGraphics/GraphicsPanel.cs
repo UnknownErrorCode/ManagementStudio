@@ -43,6 +43,11 @@ namespace WorldMapSpawnEditor.MapGraphics
         private Point MovingPoint = new Point(0, 0);
 
         /// <summary>
+        /// The Location of the mouse while dragging and swiping.
+        /// </summary>
+        private Point MouseSroRegioDownPoint = new Point(0, 0);
+
+        /// <summary>
         /// Consists of all RegionGraphics on the WorldMap.
         /// </summary>
         Dictionary<Point, RegionGraphic> AllRegionGraphics = new Dictionary<Point, RegionGraphic>();
@@ -50,6 +55,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal Dictionary<int, Monster> AllMonsters = new Dictionary<int, Monster>();
         internal Dictionary<int, UniqueMonster> AllUniqueMonsters = new Dictionary<int, UniqueMonster>();
         internal Dictionary<int, Npc> AllNpcs = new Dictionary<int, Npc>();
+
 
         #region Spawn Bitmap Images
         private protected Bitmap NpcImage;
@@ -181,9 +187,19 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             if (e.Location != MouseDownPoint && e.Button == MouseButtons.Left)
             {
+                
                 var delta = new Point(e.Location.X - MouseDownPoint.X, e.Location.Y - MouseDownPoint.Y);
                 MovingPoint.X += delta.X;
                 MovingPoint.Y += delta.Y;
+                if (MovingPoint.X > 0)
+                {
+                    MovingPoint.X = 0;
+                }
+                if (MovingPoint.Y>0)
+                {
+                    MovingPoint.Y = 0;
+                }
+
 
                 this.Invalidate();
             }
@@ -202,23 +218,37 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             else if (e.Button == MouseButtons.Right)
             {
-                var regionX = ((MovingPoint.X - e.X) / PictureSize) * -1 + 1;
-                var regionY = ((MovingPoint.Y - e.Y) / PictureSize) + 129;
+                MouseSroRegioDownPoint.X = ((MovingPoint.X - e.X) / PictureSize) * -1  ;
+                MouseSroRegioDownPoint.Y = ((MovingPoint.Y - e.Y) / PictureSize) + 127;
 
-                var strx = regionX.ToString("X");
-                var stry = regionY.ToString("X");
+                var strx = MouseSroRegioDownPoint.X.ToString("X");
+                var stry = MouseSroRegioDownPoint.Y.ToString("X");
                 var strin = $"{stry}{strx}";
 
                 var regionID = Convert.ToInt32(strin, 16);
 
 
-                float fRegX = ((regionX) * PictureSize + (MovingPoint.X - e.X) - PictureSize) * -1;
+                float fRegX = ((MouseSroRegioDownPoint .X+ 1) * PictureSize + (MovingPoint.X - e.X) - PictureSize) * -1;
                 float RegX = fRegX * (1920 / PictureSize);
 
-                float fRegY = (((MovingPoint.Y - e.Y) ) - (regionY * PictureSize)  + (128 * PictureSize)) * -1;
+                float fRegY = ((128 * PictureSize) + (MovingPoint.Y - e.Y)) - ((MouseSroRegioDownPoint.Y) * PictureSize);
                 float RegY = fRegY * (1920 / PictureSize);
 
-                
+                if (!ClientDataStorage.Client.Map.AllmFiles.ContainsKey(MouseSroRegioDownPoint))
+                {
+                    if (ClientDataStorage.Client.Map.MapPk2.GetByteArrayByDirectory($"Map\\{MouseSroRegioDownPoint.Y}\\{MouseSroRegioDownPoint.X}.m", out byte[] mFile))
+                    {
+                        var mfi = new mFile(mFile,(byte) MouseSroRegioDownPoint.X, (byte)MouseSroRegioDownPoint.Y);
+                        ClientDataStorage.Client.Map.AllmFiles.Add(MouseSroRegioDownPoint, mfi);
+                    }
+                }
+                if (ClientDataStorage.Client.Map.AllmFiles.ContainsKey(MouseSroRegioDownPoint))
+                {
+                    bool  z = ClientDataStorage.Client.Map.AllmFiles[MouseSroRegioDownPoint].GetHightByfPoint(RegX, RegY, out float Z);
+                ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {RegX} {Z} {RegY}\n\nX:{MouseSroRegioDownPoint.X}\nY:{MouseSroRegioDownPoint.Y}");
+                }
+
+
                 var rangeXCoordPanel = Enumerable.Range((int)e.X - 8, 16);
                 var rangeYCoordPanel = Enumerable.Range((int)e.Y - 8, 16);
 
@@ -262,7 +292,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 for (int z = 0; z < 128; z++)
                 {
                     regionPoint.Y = z;
-                    panelPoint.Y = (((z * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y;// + ((LastViewPoint.Y / PictureSize) * (OldPicSize - PictureSize));
+                    panelPoint.Y =( (((z * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y ) - PictureSize;// + ((LastViewPoint.Y / PictureSize) * (OldPicSize - PictureSize));
 
                     if (AllRegionGraphics.TryGetValue(regionPoint, out RegionGraphic region))
                     {

@@ -20,7 +20,6 @@ namespace Editors.Skills
             var UsedSkillIDs = new List<int>();
             foreach (var skill in monster.Skills.Where(ski => ski.ID > 0))
             {
-                checkedListBoxSkills.Items.Add(skill.Basic_Code);
                 UsedSkillIDs.Add(skill.ID);
             }
 
@@ -42,7 +41,7 @@ namespace Editors.Skills
         {
             var skill1 = ((Monster)propertyGrid1.SelectedObject).ObjChar.DefaultSkill_1;
 
-            string updatestring = $"UPDATE _RefObjChar SET DefaultSkil_1 = 0, DefaultSkil_2 = 0,DefaultSkil_1 = 3, DefaultSkil_1 = 4, DefaultSkil_5 = 0, DefaultSkil_6 = 0, DefaultSkil_7 = 0, DefaultSkil_8 = 0, DefaultSkil_9 = 0, DefaultSkil_10 = 0 where ID = {((Monster)propertyGrid1.SelectedObject).ObjChar.ID};\nUPDATE _RefObjChar SET";
+            string updatestring = $"UPDATE _RefObjChar SET DefaultSkill_1 = 0, DefaultSkill_2 = 0,DefaultSkill_1 = 3, DefaultSkill_1 = 4, DefaultSkill_5 = 0, DefaultSkill_6 = 0, DefaultSkill_7 = 0, DefaultSkill_8 = 0, DefaultSkill_9 = 0, DefaultSkill_10 = 0 where ID = {((Monster)propertyGrid1.SelectedObject).ObjChar.ID};\nUPDATE _RefObjChar SET";
 
             for (int i = 0; i < ((Monster)propertyGrid1.SelectedObject).Skills.Count; i++)
             {
@@ -56,6 +55,14 @@ namespace Editors.Skills
             {
 
             }
+        }
+
+        private void OnAddExistingSkill()
+        {
+            SkillHelper helper = new SkillHelper();
+            helper.ShowDialog();
+
+            ((Monster)propertyGrid1.SelectedObject).Skills.AddRange(helper.SelectedSkill);
         }
     }
 }
