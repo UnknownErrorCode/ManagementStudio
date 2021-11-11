@@ -32,20 +32,23 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer2dViewer = new System.Windows.Forms.SplitContainer();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBarLoadSpawns = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabelSpawnsLoad = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBarLoadSpawns = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabelSpawnsLoad = new System.Windows.Forms.ToolStripStatusLabel();
+            this.vSroCheckBox1 = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBox2 = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
             this.splitContainer2dViewer.Panel1.SuspendLayout();
+            this.splitContainer2dViewer.Panel2.SuspendLayout();
             this.splitContainer2dViewer.SuspendLayout();
-            this.contextMenuStripRegionClick.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.contextMenuStripRegionClick.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -79,10 +82,40 @@
             // 
             // splitContainer2dViewer.Panel1
             // 
+            this.splitContainer2dViewer.Panel1.BackColor = System.Drawing.Color.Black;
             this.splitContainer2dViewer.Panel1.Controls.Add(this.statusStrip1);
+            // 
+            // splitContainer2dViewer.Panel2
+            // 
+            this.splitContainer2dViewer.Panel2.BackColor = System.Drawing.Color.Black;
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBox2);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBox1);
+            this.splitContainer2dViewer.Panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.splitContainer2dViewer.Size = new System.Drawing.Size(786, 418);
             this.splitContainer2dViewer.SplitterDistance = 523;
             this.splitContainer2dViewer.TabIndex = 1;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBarLoadSpawns,
+            this.toolStripStatusLabelSpawnsLoad});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 392);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(519, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBarLoadSpawns
+            // 
+            this.toolStripProgressBarLoadSpawns.Name = "toolStripProgressBarLoadSpawns";
+            this.toolStripProgressBarLoadSpawns.Size = new System.Drawing.Size(100, 16);
+            // 
+            // toolStripStatusLabelSpawnsLoad
+            // 
+            this.toolStripStatusLabelSpawnsLoad.Name = "toolStripStatusLabelSpawnsLoad";
+            this.toolStripStatusLabelSpawnsLoad.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabelSpawnsLoad.Text = "toolStripStatusLabel1";
             // 
             // tabPage2
             // 
@@ -117,27 +150,33 @@
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
             // 
-            // statusStrip1
+            // vSroCheckBox1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBarLoadSpawns,
-            this.toolStripStatusLabelSpawnsLoad});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 392);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(519, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
+            this.vSroCheckBox1.AutoSize = true;
+            this.vSroCheckBox1.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBox1.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBox1.Location = new System.Drawing.Point(15, 22);
+            this.vSroCheckBox1.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBox1.Name = "vSroCheckBox1";
+            this.vSroCheckBox1.Size = new System.Drawing.Size(124, 16);
+            this.vSroCheckBox1.TabIndex = 0;
+            this.vSroCheckBox1.vSroCheck = false;
+            this.vSroCheckBox1.vSroCheckBoxName = "Show Tool Tip";
+            this.vSroCheckBox1.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBox1_vSroCheckChange);
             // 
-            // toolStripProgressBarLoadSpawns
+            // vSroCheckBox2
             // 
-            this.toolStripProgressBarLoadSpawns.Name = "toolStripProgressBarLoadSpawns";
-            this.toolStripProgressBarLoadSpawns.Size = new System.Drawing.Size(100, 16);
-            // 
-            // toolStripStatusLabelSpawnsLoad
-            // 
-            this.toolStripStatusLabelSpawnsLoad.Name = "toolStripStatusLabelSpawnsLoad";
-            this.toolStripStatusLabelSpawnsLoad.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabelSpawnsLoad.Text = "toolStripStatusLabel1";
+            this.vSroCheckBox2.AutoSize = true;
+            this.vSroCheckBox2.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBox2.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBox2.Location = new System.Drawing.Point(15, 44);
+            this.vSroCheckBox2.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBox2.Name = "vSroCheckBox2";
+            this.vSroCheckBox2.Size = new System.Drawing.Size(124, 16);
+            this.vSroCheckBox2.TabIndex = 1;
+            this.vSroCheckBox2.vSroCheck = false;
+            this.vSroCheckBox2.vSroCheckBoxName = "Show Tool Tip";
+            this.vSroCheckBox2.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBox2_vSroCheckChange);
             // 
             // WorldMapSpawnEditorControl
             // 
@@ -151,11 +190,13 @@
             this.tabPage1.ResumeLayout(false);
             this.splitContainer2dViewer.Panel1.ResumeLayout(false);
             this.splitContainer2dViewer.Panel1.PerformLayout();
+            this.splitContainer2dViewer.Panel2.ResumeLayout(false);
+            this.splitContainer2dViewer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).EndInit();
             this.splitContainer2dViewer.ResumeLayout(false);
-            this.contextMenuStripRegionClick.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.contextMenuStripRegionClick.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -171,5 +212,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpawnsLoad;
         public System.Windows.Forms.ToolStripProgressBar toolStripProgressBarLoadSpawns;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBox1;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBox2;
     }
 }

@@ -24,11 +24,11 @@ namespace Editors.Spawn
 
         #region Fields
 
-        Dictionary<string, string> NestUpdateValues = new Dictionary<string, string>();
-        Dictionary<string, string> HiveUpdateValues = new Dictionary<string, string>();
-        Dictionary<string, string> TacticsUpdateValues = new Dictionary<string, string>();
-        Dictionary<string, string> ObjCommonUpdateValues = new Dictionary<string, string>();
-        Dictionary<string, string> ObjCharUpdateValues = new Dictionary<string, string>();
+       private protected Dictionary<string, string> NestUpdateValues = new Dictionary<string, string>();
+       private protected Dictionary<string, string> HiveUpdateValues = new Dictionary<string, string>();
+       private protected Dictionary<string, string> TacticsUpdateValues = new Dictionary<string, string>();
+       private protected Dictionary<string, string> ObjCommonUpdateValues = new Dictionary<string, string>();
+       private protected Dictionary<string, string> ObjCharUpdateValues = new Dictionary<string, string>();
         
         #endregion 
 

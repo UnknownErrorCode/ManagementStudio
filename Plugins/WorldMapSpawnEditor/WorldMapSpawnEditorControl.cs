@@ -42,5 +42,15 @@ namespace WorldMapSpawnEditor
                     BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                     null, c, new object[] { true });
         }
+
+        private void vSroCheckBox1_vSroCheckChange(object sender, EventArgs e)
+        {
+            MapPanel.HasToolTip = vSroCheckBox1.vSroCheck;
+        }
+
+        private void vSroCheckBox2_vSroCheckChange(object sender, EventArgs e)
+        {
+            MapPanel.OpenEditorOnClick = vSroCheckBox2.vSroCheck;
+        }
     }
 }
