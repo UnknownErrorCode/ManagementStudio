@@ -53,6 +53,10 @@ namespace SkillEditor
                         Monster Monster = new Monster(commonID);
                         Editors.Skills.SkillEditor editor = new Editors.Skills.SkillEditor(Monster);
                         editor.Show();
+                        if (editor.ChangeAviable)
+                        {
+                            //Send msg here
+                        }
                     }
                 }
         }

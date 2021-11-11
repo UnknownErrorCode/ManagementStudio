@@ -12,7 +12,7 @@ namespace Editors.Skills
 {
     public partial class SkillEditor : Form
     {
-        bool ChangeAviable = false;
+       public bool ChangeAviable = false;
         public SkillEditor(Monster monster)
         {
             InitializeComponent();

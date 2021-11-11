@@ -21,7 +21,7 @@ namespace Structs.Database
 		public string Param3_Desc128{ get; set; }
 		public int Param4{ get; set; }
 		public string Param4_Desc128{ get; set; }
-		public int index{ get;private set; }
+		public int Index{ get;private set; }
 
 		public RefShopGood(object[] row)
 		{
@@ -38,7 +38,7 @@ namespace Structs.Database
 			Param3_Desc128 = row[10].ToString();
 			Param4 = int.Parse(row[11].ToString());
 			Param4_Desc128 = row[12].ToString();
-			index = int.Parse(row[13].ToString());
+			Index = int.Parse(row[13].ToString());
 		}
 	}
 }

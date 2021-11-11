@@ -20,7 +20,7 @@ namespace Structs.Database
 		public string Param3_Desc128{ get; set; }
 		public int Param4{ get; set; }
 		public string Param4_Desc128{ get; set; }
-		public int index{ get; set; }
+		public int Index{ get; set; }
 
 		public RefPricePolicyOfItem(object[] row)
 		{
@@ -38,7 +38,7 @@ namespace Structs.Database
 			Param3_Desc128 = row[11].ToString();
 			Param4 = int.Parse(row[12].ToString());
 			Param4_Desc128 = row[13].ToString();
-			index = int.Parse(row[14].ToString());
+			Index = int.Parse(row[14].ToString());
 		}
 	}
 }

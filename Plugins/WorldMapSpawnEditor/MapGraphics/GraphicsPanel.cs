@@ -367,8 +367,8 @@ namespace WorldMapSpawnEditor.MapGraphics
             MouseSroRegioDownPoint.Y = ((MovingPoint.Y - e.Y) / PictureSize) * -1;
 
             PictureSize = e.Delta < 0 ? PictureSize - 6 : PictureSize + 6;
-            // MovingPoint.X = e.Delta < 0 ? MovingPoint.X - MouseSroRegioDownPoint.X * 6 : MovingPoint.X + MouseSroRegioDownPoint.X * 6;
-            // MovingPoint.Y = e.Delta < 0 ? MovingPoint.Y + MouseSroRegioDownPoint.Y * 6 : MovingPoint.Y - MouseSroRegioDownPoint.Y * 6;
+             MovingPoint.X = e.Delta < 0 ? MovingPoint.X + MouseSroRegioDownPoint.X * 6 : MovingPoint.X - MouseSroRegioDownPoint.X * 6;
+             MovingPoint.Y = e.Delta < 0 ? MovingPoint.Y + MouseSroRegioDownPoint.Y * 6 : MovingPoint.Y - MouseSroRegioDownPoint.Y * 6;
             if (MovingPoint.X > 0)
                 MovingPoint.X = 0;
 

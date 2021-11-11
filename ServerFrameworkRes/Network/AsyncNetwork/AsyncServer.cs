@@ -21,8 +21,7 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
         {
              socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            IPAddress address = null;
-            if (!IPAddress.TryParse(host, out address))
+            if (!IPAddress.TryParse(host, out IPAddress address))
             {
                 IPHostEntry host_entry = Dns.GetHostEntry(host);
                 address = host_entry.AddressList[0];
@@ -33,13 +32,17 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 
             for (int x = 0; x < outstanding; ++x)
             {
-                AsyncToken token = new AsyncToken();
-                token.Socket = socket;
-                token.User = user;
-                token.Interface = @interface;
+                AsyncToken token = new AsyncToken
+                {
+                    Socket = socket,
+                    User = user,
+                    Interface = @interface
+                };
 
-                SocketAsyncEventArgs acceptEvtArgs = new SocketAsyncEventArgs();
-                acceptEvtArgs.UserToken = token;
+                SocketAsyncEventArgs acceptEvtArgs = new SocketAsyncEventArgs
+                {
+                    UserToken = token
+                };
                 acceptEvtArgs.Completed += NetworkOnAccept;
                 ProcessAccept(acceptEvtArgs);
             }
