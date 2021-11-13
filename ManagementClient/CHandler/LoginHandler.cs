@@ -75,8 +75,10 @@ namespace ManagementClient.CHandler
                 tableRequestPacket.WriteAscii(table);
                 listOfPackets.Add(tableRequestPacket);
             }
-            for (int i = 0; i < listOfPackets.Count; i++)
-                arg1.m_security.Send(listOfPackets[i]);
+            //  for (int i = 0; i < listOfPackets.Count; i++)
+            //      arg1.m_security.Send(listOfPackets[i]);
+
+            Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
 
 
             return PacketHandlerResult.Block;

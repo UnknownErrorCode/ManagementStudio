@@ -39,6 +39,7 @@ namespace ManagementClient
             InitializePk2Files();
 
             ClientDataStorage.Log.Logger.WriteLogLine("Successfully initialized Logger!");
+            ClientDataStorage.Log.Logger.WriteLogLine("Loading pk2 ressources...");
         }
 
         private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)

@@ -29,11 +29,16 @@ namespace Editors.Skills
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.vSroSmallButton1 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.richTextBoxUpdateQuery = new System.Windows.Forms.RichTextBox();
+            this.buttonUpdate = new System.Windows.Forms.Button();
             this.splitContainerSkillData = new System.Windows.Forms.SplitContainer();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewMobSkills = new System.Windows.Forms.DataGridView();
             this.tabControlSkillEffect = new System.Windows.Forms.TabControl();
             this.tabPage11 = new System.Windows.Forms.TabPage();
             this.dataGridViewSkillEffectCharakterInfo = new System.Windows.Forms.DataGridView();
@@ -104,10 +109,8 @@ namespace Editors.Skills
             this.dataGridViewTextBoxColumn61 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage14 = new System.Windows.Forms.TabPage();
             this.dataGridViewAniCode = new System.Windows.Forms.DataGridView();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.richTextBoxUpdateQuery = new System.Windows.Forms.RichTextBox();
-            this.buttonUpdate = new System.Windows.Forms.Button();
-            this.vSroSmallButton1 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -116,11 +119,15 @@ namespace Editors.Skills
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerSkillData)).BeginInit();
             this.splitContainerSkillData.Panel1.SuspendLayout();
             this.splitContainerSkillData.Panel2.SuspendLayout();
             this.splitContainerSkillData.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMobSkills)).BeginInit();
             this.tabControlSkillEffect.SuspendLayout();
             this.tabPage11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSkillEffectCharakterInfo)).BeginInit();
@@ -130,10 +137,7 @@ namespace Editors.Skills
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSkillEffectset)).BeginInit();
             this.tabPage14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAniCode)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // propertyGrid1
@@ -142,7 +146,7 @@ namespace Editors.Skills
             this.propertyGrid1.HelpVisible = false;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(264, 100);
+            this.propertyGrid1.Size = new System.Drawing.Size(218, 100);
             this.propertyGrid1.TabIndex = 1;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.OnSkillChanged);
             // 
@@ -180,8 +184,57 @@ namespace Editors.Skills
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer2.Size = new System.Drawing.Size(805, 104);
-            this.splitContainer2.SplitterDistance = 268;
+            this.splitContainer2.SplitterDistance = 222;
             this.splitContainer2.TabIndex = 5;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.vSroSmallButton1);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.richTextBoxUpdateQuery);
+            this.splitContainer3.Panel2.Controls.Add(this.buttonUpdate);
+            this.splitContainer3.Size = new System.Drawing.Size(575, 100);
+            this.splitContainer3.SplitterDistance = 376;
+            this.splitContainer3.TabIndex = 0;
+            // 
+            // vSroSmallButton1
+            // 
+            this.vSroSmallButton1.Location = new System.Drawing.Point(3, 3);
+            this.vSroSmallButton1.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton1.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton1.Name = "vSroSmallButton1";
+            this.vSroSmallButton1.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton1.TabIndex = 0;
+            this.vSroSmallButton1.vSroSmallButtonName = "Add existing Skill";
+            this.vSroSmallButton1.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.OnAddExistingSkill);
+            // 
+            // richTextBoxUpdateQuery
+            // 
+            this.richTextBoxUpdateQuery.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxUpdateQuery.Location = new System.Drawing.Point(0, 23);
+            this.richTextBoxUpdateQuery.Name = "richTextBoxUpdateQuery";
+            this.richTextBoxUpdateQuery.Size = new System.Drawing.Size(195, 77);
+            this.richTextBoxUpdateQuery.TabIndex = 3;
+            this.richTextBoxUpdateQuery.Text = "";
+            // 
+            // buttonUpdate
+            // 
+            this.buttonUpdate.Dock = System.Windows.Forms.DockStyle.Top;
+            this.buttonUpdate.Location = new System.Drawing.Point(0, 0);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(195, 23);
+            this.buttonUpdate.TabIndex = 2;
+            this.buttonUpdate.Text = "Update Skill";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // splitContainerSkillData
             // 
@@ -193,26 +246,30 @@ namespace Editors.Skills
             // 
             // splitContainerSkillData.Panel1
             // 
-            this.splitContainerSkillData.Panel1.Controls.Add(this.dataGridView1);
+            this.splitContainerSkillData.Panel1.Controls.Add(this.dataGridViewMobSkills);
             // 
             // splitContainerSkillData.Panel2
             // 
             this.splitContainerSkillData.Panel2.Controls.Add(this.tabControlSkillEffect);
             this.splitContainerSkillData.Size = new System.Drawing.Size(805, 342);
-            this.splitContainerSkillData.SplitterDistance = 140;
+            this.splitContainerSkillData.SplitterDistance = 147;
             this.splitContainerSkillData.TabIndex = 0;
             // 
-            // dataGridView1
+            // dataGridViewMobSkills
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(801, 136);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridViewMobSkills.AllowUserToAddRows = false;
+            this.dataGridViewMobSkills.AllowUserToDeleteRows = false;
+            this.dataGridViewMobSkills.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewMobSkills.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridViewMobSkills.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewMobSkills.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewMobSkills.Name = "dataGridViewMobSkills";
+            this.dataGridViewMobSkills.ReadOnly = true;
+            this.dataGridViewMobSkills.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewMobSkills.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewMobSkills.Size = new System.Drawing.Size(801, 143);
+            this.dataGridViewMobSkills.TabIndex = 0;
+            this.dataGridViewMobSkills.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // tabControlSkillEffect
             // 
@@ -224,7 +281,7 @@ namespace Editors.Skills
             this.tabControlSkillEffect.Location = new System.Drawing.Point(0, 0);
             this.tabControlSkillEffect.Name = "tabControlSkillEffect";
             this.tabControlSkillEffect.SelectedIndex = 0;
-            this.tabControlSkillEffect.Size = new System.Drawing.Size(801, 194);
+            this.tabControlSkillEffect.Size = new System.Drawing.Size(801, 187);
             this.tabControlSkillEffect.TabIndex = 26;
             // 
             // tabPage11
@@ -233,7 +290,7 @@ namespace Editors.Skills
             this.tabPage11.Location = new System.Drawing.Point(4, 22);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage11.Size = new System.Drawing.Size(793, 168);
+            this.tabPage11.Size = new System.Drawing.Size(793, 161);
             this.tabPage11.TabIndex = 1;
             this.tabPage11.Text = "skilleffect.txt charakterInfo";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -349,7 +406,7 @@ namespace Editors.Skills
             this.tabPage12.Location = new System.Drawing.Point(4, 22);
             this.tabPage12.Name = "tabPage12";
             this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage12.Size = new System.Drawing.Size(609, 168);
+            this.tabPage12.Size = new System.Drawing.Size(793, 161);
             this.tabPage12.TabIndex = 2;
             this.tabPage12.Text = "skilleffect.txt skillaniset2";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -387,7 +444,7 @@ namespace Editors.Skills
             this.dataGridViewSkillEffectAniSet2.Name = "dataGridViewSkillEffectAniSet2";
             this.dataGridViewSkillEffectAniSet2.ReadOnly = true;
             this.dataGridViewSkillEffectAniSet2.RowHeadersWidth = 20;
-            this.dataGridViewSkillEffectAniSet2.Size = new System.Drawing.Size(603, 200);
+            this.dataGridViewSkillEffectAniSet2.Size = new System.Drawing.Size(787, 200);
             this.dataGridViewSkillEffectAniSet2.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn12
@@ -529,7 +586,7 @@ namespace Editors.Skills
             this.tabPage13.Location = new System.Drawing.Point(4, 22);
             this.tabPage13.Name = "tabPage13";
             this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(609, 168);
+            this.tabPage13.Size = new System.Drawing.Size(793, 161);
             this.tabPage13.TabIndex = 3;
             this.tabPage13.Text = "skilleffect.txt skilleffectset";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -579,7 +636,7 @@ namespace Editors.Skills
             this.dataGridViewSkillEffectset.Name = "dataGridViewSkillEffectset";
             this.dataGridViewSkillEffectset.ReadOnly = true;
             this.dataGridViewSkillEffectset.RowHeadersWidth = 20;
-            this.dataGridViewSkillEffectset.Size = new System.Drawing.Size(603, 200);
+            this.dataGridViewSkillEffectset.Size = new System.Drawing.Size(787, 200);
             this.dataGridViewSkillEffectset.TabIndex = 11;
             // 
             // dataGridViewTextBoxColumn31
@@ -805,7 +862,7 @@ namespace Editors.Skills
             this.tabPage14.Location = new System.Drawing.Point(4, 22);
             this.tabPage14.Name = "tabPage14";
             this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage14.Size = new System.Drawing.Size(609, 168);
+            this.tabPage14.Size = new System.Drawing.Size(793, 161);
             this.tabPage14.TabIndex = 4;
             this.tabPage14.Text = "Animation Codes";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -823,57 +880,22 @@ namespace Editors.Skills
             this.dataGridViewAniCode.Name = "dataGridViewAniCode";
             this.dataGridViewAniCode.ReadOnly = true;
             this.dataGridViewAniCode.RowHeadersWidth = 20;
-            this.dataGridViewAniCode.Size = new System.Drawing.Size(603, 186);
+            this.dataGridViewAniCode.Size = new System.Drawing.Size(787, 186);
             this.dataGridViewAniCode.TabIndex = 14;
             // 
-            // splitContainer3
+            // contextMenuStrip1
             // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(95, 26);
             // 
-            // splitContainer3.Panel1
+            // editToolStripMenuItem
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.vSroSmallButton1);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.richTextBoxUpdateQuery);
-            this.splitContainer3.Panel2.Controls.Add(this.buttonUpdate);
-            this.splitContainer3.Size = new System.Drawing.Size(529, 100);
-            this.splitContainer3.SplitterDistance = 160;
-            this.splitContainer3.TabIndex = 0;
-            // 
-            // richTextBoxUpdateQuery
-            // 
-            this.richTextBoxUpdateQuery.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxUpdateQuery.Location = new System.Drawing.Point(0, 23);
-            this.richTextBoxUpdateQuery.Name = "richTextBoxUpdateQuery";
-            this.richTextBoxUpdateQuery.Size = new System.Drawing.Size(365, 77);
-            this.richTextBoxUpdateQuery.TabIndex = 3;
-            this.richTextBoxUpdateQuery.Text = "";
-            // 
-            // buttonUpdate
-            // 
-            this.buttonUpdate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.buttonUpdate.Location = new System.Drawing.Point(0, 0);
-            this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(365, 23);
-            this.buttonUpdate.TabIndex = 2;
-            this.buttonUpdate.Text = "Update Skill";
-            this.buttonUpdate.UseVisualStyleBackColor = true;
-            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
-            // 
-            // vSroSmallButton1
-            // 
-            this.vSroSmallButton1.Location = new System.Drawing.Point(3, 3);
-            this.vSroSmallButton1.MaximumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButton1.MinimumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButton1.Name = "vSroSmallButton1";
-            this.vSroSmallButton1.Size = new System.Drawing.Size(152, 24);
-            this.vSroSmallButton1.TabIndex = 0;
-            this.vSroSmallButton1.vSroSmallButtonName = "Add existing Skill";
-            this.vSroSmallButton1.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.OnAddExistingSkill);
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // SkillEditor
             // 
@@ -891,11 +913,15 @@ namespace Editors.Skills
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.splitContainerSkillData.Panel1.ResumeLayout(false);
             this.splitContainerSkillData.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerSkillData)).EndInit();
             this.splitContainerSkillData.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMobSkills)).EndInit();
             this.tabControlSkillEffect.ResumeLayout(false);
             this.tabPage11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSkillEffectCharakterInfo)).EndInit();
@@ -905,10 +931,7 @@ namespace Editors.Skills
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSkillEffectset)).EndInit();
             this.tabPage14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAniCode)).EndInit();
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -988,10 +1011,12 @@ namespace Editors.Skills
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn61;
         private System.Windows.Forms.TabPage tabPage14;
         public System.Windows.Forms.DataGridView dataGridViewAniCode;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewMobSkills;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButton1;
         private System.Windows.Forms.RichTextBox richTextBoxUpdateQuery;
         private System.Windows.Forms.Button buttonUpdate;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
     }
 }

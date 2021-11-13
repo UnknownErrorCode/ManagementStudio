@@ -30,14 +30,37 @@ namespace ClientDataStorage.Database
             InitializeRefSkill();
             //InitializeRefSkillGroup();
             //InitializeRefSkillMastery();
-            InitializeTab_RefHivet();
+            InitializeTab_RefHive();
             InitializeTab_RefNest();
             InitializeTab_RefTactics();
         }
 
-       
 
-       
+        public static void InitializeSkillEditor()
+        {
+            if (dbo.Tables.Contains("_RefSkill") && _RefSkill == null)
+                InitializeRefSkill();
+            
+            if (dbo.Tables.Contains("_RefObjChar") && _RefObjChar == null)
+                InitializeRefObjChars();
+            
+            if (dbo.Tables.Contains("_RefObjCommon") && _RefObjCommon == null)
+                InitializeRefObjCommon();
+            
+        }
+
+        public static void InitializeWorldMapRess()
+        {
+            InitializeRefObjChars();
+            InitializeRefObjCommon();
+            InitializeTab_RefHive();
+            InitializeTab_RefNest();
+            InitializeTab_RefTactics();
+        }
+
+
+
+
         static void InitializeRefObjChars()
         {
             _RefObjChar = new ConcurrentDictionary<int, RefObjChar>();
@@ -93,7 +116,7 @@ namespace ClientDataStorage.Database
             for (int i = 0; i < dbo.Tables["Tab_RefNest"].Rows.Count; i++)
                 Tab_RefNest.TryAdd(dbo.Tables["Tab_RefNest"].Rows[i].Field<int>("dwNestID"), new Tab_RefNest(dbo.Tables["Tab_RefNest"].Rows[i].ItemArray));
         }
-        static void InitializeTab_RefHivet()
+        static void InitializeTab_RefHive()
         {
             Tab_RefHive = new ConcurrentDictionary<int, Tab_RefHive>();
 

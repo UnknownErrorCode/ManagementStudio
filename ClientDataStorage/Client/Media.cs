@@ -22,6 +22,11 @@ namespace ClientDataStorage.Client
         public static Textdata.TextUISystem StaticTextuiSystem { get; set; }
 
         /// <summary>
+        /// Skilleffect from Media.pk2
+        /// </summary>
+        public static Textdata.SkillEffect SkillEffect { get; set; }
+
+        /// <summary>
         /// Contains all necessary ddj images.
         /// </summary>
         public static Dictionary<string, DDJImage> DDJFiles = new Dictionary<string, DDJImage>();
@@ -35,6 +40,11 @@ namespace ClientDataStorage.Client
 
             if (Media.MediaPk2.GetByteArrayByDirectory("Media\\server_dep\\silkroad\\textdata\\textuisystem.txt", out byte[] file))
                 StaticTextuiSystem = new Textdata.TextUISystem(file);
+
+            SkillEffect = new Textdata.SkillEffect();
+
+            Log.Logger.MessageStack.Push("Successfully load Media.pk2...");
+
         }
 
         /// <summary>

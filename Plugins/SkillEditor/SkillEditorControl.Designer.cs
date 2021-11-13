@@ -36,6 +36,7 @@
             this.textBoxSearchMonster = new System.Windows.Forms.TextBox();
             this.splitContainerSkillData = new System.Windows.Forms.SplitContainer();
             this.tabPageCharSkills = new System.Windows.Forms.TabPage();
+            this.vSroSmallButton1 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.tabControlMain.SuspendLayout();
             this.tabPageMonsterSkills.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMonster)).BeginInit();
@@ -44,6 +45,7 @@
             this.splitContainerMonster.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMonster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerSkillData)).BeginInit();
+            this.splitContainerSkillData.Panel1.SuspendLayout();
             this.splitContainerSkillData.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,6 +94,8 @@
             // 
             // buttonSearch
             // 
+            this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSearch.Enabled = false;
             this.buttonSearch.Location = new System.Drawing.Point(143, 0);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(73, 20);
@@ -133,6 +137,10 @@
             this.splitContainerSkillData.Location = new System.Drawing.Point(0, 0);
             this.splitContainerSkillData.Name = "splitContainerSkillData";
             this.splitContainerSkillData.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerSkillData.Panel1
+            // 
+            this.splitContainerSkillData.Panel1.Controls.Add(this.vSroSmallButton1);
             this.splitContainerSkillData.Size = new System.Drawing.Size(562, 418);
             this.splitContainerSkillData.SplitterDistance = 189;
             this.splitContainerSkillData.TabIndex = 0;
@@ -146,6 +154,17 @@
             this.tabPageCharSkills.TabIndex = 1;
             this.tabPageCharSkills.Text = "tabPage2";
             this.tabPageCharSkills.UseVisualStyleBackColor = true;
+            // 
+            // vSroSmallButton1
+            // 
+            this.vSroSmallButton1.Location = new System.Drawing.Point(1, 1);
+            this.vSroSmallButton1.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton1.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton1.Name = "vSroSmallButton1";
+            this.vSroSmallButton1.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton1.TabIndex = 0;
+            this.vSroSmallButton1.vSroSmallButtonName = "Load Skill requirements";
+            this.vSroSmallButton1.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButton1_vSroClickEvent);
             // 
             // SkillEditorControl
             // 
@@ -162,6 +181,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMonster)).EndInit();
             this.splitContainerMonster.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMonster)).EndInit();
+            this.splitContainerSkillData.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerSkillData)).EndInit();
             this.splitContainerSkillData.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -178,5 +198,6 @@
         private System.Windows.Forms.TextBox textBoxSearchMonster;
         private System.Windows.Forms.SplitContainer splitContainerSkillData;
         private System.Windows.Forms.Button buttonSearch;
+        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButton1;
     }
 }

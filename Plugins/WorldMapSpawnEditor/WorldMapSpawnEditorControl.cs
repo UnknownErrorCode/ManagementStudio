@@ -16,7 +16,7 @@ namespace WorldMapSpawnEditor
         /// <summary>
         /// Map Panel to view the entired Open WorldMap without Dungeons.
         /// </summary>
-        MapGraphics.GraphicsPanel MapPanel = new MapGraphics.GraphicsPanel();
+        MapGraphics.GraphicsPanel MapPanel ;
 
         /// <summary>
         /// ServerData from Client.
@@ -28,7 +28,21 @@ namespace WorldMapSpawnEditor
         {
             InitializeComponent();
             InitializePerformance(this);
-            splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
+
+            Packet tableRequestPacket = new Packet(0x0999, false, true);
+            tableRequestPacket.WriteByte(6);
+            tableRequestPacket.WriteAscii("_RefRegion");
+            tableRequestPacket.WriteAscii("_RefObjChar");
+            tableRequestPacket.WriteAscii("_RefObjCommon");
+            tableRequestPacket.WriteAscii("Tab_RefTactics");
+            tableRequestPacket.WriteAscii("Tab_RefHive");
+            tableRequestPacket.WriteAscii("Tab_RefNest");
+
+
+            StaticServerData = data;
+            StaticServerData.m_security.Send(tableRequestPacket);
+
+
         }
 
         /// <summary>
@@ -45,12 +59,41 @@ namespace WorldMapSpawnEditor
 
         private void vSroCheckBox1_vSroCheckChange(object sender, EventArgs e)
         {
-            MapPanel.HasToolTip = vSroCheckBox1.vSroCheck;
+            MapPanel.HasToolTip = vSroCheckBoxShowToolTip.vSroCheck;
         }
 
         private void vSroCheckBox2_vSroCheckChange(object sender, EventArgs e)
         {
-            MapPanel.OpenEditorOnClick = vSroCheckBox2.vSroCheck;
+            MapPanel.OpenEditorOnClick = vSroCheckBoxOpenSpawnEditor.vSroCheck;
+        }
+
+        private void vSroCheckBoxShowMob_vSroCheckChange(object sender, EventArgs e)
+            => MapPanel.ShowMonster = vSroCheckBoxShowMob.vSroCheck;
+
+        private void vSroCheckBoxShowuMob_vSroCheckChange(object sender, EventArgs e)
+            => MapPanel.ShowUniqueMonster = vSroCheckBoxShowuMob.vSroCheck;
+
+        private void vSroCheckBoxShowNpc_vSroCheckChange(object sender, EventArgs e)
+            => MapPanel.ShowNpc = vSroCheckBoxShowNpc.vSroCheck;
+
+        private void vSroCheckBoxReg_vSroCheckChange(object sender, EventArgs e)
+        {
+            MapPanel.ShowDbRegions = vSroCheckBoxReg.vSroCheck;
+            MapPanel.Invalidate();
+        }
+
+        private void vSroCheckBoxUnAsReg_vSroCheckChange(object sender, EventArgs e)
+        {
+            MapPanel.ShowUnassignedRegions = vSroCheckBoxUnAsReg.vSroCheck;
+            MapPanel.Invalidate();
+        }
+
+        private void vSroSmallButtonLoad_vSroClickEvent()
+        {
+            ClientDataStorage.Database.SRO_VT_SHARD.InitializeWorldMapRess();
+
+            MapPanel = new MapGraphics.GraphicsPanel();
+            splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
         }
     }
 }

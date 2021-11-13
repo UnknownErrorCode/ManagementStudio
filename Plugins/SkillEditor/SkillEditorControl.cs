@@ -19,6 +19,17 @@ namespace SkillEditor
         {
             StaticServerData = serverData;
             InitializeComponent();
+            Packet tableRequestPacket = new Packet(0x0999, false, true);
+            tableRequestPacket.WriteByte(3);
+            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains("_RefSkill"))
+                tableRequestPacket.WriteAscii("_RefSkill");
+            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains("_RefObjChar"))
+                tableRequestPacket.WriteAscii("_RefObjChar");
+            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains("_RefObjCommon"))
+                tableRequestPacket.WriteAscii("_RefObjCommon");
+
+            StaticServerData.m_security.Send(tableRequestPacket);
+
         }
 
         /// <summary>
@@ -59,6 +70,12 @@ namespace SkillEditor
                         }
                     }
                 }
+        }
+
+        private void vSroSmallButton1_vSroClickEvent()
+        {
+            ClientDataStorage.Database.SRO_VT_SHARD.InitializeSkillEditor();
+            this.buttonSearch.Enabled = true;
         }
     }
 }

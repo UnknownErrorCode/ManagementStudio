@@ -35,12 +35,19 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarLoadSpawns = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelSpawnsLoad = new System.Windows.Forms.ToolStripStatusLabel();
+            this.vSroCheckBoxShowNpc = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxShowuMob = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxShowMob = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxOpenSpawnEditor = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxShowToolTip = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vSroCheckBox1 = new ServerFrameworkRes.BasicControls.vSroCheckBox();
-            this.vSroCheckBox2 = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxShowPlayer = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxReg = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxUnAsReg = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroSmallButtonLoad = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -88,8 +95,15 @@
             // splitContainer2dViewer.Panel2
             // 
             this.splitContainer2dViewer.Panel2.BackColor = System.Drawing.Color.Black;
-            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBox2);
-            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBox1);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroSmallButtonLoad);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxUnAsReg);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxReg);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowPlayer);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowNpc);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowuMob);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowMob);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxOpenSpawnEditor);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowToolTip);
             this.splitContainer2dViewer.Panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.splitContainer2dViewer.Size = new System.Drawing.Size(786, 418);
             this.splitContainer2dViewer.SplitterDistance = 523;
@@ -116,6 +130,76 @@
             this.toolStripStatusLabelSpawnsLoad.Name = "toolStripStatusLabelSpawnsLoad";
             this.toolStripStatusLabelSpawnsLoad.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabelSpawnsLoad.Text = "toolStripStatusLabel1";
+            // 
+            // vSroCheckBoxShowNpc
+            // 
+            this.vSroCheckBoxShowNpc.AutoSize = true;
+            this.vSroCheckBoxShowNpc.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowNpc.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowNpc.Location = new System.Drawing.Point(15, 134);
+            this.vSroCheckBoxShowNpc.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowNpc.Name = "vSroCheckBoxShowNpc";
+            this.vSroCheckBoxShowNpc.Size = new System.Drawing.Size(124, 16);
+            this.vSroCheckBoxShowNpc.TabIndex = 4;
+            this.vSroCheckBoxShowNpc.vSroCheck = false;
+            this.vSroCheckBoxShowNpc.vSroCheckBoxName = "Show Npcs";
+            this.vSroCheckBoxShowNpc.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxShowNpc_vSroCheckChange);
+            // 
+            // vSroCheckBoxShowuMob
+            // 
+            this.vSroCheckBoxShowuMob.AutoSize = true;
+            this.vSroCheckBoxShowuMob.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowuMob.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowuMob.Location = new System.Drawing.Point(15, 112);
+            this.vSroCheckBoxShowuMob.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowuMob.Name = "vSroCheckBoxShowuMob";
+            this.vSroCheckBoxShowuMob.Size = new System.Drawing.Size(182, 16);
+            this.vSroCheckBoxShowuMob.TabIndex = 3;
+            this.vSroCheckBoxShowuMob.vSroCheck = false;
+            this.vSroCheckBoxShowuMob.vSroCheckBoxName = "Show Unique Monster";
+            this.vSroCheckBoxShowuMob.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxShowuMob_vSroCheckChange);
+            // 
+            // vSroCheckBoxShowMob
+            // 
+            this.vSroCheckBoxShowMob.AutoSize = true;
+            this.vSroCheckBoxShowMob.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowMob.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowMob.Location = new System.Drawing.Point(15, 90);
+            this.vSroCheckBoxShowMob.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowMob.Name = "vSroCheckBoxShowMob";
+            this.vSroCheckBoxShowMob.Size = new System.Drawing.Size(127, 16);
+            this.vSroCheckBoxShowMob.TabIndex = 2;
+            this.vSroCheckBoxShowMob.vSroCheck = false;
+            this.vSroCheckBoxShowMob.vSroCheckBoxName = "Show Monster";
+            this.vSroCheckBoxShowMob.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxShowMob_vSroCheckChange);
+            // 
+            // vSroCheckBoxOpenSpawnEditor
+            // 
+            this.vSroCheckBoxOpenSpawnEditor.AutoSize = true;
+            this.vSroCheckBoxOpenSpawnEditor.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxOpenSpawnEditor.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxOpenSpawnEditor.Location = new System.Drawing.Point(15, 44);
+            this.vSroCheckBoxOpenSpawnEditor.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxOpenSpawnEditor.Name = "vSroCheckBoxOpenSpawnEditor";
+            this.vSroCheckBoxOpenSpawnEditor.Size = new System.Drawing.Size(222, 16);
+            this.vSroCheckBoxOpenSpawnEditor.TabIndex = 1;
+            this.vSroCheckBoxOpenSpawnEditor.vSroCheck = false;
+            this.vSroCheckBoxOpenSpawnEditor.vSroCheckBoxName = "Open Spawn Editor on Click";
+            this.vSroCheckBoxOpenSpawnEditor.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBox2_vSroCheckChange);
+            // 
+            // vSroCheckBoxShowToolTip
+            // 
+            this.vSroCheckBoxShowToolTip.AutoSize = true;
+            this.vSroCheckBoxShowToolTip.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowToolTip.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowToolTip.Location = new System.Drawing.Point(15, 22);
+            this.vSroCheckBoxShowToolTip.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowToolTip.Name = "vSroCheckBoxShowToolTip";
+            this.vSroCheckBoxShowToolTip.Size = new System.Drawing.Size(124, 16);
+            this.vSroCheckBoxShowToolTip.TabIndex = 0;
+            this.vSroCheckBoxShowToolTip.vSroCheck = false;
+            this.vSroCheckBoxShowToolTip.vSroCheckBoxName = "Show Tool Tip";
+            this.vSroCheckBoxShowToolTip.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBox1_vSroCheckChange);
             // 
             // tabPage2
             // 
@@ -150,33 +234,57 @@
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
             // 
-            // vSroCheckBox1
+            // vSroCheckBoxShowPlayer
             // 
-            this.vSroCheckBox1.AutoSize = true;
-            this.vSroCheckBox1.BackColor = System.Drawing.Color.Transparent;
-            this.vSroCheckBox1.ForeColor = System.Drawing.Color.White;
-            this.vSroCheckBox1.Location = new System.Drawing.Point(15, 22);
-            this.vSroCheckBox1.MinimumSize = new System.Drawing.Size(16, 16);
-            this.vSroCheckBox1.Name = "vSroCheckBox1";
-            this.vSroCheckBox1.Size = new System.Drawing.Size(124, 16);
-            this.vSroCheckBox1.TabIndex = 0;
-            this.vSroCheckBox1.vSroCheck = false;
-            this.vSroCheckBox1.vSroCheckBoxName = "Show Tool Tip";
-            this.vSroCheckBox1.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBox1_vSroCheckChange);
+            this.vSroCheckBoxShowPlayer.AutoSize = true;
+            this.vSroCheckBoxShowPlayer.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowPlayer.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowPlayer.Location = new System.Drawing.Point(15, 156);
+            this.vSroCheckBoxShowPlayer.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowPlayer.Name = "vSroCheckBoxShowPlayer";
+            this.vSroCheckBoxShowPlayer.Size = new System.Drawing.Size(124, 16);
+            this.vSroCheckBoxShowPlayer.TabIndex = 5;
+            this.vSroCheckBoxShowPlayer.vSroCheck = false;
+            this.vSroCheckBoxShowPlayer.vSroCheckBoxName = "Show Player";
             // 
-            // vSroCheckBox2
+            // vSroCheckBoxReg
             // 
-            this.vSroCheckBox2.AutoSize = true;
-            this.vSroCheckBox2.BackColor = System.Drawing.Color.Transparent;
-            this.vSroCheckBox2.ForeColor = System.Drawing.Color.White;
-            this.vSroCheckBox2.Location = new System.Drawing.Point(15, 44);
-            this.vSroCheckBox2.MinimumSize = new System.Drawing.Size(16, 16);
-            this.vSroCheckBox2.Name = "vSroCheckBox2";
-            this.vSroCheckBox2.Size = new System.Drawing.Size(124, 16);
-            this.vSroCheckBox2.TabIndex = 1;
-            this.vSroCheckBox2.vSroCheck = false;
-            this.vSroCheckBox2.vSroCheckBoxName = "Show Tool Tip";
-            this.vSroCheckBox2.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBox2_vSroCheckChange);
+            this.vSroCheckBoxReg.AutoSize = true;
+            this.vSroCheckBoxReg.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxReg.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxReg.Location = new System.Drawing.Point(15, 202);
+            this.vSroCheckBoxReg.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxReg.Name = "vSroCheckBoxReg";
+            this.vSroCheckBoxReg.Size = new System.Drawing.Size(153, 16);
+            this.vSroCheckBoxReg.TabIndex = 6;
+            this.vSroCheckBoxReg.vSroCheck = false;
+            this.vSroCheckBoxReg.vSroCheckBoxName = "Show Db Regions";
+            this.vSroCheckBoxReg.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxReg_vSroCheckChange);
+            // 
+            // vSroCheckBoxUnAsReg
+            // 
+            this.vSroCheckBoxUnAsReg.AutoSize = true;
+            this.vSroCheckBoxUnAsReg.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxUnAsReg.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxUnAsReg.Location = new System.Drawing.Point(15, 224);
+            this.vSroCheckBoxUnAsReg.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxUnAsReg.Name = "vSroCheckBoxUnAsReg";
+            this.vSroCheckBoxUnAsReg.Size = new System.Drawing.Size(217, 16);
+            this.vSroCheckBoxUnAsReg.TabIndex = 7;
+            this.vSroCheckBoxUnAsReg.vSroCheck = false;
+            this.vSroCheckBoxUnAsReg.vSroCheckBoxName = "Show Unassigned Regions";
+            this.vSroCheckBoxUnAsReg.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxUnAsReg_vSroCheckChange);
+            // 
+            // vSroSmallButtonLoad
+            // 
+            this.vSroSmallButtonLoad.Location = new System.Drawing.Point(16, 346);
+            this.vSroSmallButtonLoad.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoad.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoad.Name = "vSroSmallButtonLoad";
+            this.vSroSmallButtonLoad.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoad.TabIndex = 8;
+            this.vSroSmallButtonLoad.vSroSmallButtonName = "Load Data";
+            this.vSroSmallButtonLoad.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButtonLoad_vSroClickEvent);
             // 
             // WorldMapSpawnEditorControl
             // 
@@ -212,7 +320,14 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpawnsLoad;
         public System.Windows.Forms.ToolStripProgressBar toolStripProgressBarLoadSpawns;
-        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBox1;
-        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBox2;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowToolTip;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxOpenSpawnEditor;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowNpc;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowuMob;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowMob;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowPlayer;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxUnAsReg;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxReg;
+        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonLoad;
     }
 }

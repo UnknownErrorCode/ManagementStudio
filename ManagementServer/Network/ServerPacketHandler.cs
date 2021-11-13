@@ -30,7 +30,6 @@ namespace ManagementServer.Network
         private PacketHandlerResult Reply0x0999DataTableRequest(ServerData arg1, Packet arg2)
           => Handler.S_TABLEDATA.SendTableData(arg1, arg2);
 
-
         private PacketHandlerResult Reply0x1001RequestAllTopics(ServerData arg1, Packet arg2)
             => Handler.S_DASHBOARD.LoadTopics(arg1, arg2);
 

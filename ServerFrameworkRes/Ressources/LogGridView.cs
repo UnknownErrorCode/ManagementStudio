@@ -13,6 +13,8 @@ namespace ServerFrameworkRes.Ressources
 {
     public partial class LogGridView : UserControl
     {
+        public Stack<string> MessageStack = new Stack<string>();
+
         private ReportLog Reporter { get => new ReportLog(TypeOfModuleLog); }
         public ModuleType TypeOfModuleLog { get; set; }
         public LogGridView()
@@ -96,6 +98,24 @@ namespace ServerFrameworkRes.Ressources
 
             WriteLogLine(Reporter.SaveReportLog(dataGridView1));
             dataGridView1.Rows.Clear();
+        }
+
+        private void LogGridView_Load(object sender, EventArgs e)
+        {
+            Task.Run(() => LogMsgThread());
+        }
+
+        private  void LogMsgThread()
+        {
+            this.WriteLogLine(LogLevel.notify, "Runtime logThread started!");
+            while (true)
+            {
+                if (MessageStack.Count > 0)
+                {
+                    this.WriteLogLine(LogLevel.notify, MessageStack.Pop());
+                    Task.Delay(100);
+                }
+            }
         }
     }
 }

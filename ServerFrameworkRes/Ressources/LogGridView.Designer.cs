@@ -41,10 +41,10 @@
             this.ColumnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStripPlayLog = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copySelectedItemToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStripPlayLog.SuspendLayout();
@@ -137,7 +137,7 @@
             this.copySelectedItemToClipboardToolStripMenuItem,
             this.toolStripSeparator2});
             this.contextMenuStripPlayLog.Name = "contextMenuStripPlayLog";
-            this.contextMenuStripPlayLog.Size = new System.Drawing.Size(245, 126);
+            this.contextMenuStripPlayLog.Size = new System.Drawing.Size(245, 104);
             // 
             // saveClearToolStripMenuItem
             // 
@@ -145,6 +145,11 @@
             this.saveClearToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.saveClearToolStripMenuItem.Text = "Save & Clear";
             this.saveClearToolStripMenuItem.Click += new System.EventHandler(this.saveClearToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(241, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -166,11 +171,6 @@
             this.copySelectedItemToClipboardToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.copySelectedItemToClipboardToolStripMenuItem.Text = "Copy selected Item to Clipboard";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(241, 6);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -184,6 +184,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "LogGridView";
             this.Size = new System.Drawing.Size(448, 138);
+            this.Load += new System.EventHandler(this.LogGridView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStripPlayLog.ResumeLayout(false);
             this.ResumeLayout(false);

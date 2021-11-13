@@ -21,7 +21,17 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         internal bool HasToolTip { get; set; } = false;
 
+        /// <summary>
+        /// Weather the Spawn Editor should be open on click.
+        /// </summary>
         internal bool OpenEditorOnClick { get; set; } = false;
+
+        internal bool ShowMonster { get; set; } = false;
+        internal bool ShowUniqueMonster { get; set; } = false;
+        internal bool ShowNpc { get; set; } = false;
+        internal bool ShowDbRegions { get; set; } = true;
+        internal bool ShowUnassignedRegions { get; set; } = true;
+
 
 
         /// <summary>
@@ -60,21 +70,29 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// Consists of all RegionGraphics on the WorldMap.
         /// </summary>
         Dictionary<Point, RegionGraphic> AllRegionGraphics = new Dictionary<Point, RegionGraphic>();
+        Dictionary<Point, RegionGraphic> AllUnusedRegionGraphics = new Dictionary<Point, RegionGraphic>();
 
         internal Dictionary<int, Monster> AllMonsters = new Dictionary<int, Monster>();
         internal Dictionary<int, UniqueMonster> AllUniqueMonsters = new Dictionary<int, UniqueMonster>();
         internal Dictionary<int, Npc> AllNpcs = new Dictionary<int, Npc>();
+        internal Dictionary<int, Player> AllPlayer = new Dictionary<int, Player>();
+        internal Dictionary<int, NewPosition> NewPosDic = new Dictionary<int, NewPosition>();
 
 
         #region Spawn Bitmap Images
         private Bitmap NpcImage;
+        private Bitmap PlayerImage;
         private Bitmap MonsterImage;
         private Bitmap UMonsterImage;
+        private Bitmap OwnPointImage;
+
         #endregion
 
         #region Spawn Bitmap Image Paths
         private readonly string NpcIconPath = "Media\\interface\\minimap\\mm_sign_npc.ddj";
+        private readonly string PlayerIconPath = "Media\\interface\\minimap\\mm_sign_otherplayer.ddj";
         private readonly string MonsterIconPath = "Media\\interface\\minimap\\mm_sign_monster.ddj";
+        private readonly string OwnPointIconPath = "Media\\interface\\minimap\\mm_sign_animal.ddj";
         private readonly string UMonsterIconPath = "Media\\interface\\minimap\\mm_sign_unique.ddj";
         #endregion
         #endregion
@@ -101,8 +119,10 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.MouseMove += GraphicsPanel_MouseMove;
 
             InitializeSpawnImage(NpcIconPath, 8, out NpcImage);
+            InitializeSpawnImage(PlayerIconPath, 8, out PlayerImage);
             InitializeSpawnImage(MonsterIconPath, 8, out MonsterImage);
             InitializeSpawnImage(UMonsterIconPath, 8, out UMonsterImage);
+            InitializeSpawnImage(OwnPointIconPath, 8, out OwnPointImage);
 
 
 
@@ -122,14 +142,20 @@ namespace WorldMapSpawnEditor.MapGraphics
 
             if (HasToolTip)
             {
-                foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
-                    tip.Show(npc.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 20, e.Y + 2, 5000);
+                StringBuilder str = new StringBuilder();
+                if (ShowMonster)
+                    foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
+                        str.AppendLine(mob.Value.Spawn.ObjCommon.CodeName128);
+                if (ShowNpc)
+                    foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ((int)Math.Round(ch.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0))) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ((int)Math.Round((ch.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1)))))
+                        str.AppendLine(npc.Value.Spawn.ObjCommon.CodeName128);
 
-                foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
-                    tip.Show(mob.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 20, e.Y + 2, 5000);
+                if (ShowUniqueMonster)
+                    foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
+                        str.AppendLine(umob.Value.Spawn.ObjCommon.CodeName128);
 
-                foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
-                    tip.Show(umob.Value.Spawn.ObjCommon.CodeName128, Parent, e.X + 20, e.Y + 2, 5000);
+                tip.Show(str.ToString(), Parent, e.X + 20, e.Y + 2, 5000);
+
             }
 
         }
@@ -157,6 +183,9 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private void InitializeSpawnGraphics()
         {
+            AllNpcs = new Dictionary<int, Npc>();
+            AllMonsters = new Dictionary<int, Monster>();
+            AllUniqueMonsters = new Dictionary<int, UniqueMonster>();
             foreach (var nest in ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest)
             {
                 var singleSpawn = new SingleSpawn(nest.Value);
@@ -212,7 +241,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                     MovingPoint.X = -PictureSize * 256 + this.Width;
 
                 if (MovingPoint.Y < -PictureSize * 128 + this.Height)
-                    MovingPoint.Y  = -PictureSize * 128 + this.Height;
+                    MovingPoint.Y = -PictureSize * 128 + this.Height;
 
                 this.Invalidate();
             }
@@ -241,7 +270,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 var regionID = Convert.ToInt32(strin, 16);
 
 
-                float fRegX = ((MouseSroRegioDownPoint.X + 1) * PictureSize + (MovingPoint.X - e.X) - PictureSize) * -1;
+                float fRegX = ((MouseSroRegioDownPoint.X) * PictureSize + (MovingPoint.X - e.X)) * -1;
                 float RegX = fRegX * (1920 / PictureSize);
 
                 float fRegY = ((128 * PictureSize) + (MovingPoint.Y - e.Y)) - ((MouseSroRegioDownPoint.Y) * PictureSize);
@@ -258,11 +287,15 @@ namespace WorldMapSpawnEditor.MapGraphics
                 if (ClientDataStorage.Client.Map.AllmFiles.ContainsKey(MouseSroRegioDownPoint))
                 {
                     if (ClientDataStorage.Client.Map.AllmFiles[MouseSroRegioDownPoint].GetHightByfPoint(RegX, RegY, out float Z))
-                        ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {RegX} {Z} {RegY}\n\nX:{MouseSroRegioDownPoint.X}\nY:{MouseSroRegioDownPoint.Y}");
-                    else
-                        ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {RegX} 0 {RegY}\nFailed to get Z coordinate\nX:{MouseSroRegioDownPoint.X}\nY:{MouseSroRegioDownPoint.Y}");
-
+                        if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"/warp {regionID} {RegX} {Z} {RegY}\n\nX:{MouseSroRegioDownPoint.X}\nY:{MouseSroRegioDownPoint.Y}", "Add new Position?"))
+                        {
+                            NewPosDic.Add(NewPosDic.Count, new NewPosition() { RegionID = (short)regionID, Position = new System.Numerics.Vector3(RegX, RegY, Z) });
+                            this.Invalidate();
+                        }
                 }
+                else
+                    ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {RegX} 0 {RegY}\nFailed to get Z coordinate\nX:{MouseSroRegioDownPoint.X}\nY:{MouseSroRegioDownPoint.Y}");
+
 
 
                 var rangeXCoordPanel = Enumerable.Range((int)e.X - 8, 16);
@@ -270,26 +303,24 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                 foreach (var npc in AllNpcs.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
-                    ClientDataStorage.Log.Logger.WriteLogLine($"Catched NPC:[{npc.Value.Spawn.ObjCommon.CodeName128}]");
-
-
-                    if (OpenEditorOnClick)
+                    //ClientDataStorage.Log.Logger.WriteLogLine($"Catched NPC:[{npc.Value.Spawn.ObjCommon.CodeName128}]");
+                    if (OpenEditorOnClick && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {npc.Value.Spawn.ObjCommon.CodeName128}", "SpawnEditor"))
                         using (SpawnEditor Editor = new SpawnEditor(npc.Value.Spawn))
-                            Editor.Show();
+                            Editor.ShowDialog();
                 }
                 foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
-                    ClientDataStorage.Log.Logger.WriteLogLine($"Catched Monster:[{mob.Value.Spawn.ObjCommon.CodeName128}]");
-                    if (OpenEditorOnClick)
+                    //  ClientDataStorage.Log.Logger.WriteLogLine($"Catched Monster:[{mob.Value.Spawn.ObjCommon.CodeName128}]");
+                    if (OpenEditorOnClick && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {mob.Value.Spawn.ObjCommon.CodeName128}", "SpawnEditor"))
                         using (SpawnEditor Editor = new SpawnEditor(mob.Value.Spawn))
-                            Editor.Show();
+                            Editor.ShowDialog();
                 }
                 foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                 {
-                    ClientDataStorage.Log.Logger.WriteLogLine($"Catched Unique:[{umob.Value.Spawn.ObjCommon.CodeName128}]");
-                    if (OpenEditorOnClick)
+                    // ClientDataStorage.Log.Logger.WriteLogLine($"Catched Unique:[{umob.Value.Spawn.ObjCommon.CodeName128}]");
+                    if (OpenEditorOnClick && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {umob.Value.Spawn.ObjCommon.CodeName128}", "SpawnEditor"))
                         using (SpawnEditor Editor = new SpawnEditor(umob.Value.Spawn))
-                            Editor.Show();
+                            Editor.ShowDialog();
                 }
             }
         }
@@ -304,7 +335,11 @@ namespace WorldMapSpawnEditor.MapGraphics
             var regionPoint = new Point(0, 0);
             var panelPoint = new Point(0, 0);
 
+            var nousecounter = 0;
+            var usecounter = 0;
 
+            var xRange = Enumerable.Range(-this.PictureSize, this.Width + PictureSize);
+            var yRange = Enumerable.Range(-this.PictureSize, this.Height + PictureSize);
             for (int x = 0; x < 256; x++)
             {
                 regionPoint.X = x;
@@ -315,41 +350,72 @@ namespace WorldMapSpawnEditor.MapGraphics
                     regionPoint.Y = z;
                     panelPoint.Y = ((((z * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) - PictureSize;// + ((LastViewPoint.Y / PictureSize) * (OldPicSize - PictureSize));
 
-                    if (AllRegionGraphics.TryGetValue(regionPoint, out RegionGraphic region))
-                        e.Graphics.DrawImage(region.RegionLayer, panelPoint.X, panelPoint.Y, PictureSize, PictureSize);
+
+                    if (xRange.Contains(panelPoint.X) && yRange.Contains(panelPoint.Y))
+                    {
+                        usecounter++;
+
+                        if (AllRegionGraphics.TryGetValue(regionPoint, out RegionGraphic region) && this.ShowDbRegions)
+                            e.Graphics.DrawImage(region.GetRegionLayer(), panelPoint.X, panelPoint.Y, PictureSize, PictureSize);
+                        else if (AllUnusedRegionGraphics.TryGetValue(regionPoint, out RegionGraphic unassignedregion) && this.ShowUnassignedRegions)
+                            e.Graphics.DrawImage(unassignedregion.GetRegionLayer(), panelPoint.X, panelPoint.Y, PictureSize, PictureSize);
+                        else
+                        {
+                            e.Graphics.DrawRectangle(Pens.Red, new Rectangle(panelPoint, new Size(PictureSize, PictureSize)));
+
+                            if (this.PictureSize > 128)
+                            {
+                                e.Graphics.DrawString($"X: {regionPoint.X} Z: {regionPoint.Y} ", this.Font, Brushes.AliceBlue, panelPoint);
+                            }
+                        }
+                    }
                     else
-                        e.Graphics.DrawRectangle(Pens.Red, new Rectangle(panelPoint, new Size(PictureSize, PictureSize)));
+                    {
+                        nousecounter++;
+                    }
+
+
                 }
             }
             if (Initialized)
             {
-                foreach (var npc in AllNpcs)
-                {
+                if (ShowNpc)
+                    foreach (var npc in AllNpcs)
+                    {
 
-                    npc.Value.UpdateISpawn(PictureSize);
-                    e.Graphics.DrawImage(NpcImage, (npc.Value.X * PictureSize + MovingPoint.X) + (int)Math.Round(npc.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0), ((((npc.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((npc.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1), NpcImage.Width, NpcImage.Height);
-                }
-                foreach (var unique in AllUniqueMonsters)
+                        // npc.Value.UpdateISpawn(PictureSize);
+                        e.Graphics.DrawImage(NpcImage, (npc.Value.X * PictureSize + MovingPoint.X) + (int)Math.Round(npc.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0), ((((npc.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((npc.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1), NpcImage.Width, NpcImage.Height);
+                        e.Graphics.DrawImage(NpcImage, (npc.Value.X * PictureSize + MovingPoint.X) + (int)Math.Round(npc.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0), ((((npc.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((npc.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1), NpcImage.Width, NpcImage.Height);
+                    }
+                if (ShowMonster)
+                    foreach (var mob in AllMonsters)
+                    {
+                        mob.Value.UpdateISpawn(PictureSize);
+                        var spawnLocationX = (mob.Value.X * PictureSize + MovingPoint.X) + mob.Value.Location.X;
+                        var spawnLocationY = ((((mob.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + mob.Value.Location.Y;
+                        e.Graphics.DrawImage(MonsterImage, spawnLocationX - MonsterImage.Width / 2, spawnLocationY - MonsterImage.Width / 2, MonsterImage.Width, MonsterImage.Height);
+                        e.Graphics.DrawEllipse(Pens.Gray, spawnLocationX - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize));
+                        e.Graphics.DrawEllipse(Pens.Red, spawnLocationX - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize));
+                    }
+                if (ShowUniqueMonster)
+                    foreach (var unique in AllUniqueMonsters)
+                    {
+                        unique.Value.UpdateISpawn(PictureSize);
+                        var spawnLocationX = (unique.Value.X * PictureSize + MovingPoint.X) + unique.Value.Location.X;
+                        var spawnLocationY = ((((unique.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + unique.Value.Location.Y;
+                        e.Graphics.DrawImage(UMonsterImage, spawnLocationX - UMonsterImage.Width / 2, spawnLocationY - UMonsterImage.Width / 2, UMonsterImage.Width, UMonsterImage.Height);
+                        e.Graphics.DrawEllipse(Pens.Green, spawnLocationX - ((unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize), unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize));
+                        e.Graphics.DrawEllipse(Pens.Yellow, spawnLocationX - ((unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize), unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize));
+                    }
+
+                foreach (var item in NewPosDic)
                 {
-                    unique.Value.UpdateISpawn(PictureSize);
-                    var spawnLocationX = (unique.Value.X * PictureSize + MovingPoint.X) + unique.Value.Location.X;
-                    var spawnLocationY = ((((unique.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + unique.Value.Location.Y;
-                    e.Graphics.DrawImage(UMonsterImage, spawnLocationX - UMonsterImage.Width / 2, spawnLocationY - UMonsterImage.Width / 2, UMonsterImage.Width, UMonsterImage.Height);
-                    e.Graphics.DrawEllipse(Pens.Green, spawnLocationX - ((unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize), unique.Value.Spawn.Nest.nRadius / (1920 / PictureSize));
-                    e.Graphics.DrawEllipse(Pens.Yellow, spawnLocationX - ((unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize), unique.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize));
-                }
-                foreach (var mob in AllMonsters)
-                {
-                    mob.Value.UpdateISpawn(PictureSize);
-                    var spawnLocationX = (mob.Value.X * PictureSize + MovingPoint.X) + mob.Value.Location.X;
-                    var spawnLocationY = ((((mob.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + mob.Value.Location.Y;
-                    e.Graphics.DrawImage(MonsterImage, spawnLocationX - MonsterImage.Width / 2, spawnLocationY - MonsterImage.Width / 2, MonsterImage.Width, MonsterImage.Height);
-                    e.Graphics.DrawEllipse(Pens.Gray, spawnLocationX - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nRadius / (1920 / PictureSize));
-                    e.Graphics.DrawEllipse(Pens.Red, spawnLocationX - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize)) / 2), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize), mob.Value.Spawn.Nest.nGenerateRadius / (1920 / PictureSize));
+                    e.Graphics.DrawImage(OwnPointImage, new PointF((Convert.ToSingle((item.Value.RegionID % 256) * PictureSize + MovingPoint.X)) + (item.Value.Position.X / (1920f / PictureSize)), Convert.ToSingle(((((item.Value.RegionID / 256) * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ((item.Value.Position.Y / (1920f / PictureSize)) * -1)));
                 }
             }
-
         }
+
+
 
         /// <summary>
         /// on scroll for zoom. TODO: keep position on scroll to Mouse Cursor.
@@ -367,8 +433,9 @@ namespace WorldMapSpawnEditor.MapGraphics
             MouseSroRegioDownPoint.Y = ((MovingPoint.Y - e.Y) / PictureSize) * -1;
 
             PictureSize = e.Delta < 0 ? PictureSize - 6 : PictureSize + 6;
-             MovingPoint.X = e.Delta < 0 ? MovingPoint.X + MouseSroRegioDownPoint.X * 6 : MovingPoint.X - MouseSroRegioDownPoint.X * 6;
-             MovingPoint.Y = e.Delta < 0 ? MovingPoint.Y + MouseSroRegioDownPoint.Y * 6 : MovingPoint.Y - MouseSroRegioDownPoint.Y * 6;
+            MovingPoint.X = e.Delta < 0 ? MovingPoint.X + MouseSroRegioDownPoint.X * 6 : MovingPoint.X - MouseSroRegioDownPoint.X * 6;
+            MovingPoint.Y = e.Delta < 0 ? MovingPoint.Y + MouseSroRegioDownPoint.Y * 6 : MovingPoint.Y - MouseSroRegioDownPoint.Y * 6;
+
             if (MovingPoint.X > 0)
                 MovingPoint.X = 0;
 
@@ -392,13 +459,38 @@ namespace WorldMapSpawnEditor.MapGraphics
         private void InitializeWorldGraphics()
         {
             var allRegions = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefRegion"].Rows;
-
+            Point point = new Point(0, 0);
             foreach (DataRow item in allRegions)
             {
                 var rGraphic = new RegionGraphic(item.Field<short>("wRegionID"));
-                if (rGraphic.RegionLayer != null)
+                if (rGraphic.GetRegionLayer() != null)
                 {
-                    AllRegionGraphics.Add(new Point(rGraphic.X, rGraphic.Z), rGraphic);
+                    point.X = rGraphic.X;
+                    point.Y = rGraphic.Z;
+                    AllRegionGraphics.Add(point, rGraphic);
+                }
+                else
+                {
+                    //Missing Minimap
+                }
+            }
+
+            Point p = new Point(0, 0);
+            for (int i = 0; i < 255; i++)
+            {
+                for (int i2 = 0; i2 < 255; i2++)
+                {
+                    p.X = i; p.Y = i2;
+
+                    var str = $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{i}x{i2}.JPG";
+                    if (System.IO.File.Exists(str))
+                    {
+                        if (!AllRegionGraphics.ContainsKey(p))
+                        {
+                            var rID = Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
+                            AllUnusedRegionGraphics.Add(p, new RegionGraphic((short)rID));
+                        }
+                    }
                 }
             }
         }

@@ -25,16 +25,22 @@ namespace ManagementServer.Handler
 
         internal static PacketHandlerResult SendTableData(ServerData arg1, Packet arg2)
         {
-       
-                var tableName = arg2.ReadAscii();
-               // DataTable table = Utility.SQL.GetRequestedDataTable(tableName);
-                Packet tablePacket = new Packet(0xB002, false, true);
-                tablePacket.WriteAscii(tableName);
-                tablePacket.WriteDataTable(Utility.SQL.GetRequestedDataTable(tableName));
+            try
+            {
+                var tableCount = arg2.ReadByte();
+                for (int i = 0; i < tableCount; i++)
+                {
+                    var tableName = arg2.ReadAscii();
+                    Packet tablePacket = new Packet(0xB002, false, true);
+                    tablePacket.WriteAscii(tableName);
+                    tablePacket.WriteDataTable(Utility.SQL.GetRequestedDataTable(tableName));
+                    arg1.m_security.Send(tablePacket);
+                }
+                // DataTable table = Utility.SQL.GetRequestedDataTable(tableName);
+            }
+            catch
+            { }
 
-                arg1.m_security.Send(tablePacket);
-        
-            
             return PacketHandlerResult.Block;
         }
     }

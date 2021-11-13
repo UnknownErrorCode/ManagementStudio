@@ -39,6 +39,9 @@ namespace ClientDataStorage.Client
         {
             MapPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Map.pk2");
             Tile2d_ifo = new Tile2dIFOFile();
+
+
+            Log.Logger.MessageStack.Push("Successfully load Map.pk2...");
         }
 
         /// <summary>
