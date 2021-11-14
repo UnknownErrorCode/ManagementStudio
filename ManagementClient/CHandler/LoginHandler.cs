@@ -66,20 +66,18 @@ namespace ManagementClient.CHandler
             for (int i = 0; i < tableNames.Length; i++)
                 tableNames[i] = arg2.ReadAscii();
 
-            var listOfPackets = new List<Packet>(tableNames.Length);
-            ClientMemory.AllowedDataTables = new List<string>(tableNames.Length);
+            ClientMemory.AllowedDataTables = tableNames.ToList();// new List<string>(tableNames.Length);
+
+            Packet tableRequestPacket = new Packet(0x0999, false, true);
+            tableRequestPacket.WriteByte((byte)tableNames.Length);
             foreach (var table in tableNames)
             {
-                ClientMemory.AllowedDataTables.Add(table);
-                Packet tableRequestPacket = new Packet(0x0999, false, true);
                 tableRequestPacket.WriteAscii(table);
-                listOfPackets.Add(tableRequestPacket);
             }
-            //  for (int i = 0; i < listOfPackets.Count; i++)
-            //      arg1.m_security.Send(listOfPackets[i]);
 
-            Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
+            arg1.m_security.Send(tableRequestPacket);
 
+            
 
             return PacketHandlerResult.Block;
         }

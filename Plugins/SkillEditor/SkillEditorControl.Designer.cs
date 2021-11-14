@@ -35,8 +35,8 @@
             this.dataGridViewMonster = new System.Windows.Forms.DataGridView();
             this.textBoxSearchMonster = new System.Windows.Forms.TextBox();
             this.splitContainerSkillData = new System.Windows.Forms.SplitContainer();
-            this.tabPageCharSkills = new System.Windows.Forms.TabPage();
             this.vSroSmallButton1 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.tabPageCharSkills = new System.Windows.Forms.TabPage();
             this.tabControlMain.SuspendLayout();
             this.tabPageMonsterSkills.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMonster)).BeginInit();
@@ -62,6 +62,7 @@
             // 
             // tabPageMonsterSkills
             // 
+            this.tabPageMonsterSkills.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.tabPageMonsterSkills.Controls.Add(this.splitContainerMonster);
             this.tabPageMonsterSkills.Location = new System.Drawing.Point(4, 22);
             this.tabPageMonsterSkills.Name = "tabPageMonsterSkills";
@@ -69,7 +70,6 @@
             this.tabPageMonsterSkills.Size = new System.Drawing.Size(792, 424);
             this.tabPageMonsterSkills.TabIndex = 0;
             this.tabPageMonsterSkills.Text = "Monster Skills";
-            this.tabPageMonsterSkills.UseVisualStyleBackColor = true;
             // 
             // splitContainerMonster
             // 
@@ -89,14 +89,14 @@
             // 
             this.splitContainerMonster.Panel2.Controls.Add(this.splitContainerSkillData);
             this.splitContainerMonster.Size = new System.Drawing.Size(786, 418);
-            this.splitContainerMonster.SplitterDistance = 220;
+            this.splitContainerMonster.SplitterDistance = 623;
             this.splitContainerMonster.TabIndex = 0;
             // 
             // buttonSearch
             // 
             this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSearch.Enabled = false;
-            this.buttonSearch.Location = new System.Drawing.Point(143, 0);
+            this.buttonSearch.Location = new System.Drawing.Point(546, 0);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(73, 20);
             this.buttonSearch.TabIndex = 2;
@@ -117,7 +117,7 @@
             this.dataGridViewMonster.Name = "dataGridViewMonster";
             this.dataGridViewMonster.ReadOnly = true;
             this.dataGridViewMonster.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewMonster.Size = new System.Drawing.Size(216, 392);
+            this.dataGridViewMonster.Size = new System.Drawing.Size(619, 392);
             this.dataGridViewMonster.TabIndex = 1;
             this.dataGridViewMonster.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnMonsterClick);
             // 
@@ -127,7 +127,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSearchMonster.Location = new System.Drawing.Point(0, 0);
             this.textBoxSearchMonster.Name = "textBoxSearchMonster";
-            this.textBoxSearchMonster.Size = new System.Drawing.Size(137, 20);
+            this.textBoxSearchMonster.Size = new System.Drawing.Size(540, 20);
             this.textBoxSearchMonster.TabIndex = 0;
             // 
             // splitContainerSkillData
@@ -140,20 +140,15 @@
             // 
             // splitContainerSkillData.Panel1
             // 
+            this.splitContainerSkillData.Panel1.BackColor = System.Drawing.Color.Black;
             this.splitContainerSkillData.Panel1.Controls.Add(this.vSroSmallButton1);
-            this.splitContainerSkillData.Size = new System.Drawing.Size(562, 418);
-            this.splitContainerSkillData.SplitterDistance = 189;
+            // 
+            // splitContainerSkillData.Panel2
+            // 
+            this.splitContainerSkillData.Panel2.BackColor = System.Drawing.Color.Black;
+            this.splitContainerSkillData.Size = new System.Drawing.Size(159, 418);
+            this.splitContainerSkillData.SplitterDistance = 32;
             this.splitContainerSkillData.TabIndex = 0;
-            // 
-            // tabPageCharSkills
-            // 
-            this.tabPageCharSkills.Location = new System.Drawing.Point(4, 22);
-            this.tabPageCharSkills.Name = "tabPageCharSkills";
-            this.tabPageCharSkills.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCharSkills.Size = new System.Drawing.Size(792, 424);
-            this.tabPageCharSkills.TabIndex = 1;
-            this.tabPageCharSkills.Text = "tabPage2";
-            this.tabPageCharSkills.UseVisualStyleBackColor = true;
             // 
             // vSroSmallButton1
             // 
@@ -165,6 +160,16 @@
             this.vSroSmallButton1.TabIndex = 0;
             this.vSroSmallButton1.vSroSmallButtonName = "Load Skill requirements";
             this.vSroSmallButton1.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButton1_vSroClickEvent);
+            // 
+            // tabPageCharSkills
+            // 
+            this.tabPageCharSkills.BackColor = System.Drawing.Color.DimGray;
+            this.tabPageCharSkills.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCharSkills.Name = "tabPageCharSkills";
+            this.tabPageCharSkills.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCharSkills.Size = new System.Drawing.Size(792, 424);
+            this.tabPageCharSkills.TabIndex = 1;
+            this.tabPageCharSkills.Text = "tabPage2";
             // 
             // SkillEditorControl
             // 

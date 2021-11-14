@@ -28,7 +28,7 @@ namespace ShopEditor
         {
             InitializeComponent();
             StaticData = data;
-           // InitializeListView();
+            InitializeListView();
         }
 
         /// <summary>

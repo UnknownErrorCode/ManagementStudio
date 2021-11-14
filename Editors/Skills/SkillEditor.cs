@@ -56,8 +56,6 @@ namespace Editors.Skills
                 }
             }
 
-
-
         }
 
         private void OnSkillChanged(object s, PropertyValueChangedEventArgs e)
@@ -84,10 +82,13 @@ namespace Editors.Skills
 
         private void OnAddExistingSkill()
         {
-            SkillHelper helper = new SkillHelper();
-            helper.ShowDialog();
+            using (SkillHelper helper = new SkillHelper())
+            {
+                helper.ShowDialog();
 
-            ((Monster)propertyGrid1.SelectedObject).Skills.AddRange(helper.SelectedSkill);
+                if (helper.SelectedSkill.Count > 0)
+                    ((Monster)propertyGrid1.SelectedObject).Skills.AddRange(helper.SelectedSkill);
+            }
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -99,36 +100,41 @@ namespace Editors.Skills
         {
             if (e.RowIndex >= 0)
             {
-                var CurrentlySelectedBasicCode = $"{dataGridViewMobSkills.Rows[e.RowIndex].Cells["Basic_Code"].Value}";
+
                 dataGridViewSkillEffectAniSet2.Rows.Clear();
                 dataGridViewSkillEffectset.Rows.Clear();
-                if (CurrentlySelectedBasicCode.Length > 0)
-                {
-                    if (ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllAniSet2s.Exists(singleAniSet2 => (string)singleAniSet2.Basic_Code == CurrentlySelectedBasicCode))
-                    {
-                        var anienum = ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllAniSet2s.Where(singleAniSet2 => (string)singleAniSet2.Basic_Code == CurrentlySelectedBasicCode);
-                        foreach (var item in anienum)
-                        {
-                            while (item.ObjectArray.Length > this.dataGridViewSkillEffectAniSet2.Columns.Count)
-                            {
-                                this.dataGridViewSkillEffectAniSet2.Columns.Add("comingSoon", "comingSoon");
-                            }
-                            this.dataGridViewSkillEffectAniSet2.Rows.Add(item.ObjectArray);
-                        }
-                    }
 
-                    if (ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllEffectSets.Exists(singleEffect => (string)singleEffect.SkillEffectID == CurrentlySelectedBasicCode))
+                for (int i = 0; i < dataGridViewMobSkills.SelectedRows.Count; i++)
+                {
+                    var CurrentlySelectedBasicCode = $"{dataGridViewMobSkills.SelectedRows[i].Cells["Basic_Code"].Value}";
+                    if (CurrentlySelectedBasicCode.Length > 0)
                     {
-                        var effectSetEnum = ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllEffectSets.Where(singleEffect => (string)singleEffect.SkillEffectID == CurrentlySelectedBasicCode);
-                        foreach (var effectset in effectSetEnum)
+                        if (ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllAniSet2s.Exists(singleAniSet2 => (string)singleAniSet2.Basic_Code == CurrentlySelectedBasicCode))
                         {
-                            if ((string)effectset.SkillEffectID == CurrentlySelectedBasicCode)
+                            var anienum = ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllAniSet2s.Where(singleAniSet2 => (string)singleAniSet2.Basic_Code == CurrentlySelectedBasicCode);
+                            foreach (var item in anienum)
                             {
-                                while (effectset.ObjectArray.Length > this.dataGridViewSkillEffectset.Columns.Count)
+                                while (item.ObjectArray.Length > this.dataGridViewSkillEffectAniSet2.Columns.Count)
                                 {
-                                    this.dataGridViewSkillEffectset.Columns.Add("comingSoon", "comingSoon");
+                                    this.dataGridViewSkillEffectAniSet2.Columns.Add("comingSoon", "comingSoon");
                                 }
-                                this.dataGridViewSkillEffectset.Rows.Add(effectset.ObjectArray);
+                                this.dataGridViewSkillEffectAniSet2.Rows.Add(item.ObjectArray);
+                            }
+                        }
+
+                        if (ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllEffectSets.Exists(singleEffect => (string)singleEffect.SkillEffectID == CurrentlySelectedBasicCode))
+                        {
+                            var effectSetEnum = ClientDataStorage.Client.Media.SkillEffect.Skilleffects.AllEffectSets.Where(singleEffect => (string)singleEffect.SkillEffectID == CurrentlySelectedBasicCode);
+                            foreach (var effectset in effectSetEnum)
+                            {
+                                if ((string)effectset.SkillEffectID == CurrentlySelectedBasicCode)
+                                {
+                                    while (effectset.ObjectArray.Length > this.dataGridViewSkillEffectset.Columns.Count)
+                                    {
+                                        this.dataGridViewSkillEffectset.Columns.Add("comingSoon", "comingSoon");
+                                    }
+                                    this.dataGridViewSkillEffectset.Rows.Add(effectset.ObjectArray);
+                                }
                             }
                         }
                     }

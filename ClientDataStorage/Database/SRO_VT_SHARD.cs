@@ -51,12 +51,23 @@ namespace ClientDataStorage.Database
 
         public static void InitializeWorldMapRess()
         {
-            InitializeRefObjChars();
-            InitializeRefObjCommon();
-            InitializeTab_RefHive();
-            InitializeTab_RefNest();
-            InitializeTab_RefTactics();
+            if (dbo.Tables.Contains("_RefObjChar") && _RefObjChar == null)
+                InitializeRefObjChars();
+
+            if (dbo.Tables.Contains("_RefObjCommon") && _RefObjCommon == null)
+                InitializeRefObjCommon();
+
+            if (dbo.Tables.Contains("Tab_RefHive") && Tab_RefHive == null)
+                InitializeTab_RefHive();
+
+            if (dbo.Tables.Contains("Tab_RefNest") && Tab_RefNest == null)
+                InitializeTab_RefNest();
+
+            if (dbo.Tables.Contains("Tab_RefTactics") && Tab_RefTactics == null)
+                InitializeTab_RefTactics();
         }
+
+
 
 
 
@@ -123,6 +134,5 @@ namespace ClientDataStorage.Database
             for (int i = 0; i < dbo.Tables["Tab_RefHive"].Rows.Count; i++)
                 Tab_RefHive.TryAdd(dbo.Tables["Tab_RefHive"].Rows[i].Field<int>("dwHiveID"), new Tab_RefHive(dbo.Tables["Tab_RefHive"].Rows[i].ItemArray));
         }
-
     }
 }

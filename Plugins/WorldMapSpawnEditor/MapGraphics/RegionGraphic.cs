@@ -30,7 +30,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// Region texture from media/minimap.
         /// TODO: Change to bitmap to decrease usage.
         /// </summary>
-       // internal Image RegionLayer;
+        internal Image RegionLayer;//{ get => GetRegionLayer(); }
 
         internal RegionGraphic(short regionID)
         {
@@ -41,7 +41,9 @@ namespace WorldMapSpawnEditor.MapGraphics
                 string convertedRegionID = wRegionID.ToString("X");
                 Z = Convert.ToByte(regionID / 256);
                 X = Convert.ToByte(regionID % 256);
-         
+
+                RegionLayer = GetRegionLayer();
+
                 #region temp use of pk2 file
                 //if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey($"Media\\minimap\\{X}x{Z}.ddj"))
                 //{
@@ -50,8 +52,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                 //}
                 //RegionLayer = ClientDataStorage.Client.Media.DDJFiles[$"Media\\minimap\\{X}x{Z}.ddj"].BitmapImage;
                 #endregion
-              // if (File.Exists(TexturePath))
-              //     RegionLayer = Image.FromFile(TexturePath);
+                // if (File.Exists(TexturePath))
+                //     RegionLayer = Image.FromFile(TexturePath);
             }
         }
 

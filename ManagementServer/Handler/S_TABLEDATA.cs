@@ -31,12 +31,13 @@ namespace ManagementServer.Handler
                 for (int i = 0; i < tableCount; i++)
                 {
                     var tableName = arg2.ReadAscii();
+
                     Packet tablePacket = new Packet(0xB002, false, true);
                     tablePacket.WriteAscii(tableName);
                     tablePacket.WriteDataTable(Utility.SQL.GetRequestedDataTable(tableName));
+
                     arg1.m_security.Send(tablePacket);
                 }
-                // DataTable table = Utility.SQL.GetRequestedDataTable(tableName);
             }
             catch
             { }
