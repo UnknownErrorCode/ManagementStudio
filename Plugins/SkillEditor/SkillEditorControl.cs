@@ -19,16 +19,6 @@ namespace SkillEditor
         {
             StaticServerData = serverData;
             InitializeComponent();
-         //   Packet tableRequestPacket = new Packet(0x0999, false, true);
-         //   tableRequestPacket.WriteByte(3);
-         //   if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains("_RefSkill"))
-         //       tableRequestPacket.WriteAscii("_RefSkill");
-         //   if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains("_RefObjChar"))
-         //       tableRequestPacket.WriteAscii("_RefObjChar");
-         //   if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains("_RefObjCommon"))
-         //       tableRequestPacket.WriteAscii("_RefObjCommon");
-         //
-         //   StaticServerData.m_security.Send(tableRequestPacket);
 
         }
 
@@ -40,10 +30,7 @@ namespace SkillEditor
         private void SearchMonster(object sender, EventArgs e)
         {
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Any(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())))
-            {
-                var monsterTable = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Where(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())).CopyToDataTable();
-                dataGridViewMonster.DataSource = monsterTable;
-            }
+                 dataGridViewMonster.DataSource = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Where(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())).CopyToDataTable();
             else { dataGridViewMonster.DataSource = null; }
         }
 

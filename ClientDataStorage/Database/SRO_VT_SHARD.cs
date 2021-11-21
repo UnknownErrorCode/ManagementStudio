@@ -21,7 +21,8 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, RefSkill> _RefSkill;
         public static ConcurrentDictionary<int, RefSkillGroup> _RefSkillGroup;
         public static ConcurrentDictionary<int, RefSkillMastery> _RefSkillMastery;
-
+        public static ConcurrentDictionary<int, RefTeleport> _RefTeleport;
+        public static List< RefTeleLink> _RefTeleLink;
 
         public static void InitializeDBShard()
         {
@@ -30,45 +31,11 @@ namespace ClientDataStorage.Database
             InitializeRefSkill();
             //InitializeRefSkillGroup();
             //InitializeRefSkillMastery();
+            Initialize_RefTeleport();
             InitializeTab_RefHive();
             InitializeTab_RefNest();
             InitializeTab_RefTactics();
         }
-
-
-        public static void InitializeSkillEditor()
-        {
-            if (dbo.Tables.Contains("_RefSkill") && _RefSkill == null)
-                InitializeRefSkill();
-            
-            if (dbo.Tables.Contains("_RefObjChar") && _RefObjChar == null)
-                InitializeRefObjChars();
-            
-            if (dbo.Tables.Contains("_RefObjCommon") && _RefObjCommon == null)
-                InitializeRefObjCommon();
-            
-        }
-
-        public static void InitializeWorldMapRess()
-        {
-            if (dbo.Tables.Contains("_RefObjChar") && _RefObjChar == null)
-                InitializeRefObjChars();
-
-            if (dbo.Tables.Contains("_RefObjCommon") && _RefObjCommon == null)
-                InitializeRefObjCommon();
-
-            if (dbo.Tables.Contains("Tab_RefHive") && Tab_RefHive == null)
-                InitializeTab_RefHive();
-
-            if (dbo.Tables.Contains("Tab_RefNest") && Tab_RefNest == null)
-                InitializeTab_RefNest();
-
-            if (dbo.Tables.Contains("Tab_RefTactics") && Tab_RefTactics == null)
-                InitializeTab_RefTactics();
-        }
-
-
-
 
 
 
@@ -134,5 +101,15 @@ namespace ClientDataStorage.Database
             for (int i = 0; i < dbo.Tables["Tab_RefHive"].Rows.Count; i++)
                 Tab_RefHive.TryAdd(dbo.Tables["Tab_RefHive"].Rows[i].Field<int>("dwHiveID"), new Tab_RefHive(dbo.Tables["Tab_RefHive"].Rows[i].ItemArray));
         }
+
+        static void Initialize_RefTeleport()
+        {
+            _RefTeleport = new ConcurrentDictionary<int, RefTeleport>();
+
+            for (int i = 0; i < dbo.Tables["_RefTeleport"].Rows.Count; i++)
+                _RefTeleport.TryAdd(dbo.Tables["_RefTeleport"].Rows[i].Field<int>("ID"), new RefTeleport(dbo.Tables["_RefTeleport"].Rows[i].ItemArray));
+        }
+
+
     }
 }

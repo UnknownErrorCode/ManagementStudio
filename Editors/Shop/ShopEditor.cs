@@ -25,7 +25,6 @@ namespace Editors.Shop
             propertyGrid2.SelectedObject = good.Good;
             propertyGrid3.SelectedObject = good.PackageItem;
             propertyGrid4.SelectedObject = good.ScrapOfPackageItem;
-            propertyGrid1.ExpandAllGridItems();
         }
 
 

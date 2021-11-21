@@ -71,6 +71,13 @@
     <Compile Include="Spawn\SpawnEditor.Designer.cs">
       <DependentUpon>SpawnEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Teleport\SingleTeleport.cs" />
+    <Compile Include="Teleport\TeleportEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Teleport\TeleportEditor.Designer.cs">
+      <DependentUpon>TeleportEditor.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Spawn\SpawnEditor.resx">
       <DependentUpon>SpawnEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Teleport\TeleportEditor.resx">
+      <DependentUpon>TeleportEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,22 @@ namespace ClientDataStorage.Pk2
             }
         }
 
+        public bool GetFilesInFolder(string filePath, out Structs.Pk2.Pk2File[] filesInFolder)
+        {
+            var tempFolder = base.Pk2File;
+            var folders = filePath.Split('\\');
+            filesInFolder = null;
+            for (int i = 0; i < folders.Length - 1; i++)
+            {
+                if (tempFolder.subfolders.Exists(fold => fold.name.Equals(folders[i + 1])))
+                    tempFolder = tempFolder.subfolders.First(fol => fol.name.Equals(folders[i + 1]));
+                else
+                    return false;
+            }
+            filesInFolder = tempFolder.files.Count > 0 ? tempFolder.files.ToArray() : null;
+            return true;
+        }
+
         /// <summary>
         /// Refreshes the Pk2 File
         /// </summary>

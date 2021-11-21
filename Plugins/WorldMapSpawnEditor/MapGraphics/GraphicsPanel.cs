@@ -83,6 +83,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal Dictionary<int, UniqueMonster> AllUniqueMonsters = new Dictionary<int, UniqueMonster>();
         internal Dictionary<int, Npc> AllNpcs = new Dictionary<int, Npc>();
         internal Dictionary<int, Player> AllPlayer = new Dictionary<int, Player>();
+        internal Dictionary<int, Teleport> AllTeleports = new Dictionary<int, Teleport>();
         internal Dictionary<int, NewPosition> NewPosDic = new Dictionary<int, NewPosition>();
 
 
@@ -217,6 +218,12 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                     continue;
                 }
+            }
+
+            foreach (var teleport in ClientDataStorage.Database.SRO_VT_SHARD._RefTeleport.Values)
+            {
+                var tele = new Teleport(teleport);
+                AllTeleports.Add(tele.Teleport.ID, tele);
             }
 
             Initialized = true;
@@ -389,7 +396,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                         // npc.Value.UpdateISpawn(PictureSize);
                         e.Graphics.DrawImage(NpcImage, (npc.Value.X * PictureSize + MovingPoint.X) + (int)Math.Round(npc.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0), ((((npc.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((npc.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1), NpcImage.Width, NpcImage.Height);
-                        e.Graphics.DrawImage(NpcImage, (npc.Value.X * PictureSize + MovingPoint.X) + (int)Math.Round(npc.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0), ((((npc.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((npc.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1), NpcImage.Width, NpcImage.Height);
+                       // e.Graphics.DrawImage(NpcImage, (npc.Value.X * PictureSize + MovingPoint.X) + (int)Math.Round(npc.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0), ((((npc.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((npc.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1), NpcImage.Width, NpcImage.Height);
                     }
                 if (ShowMonster)
                     foreach (var mob in AllMonsters)
@@ -415,6 +422,12 @@ namespace WorldMapSpawnEditor.MapGraphics
                 foreach (var item in NewPosDic)
                 {
                     e.Graphics.DrawImage(OwnPointImage, new PointF((Convert.ToSingle((item.Value.RegionID % 256) * PictureSize + MovingPoint.X)) + (item.Value.Position.X / (1920f / PictureSize)), Convert.ToSingle(((((item.Value.RegionID / 256) * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ((item.Value.Position.Y / (1920f / PictureSize)) * -1)));
+                }
+
+
+                foreach (var teleport in AllTeleports.Values)
+                {
+                    //Draw Teleports here
                 }
             }
         }

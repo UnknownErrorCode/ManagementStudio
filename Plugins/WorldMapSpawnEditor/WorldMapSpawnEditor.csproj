@@ -52,7 +52,9 @@
     </Compile>
     <Compile Include="MapGraphics\Controls\NewPosition.cs" />
     <Compile Include="MapGraphics\Controls\Player.cs" />
+    <Compile Include="MapGraphics\Controls\ITeleport.cs" />
     <Compile Include="MapGraphics\RegionGraphic.cs" />
+    <Compile Include="MapGraphics\Controls\Teleport.cs" />
     <Compile Include="MapGuide\MapGuideForm.cs">
       <SubType>Form</SubType>
     </Compile>

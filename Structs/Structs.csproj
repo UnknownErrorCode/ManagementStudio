@@ -52,6 +52,7 @@
     <Compile Include="Database\RefSkill.cs" />
     <Compile Include="Database\RefSkillGroup.cs" />
     <Compile Include="Database\RefSkillMastery.cs" />
+    <Compile Include="Database\RefTeleLink.cs" />
     <Compile Include="Database\RefTeleport.cs" />
     <Compile Include="Database\Tab_RefHive.cs" />
     <Compile Include="Database\Tab_RefNest.cs" />

@@ -67,9 +67,16 @@ namespace WorldMapSpawnEditor
 
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
+
             MapPanel = new MapGraphics.GraphicsPanel();
             splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
+
             vSroSmallButtonLoad.Enabled = false;
+
+            using (WorldMapSpawnEditor.MapGuide.MapGuideForm guide = new MapGuide.MapGuideForm())
+            {
+                guide.ShowDialog();
+            }
         }
     }
 }
