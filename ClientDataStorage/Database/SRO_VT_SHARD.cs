@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage.Database
 {
-    public static class SRO_VT_SHARD 
+    public static class SRO_VT_SHARD
     {
         public static DataSet dbo = new DataSet("SRO_VT_SHARD");
 
@@ -22,7 +22,7 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, RefSkillGroup> _RefSkillGroup;
         public static ConcurrentDictionary<int, RefSkillMastery> _RefSkillMastery;
         public static ConcurrentDictionary<int, RefTeleport> _RefTeleport;
-        public static List< RefTeleLink> _RefTeleLink;
+        public static List<RefTeleLink> _RefTeleLink;
 
         public static void InitializeDBShard()
         {
@@ -32,6 +32,7 @@ namespace ClientDataStorage.Database
             //InitializeRefSkillGroup();
             //InitializeRefSkillMastery();
             Initialize_RefTeleport();
+            Initialize_RefTeleLink();
             InitializeTab_RefHive();
             InitializeTab_RefNest();
             InitializeTab_RefTactics();
@@ -75,10 +76,37 @@ namespace ClientDataStorage.Database
         private static void InitializeRefSkillMastery()
         {
             _RefSkillMastery = new ConcurrentDictionary<int, RefSkillMastery>();
-            
+
             for (int i = 0; i < dbo.Tables["_RefSkillMastery"].Rows.Count; i++)
                 _RefSkillMastery.TryAdd(dbo.Tables["_RefSkillMastery"].Rows[i].Field<int>("ID"), new RefSkillMastery(dbo.Tables["_RefSkillMastery"].Rows[i].ItemArray));
         }
+
+
+        static void Initialize_RefTeleLink()
+        {
+            try
+            {
+                _RefTeleLink = new List<RefTeleLink>(dbo.Tables["_RefTeleLink"].Rows.Count);
+
+                for (int i = 0; i < dbo.Tables["_RefTeleLink"].Rows.Count; i++)
+                    _RefTeleLink.Add(new RefTeleLink(dbo.Tables["_RefTeleLink"].Rows[i].ItemArray));
+
+            }
+            catch (Exception w)
+            {
+
+            }
+        }
+
+
+        static void Initialize_RefTeleport()
+        {
+            _RefTeleport = new ConcurrentDictionary<int, RefTeleport>();
+
+            for (int i = 0; i < dbo.Tables["_RefTeleport"].Rows.Count; i++)
+                _RefTeleport.TryAdd(dbo.Tables["_RefTeleport"].Rows[i].Field<int>("ID"), new RefTeleport(dbo.Tables["_RefTeleport"].Rows[i].ItemArray));
+        }
+
 
         static void InitializeTab_RefTactics()
         {
@@ -102,13 +130,8 @@ namespace ClientDataStorage.Database
                 Tab_RefHive.TryAdd(dbo.Tables["Tab_RefHive"].Rows[i].Field<int>("dwHiveID"), new Tab_RefHive(dbo.Tables["Tab_RefHive"].Rows[i].ItemArray));
         }
 
-        static void Initialize_RefTeleport()
-        {
-            _RefTeleport = new ConcurrentDictionary<int, RefTeleport>();
 
-            for (int i = 0; i < dbo.Tables["_RefTeleport"].Rows.Count; i++)
-                _RefTeleport.TryAdd(dbo.Tables["_RefTeleport"].Rows[i].Field<int>("ID"), new RefTeleport(dbo.Tables["_RefTeleport"].Rows[i].ItemArray));
-        }
+
 
 
     }

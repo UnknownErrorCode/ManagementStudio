@@ -14,7 +14,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// Contains all Database Informations about the spawn.
         /// </summary>
-        SingleTeleport TeleportData { get; set; }
+        internal SingleTeleport TeleportData { get; set; }
         /// <summary>
         /// Ordinate of Region Coorainate.
         /// </summary>
@@ -59,7 +59,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 this.Location = new PointF(TeleportData.ObjCommon.OffsetX, TeleportData.ObjCommon.OffsetZ);
             }
             InitializeProperties();
-           
+
         }
 
         /// <summary>
@@ -67,6 +67,10 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         void InitializeProperties()
         {
+            if (RegionID == 0)
+            {
+                Y = 0; X = 0;
+            }
             string convertedRegionID = RegionID.ToString("X");
             Y = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(0, 2), 16));
             X = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(2, 2), 16));

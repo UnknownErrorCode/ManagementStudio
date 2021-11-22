@@ -1,5 +1,6 @@
 ﻿using ClientDataStorage.Client.Files;
 using Editors.Spawn;
+using Editors.Teleport;
 using Structs.Database;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         private Bitmap PlayerImage;
         private Bitmap MonsterImage;
         private Bitmap UMonsterImage;
+        private Bitmap TeleportImage;
         private Bitmap OwnPointImage;
 
         #endregion
@@ -100,8 +102,9 @@ namespace WorldMapSpawnEditor.MapGraphics
         private readonly string NpcIconPath = "Media\\interface\\minimap\\mm_sign_npc.ddj";
         private readonly string PlayerIconPath = "Media\\interface\\minimap\\mm_sign_otherplayer.ddj";
         private readonly string MonsterIconPath = "Media\\interface\\minimap\\mm_sign_monster.ddj";
-        private readonly string OwnPointIconPath = "Media\\interface\\minimap\\mm_sign_animal.ddj";
         private readonly string UMonsterIconPath = "Media\\interface\\minimap\\mm_sign_unique.ddj";
+        private readonly string TeleportIconPath = "Media\\interface\\worldmap\\map\\gate.ddj";
+        private readonly string OwnPointIconPath = "Media\\interface\\minimap\\mm_sign_animal.ddj";
         #endregion
         #endregion
 
@@ -130,6 +133,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeSpawnImage(PlayerIconPath, 8, out PlayerImage);
             InitializeSpawnImage(MonsterIconPath, 8, out MonsterImage);
             InitializeSpawnImage(UMonsterIconPath, 8, out UMonsterImage);
+            InitializeSpawnImage(TeleportIconPath, 12, out TeleportImage);
             InitializeSpawnImage(OwnPointIconPath, 8, out OwnPointImage);
 
 
@@ -222,8 +226,12 @@ namespace WorldMapSpawnEditor.MapGraphics
 
             foreach (var teleport in ClientDataStorage.Database.SRO_VT_SHARD._RefTeleport.Values)
             {
-                var tele = new Teleport(teleport);
-                AllTeleports.Add(tele.Teleport.ID, tele);
+                if (teleport.AssocRefObjID>0)
+                {
+                    var tele = new Teleport(new SingleTeleport(teleport));
+                    AllTeleports.Add(tele.TeleportData.Teleport.ID, tele);
+
+                }
             }
 
             Initialized = true;
@@ -428,6 +436,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                 foreach (var teleport in AllTeleports.Values)
                 {
                     //Draw Teleports here
+                    e.Graphics.DrawImage(TeleportImage, (teleport.X * PictureSize + MovingPoint.X) + (int)Math.Round(teleport.Location.X / (1920f / PictureSize), 0), ((((teleport.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((teleport.Location.Y / (1920f / PictureSize)) * -1), TeleportImage.Width, TeleportImage.Height);
+
                 }
             }
         }

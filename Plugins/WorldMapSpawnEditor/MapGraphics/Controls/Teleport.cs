@@ -1,14 +1,17 @@
 ﻿using Editors.Teleport;
 using Structs.Database;
+using System.Drawing;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
-    internal class Teleport : SingleTeleport
+    internal class Teleport : ITeleport
     {
 
-        internal Teleport(RefTeleport teleport) : base(teleport)
+        internal Teleport(SingleTeleport teleport) : base(teleport)
         {
 
         }
+
+      
     }
 }
