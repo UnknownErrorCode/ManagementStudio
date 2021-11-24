@@ -27,11 +27,14 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         internal bool OpenEditorOnClick { get; set; } = false;
 
-        internal bool ShowMonster { get; set; } = false;
-        internal bool ShowUniqueMonster { get; set; } = false;
         internal bool ShowNpc { get; set; } = false;
+        internal bool ShowMonster { get; set; } = false;
+        internal bool ShowTeleport { get; set; } = false;
+        internal bool ShowUniqueMonster { get; set; } = false;
+
         internal bool ShowDbRegions { get; set; } = true;
         internal bool ShowUnassignedRegions { get; set; } = true;
+        
 
 
 
@@ -52,6 +55,9 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         ToolTip tip = new ToolTip();
 
+        /// <summary>
+        /// String builder for tooltip text help.
+        /// </summary>
         StringBuilder StrBuilder = new StringBuilder();
 
         /// <summary>
@@ -75,9 +81,13 @@ namespace WorldMapSpawnEditor.MapGraphics
         private Point MouseSroRegioDownPoint = new Point(0, 0);
 
         /// <summary>
-        /// Consists of all RegionGraphics on the WorldMap.
+        /// Consists of all RegionGraphics on the WorldMap existing in the DB.
         /// </summary>
         Dictionary<Point, RegionGraphic> AllRegionGraphics = new Dictionary<Point, RegionGraphic>();
+
+        /// <summary>
+        /// Consists of all RegionGraphics on the WorldMap that does not existing in the DB but -m file is aviable.
+        /// </summary>
         Dictionary<Point, RegionGraphic> AllUnusedRegionGraphics = new Dictionary<Point, RegionGraphic>();
 
         internal Dictionary<int, Monster> AllMonsters = new Dictionary<int, Monster>();
@@ -166,6 +176,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 if (ShowUniqueMonster)
                     foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
                         StrBuilder.AppendLine(umob.Value.Spawn.ObjCommon.CodeName128);
+
 
                 tip.Show(StrBuilder.ToString(), Parent, e.X + 20, e.Y + 2, 5000);
 
@@ -432,13 +443,12 @@ namespace WorldMapSpawnEditor.MapGraphics
                     e.Graphics.DrawImage(OwnPointImage, new PointF((Convert.ToSingle((item.Value.RegionID % 256) * PictureSize + MovingPoint.X)) + (item.Value.Position.X / (1920f / PictureSize)), Convert.ToSingle(((((item.Value.RegionID / 256) * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ((item.Value.Position.Y / (1920f / PictureSize)) * -1)));
                 }
 
+                if (ShowTeleport)
+                    foreach (var teleport in AllTeleports.Values)
+                    {
+                        e.Graphics.DrawImage(TeleportImage, (teleport.X * PictureSize + MovingPoint.X) + (int)Math.Round(teleport.Location.X / (1920f / PictureSize), 0), ((((teleport.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((teleport.Location.Y / (1920f / PictureSize)) * -1), TeleportImage.Width, TeleportImage.Height);
+                    }
 
-                foreach (var teleport in AllTeleports.Values)
-                {
-                    //Draw Teleports here
-                    e.Graphics.DrawImage(TeleportImage, (teleport.X * PictureSize + MovingPoint.X) + (int)Math.Round(teleport.Location.X / (1920f / PictureSize), 0), ((((teleport.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + (int)Math.Round((teleport.Location.Y / (1920f / PictureSize)) * -1), TeleportImage.Width, TeleportImage.Height);
-
-                }
             }
         }
 

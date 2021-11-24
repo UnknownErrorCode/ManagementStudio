@@ -65,6 +65,11 @@ namespace WorldMapSpawnEditor
         private void vSroCheckBoxUnAsReg_vSroCheckChange(object sender, EventArgs e)
         { MapPanel.ShowUnassignedRegions = vSroCheckBoxUnAsReg.vSroCheck; MapPanel.Invalidate(); }
 
+        private void vSroCheckBoxShowTeleports_vSroCheckChange(object sender, EventArgs e)
+        {
+            MapPanel.ShowTeleport = vSroCheckBoxShowTeleports.vSroCheck; MapPanel.Invalidate();
+        }
+
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
 
@@ -78,5 +83,7 @@ namespace WorldMapSpawnEditor
                 guide.ShowDialog();
             }
         }
+
+       
     }
 }

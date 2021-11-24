@@ -48,6 +48,7 @@
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vSroCheckBoxShowTeleports = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -95,6 +96,7 @@
             // splitContainer2dViewer.Panel2
             // 
             this.splitContainer2dViewer.Panel2.BackColor = System.Drawing.Color.Black;
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowTeleports);
             this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroSmallButtonLoad);
             this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxUnAsReg);
             this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxReg);
@@ -147,7 +149,7 @@
             this.vSroCheckBoxUnAsReg.AutoSize = true;
             this.vSroCheckBoxUnAsReg.BackColor = System.Drawing.Color.Transparent;
             this.vSroCheckBoxUnAsReg.ForeColor = System.Drawing.Color.White;
-            this.vSroCheckBoxUnAsReg.Location = new System.Drawing.Point(15, 224);
+            this.vSroCheckBoxUnAsReg.Location = new System.Drawing.Point(15, 253);
             this.vSroCheckBoxUnAsReg.MinimumSize = new System.Drawing.Size(16, 16);
             this.vSroCheckBoxUnAsReg.Name = "vSroCheckBoxUnAsReg";
             this.vSroCheckBoxUnAsReg.Size = new System.Drawing.Size(217, 16);
@@ -161,7 +163,7 @@
             this.vSroCheckBoxReg.AutoSize = true;
             this.vSroCheckBoxReg.BackColor = System.Drawing.Color.Transparent;
             this.vSroCheckBoxReg.ForeColor = System.Drawing.Color.White;
-            this.vSroCheckBoxReg.Location = new System.Drawing.Point(15, 202);
+            this.vSroCheckBoxReg.Location = new System.Drawing.Point(15, 231);
             this.vSroCheckBoxReg.MinimumSize = new System.Drawing.Size(16, 16);
             this.vSroCheckBoxReg.Name = "vSroCheckBoxReg";
             this.vSroCheckBoxReg.Size = new System.Drawing.Size(153, 16);
@@ -286,6 +288,20 @@
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
             // 
+            // vSroCheckBoxShowTeleports
+            // 
+            this.vSroCheckBoxShowTeleports.AutoSize = true;
+            this.vSroCheckBoxShowTeleports.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowTeleports.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowTeleports.Location = new System.Drawing.Point(16, 178);
+            this.vSroCheckBoxShowTeleports.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowTeleports.Name = "vSroCheckBoxShowTeleports";
+            this.vSroCheckBoxShowTeleports.Size = new System.Drawing.Size(127, 16);
+            this.vSroCheckBoxShowTeleports.TabIndex = 9;
+            this.vSroCheckBoxShowTeleports.vSroCheck = false;
+            this.vSroCheckBoxShowTeleports.vSroCheckBoxName = "Show Teleport";
+            this.vSroCheckBoxShowTeleports.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxShowTeleports_vSroCheckChange);
+            // 
             // WorldMapSpawnEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -329,5 +345,6 @@
         private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxUnAsReg;
         private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxReg;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonLoad;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowTeleports;
     }
 }
