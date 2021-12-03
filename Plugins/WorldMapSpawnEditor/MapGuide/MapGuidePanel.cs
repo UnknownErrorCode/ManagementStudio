@@ -69,11 +69,18 @@ namespace WorldMapSpawnEditor.MapGuide
         ConcurrentDictionary<Point, Bitmap> imgDic = new ConcurrentDictionary<Point, Bitmap>();
         private void MapGuidePanel_Paint(object sender, PaintEventArgs e)
         {
+            int minX = 255, maxY = 0;
+            foreach (var poinnt in imgDic.Keys)
+            {
+                if (minX > poinnt.X)
+                    minX = poinnt.X;
 
-            var g = this.CreateGraphics();
+                if (maxY < poinnt.Y)
+                    maxY = poinnt.Y;
+            }
             foreach (var item in imgDic)
             {
-                g.DrawImage(item.Value, item.Key);
+                e.Graphics.DrawImage(item.Value, item.Key);
             }
 
             /*

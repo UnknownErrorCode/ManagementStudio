@@ -70,6 +70,11 @@ namespace WorldMapSpawnEditor
             MapPanel.ShowTeleport = vSroCheckBoxShowTeleports.vSroCheck; MapPanel.Invalidate();
         }
 
+        private void vSroCheckBoxShowPlayer_vSroCheckChange(object sender, EventArgs e)
+        {
+            MapPanel.ShowPlayer = vSroCheckBoxShowPlayer.vSroCheck; MapPanel.Invalidate();
+        }
+
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
 
@@ -84,6 +89,5 @@ namespace WorldMapSpawnEditor
             }
         }
 
-       
     }
 }

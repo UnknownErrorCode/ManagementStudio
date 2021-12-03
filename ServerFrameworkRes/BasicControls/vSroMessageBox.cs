@@ -10,6 +10,9 @@ namespace ServerFrameworkRes.BasicControls
         private Point LastPoint;
         public bool OK = false;
 
+        public string ReturnValue1 { get => vSroInputBox1.ValueText; }
+        public string ReturnValue2 { get => vSroInputBox2.ValueText; }
+        public string ReturnValue3 { get => vSroInputBox3.ValueText; }
         public vSroMessageBox(string text)
         {
             InitializeComponent();
@@ -36,21 +39,27 @@ namespace ServerFrameworkRes.BasicControls
         {
             this.Close();
         }
-
         private void ButtonYes_Click(object sender, EventArgs e)
         {
             OK = true;
             this.Close();
         }
-
         private void RealButton_Click(object sender, EventArgs e)
         {
             OK = true;
             this.Close();
         }
+
+
         public static void Show(string message)
         {
             vSroMessageBox showTempMsg = new vSroMessageBox(message);
+            showTempMsg.ShowDialog();
+            showTempMsg.Dispose();
+        }
+        public static void Show(string message, string title)
+        {
+            vSroMessageBox showTempMsg = new vSroMessageBox(message, title);
             showTempMsg.ShowDialog();
             showTempMsg.Dispose();
         }
@@ -63,12 +72,19 @@ namespace ServerFrameworkRes.BasicControls
             showTempMsg.Dispose();
             return booler;
         }
-        public static void Show(string message, string title)
+        public static string GetInput(string message, string title, string valueTitle)
         {
-            vSroMessageBox showTempMsg = new vSroMessageBox(message, title);
-            showTempMsg.ShowDialog();
-            showTempMsg.Dispose();
+            string ret = "";
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
+            {
+                showTempMsg.ShowDialog();
+                if (showTempMsg.ReturnValue1.Length>0)
+                    ret = showTempMsg.ReturnValue1;
+            }
+            return ret;
         }
+
+
         private void vSroMessageBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.X <= 355 && e.Y <= 25)
@@ -80,12 +96,10 @@ namespace ServerFrameworkRes.BasicControls
                 }
             }
         }
-
         private void vSroMessageBox_MouseUp(object sender, MouseEventArgs e)
         {
             onMove = false;
         }
-
         private void vSroMessageBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (onMove)

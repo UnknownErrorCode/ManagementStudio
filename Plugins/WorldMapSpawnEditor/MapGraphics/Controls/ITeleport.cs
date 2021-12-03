@@ -70,6 +70,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             if (RegionID == 0)
             {
                 Y = 0; X = 0;
+                return;
             }
             string convertedRegionID = RegionID.ToString("X");
             Y = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(0, 2), 16));

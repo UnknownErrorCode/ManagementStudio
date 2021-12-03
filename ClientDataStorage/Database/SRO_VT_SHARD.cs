@@ -13,6 +13,7 @@ namespace ClientDataStorage.Database
     {
         public static DataSet dbo = new DataSet("SRO_VT_SHARD");
 
+        public static ConcurrentDictionary<int, IChar> _Char;
         public static ConcurrentDictionary<int, RefObjChar> _RefObjChar;
         public static ConcurrentDictionary<int, RefObjCommon> _RefObjCommon;
         public static ConcurrentDictionary<int, Tab_RefHive> Tab_RefHive;
@@ -23,9 +24,10 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, RefSkillMastery> _RefSkillMastery;
         public static ConcurrentDictionary<int, RefTeleport> _RefTeleport;
         public static List<RefTeleLink> _RefTeleLink;
-
+        
         public static void InitializeDBShard()
         {
+            InitializeChars();
             InitializeRefObjChars();
             InitializeRefObjCommon();
             InitializeRefSkill();
@@ -38,7 +40,12 @@ namespace ClientDataStorage.Database
             InitializeTab_RefTactics();
         }
 
-
+        private static void InitializeChars()
+        {
+            _Char = new ConcurrentDictionary<int, IChar>();
+            for (int i = 0; i < dbo.Tables["_Char"].Rows.Count; i++)
+                _Char.TryAdd(dbo.Tables["_Char"].Rows[i].Field<int>("CharID"), new IChar(dbo.Tables["_Char"].Rows[i].ItemArray));
+        }
 
         static void InitializeRefObjChars()
         {

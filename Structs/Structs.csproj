@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard\DashboardMessage.cs" />
+    <Compile Include="Database\IChar.cs" />
     <Compile Include="Database\Rarity.cs" />
     <Compile Include="Database\RefObjChar.cs" />
     <Compile Include="Database\RefObjCommon.cs" />

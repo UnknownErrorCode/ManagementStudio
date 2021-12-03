@@ -36,6 +36,9 @@
             this.vSroButtonYes = new ServerFrameworkRes.BasicControls.vSroButton();
             this.vSroCloseButton1 = new ServerFrameworkRes.BasicControls.vSroCloseButton();
             this.vSroButtonNo = new ServerFrameworkRes.BasicControls.vSroButton();
+            this.vSroInputBox1 = new ServerFrameworkRes.BasicControls.vSroInputBox();
+            this.vSroInputBox2 = new ServerFrameworkRes.BasicControls.vSroInputBox();
+            this.vSroInputBox3 = new ServerFrameworkRes.BasicControls.vSroInputBox();
             this.SuspendLayout();
             // 
             // labelTitle
@@ -97,13 +100,60 @@
             this.vSroButtonNo.Size = new System.Drawing.Size(92, 40);
             this.vSroButtonNo.TabIndex = 5;
             // 
+            // vSroInputBox1
+            // 
+            this.vSroInputBox1.AutoSize = true;
+            this.vSroInputBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("vSroInputBox1.BackgroundImage")));
+            this.vSroInputBox1.Location = new System.Drawing.Point(64, 174);
+            this.vSroInputBox1.MaximumSize = new System.Drawing.Size(250, 40);
+            this.vSroInputBox1.MinimumSize = new System.Drawing.Size(250, 40);
+            this.vSroInputBox1.Name = "vSroInputBox1";
+            this.vSroInputBox1.Size = new System.Drawing.Size(250, 40);
+            this.vSroInputBox1.TabIndex = 6;
+            this.vSroInputBox1.TitleText = "<error>";
+            this.vSroInputBox1.ValueText = "";
+            this.vSroInputBox1.Visible = false;
+            this.vSroInputBox1.vSroUseSystemPasswordChar = false;
+            // 
+            // vSroInputBox2
+            // 
+            this.vSroInputBox2.AutoSize = true;
+            this.vSroInputBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("vSroInputBox2.BackgroundImage")));
+            this.vSroInputBox2.Location = new System.Drawing.Point(64, 220);
+            this.vSroInputBox2.MaximumSize = new System.Drawing.Size(250, 40);
+            this.vSroInputBox2.MinimumSize = new System.Drawing.Size(250, 40);
+            this.vSroInputBox2.Name = "vSroInputBox2";
+            this.vSroInputBox2.Size = new System.Drawing.Size(250, 40);
+            this.vSroInputBox2.TabIndex = 7;
+            this.vSroInputBox2.TitleText = "<error>";
+            this.vSroInputBox2.ValueText = "";
+            this.vSroInputBox2.Visible = false;
+            this.vSroInputBox2.vSroUseSystemPasswordChar = false;
+            // 
+            // vSroInputBox3
+            // 
+            this.vSroInputBox3.AutoSize = true;
+            this.vSroInputBox3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("vSroInputBox3.BackgroundImage")));
+            this.vSroInputBox3.Location = new System.Drawing.Point(64, 266);
+            this.vSroInputBox3.MaximumSize = new System.Drawing.Size(250, 40);
+            this.vSroInputBox3.MinimumSize = new System.Drawing.Size(250, 40);
+            this.vSroInputBox3.Name = "vSroInputBox3";
+            this.vSroInputBox3.Size = new System.Drawing.Size(250, 40);
+            this.vSroInputBox3.TabIndex = 8;
+            this.vSroInputBox3.TitleText = "<error>";
+            this.vSroInputBox3.ValueText = "";
+            this.vSroInputBox3.Visible = false;
+            this.vSroInputBox3.vSroUseSystemPasswordChar = false;
+            // 
             // vSroMessageBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(387, 407);
+            this.Controls.Add(this.vSroInputBox3);
+            this.Controls.Add(this.vSroInputBox2);
+            this.Controls.Add(this.vSroInputBox1);
             this.Controls.Add(this.vSroButtonNo);
             this.Controls.Add(this.vSroCloseButton1);
             this.Controls.Add(this.vSroButtonYes);
@@ -111,11 +161,13 @@
             this.Controls.Add(this.labelTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "vSroMessageBox";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MessageBox";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vSroMessageBox_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.vSroMessageBox_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.vSroMessageBox_MouseUp);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -127,5 +179,8 @@
         private ServerFrameworkRes.BasicControls.vSroButton vSroButtonYes;
         private ServerFrameworkRes.BasicControls.vSroCloseButton vSroCloseButton1;
         private ServerFrameworkRes.BasicControls.vSroButton vSroButtonNo;
+        private vSroInputBox vSroInputBox1;
+        private vSroInputBox vSroInputBox2;
+        private vSroInputBox vSroInputBox3;
     }
 }

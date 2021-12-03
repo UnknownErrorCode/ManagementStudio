@@ -102,7 +102,7 @@ namespace ServerFrameworkRes.Ressources
 
         private void LogGridView_Load(object sender, EventArgs e)
         {
-            Task.Run(() => LogMsgThread());
+           // Task.Run(() => LogMsgThread());
         }
 
         private  void LogMsgThread()
@@ -113,7 +113,7 @@ namespace ServerFrameworkRes.Ressources
                 if (MessageStack.Count > 0)
                 {
                     this.WriteLogLine(LogLevel.notify, MessageStack.Pop());
-                    Task.Delay(100);
+                    Task.Delay(500);
                 }
             }
         }
