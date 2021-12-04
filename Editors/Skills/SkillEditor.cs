@@ -13,6 +13,9 @@ namespace Editors.Skills
     public partial class SkillEditor : Form
     {
         public bool ChangeAviable = false;
+
+        Dictionary<int, Dictionary<string, string>> AviableChanges = new Dictionary<int, Dictionary<string, string>>();
+
         public SkillEditor(Monster monster)
         {
             InitializeComponent();
@@ -63,6 +66,18 @@ namespace Editors.Skills
             ChangeAviable = true;
             var column = e.ChangedItem.PropertyDescriptor.Name;
             var changedValue = e.ChangedItem.Value.ToString();
+            var identifier = e.ChangedItem.GridItems["ID"].Value;
+
+            if (!AviableChanges.ContainsKey(int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString())))
+                AviableChanges.Add(int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString()), new Dictionary<string, string>());
+            else
+            {
+                if (AviableChanges[int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString())].ContainsKey(column))
+                {
+                    AviableChanges[int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString())][column] = changedValue;
+                }
+            }
+                AviableChanges[int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString())].Add(column, changedValue);
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -77,6 +92,7 @@ namespace Editors.Skills
             }
             updatestring = $"{updatestring.Substring(0, updatestring.Length - 2)} WHERE ID = {((Monster)propertyGrid1.SelectedObject).ObjChar.ID} ";
             richTextBoxUpdateQuery.Text = updatestring;
+
 
         }
 
@@ -139,7 +155,6 @@ namespace Editors.Skills
                         }
                     }
                 }
-            }
         }
     }
 }

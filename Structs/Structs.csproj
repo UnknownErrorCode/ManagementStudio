@@ -59,6 +59,7 @@
     <Compile Include="Database\Tab_RefNest.cs" />
     <Compile Include="Database\Tab_RefTactics.cs" />
     <Compile Include="Pk2\Media\SkilleffectStruct.cs" />
+    <Compile Include="Pk2\Media\TextDataNameStruct.cs" />
     <Compile Include="Pk2\Media\TextUISystemStruct.cs" />
     <Compile Include="Pk2\Pk2Entry.cs" />
     <Compile Include="Pk2\Pk2EntryBlock.cs" />

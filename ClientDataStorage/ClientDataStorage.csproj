@@ -66,6 +66,7 @@
     <Compile Include="Client\Map.cs" />
     <Compile Include="Client\Media.cs" />
     <Compile Include="Client\Textdata\SkillEffect.cs" />
+    <Compile Include="Client\Textdata\TextDataName.cs" />
     <Compile Include="Client\Textdata\Tile2dIFOFile.cs" />
     <Compile Include="Pk2\Utility\ITextParser.cs" />
     <Compile Include="Pk2\Utility\TextArrayFormatter.cs" />
