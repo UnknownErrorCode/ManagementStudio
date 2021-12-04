@@ -77,7 +77,7 @@ namespace Editors.Skills
                     AviableChanges[int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString())][column] = changedValue;
                 }
             }
-                AviableChanges[int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString())].Add(column, changedValue);
+            AviableChanges[int.Parse(e.ChangedItem.GridItems["ID"].Value.ToString())].Add(column, changedValue);
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -155,6 +155,7 @@ namespace Editors.Skills
                         }
                     }
                 }
+            }
         }
     }
 }
