@@ -349,8 +349,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                 {
                     if (OpenEditorOnClick && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {mob.Value.Spawn.ObjCommon.CodeName128}", "SpawnEditor"))
                     {
-                        var Editor = new SpawnEditor(mob.Value.Spawn);
-                        Editor.Show();
+                        using (SpawnEditor Editor = new SpawnEditor(mob.Value.Spawn))
+                            Editor.ShowDialog();
                     }
                 }
                 foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + MovingPoint.X) + ch.Value.Location.X) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ch.Value.Location.Y)))
@@ -372,12 +372,9 @@ namespace WorldMapSpawnEditor.MapGraphics
         private void GraphicsPanel_Paint(object sender, PaintEventArgs e)
         {
 
-
-            var nousecounter = 0;
-            var usecounter = 0;
-
-            var xRange = Enumerable.Range(-this.PictureSize, this.Width + PictureSize);
+           var xRange = Enumerable.Range(-this.PictureSize, this.Width + PictureSize);
             var yRange = Enumerable.Range(-this.PictureSize, this.Height + PictureSize);
+
             for (int x = 0; x < 256; x++)
             {
                 regionPoint.X = x;

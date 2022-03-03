@@ -77,17 +77,23 @@ namespace WorldMapSpawnEditor
 
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
+            splitContainer2dViewer.Panel1.Controls.Clear();
 
             MapPanel = new MapGraphics.GraphicsPanel();
             splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
 
             vSroSmallButtonLoad.Enabled = false;
+            EnableControl(vSroSmallButtonLoad, 5);
 
-            using (WorldMapSpawnEditor.MapGuide.MapGuideForm guide = new MapGuide.MapGuideForm())
-            {
-                guide.ShowDialog();
-            }
+          // using (WorldMapSpawnEditor.MapGuide.MapGuideForm guide = new MapGuide.MapGuideForm())
+          // {
+          //     guide.ShowDialog();
+          // }
         }
-
+        private async void EnableControl(Control control, int InSeconds)
+        {
+           await Task.Delay(InSeconds * 1000);
+            control.Enabled = true;
+        }
     }
 }
