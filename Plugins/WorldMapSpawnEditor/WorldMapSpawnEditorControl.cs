@@ -43,7 +43,7 @@ namespace WorldMapSpawnEditor
                     BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                     null, c, new object[] { true });
         }
-
+        #region Checkbox region
         private void vSroCheckBox1_vSroCheckChange(object sender, EventArgs e)
             => MapPanel.HasToolTip = vSroCheckBoxShowToolTip.vSroCheck;
 
@@ -66,14 +66,11 @@ namespace WorldMapSpawnEditor
         { MapPanel.ShowUnassignedRegions = vSroCheckBoxUnAsReg.vSroCheck; MapPanel.Invalidate(); }
 
         private void vSroCheckBoxShowTeleports_vSroCheckChange(object sender, EventArgs e)
-        {
-            MapPanel.ShowTeleport = vSroCheckBoxShowTeleports.vSroCheck; MapPanel.Invalidate();
-        }
-
+        { MapPanel.ShowTeleport = vSroCheckBoxShowTeleports.vSroCheck; MapPanel.Invalidate(); }
         private void vSroCheckBoxShowPlayer_vSroCheckChange(object sender, EventArgs e)
-        {
-            MapPanel.ShowPlayer = vSroCheckBoxShowPlayer.vSroCheck; MapPanel.Invalidate();
-        }
+        { MapPanel.ShowPlayer = vSroCheckBoxShowPlayer.vSroCheck; MapPanel.Invalidate(); }
+
+        #endregion
 
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
@@ -85,14 +82,14 @@ namespace WorldMapSpawnEditor
             vSroSmallButtonLoad.Enabled = false;
             EnableControl(vSroSmallButtonLoad, 5);
 
-          // using (WorldMapSpawnEditor.MapGuide.MapGuideForm guide = new MapGuide.MapGuideForm())
-          // {
-          //     guide.ShowDialog();
-          // }
+            // using (WorldMapSpawnEditor.MapGuide.MapGuideForm guide = new MapGuide.MapGuideForm())
+            // {
+            //     guide.ShowDialog();
+            // }
         }
         private async void EnableControl(Control control, int InSeconds)
         {
-           await Task.Delay(InSeconds * 1000);
+            await Task.Delay(InSeconds * 1000);
             control.Enabled = true;
         }
     }

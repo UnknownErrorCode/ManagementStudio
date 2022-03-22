@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillEditor", "Plugins\Skil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editors", "Editors\Editors.csproj", "{5185C5C8-39D7-48ED-B45E-231DC36A3F10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerEditor", "Plugins\TriggerEditor\TriggerEditor.csproj", "{88D07D8D-BFAE-4970-9BB2-C5F032B5C95D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{5185C5C8-39D7-48ED-B45E-231DC36A3F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5185C5C8-39D7-48ED-B45E-231DC36A3F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5185C5C8-39D7-48ED-B45E-231DC36A3F10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D07D8D-BFAE-4970-9BB2-C5F032B5C95D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D07D8D-BFAE-4970-9BB2-C5F032B5C95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D07D8D-BFAE-4970-9BB2-C5F032B5C95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D07D8D-BFAE-4970-9BB2-C5F032B5C95D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{ECD8FDA9-E279-4CF0-9F5D-DC639188C35B} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
 		{0160BBEC-B1A7-4E52-9443-F0D2C1F97920} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
 		{FA562AD1-2F9B-4BC7-853D-5CD1B2A9AADB} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
+		{88D07D8D-BFAE-4970-9BB2-C5F032B5C95D} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E2FC8EEC-3C46-4FD1-A038-2F208DDDCE5E}
