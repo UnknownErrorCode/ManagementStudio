@@ -102,10 +102,10 @@ namespace ServerFrameworkRes.Ressources
 
         private void LogGridView_Load(object sender, EventArgs e)
         {
-           // Task.Run(() => LogMsgThread());
+            Task.Run(() => LogMsgThread());
         }
 
-        private  void LogMsgThread()
+        private void LogMsgThread()
         {
             this.WriteLogLine(LogLevel.notify, "Runtime logThread started!");
             while (true)
@@ -113,8 +113,8 @@ namespace ServerFrameworkRes.Ressources
                 if (MessageStack.Count > 0)
                 {
                     this.WriteLogLine(LogLevel.notify, MessageStack.Pop());
-                    Task.Delay(500);
                 }
+                System.Threading.Thread.Sleep(100);
             }
         }
     }

@@ -55,6 +55,7 @@
     <Compile Include="MapGraphics\Controls\ITeleport.cs" />
     <Compile Include="MapGraphics\RegionGraphic.cs" />
     <Compile Include="MapGraphics\Controls\Teleport.cs" />
+    <Compile Include="MapGraphics\WRegionID.cs" />
     <Compile Include="MapGuide\MapGuideForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +64,11 @@
     </Compile>
     <Compile Include="MapGuide\MapGuidePanel.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WorldMapSpawnEditorControl.cs">
       <SubType>UserControl</SubType>
@@ -76,6 +82,10 @@
   <ItemGroup>
     <EmbeddedResource Include="MapGuide\MapGuideForm.resx">
       <DependentUpon>MapGuideForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="WorldMapSpawnEditorControl.resx">
       <DependentUpon>WorldMapSpawnEditorControl.cs</DependentUpon>

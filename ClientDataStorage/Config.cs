@@ -34,7 +34,6 @@ namespace ClientDataStorage
         public bool ShowPwInText { get => bool.Parse(base.ConfigEditor.IniReadValue("ToolClient", "ShowPW")); set => base.ConfigEditor.IniWriteValue("ToolClient", "ShowPW", value.ToString()); }
         public string ClientExtracted { get => base.ConfigEditor.IniReadValue("ToolClient", "StudioRessources"); set => base.ConfigEditor.IniWriteValue("ToolClient", "StudioRessources", value); }
 
-
         public string PToolUser { get => base.ConfigEditor.IniReadValue("ToolClient", "User"); set => base.ConfigEditor.IniWriteValue("ToolClient", "User", value); }
         public string PToolUserPassword { get => base.ConfigEditor.IniReadValue("ToolClient", "ToolPassword"); set => base.ConfigEditor.IniWriteValue("ToolClient", "ToolPassword", value); }
     }

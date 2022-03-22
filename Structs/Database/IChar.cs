@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Structs.Database
 {
-    public class IChar
+    public struct IChar
     {
         public int CharID { get; private set; }
         public byte Deleted { get; set; }

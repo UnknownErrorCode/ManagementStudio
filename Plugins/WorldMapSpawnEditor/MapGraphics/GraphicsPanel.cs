@@ -128,8 +128,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private void InitializeComponents()
         {
-            //this.AutoSize = true;
-            //this.AutoScroll = true;
+            
             this.Initialized = false;
             this.DoubleBuffered = true;
             this.Dock = DockStyle.Fill;
@@ -147,8 +146,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeSpawnImage(TeleportIconPath, 16, out TeleportImage);
             InitializeSpawnImage(OwnPointIconPath, 8, out OwnPointImage);
 
-
-
             Task.Run(() => InitializeWorldGraphics());
             Task.Run(() => InitializeSpawnGraphics());
         }
@@ -160,7 +157,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <param name="e"></param>
         private void GraphicsPanel_MouseMove(object sender, MouseEventArgs e)
         {
-
             if (HasToolTip)
             {
                 var rangeXCoordPanel = Enumerable.Range((int)e.X - 8, 16);
@@ -181,9 +177,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                     foreach (var player in ClientDataStorage.Database.SRO_VT_SHARD._Char.Where(ch => rangeXCoordPanel.Contains((((ch.Value.LatestRegion % 256) * PictureSize + MovingPoint.X) + ((int)Math.Round(ch.Value.PosX / (1920f / PictureSize), 0)))) && rangeYCoordPanel.Contains((((((ch.Value.LatestRegion / 256) * PictureSize) - (128 * PictureSize)) * -1) + MovingPoint.Y) + ((int)Math.Round((ch.Value.PosZ / (1920f / PictureSize)) * -1)))))
                         StrBuilder.AppendLine(player.Value.CharName16);
 
-
                 tip.Show(StrBuilder.ToString(), Parent, e.X + 20, e.Y + 2, 5000);
-
             }
         }
 
@@ -201,10 +195,17 @@ namespace WorldMapSpawnEditor.MapGraphics
                     DDJImage DDJFile = new DDJImage(file);
                     ClientDataStorage.Client.Media.DDJFiles.Add(pk2PathString, DDJFile);
                 }
-
             image = ClientDataStorage.Client.Media.DDJFiles[pk2PathString].BitmapImage;
         }
 
+        private enum SpawnType : byte
+        {
+            None = 0xFF,
+            Monster = 0x00,
+            Npc = 0x01,
+            Unique = 0x02,
+            Teleport = 0x03
+        }
         /// <summary>
         /// Defines weather the spawn is a monster, npc or smthing else...
         /// </summary>
@@ -213,32 +214,50 @@ namespace WorldMapSpawnEditor.MapGraphics
             AllNpcs = new Dictionary<int, Npc>();
             AllMonsters = new Dictionary<int, Monster>();
             AllUniqueMonsters = new Dictionary<int, UniqueMonster>();
+
             foreach (var nest in ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest)
             {
                 var singleSpawn = new SingleSpawn(nest.Value);
 
-                if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 1 && singleSpawn.ObjCommon.TypeID4 == 1 && singleSpawn.ObjCommon.Rarity != Rarity.Unique && singleSpawn.ObjCommon.Rarity != Rarity.UniqueNoMsg)
+                if(GetSpawnType(singleSpawn, out SpawnType type))
                 {
-                    var Mob = new Monster(singleSpawn);
-                    AllMonsters.Add(Mob.Spawn.Nest.dwNestID, Mob);
-                    continue;
+                    switch (type)
+                    {
+                        case SpawnType.Monster:
+                            AllMonsters.Add(singleSpawn.Nest.dwNestID, new Monster(singleSpawn));
+                            break;
+                        case SpawnType.Npc:
+                            AllNpcs.Add(singleSpawn.Nest.dwNestID, new Npc(singleSpawn));
+                            break;
+                        case SpawnType.Unique:
+                            AllUniqueMonsters.Add(singleSpawn.Nest.dwNestID, new UniqueMonster(singleSpawn));
+                            break;
+                        case SpawnType.Teleport:
+                            break;
+                        default:
+                            break;
+                    }
                 }
-                if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 1 && singleSpawn.ObjCommon.TypeID4 == 1 && (singleSpawn.ObjCommon.Rarity == Rarity.Unique || singleSpawn.ObjCommon.Rarity == Rarity.UniqueNoMsg))
-                {
-                    var umob = new UniqueMonster(singleSpawn);
-                    AllUniqueMonsters.Add(umob.Spawn.Nest.dwNestID, umob);
 
-                    continue;
-                }
-                if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 2 && singleSpawn.ObjCommon.TypeID4 == 0)
-                {
-                    var npc = new Npc(singleSpawn);
-                    AllNpcs.Add(npc.Spawn.Nest.dwNestID, npc);
-
-                    continue;
-                }
+              // if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 1 && singleSpawn.ObjCommon.TypeID4 == 1 && singleSpawn.ObjCommon.Rarity != Rarity.MonsterUnique && singleSpawn.ObjCommon.Rarity != Rarity.MonsterUniqueNoMsg)
+              // {
+              //     var Mob = new Monster(singleSpawn);
+              //     AllMonsters.Add(Mob.Spawn.Nest.dwNestID, Mob);
+              //     continue;
+              // }
+              // if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 1 && singleSpawn.ObjCommon.TypeID4 == 1 && (singleSpawn.ObjCommon.Rarity == Rarity.MonsterUnique || singleSpawn.ObjCommon.Rarity == Rarity.MonsterUniqueNoMsg))
+              // {
+              //     var umob = new UniqueMonster(singleSpawn);
+              //     AllUniqueMonsters.Add(umob.Spawn.Nest.dwNestID, umob);
+              //     continue;
+              // }
+              // if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 2 && singleSpawn.ObjCommon.TypeID4 == 0)
+              // {
+              //     var npc = new Npc(singleSpawn);
+              //     AllNpcs.Add(npc.Spawn.Nest.dwNestID, npc);
+              //     continue;
+              // }
             }
-
             foreach (var teleport in ClientDataStorage.Database.SRO_VT_SHARD._RefTeleport.Values)
             {
                 if (teleport.AssocRefObjID > 0)
@@ -247,8 +266,21 @@ namespace WorldMapSpawnEditor.MapGraphics
                     AllTeleports.Add(tele.TeleportData.Teleport.ID, tele);
                 }
             }
-
             Initialized = true;
+        }
+
+        private bool GetSpawnType(SingleSpawn singleSpawn, out SpawnType type)
+        {
+            type = SpawnType.None;
+
+            if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 1 && singleSpawn.ObjCommon.TypeID4 == 1 && singleSpawn.ObjCommon.Rarity != Rarity.MonsterUnique && singleSpawn.ObjCommon.Rarity != Rarity.MonsterUniqueNoMsg)
+            { type = SpawnType.Monster; return true; }
+            else if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 1 && singleSpawn.ObjCommon.TypeID4 == 1 && (singleSpawn.ObjCommon.Rarity == Rarity.MonsterUnique || singleSpawn.ObjCommon.Rarity == Rarity.MonsterUniqueNoMsg))
+            { type = SpawnType.Unique; return true; }
+            else if (singleSpawn.ObjCommon.TypeID1 == 1 && singleSpawn.ObjCommon.TypeID2 == 2 && singleSpawn.ObjCommon.TypeID3 == 2 && singleSpawn.ObjCommon.TypeID4 == 0)
+            { type = SpawnType.Npc; return true; }
+
+            return false;
         }
 
         /// <summary>
@@ -269,7 +301,6 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                 if (MovingPoint.Y > 0)
                     MovingPoint.Y = 0;
-
 
                 if (MovingPoint.X < -PictureSize * 256 + this.Width)
                     MovingPoint.X = -PictureSize * 256 + this.Width;
@@ -302,7 +333,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                 var strin = $"{stry}{strx}";
 
                 var regionID = Convert.ToInt32(strin, 16);
-
 
                 float fRegX = ((MouseSroRegioDownPoint.X) * PictureSize + (MovingPoint.X - e.X)) * -1;
                 float RegX = (float)Math.Round(fRegX * (1920f / PictureSize), 0);
@@ -362,8 +392,10 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
-        Point regionPoint = new Point(0, 0);
-        Point panelPoint = new Point(0, 0);
+        Point regionPoint = Point.Empty;
+        Point panelPoint = Point.Empty;
+        Rectangle drawRec = Rectangle.Empty;
+        Size drawSize = Size.Empty;
         /// <summary>
         /// When the panel gets repainted it after invalidate.
         /// </summary>
@@ -394,7 +426,11 @@ namespace WorldMapSpawnEditor.MapGraphics
                             e.Graphics.DrawImage(unassignedregion.RegionLayer, panelPoint.X, panelPoint.Y, PictureSize, PictureSize);
                         else
                         {
-                            e.Graphics.DrawRectangle(Pens.Red, new Rectangle(panelPoint, new Size(PictureSize, PictureSize)));
+                            drawSize.Width = PictureSize; 
+                            drawSize.Height = PictureSize;
+                            drawRec.Location = panelPoint;
+                            drawRec.Size = drawSize;
+                            e.Graphics.DrawRectangle(Pens.Red, drawRec);
                             if (this.PictureSize > 128)
                                 e.Graphics.DrawString($"X: {regionPoint.X} Z: {regionPoint.Y} \n", this.Font, Brushes.AliceBlue, panelPoint);
                         }

@@ -84,6 +84,11 @@
     <Compile Include="Pk2\Pk2Data.cs" />
     <Compile Include="Pk2\Pk2Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\Database\RefGameWorldBindTriggerCategory.cs" />
+    <Compile Include="Structs\Database\RefGame_World.cs" />
+    <Compile Include="Structs\Database\RefTrigger.cs" />
+    <Compile Include="Structs\Database\RefTriggerCategory.cs" />
+    <Compile Include="Structs\Database\RefTriggerCategoryBindTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ServerFrameworkRes\ServerFrameworkRes.csproj">

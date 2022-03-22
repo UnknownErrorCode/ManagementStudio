@@ -35,19 +35,21 @@ namespace ClientDataStorage.Client
         /// <summary>
         /// Initialize the Map.pk2 syncronous.
         /// </summary>
-        public static void Initialize()
+        public static async Task<bool> Initialize()
         {
             MapPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Map.pk2");
+           
             Tile2d_ifo = new Tile2dIFOFile();
 
+            Log.Logger.MessageStack.Push(MapPk2.Initialized ? "Successfully load Map.pk2..." : "Cannot find Map.pk2...");
 
-            Log.Logger.MessageStack.Push("Successfully load Map.pk2...");
+            return MapPk2.Initialized;
         }
 
         /// <summary>
         /// Initialize the Map.pk2 file async.
         /// </summary>
-        public static async void InitializeMapAsync()
-            => await Task.Run(() => Initialize());
+        public static async Task<bool> InitializeMapAsync()
+            => await Initialize();
     }
 }

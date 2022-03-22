@@ -34,7 +34,7 @@ namespace ClientDataStorage.Client
         /// <summary>
         /// Initialize Media syncronous.
         /// </summary>
-        public static void InitializeMedia()
+        public static bool InitializeMedia()
         {
             MediaPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Media.pk2");
 
@@ -43,14 +43,16 @@ namespace ClientDataStorage.Client
 
             SkillEffect = new Textdata.SkillEffect();
 
-            Log.Logger.MessageStack.Push("Successfully load Media.pk2...");
+            Log.Logger.MessageStack.Push(MediaPk2.Initialized ? "Successfully load Media.pk2..." : "Cannot find Media.pk2...");
 
+
+            return MediaPk2.Initialized;
         }
 
         /// <summary>
         /// Initialize Media asyncronous.
         /// </summary>
-        public static async void InitializeMediaAsync()
-          => await Task.Run(() => InitializeMedia());
+        public static async Task<bool> InitializeMediaAsync()
+          => Task.Run( () => InitializeMedia()).Result;
     }
 }

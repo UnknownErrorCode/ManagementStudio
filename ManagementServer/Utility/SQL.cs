@@ -32,7 +32,7 @@ namespace ManagementServer.Utility
                 if (sqlConnection.State == ConnectionState.Open)
                 {
                     ServerManager.Logger.WriteLogLine($"Established connection to: {sqlConnection.DataSource} ");
-                    sqlConnection.Close();
+                    //sqlConnection.Close();
                     return true;
                 }
             }
@@ -63,7 +63,7 @@ namespace ManagementServer.Utility
                 SqlDataAdapter addi = new SqlDataAdapter(command);
 
                 addi.Fill(dataTableProcedure);
-                command.Connection.Close();
+                //command.Connection.Close();
             }
 
             var listOfParams = new List<string>();
@@ -99,7 +99,7 @@ namespace ManagementServer.Utility
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
-                command.Connection.Close();
+               // command.Connection.Close();
             }
         }
 
@@ -111,7 +111,7 @@ namespace ManagementServer.Utility
             using (SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection))
             {
                 if (sqlConnection.State != ConnectionState.Open)
-                    sqlConnection.OpenAsync();
+                    sqlConnection.Open();
 
                 sqlConnection.ChangeDatabase(database);
                 adapter.Fill(dataTable);

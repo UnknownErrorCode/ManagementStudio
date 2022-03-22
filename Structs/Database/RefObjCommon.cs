@@ -23,8 +23,8 @@ namespace Structs.Database
         public byte CanTrade { get; set; }
         public byte CanSell { get; set; }
         public byte CanBuy { get; set; }
-        public byte CanBorrow { get; set; }
-        public byte CanDrop { get; set; }
+        public BorrowFlag CanBorrow { get; set; }
+        public DropFlag CanDrop { get; set; }
         public byte CanPick { get; set; }
         public byte CanRepair { get; set; }
         public byte CanRevive { get; set; }
@@ -84,8 +84,8 @@ namespace Structs.Database
             CanTrade = byte.Parse(row[16].ToString());
             CanSell = byte.Parse(row[17].ToString());
             CanBuy = byte.Parse(row[18].ToString());
-            CanBorrow = byte.Parse(row[19].ToString());
-            CanDrop = byte.Parse(row[20].ToString());
+            CanBorrow = (BorrowFlag)byte.Parse(row[19].ToString());
+            CanDrop = (DropFlag)byte.Parse(row[20].ToString());
             CanPick = byte.Parse(row[21].ToString());
             CanRepair = byte.Parse(row[22].ToString());
             CanRevive = byte.Parse(row[23].ToString());

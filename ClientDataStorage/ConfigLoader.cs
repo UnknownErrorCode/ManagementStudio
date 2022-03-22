@@ -45,13 +45,10 @@ namespace ClientDataStorage
                 ConfigEditor.IniWriteValue("Client", "Captcha", "E");
                 ConfigEditor.IniWriteValue("Client", "ShardID", "64");
                 ConfigEditor.IniWriteValue("Client", "Path", "C:\\Client");
-               // string1 = $"Created Config.ini... Now loading \n{s.Key}";
             }
             else
             {
-
                 ConfigEditor = new ServerFrameworkRes.InitializeFile(ConfigFilePath);
-                //  string1 = $"Successfully initialized: {configPath}";
             }
         }
     }
