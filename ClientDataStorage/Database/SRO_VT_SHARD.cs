@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage.Database
 {
-    public static class SRO_VT_SHARD
+    public static class SRO_VT_SHARD //<T> where T : struct
     {
         public static DataSet dbo = new DataSet("SRO_VT_SHARD");
 
@@ -24,7 +24,13 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, RefSkillMastery> _RefSkillMastery;
         public static ConcurrentDictionary<int, RefTeleport> _RefTeleport;
         public static List<RefTeleLink> _RefTeleLink;
-        
+
+        public static ConcurrentDictionary<int, Structs.Database.RefGame_World> _RefGame_World;
+        public static ConcurrentDictionary<int, Structs.Database.RefGameWorldBindTriggerCategory> _RefGameWorldBindTriggerCategory;
+        public static ConcurrentDictionary<int, Structs.Database.RefTriggerCategory> _RefTriggerCategory;
+        public static ConcurrentDictionary<int, Structs.Database.RefTriggerCategoryBindTrigger> _RefTriggerCategoryBindTrigger;
+        public static ConcurrentDictionary<int, Structs.Database.RefTrigger> _RefTrigger;
+
         public static void InitializeDBShard()
         {
             InitializeChars();
@@ -38,11 +44,61 @@ namespace ClientDataStorage.Database
             InitializeTab_RefHive();
             InitializeTab_RefNest();
             InitializeTab_RefTactics();
+            InitializeRefGame_World();
+            InitializeRefGameWorldBindTriggerCategory();
+            InitializeRefTriggerCategory();
+            InitializeRefTriggerCategoryBindTrigger();
+            InitializeRefTrigger();
+
+
+        }
+
+        private static void InitializeRefTrigger()
+        {
+            var table = dbo.Tables["_RefTrigger"];
+            _RefTrigger = new ConcurrentDictionary<int, RefTrigger>(2, table.Rows.Count);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+                _RefTrigger.TryAdd(table.Rows[i].Field<int>("ID"), new RefTrigger(table.Rows[i].ItemArray));
+        }
+
+        private static void InitializeRefTriggerCategoryBindTrigger()
+        {
+            var table = dbo.Tables["_RefTriggerCategoryBindTrigger"];
+            _RefTriggerCategoryBindTrigger = new ConcurrentDictionary<int, RefTriggerCategoryBindTrigger>(2, table.Rows.Count);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+                _RefTriggerCategoryBindTrigger.TryAdd(table.Rows[i].Field<int>("ID"), new RefTriggerCategoryBindTrigger(table.Rows[i].ItemArray));
+        }
+
+        private static void InitializeRefTriggerCategory()
+        {
+            var table = dbo.Tables["_RefTriggerCategory"];
+            _RefTriggerCategory = new ConcurrentDictionary<int, RefTriggerCategory>(2, table.Rows.Count);
+
+            for (int i = 0; i < table.Rows.Count; i++)
+                _RefTriggerCategory.TryAdd(table.Rows[i].Field<int>("ID"), new RefTriggerCategory(table.Rows[i].ItemArray));
+        }
+
+        private static void InitializeRefGameWorldBindTriggerCategory()
+        {
+            _RefGameWorldBindTriggerCategory = new ConcurrentDictionary<int, RefGameWorldBindTriggerCategory>(2, dbo.Tables["_RefGameWorldBindTriggerCategory"].Rows.Count);
+
+            for (int i = 0; i < dbo.Tables["_RefGameWorldBindTriggerCategory"].Rows.Count; i++)
+                _RefGameWorldBindTriggerCategory.TryAdd(dbo.Tables["_RefGameWorldBindTriggerCategory"].Rows[i].Field<int>("ID"), new RefGameWorldBindTriggerCategory(dbo.Tables["_RefGameWorldBindTriggerCategory"].Rows[i].ItemArray));
+        }
+
+        private static void InitializeRefGame_World() 
+        {
+            _RefGame_World = new ConcurrentDictionary<int, RefGame_World>(2, dbo.Tables["_RefGame_World"].Rows.Count);
+
+            for (int i = 0; i < dbo.Tables["_RefGame_World"].Rows.Count; i++)
+                _RefGame_World.TryAdd(dbo.Tables["_RefGame_World"].Rows[i].Field<int>("ID"), new RefGame_World(dbo.Tables["_RefGame_World"].Rows[i].ItemArray));
         }
 
         private static void InitializeChars()
         {
-            _Char = new ConcurrentDictionary<int, IChar>();
+            _Char = new ConcurrentDictionary<int, IChar>(2, dbo.Tables["_Char"].Rows.Count);
             for (int i = 0; i < dbo.Tables["_Char"].Rows.Count; i++)
                 _Char.TryAdd(dbo.Tables["_Char"].Rows[i].Field<int>("CharID"), new IChar(dbo.Tables["_Char"].Rows[i].ItemArray));
         }
@@ -62,7 +118,6 @@ namespace ClientDataStorage.Database
             for (int i = 0; i < dbo.Tables["_RefObjCommon"].Rows.Count; i++)
                 _RefObjCommon.TryAdd(dbo.Tables["_RefObjCommon"].Rows[i].Field<int>("ID"), new RefObjCommon(dbo.Tables["_RefObjCommon"].Rows[i].ItemArray));
         }
-
 
         private static void InitializeRefSkill()
         {
@@ -88,7 +143,6 @@ namespace ClientDataStorage.Database
                 _RefSkillMastery.TryAdd(dbo.Tables["_RefSkillMastery"].Rows[i].Field<int>("ID"), new RefSkillMastery(dbo.Tables["_RefSkillMastery"].Rows[i].ItemArray));
         }
 
-
         static void Initialize_RefTeleLink()
         {
             try
@@ -105,7 +159,6 @@ namespace ClientDataStorage.Database
             }
         }
 
-
         static void Initialize_RefTeleport()
         {
             _RefTeleport = new ConcurrentDictionary<int, RefTeleport>();
@@ -113,7 +166,6 @@ namespace ClientDataStorage.Database
             for (int i = 0; i < dbo.Tables["_RefTeleport"].Rows.Count; i++)
                 _RefTeleport.TryAdd(dbo.Tables["_RefTeleport"].Rows[i].Field<int>("ID"), new RefTeleport(dbo.Tables["_RefTeleport"].Rows[i].ItemArray));
         }
-
 
         static void InitializeTab_RefTactics()
         {
@@ -136,9 +188,6 @@ namespace ClientDataStorage.Database
             for (int i = 0; i < dbo.Tables["Tab_RefHive"].Rows.Count; i++)
                 Tab_RefHive.TryAdd(dbo.Tables["Tab_RefHive"].Rows[i].Field<int>("dwHiveID"), new Tab_RefHive(dbo.Tables["Tab_RefHive"].Rows[i].ItemArray));
         }
-
-
-
 
 
     }
