@@ -60,7 +60,8 @@ namespace WorldMapSpawnEditor
         { MapPanel.ShowNpc = vSroCheckBoxShowNpc.vSroCheck; MapPanel.Invalidate(); }
 
         private void vSroCheckBoxReg_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowDbRegions = vSroCheckBoxReg.vSroCheck; MapPanel.Invalidate(); }
+        { MapPanel.ShowDbRegions = vSroCheckBoxReg.vSroCheck; MapPanel.Invalidate();
+        }
 
         private void vSroCheckBoxUnAsReg_vSroCheckChange(object sender, EventArgs e)
         { MapPanel.ShowUnassignedRegions = vSroCheckBoxUnAsReg.vSroCheck; MapPanel.Invalidate(); }
@@ -69,6 +70,15 @@ namespace WorldMapSpawnEditor
         { MapPanel.ShowTeleport = vSroCheckBoxShowTeleports.vSroCheck; MapPanel.Invalidate(); }
         private void vSroCheckBoxShowPlayer_vSroCheckChange(object sender, EventArgs e)
         { MapPanel.ShowPlayer = vSroCheckBoxShowPlayer.vSroCheck; MapPanel.Invalidate(); }
+
+
+        private void vSroCheckBoxShowNestGenRadius_vSroCheckChange(object sender, EventArgs e)
+        { MapPanel.ShowNestGenRadius = vSroCheckBoxShowNestGenRadius.vSroCheck; MapPanel.Invalidate(); }
+
+        private void vSroCheckBoxShowNestRadius_vSroCheckChange(object sender, EventArgs e)
+        { MapPanel.ShowNestRadius = vSroCheckBoxShowNestRadius.vSroCheck; MapPanel.Invalidate(); }
+
+
 
         #endregion
 

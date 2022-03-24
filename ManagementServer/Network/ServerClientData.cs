@@ -8,8 +8,9 @@ namespace ManagementServer.Utility
 {
     internal class ServerClientData : ServerFrameworkRes.Network.Security.ServerData
     {
-        //internal string AccountName; 
+        //  internal string AccountName; 
         //  internal string UserIP; 
+        internal byte SecurityGroup;
 
 
         internal ServerClientData(string userIP, byte[] user) : base()

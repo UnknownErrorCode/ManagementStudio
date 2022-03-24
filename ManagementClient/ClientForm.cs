@@ -1,14 +1,7 @@
-﻿using ServerFrameworkRes.Ressources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,10 +11,10 @@ namespace ManagementClient
     {
 
         public ClientForm()
-            => InitializeComponent();
-
-        private void InitializeLogger()
-            => this.Controls.Add(ClientDataStorage.Log.Logger);
+        {
+            InitializeComponent();
+            this.Controls.Add(ClientDataStorage.Log.Logger);
+        }
 
         private async Task<bool> InitializePk2Files()
         {
@@ -36,20 +29,27 @@ namespace ManagementClient
 
         private void OnClose(object sender, FormClosingEventArgs e)
         {
-            ClientMemory.LoggedIn = false;
+            ClientDataStorage.ClientMemory.LoggedIn = false;
             Program.StaticLoginForm.Close();
+            GC.Collect(5);
+        }
+
+        private void OnReceiveAllData()
+        {
+            if (InvokeRequired)
+                Invoke(new Action(() => { loadPluginsToolStripMenuItem.Enabled = true; }));
+            else
+                loadPluginsToolStripMenuItem.Enabled = true;
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-            InitializeLogger();
+            ClientDataStorage.Network.ClientCore.CInterface.CHandler.OnReceiveAllTables += OnReceiveAllData;
             ClientDataStorage.Log.Logger.WriteLogLine("Successfully initialized Logger!");
 
             ClientDataStorage.Log.Logger.WriteLogLine("Loading pk2 ressources...");
-            if(!InitializePk2Files().Result)
+            if (!InitializePk2Files().Result)
                 ClientDataStorage.Log.Logger.WriteLogLine("Failed initialize pk2 ressources!");
-
-
         }
 
         private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,7 +72,7 @@ namespace ManagementClient
 
             foreach (string pluginPath in Directory.GetFiles("Plugins\\"))
             {
-                if (pluginPath.Contains(".dll") && ClientMemory.AllowedPlugin.Contains(pluginPath.Remove(0, 8)))
+                if (pluginPath.Contains(".dll") && ClientDataStorage.ClientMemory.AllowedPlugin.Contains(pluginPath.Remove(0, 8)))
                 {
                     Assembly plugin = Assembly.LoadFrom(pluginPath);
                     TabPage tabPage = new TabPage(pluginPath.Remove(0, 8));
@@ -80,12 +80,11 @@ namespace ManagementClient
                     if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
                     {
                         Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
-                        UserControl controlal = (UserControl)Activator.CreateInstance(dll, Network.ClientCore.CInterface.cData);
+                        UserControl controlal = (UserControl)Activator.CreateInstance(dll, ClientDataStorage.Network.ClientCore.CInterface.cData);
                         controlal.Dock = DockStyle.Fill;
                         tabPage.Controls.Add(controlal);
                         tabControlPlugins.TabPages.Add(tabPage);
                     }
-
                 }
             }
 

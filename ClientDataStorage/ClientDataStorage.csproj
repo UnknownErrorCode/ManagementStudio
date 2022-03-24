@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientMemory.cs" />
     <Compile Include="Client\Files\bsr\AnimationEvent.cs" />
     <Compile Include="Client\Files\bsr\AnimationType.cs" />
     <Compile Include="Client\Files\bsr\CModDataSet.cs" />
@@ -68,6 +70,10 @@
     <Compile Include="Client\Textdata\SkillEffect.cs" />
     <Compile Include="Client\Textdata\TextDataName.cs" />
     <Compile Include="Client\Textdata\Tile2dIFOFile.cs" />
+    <Compile Include="Network\ClientCore.cs" />
+    <Compile Include="Network\ClientData.cs" />
+    <Compile Include="Network\ClientInterface.cs" />
+    <Compile Include="Network\ClientPacketHandler.cs" />
     <Compile Include="Pk2\Utility\ITextParser.cs" />
     <Compile Include="Pk2\Utility\TextArrayFormatter.cs" />
     <Compile Include="Pk2\Utility\TextGroupParser.cs" />

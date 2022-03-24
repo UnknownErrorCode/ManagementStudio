@@ -53,37 +53,68 @@ namespace ServerFrameworkRes.BasicControls
 
         public static void Show(string message)
         {
-            vSroMessageBox showTempMsg = new vSroMessageBox(message);
-            showTempMsg.ShowDialog();
-            showTempMsg.Dispose();
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message))
+                showTempMsg.ShowDialog();
         }
         public static void Show(string message, string title)
         {
-            vSroMessageBox showTempMsg = new vSroMessageBox(message, title);
-            showTempMsg.ShowDialog();
-            showTempMsg.Dispose();
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
+                showTempMsg.ShowDialog();
         }
 
         public static bool YesOrNo(string message, string title)
         {
-            vSroMessageBox showTempMsg = new vSroMessageBox(message, title);
-            showTempMsg.ShowDialog();
-            var booler = showTempMsg.OK;
-            showTempMsg.Dispose();
-            return booler;
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
+            {
+                showTempMsg.ShowDialog();
+                return showTempMsg.OK;
+            }
         }
         public static string GetInput(string message, string title, string valueTitle)
         {
             string ret = "";
             using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
             {
+                showTempMsg.vSroInputBox1.Visible = true;
                 showTempMsg.ShowDialog();
                 if (showTempMsg.ReturnValue1.Length>0)
                     ret = showTempMsg.ReturnValue1;
             }
             return ret;
         }
-
+        public static string[] GetInput(string message, string title, string valueTitle, string valueTitle2)
+        {
+            string[] ret = new string[2];
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
+            {
+                showTempMsg.vSroInputBox1.Visible = true;
+                showTempMsg.vSroInputBox2.Visible = true;
+                showTempMsg.vSroInputBox1.TitleText = valueTitle;
+                showTempMsg.vSroInputBox2.TitleText = valueTitle2;
+                showTempMsg.ShowDialog();
+                ret[0] = showTempMsg.ReturnValue1.Length > 0 ? showTempMsg.ReturnValue1 : "error";
+                ret[1] = showTempMsg.ReturnValue2.Length > 0 ? showTempMsg.ReturnValue2 : "error";
+            }
+            return ret;
+        }
+        public static string[] GetInput(string message, string title, string valueTitle, string valueTitle2, string valueTitle3)
+        {
+            string[] ret = new string[3];
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
+            {
+                showTempMsg.vSroInputBox1.Visible = true;
+                showTempMsg.vSroInputBox2.Visible = true;
+                showTempMsg.vSroInputBox3.Visible = true;
+                showTempMsg.vSroInputBox1.TitleText = valueTitle;
+                showTempMsg.vSroInputBox2.TitleText = valueTitle2;
+                showTempMsg.vSroInputBox3.TitleText = valueTitle3;
+                showTempMsg.ShowDialog();
+                ret[0] = showTempMsg.ReturnValue1.Length > 0 ? showTempMsg.ReturnValue1 : "error";
+                ret[1] = showTempMsg.ReturnValue2.Length > 0 ? showTempMsg.ReturnValue2 : "error";
+                ret[2] = showTempMsg.ReturnValue3.Length > 0 ? showTempMsg.ReturnValue3 : "error";
+            }
+            return ret;
+        }
 
         private void vSroMessageBox_MouseDown(object sender, MouseEventArgs e)
         {
@@ -104,14 +135,10 @@ namespace ServerFrameworkRes.BasicControls
         {
             if (onMove)
             {
-
                 Point mousePos = Control.MousePosition;
                 mousePos.Offset(LastPoint.X, LastPoint.Y);
-
                 if (Location != mousePos)
-                {
                     Location = mousePos;
-                }
             }
         }
     }

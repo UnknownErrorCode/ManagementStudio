@@ -26,9 +26,9 @@ namespace ManagementClient.CHandler
             };
             if (!DashboardMemory.TopicDictionary.ContainsKey(msg.Title))
                 DashboardMemory.TopicDictionary.Add(msg.Title, msg);
-
+            
             DashboardMemory.ChangesAviable = true;
-
+            
             return PacketHandlerResult.Block;
         }
 

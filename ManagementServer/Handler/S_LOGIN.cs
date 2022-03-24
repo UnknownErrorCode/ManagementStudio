@@ -20,7 +20,7 @@ namespace ManagementServer.Handler
         /// <returns></returns>
         internal static PacketHandlerResult TryLogin(ServerData data, Packet packet)
         {
-
+            var serverData = (ServerClientData)data;
             var acc = packet.ReadAscii();
             var pwd = packet.ReadAscii();
             //TODO: Version 
@@ -28,7 +28,7 @@ namespace ManagementServer.Handler
 
             if (bool.TryParse(result[0], out bool success))
             {
-                var LoginStatus = new Packet(0xC000);
+                var LoginStatus = new Packet(PacketID.Server.LoginStatus);
                 LoginStatus.WriteBool(success);
                 LoginStatus.WriteAscii(result[1]);
                 LoginStatus.WriteAscii(result[2]);
@@ -36,7 +36,8 @@ namespace ManagementServer.Handler
                 data.m_security.Send(LoginStatus);
                 if (success)
                 {
-                    data.AccountName = result[3];
+                    serverData.AccountName = result[3];
+                    serverData.SecurityGroup = byte.Parse(result[2]);
                     ServerManager.Logger.WriteLogLine($"User: {((ServerClientData)data).AccountName} successfully logged on! Start sending Tables ");
                     data.m_security.Send(S_SECURITYGROUP.SendAllowedPlugins(result[2]));
                     data.m_security.Send(S_TABLEDATA.GetDataTables(result[2]));

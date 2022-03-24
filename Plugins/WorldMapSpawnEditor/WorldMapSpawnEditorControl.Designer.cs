@@ -35,10 +35,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarLoadSpawns = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelSpawnsLoad = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vSroCheckBoxShowTeleports = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.vSroSmallButtonLoad = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.vSroCheckBoxUnAsReg = new ServerFrameworkRes.BasicControls.vSroCheckBox();
@@ -49,6 +45,12 @@
             this.vSroCheckBoxShowMob = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.vSroCheckBoxOpenSpawnEditor = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.vSroCheckBoxShowToolTip = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vSroCheckBoxShowNestGenRadius = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBoxShowNestRadius = new ServerFrameworkRes.BasicControls.vSroCheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -96,6 +98,8 @@
             // splitContainer2dViewer.Panel2
             // 
             this.splitContainer2dViewer.Panel2.BackColor = System.Drawing.Color.Black;
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowNestRadius);
+            this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowNestGenRadius);
             this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxShowTeleports);
             this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroSmallButtonLoad);
             this.splitContainer2dViewer.Panel2.Controls.Add(this.vSroCheckBoxUnAsReg);
@@ -133,39 +137,6 @@
             this.toolStripStatusLabelSpawnsLoad.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabelSpawnsLoad.Text = "toolStripStatusLabel1";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.AutoScroll = true;
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(792, 424);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // contextMenuStripRegionClick
-            // 
-            this.contextMenuStripRegionClick.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.contextMenuStripRegionClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemCreateSpawn,
-            this.saveCoordinateToolStripMenuItem});
-            this.contextMenuStripRegionClick.Name = "contextMenuStripRegionClick";
-            this.contextMenuStripRegionClick.Size = new System.Drawing.Size(161, 48);
-            // 
-            // toolStripMenuItemCreateSpawn
-            // 
-            this.toolStripMenuItemCreateSpawn.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.toolStripMenuItemCreateSpawn.Name = "toolStripMenuItemCreateSpawn";
-            this.toolStripMenuItemCreateSpawn.Size = new System.Drawing.Size(160, 22);
-            this.toolStripMenuItemCreateSpawn.Text = "Create spawn";
-            // 
-            // saveCoordinateToolStripMenuItem
-            // 
-            this.saveCoordinateToolStripMenuItem.Name = "saveCoordinateToolStripMenuItem";
-            this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
-            // 
             // vSroCheckBoxShowTeleports
             // 
             this.vSroCheckBoxShowTeleports.AutoSize = true;
@@ -175,7 +146,7 @@
             this.vSroCheckBoxShowTeleports.MinimumSize = new System.Drawing.Size(16, 16);
             this.vSroCheckBoxShowTeleports.Name = "vSroCheckBoxShowTeleports";
             this.vSroCheckBoxShowTeleports.Size = new System.Drawing.Size(127, 16);
-            this.vSroCheckBoxShowTeleports.TabIndex = 9;
+            this.vSroCheckBoxShowTeleports.TabIndex = 6;
             this.vSroCheckBoxShowTeleports.vSroCheck = false;
             this.vSroCheckBoxShowTeleports.vSroCheckBoxName = "Show Teleport";
             this.vSroCheckBoxShowTeleports.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxShowTeleports_vSroCheckChange);
@@ -196,12 +167,12 @@
             this.vSroCheckBoxUnAsReg.AutoSize = true;
             this.vSroCheckBoxUnAsReg.BackColor = System.Drawing.Color.Transparent;
             this.vSroCheckBoxUnAsReg.ForeColor = System.Drawing.Color.White;
-            this.vSroCheckBoxUnAsReg.Location = new System.Drawing.Point(15, 253);
+            this.vSroCheckBoxUnAsReg.Location = new System.Drawing.Point(15, 230);
             this.vSroCheckBoxUnAsReg.MinimumSize = new System.Drawing.Size(16, 16);
             this.vSroCheckBoxUnAsReg.Name = "vSroCheckBoxUnAsReg";
             this.vSroCheckBoxUnAsReg.Size = new System.Drawing.Size(217, 16);
-            this.vSroCheckBoxUnAsReg.TabIndex = 7;
-            this.vSroCheckBoxUnAsReg.vSroCheck = true;
+            this.vSroCheckBoxUnAsReg.TabIndex = 8;
+            this.vSroCheckBoxUnAsReg.vSroCheck = false;
             this.vSroCheckBoxUnAsReg.vSroCheckBoxName = "Show Unassigned Regions";
             this.vSroCheckBoxUnAsReg.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxUnAsReg_vSroCheckChange);
             // 
@@ -210,12 +181,12 @@
             this.vSroCheckBoxReg.AutoSize = true;
             this.vSroCheckBoxReg.BackColor = System.Drawing.Color.Transparent;
             this.vSroCheckBoxReg.ForeColor = System.Drawing.Color.White;
-            this.vSroCheckBoxReg.Location = new System.Drawing.Point(15, 231);
+            this.vSroCheckBoxReg.Location = new System.Drawing.Point(15, 208);
             this.vSroCheckBoxReg.MinimumSize = new System.Drawing.Size(16, 16);
             this.vSroCheckBoxReg.Name = "vSroCheckBoxReg";
             this.vSroCheckBoxReg.Size = new System.Drawing.Size(153, 16);
-            this.vSroCheckBoxReg.TabIndex = 6;
-            this.vSroCheckBoxReg.vSroCheck = true;
+            this.vSroCheckBoxReg.TabIndex = 7;
+            this.vSroCheckBoxReg.vSroCheck = false;
             this.vSroCheckBoxReg.vSroCheckBoxName = "Show Db Regions";
             this.vSroCheckBoxReg.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxReg_vSroCheckChange);
             // 
@@ -303,6 +274,67 @@
             this.vSroCheckBoxShowToolTip.vSroCheckBoxName = "Show Tool Tip";
             this.vSroCheckBoxShowToolTip.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBox1_vSroCheckChange);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.AutoScroll = true;
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(792, 424);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // contextMenuStripRegionClick
+            // 
+            this.contextMenuStripRegionClick.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.contextMenuStripRegionClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCreateSpawn,
+            this.saveCoordinateToolStripMenuItem});
+            this.contextMenuStripRegionClick.Name = "contextMenuStripRegionClick";
+            this.contextMenuStripRegionClick.Size = new System.Drawing.Size(161, 48);
+            // 
+            // toolStripMenuItemCreateSpawn
+            // 
+            this.toolStripMenuItemCreateSpawn.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.toolStripMenuItemCreateSpawn.Name = "toolStripMenuItemCreateSpawn";
+            this.toolStripMenuItemCreateSpawn.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItemCreateSpawn.Text = "Create spawn";
+            // 
+            // saveCoordinateToolStripMenuItem
+            // 
+            this.saveCoordinateToolStripMenuItem.Name = "saveCoordinateToolStripMenuItem";
+            this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
+            // 
+            // vSroCheckBoxShowNestGenRadius
+            // 
+            this.vSroCheckBoxShowNestGenRadius.AutoSize = true;
+            this.vSroCheckBoxShowNestGenRadius.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowNestGenRadius.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowNestGenRadius.Location = new System.Drawing.Point(15, 252);
+            this.vSroCheckBoxShowNestGenRadius.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowNestGenRadius.Name = "vSroCheckBoxShowNestGenRadius";
+            this.vSroCheckBoxShowNestGenRadius.Size = new System.Drawing.Size(228, 16);
+            this.vSroCheckBoxShowNestGenRadius.TabIndex = 9;
+            this.vSroCheckBoxShowNestGenRadius.vSroCheck = false;
+            this.vSroCheckBoxShowNestGenRadius.vSroCheckBoxName = "Show Nest Generate Radius";
+            this.vSroCheckBoxShowNestGenRadius.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxShowNestGenRadius_vSroCheckChange);
+            // 
+            // vSroCheckBoxShowNestRadius
+            // 
+            this.vSroCheckBoxShowNestRadius.AutoSize = true;
+            this.vSroCheckBoxShowNestRadius.BackColor = System.Drawing.Color.Transparent;
+            this.vSroCheckBoxShowNestRadius.ForeColor = System.Drawing.Color.White;
+            this.vSroCheckBoxShowNestRadius.Location = new System.Drawing.Point(15, 274);
+            this.vSroCheckBoxShowNestRadius.MinimumSize = new System.Drawing.Size(16, 16);
+            this.vSroCheckBoxShowNestRadius.Name = "vSroCheckBoxShowNestRadius";
+            this.vSroCheckBoxShowNestRadius.Size = new System.Drawing.Size(228, 16);
+            this.vSroCheckBoxShowNestRadius.TabIndex = 10;
+            this.vSroCheckBoxShowNestRadius.vSroCheck = false;
+            this.vSroCheckBoxShowNestRadius.vSroCheckBoxName = "Show Nest Radius";
+            this.vSroCheckBoxShowNestRadius.vSroCheckChange += new ServerFrameworkRes.BasicControls.vSroCheckBox.vSroCheckChanger(this.vSroCheckBoxShowNestRadius_vSroCheckChange);
+            // 
             // WorldMapSpawnEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,5 +379,7 @@
         private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxReg;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonLoad;
         private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowTeleports;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowNestRadius;
+        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxShowNestGenRadius;
     }
 }

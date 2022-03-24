@@ -31,7 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(vSroSizableWindow));
             this.panelMainTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.vSroCloseButton1 = new ServerFrameworkRes.BasicControls.vSroCloseButton();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panelMainBottom = new System.Windows.Forms.Panel();
             this.panelRightBottom = new System.Windows.Forms.Panel();
@@ -39,8 +41,6 @@
             this.panelLeftBottom = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.vSroCloseButton1 = new ServerFrameworkRes.BasicControls.vSroCloseButton();
             this.panelMainTop.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -74,6 +74,15 @@
             this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.vSroSizableWindow_MouseMove);
             this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.vSroSizableWindow_MouseUp);
             // 
+            // vSroCloseButton1
+            // 
+            this.vSroCloseButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.vSroCloseButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("vSroCloseButton1.BackgroundImage")));
+            this.vSroCloseButton1.Location = new System.Drawing.Point(12, 10);
+            this.vSroCloseButton1.Name = "vSroCloseButton1";
+            this.vSroCloseButton1.Size = new System.Drawing.Size(16, 17);
+            this.vSroCloseButton1.TabIndex = 9;
+            // 
             // panel3
             // 
             this.panel3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel3.BackgroundImage")));
@@ -86,6 +95,18 @@
             this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vSroSizableWindow_MouseDown);
             this.panel3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.vSroSizableWindow_MouseMove);
             this.panel3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.vSroSizableWindow_MouseUp);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(6, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(57, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
             // 
             // panel4
             // 
@@ -163,27 +184,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(40, 238);
             this.panel6.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("SilkRoad", 14F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(6, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
-            // 
-            // vSroCloseButton1
-            // 
-            this.vSroCloseButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.vSroCloseButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("vSroCloseButton1.BackgroundImage")));
-            this.vSroCloseButton1.Location = new System.Drawing.Point(12, 10);
-            this.vSroCloseButton1.Name = "vSroCloseButton1";
-            this.vSroCloseButton1.Size = new System.Drawing.Size(16, 17);
-            this.vSroCloseButton1.TabIndex = 9;
             // 
             // vSroSizableWindow
             // 

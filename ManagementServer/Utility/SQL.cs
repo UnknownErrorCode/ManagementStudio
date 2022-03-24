@@ -127,6 +127,13 @@ namespace ManagementServer.Utility
         => ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
 
 
+        /// <summary>
+        /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="IP"></param>
+        /// <returns></returns>
         public static string[] CheckLogin(string userName, string password, string IP)
         {
             SqlParameter[] regparams = new SqlParameter[4]

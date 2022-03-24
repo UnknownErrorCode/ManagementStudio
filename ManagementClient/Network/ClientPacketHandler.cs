@@ -17,7 +17,7 @@ namespace ManagementClient.Network
         {
             base.AddEntry(0xB000, Reply0xB000AllowedPlugins);
             base.AddEntry(0xB001, Reply0xB001AllowedDataTableNames);
-            base.AddEntry(0xB002, Reply0xB002AllowedDataTable);
+            base.AddEntry(0xB002, Reply0xB002ReceiveDataTable);
 
 
             base.AddEntry(0xC000, Reply0xC000LoginStatus);
@@ -32,7 +32,7 @@ namespace ManagementClient.Network
             => CHandler.LoginHandler.AllowedPlugins(arg1, arg2);
         private PacketHandlerResult Reply0xB001AllowedDataTableNames(ServerData arg1, Packet arg2)
             => CHandler.LoginHandler.AllowedDataTable(arg1, arg2);
-        private PacketHandlerResult Reply0xB002AllowedDataTable(ServerData arg1, Packet arg2)
+        private PacketHandlerResult Reply0xB002ReceiveDataTable(ServerData arg1, Packet arg2)
             => CHandler.LoginHandler.ReceiveDataTable(arg1, arg2);
 
 

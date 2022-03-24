@@ -42,8 +42,8 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal WRegionID(short wRegionID)
         {
             Value = wRegionID;
-            x = (byte)( wRegionID % 255);
-            y = (byte)( wRegionID / 255);
+            x = (byte)( wRegionID % 256);
+            y = (byte)( wRegionID / 256);
         }
 
         public bool Equals(WRegionID other)

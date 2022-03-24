@@ -45,7 +45,7 @@
             // labelButtonName
             // 
             this.labelButtonName.BackColor = System.Drawing.Color.Transparent;
-            this.labelButtonName.Font = new System.Drawing.Font("SilkRoad", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelButtonName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelButtonName.ForeColor = System.Drawing.Color.White;
             this.labelButtonName.Location = new System.Drawing.Point(6, 3);
             this.labelButtonName.Name = "labelButtonName";
@@ -64,8 +64,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.Controls.Add(this.labelButtonName);
+            this.MaximumSize = new System.Drawing.Size(206, 26);
+            this.MinimumSize = new System.Drawing.Size(206, 26);
             this.Name = "vSroListButton";
-            this.Size = new System.Drawing.Size(208, 25);
+            this.Size = new System.Drawing.Size(463, 58);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vSroListButton_MouseDown);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.vSroListButton_MouseUp);
             this.ResumeLayout(false);

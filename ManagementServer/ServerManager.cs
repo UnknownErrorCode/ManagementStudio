@@ -31,10 +31,17 @@ namespace ManagementServer
 
         private void DiagnosticThread()
         {
-            while(Ticker)
+            int counter = 0;
+            while (Ticker)
             {
                 this.toolStripStatusLabelOnlineUser.Text = $"Connected user: {ServerMemory.OnlineUser}";
                 Thread.Sleep(100);
+                counter++;
+                if (counter >100)
+                {
+                    GC.Collect(2);
+                    counter = 0;
+                }
             }
             Logger.WriteLogLine("Status: Diagnostic thread aborted!");
         }
@@ -52,7 +59,7 @@ namespace ManagementServer
                 Ticker = true;
                 Logger.WriteLogLine("Status: vSro-Studio-Server started!");
 
-                Thread t =new Thread(DiagnosticThread);
+                Thread t = new Thread(DiagnosticThread);
                 t.Start();
 
                 while (Ticker)
@@ -105,6 +112,21 @@ namespace ManagementServer
             {
                 patchManager.ShowDialog();
             }
+        }
+
+        private void gen1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GC.Collect(1);
+        }
+
+        private void gen2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GC.Collect(2);
+        }
+
+        private void gen3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GC.Collect(3);
         }
     }
 }

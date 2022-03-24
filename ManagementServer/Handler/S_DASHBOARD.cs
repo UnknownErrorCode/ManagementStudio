@@ -1,22 +1,17 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ManagementServer.Handler
+namespace ManagementServer.Network
 {
-    class S_DASHBOARD
+   partial class ServerPacketHandler
     {
         /// <summary>
-        /// Sends 0xC001 with guides and 0xC003 on successful transfer
+        /// Sends <see cref="PacketID.Server.TopicLoadRequest"/> with guides and <see cref="PacketID.Server.TopicsEndLoading"/> on successful transfer
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal static PacketHandlerResult LoadTopics(ServerData arg1, Packet arg2)
+        internal PacketHandlerResult LoadTopics(ServerData arg1, Packet arg2)
         {
             if (!Directory.Exists(ServerManager.settings.GuidePath))
                 Directory.CreateDirectory(ServerManager.settings.GuidePath);
@@ -27,14 +22,14 @@ namespace ManagementServer.Handler
                     string title = file.Remove(0, dir.Length + 1).Replace(".log", "").Replace("_question_", "?").Replace("_appostroph_", "`");
                     string text = File.ReadAllText(file);
                     var author = dir.Remove(0, ServerManager.settings.GuidePath.Length + 1);
-                    var topicPack = new Packet(0xC001);
+                    var topicPack = new Packet(PacketID.Server.TopicLoadRequest);
                     topicPack.WriteAscii(author);
                     topicPack.WriteAscii(title);
                     topicPack.WriteAscii(text);
                     arg1.m_security.Send(topicPack);
                 }
 
-            arg1.m_security.Send(new Packet(0xC003));
+            arg1.m_security.Send(new Packet(PacketID.Server.TopicsEndLoading));
             return PacketHandlerResult.Block;
         }
         /// <summary>
@@ -43,7 +38,7 @@ namespace ManagementServer.Handler
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal static PacketHandlerResult TryAddNewTopic(ServerData arg1, Packet arg2)
+        internal PacketHandlerResult TryAddNewTopic(ServerData arg1, Packet arg2)
         {
             var Author = arg2.ReadAscii();
             var Title = arg2.ReadAscii();
@@ -56,7 +51,7 @@ namespace ManagementServer.Handler
             if (!File.Exists(Path.Combine(ServerManager.settings.GuidePath, Author,$"{Title}.log")))
                 File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, Author, $"{Title}.log"), $"{Title}\n\n{Text}\n\nCreated:{created.ToString()}\n\n Author:{Author}");
 
-            var newTopic = new Packet(0xC002);
+            var newTopic = new Packet(PacketID.Server.TopicAddNewResponse);
             newTopic.WriteAscii(Author);
             newTopic.WriteAscii(Title);
             newTopic.WriteAscii(Text);
@@ -66,12 +61,13 @@ namespace ManagementServer.Handler
         }
 
         /// <summary>
+        /// Response to <see cref="PacketID.Client.TopicDeleteRequest"/>
         /// Broadcasts 0xC004 to each client to delete a topic on runtime.
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal static PacketHandlerResult DeleteTopic(ServerData arg1, Packet arg2)
+        internal  PacketHandlerResult DeleteTopic(ServerData arg1, Packet arg2)
         {
             var Author = arg2.ReadAscii();
             var Title = arg2.ReadAscii();
@@ -84,7 +80,7 @@ namespace ManagementServer.Handler
                 File.Copy(fileName, Path.Combine(ServerManager.settings.DeletedGuidePath, Author, $"{Title}.log"), true);
                 File.Delete(fileName);
 
-                var deleteTopic = new Packet(0xC004);
+                var deleteTopic = new Packet(PacketID.Server.TopicDeleteResponse);
                 deleteTopic.WriteAscii(Author);
                 deleteTopic.WriteAscii(Title);
                 deleteTopic.WriteAscii(arg1.AccountName);

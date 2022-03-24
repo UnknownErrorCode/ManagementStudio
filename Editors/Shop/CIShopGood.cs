@@ -13,7 +13,7 @@ namespace Editors.Shop
         public RefShopGood Good { get; set; }
         public RefPackageItem PackageItem { get; set; }
         public RefScrapOfPackageItem ScrapOfPackageItem { get; set; }
-        public List<RefPricePolicyOfItem> PricePolicyOfItem { get; set; }
+        public List<DataModelRefPricePolicyOfItem> PricePolicyOfItem { get; set; }
 
         public CIShopGood(RefShopGood good)
         {
@@ -28,10 +28,10 @@ namespace Editors.Shop
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefPricePolicyOfItem"].Rows.OfType<DataRow>().Any(packItem => packItem.Field<string>("RefPackageItemCodeName") == PackageItemCodeName && packItem.Field<byte>("Service") >= 1))
             {
                 var allPolicy = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefPricePolicyOfItem"].Rows.OfType<DataRow>().Where(packItem => packItem.Field<string>("RefPackageItemCodeName") == PackageItemCodeName && packItem.Field<byte>("Service") >= 1).ToArray();
-                PricePolicyOfItem = new List<RefPricePolicyOfItem>(allPolicy.Length); ;
+                PricePolicyOfItem = new List<DataModelRefPricePolicyOfItem>(allPolicy.Length); ;
                 for (int i = 0; i < allPolicy.Length; i++)
                 {
-                    PricePolicyOfItem.Add( new RefPricePolicyOfItem(allPolicy[i].ItemArray));
+                    PricePolicyOfItem.Add( new DataModelRefPricePolicyOfItem(allPolicy[i].ItemArray));
                 }
             }
         }

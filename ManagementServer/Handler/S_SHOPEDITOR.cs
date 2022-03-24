@@ -2,22 +2,37 @@
 using Structs.Database;
 using System;
 
-namespace ManagementServer.Handler
+namespace ManagementServer.Network
 {
-    internal class S_SHOPEDITOR
+    partial class ServerPacketHandler
     {
-        internal static PacketHandlerResult UpdatePrice(ServerData arg1, Packet arg2)
+        private PacketHandlerResult ShopDataPricePolicyOfItem(ServerData arg1, Packet arg2)
         {
-
+            if (arg2.Opcode != (ushort)PacketID.Client.ShopDataRefPricePolicyOfItem)
+                return PacketHandlerResult.Block;
             try
             {
-               
+                EditAction type = (EditAction)arg2.ReadByte();
+                RefPricePolicyOfItem pricepolicyofitem = arg2.ReadStruct<RefPricePolicyOfItem>();
+
+                switch (type)
+                {
+                    case EditAction.Add:
+                        break;
+                    case EditAction.Update:
+                        break;
+                    case EditAction.Delete:
+                        break;
+                    default:
+                        break;
+                }
+
             }
             catch (Exception ex)
             {
                 ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
             }
-          
+
             return PacketHandlerResult.Block;
         }
     }

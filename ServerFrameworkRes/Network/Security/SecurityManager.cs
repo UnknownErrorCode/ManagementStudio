@@ -986,6 +986,13 @@ namespace ServerFrameworkRes.Network.Security
                 m_outgoing_packets.Add(packet);
             }
         }
+        public void Send(Packet[] packets)
+        {
+            foreach (var packet in packets)
+            {
+                this.Send(packet);
+            }
+        }
 
         // Transfers raw incoming data into the security object. Call TransferIncoming to
         // obtain a list of ready to process packets.

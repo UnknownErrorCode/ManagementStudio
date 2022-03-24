@@ -4,18 +4,18 @@ using System.Data;
 
 namespace ManagementServer.Network
 {
-    class ServerPacketHandler : PacketHandler
+    partial class ServerPacketHandler : PacketHandler 
     {
 
         public ServerPacketHandler()
         {
             base.AddEntry(0x2001, Reply0x2001);
             // client
-            base.AddEntry(0x0999, Reply0x0999DataTableRequest);
-            base.AddEntry(0x1000, Reply0x1000LoginRequest);
-            base.AddEntry(0x1001, Reply0x1001RequestAllTopics);
-            base.AddEntry(0x1002, Reply0x1002AddNewTopic);
-            base.AddEntry(0x1004, Reply0x1004DeleteTopic);
+            base.AddEntry(PacketID.Client.RequestDataTable, Reply0x0999DataTableRequest);
+            base.AddEntry(PacketID.Client.Login, Reply0x1000LoginRequest);
+            base.AddEntry(PacketID.Client.TopicsRequest, Reply0x1001RequestAllTopics);
+            base.AddEntry(PacketID.Client.TopicAddRequest, Reply0x1002AddNewTopic);
+            base.AddEntry(PacketID.Client.TopicDeleteRequest, Reply0x1004DeleteTopic);
 
             base.AddEntry(0x1010, Reply0x1010ShopItemPriceUpdate);
 
@@ -28,19 +28,19 @@ namespace ManagementServer.Network
         
 
         private PacketHandlerResult Reply0x0999DataTableRequest(ServerData arg1, Packet arg2)
-          => Handler.S_TABLEDATA.SendTableData(arg1, arg2);
+          => Handler.S_TABLEDATA.SendTableData((ServerClientData)arg1, arg2);
 
         private PacketHandlerResult Reply0x1001RequestAllTopics(ServerData arg1, Packet arg2)
-            => Handler.S_DASHBOARD.LoadTopics(arg1, arg2);
+            => LoadTopics(arg1, arg2);
 
         private PacketHandlerResult Reply0x1002AddNewTopic(ServerData arg1, Packet arg2)
-         => Handler.S_DASHBOARD.TryAddNewTopic(arg1, arg2);
+         => TryAddNewTopic(arg1, arg2);
 
         private PacketHandlerResult Reply0x1004DeleteTopic(ServerData arg1, Packet arg2)
-         => Handler.S_DASHBOARD.DeleteTopic(arg1, arg2);
+         => DeleteTopic(arg1, arg2);
 
         private PacketHandlerResult Reply0x1010ShopItemPriceUpdate(ServerData arg1, Packet arg2)
-            => Handler.S_SHOPEDITOR.UpdatePrice(arg1, arg2);
+            => ShopDataPricePolicyOfItem(arg1, arg2);
 
 
         /// <summary>

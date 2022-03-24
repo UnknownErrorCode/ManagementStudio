@@ -16,8 +16,14 @@ namespace Dashboard
         {
             InitializeComponent();
             ClientData = data;
-            ClientData.m_security.Send(DashboardPackets.RequestAllTopics);
-            timerCheckDashboard.Enabled = true;
+            
+           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC001, TopicReceiveExisting);
+           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC002, TopicRequestAddNew);
+           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC003, TopicsFinishedLoading);
+           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC004, TopicDeleteResponse);
+
+            ClientDataStorage.Network.ClientCore.CInterface.cData.m_security.Send(RequestAllTopics);
+            //timerCheckDashboard.Enabled = true;
         }
 
         private void SaveTopic()
@@ -29,7 +35,7 @@ namespace Dashboard
             if (ClientData.AccountName == null)
                 return;
 
-            ClientData.m_security.Send(DashboardPackets.AddTopicToDashboard(new DashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientData.AccountName)));
+            ClientDataStorage.Network.ClientCore.CInterface.cData.m_security.Send(AddTopicToDashboard(new DashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientData.AccountName)));
         }
 
         private void OnCheckTopics(object sender, EventArgs e)
@@ -65,11 +71,11 @@ namespace Dashboard
 
         private void deleteShownTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems[0]!=null)
+            if (listView1.SelectedItems.Count>0)
             {
                 DashboardMessage messageToDelete = (DashboardMessage)listView1.SelectedItems[0].Tag;
                
-                ClientData.m_security.Send(DashboardPackets.DeleteTopicFromDashboard(messageToDelete));
+                ClientData.m_security.Send(RequestDeleteTopicFromDashboard(messageToDelete));
             }
         }
 

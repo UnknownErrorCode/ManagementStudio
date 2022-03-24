@@ -29,48 +29,62 @@ namespace Editors.Shop
         /// </summary>
         private void InitializeComponent()
         {
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.propertyGrid2 = new System.Windows.Forms.PropertyGrid();
-            this.propertyGrid3 = new System.Windows.Forms.PropertyGrid();
-            this.propertyGrid4 = new System.Windows.Forms.PropertyGrid();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShopEditor));
+            this.vSroSmallButton4 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.vSroSmallButton3 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.vSroSmallButton2 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.vSroButtonList1 = new ServerFrameworkRes.BasicControls.vSroButtonList();
             this.vSroSmallButton1 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.vSroSizableWindow1 = new ServerFrameworkRes.BasicControls.vSroSizableWindow();
             this.SuspendLayout();
             // 
-            // propertyGrid1
+            // vSroSmallButton4
             // 
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.Location = new System.Drawing.Point(12, 33);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(226, 189);
-            this.propertyGrid1.TabIndex = 0;
+            this.vSroSmallButton4.Enabled = false;
+            this.vSroSmallButton4.Location = new System.Drawing.Point(249, 129);
+            this.vSroSmallButton4.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton4.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton4.Name = "vSroSmallButton4";
+            this.vSroSmallButton4.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton4.TabIndex = 9;
+            this.vSroSmallButton4.vSroSmallButtonName = "Edit Price";
             // 
-            // propertyGrid2
+            // vSroSmallButton3
             // 
-            this.propertyGrid2.HelpVisible = false;
-            this.propertyGrid2.Location = new System.Drawing.Point(247, 33);
-            this.propertyGrid2.Name = "propertyGrid2";
-            this.propertyGrid2.Size = new System.Drawing.Size(226, 189);
-            this.propertyGrid2.TabIndex = 1;
+            this.vSroSmallButton3.Location = new System.Drawing.Point(249, 99);
+            this.vSroSmallButton3.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton3.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton3.Name = "vSroSmallButton3";
+            this.vSroSmallButton3.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton3.TabIndex = 8;
+            this.vSroSmallButton3.vSroSmallButtonName = "Add Price";
+            this.vSroSmallButton3.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButton3_vSroClickEvent);
             // 
-            // propertyGrid3
+            // vSroSmallButton2
             // 
-            this.propertyGrid3.HelpVisible = false;
-            this.propertyGrid3.Location = new System.Drawing.Point(12, 249);
-            this.propertyGrid3.Name = "propertyGrid3";
-            this.propertyGrid3.Size = new System.Drawing.Size(226, 189);
-            this.propertyGrid3.TabIndex = 2;
+            this.vSroSmallButton2.Location = new System.Drawing.Point(249, 69);
+            this.vSroSmallButton2.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton2.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton2.Name = "vSroSmallButton2";
+            this.vSroSmallButton2.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButton2.TabIndex = 7;
+            this.vSroSmallButton2.vSroSmallButtonName = "Delete Price";
+            this.vSroSmallButton2.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButton2_vSroClickEvent);
             // 
-            // propertyGrid4
+            // vSroButtonList1
             // 
-            this.propertyGrid4.HelpVisible = false;
-            this.propertyGrid4.Location = new System.Drawing.Point(247, 249);
-            this.propertyGrid4.Name = "propertyGrid4";
-            this.propertyGrid4.Size = new System.Drawing.Size(226, 189);
-            this.propertyGrid4.TabIndex = 3;
+            this.vSroButtonList1.AutoScroll = true;
+            this.vSroButtonList1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("vSroButtonList1.BackgroundImage")));
+            this.vSroButtonList1.Location = new System.Drawing.Point(23, 69);
+            this.vSroButtonList1.MaximumSize = new System.Drawing.Size(220, 400);
+            this.vSroButtonList1.MinimumSize = new System.Drawing.Size(220, 400);
+            this.vSroButtonList1.Name = "vSroButtonList1";
+            this.vSroButtonList1.Size = new System.Drawing.Size(220, 400);
+            this.vSroButtonList1.TabIndex = 6;
             // 
             // vSroSmallButton1
             // 
-            this.vSroSmallButton1.Location = new System.Drawing.Point(513, 37);
+            this.vSroSmallButton1.Location = new System.Drawing.Point(23, 39);
             this.vSroSmallButton1.MaximumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButton1.MinimumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButton1.Name = "vSroSmallButton1";
@@ -79,16 +93,28 @@ namespace Editors.Shop
             this.vSroSmallButton1.vSroSmallButtonName = "Display Price";
             this.vSroSmallButton1.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.DisplayPrice);
             // 
+            // vSroSizableWindow1
+            // 
+            this.vSroSizableWindow1.BackColor = System.Drawing.Color.Black;
+            this.vSroSizableWindow1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vSroSizableWindow1.Location = new System.Drawing.Point(0, 0);
+            this.vSroSizableWindow1.Name = "vSroSizableWindow1";
+            this.vSroSizableWindow1.Size = new System.Drawing.Size(538, 489);
+            this.vSroSizableWindow1.TabIndex = 5;
+            this.vSroSizableWindow1.Title = "Shop Good editor";
+            // 
             // ShopEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(538, 489);
+            this.Controls.Add(this.vSroSmallButton4);
+            this.Controls.Add(this.vSroSmallButton3);
+            this.Controls.Add(this.vSroSmallButton2);
+            this.Controls.Add(this.vSroButtonList1);
             this.Controls.Add(this.vSroSmallButton1);
-            this.Controls.Add(this.propertyGrid4);
-            this.Controls.Add(this.propertyGrid3);
-            this.Controls.Add(this.propertyGrid2);
-            this.Controls.Add(this.propertyGrid1);
+            this.Controls.Add(this.vSroSizableWindow1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ShopEditor";
             this.Text = "ShopEditor";
             this.ResumeLayout(false);
@@ -96,11 +122,11 @@ namespace Editors.Shop
         }
 
         #endregion
-
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private System.Windows.Forms.PropertyGrid propertyGrid2;
-        private System.Windows.Forms.PropertyGrid propertyGrid3;
-        private System.Windows.Forms.PropertyGrid propertyGrid4;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButton1;
+        private ServerFrameworkRes.BasicControls.vSroSizableWindow vSroSizableWindow1;
+        private ServerFrameworkRes.BasicControls.vSroButtonList vSroButtonList1;
+        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButton2;
+        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButton3;
+        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButton4;
     }
 }

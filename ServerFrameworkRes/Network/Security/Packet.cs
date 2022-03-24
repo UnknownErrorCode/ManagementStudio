@@ -1,13 +1,10 @@
 ﻿using ServerFrameworkRes.Network.ServerStructs.PaddedString;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Security
 {
@@ -675,6 +672,16 @@ namespace ServerFrameworkRes.Network.Security
             }
             return null;
         }
+
+        public T  ReadStruct<T>() where T : struct
+        {
+            var buffer = this.ReadByteArray(Marshal.SizeOf(typeof(T)));
+            return Unmanaged.BufferToStruct2<T>(buffer);
+
+
+        }
+
+
 
         #endregion Read
 

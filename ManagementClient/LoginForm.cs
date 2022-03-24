@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ServerFrameworkRes.Network.Security;
+using ClientDataStorage;
 
 namespace ManagementClient
 {
@@ -67,13 +68,14 @@ namespace ManagementClient
             Packet requestLogin = new Packet(0x1000);
             requestLogin.WriteAscii(vSroInputBox1.ValueText);
             requestLogin.WriteAscii(Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
-            ClientCore.Send(requestLogin);
+            ClientDataStorage.Network.ClientCore.Send(requestLogin);
 
         }
 
         private void ClientTool_Load(object sender, EventArgs e)
         {
             this.vSroSizableWindow1.Title = "Offline";
+            ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC000, LoginStatus);
             Thread startThread = new Thread(Connect);
             startThread.Start();
         }
@@ -81,10 +83,9 @@ namespace ManagementClient
 
         private void Connect()
         {
-            if (ClientCore.Connected)
+            if (ClientDataStorage.Network.ClientCore.Connected)
                 return;
-
-            var connected = ClientCore.Start().GetAwaiter().GetResult();
+            var connected = ClientDataStorage.Network.ClientCore.Start().GetAwaiter().GetResult();
             if (connected)
                 this.vSroSmallButtonLogin.Invoke(new Action(() => { this.vSroSmallButtonLogin.Enabled = true; }));
             else
@@ -95,10 +96,12 @@ namespace ManagementClient
             Invoke(new Action(() => this.vSroSizableWindow1.Title = connected ? "Online" : "Offline"));
         }
 
+       
+
         private void OnClose(object sender, FormClosingEventArgs e)
         {
             if (!ClientMemory.LoggedIn)
-                ClientCore.Disconnect();
+                ClientDataStorage.Network.ClientCore.Disconnect();
           
         }
         internal void OnHide()
@@ -113,6 +116,32 @@ namespace ManagementClient
             {
                 vSroSmallButtonLogin_vSroClickEvent();
             }
+        }
+
+
+        /// <summary>
+        /// The Login user status consists of either success or fail, resultMessage, Security Group and real AccountName. 
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns>PacketHandlerResult result</returns>
+        internal static PacketHandlerResult LoginStatus(ServerData arg1, Packet arg2)
+        {
+            var ok = arg2.ReadBool();
+            var msg = arg2.ReadAscii();
+            var securityGroup = int.Parse(arg2.ReadAscii());
+            var accountName = arg2.ReadAscii();
+            if (ok)
+            {
+                ClientMemory.LoggedIn = true;
+                arg1.AccountName = accountName;
+                Program.StaticLoginForm.Invoke(new Action(() => Program.StaticLoginForm.OnHide()));
+            }
+            else
+                vSroMessageBox.Show($"Login failed! \n{msg}");
+
+
+            return PacketHandlerResult.Block;
         }
     }
 }

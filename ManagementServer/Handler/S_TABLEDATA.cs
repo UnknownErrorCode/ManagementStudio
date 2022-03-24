@@ -1,5 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System.Data;
+using System.Linq;
 
 namespace ManagementServer.Handler
 {
@@ -23,26 +24,51 @@ namespace ManagementServer.Handler
             return tableNames;
         }
 
-        internal static PacketHandlerResult SendTableData(ServerData arg1, Packet arg2)
+        internal static PacketHandlerResult SendTableData(Utility.ServerClientData arg1, Packet arg2)
         {
             try
             {
+                var tableNameArray = Utility.SQL.GetRequiredTableNames(arg1.SecurityGroup.ToString());
+
                 var tableCount = arg2.ReadByte();
+                string[] array = new string[tableCount];
                 for (int i = 0; i < tableCount; i++)
                 {
-                    var tableName = arg2.ReadAscii();
+                    var tName = arg2.ReadAscii();
+                    if (tableNameArray.Contains(tName))
+                    {
+                        array[i] = tName;
+                    }
+                }
+                arg1.m_security.Send(DataTablePackets(array));
+                
+            }
+            catch
+            { }
+           // System.GC.Collect(2);
+            return PacketHandlerResult.Block;
+        }
 
-                    Packet tablePacket = new Packet(0xB002, false, true);
+        internal static Packet[] DataTablePackets(string[] tableNames)
+        {
+            var list = new Packet[tableNames.Length];
+            try
+            {
+                for (int i = 0; i < tableNames.Length; i++)
+                {
+                    var tableName = tableNames[i];
+
+                    var tablePacket = new Packet(PacketID.Server.DataTableSend, false, true);
                     tablePacket.WriteAscii(tableName);
                     tablePacket.WriteDataTable(Utility.SQL.GetRequestedDataTable(tableName));
 
-                    arg1.m_security.Send(tablePacket);
+                    list[i] = tablePacket;
                 }
             }
             catch
             { }
 
-            return PacketHandlerResult.Block;
+            return list;
         }
     }
 }

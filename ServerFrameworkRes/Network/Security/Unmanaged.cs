@@ -35,12 +35,6 @@ namespace ServerFrameworkRes.Network.Security
         }
 
 
-
-
-
-
-
-
         public static T BufferToStruct<T>(byte[] buffer, int offset = 0) where T : IMarshalled
         {
             unsafe
@@ -54,10 +48,9 @@ namespace ServerFrameworkRes.Network.Security
         public static T BufferToStruct2<T>(byte[] buffer, int offset = 0) where T : struct
         {
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-            T theStructure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+            T str = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
             handle.Free();
-
-            return theStructure;
+            return str;
         }
 
         public static byte[] StructToBuffer<T>(T structure) where T : IMarshalled
@@ -84,6 +77,9 @@ namespace ServerFrameworkRes.Network.Security
                 }
             }
         }
+
+
+
 
         public interface IMarshalled
         {

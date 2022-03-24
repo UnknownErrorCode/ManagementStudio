@@ -37,10 +37,14 @@ namespace ManagementServer
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sqlConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serverConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabelOnlineUser = new System.Windows.Forms.ToolStripStatusLabel();
             this.patchManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelOnlineUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.gCCollectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gen1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gen2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gen3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +66,8 @@ namespace ManagementServer
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripMenuItem,
             this.stopToolStripMenuItem,
-            this.hideToolStripMenuItem});
+            this.hideToolStripMenuItem,
+            this.gCCollectToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -71,21 +76,21 @@ namespace ManagementServer
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
             // hideToolStripMenuItem
             // 
             this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
-            this.hideToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.hideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hideToolStripMenuItem.Text = "Hide";
             // 
             // editToolStripMenuItem
@@ -100,14 +105,29 @@ namespace ManagementServer
             // sqlConnectionToolStripMenuItem
             // 
             this.sqlConnectionToolStripMenuItem.Name = "sqlConnectionToolStripMenuItem";
-            this.sqlConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sqlConnectionToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.sqlConnectionToolStripMenuItem.Text = "Sql Connection";
             // 
             // serverConnectionToolStripMenuItem
             // 
             this.serverConnectionToolStripMenuItem.Name = "serverConnectionToolStripMenuItem";
-            this.serverConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.serverConnectionToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.serverConnectionToolStripMenuItem.Text = "Server Connection";
+            // 
+            // patchManagerToolStripMenuItem
+            // 
+            this.patchManagerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem});
+            this.patchManagerToolStripMenuItem.Name = "patchManagerToolStripMenuItem";
+            this.patchManagerToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.patchManagerToolStripMenuItem.Text = "Patch Manager";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -124,20 +144,36 @@ namespace ManagementServer
             this.toolStripStatusLabelOnlineUser.Name = "toolStripStatusLabelOnlineUser";
             this.toolStripStatusLabelOnlineUser.Size = new System.Drawing.Size(0, 17);
             // 
-            // patchManagerToolStripMenuItem
+            // gCCollectToolStripMenuItem
             // 
-            this.patchManagerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem});
-            this.patchManagerToolStripMenuItem.Name = "patchManagerToolStripMenuItem";
-            this.patchManagerToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
-            this.patchManagerToolStripMenuItem.Text = "Patch Manager";
+            this.gCCollectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gen1ToolStripMenuItem,
+            this.gen2ToolStripMenuItem,
+            this.gen3ToolStripMenuItem});
+            this.gCCollectToolStripMenuItem.Name = "gCCollectToolStripMenuItem";
+            this.gCCollectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gCCollectToolStripMenuItem.Text = "GC Collect";
             // 
-            // openToolStripMenuItem
+            // gen1ToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.gen1ToolStripMenuItem.Name = "gen1ToolStripMenuItem";
+            this.gen1ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gen1ToolStripMenuItem.Text = "Gen 1";
+            this.gen1ToolStripMenuItem.Click += new System.EventHandler(this.gen1ToolStripMenuItem_Click);
+            // 
+            // gen2ToolStripMenuItem
+            // 
+            this.gen2ToolStripMenuItem.Name = "gen2ToolStripMenuItem";
+            this.gen2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gen2ToolStripMenuItem.Text = "Gen 2";
+            this.gen2ToolStripMenuItem.Click += new System.EventHandler(this.gen2ToolStripMenuItem_Click);
+            // 
+            // gen3ToolStripMenuItem
+            // 
+            this.gen3ToolStripMenuItem.Name = "gen3ToolStripMenuItem";
+            this.gen3ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gen3ToolStripMenuItem.Text = "Gen 3";
+            this.gen3ToolStripMenuItem.Click += new System.EventHandler(this.gen3ToolStripMenuItem_Click);
             // 
             // ServerManager
             // 
@@ -172,6 +208,10 @@ namespace ManagementServer
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelOnlineUser;
         private System.Windows.Forms.ToolStripMenuItem patchManagerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gCCollectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gen1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gen2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gen3ToolStripMenuItem;
     }
 }
 

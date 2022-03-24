@@ -12,13 +12,17 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroButtonList : UserControl
     {
-        Dictionary<string, vSroListButton> AllButtonsOnTable = new Dictionary<string, vSroListButton>();
-        private vSroListButton LatestSelectedButton { get; set; }
-     
+        Dictionary<string, vSroListButton> AllButtonsOnTable2 = new Dictionary<string, vSroListButton>();
+        private List<vSroListButton> AllButtonsOnTable = new List<vSroListButton>();
+        public vSroListButton LatestSelectedButton { get; private set; }
+
+        public event Action OnSelectChanged;
+        public event Action OnAddButton;
+        public event Action OnRemoveButton;
+
         public vSroButtonList()
         {
             InitializeComponent();
-            
         }
 
      
@@ -33,10 +37,10 @@ namespace ServerFrameworkRes.BasicControls
                     this.Controls.Clear();
                     foreach (var item in AllButtonsOnTable)
                     {
-                        item.Value.Click += recolorItems;
-                        item.Value.labelButtonName.Click += recolorItems;
+                        item.Click += recolorItems;
+                        item.labelButtonName.Click += recolorItems;
 
-                        this.Controls.Add(item.Value);
+                        this.Controls.Add(item);
                     }
                     this.ResumeLayout();
                 }));
@@ -48,7 +52,7 @@ namespace ServerFrameworkRes.BasicControls
                 this.Controls.Clear();
                 foreach (var item in AllButtonsOnTable)
                 {
-                    this.Controls.Add(item.Value);
+                    this.Controls.Add(item);
                 }
                 this.ResumeLayout();
             }
@@ -57,20 +61,21 @@ namespace ServerFrameworkRes.BasicControls
 
         private void recolorItems(object sender, EventArgs e)
         {
-            AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
+            AllButtonsOnTable.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
         }
 
         /// <summary>
         /// Adds a Button with 'incomeButtonName' name on the List
         /// </summary>
         /// <param name="incomeButtonName"></param>
-        public void AddSingleButtonToList(string incomeButtonName)
+        public void AddSingleButtonToList(string incomeButtonName, object tag = null)
         {
-            if (!AllButtonsOnTable.ContainsKey(incomeButtonName))
+            if (!AllButtonsOnTable.Exists(btn => btn.ButtonName == incomeButtonName))
             {
                 vSroListButton singleButton = new vSroListButton(incomeButtonName);
+                singleButton.Tag = tag;
                 singleButton.Click += ResetSelectionOnClick;
-
+                singleButton.labelButtonName.Click += LabelButtonName_Click;
                 singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count ) * singleButton.Height)));
                 if (this.InvokeRequired)
                 {
@@ -84,8 +89,14 @@ namespace ServerFrameworkRes.BasicControls
                 {
                     this.Controls.Add(singleButton);
                 }
-                AllButtonsOnTable.Add(incomeButtonName, singleButton);
+                AllButtonsOnTable.Add(singleButton);
+                OnAddButton();
             }
+        }
+
+        private void LabelButtonName_Click(object sender, EventArgs e)
+        {
+            ResetSelectionOnClick((vSroListButton)((Label)sender).Parent, e);
         }
 
         public void Clear()
@@ -100,20 +111,19 @@ namespace ServerFrameworkRes.BasicControls
             {
                 LatestSelectedButton.BackgroundImage = LatestSelectedButton.imageListSingleButton.Images[0];
                 LatestSelectedButton.labelButtonName.ForeColor = Color.White;
-
             }
             LatestSelectedButton = (vSroListButton)sender;
-
+            OnSelectChanged();
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.BackgroundImage = buttn.imageListSingleButton.Images[0]);
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
         }
 
         public void AddSingleButtonToList(vSroListButton singleButton)
         {
-            if (!AllButtonsOnTable.ContainsKey(singleButton.ButtonName))
+            if (!AllButtonsOnTable.Contains(singleButton))
             {
                 singleButton.Click += ResetSelectionOnClick;
-                AllButtonsOnTable.Add(singleButton.ButtonName, singleButton);
+                AllButtonsOnTable.Add(singleButton);
 
 
                 singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count - 1) * singleButton.Height)));
@@ -133,9 +143,10 @@ namespace ServerFrameworkRes.BasicControls
 
         public void RemoveSingleButtonFromList(string buttonToDelete)
         {
-            if (AllButtonsOnTable.ContainsKey(buttonToDelete))
+            if (AllButtonsOnTable.Exists(btn => btn.ButtonName ==buttonToDelete))
             {
-                AllButtonsOnTable.Remove(buttonToDelete);
+                AllButtonsOnTable.Remove( AllButtonsOnTable.Single(btn => btn.ButtonName == buttonToDelete));
+                OnRemoveButton();
                 RefreshTable();
             }
         }

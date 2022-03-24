@@ -24,17 +24,7 @@ namespace ServerFrameworkRes.BasicControls
             InitializeComponent();
             ChangeStatus(vSroChecked);
         }
-
-
-        public void RenameCheckBox(string Text)
-        {
-            labelCheckBox.Text = Text;
-        }
-        public void RenameNCheckCheckBox(string Text, bool Check)
-        {
-            RenameCheckBox(Text);
-            vSroChecked =(Check);
-        }
+        
         /// <summary>
         /// Change the CheckStatus from vSroCheckBox to true or false
         /// </summary>

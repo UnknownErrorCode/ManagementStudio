@@ -1,42 +1,35 @@
-﻿using ClientDataStorage;
+﻿using ClientDataStorage.Dashboard;
 using ServerFrameworkRes.BasicControls;
 using ServerFrameworkRes.Network.Security;
+using Structs.Dashboard;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagementClient.CHandler
+namespace ClientDataStorage.Network
 {
-    class LoginHandler
+    public class ClientPacketHandler : PacketHandler
     {
-        /// <summary>
-        /// The Login user status consists of either success or fail, resultMessage, Security Group and real AccountName. 
-        /// </summary>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <returns>PacketHandlerResult result</returns>
-        internal static PacketHandlerResult LoginStatus(ServerData arg1, Packet arg2)
+
+        public Action OnReceiveAllTables;
+        public ClientPacketHandler()
         {
-            var ok = arg2.ReadBool();
-            var msg = arg2.ReadAscii();
-            var securityGroup = int.Parse(arg2.ReadAscii());
-            var accountName = arg2.ReadAscii();
-            if (ok)
-            {
-                ClientMemory.LoggedIn = true;
-                arg1.AccountName = accountName;
-                Program.StaticLoginForm.Invoke(new Action(() => Program.StaticLoginForm.OnHide()));
-            }
-            else
-                vSroMessageBox.Show($"Login failed! \n{msg}");
-
-
-            return PacketHandlerResult.Block;
+            base.AddEntry(0xB000, Reply0xB000AllowedPlugins);
+            base.AddEntry(0xB001, Reply0xB001AllowedDataTableNames);
+            base.AddEntry(0xB002, Reply0xB002ReceiveDataTable);
         }
+
+
+        private PacketHandlerResult Reply0xB000AllowedPlugins(ServerData arg1, Packet arg2)
+        => AllowedPlugins(arg1, arg2);
+        private PacketHandlerResult Reply0xB001AllowedDataTableNames(ServerData arg1, Packet arg2)
+            => AllowedDataTable(arg1, arg2);
+        private PacketHandlerResult Reply0xB002ReceiveDataTable(ServerData arg1, Packet arg2)
+            => ReceiveDataTable(arg1, arg2);
+
 
         /// <summary>
         /// Receives a string[] of all .dll Plugins that the application is permitted to load.
@@ -78,7 +71,7 @@ namespace ManagementClient.CHandler
 
             arg1.m_security.Send(tableRequestPacket);
 
-            
+
 
             return PacketHandlerResult.Block;
         }
@@ -89,22 +82,22 @@ namespace ManagementClient.CHandler
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns>PacketHandlerResult result</returns>
-        internal static PacketHandlerResult ReceiveDataTable(ServerData arg1, Packet arg2)
+        internal  PacketHandlerResult ReceiveDataTable(ServerData arg1, Packet arg2)
         {
             var tableName = arg2.ReadAscii();
             PoolDataTable(tableName, arg2);
 
-            ClientDataStorage.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
+            Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
 
             if (ClientMemory.AllowedDataTables.Count == 0)
             {
-                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
+                Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
 
-                ClientDataStorage.Log.Logger.WriteLogLine($"Start initialize Databases for Client usage...");
-                ClientDataStorage.Database.SRO_VT_SHARD.InitializeDBShard();
-                ClientDataStorage.Log.Logger.WriteLogLine($"Finished initialize Databases");
-
-                Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
+                Log.Logger.WriteLogLine($"Start initialize Databases for Client usage...");
+                Database.SRO_VT_SHARD.InitializeDBShard();
+                Log.Logger.WriteLogLine($"Finished initialize Databases");
+                OnReceiveAllTables();
+                //   Program.StaticClientForm.Invoke(new Action(() => Program.StaticClientForm.loadPluginsToolStripMenuItem.Enabled = true));
             }
 
             return PacketHandlerResult.Block;
@@ -121,10 +114,10 @@ namespace ManagementClient.CHandler
             DataTable table = arg2.ReadDataTable(bytearr);
             table.TableName = tableName;
 
-            if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Contains(tableName))
-                ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Remove(tableName);
+            if (Database.SRO_VT_SHARD.dbo.Tables.Contains(tableName))
+                Database.SRO_VT_SHARD.dbo.Tables.Remove(tableName);
 
-            ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables.Add(table);
+            Database.SRO_VT_SHARD.dbo.Tables.Add(table);
 
             ClientMemory.AllowedDataTables.Remove(tableName);
 

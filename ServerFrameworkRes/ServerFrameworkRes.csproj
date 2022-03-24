@@ -70,6 +70,12 @@
     <Compile Include="BasicControls\vSroCloseButton.Designer.cs">
       <DependentUpon>vSroCloseButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="BasicControls\vSroEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroEditor.Designer.cs">
+      <DependentUpon>vSroEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="BasicControls\vSroInputBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,7 +128,7 @@
     <Compile Include="Network\Handler\Utility.cs" />
     <Compile Include="Network\Security\Blowfish.cs" />
     <Compile Include="Network\Security\IPacketHandler.cs" />
-    <Compile Include="Network\Security\PacketFormat\C_S_UpdateShopItemPrice.cs" />
+    <Compile Include="Network\Security\PacketFormat\C_S_ShopItemContext.cs" />
     <Compile Include="Network\Security\PacketHandler.cs" />
     <Compile Include="Network\Security\PacketHandlerResult.cs" />
     <Compile Include="Network\Security\PacketID.cs" />
@@ -181,6 +187,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BasicControls\vSroCloseButton.resx">
       <DependentUpon>vSroCloseButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroEditor.resx">
+      <DependentUpon>vSroEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BasicControls\vSroInputBox.resx">
       <DependentUpon>vSroInputBox.cs</DependentUpon>
