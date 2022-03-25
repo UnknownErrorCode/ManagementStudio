@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using ClientDataStorage.Dashboard;
+using ServerFrameworkRes.BasicControls;
 using ServerFrameworkRes.Network.Security;
 using Structs.Dashboard;
 
@@ -10,19 +11,17 @@ namespace Dashboard
 {
     public partial class DashboardControl : UserControl
     {
-        internal static ServerData ClientData;
 
-        public DashboardControl(ServerData data)
+        public DashboardControl()
         {
             InitializeComponent();
-            ClientData = data;
-            
-           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC001, TopicReceiveExisting);
-           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC002, TopicRequestAddNew);
-           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC003, TopicsFinishedLoading);
-           ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC004, TopicDeleteResponse);
 
-            ClientDataStorage.Network.ClientCore.CInterface.cData.m_security.Send(RequestAllTopics);
+            ClientDataStorage.Network.ClientCore.AddEntry(0xC001, TopicReceiveExisting);
+            ClientDataStorage.Network.ClientCore.AddEntry(0xC002, TopicReceiveNew);
+            ClientDataStorage.Network.ClientCore.AddEntry(0xC003, TopicsFinishedLoading);
+            ClientDataStorage.Network.ClientCore.AddEntry(0xC004, TopicDeleteResponse);
+
+            ClientDataStorage.Network.ClientCore.Send(RequestAllTopics);
             //timerCheckDashboard.Enabled = true;
         }
 
@@ -32,57 +31,73 @@ namespace Dashboard
                 return;
             if (richTextBoxEditTopicText.TextLength == 0)
                 return;
-            if (ClientData.AccountName == null)
+            if (ClientDataStorage.ClientMemory.AccountName == null)
                 return;
-
-            ClientDataStorage.Network.ClientCore.CInterface.cData.m_security.Send(AddTopicToDashboard(new DashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientData.AccountName)));
+            if (!listView1.Items.ContainsKey(textBoxTopic.Text))
+            {
+                ClientDataStorage.Network.ClientCore.Send(RequestAddTopicToDashboard(new DashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientDataStorage.ClientMemory.AccountName)));
+            }
         }
 
         private void OnCheckTopics(object sender, EventArgs e)
         {
-            if (DashboardMemory.ChangesAviable)
-            {
-                foreach (var topic in DashboardMemory.TopicDictionary)
-                    if (!listView1.Items.ContainsKey(topic.Key))
-                        listView1.Items.Add(new ListViewItem(topic.Key) { Tag = topic.Value, Name = topic.Key });
-                foreach (ListViewItem items in listView1.Items)
-                    if (!DashboardMemory.TopicDictionary.ContainsKey(items.Name))
-                        listView1.Items.RemoveByKey(items.Name);
-                DashboardMemory.ChangesAviable = false;
-            }
-            
+
         }
 
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
-            => splitContainerDashboardText.Panel2Collapsed = false;
+        {
+            using (DashboardTopicEditor editor = new DashboardTopicEditor(ClientDataStorage.ClientMemory.AccountName))
+                editor.ShowDialog();
+            //splitContainerDashboardText.Panel2Collapsed = false;
+            //vSroSmallButtonSave.vSroSmallButtonName = "Add Topic";
+        }
 
         private void editShownTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems[0] != null)
+            if (vSroButtonList1.LatestSelectedButton != null)
             {
-                if (splitContainerDashboardText.Panel2Collapsed)
-                    splitContainerDashboardText.Panel2Collapsed = false;
-                richTextBoxEditTopicText.Text = ((DashboardMessage)listView1.SelectedItems[0].Tag).Text;
-                textBoxTopic.Text = ((DashboardMessage)listView1.SelectedItems[0].Tag).Title;
+                using (DashboardTopicEditor editor = new DashboardTopicEditor((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag))
+                    editor.ShowDialog();
+
+
+                //        vSroSmallButtonSave.vSroSmallButtonName = "Save topic";
+                //    splitContainerDashboardText.Panel2Collapsed = false;
+                //
+                //    richTextBoxEditTopicText.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Text;
+                //    textBoxTopic.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Title;
             }
-
-
         }
 
         private void deleteShownTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count>0)
+            if (vSroButtonList1.LatestSelectedButton != null)
             {
-                DashboardMessage messageToDelete = (DashboardMessage)listView1.SelectedItems[0].Tag;
-               
-                ClientData.m_security.Send(RequestDeleteTopicFromDashboard(messageToDelete));
+                DashboardMessage messageToDelete = (DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag;
+
+                ClientDataStorage.Network.ClientCore.Send(RequestDeleteTopicFromDashboard(messageToDelete));
             }
         }
 
         private void OnIdexChange(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count>0)
-                richTextBoxShowTopicText.Text = ((DashboardMessage)listView1.SelectedItems[0].Tag).Text;
+
+
+        }
+
+        private void richTextBoxShowTopicText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void vSroButtonList1_OnIndCh(object sender, EventArgs e)
+        {
+            DashboardMessage msg = (DashboardMessage)((vSroListButton)sender).Tag;
+            Invoke(new Action(() =>
+            {
+                labelAuthor.Text = msg.Author;
+                labelTopic.Text = msg.Title;
+                labelText.Text = msg.Text;
+            }));
         }
     }
 }

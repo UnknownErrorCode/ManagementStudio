@@ -20,7 +20,6 @@ namespace Editors.Shop
             InitializeComponent();
             this.vSroSizableWindow1.Title = $"Edit: {Good.PackageItemCodeName}";
             vSroButtonList1.OnAddButton += VSroButtonList1_OnAddButton;
-            vSroButtonList1.OnRemoveButton += VSroButtonList1_OnRemoveButton;
             foreach (var item in good.PricePolicyOfItem)
             {
                 vSroButtonList1.AddSingleButtonToList(item.PaymentDevice.ToString(), item);
@@ -28,10 +27,7 @@ namespace Editors.Shop
             vSroButtonList1.OnSelectChanged += OnChangeSelection;
         }
 
-        private void VSroButtonList1_OnRemoveButton()
-        {
-            //Network stuff to delete payment Device
-        }
+        
 
         private void OnChangeSelection()
         {

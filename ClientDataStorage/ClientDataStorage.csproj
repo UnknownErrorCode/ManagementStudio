@@ -70,9 +70,16 @@
     <Compile Include="Client\Textdata\SkillEffect.cs" />
     <Compile Include="Client\Textdata\TextDataName.cs" />
     <Compile Include="Client\Textdata\Tile2dIFOFile.cs" />
+    <Compile Include="Dashboard\DashboardTopicEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dashboard\DashboardTopicEditor.Designer.cs">
+      <DependentUpon>DashboardTopicEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Network\ClientCore.cs" />
     <Compile Include="Network\ClientData.cs" />
     <Compile Include="Network\ClientInterface.cs" />
+    <Compile Include="Network\ClientPacketFormat.cs" />
     <Compile Include="Network\ClientPacketHandler.cs" />
     <Compile Include="Pk2\Utility\ITextParser.cs" />
     <Compile Include="Pk2\Utility\TextArrayFormatter.cs" />
@@ -81,7 +88,7 @@
     <Compile Include="Client\Textdata\TextUISystem.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLoader.cs" />
-    <Compile Include="Dashboard\DashboardMemory.cs" />
+    <Compile Include="Dashboard\DashboardHelper.cs" />
     <Compile Include="Database\SRO_VT_SHARD.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Pk2\BlowfishKey.cs" />
@@ -105,6 +112,11 @@
       <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
       <Name>Structs</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard\DashboardTopicEditor.resx">
+      <DependentUpon>DashboardTopicEditor.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

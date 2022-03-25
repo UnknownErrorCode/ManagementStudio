@@ -5,10 +5,11 @@ using System.Collections.Generic;
 
 namespace ClientDataStorage.Network
 {
-    public class ClientInterface : IAsyncInterface
+    internal class ClientInterface : IAsyncInterface
     {
-        public ClientData cData = new ClientData();
-        public ClientPacketHandler CHandler = new ClientPacketHandler();
+
+        internal ClientData cData = new ClientData();
+        internal ClientPacketHandler CHandler = new ClientPacketHandler();
         /// <summary>
         /// </summary>
         /// <param name="context"></param>

@@ -49,8 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CHandler\DashboardHandler.cs" />
-    <Compile Include="CHandler\LoginHandler.cs" />
     <Compile Include="ClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,10 +61,6 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Network\ClientCore.cs" />
-    <Compile Include="Network\ClientData.cs" />
-    <Compile Include="Network\ClientInterface.cs" />
-    <Compile Include="Network\ClientPacketHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsForm.cs">

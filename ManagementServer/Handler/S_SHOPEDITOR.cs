@@ -6,7 +6,7 @@ namespace ManagementServer.Network
 {
     partial class ServerPacketHandler
     {
-        private PacketHandlerResult ShopDataPricePolicyOfItem(ServerData arg1, Packet arg2)
+        private PacketHandlerResult ShopDataPricePolicyOfItem(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
         {
             if (arg2.Opcode != (ushort)PacketID.Client.ShopDataRefPricePolicyOfItem)
                 return PacketHandlerResult.Block;

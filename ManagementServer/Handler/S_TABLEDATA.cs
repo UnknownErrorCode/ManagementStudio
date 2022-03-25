@@ -11,24 +11,31 @@ namespace ManagementServer.Handler
         /// </summary>
         /// <param name="securityGroup"></param>
         /// <returns></returns>
-        internal static Packet GetDataTables(string securityGroup)
-        {
-            var tableNameArray = Utility.SQL.GetRequiredTableNames(securityGroup);
-
-            Packet tableNames = new Packet(0xB001);
-            tableNames.WriteInt(tableNameArray.Length);
-
-            for (int i = 0; i < tableNameArray.Length; i++)
-                tableNames.WriteAscii(tableNameArray[i]);
-
-            return tableNames;
-        }
-
-        internal static PacketHandlerResult SendTableData(Utility.ServerClientData arg1, Packet arg2)
+        internal static Packet GetDataTables(byte securityGroup)
         {
             try
             {
-                var tableNameArray = Utility.SQL.GetRequiredTableNames(arg1.SecurityGroup.ToString());
+                var tableNameArray = Utility.SQL.GetRequiredTableNames(securityGroup);
+
+                ServerFrameworkRes.Network.Security.Packet tableNames = new Packet(0xB001);
+                tableNames.WriteInt(tableNameArray.Length);
+
+                for (int i = 0; i < tableNameArray.Length; i++)
+                    tableNames.WriteAscii(tableNameArray[i]);
+
+                return tableNames;
+            }
+            catch (System.Exception ex)
+            {
+                return PacketConstructors.NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
+            }
+        }
+
+        internal static PacketHandlerResult ResponseAllowedTables(Utility.ServerClientData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
+        {
+            try
+            {
+                var tableNameArray = Utility.SQL.GetRequiredTableNames(arg1.SecurityGroup);
 
                 var tableCount = arg2.ReadByte();
                 string[] array = new string[tableCount];
@@ -43,19 +50,21 @@ namespace ManagementServer.Handler
                 arg1.m_security.Send(DataTablePackets(array));
                 
             }
-            catch
+            catch (System.Exception ex)
             { }
            // System.GC.Collect(2);
             return PacketHandlerResult.Block;
         }
 
-        internal static Packet[] DataTablePackets(string[] tableNames)
+        internal static ServerFrameworkRes.Network.Security.Packet[] DataTablePackets(string[] tableNames)
         {
             var list = new Packet[tableNames.Length];
             try
             {
                 for (int i = 0; i < tableNames.Length; i++)
                 {
+                    if (tableNames[i] == null)
+                        continue;
                     var tableName = tableNames[i];
 
                     var tablePacket = new Packet(PacketID.Server.DataTableSend, false, true);

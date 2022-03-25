@@ -21,15 +21,12 @@ namespace WorldMapSpawnEditor
         /// <summary>
         /// ServerData from Client.
         /// </summary>
-        internal static ServerData StaticServerData { get; set; }
 
 
-        public WorldMapSpawnEditorControl(ServerData data)
+        public WorldMapSpawnEditorControl()
         {
             InitializeComponent();
             InitializePerformance(this);
-
-            StaticServerData = data;
         }
 
         /// <summary>

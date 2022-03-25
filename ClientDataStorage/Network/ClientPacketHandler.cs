@@ -11,24 +11,26 @@ using System.Threading.Tasks;
 
 namespace ClientDataStorage.Network
 {
-    public class ClientPacketHandler : PacketHandler
+    internal partial class ClientPacketHandler : PacketHandler
     {
 
         public Action OnReceiveAllTables;
-        public ClientPacketHandler()
+        internal ClientPacketHandler()
         {
-            base.AddEntry(0xB000, Reply0xB000AllowedPlugins);
-            base.AddEntry(0xB001, Reply0xB001AllowedDataTableNames);
-            base.AddEntry(0xB002, Reply0xB002ReceiveDataTable);
+            base.AddEntry(0xB000, AllowedPlugins);
+            base.AddEntry(0xB001, AllowedDataTable);
+            base.AddEntry(0xB002, ReceiveDataTable);
+
+            base.AddEntry(0xB003, ReceiveNotification);
         }
 
-
-        private PacketHandlerResult Reply0xB000AllowedPlugins(ServerData arg1, Packet arg2)
-        => AllowedPlugins(arg1, arg2);
-        private PacketHandlerResult Reply0xB001AllowedDataTableNames(ServerData arg1, Packet arg2)
-            => AllowedDataTable(arg1, arg2);
-        private PacketHandlerResult Reply0xB002ReceiveDataTable(ServerData arg1, Packet arg2)
-            => ReceiveDataTable(arg1, arg2);
+        private PacketHandlerResult ReceiveNotification(ServerData arg1, Packet arg2)
+        {
+            var type = (ServerFrameworkRes.Ressources.LogLevel)arg2.ReadByte();
+            var text = arg2.ReadAscii();
+            Log.Logger.WriteLogLine(type, text);
+            return PacketHandlerResult.Block;
+        }
 
 
         /// <summary>
@@ -82,10 +84,12 @@ namespace ClientDataStorage.Network
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns>PacketHandlerResult result</returns>
-        internal  PacketHandlerResult ReceiveDataTable(ServerData arg1, Packet arg2)
+        internal PacketHandlerResult ReceiveDataTable(ServerData arg1, Packet arg2)
         {
             var tableName = arg2.ReadAscii();
-            PoolDataTable(tableName, arg2);
+            var arg3 = arg2.ReadByteArray(arg2.Remaining);
+            DataTable table = arg2.ReadDataTable(arg3);
+            Database.SRO_VT_SHARD.PoolDataTable(tableName, table);
 
             Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
 
@@ -103,25 +107,5 @@ namespace ClientDataStorage.Network
             return PacketHandlerResult.Block;
         }
 
-        /// <summary>
-        /// Save or update the Table in memory
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="arg2"></param>
-        private static async void PoolDataTable(string tableName, Packet arg2)
-        {
-            var bytearr = arg2.ReadByteArray(arg2.Remaining);
-            DataTable table = arg2.ReadDataTable(bytearr);
-            table.TableName = tableName;
-
-            if (Database.SRO_VT_SHARD.dbo.Tables.Contains(tableName))
-                Database.SRO_VT_SHARD.dbo.Tables.Remove(tableName);
-
-            Database.SRO_VT_SHARD.dbo.Tables.Add(table);
-
-            ClientMemory.AllowedDataTables.Remove(tableName);
-
-            await Task.Delay(1);
-        }
     }
 }

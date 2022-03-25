@@ -18,9 +18,9 @@ namespace ManagementServer.Handler
         /// </summary>
         /// <returns></returns>
 
-        internal static Packet SendServerVersion()
+        internal static ServerFrameworkRes.Network.Security.Packet SendServerVersion()
         {
-            Packet loginSuccessPacket = new Packet(0xA001);
+            ServerFrameworkRes.Network.Security.Packet loginSuccessPacket = new Packet(0xA001);
             loginSuccessPacket.WriteInt(SQL.LatestVersion());
             return loginSuccessPacket;
         }

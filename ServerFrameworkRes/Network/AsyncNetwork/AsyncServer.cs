@@ -54,8 +54,9 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             {
                 socket.Dispose();
             }
-            catch (Exception ex)
+            catch (SocketException ex)
             {
+                throw ex;
             }
         }
         private void DispatchAccept(object param)

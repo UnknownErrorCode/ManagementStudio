@@ -14,7 +14,7 @@ namespace TriggerEditor
     public partial class TriggerEditorControl: UserControl
     {
 
-        public TriggerEditorControl(ServerData serverData)
+        public TriggerEditorControl()
         {
             InitializeComponent();
         }

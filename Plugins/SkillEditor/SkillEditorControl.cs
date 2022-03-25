@@ -14,10 +14,8 @@ namespace SkillEditor
 {
     public partial class SkillEditorControl : UserControl
     {
-        internal static ServerData StaticServerData;
-        public SkillEditorControl(ServerData serverData)
+        public SkillEditorControl()
         {
-            StaticServerData = serverData;
             InitializeComponent();
 
         }

@@ -1,34 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ServerFrameworkRes.Network.Security;
-using System.IO;
 
 namespace ShopEditor
 {
     public partial class ShopEditorControl : UserControl
     {
-        /// <summary>
-        /// Static ServerData 
-        /// TODO: Probably move ServerData to ClientDataStorage to have only 1 component.
-        /// </summary>
-        internal static ServerData StaticData;
+       
 
         /// <summary>
         /// The ShopEditor consists of all NPC Shops and the TalkWindow.
         /// </summary>
         /// <param name="data"></param>
-        public ShopEditorControl(ServerData data)
+        public ShopEditorControl()
         {
             InitializeComponent();
-            StaticData = data;
-            InitializeListView();
+            ClientDataStorage.Network.ClientCore.RequestPluginDataTable("ShopEditor.dll");
+            //ClientDataStorage.ClientMemory.UsedPlugins.Add("ShopEditor.dll");
         }
 
         /// <summary>
@@ -36,6 +25,7 @@ namespace ShopEditor
         /// </summary>
         private void InitializeListView()
         {
+            listViewAllNpcs.Items.Clear();
             DataRowCollection test = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows;
             foreach (DataRow item in test)
             {
@@ -57,6 +47,11 @@ namespace ShopEditor
         {
             if (((ListView)sender).SelectedItems.Count>0)
                 talkWindow1.OnNpcClick(((ListView)sender).SelectedItems[0].Text);
+        }
+
+        private void onLoadShops(object sender, EventArgs e)
+        {
+            InitializeListView();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ManagementServer
         internal static int OnlineUser = 0;
 
 
-        internal static void BroadcastPacket(Packet packet)
+        internal static void BroadcastPacket(ServerFrameworkRes.Network.Security.Packet packet)
         {
             try
             {

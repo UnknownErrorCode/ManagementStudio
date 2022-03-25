@@ -1,16 +1,10 @@
 ﻿using ServerFrameworkRes.BasicControls;
 using System;
-using ManagementClient.Network;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ServerFrameworkRes.Network.Security;
 using ClientDataStorage;
+using Structs.Tool;
 
 namespace ManagementClient
 {
@@ -75,7 +69,7 @@ namespace ManagementClient
         private void ClientTool_Load(object sender, EventArgs e)
         {
             this.vSroSizableWindow1.Title = "Offline";
-            ClientDataStorage.Network.ClientCore.CInterface.CHandler.AddEntry(0xC000, LoginStatus);
+            ClientDataStorage.Network.ClientCore.AddEntry(0xC000, LoginStatus);
             Thread startThread = new Thread(Connect);
             startThread.Start();
         }
@@ -127,18 +121,16 @@ namespace ManagementClient
         /// <returns>PacketHandlerResult result</returns>
         internal static PacketHandlerResult LoginStatus(ServerData arg1, Packet arg2)
         {
-            var ok = arg2.ReadBool();
-            var msg = arg2.ReadAscii();
-            var securityGroup = int.Parse(arg2.ReadAscii());
-            var accountName = arg2.ReadAscii();
-            if (ok)
+            var status = arg2.ReadStruct<LoginStatus>();
+           
+            if (status.Success)
             {
                 ClientMemory.LoggedIn = true;
-                arg1.AccountName = accountName;
+                arg1.AccountName = status.UserName;
                 Program.StaticLoginForm.Invoke(new Action(() => Program.StaticLoginForm.OnHide()));
             }
             else
-                vSroMessageBox.Show($"Login failed! \n{msg}");
+                vSroMessageBox.Show($"Login failed! \n{status.Notification}");
 
 
             return PacketHandlerResult.Block;

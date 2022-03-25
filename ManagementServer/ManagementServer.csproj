@@ -53,6 +53,8 @@
     <Compile Include="Handler\S_SHOPEDITOR.cs" />
     <Compile Include="Handler\S_TABLEDATA.cs" />
     <Compile Include="Network\ServerPacketHandler.cs" />
+    <Compile Include="PacketConstructors\LoginPacket.cs" />
+    <Compile Include="PacketConstructors\NotificationPacket.cs" />
     <Compile Include="PatchManager.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -11,9 +11,18 @@ namespace ClientDataStorage.Network
     public static class ClientCore
     {
         private static AsyncClient ClientNetwork = new AsyncClient();
-        public static ClientInterface CInterface = new ClientInterface();
+        private static ClientInterface CInterface = new ClientInterface();
+
+
+        public static Action OnDataReceived { get => CInterface.CHandler.OnReceiveAllTables; set => CInterface.CHandler.OnReceiveAllTables = value; }
+
+        public static void RequestPluginDataTable(string pluginName)
+        {
+            
+        }
 
         public static bool Connected { get => CInterface.cData.m_connected; }
+        internal static string AccountName { get => CInterface.cData.AccountName; }
 
         public static async Task<bool> Start()
         {
@@ -48,6 +57,11 @@ namespace ClientDataStorage.Network
         {
             while (CInterface.cData.m_connected)
                 ClientNetwork.Tick();
+        }
+
+        public static void AddEntry(ushort packetID, Func<ServerData, Packet, PacketHandlerResult> handler)
+        {
+            CInterface.CHandler.AddEntry(packetID, handler);
         }
     }
 }

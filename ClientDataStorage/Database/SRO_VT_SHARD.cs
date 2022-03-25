@@ -31,6 +31,26 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, Structs.Database.RefTriggerCategoryBindTrigger> _RefTriggerCategoryBindTrigger;
         public static ConcurrentDictionary<int, Structs.Database.RefTrigger> _RefTrigger;
 
+
+        /// <summary>
+        /// Save or update the Table in memory.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="arg2"></param>
+        internal static async void PoolDataTable(string tableName, DataTable arg2)
+        {
+            arg2.TableName = tableName;
+
+            if (SRO_VT_SHARD.dbo.Tables.Contains(tableName))
+                SRO_VT_SHARD.dbo.Tables.Remove(tableName);
+
+            SRO_VT_SHARD.dbo.Tables.Add(arg2);
+
+            ClientMemory.AllowedDataTables.Remove(tableName);
+
+            await Task.Delay(1);
+        }
+
         public static void InitializeDBShard()
         {
             InitializeChars();

@@ -13,6 +13,7 @@ namespace ManagementClient
         public ClientForm()
         {
             InitializeComponent();
+            ClientDataStorage.Network.ClientCore.OnDataReceived += OnReceiveAllData;
             this.Controls.Add(ClientDataStorage.Log.Logger);
         }
 
@@ -44,7 +45,6 @@ namespace ManagementClient
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-            ClientDataStorage.Network.ClientCore.CInterface.CHandler.OnReceiveAllTables += OnReceiveAllData;
             ClientDataStorage.Log.Logger.WriteLogLine("Successfully initialized Logger!");
 
             ClientDataStorage.Log.Logger.WriteLogLine("Loading pk2 ressources...");
@@ -55,20 +55,14 @@ namespace ManagementClient
         private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if (ClientDataStorage.Client.Media.MediaPk2.Initialized)
-                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
-            else
-            {
-                ClientDataStorage.Log.Logger.WriteLogLine($"Failed load Media.pk2! Select the Client path in your settings and restart the program.");
+            if (!ClientDataStorage.Client.Media.MediaPk2.Initialized)
                 return;
-            }
-            if (ClientDataStorage.Client.Map.MapPk2.Initialized)
-                ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
-            else
-            {
-                ClientDataStorage.Log.Logger.WriteLogLine($"Failed load Map.pk2! Select the Client path in your settings and restart the program.");
+
+            if (!ClientDataStorage.Client.Map.MapPk2.Initialized)
                 return;
-            }
+            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
+            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
+            
 
             foreach (string pluginPath in Directory.GetFiles("Plugins\\"))
             {
@@ -80,10 +74,11 @@ namespace ManagementClient
                     if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
                     {
                         Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
-                        UserControl controlal = (UserControl)Activator.CreateInstance(dll, ClientDataStorage.Network.ClientCore.CInterface.cData);
+                        UserControl controlal = (UserControl)Activator.CreateInstance(dll);
                         controlal.Dock = DockStyle.Fill;
                         tabPage.Controls.Add(controlal);
                         tabControlPlugins.TabPages.Add(tabPage);
+                        ClientDataStorage.ClientMemory.UsedPlugins.Add(pluginPath.Remove(0, 8));
                     }
                 }
             }

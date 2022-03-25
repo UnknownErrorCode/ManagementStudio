@@ -16,16 +16,17 @@ namespace ServerFrameworkRes.BasicControls
         private List<vSroListButton> AllButtonsOnTable = new List<vSroListButton>();
         public vSroListButton LatestSelectedButton { get; private set; }
 
+        public event EventHandler OnIndCh;
         public event Action OnSelectChanged;
         public event Action OnAddButton;
-        public event Action OnRemoveButton;
+
+        public bool ContainsTitle(string title) => AllButtonsOnTable.Exists(itm => itm.ButtonName.Equals(title));
+
 
         public vSroButtonList()
         {
             InitializeComponent();
         }
-
-     
 
         private void RefreshTable()
         {
@@ -33,7 +34,7 @@ namespace ServerFrameworkRes.BasicControls
             {
                 var invoke = this.BeginInvoke(new Action(() =>
                 {
-                    this.SuspendLayout(); 
+                    this.SuspendLayout();
                     this.Controls.Clear();
                     foreach (var item in AllButtonsOnTable)
                     {
@@ -56,7 +57,7 @@ namespace ServerFrameworkRes.BasicControls
                 }
                 this.ResumeLayout();
             }
-          
+
         }
 
         private void recolorItems(object sender, EventArgs e)
@@ -76,12 +77,12 @@ namespace ServerFrameworkRes.BasicControls
                 singleButton.Tag = tag;
                 singleButton.Click += ResetSelectionOnClick;
                 singleButton.labelButtonName.Click += LabelButtonName_Click;
-                singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count ) * singleButton.Height)));
+                singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count) * singleButton.Height)));
                 if (this.InvokeRequired)
                 {
                     var invoke = this.BeginInvoke(new Action(() =>
                     {
-                         this.Controls.Add(singleButton);
+                        this.Controls.Add(singleButton);
                     }));
                     this.EndInvoke(invoke);
                 }
@@ -90,7 +91,7 @@ namespace ServerFrameworkRes.BasicControls
                     this.Controls.Add(singleButton);
                 }
                 AllButtonsOnTable.Add(singleButton);
-                OnAddButton();
+               // OnAddButton();
             }
         }
 
@@ -113,7 +114,8 @@ namespace ServerFrameworkRes.BasicControls
                 LatestSelectedButton.labelButtonName.ForeColor = Color.White;
             }
             LatestSelectedButton = (vSroListButton)sender;
-            OnSelectChanged();
+            //OnSelectChanged();
+            OnIndCh(LatestSelectedButton, e);
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.BackgroundImage = buttn.imageListSingleButton.Images[0]);
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
         }
@@ -130,7 +132,8 @@ namespace ServerFrameworkRes.BasicControls
                 if (this.InvokeRequired)
                 {
                     var invoke = this.BeginInvoke(new Action(() =>
-                    { this.Controls.Add(singleButton);
+                    {
+                        this.Controls.Add(singleButton);
                     }));
                     this.EndInvoke(invoke);
                 }
@@ -143,10 +146,9 @@ namespace ServerFrameworkRes.BasicControls
 
         public void RemoveSingleButtonFromList(string buttonToDelete)
         {
-            if (AllButtonsOnTable.Exists(btn => btn.ButtonName ==buttonToDelete))
+            if (AllButtonsOnTable.Exists(btn => btn.ButtonName == buttonToDelete))
             {
-                AllButtonsOnTable.Remove( AllButtonsOnTable.Single(btn => btn.ButtonName == buttonToDelete));
-                OnRemoveButton();
+                AllButtonsOnTable.Remove(AllButtonsOnTable.Single(btn => btn.ButtonName == buttonToDelete));
                 RefreshTable();
             }
         }

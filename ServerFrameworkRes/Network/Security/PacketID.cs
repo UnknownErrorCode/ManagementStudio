@@ -21,6 +21,7 @@ namespace ServerFrameworkRes.Network.Security
 
             public const ushort TopicsRequest = 0x1001;
             public const ushort TopicAddRequest = 0x1002;
+            public const ushort TopicEditRequest = 0x1003;
             public const ushort TopicDeleteRequest = 0x1004;
 
 
@@ -42,13 +43,13 @@ namespace ServerFrameworkRes.Network.Security
             public const ushort AllowedPlugins= 0xB000;
             public const ushort DataTableNames= 0xB001;
             public const ushort DataTableSend= 0xB002;
+            public const ushort LogNotification = 0xB003;
 
             public const ushort LoginStatus= 0xC000;
             public const ushort TopicLoadRequest= 0xC001;
             public const ushort TopicAddNewResponse= 0xC002;
             public const ushort TopicsEndLoading= 0xC003;
             public const ushort TopicDeleteResponse= 0xC004;
-
 
         }
     }

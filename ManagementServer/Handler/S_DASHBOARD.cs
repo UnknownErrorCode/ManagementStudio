@@ -1,4 +1,5 @@
 ﻿using ServerFrameworkRes.Network.Security;
+using Structs.Dashboard;
 using System.IO;
 
 namespace ManagementServer.Network
@@ -11,7 +12,7 @@ namespace ManagementServer.Network
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal PacketHandlerResult LoadTopics(ServerData arg1, Packet arg2)
+        internal PacketHandlerResult LoadTopics(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
         {
             if (!Directory.Exists(ServerManager.settings.GuidePath))
                 Directory.CreateDirectory(ServerManager.settings.GuidePath);
@@ -23,9 +24,8 @@ namespace ManagementServer.Network
                     string text = File.ReadAllText(file);
                     var author = dir.Remove(0, ServerManager.settings.GuidePath.Length + 1);
                     var topicPack = new Packet(PacketID.Server.TopicLoadRequest);
-                    topicPack.WriteAscii(author);
-                    topicPack.WriteAscii(title);
-                    topicPack.WriteAscii(text);
+                    var msg = new DashboardMessage(title, text, author);
+                    topicPack.WriteStruct(msg);
                     arg1.m_security.Send(topicPack);
                 }
 
@@ -40,21 +40,16 @@ namespace ManagementServer.Network
         /// <returns></returns>
         internal PacketHandlerResult TryAddNewTopic(ServerData arg1, Packet arg2)
         {
-            var Author = arg2.ReadAscii();
-            var Title = arg2.ReadAscii();
-            var Text = arg2.ReadAscii();
-            var created = arg2.ReadDateTime();
+            var msg = arg2.ReadStruct<DashboardMessage>();
+           
+            if (!Directory.Exists(Path.Combine(ServerManager.settings.GuidePath, msg.Author)))
+                Directory.CreateDirectory(Path.Combine(ServerManager.settings.GuidePath, msg.Author)).Create();
 
-            if (!Directory.Exists(Path.Combine(ServerManager.settings.GuidePath, Author)))
-                Directory.CreateDirectory(Path.Combine(ServerManager.settings.GuidePath, Author)).Create();
-
-            if (!File.Exists(Path.Combine(ServerManager.settings.GuidePath, Author,$"{Title}.log")))
-                File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, Author, $"{Title}.log"), $"{Title}\n\n{Text}\n\nCreated:{created.ToString()}\n\n Author:{Author}");
+            if (!File.Exists(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log")))
+                File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log"), $"{msg.Title}\n\n{msg.Text}\n\nCreated:{System.DateTime.Now}\n\n Author:{msg.Author}");
 
             var newTopic = new Packet(PacketID.Server.TopicAddNewResponse);
-            newTopic.WriteAscii(Author);
-            newTopic.WriteAscii(Title);
-            newTopic.WriteAscii(Text);
+            newTopic.WriteStruct<DashboardMessage>(msg);
             ServerMemory.BroadcastPacket(newTopic);
 
             return PacketHandlerResult.Response;
@@ -67,7 +62,7 @@ namespace ManagementServer.Network
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal  PacketHandlerResult DeleteTopic(ServerData arg1, Packet arg2)
+        internal  PacketHandlerResult DeleteTopic(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
         {
             var Author = arg2.ReadAscii();
             var Title = arg2.ReadAscii();

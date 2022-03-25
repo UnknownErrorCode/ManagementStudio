@@ -10,17 +10,24 @@ namespace ManagementServer.Handler
         /// </summary>
         /// <param name="securityGroup"></param>
         /// <returns></returns>
-        internal static Packet SendAllowedPlugins(string securityGroup)
+        internal static Packet SendAllowedPlugins(byte securityGroup)
         {
-            var PluginDataRowCollection = Utility.SQL.AllowedPlugins(securityGroup).Rows;
+            try
+            {
+                var PluginDataRowCollection = Utility.SQL.AllowedPlugins(securityGroup).Rows;
 
-            Packet AllowedPlugins = new Packet(0xB000);
-            AllowedPlugins.WriteInt(PluginDataRowCollection.Count);
+                Packet AllowedPlugins = new Packet(0xB000);
+                AllowedPlugins.WriteInt(PluginDataRowCollection.Count);
 
-            foreach (DataRow row in PluginDataRowCollection)
-                AllowedPlugins.WriteAscii(row.Field<string>("AllowedPlugins"));
+                foreach (DataRow row in PluginDataRowCollection)
+                    AllowedPlugins.WriteAscii(row.Field<string>("AllowedPlugins"));
 
-            return AllowedPlugins;
+                return AllowedPlugins;
+            }
+            catch (System.Exception ex)
+            {
+                return PacketConstructors.NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
+            }
         }
     }
 }

@@ -32,6 +32,7 @@
             this.listViewAllNpcs = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.talkWindow1 = new ShopEditor.TalkWindow();
+            this.vSroSmallButtonLoadShops = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.SuspendLayout();
             // 
             // listViewAllNpcs
@@ -42,6 +43,7 @@
             this.listViewAllNpcs.Dock = System.Windows.Forms.DockStyle.Left;
             this.listViewAllNpcs.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listViewAllNpcs.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(218)))), ((int)(((byte)(164)))));
+            this.listViewAllNpcs.HideSelection = false;
             this.listViewAllNpcs.Location = new System.Drawing.Point(0, 0);
             this.listViewAllNpcs.MultiSelect = false;
             this.listViewAllNpcs.Name = "listViewAllNpcs";
@@ -70,11 +72,23 @@
             this.talkWindow1.Size = new System.Drawing.Size(387, 450);
             this.talkWindow1.TabIndex = 2;
             // 
+            // vSroSmallButtonLoadShops
+            // 
+            this.vSroSmallButtonLoadShops.Location = new System.Drawing.Point(633, 3);
+            this.vSroSmallButtonLoadShops.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoadShops.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoadShops.Name = "vSroSmallButtonLoadShops";
+            this.vSroSmallButtonLoadShops.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoadShops.TabIndex = 3;
+            this.vSroSmallButtonLoadShops.vSroSmallButtonName = "Load Shops";
+            this.vSroSmallButtonLoadShops.Load += new System.EventHandler(this.onLoadShops);
+            // 
             // ShopEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.Controls.Add(this.vSroSmallButtonLoadShops);
             this.Controls.Add(this.talkWindow1);
             this.Controls.Add(this.listViewAllNpcs);
             this.Name = "ShopEditorControl";
@@ -87,5 +101,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private TalkWindow talkWindow1;
         private System.Windows.Forms.ListView listViewAllNpcs;
+        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonLoadShops;
     }
 }

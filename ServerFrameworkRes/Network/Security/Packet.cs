@@ -669,6 +669,7 @@ namespace ServerFrameworkRes.Network.Security
             }
             catch (Exception e)
             {
+                throw e;
             }
             return null;
         }

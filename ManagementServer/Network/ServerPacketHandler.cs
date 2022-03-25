@@ -27,19 +27,19 @@ namespace ManagementServer.Network
 
         
 
-        private PacketHandlerResult Reply0x0999DataTableRequest(ServerData arg1, Packet arg2)
-          => Handler.S_TABLEDATA.SendTableData((ServerClientData)arg1, arg2);
+        private PacketHandlerResult Reply0x0999DataTableRequest(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
+          => Handler.S_TABLEDATA.ResponseAllowedTables((ServerClientData)arg1, arg2);
 
-        private PacketHandlerResult Reply0x1001RequestAllTopics(ServerData arg1, Packet arg2)
+        private PacketHandlerResult Reply0x1001RequestAllTopics(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
             => LoadTopics(arg1, arg2);
 
-        private PacketHandlerResult Reply0x1002AddNewTopic(ServerData arg1, Packet arg2)
+        private PacketHandlerResult Reply0x1002AddNewTopic(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
          => TryAddNewTopic(arg1, arg2);
 
-        private PacketHandlerResult Reply0x1004DeleteTopic(ServerData arg1, Packet arg2)
+        private PacketHandlerResult Reply0x1004DeleteTopic(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
          => DeleteTopic(arg1, arg2);
 
-        private PacketHandlerResult Reply0x1010ShopItemPriceUpdate(ServerData arg1, Packet arg2)
+        private PacketHandlerResult Reply0x1010ShopItemPriceUpdate(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
             => ShopDataPricePolicyOfItem(arg1, arg2);
 
 
@@ -49,7 +49,7 @@ namespace ManagementServer.Network
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult Reply0x2001(ServerData data, Packet packet)
+        private PacketHandlerResult Reply0x2001(ServerData data, ServerFrameworkRes.Network.Security.Packet packet)
         {
             var identity = packet.ReadAscii();
             var flag = packet.ReadByte();
@@ -74,7 +74,7 @@ namespace ManagementServer.Network
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult Reply0x1000LoginRequest(ServerData data, Packet packet)
+        private PacketHandlerResult Reply0x1000LoginRequest(ServerData data, ServerFrameworkRes.Network.Security.Packet packet)
         => Handler.S_LOGIN.TryLogin(data, packet);
 
 
@@ -84,7 +84,7 @@ namespace ManagementServer.Network
         /// <param name="data"></param>
         /// <param name="packet"></param>
         /// <returns></returns>
-        private PacketHandlerResult Reply0x3000RequestUpdate(ServerData data, Packet packet)
+        private PacketHandlerResult Reply0x3000RequestUpdate(ServerData data, ServerFrameworkRes.Network.Security.Packet packet)
           => Handler.S_UPDATE.SendFiles(data, packet.ReadInt());
 
     }

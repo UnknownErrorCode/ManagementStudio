@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Structs.Tool;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,7 +11,7 @@ namespace ManagementServer.Utility
         static SqlConnection sqlConnection;
         static string SqlConnectionString { get => ServerManager.settings.SQL_ConnectionString; }
 
-        internal static string[] GetRequiredTableNames(string securityGroup)
+        internal static string[] GetRequiredTableNames(byte securityGroup)
         {
             var names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _ToolPluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", ServerManager.settings.DBDev).Rows;
             string[] nameArray = new string[names.Count];
@@ -105,20 +106,27 @@ namespace ManagementServer.Utility
 
         private static DataTable ReturnDataTableByQuery(string query, string database)
         {
-
+            
             DataTable dataTable = new DataTable();
-
-            using (SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection))
+            try
             {
-                if (sqlConnection.State != ConnectionState.Open)
-                    sqlConnection.Open();
+                using (SqlDataAdapter adapter = new SqlDataAdapter(query, sqlConnection))
+                {
+                    if (sqlConnection.State != ConnectionState.Open)
+                        sqlConnection.Open();
 
-                sqlConnection.ChangeDatabase(database);
-                adapter.Fill(dataTable);
+                    sqlConnection.ChangeDatabase(database);
+                    adapter.Fill(dataTable);
 
+                }
+
+                ServerManager.Logger.WriteLogLine(query);
+            }
+            catch (Exception ex)
+            {
+                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, ex.Message);
             }
 
-            ServerManager.Logger.WriteLogLine(query);
             return dataTable;
         }
 
@@ -134,7 +142,7 @@ namespace ManagementServer.Utility
         /// <param name="password"></param>
         /// <param name="IP"></param>
         /// <returns></returns>
-        public static string[] CheckLogin(string userName, string password, string IP)
+        public static LoginStatus CheckLogin(string userName, string password, string IP)
         {
             SqlParameter[] regparams = new SqlParameter[4]
              {
@@ -146,12 +154,14 @@ namespace ManagementServer.Utility
 
             DataRow row = ReturnDataTableByProcedure("_LoginToolUser", ServerManager.settings.DBDev, regparams).Rows[0];
 
-            string[] forsfor = new string[row.ItemArray.Length];
-
-            for (int i = 0; i < forsfor.Length; i++)
-                forsfor[i] = row.ItemArray[i].ToString();
-
-            return forsfor;
+            LoginStatus status = new LoginStatus()
+            {
+                Success = row.Field<bool>("Success"),
+                Notification = row.Field<string>("Message"),
+                SecurityGroup = row.Field<byte>("SecurityGroup"),
+                UserName = row.Field<string>("AccountName"),
+            };
+            return status;
         }
 
         public static string[] CheckLogout(string userName, string UserIP)
@@ -202,7 +212,7 @@ namespace ManagementServer.Utility
         internal static void UpdateToolFiles(SqlParameter[] paramse)
             => ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
 
-        internal static DataTable AllowedPlugins(string securityDescription)
+        internal static DataTable AllowedPlugins(byte securityDescription)
             => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", ServerManager.settings.DBDev);
     }
 }
