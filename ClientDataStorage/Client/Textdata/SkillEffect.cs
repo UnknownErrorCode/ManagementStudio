@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientDataStorage.Client.Textdata
 {
@@ -12,7 +10,7 @@ namespace ClientDataStorage.Client.Textdata
         public SkilleffectStruct Skilleffects;
 
 
-        public SkillEffect() 
+        public SkillEffect()
         {
             if (Media.MediaPk2.GetByteArrayByDirectory("Media\\server_dep\\silkroad\\textdata\\skilleffect.txt", out byte[] rawfile))
             {

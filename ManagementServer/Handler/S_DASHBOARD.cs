@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ManagementServer.Network
 {
-   partial class ServerPacketHandler
+    partial class ServerPacketHandler
     {
         /// <summary>
         /// Sends <see cref="PacketID.Server.TopicLoadRequest"/> with guides and <see cref="PacketID.Server.TopicsEndLoading"/> on successful transfer
@@ -12,7 +12,7 @@ namespace ManagementServer.Network
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal PacketHandlerResult LoadTopics(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
+        internal PacketHandlerResult LoadTopics(ServerData arg1, Packet arg2)
         {
             if (!Directory.Exists(ServerManager.settings.GuidePath))
                 Directory.CreateDirectory(ServerManager.settings.GuidePath);
@@ -48,9 +48,8 @@ namespace ManagementServer.Network
             if (!File.Exists(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log")))
                 File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log"), $"{msg.Title}\n\n{msg.Text}\n\nCreated:{System.DateTime.Now}\n\n Author:{msg.Author}");
 
-            var newTopic = new Packet(PacketID.Server.TopicAddNewResponse);
-            newTopic.WriteStruct<DashboardMessage>(msg);
-            ServerMemory.BroadcastPacket(newTopic);
+           
+            ServerMemory.BroadcastPacket(PacketConstructors.TopicPacket.AddNew(msg));
 
             return PacketHandlerResult.Response;
         }

@@ -38,7 +38,7 @@ namespace ClientDataStorage.Client
         public static async Task<bool> Initialize()
         {
             MapPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Map.pk2");
-           
+
             Tile2d_ifo = new Tile2dIFOFile();
 
             Log.Logger.MessageStack.Push(MapPk2.Initialized ? "Successfully load Map.pk2..." : "Cannot find Map.pk2...");

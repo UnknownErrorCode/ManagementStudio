@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientDataStorage.Client.Textdata
 {
@@ -20,7 +19,7 @@ namespace ClientDataStorage.Client.Textdata
         public string[] ConvertByteArrayToTextArray(byte[] sourceFile)
             => ConvertTextToTextArray(ConvertByteArrayToUnicodeText(sourceFile));
 
-        public IEnumerable<string[]> ConvertTextArrayToStructedText(string[] textArray, byte minSize, char[] splitCharakterArray) 
+        public IEnumerable<string[]> ConvertTextArrayToStructedText(string[] textArray, byte minSize, char[] splitCharakterArray)
             => (IEnumerable<string[]>)base.ConvertTextArrayToStructuredTextArray(textArray, minSize, splitCharakterArray);
 
         public IEnumerable<string[]> ConvertByteArrayToStructedTextArray(byte[] byteArray, byte minSize, char[] splitCharakterArray)

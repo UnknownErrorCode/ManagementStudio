@@ -66,7 +66,8 @@ namespace ClientDataStorage.Network
             catch (System.Exception ex)
             {
                 Log.Logger.WriteLogLine(ex.Message);
-                return false; }
+                return false;
+            }
 
             return true;
         }

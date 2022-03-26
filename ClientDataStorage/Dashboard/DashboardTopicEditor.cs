@@ -2,13 +2,7 @@
 using ServerFrameworkRes.Network.Security;
 using Structs.Dashboard;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClientDataStorage.Dashboard
@@ -31,7 +25,7 @@ namespace ClientDataStorage.Dashboard
         public DashboardTopicEditor(DashboardMessage msg)
         {
             Message = msg;
-           // NewMessage = new DashboardMessage(msg);
+            // NewMessage = new DashboardMessage(msg);
             InitializeComponent();
             Author = msg.Author;
 
@@ -44,8 +38,8 @@ namespace ClientDataStorage.Dashboard
 
         public DashboardTopicEditor(string author)
         {
-           // Message = msg;
-           // NewMessage = new DashboardMessage();
+            // Message = msg;
+            // NewMessage = new DashboardMessage();
             InitializeComponent();
             Author = author;
             vSroSmallButtonEdit.Enabled = false;
@@ -68,13 +62,13 @@ namespace ClientDataStorage.Dashboard
             else
             {
                 TopicTitle = Message.Title;
-                TopicText  = Message.Text;
+                TopicText = Message.Text;
             }
         }
 
         private void OnEdit()
         {
-            if (vSroMessageBox.YesOrNo("Do you want to edit the topic?","Edit Topic"))
+            if (vSroMessageBox.YesOrNo("Do you want to edit the topic?", "Edit Topic"))
             {
                 NewMessage = new DashboardMessage(EditTopicTitle, EditTopicText, Author);
 

@@ -10,7 +10,7 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncState 
     {
-        private Socket m_socket;
+        private readonly Socket m_socket;
         private AsyncBase m_server;
 
         private SocketAsyncEventArgs m_read_event_args;

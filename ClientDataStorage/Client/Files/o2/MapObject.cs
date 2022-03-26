@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ClientDataStorage.Client.Files
+﻿namespace ClientDataStorage.Client.Files
 {
     public class MapObject
     {

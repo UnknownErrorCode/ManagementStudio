@@ -1,10 +1,5 @@
 ﻿using ClientDataStorage.Client.Files;
-using Structs.Pk2;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ClientDataStorage.Client
@@ -53,6 +48,6 @@ namespace ClientDataStorage.Client
         /// Initialize Media asyncronous.
         /// </summary>
         public static async Task<bool> InitializeMediaAsync()
-          => Task.Run( () => InitializeMedia()).Result;
+          => Task.Run(() => InitializeMedia()).Result;
     }
 }

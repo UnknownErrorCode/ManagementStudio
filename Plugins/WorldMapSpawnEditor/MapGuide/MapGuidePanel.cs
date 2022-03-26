@@ -45,7 +45,7 @@ namespace WorldMapSpawnEditor.MapGuide
 
                 if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
                     if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
-                        imgDic.TryAdd(new Point(x, y), new ClientDataStorage.Client.Files.DDSImage(file, true).BitmapImage);
+                        imgDic.TryAdd(new Point(x, y), new ClientDataStorage.Client.Files.DDJImage(file).BitmapImage);
 
 
             }

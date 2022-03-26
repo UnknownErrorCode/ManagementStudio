@@ -1,35 +1,11 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System.Data;
 using System.Linq;
 
 namespace ManagementServer.Handler
 {
     internal class S_TABLEDATA
     {
-        /// <summary>
-        /// Sends 0xB001 with all required DataTable names as string array to Client
-        /// </summary>
-        /// <param name="securityGroup"></param>
-        /// <returns></returns>
-        internal static Packet GetDataTables(byte securityGroup)
-        {
-            try
-            {
-                var tableNameArray = Utility.SQL.GetRequiredTableNames(securityGroup);
-
-                ServerFrameworkRes.Network.Security.Packet tableNames = new Packet(0xB001);
-                tableNames.WriteInt(tableNameArray.Length);
-
-                for (int i = 0; i < tableNameArray.Length; i++)
-                    tableNames.WriteAscii(tableNameArray[i]);
-
-                return tableNames;
-            }
-            catch (System.Exception ex)
-            {
-                return PacketConstructors.NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
-            }
-        }
+        
 
         internal static PacketHandlerResult ResponseAllowedTables(Utility.ServerClientData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
         {
@@ -50,7 +26,7 @@ namespace ManagementServer.Handler
                 arg1.m_security.Send(DataTablePackets(array));
                 
             }
-            catch (System.Exception ex)
+            catch (System.Exception )
             { }
            // System.GC.Collect(2);
             return PacketHandlerResult.Block;

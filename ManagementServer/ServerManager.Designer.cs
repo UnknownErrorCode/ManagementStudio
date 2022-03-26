@@ -34,6 +34,10 @@ namespace ManagementServer
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gCCollectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gen1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gen2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gen3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sqlConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serverConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,10 +45,7 @@ namespace ManagementServer
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelOnlineUser = new System.Windows.Forms.ToolStripStatusLabel();
-            this.gCCollectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gen1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gen2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gen3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vSroSmallButtonRefreshSec = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -76,22 +77,53 @@ namespace ManagementServer
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
             // hideToolStripMenuItem
             // 
             this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
-            this.hideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hideToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.hideToolStripMenuItem.Text = "Hide";
+            // 
+            // gCCollectToolStripMenuItem
+            // 
+            this.gCCollectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gen1ToolStripMenuItem,
+            this.gen2ToolStripMenuItem,
+            this.gen3ToolStripMenuItem});
+            this.gCCollectToolStripMenuItem.Name = "gCCollectToolStripMenuItem";
+            this.gCCollectToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.gCCollectToolStripMenuItem.Text = "GC Collect";
+            // 
+            // gen1ToolStripMenuItem
+            // 
+            this.gen1ToolStripMenuItem.Name = "gen1ToolStripMenuItem";
+            this.gen1ToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.gen1ToolStripMenuItem.Text = "Gen 1";
+            this.gen1ToolStripMenuItem.Click += new System.EventHandler(this.gen1ToolStripMenuItem_Click);
+            // 
+            // gen2ToolStripMenuItem
+            // 
+            this.gen2ToolStripMenuItem.Name = "gen2ToolStripMenuItem";
+            this.gen2ToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.gen2ToolStripMenuItem.Text = "Gen 2";
+            this.gen2ToolStripMenuItem.Click += new System.EventHandler(this.gen2ToolStripMenuItem_Click);
+            // 
+            // gen3ToolStripMenuItem
+            // 
+            this.gen3ToolStripMenuItem.Name = "gen3ToolStripMenuItem";
+            this.gen3ToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.gen3ToolStripMenuItem.Text = "Gen 3";
+            this.gen3ToolStripMenuItem.Click += new System.EventHandler(this.gen3ToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -144,42 +176,23 @@ namespace ManagementServer
             this.toolStripStatusLabelOnlineUser.Name = "toolStripStatusLabelOnlineUser";
             this.toolStripStatusLabelOnlineUser.Size = new System.Drawing.Size(0, 17);
             // 
-            // gCCollectToolStripMenuItem
+            // vSroSmallButtonRefreshSec
             // 
-            this.gCCollectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gen1ToolStripMenuItem,
-            this.gen2ToolStripMenuItem,
-            this.gen3ToolStripMenuItem});
-            this.gCCollectToolStripMenuItem.Name = "gCCollectToolStripMenuItem";
-            this.gCCollectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gCCollectToolStripMenuItem.Text = "GC Collect";
-            // 
-            // gen1ToolStripMenuItem
-            // 
-            this.gen1ToolStripMenuItem.Name = "gen1ToolStripMenuItem";
-            this.gen1ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gen1ToolStripMenuItem.Text = "Gen 1";
-            this.gen1ToolStripMenuItem.Click += new System.EventHandler(this.gen1ToolStripMenuItem_Click);
-            // 
-            // gen2ToolStripMenuItem
-            // 
-            this.gen2ToolStripMenuItem.Name = "gen2ToolStripMenuItem";
-            this.gen2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gen2ToolStripMenuItem.Text = "Gen 2";
-            this.gen2ToolStripMenuItem.Click += new System.EventHandler(this.gen2ToolStripMenuItem_Click);
-            // 
-            // gen3ToolStripMenuItem
-            // 
-            this.gen3ToolStripMenuItem.Name = "gen3ToolStripMenuItem";
-            this.gen3ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gen3ToolStripMenuItem.Text = "Gen 3";
-            this.gen3ToolStripMenuItem.Click += new System.EventHandler(this.gen3ToolStripMenuItem_Click);
+            this.vSroSmallButtonRefreshSec.Location = new System.Drawing.Point(12, 53);
+            this.vSroSmallButtonRefreshSec.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonRefreshSec.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonRefreshSec.Name = "vSroSmallButtonRefreshSec";
+            this.vSroSmallButtonRefreshSec.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonRefreshSec.TabIndex = 3;
+            this.vSroSmallButtonRefreshSec.vSroSmallButtonName = "Refresh Security";
+            this.vSroSmallButtonRefreshSec.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButtonRefreshSec_vSroClickEvent);
             // 
             // ServerManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(692, 432);
+            this.Controls.Add(this.vSroSmallButtonRefreshSec);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -212,6 +225,7 @@ namespace ManagementServer
         private System.Windows.Forms.ToolStripMenuItem gen1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gen2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gen3ToolStripMenuItem;
+        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonRefreshSec;
     }
 }
 

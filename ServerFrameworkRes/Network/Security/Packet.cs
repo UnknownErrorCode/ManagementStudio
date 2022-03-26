@@ -73,6 +73,8 @@ namespace ServerFrameworkRes.Network.Security
             _readerBytes = null;
         }
 
+        
+
         public Packet(ushort opcode, bool encrypted, bool massive)
         {
             if (encrypted && massive)
@@ -357,6 +359,25 @@ namespace ServerFrameworkRes.Network.Security
         }
 
         public string ReadAscii() => ReadAscii(1252);
+
+        public string[] ReadAsciiArray()
+        {
+
+            lock (_lock)
+            {
+                if (!_locked)
+                {
+                    throw new PacketException("Cannot Read from an unlocked Packet.");
+                }
+                var result = new string[ReadUInt()];
+
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = ReadAscii(1252);
+                }
+                return result;
+            }
+        }
 
         public string ReadAscii(int codepage)
         {
@@ -1317,6 +1338,7 @@ namespace ServerFrameworkRes.Network.Security
                 {
                     throw new PacketException("Cannot Write to a locked Packet.");
                 }
+                WriteUInt(count);
                 for (int x = index; x < index + count; ++x)
                 {
                     WriteAscii(values[x], codepage);

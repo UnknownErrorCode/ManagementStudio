@@ -8,7 +8,6 @@ namespace Dashboard
     {
         private PacketHandlerResult TopicReceive(ServerData arg1, Packet arg2, bool isNew = false)
         {
-
             var msg = arg2.ReadStruct<DashboardMessage>();
             
             vSroButtonList1.Invoke(new Action(() =>

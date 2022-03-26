@@ -1,13 +1,7 @@
-﻿using ClientDataStorage.Dashboard;
-using ServerFrameworkRes.BasicControls;
-using ServerFrameworkRes.Network.Security;
-using Structs.Dashboard;
+﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientDataStorage.Network
 {
@@ -55,26 +49,15 @@ namespace ClientDataStorage.Network
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns>PacketHandlerResult result</returns>
-        internal static PacketHandlerResult AllowedDataTable(ServerData arg1, Packet arg2)
+        internal PacketHandlerResult AllowedDataTable(ServerData arg1, Packet arg2)
         {
-            string[] tableNames = new string[arg2.ReadInt()];
-
-            for (int i = 0; i < tableNames.Length; i++)
-                tableNames[i] = arg2.ReadAscii();
-
+            string[] tableNames = arg2.ReadAsciiArray();
             ClientMemory.AllowedDataTables = tableNames.ToList();// new List<string>(tableNames.Length);
 
-            Packet tableRequestPacket = new Packet(PacketID.Client.RequestDataTable, false, true);
-            tableRequestPacket.WriteByte((byte)tableNames.Length);
-            foreach (var table in tableNames)
+            if (RequestDataTable(tableNames, out Packet packet))
             {
-                tableRequestPacket.WriteAscii(table);
+                arg1.m_security.Send(packet);
             }
-
-            arg1.m_security.Send(tableRequestPacket);
-
-
-
             return PacketHandlerResult.Block;
         }
 

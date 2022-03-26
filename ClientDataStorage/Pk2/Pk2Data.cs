@@ -18,8 +18,8 @@ namespace ClientDataStorage.Pk2
         /// <summary>
         /// This bKey is used to parse the security blowfish of the pk2 File
         /// </summary>
-        private protected readonly byte[] bKey  = new byte[] { 0x32, 0xCE, 0xDD, 0x7C, 0xBC, 0xA8 };
-       
+        private protected readonly byte[] bKey = new byte[] { 0x32, 0xCE, 0xDD, 0x7C, 0xBC, 0xA8 };
+
         /// <summary>
         /// Pk2 data directory 
         /// </summary>

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientDataStorage.Client.Files
 {
@@ -24,7 +20,7 @@ namespace ClientDataStorage.Client.Files
 
             using (MemoryStream stream = new MemoryStream(ddsImage.Length))
             {
-                stream.Write(ddsImage, 20, ddsImage.Length-20);
+                stream.Write(ddsImage, 20, ddsImage.Length - 20);
                 stream.Seek(0, SeekOrigin.Begin);
 
                 using (BinaryReader reader = new BinaryReader(stream))

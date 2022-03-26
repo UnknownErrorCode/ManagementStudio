@@ -3,8 +3,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ClientDataStorage.Database
@@ -108,7 +106,7 @@ namespace ClientDataStorage.Database
                 _RefGameWorldBindTriggerCategory.TryAdd(dbo.Tables["_RefGameWorldBindTriggerCategory"].Rows[i].Field<int>("ID"), new RefGameWorldBindTriggerCategory(dbo.Tables["_RefGameWorldBindTriggerCategory"].Rows[i].ItemArray));
         }
 
-        private static void InitializeRefGame_World() 
+        private static void InitializeRefGame_World()
         {
             _RefGame_World = new ConcurrentDictionary<int, RefGame_World>(2, dbo.Tables["_RefGame_World"].Rows.Count);
 

@@ -7,20 +7,20 @@ namespace ClientDataStorage.Client.Files.bsr
         /// <summary>
         /// Locomotion = 0, Simple = 1, Ambient = 2,
         /// </summary>
-        uint Type{get; set;}
+        uint Type { get; set; }
 
         /// <summary>
         /// from PrimAnimationType
         /// </summary>
-        AnimationType AniType{get; set;}
+        AnimationType AniType { get; set; }
 
 
-        uint NameLength{get; set;}
-        string Name{get; set;}
+        uint NameLength { get; set; }
+        string Name { get; set; }
 
-        uint modSetDataCnt{get; set;}
+        uint modSetDataCnt { get; set; }
 
         //TODO check if key can be duplicated
-        Dictionary<ModDataType, byte[]> ModDataTypes{get; set;} 
+        Dictionary<ModDataType, byte[]> ModDataTypes { get; set; }
     }
 }

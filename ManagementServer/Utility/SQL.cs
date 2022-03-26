@@ -22,6 +22,13 @@ namespace ManagementServer.Utility
             return nameArray;
         }
 
+        internal static DataTable GetSecurityPluginAccess()
+        => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", ServerManager.settings.DBDev);
+
+
+        internal static DataTable GetPluginDataAccess()
+        => ReturnDataTableByQuery($"SELECT [PluginName], [LoadIndex], [TableName] FROM [dbo].[_ToolPluginDataAccess]", ServerManager.settings.DBDev);
+
         internal static bool TestSQLConnection(string sQL_ConnectionString)
         {
             sqlConnection = new SqlConnection(SqlConnectionString);

@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace ClientDataStorage
 {
     public abstract class ConfigLoader
     {
-        public  ServerFrameworkRes.InitializeFile ConfigEditor;
-        private  string ConfigPath { get => Path.Combine(Directory.GetCurrentDirectory(), "Config"); }
-        private  string ConfigFile { get => "settings.ini"; }
-        private  string ConfigFilePath { get => Path.Combine(ConfigPath,ConfigFile); }
+        public ServerFrameworkRes.InitializeFile ConfigEditor;
+        private string ConfigPath { get => Path.Combine(Directory.GetCurrentDirectory(), "Config"); }
+        private string ConfigFile { get => "settings.ini"; }
+        private string ConfigFilePath { get => Path.Combine(ConfigPath, ConfigFile); }
 
-        internal  void Initialize()
+        internal void Initialize()
         {
             if (!Directory.Exists(ConfigPath))
                 Directory.CreateDirectory(ConfigPath).Create();
 
             if (!File.Exists(ConfigFilePath))
             {
-                
+
                 File.Create(ConfigFilePath).Dispose();
 
                 ConfigEditor = new ServerFrameworkRes.InitializeFile(ConfigFilePath);

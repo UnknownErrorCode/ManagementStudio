@@ -14,6 +14,8 @@ namespace ManagementServer
         internal static Utility.Settings settings = new Utility.Settings();
         internal static LogGridView Logger = new LogGridView() { Dock = DockStyle.Bottom };
         internal static AsyncServer Server;
+
+
         private byte[] buffer { get; set; }
         private bool Ticker = false;
         public ServerManager()
@@ -52,6 +54,10 @@ namespace ManagementServer
             {
                 if (!Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString))
                     return;
+
+                if (!PluginSecurityManager.TryRefreshSecurityManager())
+                    return;
+
                 Utility.SQL.LogoutEveryone();
                 Server = new AsyncServer();
                 Server.Accept(settings.IP, settings.Port, 5, new ServerInterface(), buffer);
@@ -127,6 +133,11 @@ namespace ManagementServer
         private void gen3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GC.Collect(3);
+        }
+
+        private void vSroSmallButtonRefreshSec_vSroClickEvent()
+        {
+            PluginSecurityManager.TryRefreshSecurityManager();
         }
     }
 }

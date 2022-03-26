@@ -1,9 +1,5 @@
-﻿using ServerFrameworkRes.Network.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementServer
 {
@@ -22,7 +18,7 @@ namespace ManagementServer
                     if (client.Value.m_connected)
                         client.Value.m_security.Send(packet);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
         }

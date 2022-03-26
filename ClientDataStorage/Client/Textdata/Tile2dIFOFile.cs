@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ClientDataStorage.Client
 {
-    public class Tile2dIFOFile 
+    public class Tile2dIFOFile
     {
         public string[] TexturePaths;
 

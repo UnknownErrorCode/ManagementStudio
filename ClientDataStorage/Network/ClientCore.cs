@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using ServerFrameworkRes.Network.AsyncNetwork;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Network.Security;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ClientDataStorage.Network
 {
@@ -18,7 +16,7 @@ namespace ClientDataStorage.Network
 
         public static void RequestPluginDataTable(string pluginName)
         {
-            
+
         }
 
         public static bool Connected { get => CInterface.cData.m_connected; }

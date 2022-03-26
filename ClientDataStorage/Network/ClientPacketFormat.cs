@@ -1,16 +1,23 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientDataStorage.Network
 {
     partial class ClientPacketHandler
     {
 
-        
-
+        static bool RequestDataTable(string[] tables, out Packet packet)
+        {
+            packet = new Packet(PacketID.Client.RequestDataTable, false, true);
+            try
+            {
+                packet.WriteAsciiArray(tables);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

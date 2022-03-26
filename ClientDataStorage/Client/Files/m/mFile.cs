@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientDataStorage.Client.Files
 {
@@ -45,7 +44,7 @@ namespace ClientDataStorage.Client.Files
             if (!byte.TryParse(pk2file.name.Replace(".m", ""), out byte xCoordinate))
                 return;
 
-            byte[] buffer = Client.Map.MapPk2.GetByteArrayByFile(pk2file);
+            byte[] buffer = Map.MapPk2.GetByteArrayByFile(pk2file);
 
             Initialize(buffer, xCoordinate, yCoordinate);
 
@@ -185,8 +184,8 @@ namespace ClientDataStorage.Client.Files
         public bool GetHightByfPoint(float regX, float regY, out float Z)
         {
             Z = 0.0f;
-             BlockEntry(regX, out byte BlockX);
-             BlockEntry(regY, out byte BlockY);
+            BlockEntry(regX, out byte BlockX);
+            BlockEntry(regY, out byte BlockY);
 
             CellEntry(regX, false, out byte CellX);
             CellEntry(regY, true, out byte CellY);

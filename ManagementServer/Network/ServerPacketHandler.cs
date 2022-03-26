@@ -1,6 +1,5 @@
 ﻿using ManagementServer.Utility;
 using ServerFrameworkRes.Network.Security;
-using System.Data;
 
 namespace ManagementServer.Network
 {

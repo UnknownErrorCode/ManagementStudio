@@ -2,7 +2,7 @@
 
 namespace ClientDataStorage.Pk2
 {
-   internal class Blowfish
+    internal class Blowfish
     {
         private static uint[] bf_P =
         {
