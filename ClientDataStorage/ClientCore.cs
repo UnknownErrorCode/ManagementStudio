@@ -1,10 +1,11 @@
-﻿using ServerFrameworkRes.Network.AsyncNetwork;
+﻿using ClientDataStorage.Network;
+using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Network.Security;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ClientDataStorage.Network
+namespace ClientDataStorage
 {
     public static class ClientCore
     {
@@ -15,11 +16,7 @@ namespace ClientDataStorage.Network
         public static Action OnDataReceived { get => CInterface.CHandler.OnReceiveAllTables; set => CInterface.CHandler.OnReceiveAllTables = value; }
         public static Action OnAllowedPluginReceived { get => CInterface.CHandler.OnAllowedPluginReceived; set => CInterface.CHandler.OnAllowedPluginReceived = value; }
 
-        public static void RequestPluginDataTable(string pluginName)
-        {
-
-        }
-
+       
         public static bool Connected { get => CInterface.cData.m_connected; }
         internal static string AccountName { get => CInterface.cData.AccountName; }
 

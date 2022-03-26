@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿using Editors.Skills;
+using System;
 using System.Data;
 using System.Linq;
-using Editors.Skills;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ServerFrameworkRes.Network.Security;
-using Structs.Database;
 
 namespace SkillEditor
 {
@@ -28,7 +22,7 @@ namespace SkillEditor
         private void SearchMonster(object sender, EventArgs e)
         {
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Any(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())))
-                 dataGridViewMonster.DataSource = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Where(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())).CopyToDataTable();
+                dataGridViewMonster.DataSource = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Where(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())).CopyToDataTable();
             else { dataGridViewMonster.DataSource = null; }
         }
 
