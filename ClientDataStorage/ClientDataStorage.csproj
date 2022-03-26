@@ -59,10 +59,8 @@
     <Compile Include="Client\Files\bsr\ObjectGeneralInfo.cs" />
     <Compile Include="Client\Files\bsr\ResourceType.cs" />
     <Compile Include="Client\Files\ddj\DDJImage.cs" />
-    <Compile Include="Client\Files\ddj\DSSImage.cs" />
     <Compile Include="Client\Files\ddj\PixelFormat.cs" />
     <Compile Include="Client\Files\m\MapMeshBlock.cs" />
-    <Compile Include="Client\Files\m\MapMeshCell.cs" />
     <Compile Include="Client\Files\o2\MapObject.cs" />
     <Compile Include="Client\Files\o2\o2File.cs" />
     <Compile Include="Client\Files\m\mFile.cs" />

@@ -44,7 +44,7 @@ namespace ClientDataStorage.Database
 
             SRO_VT_SHARD.dbo.Tables.Add(arg2);
 
-            ClientMemory.AllowedDataTables.Remove(tableName);
+            //ClientMemory.UsedDataTables.Remove(tableName);
 
             await Task.Delay(1);
         }

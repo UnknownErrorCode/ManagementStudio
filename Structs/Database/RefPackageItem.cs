@@ -4,11 +4,11 @@ namespace Structs.Database
 {
     public struct RefPackageItem
     {
-        public byte Service { get; set; }
-        public string CodeName128 { get; set; }
-        public string NameStrID { get; set; }
-        public string DescStrID { get; set; }
-        public string AssocFileIcon { get; set; }
+        public byte Service;
+        public string CodeName128;
+        public string NameStrID;
+        public string DescStrID;
+        public string AssocFileIcon;
 
         public RefPackageItem(DataRow row)
         {

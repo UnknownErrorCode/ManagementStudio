@@ -34,16 +34,14 @@ namespace ManagementServer.Handler
                 {
                     serverData.AccountName = result.UserName;
                     serverData.SecurityGroup = result.SecurityGroup;
-                    //Create specific request of data foreach plugin.
-                    //Create a list of all required Data AFTER all plugins are load to avoid dupe requests.
+
                    data.m_security.Send(PacketConstructors.LoginPacket.SendAllowedPlugins(result.SecurityGroup));
                    data.m_security.Send(PacketConstructors.LoginPacket.AllowedDataTables(result.SecurityGroup));
-                   ServerManager.Logger.WriteLogLine($"User: {result.UserName} successfully logged on! Start sending Tables ");
 
+                   ServerManager.Logger.WriteLogLine($"User: {result.UserName} successfully logged on!");
                 }
                 else
                     ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed login on user: {result.UserName} {result.Notification}");
-
 
                 return PacketHandlerResult.Response;
             }

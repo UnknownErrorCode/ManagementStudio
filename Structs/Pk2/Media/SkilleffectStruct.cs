@@ -11,20 +11,20 @@ namespace Structs.Pk2.Media
 
     public struct CharakterInfo
     {
-        public object[] ObjectArray { get; set; }
+        public object[] ObjectArray;
 
-        public object CodeName128 { get; set; }
-        public object RessourceTypName { get; set; }
-        public object Size { get; set; }
-        public object Ride { get; set; }
-        public object Type { get; set; }
-        public object DieBsr { get; set; }
-        public object DieEffect { get; set; }
-        public object DamageBone { get; set; }
-        public object DamagePos { get; set; }
-        public object BloodType { get; set; }
-        public object DeadEffect { get; set; }
-        public object[] buffer { get; set; }
+        public object CodeName128;
+        public object RessourceTypName;
+        public object Size;
+        public object Ride;
+        public object Type;
+        public object DieBsr;
+        public object DieEffect;
+        public object DamageBone;
+        public object DamagePos;
+        public object BloodType;
+        public object DeadEffect;
+        public object[] buffer;
 
         public CharakterInfo(string[] incomeLine)
         {
@@ -55,27 +55,27 @@ namespace Structs.Pk2.Media
 
     public struct AniSet2
     {
-        public object[] ObjectArray { get; set; }
-        public object Service { get; set; }
-        public object EffectSetLink { get; set; }
-        public object Basic_Code { get; set; }
-        public object Priority { get; set; }
-        public object AniTRUE { get; set; }
-        public object HideWeapon { get; set; }
-        public object AniGroup { get; set; }
-        public object AniReady { get; set; }
-        public object AniWait { get; set; }
-        public object AnimationCode { get; set; }
-        public object AniPlayTime { get; set; }
-        public object ActW { get; set; }
-        public object ActS { get; set; }
-        public object DefenseEfp { get; set; }
-        public object DamageEfp { get; set; }
-        public object Lenght { get; set; }
-        public object Color { get; set; }
-        public object OP { get; set; }
-        public object texture { get; set; }
-        public object[] buffer { get; set; }
+        public object[] ObjectArray;
+        public object Service;
+        public object EffectSetLink;
+        public object Basic_Code;
+        public object Priority;
+        public object AniTRUE;
+        public object HideWeapon;
+        public object AniGroup;
+        public object AniReady;
+        public object AniWait;
+        public object AnimationCode;
+        public object AniPlayTime;
+        public object ActW;
+        public object ActS;
+        public object DefenseEfp;
+        public object DamageEfp;
+        public object Lenght;
+        public object Color;
+        public object OP;
+        public object texture;
+        public object[] buffer;
 
 
         public AniSet2(string[] incomeLine)
@@ -116,39 +116,39 @@ namespace Structs.Pk2.Media
 
     public struct EffectSet
     {
-        public object[] ObjectArray { get; set; }
-        public object Basic_Name { get; set; }
-        public object SkillEffectID { get; set; }
-        public object AniType { get; set; }
-        public object StartEvent { get; set; }
-        public object DMG { get; set; }
-        public object Event { get; set; }
-        public object DamageType { get; set; }
-        public object Scale { get; set; }
-        public object ID { get; set; }
-        public object Attach { get; set; }
-        public object Trade { get; set; }
-        public object Kill { get; set; }
-        public object CreateCnt { get; set; }
-        public object Fade { get; set; }
-        public object ActType { get; set; }
-        public object MovTypeSpeed { get; set; }
-        public object Param { get; set; }
-        public object Act { get; set; }
-        public object Option { get; set; }
-        public object Obj { get; set; }
-        public object Path { get; set; }
-        public object ObjName { get; set; }
-        public object StartBone { get; set; }
-        public object StartOffset { get; set; }
-        public object TargetBone { get; set; }
-        public object TargetOffset { get; set; }
-        public object ObjName2 { get; set; }
-        public object Rotate { get; set; }
-        public object Script { get; set; }
-        public object SndBegin { get; set; }
-        public object SndEnd { get; set; }
-        public object[] buffer { get; set; }
+        public object[] ObjectArray;
+        public object Basic_Name;
+        public object SkillEffectID;
+        public object AniType;
+        public object StartEvent;
+        public object DMG;
+        public object Event;
+        public object DamageType;
+        public object Scale;
+        public object ID;
+        public object Attach;
+        public object Trade;
+        public object Kill;
+        public object CreateCnt;
+        public object Fade;
+        public object ActType;
+        public object MovTypeSpeed;
+        public object Param;
+        public object Act;
+        public object Option;
+        public object Obj;
+        public object Path;
+        public object ObjName;
+        public object StartBone;
+        public object StartOffset;
+        public object TargetBone;
+        public object TargetOffset;
+        public object ObjName2;
+        public object Rotate;
+        public object Script;
+        public object SndBegin;
+        public object SndEnd;
+        public object[] buffer;
 
 
         public EffectSet(string[] incomeLine)

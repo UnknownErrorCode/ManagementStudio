@@ -13,6 +13,7 @@ namespace ClientDataStorage.Network
 
 
         public static Action OnDataReceived { get => CInterface.CHandler.OnReceiveAllTables; set => CInterface.CHandler.OnReceiveAllTables = value; }
+        public static Action OnAllowedPluginReceived { get => CInterface.CHandler.OnAllowedPluginReceived; set => CInterface.CHandler.OnAllowedPluginReceived = value; }
 
         public static void RequestPluginDataTable(string pluginName)
         {

@@ -29,7 +29,7 @@ namespace ShopEditor.Interface.ShopInterface
             ShopGoods = new CIShopGood[allGoodsOnTab.Length];
 
             for (int i = 0; i < allGoodsOnTab.Length; i++)
-                ShopGoods[i] = new CIShopGood(new Structs.Database.RefShopGood(allGoodsOnTab[i].ItemArray));// Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
+                ShopGoods[i] = new CIShopGood(new Structs.Database.RefShopGood(allGoodsOnTab[i]));// Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
                 //ShopGoods[i] = new RefShopGood(allGoodsOnTab[i].Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
         }
     }

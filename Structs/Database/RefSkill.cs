@@ -8,129 +8,128 @@ namespace Structs.Database
 {
     public struct RefSkill
     {
-        public object[] SkillAsArray;
-        public byte Service { get; set; }
-        public int ID { get; private set; }
-        public int GroupID { get; set; }
-        public string Basic_Code { get; set; }
-        public string Basic_Name { get; set; }
-        public string Basic_Group { get; set; }
-        public int Basic_Original { get; set; }
-        public byte Basic_Level { get; set; }
-        public byte Basic_Activity { get; set; }
-        public int Basic_ChainCode { get; set; }
-        public int Basic_RecycleCost { get; set; }
-        public int Action_PreparingTime { get; set; }
-        public int Action_CastingTime { get; set; }
-        public int Action_ActionDuration { get; set; }
-        public int Action_ReuseDelay { get; set; }
-        public int Action_CoolTime { get; set; }
-        public int Action_FlyingSpeed { get; set; }
-        public byte Action_Interruptable { get; set; }
-        public int Action_Overlap { get; set; }
-        public byte Action_AutoAttackType { get; set; }
-        public byte Action_InTown { get; set; }
-        public Int16 Action_Range { get; set; }
-        public byte Target_Required { get; set; }
-        public byte TargetType_Animal { get; set; }
-        public byte TargetType_Land { get; set; }
-        public byte TargetType_Building { get; set; }
-        public byte TargetGroup_Self { get; set; }
-        public byte TargetGroup_Ally { get; set; }
-        public byte TargetGroup_Party { get; set; }
-        public byte TargetGroup_Enemy_M { get; set; }
-        public byte TargetGroup_Enemy_P { get; set; }
-        public byte TargetGroup_Neutral { get; set; }
-        public byte TargetGroup_DontCare { get; set; }
-        public byte TargetEtc_SelectDeadBody { get; set; }
-        public int ReqCommon_Mastery1 { get; set; }
-        public int ReqCommon_Mastery2 { get; set; }
-        public byte ReqCommon_MasteryLevel1 { get; set; }
-        public byte ReqCommon_MasteryLevel2 { get; set; }
-        public Int16 ReqCommon_Str { get; set; }
-        public Int16 ReqCommon_Int { get; set; }
-        public int ReqLearn_Skill1 { get; set; }
-        public int ReqLearn_Skill2 { get; set; }
-        public int ReqLearn_Skill3 { get; set; }
-        public byte ReqLearn_SkillLevel1 { get; set; }
-        public byte ReqLearn_SkillLevel2 { get; set; }
-        public byte ReqLearn_SkillLevel3 { get; set; }
-        public int ReqLearn_SP { get; set; }
-        public byte ReqLearn_Race { get; set; }
-        public byte Req_Restriction1 { get; set; }
-        public byte Req_Restriction2 { get; set; }
-        public byte ReqCast_Weapon1 { get; set; }
-        public byte ReqCast_Weapon2 { get; set; }
-        public Int16 Consume_HP { get; set; }
-        public Int16 Consume_MP { get; set; }
-        public Int16 Consume_HPRatio { get; set; }
-        public Int16 Consume_MPRatio { get; set; }
-        public byte Consume_WHAN { get; set; }
-        public byte UI_SkillTab { get; set; }
-        public byte UI_SkillPage { get; set; }
-        public byte UI_SkillColumn { get; set; }
-        public byte UI_SkillRow { get; set; }
-        public string UI_IconFile { get; set; }
-        public string UI_SkillName { get; set; }
-        public string UI_SkillToolTip { get; set; }
-        public string UI_SkillToolTip_Desc { get; set; }
-        public string UI_SkillStudy_Desc { get; set; }
-        public Int16 AI_AttackChance { get; set; }
-        public byte AI_SkillType { get; set; }
-        public int Param1 { get; set; }
-        public int Param2 { get; set; }
-        public int Param3 { get; set; }
-        public int Param4 { get; set; }
-        public int Param5 { get; set; }
-        public int Param6 { get; set; }
-        public int Param7 { get; set; }
-        public int Param8 { get; set; }
-        public int Param9 { get; set; }
-        public int Param10 { get; set; }
-        public int Param11 { get; set; }
-        public int Param12 { get; set; }
-        public int Param13 { get; set; }
-        public int Param14 { get; set; }
-        public int Param15 { get; set; }
-        public int Param16 { get; set; }
-        public int Param17 { get; set; }
-        public int Param18 { get; set; }
-        public int Param19 { get; set; }
-        public int Param20 { get; set; }
-        public int Param21 { get; set; }
-        public int Param22 { get; set; }
-        public int Param23 { get; set; }
-        public int Param24 { get; set; }
-        public int Param25 { get; set; }
-        public int Param26 { get; set; }
-        public int Param27 { get; set; }
-        public int Param28 { get; set; }
-        public int Param29 { get; set; }
-        public int Param30 { get; set; }
-        public int Param31 { get; set; }
-        public int Param32 { get; set; }
-        public int Param33 { get; set; }
-        public int Param34 { get; set; }
-        public int Param35 { get; set; }
-        public int Param36 { get; set; }
-        public int Param37 { get; set; }
-        public int Param38 { get; set; }
-        public int Param39 { get; set; }
-        public int Param40 { get; set; }
-        public int Param41 { get; set; }
-        public int Param42 { get; set; }
-        public int Param43 { get; set; }
-        public int Param44 { get; set; }
-        public int Param45 { get; set; }
-        public int Param46 { get; set; }
-        public int Param47 { get; set; }
-        public int Param48 { get; set; }
-        public int Param49 { get; set; }
-        public int Param50 { get; set; }
+       // public object[] SkillAsArray;
+        public byte Service ;
+        public readonly int ID;
+        public int GroupID ;
+        public string Basic_Code ;
+        public string Basic_Name ;
+        public string Basic_Group ;
+        public int Basic_Original ;
+        public byte Basic_Level ;
+        public byte Basic_Activity ;
+        public int Basic_ChainCode ;
+        public int Basic_RecycleCost ;
+        public int Action_PreparingTime ;
+        public int Action_CastingTime ;
+        public int Action_ActionDuration ;
+        public int Action_ReuseDelay ;
+        public int Action_CoolTime ;
+        public int Action_FlyingSpeed ;
+        public byte Action_Interruptable ;
+        public int Action_Overlap ;
+        public byte Action_AutoAttackType ;
+        public byte Action_InTown ;
+        public Int16 Action_Range ;
+        public byte Target_Required ;
+        public byte TargetType_Animal ;
+        public byte TargetType_Land ;
+        public byte TargetType_Building ;
+        public byte TargetGroup_Self ;
+        public byte TargetGroup_Ally ;
+        public byte TargetGroup_Party ;
+        public byte TargetGroup_Enemy_M ;
+        public byte TargetGroup_Enemy_P ;
+        public byte TargetGroup_Neutral ;
+        public byte TargetGroup_DontCare ;
+        public byte TargetEtc_SelectDeadBody ;
+        public int ReqCommon_Mastery1 ;
+        public int ReqCommon_Mastery2 ;
+        public byte ReqCommon_MasteryLevel1 ;
+        public byte ReqCommon_MasteryLevel2 ;
+        public Int16 ReqCommon_Str ;
+        public Int16 ReqCommon_Int ;
+        public int ReqLearn_Skill1 ;
+        public int ReqLearn_Skill2 ;
+        public int ReqLearn_Skill3 ;
+        public byte ReqLearn_SkillLevel1 ;
+        public byte ReqLearn_SkillLevel2 ;
+        public byte ReqLearn_SkillLevel3 ;
+        public int ReqLearn_SP ;
+        public byte ReqLearn_Race ;
+        public byte Req_Restriction1 ;
+        public byte Req_Restriction2 ;
+        public byte ReqCast_Weapon1 ;
+        public byte ReqCast_Weapon2 ;
+        public Int16 Consume_HP ;
+        public Int16 Consume_MP ;
+        public Int16 Consume_HPRatio ;
+        public Int16 Consume_MPRatio ;
+        public byte Consume_WHAN ;
+        public byte UI_SkillTab ;
+        public byte UI_SkillPage ;
+        public byte UI_SkillColumn ;
+        public byte UI_SkillRow ;
+        public string UI_IconFile ;
+        public string UI_SkillName ;
+        public string UI_SkillToolTip ;
+        public string UI_SkillToolTip_Desc ;
+        public string UI_SkillStudy_Desc ;
+        public Int16 AI_AttackChance ;
+        public byte AI_SkillType ;
+        public int Param1 ;
+        public int Param2 ;
+        public int Param3 ;
+        public int Param4 ;
+        public int Param5 ;
+        public int Param6 ;
+        public int Param7 ;
+        public int Param8 ;
+        public int Param9 ;
+        public int Param10 ;
+        public int Param11 ;
+        public int Param12 ;
+        public int Param13 ;
+        public int Param14 ;
+        public int Param15 ;
+        public int Param16 ;
+        public int Param17 ;
+        public int Param18 ;
+        public int Param19 ;
+        public int Param20 ;
+        public int Param21 ;
+        public int Param22 ;
+        public int Param23 ;
+        public int Param24 ;
+        public int Param25 ;
+        public int Param26 ;
+        public int Param27 ;
+        public int Param28 ;
+        public int Param29 ;
+        public int Param30 ;
+        public int Param31 ;
+        public int Param32 ;
+        public int Param33 ;
+        public int Param34 ;
+        public int Param35 ;
+        public int Param36 ;
+        public int Param37 ;
+        public int Param38 ;
+        public int Param39 ;
+        public int Param40 ;
+        public int Param41 ;
+        public int Param42 ;
+        public int Param43 ;
+        public int Param44 ;
+        public int Param45 ;
+        public int Param46 ;
+        public int Param47 ;
+        public int Param48 ;
+        public int Param49 ;
+        public int Param50 ;
 
         public RefSkill(object[] row)
         {
-            SkillAsArray = row;
             Service = byte.Parse(row[0].ToString());
             ID = int.Parse(row[1].ToString());
             GroupID = int.Parse(row[2].ToString());

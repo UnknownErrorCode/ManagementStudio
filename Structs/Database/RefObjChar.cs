@@ -4,87 +4,87 @@ namespace Structs.Database
 {
     public struct RefObjChar
     {
-        public int ID { get; private set; }
-        public byte Lvl{ get; set; }
-        public byte CharGender{ get; set; }
-        public int MaxHP{ get; set; }
-        public int MaxMP{ get; set; }
-        public int ResistFrozen{ get; set; }
-        public int ResistFrostbite{ get; set; }
-        public int ResistBurn{ get; set; }
-        public int ResistEShock{ get; set; }
-        public int ResistPoison{ get; set; }
-        public int ResistZombie{ get; set; }
-        public int ResistSleep{ get; set; }
-        public int ResistRoot{ get; set; }
-        public int ResistSlow{ get; set; }
-        public int ResistFear{ get; set; }
-        public int ResistMyopia{ get; set; }
-        public int ResistBlood{ get; set; }
-        public int ResistStone{ get; set; }
-        public int ResistDark{ get; set; }
-        public int ResistStun{ get; set; }
-        public int ResistDisea{ get; set; }
-        public int ResistChaos{ get; set; }
-        public int ResistCsePD{ get; set; }
-        public int ResistCseMD{ get; set; }
-        public int ResistCseSTR{ get; set; }
-        public int ResistCseINT{ get; set; }
-        public int ResistCseHP{ get; set; }
-        public int ResistCseMP{ get; set; }
-        public int Resist24{ get; set; }
-        public int ResistBomb{ get; set; }
-        public int Resist26{ get; set; }
-        public int Resist27{ get; set; }
-        public int Resist28{ get; set; }
-        public int Resist29{ get; set; }
-        public int Resist30{ get; set; }
-        public int Resist31{ get; set; }
-        public int Resist32{ get; set; }
-        public byte InventorySize{ get; set; }
-        public byte CanStore_TID1{ get; set; }
-        public byte CanStore_TID2{ get; set; }
-        public byte CanStore_TID3{ get; set; }
-        public byte CanStore_TID4{ get; set; }
-        public byte CanBeVehicle{ get; set; }
-        public byte CanControl{ get; set; }
-        public byte DamagePortion{ get; set; }
-        public Int16 MaxPassenger{ get; set; }
-        public int AssocTactics{ get; set; }
-        public int PD{ get; set; }
-        public int MD{ get; set; }
-        public int PAR{ get; set; }
-        public int MAR{ get; set; }
-        public int ER{ get; set; }
-        public int BR{ get; set; }
-        public int HR{ get; set; }
-        public int CHR{ get; set; }
-        public int ExpToGive{ get; set; }
-        public int CreepType{ get; set; }
-        public byte Knockdown{ get; set; }
-        public int KO_RecoverTime{ get; set; }
-        public int DefaultSkill_1{ get; set; }
-        public int DefaultSkill_2{ get; set; }
-        public int DefaultSkill_3{ get; set; }
-        public int DefaultSkill_4{ get; set; }
-        public int DefaultSkill_5{ get; set; }
-        public int DefaultSkill_6{ get; set; }
-        public int DefaultSkill_7{ get; set; }
-        public int DefaultSkill_8{ get; set; }
-        public int DefaultSkill_9{ get; set; }
-        public int DefaultSkill_10{ get; set; }
-        public byte TextureType{ get; set; }
-        public int Except_1{ get; set; }
-        public int Except_2{ get; set; }
-        public int Except_3{ get; set; }
-        public int Except_4{ get; set; }
-        public int Except_5{ get; set; }
-        public int Except_6{ get; set; }
-        public int Except_7{ get; set; }
-        public int Except_8{ get; set; }
-        public int Except_9{ get; set; }
-        public int Except_10{ get; set; }
-        public int Link{ get; set; }
+        public readonly int ID;
+        public byte Lvl;
+        public byte CharGender;
+        public int MaxHP;
+        public int MaxMP;
+        public int ResistFrozen;
+        public int ResistFrostbite;
+        public int ResistBurn;
+        public int ResistEShock;
+        public int ResistPoison;
+        public int ResistZombie;
+        public int ResistSleep;
+        public int ResistRoot;
+        public int ResistSlow;
+        public int ResistFear;
+        public int ResistMyopia;
+        public int ResistBlood;
+        public int ResistStone;
+        public int ResistDark;
+        public int ResistStun;
+        public int ResistDisea;
+        public int ResistChaos;
+        public int ResistCsePD;
+        public int ResistCseMD;
+        public int ResistCseSTR;
+        public int ResistCseINT;
+        public int ResistCseHP;
+        public int ResistCseMP;
+        public int Resist24;
+        public int ResistBomb;
+        public int Resist26;
+        public int Resist27;
+        public int Resist28;
+        public int Resist29;
+        public int Resist30;
+        public int Resist31;
+        public int Resist32;
+        public byte InventorySize;
+        public byte CanStore_TID1;
+        public byte CanStore_TID2;
+        public byte CanStore_TID3;
+        public byte CanStore_TID4;
+        public byte CanBeVehicle;
+        public byte CanControl;
+        public byte DamagePortion;
+        public Int16 MaxPassenger;
+        public int AssocTactics;
+        public int PD;
+        public int MD;
+        public int PAR;
+        public int MAR;
+        public int ER;
+        public int BR;
+        public int HR;
+        public int CHR;
+        public int ExpToGive;
+        public int CreepType;
+        public byte Knockdown;
+        public int KO_RecoverTime;
+        public int DefaultSkill_1;
+        public int DefaultSkill_2;
+        public int DefaultSkill_3;
+        public int DefaultSkill_4;
+        public int DefaultSkill_5;
+        public int DefaultSkill_6;
+        public int DefaultSkill_7;
+        public int DefaultSkill_8;
+        public int DefaultSkill_9;
+        public int DefaultSkill_10;
+        public byte TextureType;
+        public int Except_1;
+        public int Except_2;
+        public int Except_3;
+        public int Except_4;
+        public int Except_5;
+        public int Except_6;
+        public int Except_7;
+        public int Except_8;
+        public int Except_9;
+        public int Except_10;
+        public int Link;
 
         public RefObjChar(object[] row)
         {

@@ -1,4 +1,5 @@
 ﻿using Structs.Pk2;
+using Structs.Pk2.BinaryFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -94,7 +95,7 @@ namespace ClientDataStorage.Client.Files
 
                                     try
                                     {
-                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new MapMeshCell(hei, (ushort)tex, bri));
+                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new Structs.Pk2.BinaryFiles.MapMeshCell(hei, (ushort)tex, 0,bri));
                                     }
                                     catch (Exception ex)
                                     {
@@ -170,15 +171,19 @@ namespace ClientDataStorage.Client.Files
         /// <param name="Cx"></param>
         /// <param name="Cy"></param>
         /// <returns>MapMeshCell cell</returns>
-        public MapMeshCell GetMapMeshCell(int x, int y, int Cx, int Cy)
+        public bool GetMapMeshCell(int x, int y, int Cx, int Cy, out MapMeshCell cell)
         {
             System.Drawing.Point p = new System.Drawing.Point(x, y);
             System.Drawing.Point cp = new System.Drawing.Point(Cx, Cy);
 
+            cell = new MapMeshCell();
+
             if (Blocks[p].MapCells.ContainsKey(p))
-                return Blocks[p].MapCells[p];
+                 cell = Blocks[p].MapCells[p];
             else
-                return null;
+                return false;
+
+            return true;
         }
 
         public bool GetHightByfPoint(float regX, float regY, out float Z)

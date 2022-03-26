@@ -15,7 +15,7 @@ namespace ClientDataStorage.Client
         /// <summary>
         /// All Textures for tiles as dds format. Key = TextureID. Value = .dds file to display bitmap.
         /// </summary>
-        public static Dictionary<int, DDSImage> TileTextureDictionary = new Dictionary<int, DDSImage>();
+        public static Dictionary<int, DDJImage> TileTextureDictionary = new Dictionary<int, DDJImage>();
 
         /// <summary>
         /// List of all .o2 files inside the Map.pk2.

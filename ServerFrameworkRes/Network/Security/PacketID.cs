@@ -17,6 +17,8 @@ namespace ServerFrameworkRes.Network.Security
         {
 
             public const ushort RequestDataTable = 0x0999;
+            public const ushort RequestPlugiDataTable = 0x0998;
+
             public const ushort Login = 0x1000;
 
             public const ushort TopicsRequest = 0x1001;
@@ -33,9 +35,6 @@ namespace ServerFrameworkRes.Network.Security
             public const ushort RefScrapOfPackageItem = 0x1012;
             public const ushort RefShopGood = 0x1013;
 
-
-
-          
         }
         public static class Server
         {

@@ -4,64 +4,64 @@ namespace Structs.Database
 {
     public struct RefObjCommon
     {
-        public int Service { get; set; }
-        public int ID { get; private set; }
-        public string CodeName128 { get; set; }
-        public string ObjName128 { get; set; }
-        public string OrgObjCodeName128 { get; set; }
-        public string NameStrID128 { get; set; }
-        public string DescStrID128 { get; set; }
-        public byte CashItem { get; set; }
-        public byte Bionic { get; set; }
-        public byte TypeID1 { get; set; }
-        public byte TypeID2 { get; set; }
-        public byte TypeID3 { get; set; }
-        public byte TypeID4 { get; set; }
-        public int DecayTime { get; set; }
-        public byte Country { get; set; }
-        public Rarity Rarity { get; set; }
-        public byte CanTrade { get; set; }
-        public byte CanSell { get; set; }
-        public byte CanBuy { get; set; }
-        public BorrowFlag CanBorrow { get; set; }
-        public DropFlag CanDrop { get; set; }
-        public byte CanPick { get; set; }
-        public byte CanRepair { get; set; }
-        public byte CanRevive { get; set; }
-        public byte CanUse { get; set; }
-        public byte CanThrow { get; set; }
-        public int Price { get; set; }
-        public int CostRepair { get; set; }
-        public int CostRevive { get; set; }
-        public int CostBorrow { get; set; }
-        public int KeepingFee { get; set; }
-        public int SellPrice { get; set; }
-        public int ReqLevelType1 { get; set; }
-        public byte ReqLevel1 { get; set; }
-        public int ReqLevelType2 { get; set; }
-        public byte ReqLevel2 { get; set; }
-        public int ReqLevelType3 { get; set; }
-        public byte ReqLevel3 { get; set; }
-        public int ReqLevelType4 { get; set; }
-        public byte ReqLevel4 { get; set; }
-        public int MaxContain { get; set; }
-        public Int16 RegionID { get; set; }
-        public Int16 Dir { get; set; }
-        public Int16 OffsetX { get; set; }
-        public Int16 OffsetY { get; set; }
-        public Int16 OffsetZ { get; set; }
-        public Int16 Speed1 { get; set; }
-        public Int16 Speed2 { get; set; }
-        public int Scale { get; set; }
-        public Int16 BCHeight { get; set; }
-        public Int16 BCRadius { get; set; }
-        public int EventID { get; set; }
-        public string AssocFileObj128 { get; set; }
-        public string AssocFileDrop128 { get; set; }
-        public string AssocFileIcon128 { get; set; }
-        public string AssocFile1_128 { get; set; }
-        public string AssocFile2_128 { get; set; }
-        public int Link { get; set; }
+        public int Service;
+        public readonly int ID;
+        public string CodeName128;
+        public string ObjName128;
+        public string OrgObjCodeName128;
+        public string NameStrID128;
+        public string DescStrID128;
+        public byte CashItem;
+        public byte Bionic;
+        public byte TypeID1;
+        public byte TypeID2;
+        public byte TypeID3;
+        public byte TypeID4;
+        public int DecayTime;
+        public byte Country;
+        public Rarity Rarity;
+        public byte CanTrade;
+        public byte CanSell;
+        public byte CanBuy;
+        public BorrowFlag CanBorrow;
+        public DropFlag CanDrop;
+        public byte CanPick;
+        public byte CanRepair;
+        public byte CanRevive;
+        public byte CanUse;
+        public byte CanThrow;
+        public int Price;
+        public int CostRepair;
+        public int CostRevive;
+        public int CostBorrow;
+        public int KeepingFee;
+        public int SellPrice;
+        public int ReqLevelType1;
+        public byte ReqLevel1;
+        public int ReqLevelType2;
+        public byte ReqLevel2;
+        public int ReqLevelType3;
+        public byte ReqLevel3;
+        public int ReqLevelType4;
+        public byte ReqLevel4;
+        public int MaxContain;
+        public Int16 RegionID;
+        public Int16 Dir;
+        public Int16 OffsetX;
+        public Int16 OffsetY;
+        public Int16 OffsetZ;
+        public Int16 Speed1;
+        public Int16 Speed2;
+        public int Scale;
+        public Int16 BCHeight;
+        public Int16 BCRadius;
+        public int EventID;
+        public string AssocFileObj128;
+        public string AssocFileDrop128;
+        public string AssocFileIcon128;
+        public string AssocFile1_128;
+        public string AssocFile2_128;
+        public int Link;
 
         public RefObjCommon(object[] row)
         {

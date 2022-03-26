@@ -11,10 +11,6 @@ namespace ManagementServer.PacketConstructors
         {
             var LoginStatus = new Packet(PacketID.Server.LoginStatus, false, true);
             LoginStatus.WriteStruct(status);
-         // LoginStatus.WriteBool(success);
-         // LoginStatus.WriteAscii(notify);
-         // LoginStatus.WriteAscii(securityGroup);
-         // LoginStatus.WriteAscii(accName);
             return LoginStatus;
         }
 
@@ -54,20 +50,16 @@ namespace ManagementServer.PacketConstructors
         {
             try
             {
-                var tableNameArray = PluginSecurityManager.GetRequiredTables(securityGroup);// Utility.SQL.GetRequiredTableNames(securityGroup);
-
-                Packet tableNames = new Packet(0xB001);
-               // tableNames.WriteInt(tableNameArray.Length);
-                tableNames.WriteAsciiArray(tableNameArray);
-
-               // for (int i = 0; i < tableNameArray.Length; i++)
-               //     tableNames.WriteAscii(tableNameArray[i]);
-
-                return tableNames;
+                //var tableNameArray =  Utility.SQL.GetRequiredTableNames(securityGroup);
+                using (Packet tableNames = new Packet(0xB001))
+                {
+                    tableNames.WriteAsciiArray(PluginSecurityManager.GetRequiredTables(securityGroup));
+                    return tableNames;
+                }
             }
             catch (System.Exception ex)
             {
-                return PacketConstructors.NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
+                return NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
             }
         }
     }

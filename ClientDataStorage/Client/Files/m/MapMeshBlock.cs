@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Structs.Pk2.BinaryFiles;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ClientDataStorage.Client.Files
@@ -71,14 +72,14 @@ namespace ClientDataStorage.Client.Files
         /// <param name="y"></param>
         /// <returns>MapMeshCell cell</returns>
         public MapMeshCell GetCellFromBlock(int x, int y)
-            => GetCellFromBlock(new System.Drawing.Point(x, y));
+            => GetCellFromBlock(new Point(x, y));
 
         /// <summary>
         /// Returns the Cell of this block by System.Drawing.Point.
         /// </summary>
         /// <param name="point"></param>
         /// <returns>MapMeshCell cell</returns>
-        public MapMeshCell GetCellFromBlock(System.Drawing.Point point)
-            => MapCells.ContainsKey(point) ? MapCells[point] : null;
+        public MapMeshCell GetCellFromBlock(Point point)
+            => MapCells.ContainsKey(point) ? MapCells[point] : new MapMeshCell();
     }
 }

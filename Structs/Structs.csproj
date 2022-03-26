@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pk2\BinaryFiles\MapMeshCell.cs" />
     <Compile Include="Tool\Dashboard\DashboardMessage.cs" />
     <Compile Include="Database\Enumerable\BorrowFlag.cs" />
     <Compile Include="Database\Enumerable\DropFlag.cs" />

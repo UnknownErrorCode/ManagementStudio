@@ -8,58 +8,58 @@ namespace Structs.Database
 {
     public struct IChar
     {
-        public int CharID { get; private set; }
-        public byte Deleted { get; set; }
-        public int RefObjID { get; set; }
-        public string CharName16 { get; set; }
-        public string NickName16 { get; set; }
-        public byte Scale { get; set; }
-        public byte CurLevel { get; set; }
-        public byte MaxLevel { get; set; }
-        public Int64 ExpOffset { get; set; }
-        public int SExpOffset { get; set; }
-        public Int16 Strength { get; set; }
-        public Int16 Intellect { get; set; }
-        public Int64 RemainGold { get; set; }
-        public int RemainSkillPoint { get; set; }
-        public Int16 RemainStatPoint { get; set; }
-        public byte RemainHwanCount { get; set; }
-        public int GatheredExpPoint { get; set; }
-        public int HP { get; set; }
-        public int MP { get; set; }
-        public Int16 LatestRegion { get; set; }
-        public float PosX { get; set; }
-        public float PosY { get; set; }
-        public float PosZ { get; set; }
-        public int AppointedTeleport { get; set; }
-        public byte AutoInvestExp { get; set; }
-        public int InventorySize { get; set; }
-        public byte DailyPK { get; set; }
-        public Int16 TotalPK { get; set; }
-        public int PKPenaltyPoint { get; set; }
-        public int TPP { get; set; }
-        public int PenaltyForfeit { get; set; }
-        public int JobPenaltyTime { get; set; }
-        public byte JobLvl_Trader { get; set; }
-        public int Trader_Exp { get; set; }
-        public byte JobLvl_Hunter { get; set; }
-        public int Hunter_Exp { get; set; }
-        public byte JobLvl_Robber { get; set; }
-        public int Robber_Exp { get; set; }
-        public int GuildID { get; set; }
-        public string LastLogout { get; set; }
-        public Int16 TelRegion { get; set; }
-        public string TelPosX { get; set; }
-        public string TelPosY { get; set; }
-        public string TelPosZ { get; set; }
-        public Int16 DiedRegion { get; set; }
-        public string DiedPosX { get; set; }
-        public string DiedPosY { get; set; }
-        public string DiedPosZ { get; set; }
-        public Int16 WorldID { get; set; }
-        public Int16 TelWorldID { get; set; }
-        public Int16 DiedWorldID { get; set; }
-        public byte HwanLevel { get; set; }
+        public readonly int CharID;
+        public byte Deleted ;
+        public int RefObjID ;
+        public string CharName16 ;
+        public string NickName16 ;
+        public byte Scale ;
+        public byte CurLevel ;
+        public byte MaxLevel ;
+        public Int64 ExpOffset ;
+        public int SExpOffset ;
+        public Int16 Strength ;
+        public Int16 Intellect ;
+        public Int64 RemainGold ;
+        public int RemainSkillPoint ;
+        public Int16 RemainStatPoint ;
+        public byte RemainHwanCount ;
+        public int GatheredExpPoint ;
+        public int HP ;
+        public int MP ;
+        public Int16 LatestRegion ;
+        public float PosX ;
+        public float PosY ;
+        public float PosZ ;
+        public int AppointedTeleport ;
+        public byte AutoInvestExp ;
+        public int InventorySize ;
+        public byte DailyPK ;
+        public Int16 TotalPK ;
+        public int PKPenaltyPoint ;
+        public int TPP ;
+        public int PenaltyForfeit ;
+        public int JobPenaltyTime ;
+        public byte JobLvl_Trader ;
+        public int Trader_Exp ;
+        public byte JobLvl_Hunter ;
+        public int Hunter_Exp ;
+        public byte JobLvl_Robber ;
+        public int Robber_Exp ;
+        public int GuildID ;
+        public string LastLogout ;
+        public Int16 TelRegion ;
+        public string TelPosX ;
+        public string TelPosY ;
+        public string TelPosZ ;
+        public Int16 DiedRegion ;
+        public string DiedPosX ;
+        public string DiedPosY ;
+        public string DiedPosZ ;
+        public Int16 WorldID ;
+        public Int16 TelWorldID ;
+        public Int16 DiedWorldID ;
+        public byte HwanLevel ;
 
         public IChar(object[] row)
         {
