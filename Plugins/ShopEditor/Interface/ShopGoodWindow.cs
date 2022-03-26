@@ -8,29 +8,29 @@ namespace ShopEditor.Interface
 {
     internal class ShopGoodWindow : Panel
     {
-        private string IconPath { get => $"Media\\icon\\{Good.PackageItem.AssocFileIcon}"; }
+        private string IconPath => $"Media\\icon\\{Good.PackageItem.AssocFileIcon}";
         internal CIShopGood Good { get; set; }
 
-        
+
         internal ShopGoodWindow(CIShopGood good)
         {
             Good = good;
-            this.Size = new System.Drawing.Size(32, 32);
-            this.Location = GetPositionBySlotIndex(good.SlotIndex);
+            Size = new System.Drawing.Size(32, 32);
+            Location = GetPositionBySlotIndex(good.SlotIndex);
             if (!Media.DDJFiles.ContainsKey(IconPath))
                 if (Media.MediaPk2.GetByteArrayByDirectory(IconPath, out byte[] file))
                     Media.DDJFiles.Add(IconPath, new ClientDataStorage.Client.Files.DDJImage(file));
 
             if (Media.DDJFiles.ContainsKey(IconPath))
-                this.BackgroundImage = Media.DDJFiles[IconPath].BitmapImage;
+                BackgroundImage = Media.DDJFiles[IconPath].BitmapImage;
 
-            TalkWindow.ShopToolTip.SetToolTip(this, this.Good.ScrapOfPackageItem.RefItemCodeName);
-            this.Click += ShopGoodWindow_Click;
+            TalkWindow.ShopToolTip.SetToolTip(this, Good.ScrapOfPackageItem.RefItemCodeName);
+            Click += ShopGoodWindow_Click;
         }
 
         private void ShopGoodWindow_Click(object sender, EventArgs e)
         {
-            var ed = new ShopInterface.EditorInterface(Good);
+            ShopInterface.EditorInterface ed = new ShopInterface.EditorInterface(Good);
         }
 
         private Point GetPositionBySlotIndex(byte slotIndex)
@@ -39,7 +39,7 @@ namespace ShopEditor.Interface
                 slotIndex %= 30;
             int ordinate = Convert.ToInt32(Math.Floor(slotIndex / 6d));
             int abszesse = slotIndex % 6;
-            return new Point(abszesse*36+4, ordinate * 36+4);
+            return new Point(abszesse * 36 + 4, ordinate * 36 + 4);
         }
     }
 }

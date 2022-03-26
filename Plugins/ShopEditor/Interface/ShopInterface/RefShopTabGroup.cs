@@ -13,7 +13,7 @@ namespace ShopEditor.Interface.ShopInterface
         /// <summary>
         /// StrID128_CodeName128 from _RefShopTabGroup
         /// </summary>
-        internal protected string StrID128Name { get; set; }
+        protected internal string StrID128Name { get; set; }
 
         /// <summary>
         /// All RefShopTabs inside this TabGroup.
@@ -25,17 +25,17 @@ namespace ShopEditor.Interface.ShopInterface
         {
             Name = refTabGroupCodeName128;
 
-            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTab"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefTabGroupCodeName") == this.Name && row.Field<byte>("Service") == 1))
+            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTab"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefTabGroupCodeName") == Name && row.Field<byte>("Service") == 1))
                 return;
 
-            var tempShopTabs = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTab"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefTabGroupCodeName") == this.Name && row.Field<byte>("Service")== 1).ToArray();
-            
+            DataRow[] tempShopTabs = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTab"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefTabGroupCodeName") == Name && row.Field<byte>("Service") == 1).ToArray();
+
             ShopTabs = new RefShopTab[tempShopTabs.Length];
             for (int i = 0; i < tempShopTabs.Length; i++)
                 ShopTabs[i] = new RefShopTab(tempShopTabs[i].Field<string>("CodeName128"), tempShopTabs[i].Field<string>("StrID128_Tab"));
 
             //Due to different tables, the StrID128_Name needs to be set manually.
-            StrID128Name = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTabGroup"].Rows.OfType<DataRow>().First( row => row.Field<string>("CodeName128") == Name).Field<string>("StrID128_Group");
+            StrID128Name = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopTabGroup"].Rows.OfType<DataRow>().First(row => row.Field<string>("CodeName128") == Name).Field<string>("StrID128_Group");
 
         }
 

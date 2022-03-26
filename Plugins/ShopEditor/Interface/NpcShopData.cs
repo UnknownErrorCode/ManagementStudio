@@ -1,6 +1,5 @@
 ﻿using ServerFrameworkRes.BasicControls;
 using ShopEditor.Interface.ShopInterface;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -14,7 +13,7 @@ namespace ShopEditor.Interface
         /// <summary>
         /// Name of NPC from _RefObjCommon
         /// </summary>
-        internal protected string NpcCodeName { get; set; }
+        protected internal string NpcCodeName { get; set; }
 
         /// <summary>
         /// Contains all RefShopGroups assigned to this NPC.
@@ -41,7 +40,7 @@ namespace ShopEditor.Interface
                 vSroMessageBox.Show($"No Group CodeName128 found for NPC: {npcCodeName128}", "Error loading RefShopGroup");
                 return;
             }
-            var ShopGroupCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Where(Row => Row.Field<string>("RefNPCCodeName") == npcCodeName128).ToArray();
+            DataRow[] ShopGroupCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Where(Row => Row.Field<string>("RefNPCCodeName") == npcCodeName128).ToArray();
             ShopGroups = new RefShopGroup[ShopGroupCodeNames.Length];
 
             for (int i = 0; i < ShopGroupCodeNames.Length; i++)

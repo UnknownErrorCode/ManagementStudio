@@ -1,35 +1,26 @@
-﻿using ClientDataStorage.Client;
-using ClientDataStorage.Client.Files;
+﻿using ClientDataStorage.Client.Files;
 using ShopEditor.Interface.ShopInterface;
-using Structs.Pk2.Media;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ShopEditor.Interface
 {
     public partial class ShopTabGroupWindow : Form
     {
-        private BlueShopTabWindow[] ShopBlueTabWindows;
+        private readonly BlueShopTabWindow[] ShopBlueTabWindows;
 
         private protected const string TabOnUIPath = "Media\\interface\\ifcommon\\com_tab_on.ddj";
         private protected const string TabOffUIPath = "Media\\interface\\ifcommon\\com_tab_off.ddj";
 
-        public  string ShopTitle { get => labelShopTabGroup.Text; set => labelShopTabGroup.Text = value; }
+        public string ShopTitle { get => labelShopTabGroup.Text; set => labelShopTabGroup.Text = value; }
         public byte CurrentPageIndex { get => byte.Parse(labelPageIndex.Text); set => labelPageIndex.Text = $"{value}"; }
-        private BlueShopTabWindow DisplayedBlueTab { get; set ; }
+        private BlueShopTabWindow DisplayedBlueTab { get; set; }
         internal ShopTabGroupWindow(RefShopTabGroup shopTabGroup)
         {
             InitializeComponent();
             InitializeUIElements(shopTabGroup.StrID128Name);
             if (GenerateShopTabWindows(shopTabGroup, out ShopBlueTabWindows))
-                this.Controls.AddRange(ShopBlueTabWindows);
+                Controls.AddRange(ShopBlueTabWindows);
 
             DisplaySingleTabPage(ShopBlueTabWindows[0], CurrentPageIndex);
         }
@@ -41,14 +32,14 @@ namespace ShopEditor.Interface
             for (int i = 0; i < shopTabGroup.ShopTabs.Length; i++)
                 shopTabWindows[i] = new BlueShopTabWindow(shopTabGroup.ShopTabs[i], (byte)i);
 
-            foreach (var tabWindow in ShopBlueTabWindows)
+            foreach (BlueShopTabWindow tabWindow in ShopBlueTabWindows)
                 if (tabWindow != null)
                 {
                     tabWindow.MouseClick += TabWindow_MouseClick;
                     tabWindow.StrIDLabel.MouseClick += TabWindow_onLabelClick;
                 }
 
-            return shopTabWindows[0].SingleTabPages != null ;
+            return shopTabWindows[0].SingleTabPages != null;
         }
 
 
@@ -57,7 +48,7 @@ namespace ShopEditor.Interface
 
             //ShopTitle = Media.StaticTextuiSystem.UIIT_Strings.TryGetValue(title, out TextUISystemStruct str) ? str.Viethnam : title;
 
-            this.CurrentPageIndex = 0;
+            CurrentPageIndex = 0;
             if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(TabOnUIPath))
                 if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(TabOnUIPath, out byte[] ddjbytearray))
                     ClientDataStorage.Client.Media.DDJFiles.Add(TabOnUIPath, new DDJImage(ddjbytearray));
@@ -68,26 +59,33 @@ namespace ShopEditor.Interface
         }
 
         private void TabWindow_MouseClick(object sender, MouseEventArgs e)
-            => DisplaySingleTabPage((BlueShopTabWindow)sender, 0);
-        private void TabWindow_onLabelClick(object sender, MouseEventArgs e)
-            => DisplaySingleTabPage((BlueShopTabWindow)((Label)sender).Tag, 0);
+        {
+            DisplaySingleTabPage((BlueShopTabWindow)sender, 0);
+        }
 
-        private void DisplaySingleTabPage(BlueShopTabWindow window,byte page)
+        private void TabWindow_onLabelClick(object sender, MouseEventArgs e)
+        {
+            DisplaySingleTabPage((BlueShopTabWindow)((Label)sender).Tag, 0);
+        }
+
+        private void DisplaySingleTabPage(BlueShopTabWindow window, byte page)
         {
             DisabeTabFocus();
             window.Active = true;
-            this.panelCurrentPage.Controls.Clear();
+            panelCurrentPage.Controls.Clear();
             DisplayedBlueTab = window;
-            if (DisplayedBlueTab.SingleTabPages !=null)
+            if (DisplayedBlueTab.SingleTabPages != null)
                 if (DisplayedBlueTab.SingleTabPages.Length > 0)
-                    this.panelCurrentPage.Controls.Add(DisplayedBlueTab.SingleTabPages[page]);
+                    panelCurrentPage.Controls.Add(DisplayedBlueTab.SingleTabPages[page]);
 
 
-            this.CurrentPageIndex = DisplayedBlueTab.SingleTabPages != null ? DisplayedBlueTab.SingleTabPages.Length > 0 ? DisplayedBlueTab.SingleTabPages[page].PageIndex : page :(byte) 0 ;
+            CurrentPageIndex = DisplayedBlueTab.SingleTabPages != null ? DisplayedBlueTab.SingleTabPages.Length > 0 ? DisplayedBlueTab.SingleTabPages[page].PageIndex : page : (byte)0;
         }
 
         private void DisabeTabFocus()
-            => ShopBlueTabWindows.ToList().ForEach(tw => tw.Active = false);
+        {
+            ShopBlueTabWindows.ToList().ForEach(tw => tw.Active = false);
+        }
 
         private void ShowNextPage(object sender, MouseEventArgs e)
         {
@@ -97,8 +95,8 @@ namespace ShopEditor.Interface
 
         private void ShowPreviousPage(object sender, MouseEventArgs e)
         {
-            if (CurrentPageIndex>1)
-                DisplaySingleTabPage(DisplayedBlueTab, (byte)(CurrentPageIndex-2));
+            if (CurrentPageIndex > 1)
+                DisplaySingleTabPage(DisplayedBlueTab, (byte)(CurrentPageIndex - 2));
         }
     }
 }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using ServerFrameworkRes.Network.Security;
 
 namespace ShopEditor
 {
     public partial class ShopEditorControl : UserControl
     {
-       
+
 
         /// <summary>
         /// The ShopEditor consists of all NPC Shops and the TalkWindow.
@@ -45,7 +44,7 @@ namespace ShopEditor
         /// <param name="e"></param>
         private void listViewAllNpcs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (((ListView)sender).SelectedItems.Count>0)
+            if (((ListView)sender).SelectedItems.Count > 0)
                 talkWindow1.OnNpcClick(((ListView)sender).SelectedItems[0].Text);
         }
 

@@ -14,23 +14,23 @@ namespace ShopEditor.Interface.ShopInterface
         /// <summary>
         /// Array of TabGroups from _RefShopTabGroup where StoreCodeName128 is equal to this.Name.
         /// </summary>
-        internal protected RefShopTabGroup[] TabGroups { get; set; }
+        protected internal RefShopTabGroup[] TabGroups { get; set; }
 
         internal RefShop(string storeCodeName)
         {
             Name = storeCodeName;
 
-            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopWithTab"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefShopCodeName") == this.Name))
+            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopWithTab"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefShopCodeName") == Name))
             {
                 vSroMessageBox.Show($"No RefTabGroupCodeNames found for \nRefShopCodeName:{Name}", "Error loading RefMappingShopWithTab");
                 return;
             }
-            var tabGroups = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopWithTab"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefShopCodeName") == this.Name).ToArray();
-            this.TabGroups = new RefShopTabGroup[tabGroups.Length];
+            DataRow[] tabGroups = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopWithTab"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefShopCodeName") == Name).ToArray();
+            TabGroups = new RefShopTabGroup[tabGroups.Length];
 
             for (int i = 0; i < tabGroups.Length; i++)
             {
-                this.TabGroups[i] = new RefShopTabGroup(tabGroups[i].Field<string>("RefTabGroupCodeName"));
+                TabGroups[i] = new RefShopTabGroup(tabGroups[i].Field<string>("RefTabGroupCodeName"));
             }
         }
     }

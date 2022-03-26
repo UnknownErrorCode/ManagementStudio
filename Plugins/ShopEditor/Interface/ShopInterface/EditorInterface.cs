@@ -1,19 +1,15 @@
 ﻿using Editors.Shop;
-using ServerFrameworkRes.BasicControls;
 using ServerFrameworkRes.Network.Security;
 using Structs.Database;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShopEditor.Interface.ShopInterface
 {
     class EditorInterface
     {
-        Editors.Shop.ShopEditor editor;
-        private List<Packet> PacketsToSend = new List<Packet>();
+        readonly Editors.Shop.ShopEditor editor;
+        private readonly List<Packet> PacketsToSend = new List<Packet>();
 
 
         public EditorInterface(CIShopGood good)
@@ -26,10 +22,10 @@ namespace ShopEditor.Interface.ShopInterface
         private void Editor_OnUpdatePricePolicy()
         {
 
-         
+
         }
 
-      
+
 
         private bool ShopItemPricePolicyOfItemUpdateRequest(RefPricePolicyOfItem pricePolicyOfItem, EditAction action, out Packet packet)
         {
