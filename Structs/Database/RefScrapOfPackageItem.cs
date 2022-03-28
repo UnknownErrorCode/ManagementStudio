@@ -4,25 +4,25 @@ namespace Structs.Database
 {
     public struct RefScrapOfPackageItem
     {
-        public byte Service{ get; set; }
-        public string RefPackageItemCodeName{ get; set; }
-        public string RefItemCodeName{ get; set; }
-        public byte OptLevel{ get; set; }
-        public long Variance{ get; set; }
-        public int Data{ get; set; }
-        public byte MagParamNum{ get; set; }
-        public long MagParam1{ get; set; }
-        public long MagParam2{ get; set; }
-        public long MagParam3{ get; set; }
-        public long MagParam4{ get; set; }
-        public long MagParam5{ get; set; }
-        public long MagParam6{ get; set; }
-        public long MagParam7{ get; set; }
-        public long MagParam8{ get; set; }
-        public long MagParam9{ get; set; }
-        public long MagParam10{ get; set; }
-        public long MagParam11{ get; set; }
-        public long MagParam12{ get; set; }
+        public byte Service;
+        public string RefPackageItemCodeName;
+        public string RefItemCodeName;
+        public byte OptLevel;
+        public long Variance;
+        public int Data;
+        public byte MagParamNum;
+        public long MagParam1;
+        public long MagParam2;
+        public long MagParam3;
+        public long MagParam4;
+        public long MagParam5;
+        public long MagParam6;
+        public long MagParam7;
+        public long MagParam8;
+        public long MagParam9;
+        public long MagParam10;
+        public long MagParam11;
+        public long MagParam12;
         public RefScrapOfPackageItem(DataRow row)
         {
             Service = row.Field<byte>("Service");

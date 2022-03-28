@@ -5,13 +5,101 @@ namespace ManagementServer.Handler
 {
     internal class S_TABLEDATA
     {
-        
+
+        internal static PacketHandlerResult ResponsePluginDataTables(Utility.ServerClientData arg1, Packet arg2)
+        {
+            try
+            {
+                string pluginName = arg2.ReadAscii();
+
+                if (!PluginSecurityManager.IsAllowed(pluginName, arg1.SecurityGroup))
+                    return PacketHandlerResult.Block;
+
+                var tableNameArray = PluginSecurityManager.GetPluginDataTableNames(pluginName);// Utility.SQL.GetRequiredTableNames(arg1.SecurityGroup);
+
+                if (tableNameArray == null || tableNameArray?.Length == 0)
+                    return PacketHandlerResult.Block;
+
+                arg1.m_security.Send(DataTablePackets(tableNameArray));
+                arg1.m_security.Send(PacketConstructors.LoginPacket.PluginDataReceiveConfirmation(pluginName));
+            }
+            catch (System.Exception)
+            { }
+            // System.GC.Collect(2);
+            return PacketHandlerResult.Block;
+        }
+
+        /// <summary>
+        /// Sends all certificated DataTables to the Client.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
+        internal static PacketHandlerResult ResponseDataTables(Utility.ServerClientData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
+        {
+            try
+            {
+                var tableNameArray = PluginSecurityManager.GetSecurityDataTableNames(arg1.SecurityGroup);
+
+                string[] array = arg2.ReadAsciiArray();
+                
+                arg1.m_security.Send(DataTablePackets(array.Where(tableName => tableNameArray.Contains(tableName)).ToArray()));
+            }
+            catch (System.Exception)
+            { }
+            return PacketHandlerResult.Block;
+        }
+
+        internal static Packet[] DataTablePackets(string[] tableNames)
+        {
+            var list = new Packet[tableNames.Length];
+            try
+            {
+                for (int i = 0; i < tableNames.Length; i++)
+                {
+                    if (tableNames[i] == null)
+                        continue;
+                    var tableName = tableNames[i];
+
+                    var tablePacket = new Packet(PacketID.Server.DataTableSend, false, true);
+                    tablePacket.WriteAscii(tableName);
+                    tablePacket.WriteDataTable(Utility.SQL.GetRequestedDataTable(tableName));
+
+                    list[i] = tablePacket;
+                }
+            }
+            catch
+            { }
+
+            return list;
+        }
+    }
+}
+
+
+/*
+ using ServerFrameworkRes.Network.Security;
+using System.Linq;
+
+namespace ManagementServer.Handler
+{
+    internal class S_TABLEDATA
+    {
+
 
         internal static PacketHandlerResult ResponseAllowedTables(Utility.ServerClientData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
         {
             try
             {
-                var tableNameArray = Utility.SQL.GetRequiredTableNames(arg1.SecurityGroup);
+                string pluginName = arg2.ReadAscii();
+
+                if (!PluginSecurityManager.IsAllowed(pluginName, arg1.SecurityGroup))
+                    return PacketHandlerResult.Block;
+
+                var tableNameArray = PluginSecurityManager.GetPluginDataTableNames(pluginName);// Utility.SQL.GetRequiredTableNames(arg1.SecurityGroup);
+
+                if (tableNameArray == null)
+                    return PacketHandlerResult.Block;
 
                 var tableCount = arg2.ReadByte();
                 string[] array = new string[tableCount];
@@ -24,11 +112,10 @@ namespace ManagementServer.Handler
                     }
                 }
                 arg1.m_security.Send(DataTablePackets(array));
-                
             }
-            catch (System.Exception )
+            catch (System.Exception)
             { }
-           // System.GC.Collect(2);
+            // System.GC.Collect(2);
             return PacketHandlerResult.Block;
         }
 
@@ -57,3 +144,5 @@ namespace ManagementServer.Handler
         }
     }
 }
+ 
+ */

@@ -2,11 +2,11 @@
 {
     public struct RefTriggerCategory
     {
-        public int Service { get; set; }
-        public int ID { get; set; }
-        public string CodeName128 { get; set; }
-        public string ObjName128 { get; set; }
-        public int IndexNumber { get; set; }
+        public int Service ;
+        public int ID ;
+        public string CodeName128 ;
+        public string ObjName128 ;
+        public int IndexNumber ;
 
         public RefTriggerCategory(object[] row)
         {

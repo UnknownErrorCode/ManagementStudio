@@ -43,6 +43,7 @@ namespace ServerFrameworkRes.Network.Security
             public const ushort DataTableNames= 0xB001;
             public const ushort DataTableSend= 0xB002;
             public const ushort LogNotification = 0xB003;
+            public const ushort PluginDataSent = 0xB004;
 
             public const ushort LoginStatus= 0xC000;
             public const ushort TopicLoadRequest= 0xC001;

@@ -13,27 +13,24 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// Contains all Database Informations about the spawn.
         /// </summary>
-        public SingleSpawn Spawn { get; private set; }
+        public SingleSpawn Spawn;
 
         /// <summary>
         /// Ordinate of Region Coorainate.
         /// </summary>
-        internal byte X { get; set; }
+        internal byte X;
 
         /// <summary>
         /// Abszisse of Region Coordinate.
         /// </summary>
-        internal byte Y { get; set; }
+        internal byte Y;
 
         /// <summary>
         /// Region Identifier build as Int16 from a string that consists of HexString(Y) + HexString(X) .
         /// </summary>
         private short RegionID { get => Spawn.Nest.nRegionDBID; }
 
-        /// <summary>
-        /// Image of the spawn.
-        /// </summary>
-        public string ImgPath { get; set; }
+        
 
         /// <summary>
         /// Translated Location on Control.

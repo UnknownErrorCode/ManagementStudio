@@ -2,10 +2,10 @@
 {
     public struct RefTriggerCategoryBindTrigger
     {
-        public int Service { get; set; }
-        public int ID { get; set; }
-        public int TriggerCategoryID { get; set; }
-        public int TriggerID { get; set; }
+        public int Service;
+        public int ID;
+        public int TriggerCategoryID;
+        public int TriggerID;
 
         public RefTriggerCategoryBindTrigger(object[] row)
         {

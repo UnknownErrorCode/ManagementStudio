@@ -111,6 +111,7 @@ namespace ManagementServer
                 if (!context_data.m_connected)
                     return;
 
+              
                 List<KeyValuePair<TransferBuffer, Packet>> buffers = context_data.m_security.TransferOutgoing();
                 if (buffers != null)
                 {
@@ -120,11 +121,10 @@ namespace ManagementServer
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                ServerManager.Logger.WriteLogLine(e.Message);
             }
-            
         }
     }
 }

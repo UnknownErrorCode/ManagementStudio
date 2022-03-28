@@ -26,19 +26,19 @@ namespace ShopEditor.Interface.ShopInterface
         {
             Name = shopGroupCodeName128;
 
-            //Collecting RefShopCodeName by RefShopGroupCodeName
-            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopGroup"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefShopGroupCodeName") == Name))
+
+            if (!ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopGroup.Any(obj => obj.RefShopGroupCodeName.Equals(Name)))
             {
                 vSroMessageBox.Show($"No RefShopCodeName found for\nGroupName:{Name}", "Error loading RefMappingShopGroup");
                 return;
             }
 
-            DataRow[] ShopCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopGroup"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefShopGroupCodeName") == Name).ToArray();
+           var ShopCodeNames = ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopGroup.Where(row => row.RefShopGroupCodeName.Equals( Name)).ToArray();
 
             ShopGroup = new RefShop[ShopCodeNames.Length];
 
             for (int i = 0; i < ShopCodeNames.Length; i++)
-                ShopGroup[i] = new RefShop(ShopCodeNames[i].Field<string>("RefShopCodeName"));
+                ShopGroup[i] = new RefShop(ShopCodeNames[i].RefShopCodeName);
         }
     }
 }

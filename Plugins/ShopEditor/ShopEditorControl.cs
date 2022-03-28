@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerFrameworkRes.Network.Security;
+using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -7,16 +8,31 @@ namespace ShopEditor
     public partial class ShopEditorControl : UserControl
     {
 
+        private const string STRING_DLL = "ShopEditor.dll";
 
+        private new readonly TabPage Parent;
         /// <summary>
         /// The ShopEditor consists of all NPC Shops and the TalkWindow.
         /// </summary>
         /// <param name="data"></param>
-        public ShopEditorControl()
+        public ShopEditorControl(TabPage page)
         {
+            Parent = page;
             InitializeComponent();
-            ClientDataStorage.Network.ClientCore.RequestPluginDataTable("ShopEditor.dll");
+            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.PluginDataSent, OnDataReceive);
+            ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL);
             //ClientDataStorage.ClientMemory.UsedPlugins.Add("ShopEditor.dll");
+        }
+
+        private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        {
+            if (arg2.ReadAscii() != STRING_DLL)
+                return PacketHandlerResult.Block;
+            // Initialize SRO_VT_SHARD for ShopEditor
+            ClientDataStorage.Database.SRO_VT_SHARD.InitializeShopEditor();
+
+            Parent.Invoke(new Action(() => Parent.Controls.Add(this)));
+            return PacketHandlerResult.Block;
         }
 
         /// <summary>
@@ -25,12 +41,11 @@ namespace ShopEditor
         private void InitializeListView()
         {
             listViewAllNpcs.Items.Clear();
-            DataRowCollection test = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows;
-            foreach (DataRow item in test)
+            foreach (var item in ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup)
             {
-                if (!listViewAllNpcs.Items.ContainsKey(item.Field<string>("RefNPCCodeName")) && (!item.Field<string>("RefNPCCodeName").ToLower().Equals("xxx")))
+                if (!listViewAllNpcs.Items.ContainsKey(item.RefNPCCodeName) && (!item.RefNPCCodeName.ToLower().Equals("xxx")))
                 {
-                    ListViewItem listItem = new ListViewItem(item.Field<string>("RefNPCCodeName")) { };
+                    ListViewItem listItem = new ListViewItem(item.RefNPCCodeName);
                     listViewAllNpcs.Items.Add(listItem);
                 }
             }

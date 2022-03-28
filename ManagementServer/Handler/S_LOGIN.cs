@@ -36,7 +36,7 @@ namespace ManagementServer.Handler
                     serverData.SecurityGroup = result.SecurityGroup;
 
                    data.m_security.Send(PacketConstructors.LoginPacket.SendAllowedPlugins(result.SecurityGroup));
-                   data.m_security.Send(PacketConstructors.LoginPacket.AllowedDataTables(result.SecurityGroup));
+                   data.m_security.Send(PacketConstructors.LoginPacket.AllowedDataTableNames(result.SecurityGroup));
 
                    ServerManager.Logger.WriteLogLine($"User: {result.UserName} successfully logged on!");
                 }

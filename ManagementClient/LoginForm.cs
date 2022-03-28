@@ -27,6 +27,7 @@ namespace ManagementClient
             this.vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData);
             vSroCheckBox1.vSroCheckChange += VSroCheckBox1_vSroCheckChange;
             vSroCheckBoxSaveLogin.vSroCheckChange += OnCheckChangeSaveUserData;
+            ClientCore.AddEntry(0xC000, LoginStatus);
         }
 
         private void OnCheckChangeSaveUserData(object sender, EventArgs e)
@@ -62,14 +63,14 @@ namespace ManagementClient
             Packet requestLogin = new Packet(0x1000);
             requestLogin.WriteAscii(vSroInputBox1.ValueText);
             requestLogin.WriteAscii(Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
-            ClientDataStorage.Network.ClientCore.Send(requestLogin);
+            ClientCore.Send(requestLogin);
 
         }
 
         private void ClientTool_Load(object sender, EventArgs e)
         {
             this.vSroSizableWindow1.Title = "Offline";
-            ClientDataStorage.Network.ClientCore.AddEntry(0xC000, LoginStatus);
+         
             Thread startThread = new Thread(Connect);
             startThread.Start();
         }
@@ -77,9 +78,9 @@ namespace ManagementClient
 
         private void Connect()
         {
-            if (ClientDataStorage.Network.ClientCore.Connected)
+            if (ClientCore.Connected)
                 return;
-            var connected = ClientDataStorage.Network.ClientCore.Start().GetAwaiter().GetResult();
+            var connected = ClientCore.Start().GetAwaiter().GetResult();
             if (connected)
                 this.vSroSmallButtonLogin.Invoke(new Action(() => { this.vSroSmallButtonLogin.Enabled = true; }));
             else
@@ -95,7 +96,7 @@ namespace ManagementClient
         private void OnClose(object sender, FormClosingEventArgs e)
         {
             if (!ClientMemory.LoggedIn)
-                ClientDataStorage.Network.ClientCore.Disconnect();
+                ClientCore.Disconnect();
           
         }
         internal void OnHide()
@@ -131,7 +132,6 @@ namespace ManagementClient
             }
             else
                 vSroMessageBox.Show($"Login failed! \n{status.Notification}");
-
 
             return PacketHandlerResult.Block;
         }

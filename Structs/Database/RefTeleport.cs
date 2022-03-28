@@ -3,22 +3,22 @@ namespace Structs.Database
 {
 	public struct RefTeleport
 	{
-		public int Service{ get; set; }
-		public int ID{ get; set; }
-		public string CodeName128{ get; set; }
-		public string AssocRefObjCodeName128{ get; set; }
-		public int AssocRefObjID{ get; set; }
-		public string ZoneName128{ get; set; }
-		public Int16 GenRegionID{ get; set; }
-		public Int16 GenPos_X{ get; set; }
-		public Int16 GenPos_Y{ get; set; }
-		public Int16 GenPos_Z{ get; set; }
-		public Int16 GenAreaRadius{ get; set; }
-		public byte CanBeResurrectPos{ get; set; }
-		public byte CanGotoResurrectPos{ get; set; }
-		public Int16 GenWorldID{ get; set; }
-		public byte BindInteractionMask{ get; set; }
-		public byte FixedService{ get; set; }
+		public int Service;
+		public int ID;
+		public string CodeName128;
+		public string AssocRefObjCodeName128;
+		public int AssocRefObjID;
+		public string ZoneName128;
+		public Int16 GenRegionID;
+		public Int16 GenPos_X;
+		public Int16 GenPos_Y;
+		public Int16 GenPos_Z;
+		public Int16 GenAreaRadius;
+		public byte CanBeResurrectPos;
+		public byte CanGotoResurrectPos;
+		public Int16 GenWorldID;
+		public byte BindInteractionMask;
+		public byte FixedService;
 
 		public RefTeleport(object[] row)
 		{

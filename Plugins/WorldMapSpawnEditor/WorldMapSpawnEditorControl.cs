@@ -22,11 +22,27 @@ namespace WorldMapSpawnEditor
         /// ServerData from Client.
         /// </summary>
 
-
-        public WorldMapSpawnEditorControl()
+        private const string STRING_DLL = "WorldMapSpawnEditor.dll";
+        TabPage Parent;
+        public WorldMapSpawnEditorControl(TabPage parentPage)
         {
+            Parent = parentPage;
             InitializeComponent();
             InitializePerformance(this);
+            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.PluginDataSent, OnDataReceive);
+            ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL);
+
+        }
+
+        private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        {
+            if (arg2.ReadAscii() != STRING_DLL)
+                return PacketHandlerResult.Block;
+            // Initialize SRO_VT_SHARD for ShopEditor
+            ClientDataStorage.Database.SRO_VT_SHARD.InitializeWorldMapEditor();
+
+            Parent.Invoke(new Action(() => Parent.Controls.Add(this)));
+            return PacketHandlerResult.Block;
         }
 
         /// <summary>
@@ -40,42 +56,71 @@ namespace WorldMapSpawnEditor
                     BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                     null, c, new object[] { true });
         }
-        #region Checkbox region
-        private void vSroCheckBox1_vSroCheckChange(object sender, EventArgs e)
-            => MapPanel.HasToolTip = vSroCheckBoxShowToolTip.vSroCheck;
+        #region ToolStripMenuItem region
 
-        private void vSroCheckBox2_vSroCheckChange(object sender, EventArgs e)
-            => MapPanel.OpenEditorOnClick = vSroCheckBoxOpenSpawnEditor.vSroCheck;
-
-        private void vSroCheckBoxShowMob_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowMonster = vSroCheckBoxShowMob.vSroCheck; MapPanel.Invalidate(); }
-
-        private void vSroCheckBoxShowuMob_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowUniqueMonster = vSroCheckBoxShowuMob.vSroCheck; MapPanel.Invalidate(); }
-
-        private void vSroCheckBoxShowNpc_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowNpc = vSroCheckBoxShowNpc.vSroCheck; MapPanel.Invalidate(); }
-
-        private void vSroCheckBoxReg_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowDbRegions = vSroCheckBoxReg.vSroCheck; MapPanel.Invalidate();
+        private void playerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowPlayer = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
         }
 
-        private void vSroCheckBoxUnAsReg_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowUnassignedRegions = vSroCheckBoxUnAsReg.vSroCheck; MapPanel.Invalidate(); }
+        private void assignedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowDbRegions = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
 
-        private void vSroCheckBoxShowTeleports_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowTeleport = vSroCheckBoxShowTeleports.vSroCheck; MapPanel.Invalidate(); }
-        private void vSroCheckBoxShowPlayer_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowPlayer = vSroCheckBoxShowPlayer.vSroCheck; MapPanel.Invalidate(); }
+        private void unassignedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowUnassignedRegions = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
 
+        private void commonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowMonster = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
 
-        private void vSroCheckBoxShowNestGenRadius_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowNestGenRadius = vSroCheckBoxShowNestGenRadius.vSroCheck; MapPanel.Invalidate(); }
+        private void uniqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowUniqueMonster = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
 
-        private void vSroCheckBoxShowNestRadius_vSroCheckChange(object sender, EventArgs e)
-        { MapPanel.ShowNestRadius = vSroCheckBoxShowNestRadius.vSroCheck; MapPanel.Invalidate(); }
+        private void nPCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowNpc = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
 
+        private void teleportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowTeleport = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
 
+        private void nestNGenRadiusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowNestGenRadius = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
+
+        private void nestNRadiusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowNestRadius = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
+
+        private void spawnInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.HasToolTip = ((ToolStripMenuItem)sender).Checked;
+        }
+
+        private void spawnEditorOnClickToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.OpenEditorOnClick = ((ToolStripMenuItem)sender).Checked;
+        }
 
         #endregion
 
@@ -99,5 +144,7 @@ namespace WorldMapSpawnEditor
             await Task.Delay(InSeconds * 1000);
             control.Enabled = true;
         }
+
+
     }
 }

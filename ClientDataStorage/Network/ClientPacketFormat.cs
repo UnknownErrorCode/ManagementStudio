@@ -3,27 +3,27 @@ using System;
 
 namespace ClientDataStorage.Network
 {
-    partial class ClientPacketHandler
+    public static class ClientPacketFormat
     {
 
-        private Packet RequestPluginDataTables(string plugin)
+        public static Packet RequestPluginDataTables(string plugin)
         {
             var packet = new Packet(PacketID.Client.RequestPlugiDataTable);
             packet.WriteAscii(plugin);
             return packet;
         }
 
-        static bool RequestDataTable(string[] tables, out Packet packet)
+        static Packet RequestDataTable(string[] tables)
         {
-            packet = new Packet(PacketID.Client.RequestDataTable, false, true);
+            Packet packet = new Packet(PacketID.Client.RequestDataTable, false, true);
             try
             {
                 packet.WriteAsciiArray(tables);
-                return true;
+                return packet;
             }
             catch (Exception)
             {
-                return false;
+                return packet;
             }
         }
     }

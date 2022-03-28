@@ -75,7 +75,7 @@ namespace ClientDataStorage.Dashboard
                 var pack = new Packet(PacketID.Client.TopicEditRequest);
                 pack.WriteStruct(Message);
                 pack.WriteStruct(NewMessage);
-                Network.ClientCore.Send(pack);
+                ClientCore.Send(pack);
             }
         }
 
@@ -87,7 +87,7 @@ namespace ClientDataStorage.Dashboard
 
                 var pack = new Packet(PacketID.Client.TopicAddRequest);
                 pack.WriteStruct(NewMessage);
-                Network.ClientCore.Send(pack);
+                ClientCore.Send(pack);
             }
         }
     }

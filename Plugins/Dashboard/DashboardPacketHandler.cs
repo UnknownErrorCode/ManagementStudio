@@ -39,7 +39,7 @@ namespace Dashboard
             var Author = arg2.ReadAscii();
             var Title = arg2.ReadAscii();
             var Remover = arg2.ReadAscii();
-            listView1.Invoke(new Action(() => listView1.Items.RemoveByKey(Title)));
+            vSroButtonList1.Invoke(new Action(() => vSroButtonList1.RemoveSingleButtonFromList(Title)));
 
             ClientDataStorage.Log.Logger.WriteLogLine($"User:[{Remover}] successfully deleted topic: [{Title}] from author: {Author}!");
             return PacketHandlerResult.Block;

@@ -16,21 +16,21 @@ namespace ShopEditor.Interface.ShopInterface
         /// </summary>
         protected internal RefShopTabGroup[] TabGroups { get; set; }
 
-        internal RefShop(string storeCodeName)
+        internal RefShop(string _RefShopCodeName)
         {
-            Name = storeCodeName;
+            Name = _RefShopCodeName;
 
-            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopWithTab"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefShopCodeName") == Name))
+            if (!ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopWithTab.ContainsKey(Name))
             {
                 vSroMessageBox.Show($"No RefTabGroupCodeNames found for \nRefShopCodeName:{Name}", "Error loading RefMappingShopWithTab");
                 return;
             }
-            DataRow[] tabGroups = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefMappingShopWithTab"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefShopCodeName") == Name).ToArray();
+            var tabGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopWithTab[Name];
             TabGroups = new RefShopTabGroup[tabGroups.Length];
 
             for (int i = 0; i < tabGroups.Length; i++)
             {
-                TabGroups[i] = new RefShopTabGroup(tabGroups[i].Field<string>("RefTabGroupCodeName"));
+                TabGroups[i] = new RefShopTabGroup(tabGroups[i].RefTabGroupCodeName);
             }
         }
     }

@@ -17,8 +17,6 @@ namespace ServerFrameworkRes.BasicControls
         public vSroListButton LatestSelectedButton { get; private set; }
 
         public event EventHandler OnIndCh;
-        public event Action OnSelectChanged;
-        public event Action OnAddButton;
 
         public bool ContainsTitle(string title) => AllButtonsOnTable.Exists(itm => itm.ButtonName.Equals(title));
 

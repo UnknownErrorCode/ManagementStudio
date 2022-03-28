@@ -4,7 +4,6 @@ namespace ManagementServer.PacketConstructors
 {
     static class NotificationPacket
     {
-
         internal static Packet NotifyPacket(ServerFrameworkRes.Ressources.LogLevel type, string message)
         {
             var packet = new Packet(PacketID.Server.LogNotification);

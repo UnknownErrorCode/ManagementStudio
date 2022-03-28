@@ -12,13 +12,12 @@ namespace ClientDataStorage
         private static AsyncClient ClientNetwork = new AsyncClient();
         private static ClientInterface CInterface = new ClientInterface();
 
-
         public static Action OnDataReceived { get => CInterface.CHandler.OnReceiveAllTables; set => CInterface.CHandler.OnReceiveAllTables = value; }
         public static Action OnAllowedPluginReceived { get => CInterface.CHandler.OnAllowedPluginReceived; set => CInterface.CHandler.OnAllowedPluginReceived = value; }
 
-       
         public static bool Connected { get => CInterface.cData.m_connected; }
         internal static string AccountName { get => CInterface.cData.AccountName; }
+
 
         public static async Task<bool> Start()
         {

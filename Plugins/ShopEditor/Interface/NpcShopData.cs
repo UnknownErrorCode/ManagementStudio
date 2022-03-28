@@ -34,17 +34,18 @@ namespace ShopEditor.Interface
         {
             NpcCodeName = npcCodeName128;
 
-            //Collecting RefShopGroupCodeName by NPC CodeName128
-            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefNPCCodeName") == npcCodeName128))
+           
+            if (!ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup.Any(group => group.RefNPCCodeName.Equals(npcCodeName128)))
             {
                 vSroMessageBox.Show($"No Group CodeName128 found for NPC: {npcCodeName128}", "Error loading RefShopGroup");
                 return;
             }
-            DataRow[] ShopGroupCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Where(Row => Row.Field<string>("RefNPCCodeName") == npcCodeName128).ToArray();
-            ShopGroups = new RefShopGroup[ShopGroupCodeNames.Length];
+            var shopGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup.Where(group => group.RefNPCCodeName.Equals(npcCodeName128)).ToArray();
+          //  DataRow[] ShopGroupCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Where(Row => Row.Field<string>("RefNPCCodeName") == npcCodeName128).ToArray();
+            ShopGroups = new RefShopGroup[shopGroups.Length];
 
-            for (int i = 0; i < ShopGroupCodeNames.Length; i++)
-                ShopGroups[i] = new RefShopGroup(ShopGroupCodeNames[i].Field<string>("CodeName128"));
+            for (int i = 0; i < ShopGroups.Length; i++)
+                ShopGroups[i] = new RefShopGroup(shopGroups[i].CodeName128);
         }
 
         #endregion

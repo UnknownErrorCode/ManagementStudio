@@ -1,22 +1,30 @@
 ﻿using ManagementServer.Utility;
-using ServerFrameworkRes.Network.Security;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace ManagementServer
 {
     static class PluginSecurityManager
     {
-        // static Dictionary<string, string[]> PluginDataTableBindings; //= new Dictionary<string, string[]>();
-        //
-        // static Dictionary<byte, string[]> SecurityGroupPluginBindings;
+        static Dictionary<string, string[]> PluginDataTableBindings; //= new Dictionary<string, string[]>();
+
+        static Dictionary<byte, string[]> SecurityGroupPluginBindings;
 
         static Dictionary<byte, string[]> SecurityGroupDataAccess;
 
+        internal static bool IsAllowed(string pluginName, byte securityGroup)
+        {
+            if (!SecurityGroupPluginBindings.ContainsKey(securityGroup))
+                return false;
+
+            return SecurityGroupPluginBindings[securityGroup].Contains(pluginName);
+        }
+
         internal static bool TryRefreshSecurityManager()
         {
-            var PluginDataTableBindings = new Dictionary<string, string[]>();
-            var SecurityGroupPluginBindings = new Dictionary<byte, string[]>();
+            PluginDataTableBindings = new Dictionary<string, string[]>();
+            SecurityGroupPluginBindings = new Dictionary<byte, string[]>();
             DataTable dt = SQL.GetPluginDataAccess();
             DataTable dt2 = SQL.GetSecurityPluginAccess();
 
@@ -64,13 +72,28 @@ namespace ManagementServer
                 }
                 SecurityGroupDataAccess.Add(securityGroup.Key, list.ToArray());
             }
-
             return true;
         }
 
-        internal static string[] GetRequiredTables(byte securityGroupID)
+        internal static string[] GetSecurityPluginNames(byte securityGroup)
         {
-            return SecurityGroupDataAccess[securityGroupID];
+            if (SecurityGroupPluginBindings.ContainsKey(securityGroup))
+                return SecurityGroupPluginBindings[securityGroup];
+            return null;
+        }
+
+        internal static string[] GetSecurityDataTableNames(byte securityGroupID)
+        {
+            if (SecurityGroupDataAccess.ContainsKey(securityGroupID))
+                return SecurityGroupDataAccess[securityGroupID];
+            return null;
+        }
+
+        internal static string[] GetPluginDataTableNames(string pluginname)
+        {
+            if (PluginDataTableBindings.TryGetValue(pluginname, out string[] tableNames))
+                return tableNames;
+            return null;
         }
     }
 }

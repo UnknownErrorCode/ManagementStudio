@@ -1,5 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using Structs.Tool;
+using System;
 using System.Data;
 
 namespace ManagementServer.PacketConstructors
@@ -7,9 +8,10 @@ namespace ManagementServer.PacketConstructors
     class LoginPacket
     {
 
+
         internal static Packet Status(LoginStatus status)
         {
-            var LoginStatus = new Packet(PacketID.Server.LoginStatus, false, true);
+            Packet LoginStatus = new Packet(PacketID.Server.LoginStatus, false, true);
             LoginStatus.WriteStruct(status);
             return LoginStatus;
         }
@@ -24,20 +26,31 @@ namespace ManagementServer.PacketConstructors
         {
             try
             {
-                var PluginDataRowCollection = Utility.SQL.AllowedPlugins(securityGroup).Rows;
-
-                Packet AllowedPlugins = new Packet(0xB000);
-                AllowedPlugins.WriteInt(PluginDataRowCollection.Count);
-
-                foreach (System.Data.DataRow row in PluginDataRowCollection)
-                    AllowedPlugins.WriteAscii(row.Field<string>("AllowedPlugins"));
-
-                return AllowedPlugins;
+                var pluginNames = PluginSecurityManager.GetSecurityPluginNames(securityGroup);
+                Packet packet = new Packet(0xB000);
+                packet.WriteAsciiArray(pluginNames);
+                return packet;
             }
             catch (System.Exception ex)
             {
                 return PacketConstructors.NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
             }
+        }
+
+        internal static Packet PluginDataReceiveConfirmation(string pluginName)
+        {
+            var tablePacket = new Packet(PacketID.Server.PluginDataSent);
+            tablePacket.WriteAscii(pluginName);
+            return tablePacket;
+        }
+
+        internal static Packet SendDataTable(string tableName, DataTable table)
+        {
+            var tablePacket = new Packet(PacketID.Server.DataTableSend, false, true);
+            tablePacket.WriteAscii(tableName);
+            tablePacket.WriteDataTable(table);
+            return tablePacket;
+
         }
 
 
@@ -46,16 +59,13 @@ namespace ManagementServer.PacketConstructors
         /// </summary>
         /// <param name="securityGroup"></param>
         /// <returns></returns>
-        internal static Packet AllowedDataTables(byte securityGroup)
+        internal static Packet AllowedDataTableNames(byte securityGroup)
         {
             try
             {
-                //var tableNameArray =  Utility.SQL.GetRequiredTableNames(securityGroup);
-                using (Packet tableNames = new Packet(0xB001))
-                {
-                    tableNames.WriteAsciiArray(PluginSecurityManager.GetRequiredTables(securityGroup));
-                    return tableNames;
-                }
+                Packet tableNames = new Packet(PacketID.Server.DataTableNames);
+                tableNames.WriteAsciiArray(PluginSecurityManager.GetSecurityDataTableNames(securityGroup));
+                return tableNames;
             }
             catch (System.Exception ex)
             {

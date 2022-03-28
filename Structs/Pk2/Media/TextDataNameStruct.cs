@@ -8,22 +8,22 @@ namespace Structs.Pk2.Media
 {
     public struct TextDataNameStruct
     {
-        public byte Service { get; set; }
-        public string Code { get; set; }
-        public string Korean { get; set; }
-        public string Unknow1 { get; set; }
-        public string Unknow2 { get; set; }
-        public string Chinese { get; set; }
-        public string Taiwan { get; set; }
-        public string Japan { get; set; }
-        public string English { get; set; }
-        public string Viethnam { get; set; }
-        public string Thailand { get; set; }
-        public string Russian { get; set; }
-        public string Turkish { get; set; }
-        public string Spanish { get; set; }
-        public string Arabic { get; set; }
-        public string Deutch { get; set; }
+        public byte Service;
+        public string Code;
+        public string Korean;
+        public string Unknow1;
+        public string Unknow2;
+        public string Chinese;
+        public string Taiwan;
+        public string Japan;
+        public string English;
+        public string Viethnam;
+        public string Thailand;
+        public string Russian;
+        public string Turkish;
+        public string Spanish;
+        public string Arabic;
+        public string Deutch;
 
 
         public TextDataNameStruct(string[] array)

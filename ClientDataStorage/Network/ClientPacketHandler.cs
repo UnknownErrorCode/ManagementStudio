@@ -72,12 +72,12 @@ namespace ClientDataStorage.Network
 
             Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
 
-            if (ClientMemory.UsedDataTables.Count == 0)
+            if (ClientMemory.UsedDataTables?.Count == 0)
             {
                 Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
 
                 Log.Logger.WriteLogLine($"Start initialize Databases for Client usage...");
-                Database.SRO_VT_SHARD.InitializeDBShard();
+                // Database.SRO_VT_SHARD.InitializeDBShard();
                 Log.Logger.WriteLogLine($"Finished initialize Databases");
                 OnReceiveAllTables();
             }

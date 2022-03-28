@@ -23,16 +23,16 @@ namespace Editors.Shop
             policy = new RefPricePolicyOfItem(itemArray);
         }
 
-        public DataModelRefPricePolicyOfItem()
+        public DataModelRefPricePolicyOfItem(byte service = 1, string codeName = "", int cost = 1, PaymentDevice device = PaymentDevice.Gold)
         {
             policy = new RefPricePolicyOfItem()
             {
-                Service = 1,
+                Service = service,
                 Country = 15,
-                RefPackageItemCodeName = "",
-                PaymentDevice = PaymentDevice.Gold,
+                RefPackageItemCodeName = codeName,
+                PaymentDevice = device,
                 PreviousCost = 0,
-                Cost = 1,
+                Cost = cost,
                 Param1 = -1,
                 Param1_Desc128 = "xxx",
                 Param2 = -1,

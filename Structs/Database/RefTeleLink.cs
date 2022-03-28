@@ -8,33 +8,31 @@ namespace Structs.Database
 {
     public struct RefTeleLink
     {
-        public object[] Array;
-        public int Service { get; set; }
-        public int OwnerTeleport { get; set; }
-        public int TargetTeleport { get; set; }
-        public int Fee { get; set; }
-        public byte RestrictBindMethod { get; set; }
-        public byte RunTimeTeleportMethod { get; set; }
-        public byte CheckResult { get; set; }
-        public int Restrict1 { get; set; }
-        public int Data1_1 { get; set; }
-        public int Data1_2 { get; set; }
-        public int Restrict2 { get; set; }
-        public int Data2_1 { get; set; }
-        public int Data2_2 { get; set; }
-        public int Restrict3 { get; set; }
-        public int Data3_1 { get; set; }
-        public int Data3_2 { get; set; }
-        public int Restrict4 { get; set; }
-        public int Data4_1 { get; set; }
-        public int Data4_2 { get; set; }
-        public int Restrict5 { get; set; }
-        public int Data5_1 { get; set; }
-        public int Data5_2 { get; set; }
+        public int Service;
+        public int OwnerTeleport;
+        public int TargetTeleport;
+        public int Fee;
+        public byte RestrictBindMethod;
+        public byte RunTimeTeleportMethod;
+        public byte CheckResult;
+        public int Restrict1;
+        public int Data1_1;
+        public int Data1_2;
+        public int Restrict2;
+        public int Data2_1;
+        public int Data2_2;
+        public int Restrict3;
+        public int Data3_1;
+        public int Data3_2;
+        public int Restrict4;
+        public int Data4_1;
+        public int Data4_2;
+        public int Restrict5;
+        public int Data5_1;
+        public int Data5_2;
 
         public RefTeleLink(object[] row)
         {
-            this.Array = row;
             Service = int.Parse(row[0].ToString());
             OwnerTeleport = int.Parse(row[1].ToString());
             TargetTeleport = int.Parse(row[2].ToString());

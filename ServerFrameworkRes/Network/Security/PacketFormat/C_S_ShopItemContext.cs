@@ -14,7 +14,7 @@ namespace ServerFrameworkRes.Network.Security.PacketFormat
             var p = new Packet(PacketID.Client.ShopDataRefPricePolicyOfItem);
             p.WriteByte(action);
             p.WriteStruct(arg1);
-            return p; // new Packet((ushort)PacketID.Client.RefShopData.RefPricePolicyOfItem);
+            return p; 
         }
     }
 }

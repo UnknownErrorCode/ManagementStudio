@@ -15,8 +15,8 @@ namespace ManagementClient
         {
             InitializeComponent();
             this.Controls.Add(ClientDataStorage.Log.Logger);
-            ClientDataStorage.Network.ClientCore.OnDataReceived += OnReceiveAllData;
-            ClientDataStorage.Network.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
+            ClientDataStorage.ClientCore.OnDataReceived += OnReceiveAllData;
+            ClientDataStorage.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
@@ -44,9 +44,9 @@ namespace ManagementClient
         {
             ToolStripItem itm = (ToolStripItem)sender;
 
-            Packet requestLogin = new Packet(PacketID.Client.RequestPlugiDataTable);
-            requestLogin.WriteAscii(itm.Text);
-            ClientDataStorage.Network.ClientCore.Send(requestLogin);
+            var pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(itm.Text);
+
+            ClientDataStorage.ClientCore.Send(pack);
 
             if (TryLoadPlugin(itm.Text, out TabPage page))
                 tabControlPlugins.TabPages.Add(page);
@@ -62,9 +62,9 @@ namespace ManagementClient
                 if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
                 {
                     Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
-                    UserControl controlal = (UserControl)Activator.CreateInstance(dll);
+                    UserControl controlal = (UserControl)Activator.CreateInstance(dll, tabPage);
                     controlal.Dock = DockStyle.Fill;
-                    tabPage.Controls.Add(controlal);
+                   // tabPage.Controls.Add(controlal);
 
                     ClientDataStorage.ClientMemory.UsedPlugins.Add(text);
                     return true;

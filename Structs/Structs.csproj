@@ -41,6 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Enumerable\TableName.cs" />
+    <Compile Include="Database\PaymentDevice.cs" />
+    <Compile Include="Database\RefGameWorldBindTriggerCategory.cs" />
+    <Compile Include="Database\RefGame_World.cs" />
+    <Compile Include="Database\RefMappingShopWithTab.cs" />
+    <Compile Include="Database\RefObjItem.cs" />
+    <Compile Include="Database\RefRegion.cs" />
+    <Compile Include="Database\RefRegionBindAssocServer.cs" />
+    <Compile Include="Database\RefShop.cs" />
+    <Compile Include="Database\RefShopGroup.cs" />
+    <Compile Include="Database\RefShopTab.cs" />
+    <Compile Include="Database\RefShopTabGroup.cs" />
+    <Compile Include="Database\RefTrigger.cs" />
+    <Compile Include="Database\RefTriggerCategory.cs" />
+    <Compile Include="Database\RefTriggerCategoryBindTrigger.cs" />
+    <Compile Include="Database\_RefMappingShopGroup.cs" />
     <Compile Include="Pk2\BinaryFiles\MapMeshCell.cs" />
     <Compile Include="Tool\Dashboard\DashboardMessage.cs" />
     <Compile Include="Database\Enumerable\BorrowFlag.cs" />

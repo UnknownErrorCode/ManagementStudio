@@ -22,15 +22,14 @@ namespace ShopEditor.Interface.ShopInterface
 
             StrID128Name = StrID_CodeName128;
 
-            if (!ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGoods"].Rows.OfType<DataRow>().Any(row => row.Field<string>("RefTabCodeName") == Name && row.Field<byte>("Service") == 1))
+            if (!ClientDataStorage.Database.SRO_VT_SHARD._RefShopGoods.Any(row => row.RefTabCodeName.Equals(Name) && row.Service == 1))
                 return;
 
-            DataRow[] allGoodsOnTab = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGoods"].Rows.OfType<DataRow>().Where(row => row.Field<string>("RefTabCodeName") == Name && row.Field<byte>("Service") == 1).ToArray();
+            var allGoodsOnTab = ClientDataStorage.Database.SRO_VT_SHARD._RefShopGoods.Where(row => row.RefTabCodeName.Equals(Name) && row.Service == 1).ToArray();
             ShopGoods = new CIShopGood[allGoodsOnTab.Length];
 
             for (int i = 0; i < allGoodsOnTab.Length; i++)
-                ShopGoods[i] = new CIShopGood(new Structs.Database.RefShopGood(allGoodsOnTab[i]));// Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
-                                                                                                  //ShopGoods[i] = new RefShopGood(allGoodsOnTab[i].Field<string>("RefPackageItemCodeName"), allGoodsOnTab[i].Field<byte>("SlotIndex"));
+                ShopGoods[i] = new CIShopGood(allGoodsOnTab[i]);
         }
     }
 }

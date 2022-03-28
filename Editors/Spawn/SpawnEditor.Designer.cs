@@ -57,6 +57,7 @@ namespace Editors.Spawn
             | System.Windows.Forms.AnchorStyles.Left)));
             this.propertyGrid1.Location = new System.Drawing.Point(3, 23);
             this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
             this.propertyGrid1.Size = new System.Drawing.Size(188, 342);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeNestValue);

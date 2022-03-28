@@ -42,9 +42,6 @@
             this.richTextBoxShowTopicText = new System.Windows.Forms.RichTextBox();
             this.vSroSmallButtonSave = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.vSroSmallButtonCancel = new ServerFrameworkRes.BasicControls.vSroSmallButton();
-            this.richTextBoxEditTopicText = new System.Windows.Forms.RichTextBox();
-            this.labelTitle = new System.Windows.Forms.Label();
-            this.textBoxTopic = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.editShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -125,9 +122,6 @@
             // 
             this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonSave);
             this.splitContainerDashboardText.Panel2.Controls.Add(this.vSroSmallButtonCancel);
-            this.splitContainerDashboardText.Panel2.Controls.Add(this.richTextBoxEditTopicText);
-            this.splitContainerDashboardText.Panel2.Controls.Add(this.labelTitle);
-            this.splitContainerDashboardText.Panel2.Controls.Add(this.textBoxTopic);
             this.splitContainerDashboardText.Size = new System.Drawing.Size(554, 428);
             this.splitContainerDashboardText.SplitterDistance = 382;
             this.splitContainerDashboardText.TabIndex = 1;
@@ -216,7 +210,6 @@
             this.vSroSmallButtonSave.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonSave.TabIndex = 3;
             this.vSroSmallButtonSave.vSroSmallButtonName = "Save";
-            this.vSroSmallButtonSave.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.SaveTopic);
             // 
             // vSroSmallButtonCancel
             // 
@@ -228,35 +221,6 @@
             this.vSroSmallButtonCancel.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonCancel.TabIndex = 2;
             this.vSroSmallButtonCancel.vSroSmallButtonName = "Cancel";
-            // 
-            // richTextBoxEditTopicText
-            // 
-            this.richTextBoxEditTopicText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxEditTopicText.Location = new System.Drawing.Point(3, 29);
-            this.richTextBoxEditTopicText.Name = "richTextBoxEditTopicText";
-            this.richTextBoxEditTopicText.Size = new System.Drawing.Size(363, 665);
-            this.richTextBoxEditTopicText.TabIndex = 4;
-            this.richTextBoxEditTopicText.Text = "";
-            // 
-            // labelTitle
-            // 
-            this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(19, 6);
-            this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(30, 13);
-            this.labelTitle.TabIndex = 1;
-            this.labelTitle.Text = "Title:";
-            // 
-            // textBoxTopic
-            // 
-            this.textBoxTopic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTopic.Location = new System.Drawing.Point(51, 3);
-            this.textBoxTopic.Name = "textBoxTopic";
-            this.textBoxTopic.Size = new System.Drawing.Size(315, 20);
-            this.textBoxTopic.TabIndex = 0;
             // 
             // statusStrip1
             // 
@@ -305,7 +269,6 @@
             // timerCheckDashboard
             // 
             this.timerCheckDashboard.Interval = 1000;
-            this.timerCheckDashboard.Tick += new System.EventHandler(this.OnCheckTopics);
             // 
             // DashboardControl
             // 
@@ -321,7 +284,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.splitContainerDashboardText.Panel1.ResumeLayout(false);
             this.splitContainerDashboardText.Panel2.ResumeLayout(false);
-            this.splitContainerDashboardText.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDashboardText)).EndInit();
             this.splitContainerDashboardText.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -341,11 +303,8 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainerDashboardText;
         private System.Windows.Forms.RichTextBox richTextBoxShowTopicText;
-        private System.Windows.Forms.RichTextBox richTextBoxEditTopicText;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonSave;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonCancel;
-        private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.TextBox textBoxTopic;
         private System.Windows.Forms.Timer timerCheckDashboard;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem editShownTopicToolStripMenuItem;

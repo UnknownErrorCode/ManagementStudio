@@ -22,6 +22,10 @@ namespace Editors.Shop
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefPackageItem"].Rows.OfType<DataRow>().Any(packItem => packItem.Field<string>("CodeName128") == PackageItemCodeName && packItem.Field<byte>("Service") >= 1))
                 PackageItem = new RefPackageItem(ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefPackageItem"].Rows.OfType<DataRow>().First(packItem => packItem.Field<string>("CodeName128") == PackageItemCodeName && packItem.Field<byte>("Service") >= 1));
 
+            if (ClientDataStorage.Database.SRO_VT_SHARD._RefPackageItem.TryGetValue(Good.RefPackageItemCodeName, out RefPackageItem packItm ))
+            {
+                PackageItem = packItm;
+            }
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefScrapOfPackageItem"].Rows.OfType<DataRow>().Any(packItem => packItem.Field<string>("RefPackageItemCodeName") == PackageItemCodeName && packItem.Field<byte>("Service") >= 1))
                 ScrapOfPackageItem = new RefScrapOfPackageItem(ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefScrapOfPackageItem"].Rows.OfType<DataRow>().First(packItem => packItem.Field<string>("RefPackageItemCodeName") == PackageItemCodeName && packItem.Field<byte>("Service") >= 1));
 

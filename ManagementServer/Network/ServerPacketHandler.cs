@@ -11,6 +11,7 @@ namespace ManagementServer.Network
             base.AddEntry(0x2001, Reply0x2001);
             // client
             base.AddEntry(PacketID.Client.RequestDataTable, Reply0x0999DataTableRequest);
+            base.AddEntry(PacketID.Client.RequestPlugiDataTable, Reply0x0998PluginDataTableRequest);
             base.AddEntry(PacketID.Client.Login, Reply0x1000LoginRequest);
             base.AddEntry(PacketID.Client.TopicsRequest, Reply0x1001RequestAllTopics);
             base.AddEntry(PacketID.Client.TopicAddRequest, Reply0x1002AddNewTopic);
@@ -24,10 +25,12 @@ namespace ManagementServer.Network
 
         }
 
-        
+        private PacketHandlerResult Reply0x0998PluginDataTableRequest(ServerData arg1, Packet arg2)
+         => Handler.S_TABLEDATA.ResponsePluginDataTables((ServerClientData)arg1, arg2);
+
 
         private PacketHandlerResult Reply0x0999DataTableRequest(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
-          => Handler.S_TABLEDATA.ResponseAllowedTables((ServerClientData)arg1, arg2);
+          => Handler.S_TABLEDATA.ResponseDataTables((ServerClientData)arg1, arg2);
 
         private PacketHandlerResult Reply0x1001RequestAllTopics(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
             => LoadTopics(arg1, arg2);

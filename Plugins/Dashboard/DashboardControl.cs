@@ -12,38 +12,21 @@ namespace Dashboard
     public partial class DashboardControl : UserControl
     {
 
-        public DashboardControl()
+        public DashboardControl(TabPage page)
         {
             InitializeComponent();
 
-            ClientDataStorage.Network.ClientCore.AddEntry(0xC001, TopicReceiveExisting);
-            ClientDataStorage.Network.ClientCore.AddEntry(0xC002, TopicReceiveNew);
-            ClientDataStorage.Network.ClientCore.AddEntry(0xC003, TopicsFinishedLoading);
-            ClientDataStorage.Network.ClientCore.AddEntry(0xC004, TopicDeleteResponse);
+            ClientDataStorage.ClientCore.AddEntry(0xC001, TopicReceiveExisting);
+            ClientDataStorage.ClientCore.AddEntry(0xC002, TopicReceiveNew);
+            ClientDataStorage.ClientCore.AddEntry(0xC003, TopicsFinishedLoading);
+            ClientDataStorage.ClientCore.AddEntry(0xC004, TopicDeleteResponse);
 
-            ClientDataStorage.Network.ClientCore.Send(RequestAllTopics);
-            //timerCheckDashboard.Enabled = true;
+            ClientDataStorage.ClientCore.Send(RequestAllTopics);
+
+            page.Controls.Add(this);
         }
 
-        private void SaveTopic()
-        {
-            if (textBoxTopic.TextLength == 0)
-                return;
-            if (richTextBoxEditTopicText.TextLength == 0)
-                return;
-            if (ClientDataStorage.ClientMemory.AccountName == null)
-                return;
-            if (!listView1.Items.ContainsKey(textBoxTopic.Text))
-            {
-                ClientDataStorage.Network.ClientCore.Send(RequestAddTopicToDashboard(new DashboardMessage(textBoxTopic.Text, richTextBoxEditTopicText.Text, ClientDataStorage.ClientMemory.AccountName)));
-            }
-        }
-
-        private void OnCheckTopics(object sender, EventArgs e)
-        {
-
-        }
-
+      
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (DashboardTopicEditor editor = new DashboardTopicEditor(ClientDataStorage.ClientMemory.AccountName))
@@ -74,7 +57,7 @@ namespace Dashboard
             {
                 DashboardMessage messageToDelete = (DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag;
 
-                ClientDataStorage.Network.ClientCore.Send(RequestDeleteTopicFromDashboard(messageToDelete));
+                ClientDataStorage.ClientCore.Send(RequestDeleteTopicFromDashboard(messageToDelete));
             }
         }
 
