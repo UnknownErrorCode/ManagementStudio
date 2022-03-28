@@ -13,22 +13,22 @@ namespace ClientDataStorage.Client.Files
         /// <summary>
         /// X coordinate of .m file.
         /// </summary>
-        public byte X { get; private set; }
+        public byte X;
 
         /// <summary>
         /// Y coordinate of .m file.
         /// </summary>
-        public byte Y { get; private set; }
+        public  byte Y;
 
         /// <summary>
         /// JMX Header file of version
         /// </summary>
-        public char[] Header { get; private set; }
+        public  char[] Header;
 
         /// <summary>
         /// Each region consists of 36 Blocks. 6 x 6 Blocks equals 1 WorldRegion.
         /// </summary>
-        public Dictionary<System.Drawing.Point, MapMeshBlock> Blocks = new Dictionary<System.Drawing.Point, MapMeshBlock>();
+        public readonly Dictionary<System.Drawing.Point, MapMeshBlock> Blocks = new Dictionary<System.Drawing.Point, MapMeshBlock>();
 
         /// <summary>
         /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
@@ -82,7 +82,7 @@ namespace ClientDataStorage.Client.Files
                         for (int yBlock = 0; yBlock < 6; yBlock++)
                         {
                             var Cells = new Dictionary<System.Drawing.Point, MapMeshCell>();
-                            var blockName = UnicodeEncoding.UTF8.GetChars(readBin.ReadBytes(6));
+                            var blockName = Encoding.UTF8.GetChars(readBin.ReadBytes(6));
 
                             for (int Cellx = 0; Cellx < 17; Cellx++)
                             {
@@ -95,9 +95,9 @@ namespace ClientDataStorage.Client.Files
 
                                     try
                                     {
-                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new Structs.Pk2.BinaryFiles.MapMeshCell(hei, (ushort)tex, 0,bri));
+                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new MapMeshCell(hei, (ushort)tex, 0,bri));
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception)
                                     {
                                     }
                                 }
