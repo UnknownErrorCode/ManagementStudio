@@ -1,11 +1,8 @@
 ﻿using Editors.Teleport;
 using Structs.Database;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
@@ -15,6 +12,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// Contains all Database Informations about the spawn.
         /// </summary>
         internal SingleTeleport TeleportData { get; set; }
+
         /// <summary>
         /// Ordinate of Region Coorainate.
         /// </summary>
@@ -59,13 +57,12 @@ namespace WorldMapSpawnEditor.MapGraphics
                 this.Location = new PointF(TeleportData.ObjCommon.OffsetX, TeleportData.ObjCommon.OffsetZ);
             }
             InitializeProperties();
-
         }
 
         /// <summary>
         /// Initialize required Properties to load Components with no error.
         /// </summary>
-        void InitializeProperties()
+        private void InitializeProperties()
         {
             if (RegionID == 0)
             {
@@ -76,6 +73,5 @@ namespace WorldMapSpawnEditor.MapGraphics
             Y = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(0, 2), 16));
             X = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(2, 2), 16));
         }
-
     }
 }

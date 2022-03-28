@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementClient.Utility
 {
@@ -19,7 +15,7 @@ namespace ManagementClient.Utility
                 // and create a string.
                 StringBuilder sBuilder = new StringBuilder();
 
-                // Loop through each byte of the hashed data 
+                // Loop through each byte of the hashed data
                 // and format each one as a hexadecimal string.
                 for (int i = 0; i < data.Length; i++)
                 {

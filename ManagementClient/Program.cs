@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ManagementClient
 {
-    static class Program
+    internal static class Program
     {
         internal static ClientDataStorage.Config MainConfig = new ClientDataStorage.Config();
         internal static LoginForm StaticLoginForm;
@@ -16,7 +13,7 @@ namespace ManagementClient
         /// Main entry point for the application!
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

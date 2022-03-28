@@ -1,29 +1,22 @@
-﻿using System.Windows.Forms;
-using ServerFrameworkRes.Network.Security;
-using System.Reflection;
+﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Data;
-using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
+        private const string STRING_DLL = "WorldMapSpawnEditor.dll";
+
         /// <summary>
         /// Map Panel to view the entired Open WorldMap without Dungeons.
         /// </summary>
-        MapGraphics.GraphicsPanel MapPanel;
+        private MapGraphics.GraphicsPanel MapPanel;
 
-        /// <summary>
-        /// ServerData from Client.
-        /// </summary>
+        private TabPage Parent;
 
-        private const string STRING_DLL = "WorldMapSpawnEditor.dll";
-        TabPage Parent;
         public WorldMapSpawnEditorControl(TabPage parentPage)
         {
             Parent = parentPage;
@@ -31,7 +24,24 @@ namespace WorldMapSpawnEditor
             InitializePerformance(this);
             ClientDataStorage.ClientCore.AddEntry(PacketID.Server.PluginDataSent, OnDataReceive);
             ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL);
+        }
 
+        private async void EnableControl(Control control, int InSeconds)
+        {
+            await Task.Delay(InSeconds * 1000);
+            control.Enabled = true;
+        }
+
+        /// <summary>
+        /// Sets the panel to Doublebuffered = true;
+        /// </summary>
+        /// <param name="c"></param>
+        private void InitializePerformance(Control c)
+        {
+            if (typeof(Panel) == c.GetType())
+                typeof(Panel).InvokeMember("DoubleBuffered",
+                    BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                    null, c, new object[] { true });
         }
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
@@ -45,24 +55,7 @@ namespace WorldMapSpawnEditor
             return PacketHandlerResult.Block;
         }
 
-        /// <summary>
-        /// Sets the panel to Doublebuffered = true; 
-        /// </summary>
-        /// <param name="c"></param>
-        private void InitializePerformance(Control c)
-        {
-            if (typeof(Panel) == c.GetType())
-                typeof(Panel).InvokeMember("DoubleBuffered",
-                    BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-                    null, c, new object[] { true });
-        }
         #region ToolStripMenuItem region
-
-        private void playerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowPlayer = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
 
         private void assignedToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -70,33 +63,9 @@ namespace WorldMapSpawnEditor
             MapPanel.Invalidate();
         }
 
-        private void unassignedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowUnassignedRegions = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
         private void commonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MapPanel.ShowMonster = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
-        private void uniqueToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowUniqueMonster = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
-        private void nPCToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowNpc = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
-        private void teleportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowTeleport = ((ToolStripMenuItem)sender).Checked;
             MapPanel.Invalidate();
         }
 
@@ -112,9 +81,16 @@ namespace WorldMapSpawnEditor
             MapPanel.Invalidate();
         }
 
-        private void spawnInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void nPCToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MapPanel.HasToolTip = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.ShowNpc = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
+
+        private void playerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowPlayer = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
         }
 
         private void spawnEditorOnClickToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,7 +98,30 @@ namespace WorldMapSpawnEditor
             MapPanel.OpenEditorOnClick = ((ToolStripMenuItem)sender).Checked;
         }
 
-        #endregion
+        private void spawnInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.HasToolTip = ((ToolStripMenuItem)sender).Checked;
+        }
+
+        private void teleportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowTeleport = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
+
+        private void unassignedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowUnassignedRegions = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
+
+        private void uniqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowUniqueMonster = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.Invalidate();
+        }
+
+        #endregion ToolStripMenuItem region
 
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
@@ -139,12 +138,5 @@ namespace WorldMapSpawnEditor
             //     guide.ShowDialog();
             // }
         }
-        private async void EnableControl(Control control, int InSeconds)
-        {
-            await Task.Delay(InSeconds * 1000);
-            control.Enabled = true;
-        }
-
-
     }
 }

@@ -15,7 +15,6 @@
         public int Param4;
         public string Param4_Desc128;
 
-
         public RefShop(object[] row)
         {
             Service = byte.Parse(row[0].ToString());

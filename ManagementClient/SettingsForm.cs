@@ -1,26 +1,18 @@
 ﻿using ClientDataStorage;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ManagementClient
 {
     public partial class SettingsForm : Form
     {
-
         private readonly Config ReadOnlyCfg;
+
         public SettingsForm(Config config = null)
         {
             ReadOnlyCfg = config;
             InitializeComponent();
         }
-
 
         public bool InitializeSettings()
         {
@@ -37,12 +29,8 @@ namespace ManagementClient
             return true;
         }
 
-        private void OnShowPasswordCheckChange(object sender, EventArgs e)
-        => vSroInputBox5.ShowPWCharakter(!vSroCheckBox1.vSroCheck);
-
         private void OnLoadSettings()
             => this.InitializeSettings();
-
 
         private void OnSaveSettings()
         {
@@ -56,5 +44,8 @@ namespace ManagementClient
             ReadOnlyCfg.ClientPath = vSroInputBox6.ValueText;
             ReadOnlyCfg.ClientExtracted = vSroInputBox7.ValueText;
         }
+
+        private void OnShowPasswordCheckChange(object sender, EventArgs e)
+            => vSroInputBox5.ShowPWCharakter(!vSroCheckBox1.vSroCheck);
     }
 }

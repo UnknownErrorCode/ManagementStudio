@@ -18,6 +18,5 @@ namespace Structs.Database
             CodeName128 = row.Field<string>("CodeName128");//= row[3].ToString();
             StrID128_Group = row.Field<string>("StrID128_Group");//= row[4].ToString();
         }
-
     }
 }

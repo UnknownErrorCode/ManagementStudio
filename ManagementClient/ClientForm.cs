@@ -1,5 +1,4 @@
-﻿using ServerFrameworkRes.Network.Security;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +9,6 @@ namespace ManagementClient
 {
     public partial class ClientForm : Form
     {
-
         public ClientForm()
         {
             InitializeComponent();
@@ -64,7 +62,7 @@ namespace ManagementClient
                     Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
                     UserControl controlal = (UserControl)Activator.CreateInstance(dll, tabPage);
                     controlal.Dock = DockStyle.Fill;
-                   // tabPage.Controls.Add(controlal);
+                    // tabPage.Controls.Add(controlal);
 
                     ClientDataStorage.ClientMemory.UsedPlugins.Add(text);
                     return true;
@@ -99,8 +97,8 @@ namespace ManagementClient
                 loadPluginsToolStripMenuItem.Enabled = true;
         }
 
-
         private bool Pk2Initialized => ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
+
         private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Pk2Initialized)
@@ -108,7 +106,6 @@ namespace ManagementClient
 
             //ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
             //ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
-
 
             foreach (string pluginPath in Directory.GetFiles("Plugins\\").Where(path => path.EndsWith(".dll") && ClientDataStorage.ClientMemory.AllowedPlugin.Contains(path.Remove(0, 8))))
             {
@@ -124,7 +121,6 @@ namespace ManagementClient
                     tabControlPlugins.TabPages.Add(tabPage);
                     ClientDataStorage.ClientMemory.UsedPlugins.Add(pluginPath.Remove(0, 8));
                 }
-
             }
 
             this.loadPluginsToolStripMenuItem.Checked = true;

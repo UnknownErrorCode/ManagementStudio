@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Linq;
-
-namespace WorldMapSpawnEditor.MapGraphics
+﻿namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Spawn
     {
@@ -14,7 +11,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal int nGenerateRadius;
         public readonly GraphicsPanel.SpawnType spawnType;
 
-        internal Spawn(int id,short wRegionID, float x, float y, float z, GraphicsPanel.SpawnType type, int radius, int genRaius)
+        internal Spawn(int id, short wRegionID, float x, float y, float z, GraphicsPanel.SpawnType type, int radius, int genRaius)
         {
             ID = id;
             RegionID = new WRegionID(wRegionID);
