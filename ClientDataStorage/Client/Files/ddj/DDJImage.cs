@@ -8,11 +8,14 @@ namespace ClientDataStorage.Client.Files
     public class DDJImage : IDisposable
     {
         #region Variables
+
         private bool m_isValid = false;
         private System.Drawing.Bitmap m_bitmap = null;
-        #endregion
+
+        #endregion Variables
 
         #region Constructor/Destructor
+
         public DDJImage(byte[] ddsImage)
         {
             if (ddsImage == null) return;
@@ -45,12 +48,11 @@ namespace ClientDataStorage.Client.Files
         {
             this.m_bitmap = bitmap;
         }
-        #endregion
 
-        #region Override Methods
-        #endregion
+        #endregion Constructor/Destructor
 
         #region Private Methods
+
         private void Parse(BinaryReader reader)
         {
             DDSStruct header = new DDSStruct();
@@ -312,6 +314,7 @@ namespace ClientDataStorage.Client.Files
         }
 
         #region Helper Methods
+
         // iCompFormatToBpp
         private uint PixelFormatToBpp(PixelFormat pf, uint rgbbitcount)
         {
@@ -611,9 +614,11 @@ namespace ClientDataStorage.Client.Files
                 *((float*)dest++) = 1.0f;
             }
         }
-        #endregion
+
+        #endregion Helper Methods
 
         #region Decompress Methods
+
         private byte[] DecompressData(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             //System.Diagnostics.Debug.WriteLine(pixelFormat);
@@ -739,8 +744,8 @@ namespace ClientDataStorage.Client.Files
                                 // Three-color block: derive the other color.
                                 // 00 = color_0,  01 = color_1,  10 = color_2,
                                 // 11 = transparent.
-                                // These 2-bit codes correspond to the 2-bit fields 
-                                // stored in the 64-bit block. 
+                                // These 2-bit codes correspond to the 2-bit fields
+                                // stored in the 64-bit block.
                                 colours[2].blue = (byte)((colours[0].blue + colours[1].blue) / 2);
                                 colours[2].green = (byte)((colours[0].green + colours[1].green) / 2);
                                 colours[2].red = (byte)((colours[0].red + colours[1].red) / 2);
@@ -1378,9 +1383,9 @@ namespace ClientDataStorage.Client.Files
                             colours[1].blue = (byte)(color_1.blue << 3);
                             colours[1].alpha = 0xFF;
 
-                            // Four-color block: derive the other two colors.    
+                            // Four-color block: derive the other two colors.
                             // 00 = color_0, 01 = color_1, 10 = color_2, 11 = color_3
-                            // These 2-bit codes correspond to the 2-bit fields 
+                            // These 2-bit codes correspond to the 2-bit fields
                             // stored in the 64-bit block.
                             colours[2].blue = (byte)((2 * colours[0].blue + colours[1].blue + 1) / 3);
                             colours[2].green = (byte)((2 * colours[0].green + colours[1].green + 1) / 3);
@@ -1411,10 +1416,10 @@ namespace ClientDataStorage.Client.Files
                                 }
                             }
 
-                            // 8-alpha or 6-alpha block?    
+                            // 8-alpha or 6-alpha block?
                             if (alphas[0] > alphas[1])
                             {
-                                // 8-alpha block:  derive the other six alphas.    
+                                // 8-alpha block:  derive the other six alphas.
                                 // Bit code 000 = alpha_0, 001 = alpha_1, others are interpolated.
                                 alphas[2] = (byte)((6 * alphas[0] + 1 * alphas[1] + 3) / 7);	// bit code 010
                                 alphas[3] = (byte)((5 * alphas[0] + 2 * alphas[1] + 3) / 7);	// bit code 011
@@ -1544,6 +1549,7 @@ namespace ClientDataStorage.Client.Files
         }
 
         #region UNUSED
+
         private unsafe byte[] DecompressARGB(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
@@ -1742,13 +1748,15 @@ namespace ClientDataStorage.Client.Files
             }
             return rawData;
         }
-        #endregion
 
-        #endregion
+        #endregion UNUSED
 
-        #endregion
+        #endregion Decompress Methods
+
+        #endregion Private Methods
 
         #region Public Methods
+
         public void Dispose()
         {
             if (this.m_bitmap != null)
@@ -1757,9 +1765,11 @@ namespace ClientDataStorage.Client.Files
                 this.m_bitmap = null;
             }
         }
-        #endregion
+
+        #endregion Public Methods
 
         #region Properties
+
         /// <summary>
         /// Returns a System.Imaging.Bitmap containing the DDS image.
         /// </summary>
@@ -1775,9 +1785,11 @@ namespace ClientDataStorage.Client.Files
         {
             get { return this.m_isValid; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Operators
+
         public static implicit operator DDJImage(System.Drawing.Bitmap value)
         {
             return new DDJImage(value);
@@ -1787,11 +1799,13 @@ namespace ClientDataStorage.Client.Files
         {
             return value.BitmapImage;
         }
-        #endregion
+
+        #endregion Operators
 
         #region Nested Types
 
         #region Colour8888
+
         [StructLayout(LayoutKind.Sequential)]
         private struct Colour8888
         {
@@ -1800,9 +1814,11 @@ namespace ClientDataStorage.Client.Files
             public byte blue;
             public byte alpha;
         }
-        #endregion
+
+        #endregion Colour8888
 
         #region Colour565
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         private struct Colour565
         {
@@ -1810,9 +1826,11 @@ namespace ClientDataStorage.Client.Files
             public ushort green; //: 6;
             public ushort red; //: 5;
         }
-        #endregion
+
+        #endregion Colour565
 
         #region DDSStruct
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         private struct DDSStruct
         {
@@ -1824,6 +1842,7 @@ namespace ClientDataStorage.Client.Files
             public uint depth;
             public uint mipmapcount;
             public uint alphabitdepth;
+
             //[MarshalAs(UnmanagedType.U4, SizeConst = 11)]
             public uint[] reserved;//[11];
 
@@ -1839,6 +1858,7 @@ namespace ClientDataStorage.Client.Files
                 public uint bbitmask;
                 public uint alphabitmask;
             }
+
             public pixelformatstruct pixelformat;
 
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -1849,6 +1869,7 @@ namespace ClientDataStorage.Client.Files
                 public uint caps3;
                 public uint caps4;
             }
+
             public ddscapsstruct ddscaps;
             public uint texturestage;
 
@@ -1865,9 +1886,11 @@ namespace ClientDataStorage.Client.Files
             //}
             //#endif
         }
-        #endregion
+
+        #endregion DDSStruct
 
         #region DDSStruct Flags
+
         private const int DDSD_CAPS = 0x00000001;
         private const int DDSD_HEIGHT = 0x00000002;
         private const int DDSD_WIDTH = 0x00000004;
@@ -1876,22 +1899,29 @@ namespace ClientDataStorage.Client.Files
         private const int DDSD_MIPMAPCOUNT = 0x00020000;
         private const int DDSD_LINEARSIZE = 0x00080000;
         private const int DDSD_DEPTH = 0x00800000;
-        #endregion
+
+        #endregion DDSStruct Flags
 
         #region pixelformat values
+
         private const int DDPF_ALPHAPIXELS = 0x00000001;
         private const int DDPF_FOURCC = 0x00000004;
         private const int DDPF_RGB = 0x00000040;
         private const int DDPF_LUMINANCE = 0x00020000;
-        #endregion
+
+        #endregion pixelformat values
 
         #region ddscaps
+
         // caps1
         private const int DDSCAPS_COMPLEX = 0x00000008;
+
         private const int DDSCAPS_TEXTURE = 0x00001000;
         private const int DDSCAPS_MIPMAP = 0x00400000;
+
         // caps2
         private const int DDSCAPS2_CUBEMAP = 0x00000200;
+
         private const int DDSCAPS2_CUBEMAP_POSITIVEX = 0x00000400;
         private const int DDSCAPS2_CUBEMAP_NEGATIVEX = 0x00000800;
         private const int DDSCAPS2_CUBEMAP_POSITIVEY = 0x00001000;
@@ -1899,9 +1929,11 @@ namespace ClientDataStorage.Client.Files
         private const int DDSCAPS2_CUBEMAP_POSITIVEZ = 0x00004000;
         private const int DDSCAPS2_CUBEMAP_NEGATIVEZ = 0x00008000;
         private const int DDSCAPS2_VOLUME = 0x00200000;
-        #endregion
+
+        #endregion ddscaps
 
         #region fourccs
+
         private const uint FOURCC_DXT1 = 0x31545844;
         private const uint FOURCC_DXT2 = 0x32545844;
         private const uint FOURCC_DXT3 = 0x33545844;
@@ -1917,9 +1949,11 @@ namespace ClientDataStorage.Client.Files
         private const uint FOURCC_rNULL = 0x72;
         private const uint FOURCC_sNULL = 0x73;
         private const uint FOURCC_tNULL = 0x74;
-        #endregion
+
+        #endregion fourccs
 
         #region PixelFormat
+
         /// <summary>
         /// Various pixel formats/compressors used by the DDS image.
         /// </summary>
@@ -1929,38 +1963,47 @@ namespace ClientDataStorage.Client.Files
             /// 32-bit image, with 8-bit red, green, blue and alpha.
             /// </summary>
             RGBA,
+
             /// <summary>
             /// 24-bit image with 8-bit red, green, blue.
             /// </summary>
             RGB,
+
             /// <summary>
             /// 16-bit DXT-1 compression, 1-bit alpha.
             /// </summary>
             DXT1,
+
             /// <summary>
             /// DXT-2 Compression
             /// </summary>
             DXT2,
+
             /// <summary>
             /// DXT-3 Compression
             /// </summary>
             DXT3,
+
             /// <summary>
             /// DXT-4 Compression
             /// </summary>
             DXT4,
+
             /// <summary>
             /// DXT-5 Compression
             /// </summary>
             DXT5,
+
             /// <summary>
             /// 3DC Compression
             /// </summary>
             THREEDC,
+
             /// <summary>
             /// ATI1n Compression
             /// </summary>
             ATI1N,
+
             LUMINANCE,
             LUMINANCE_ALPHA,
             RXGB,
@@ -1971,18 +2014,20 @@ namespace ClientDataStorage.Client.Files
             R32F,
             G32R32F,
             A32B32G32R32F,
+
             /// <summary>
             /// Unknown pixel format.
             /// </summary>
             UNKNOWN
         }
-        #endregion
 
-        #endregion
+        #endregion PixelFormat
+
+        #endregion Nested Types
     }
 
-
     #region Exceptions Class
+
     /// <summary>
     /// Thrown when an invalid file header has been encountered.
     /// </summary>
@@ -1995,7 +2040,6 @@ namespace ClientDataStorage.Client.Files
     /// </summary>
     public class NotADDSImageException : Exception
     {
-
     }
 
     /// <summary>
@@ -2004,7 +2048,6 @@ namespace ClientDataStorage.Client.Files
     public class UnknownFileFormatException : Exception
     {
     }
-    #endregion
+
+    #endregion Exceptions Class
 }
-
-

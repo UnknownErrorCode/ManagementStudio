@@ -7,9 +7,9 @@ namespace ClientDataStorage.Network
 {
     internal partial class ClientPacketHandler : PacketHandler
     {
-
         public Action OnReceiveAllTables;
         public Action OnAllowedPluginReceived;
+
         internal ClientPacketHandler()
         {
             base.AddEntry(0xB000, AllowedPlugins);
@@ -26,7 +26,6 @@ namespace ClientDataStorage.Network
             Log.Logger.WriteLogLine(type, text);
             return PacketHandlerResult.Block;
         }
-
 
         /// <summary>
         /// Receives a string[] of all .dll Plugins that the application is permitted to load.

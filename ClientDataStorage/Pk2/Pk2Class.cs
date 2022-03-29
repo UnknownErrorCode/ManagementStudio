@@ -9,35 +9,27 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Class
     {
-        /// <summary>
-        /// Used to encrypt and decrypt the pk2 stream
-        /// </summary>
-        private Blowfish blowfish = new Blowfish();
+        public List<Pk2File> Files = new List<Pk2File>();
+
+        public List<Pk2Folder> Folders = new List<Pk2Folder>();
+
+        private ConcurrentDictionary<string, Pk2File> AllFiles = new ConcurrentDictionary<string, Pk2File>();
+
         /// <summary>
         /// This bKey is used to parse the security blowfish of the pk2 File
         /// </summary>
         private byte[] bKey = new byte[] { 0x32, 0xCE, 0xDD, 0x7C, 0xBC, 0xA8 };
 
+        /// <summary>
+        /// Used to encrypt and decrypt the pk2 stream
+        /// </summary>
+        private Blowfish blowfish = new Blowfish();
+
+        private Pk2Folder currentFolder;
+        private List<Pk2EntryBlock> EntryBlocks = new List<Pk2EntryBlock>();
+        private FileStream fileStream;
         private Pk2Header header;
         private Pk2Folder mainFolder;
-        private Pk2Folder currentFolder;
-
-        private List<Pk2EntryBlock> EntryBlocks = new List<Pk2EntryBlock>();
-        public List<Pk2File> Files = new List<Pk2File>();
-        public List<Pk2Folder> Folders = new List<Pk2Folder>();
-        private ConcurrentDictionary<string, Pk2File> AllFiles = new ConcurrentDictionary<string, Pk2File>();
-
-        FileStream fileStream;
-
-        public List<Pk2Folder> GetFoldersFromCurrentFolder()
-        {
-            List<Pk2Folder> tempList = new List<Pk2Folder>();
-
-            foreach (var subFolder in mainFolder.subfolders)
-                tempList.Add(subFolder);
-
-            return tempList;
-        }
 
         public Pk2Class(string pk2FilePath)
         {
@@ -59,25 +51,6 @@ namespace ClientDataStorage.Pk2
             }
         }
 
-        public bool fileExists(string name)
-        {
-            Pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
-
-            if (file.position != 0)
-                return true;
-            else
-                return false;
-        }
-
-        public byte[] GetFileByExtract(Pk2File file)
-        {
-            using (BinaryReader reader = new BinaryReader(fileStream))
-            {
-                reader.BaseStream.Position = file.position;
-                return reader.ReadBytes((int)file.size);
-            }
-        }
-
         public void ExtractSingleFile(string CreatePath, Pk2File file)
         {
             var pathToCreateFile = Path.Combine(CreatePath, file.name);
@@ -88,7 +61,16 @@ namespace ClientDataStorage.Pk2
                 str.Write(byteArrayOfSelectedFile, 0, byteArrayOfSelectedFile.Length);
                 str.Close();
             }
+        }
 
+        public bool fileExists(string name)
+        {
+            Pk2File file = Files.Find(item => item.name.ToLower() == name.ToLower());
+
+            if (file.position != 0)
+                return true;
+            else
+                return false;
         }
 
         public byte[] GetFile(string name)
@@ -105,6 +87,16 @@ namespace ClientDataStorage.Pk2
             else
                 return null;
         }
+
+        public byte[] GetFileByExtract(Pk2File file)
+        {
+            using (BinaryReader reader = new BinaryReader(fileStream))
+            {
+                reader.BaseStream.Position = file.position;
+                return reader.ReadBytes((int)file.size);
+            }
+        }
+
         public List<string> GetFileNames()
         {
             List<string> tmpList = new List<string>();
@@ -115,12 +107,29 @@ namespace ClientDataStorage.Pk2
             return tmpList;
         }
 
+        public List<Pk2Folder> GetFoldersFromCurrentFolder()
+        {
+            List<Pk2Folder> tempList = new List<Pk2Folder>();
+
+            foreach (var subFolder in mainFolder.subfolders)
+                tempList.Add(subFolder);
+
+            return tempList;
+        }
+
+        internal object BufferToStruct(byte[] buffer, Type returnStruct)
+        {
+            IntPtr pointer = Marshal.AllocHGlobal(buffer.Length);
+            Marshal.Copy(buffer, 0, pointer, buffer.Length);
+
+            return Marshal.PtrToStructure(pointer, returnStruct);
+        }
+
         private void read(Int64 position)
         {
             BinaryReader reader = new BinaryReader(fileStream);
             reader.BaseStream.Position = position;
             List<Pk2Folder> tmpFolders = new List<Pk2Folder>();
-
 
             Pk2EntryBlock entryBlock = (Pk2EntryBlock)BufferToStruct(blowfish.Decode(reader.ReadBytes(Marshal.SizeOf(typeof(Pk2EntryBlock)))), typeof(Pk2EntryBlock));
 
@@ -132,6 +141,7 @@ namespace ClientDataStorage.Pk2
                 {
                     case Pk2EntryType.Exit:
                         break;
+
                     case Pk2EntryType.Folder:
                         if (entry.name != "." && entry.name != "..")
                         {
@@ -147,6 +157,7 @@ namespace ClientDataStorage.Pk2
                             currentFolder.subfolders.Add(tmpFolder);
                         }
                         break;
+
                     case Pk2EntryType.File:
                         {
                             Pk2File tmpFile = new Pk2File();
@@ -161,7 +172,6 @@ namespace ClientDataStorage.Pk2
                         }
                         break;
                 }
-
             }
 
             if (entryBlock.entries[19].nChain != 0)
@@ -178,14 +188,6 @@ namespace ClientDataStorage.Pk2
 
                 read(folder.position);
             }
-        }
-
-        internal object BufferToStruct(byte[] buffer, Type returnStruct)
-        {
-            IntPtr pointer = Marshal.AllocHGlobal(buffer.Length);
-            Marshal.Copy(buffer, 0, pointer, buffer.Length);
-
-            return Marshal.PtrToStructure(pointer, returnStruct);
         }
     }
 }

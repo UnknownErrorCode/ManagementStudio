@@ -14,7 +14,6 @@ namespace ClientDataStorage.Client.Textdata
         /// </summary>
         public ConcurrentDictionary<string, TextUISystemStruct> UIIT_Strings = new ConcurrentDictionary<string, TextUISystemStruct>();
 
-
         public TextUISystem(byte[] file)
             => TextParser.StaticTextParser.ConvertByteArrayToStructedTextArray(file, 10, "\t".ToCharArray()).ToList().ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
     }

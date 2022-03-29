@@ -7,9 +7,9 @@ namespace ClientDataStorage.Network
 {
     internal class ClientInterface : IAsyncInterface
     {
-
         internal ClientData cData = new ClientData();
         internal ClientPacketHandler CHandler = new ClientPacketHandler();
+
         /// <summary>
         /// </summary>
         /// <param name="context"></param>
@@ -57,6 +57,7 @@ namespace ClientDataStorage.Network
                             case PacketHandlerResult.Disconnect:
                                 OnDisconnect(context);
                                 break;
+
                             default:
                                 continue;
                         }

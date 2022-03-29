@@ -51,7 +51,6 @@ namespace ClientDataStorage.Client.Files
         /// </summary>
         public byte[] Reserved { get; set; }
 
-
         public MapMeshBlock(char[] blockName, Dictionary<Point, MapMeshCell> mapCells, byte density, byte unkByte0, float seaLevel, List<KeyValuePair<byte, byte>> extraMin, float heightMax, float heightMin, byte[] unkBuffer0)
         {
             BlockName = blockName;

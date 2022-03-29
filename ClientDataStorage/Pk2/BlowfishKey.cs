@@ -156,8 +156,8 @@ namespace ClientDataStorage.Pk2
             }
         };
 
-        uint[] PArray;
-        uint[,] SBoxes;
+        private uint[] PArray;
+        private uint[,] SBoxes;
 
         public Blowfish()
         {
@@ -287,7 +287,7 @@ namespace ClientDataStorage.Pk2
             }
         }
 
-        // Returns the output length based on the size. This can be used to 
+        // Returns the output length based on the size. This can be used to
         // determine how many bytes of output space is needed for data that
         // is about to be encoded or decoded.
         public int GetOutputLength(int length)

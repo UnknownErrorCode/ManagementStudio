@@ -9,7 +9,6 @@ namespace ClientDataStorage.Client.Textdata
     {
         public SkilleffectStruct Skilleffects;
 
-
         public SkillEffect()
         {
             if (Media.MediaPk2.GetByteArrayByDirectory("Media\\server_dep\\silkroad\\textdata\\skilleffect.txt", out byte[] rawfile))
@@ -56,6 +55,7 @@ namespace ClientDataStorage.Client.Textdata
                                 }
                                 Skilleffects.AllCharakterInfos.Add(new CharakterInfo(splittedSingleLine.ToArray()));
                                 break;
+
                             case SkillEffectSection.skillaniset2:
                                 while (splittedSingleLine.Count < 20)
                                 {
@@ -63,6 +63,7 @@ namespace ClientDataStorage.Client.Textdata
                                 }
                                 Skilleffects.AllAniSet2s.Add(new AniSet2(splittedSingleLine.ToArray()));
                                 break;
+
                             case SkillEffectSection.skilleffectset:
                                 while (splittedSingleLine.Count < 33)
                                 {
@@ -70,8 +71,10 @@ namespace ClientDataStorage.Client.Textdata
                                 }
                                 Skilleffects.AllEffectSets.Add(new EffectSet(splittedSingleLine.ToArray()));
                                 break;
+
                             case SkillEffectSection.None:
                                 break;
+
                             default:
                                 break;
                         }

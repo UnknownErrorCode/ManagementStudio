@@ -5,7 +5,6 @@ namespace ClientDataStorage.Network
 {
     public static class ClientPacketFormat
     {
-
         public static Packet RequestPluginDataTables(string plugin)
         {
             var packet = new Packet(PacketID.Client.RequestPlugiDataTable);
@@ -13,7 +12,7 @@ namespace ClientDataStorage.Network
             return packet;
         }
 
-        static Packet RequestDataTable(string[] tables)
+        private static Packet RequestDataTable(string[] tables)
         {
             Packet packet = new Packet(PacketID.Client.RequestDataTable, false, true);
             try

@@ -73,8 +73,6 @@ namespace ServerFrameworkRes.Network.Security
             _readerBytes = null;
         }
 
-        
-
         public Packet(ushort opcode, bool encrypted, bool massive)
         {
             if (encrypted && massive)
@@ -362,7 +360,6 @@ namespace ServerFrameworkRes.Network.Security
 
         public string[] ReadAsciiArray()
         {
-
             lock (_lock)
             {
                 if (!_locked)
@@ -665,7 +662,6 @@ namespace ServerFrameworkRes.Network.Security
                 return values;
             }
         }
-      
 
         public DataTable ReadDataTable(byte[] array)
         {
@@ -688,22 +684,18 @@ namespace ServerFrameworkRes.Network.Security
                     return values;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                //   throw e;
             }
             return null;
         }
 
-        public T  ReadStruct<T>() where T : struct
+        public T ReadStruct<T>() where T : struct
         {
             var buffer = this.ReadByteArray(Marshal.SizeOf(typeof(T)));
             return Unmanaged.BufferToStruct2<T>(buffer);
-
-
         }
-
-
 
         #endregion Read
 
@@ -1317,7 +1309,7 @@ namespace ServerFrameworkRes.Network.Security
                     binaryDataResult = memStream.ToArray();
                     memStream.Close();
                 }
-                if (binaryDataResult.Length==0)
+                if (binaryDataResult.Length == 0)
                 {
                     throw new PacketException("Cannot Write DataTable to Packet.");
                 }

@@ -7,11 +7,9 @@ namespace ClientDataStorage.Client.Files.bsr
     /// </summary>
     internal class CPrimAniGroup
     {
-
-        uint groupNameLength { get; set; }
-        string groupName { get; set; }
-
-        uint aniCount { get; set; }
-        List<CPrimAniTypeData> PrimAniTypeDataList { get; set; } = new List<CPrimAniTypeData>();
+        private uint aniCount;
+        private string groupName;
+        private uint groupNameLength;
+        private List<CPrimAniTypeData> PrimAniTypeDataList = new List<CPrimAniTypeData>();
     }
 }

@@ -6,10 +6,8 @@ namespace ClientDataStorage.Client.Textdata
     public class TextGroupParser
     {
         /// <summary>
-        /// Consists of all filenames inside the TextGroup. 
+        /// Consists of all filenames inside the TextGroup.
         /// </summary>
-     //   private string[] TextFiles { get; set; }
-
         public Dictionary<string, string[][]> GroupFiles = new Dictionary<string, string[][]>();
 
         /// <summary>

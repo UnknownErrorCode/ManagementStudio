@@ -2,9 +2,9 @@
 {
     public struct AnimationEvent
     {
-        uint KeyTime;
-        uint Type;
-        uint unkValue0;
-        uint unkValue1;
+        private uint KeyTime;
+        private uint Type;
+        private uint unkValue0;
+        private uint unkValue1;
     }
 }

@@ -40,7 +40,6 @@ namespace ClientDataStorage.Client
 
             Log.Logger.MessageStack.Push(MediaPk2.Initialized ? "Successfully load Media.pk2..." : "Cannot find Media.pk2...");
 
-
             return MediaPk2.Initialized;
         }
 

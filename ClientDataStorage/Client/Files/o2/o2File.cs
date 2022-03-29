@@ -21,9 +21,8 @@ namespace ClientDataStorage.Client.Files
         /// </summary>
         public byte OZ { get; set; }
 
-
         /// <summary>
-        /// Initialize .o file from Pk2File 
+        /// Initialize .o file from Pk2File
         /// </summary>
         /// <param name="binFile"></param>
         public o2File(Pk2File binFile)
@@ -40,7 +39,6 @@ namespace ClientDataStorage.Client.Files
             this.OZ = zval;
             Initialize(buffer, xval, zval);
         }
-
 
         /// <summary>
         /// Initialize .o file from raw byte[].

@@ -5,7 +5,6 @@ namespace ClientDataStorage.Client.Textdata
 {
     public abstract class TextArrayFormatter
     {
-
         /// <summary>
         /// Converts a string[] including each row of the binary file and returns all elements with minimum column size.
         /// </summary>

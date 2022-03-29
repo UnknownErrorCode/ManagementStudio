@@ -5,9 +5,7 @@ namespace ClientDataStorage.Client.Textdata
 {
     public class TextDataName
     {
-
         private TextGroupParser Group;
-
 
         public Dictionary<string, TextDataNameStruct> TextDataNames;
 

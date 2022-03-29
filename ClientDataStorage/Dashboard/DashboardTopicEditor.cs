@@ -9,23 +9,15 @@ namespace ClientDataStorage.Dashboard
 {
     public partial class DashboardTopicEditor : Form
     {
+        private bool IsEditMode;
+        private bool IsPreview = false;
 
-        bool IsEditMode;
-        bool IsPreview = false;
+        private DashboardMessage Message;
+        private DashboardMessage NewMessage;
 
-        DashboardMessage Message { get; set; }
-        DashboardMessage NewMessage;
-
-        string Author { get => labelAuthor.Text; set => labelAuthor.Text = value; }
-        string TopicText { get => labelText.Text; set => labelText.Text = value; }
-        string TopicTitle { get => labelTopic.Text; set => labelTopic.Text = value; }
-
-        string EditTopicText { get => richTextBox1.Text; set => richTextBox1.Text = value; }
-        string EditTopicTitle { get => textBox1.Text; set => textBox1.Text = value; }
         public DashboardTopicEditor(DashboardMessage msg)
         {
             Message = msg;
-            // NewMessage = new DashboardMessage(msg);
             InitializeComponent();
             Author = msg.Author;
 
@@ -38,31 +30,27 @@ namespace ClientDataStorage.Dashboard
 
         public DashboardTopicEditor(string author)
         {
-            // Message = msg;
-            // NewMessage = new DashboardMessage();
             InitializeComponent();
             Author = author;
             vSroSmallButtonEdit.Enabled = false;
             IsEditMode = false;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (!EditTopicTitle.Equals(TopicTitle) && IsEditMode && textBox1.ForeColor != Color.Red)
-                textBox1.ForeColor = Color.Red;
-        }
+        private string Author { get => labelAuthor.Text; set => labelAuthor.Text = value; }
+        private string EditTopicText { get => richTextBox1.Text; set => richTextBox1.Text = value; }
+        private string EditTopicTitle { get => textBox1.Text; set => textBox1.Text = value; }
+        private string TopicText { get => labelText.Text; set => labelText.Text = value; }
+        private string TopicTitle { get => labelTopic.Text; set => labelTopic.Text = value; }
 
-        private void OnPreviewClick()
+        private void OnAddNew()
         {
-            if (!IsPreview)
+            if (vSroMessageBox.YesOrNo("Do you want to add the new topic?", "Add new Topic"))
             {
-                TopicTitle = EditTopicTitle;
-                TopicText = EditTopicText;
-            }
-            else
-            {
-                TopicTitle = Message.Title;
-                TopicText = Message.Text;
+                NewMessage = new DashboardMessage(EditTopicTitle, EditTopicText, Author);
+
+                var pack = new Packet(PacketID.Client.TopicAddRequest);
+                pack.WriteStruct(NewMessage);
+                ClientCore.Send(pack);
             }
         }
 
@@ -79,16 +67,24 @@ namespace ClientDataStorage.Dashboard
             }
         }
 
-        private void OnAddNew()
+        private void OnPreviewClick()
         {
-            if (vSroMessageBox.YesOrNo("Do you want to add the new topic?", "Add new Topic"))
+            if (!IsPreview)
             {
-                NewMessage = new DashboardMessage(EditTopicTitle, EditTopicText, Author);
-
-                var pack = new Packet(PacketID.Client.TopicAddRequest);
-                pack.WriteStruct(NewMessage);
-                ClientCore.Send(pack);
+                TopicTitle = EditTopicTitle;
+                TopicText = EditTopicText;
             }
+            else
+            {
+                TopicTitle = Message.Title;
+                TopicText = Message.Text;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (!EditTopicTitle.Equals(TopicTitle) && IsEditMode && textBox1.ForeColor != Color.Red)
+                textBox1.ForeColor = Color.Red;
         }
     }
 }

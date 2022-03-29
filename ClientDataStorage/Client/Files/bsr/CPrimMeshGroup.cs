@@ -2,9 +2,9 @@
 {
     public class CPrimMeshGroup
     {
-        uint meshGroupNameLength;
-        string meshGroupName;
-        uint meshFileCnt;
-        int[] MeshGroupIndex;
+        private uint meshGroupNameLength;
+        private string meshGroupName;
+        private uint meshFileCnt;
+        private int[] MeshGroupIndex;
     }
 }

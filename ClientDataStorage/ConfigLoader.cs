@@ -5,9 +5,9 @@ namespace ClientDataStorage
     public abstract class ConfigLoader
     {
         public ServerFrameworkRes.InitializeFile ConfigEditor;
-        private string ConfigPath { get => Path.Combine(Directory.GetCurrentDirectory(), "Config"); }
         private string ConfigFile { get => "settings.ini"; }
         private string ConfigFilePath { get => Path.Combine(ConfigPath, ConfigFile); }
+        private string ConfigPath { get => Path.Combine(Directory.GetCurrentDirectory(), "Config"); }
 
         internal void Initialize()
         {
@@ -16,7 +16,6 @@ namespace ClientDataStorage
 
             if (!File.Exists(ConfigFilePath))
             {
-
                 File.Create(ConfigFilePath).Dispose();
 
                 ConfigEditor = new ServerFrameworkRes.InitializeFile(ConfigFilePath);

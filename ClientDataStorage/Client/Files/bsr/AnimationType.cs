@@ -5,8 +5,10 @@
         POSE = 0x3C,
 
         STAND1 = 0x00,
+
         //STAND2 = 0x08,
         STAND2 = 0x7A,
+
         STAND3 = 0x3D,
         STAND4 = 0x51,
 

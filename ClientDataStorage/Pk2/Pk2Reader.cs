@@ -8,8 +8,6 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Reader : Pk2Data
     {
-        public bool Initialized { get; }
-
         /// <summary>
         /// The Reader is one .pk2 file. Here you can read all informations from the files inside the abstract base class Pk2Data.
         /// </summary>
@@ -22,51 +20,30 @@ namespace ClientDataStorage.Pk2
             this.Read();
         }
 
-        /// <summary>
-        /// All folder from the first EntryBlock are subFolder from base.Pk2File.
-        /// All Files from the first EntryBlock are files from base.Pk2File.
-        /// </summary>
-        public override void Read()
-        {
-            base.Pk2File = new Pk2Folder() { name = Path.GetFileNameWithoutExtension(base.Pk2DataPath) };
-
-            if (!File.Exists(Pk2DataPath))
-                return;
-
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
-            {
-                Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File, name = base.Pk2File.name };
-
-                if (GenerateFolder(reader, 256, tempFolder, out Pk2Folder newFolder))
-                    base.Pk2File = newFolder;
-            }
-        }
-
-        public bool GetFilesInFolder(string filePath, out Structs.Pk2.Pk2File[] filesInFolder)
-        {
-            var tempFolder = base.Pk2File;
-            var folders = filePath.Split('\\');
-            filesInFolder = null;
-            for (int i = 0; i < folders.Length - 1; i++)
-            {
-                if (tempFolder.subfolders.Exists(fold => fold.name.Equals(folders[i + 1])))
-                    tempFolder = tempFolder.subfolders.First(fol => fol.name.Equals(folders[i + 1]));
-                else
-                    return false;
-            }
-            filesInFolder = tempFolder.files.Count > 0 ? tempFolder.files.ToArray() : null;
-            return true;
-        }
+        public bool Initialized { get; }
 
         /// <summary>
-        /// Refreshes the Pk2 File
+        /// Check if file exists in certain pk2 data.
         /// </summary>
-        /// <returns>bool : Weather if refreshing succeeded or not.</returns>
-        public override bool Refresh()
+        /// <param name="dir">Directory of file inside the pk2 data.</param>
+        /// <returns>bool exists</returns>
+        public override bool FileExists(string dir)
         {
-            base.Pk2File = null;
-            this.Read();
-            return base.Pk2File != null;
+            string[] splittedDirectory = dir.Split('\\');
+            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files };
+
+            for (int i = 0; i < splittedDirectory.Length; i++)
+            {
+                if (i == splittedDirectory.Length - 1)
+                    if (tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
+                        return true;
+                    else
+                        return false;
+
+                if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i + 1]))
+                    tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i + 1]);
+            }
+            return false;
         }
 
         /// <summary>
@@ -101,30 +78,6 @@ namespace ClientDataStorage.Pk2
         }
 
         /// <summary>
-        /// Check if file exists in certain pk2 data. 
-        /// </summary>
-        /// <param name="dir">Directory of file inside the pk2 data.</param>
-        /// <returns>bool exists</returns>
-        public override bool FileExists(string dir)
-        {
-            string[] splittedDirectory = dir.Split('\\');
-            Pk2Folder tempFodler = new Pk2Folder() { subfolders = base.Pk2File.subfolders, files = base.Pk2File.files };
-
-            for (int i = 0; i < splittedDirectory.Length; i++)
-            {
-                if (i == splittedDirectory.Length - 1)
-                    if (tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
-                        return true;
-                    else
-                        return false;
-
-                if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i + 1]))
-                    tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i + 1]);
-            }
-            return false;
-        }
-
-        /// <summary>
         /// Returns file by directory of pk2 file.
         /// </summary>
         /// <param name="dir"></param>
@@ -142,11 +95,71 @@ namespace ClientDataStorage.Pk2
                     else
                         return new Pk2File();
 
-
                 if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i + 1]))
                     tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i + 1]);
             }
             return new Pk2File();
+        }
+
+        public bool GetFilesInFolder(string filePath, out Structs.Pk2.Pk2File[] filesInFolder)
+        {
+            var tempFolder = base.Pk2File;
+            var folders = filePath.Split('\\');
+            filesInFolder = null;
+            for (int i = 0; i < folders.Length - 1; i++)
+            {
+                if (tempFolder.subfolders.Exists(fold => fold.name.Equals(folders[i + 1])))
+                    tempFolder = tempFolder.subfolders.First(fol => fol.name.Equals(folders[i + 1]));
+                else
+                    return false;
+            }
+            filesInFolder = tempFolder.files.Count > 0 ? tempFolder.files.ToArray() : null;
+            return true;
+        }
+
+        /// <summary>
+        /// All folder from the first EntryBlock are subFolder from base.Pk2File.
+        /// All Files from the first EntryBlock are files from base.Pk2File.
+        /// </summary>
+        public override void Read()
+        {
+            base.Pk2File = new Pk2Folder() { name = Path.GetFileNameWithoutExtension(base.Pk2DataPath) };
+
+            if (!File.Exists(Pk2DataPath))
+                return;
+
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
+            {
+                Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File, name = base.Pk2File.name };
+
+                if (GenerateFolder(reader, 256, tempFolder, out Pk2Folder newFolder))
+                    base.Pk2File = newFolder;
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the Pk2 File
+        /// </summary>
+        /// <returns>bool : Weather if refreshing succeeded or not.</returns>
+        public override bool Refresh()
+        {
+            base.Pk2File = null;
+            this.Read();
+            return base.Pk2File != null;
+        }
+
+        /// <summary>
+        /// Converts a byte array to required type by marshaling the buffer.
+        /// </summary>
+        /// <param name="buffer">Byte Array to convert.</param>
+        /// <param name="returnStruct">Struct to return</param>
+        /// <returns>object : object of Type from Byte[].</returns>
+        private object BufferToStruct(byte[] buffer, Type returnStruct)
+        {
+            IntPtr pointer = Marshal.AllocHGlobal(buffer.Length);
+            Marshal.Copy(buffer, 0, pointer, buffer.Length);
+
+            return Marshal.PtrToStructure(pointer, returnStruct);
         }
 
         /// <summary>
@@ -175,6 +188,7 @@ namespace ClientDataStorage.Pk2
                     {
                         case Pk2EntryType.Exit:
                             break;
+
                         case Pk2EntryType.Folder when entry.name != "." && entry.name != "..":
 
                             if (GenerateFolder(reader, entry.Position, new Pk2Folder(entry) { parentFolder = unusedMainFolder.parentFolder }, out Pk2Folder sub))
@@ -184,6 +198,7 @@ namespace ClientDataStorage.Pk2
                         case Pk2EntryType.File:
                             unusedMainFolder.files.Add(new Pk2File(entry, unusedMainFolder));
                             break;
+
                         default:
                             break;
                     }
@@ -200,20 +215,6 @@ namespace ClientDataStorage.Pk2
                 return false;
             }
             return true;
-        }
-
-        /// <summary>
-        /// Converts a byte array to required type by marshaling the buffer.
-        /// </summary>
-        /// <param name="buffer">Byte Array to convert.</param>
-        /// <param name="returnStruct">Struct to return</param>
-        /// <returns>object : object of Type from Byte[].</returns>
-        private object BufferToStruct(byte[] buffer, Type returnStruct)
-        {
-            IntPtr pointer = Marshal.AllocHGlobal(buffer.Length);
-            Marshal.Copy(buffer, 0, pointer, buffer.Length);
-
-            return Marshal.PtrToStructure(pointer, returnStruct);
         }
     }
 }

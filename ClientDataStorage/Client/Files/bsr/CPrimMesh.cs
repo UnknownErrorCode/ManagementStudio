@@ -2,7 +2,6 @@
 {
     public class CPrimMesh
     {
-
         public uint MeshPathLength { get; set; }
         public string MeshPath { get; set; }
 
