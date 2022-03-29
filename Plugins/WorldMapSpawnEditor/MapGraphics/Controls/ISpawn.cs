@@ -31,7 +31,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// Region Identifier build as Int16 from a string that consists of HexString(Y) + HexString(X) .
         /// </summary>
-        private short RegionID { get => Spawn.Nest.nRegionDBID; }
+        private short RegionID => Spawn.Nest.nRegionDBID;
 
         #endregion Properties
 
@@ -54,7 +54,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <param name="RegionSize"></param>
         public void UpdateISpawn(int RegionSize)
         {
-            this.Location = new Point(((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0)), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize)) * -1));
+            Location = new Point(((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0)), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize)) * -1));
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace Dashboard
         /// <summary>
         /// 0x1001 -- requests all topics from Server
         /// </summary>
-        public static Packet RequestAllTopics { get => new Packet(PacketID.Client.TopicsRequest); }
+        public static Packet RequestAllTopics => new Packet(PacketID.Client.TopicsRequest);
 
         /// <summary>
         /// 0x1002 -- returns Packet with DashboardMessage inside to broadcast to all clients

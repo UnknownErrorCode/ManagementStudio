@@ -26,7 +26,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// Region Identifier build as Int16 from a string that consists of HexString(Y) + HexString(X) .
         /// </summary>
-        private short RegionID;
+        private readonly short RegionID;
 
         private Tab_RefNest TempNest;
 
@@ -37,19 +37,19 @@ namespace WorldMapSpawnEditor.MapGraphics
             {
                 if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.Values.Any(tac => tac.dwObjID == TeleportData.ObjCommon.ID))
                 {
-                    var tacticsID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.Values.First(ta => ta.dwObjID == TeleportData.ObjCommon.ID);
+                    Tab_RefTactics tacticsID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.Values.First(ta => ta.dwObjID == TeleportData.ObjCommon.ID);
                     if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest.Values.Any(nest => nest.dwTacticsID == tacticsID.dwTacticsID))
                     {
                         TempNest = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest.Values.First(nest => nest.dwTacticsID == tacticsID.dwTacticsID);
                         RegionID = TempNest.nRegionDBID;
-                        this.Location = new PointF(TempNest.fLocalPosX, TempNest.fLocalPosZ);
+                        Location = new PointF(TempNest.fLocalPosX, TempNest.fLocalPosZ);
                     }
                 }
             }
             else
             {
                 RegionID = TeleportData.ObjCommon.RegionID;
-                this.Location = new PointF(TeleportData.ObjCommon.OffsetX, TeleportData.ObjCommon.OffsetZ);
+                Location = new PointF(TeleportData.ObjCommon.OffsetX, TeleportData.ObjCommon.OffsetZ);
             }
             InitializeProperties();
         }

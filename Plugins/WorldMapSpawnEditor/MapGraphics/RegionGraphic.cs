@@ -18,7 +18,9 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             RegionID = new WRegionID(regionID);
             if (RegionID.IsDungeon || regionID < 0)
+            {
                 return;
+            }
 
             RegionLayer = File.Exists(TexturePath) ? (Bitmap)Image.FromFile(TexturePath) : null;
         }
@@ -26,6 +28,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// TexturePath is combined by  {X}x{Y}.ddj.
         /// </summary>
-        protected string TexturePath { get => $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{RegionID.X}x{RegionID.Z}.JPG"; }
+        protected string TexturePath => $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{RegionID.X}x{RegionID.Z}.JPG";
     }
 }

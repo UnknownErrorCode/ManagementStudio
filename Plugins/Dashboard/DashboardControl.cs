@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using ClientDataStorage.Dashboard;
+﻿using ClientDataStorage.Dashboard;
 using ServerFrameworkRes.BasicControls;
-using ServerFrameworkRes.Network.Security;
 using Structs.Dashboard;
+using System;
+using System.Windows.Forms;
 
 namespace Dashboard
 {
@@ -26,11 +23,13 @@ namespace Dashboard
             page.Controls.Add(this);
         }
 
-      
+
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (DashboardTopicEditor editor = new DashboardTopicEditor(ClientDataStorage.ClientMemory.AccountName))
+            {
                 editor.ShowDialog();
+            }
             //splitContainerDashboardText.Panel2Collapsed = false;
             //vSroSmallButtonSave.vSroSmallButtonName = "Add Topic";
         }
@@ -40,7 +39,9 @@ namespace Dashboard
             if (vSroButtonList1.LatestSelectedButton != null)
             {
                 using (DashboardTopicEditor editor = new DashboardTopicEditor((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag))
+                {
                     editor.ShowDialog();
+                }
 
 
                 //        vSroSmallButtonSave.vSroSmallButtonName = "Save topic";

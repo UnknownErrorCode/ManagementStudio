@@ -9,43 +9,51 @@ namespace WorldMapSpawnEditor.MapGuide
         private const string FilePath = "Media\\interface\\worldmap\\map";
         private Point DrawStartPoint;
 
-        private ConcurrentDictionary<Point, Bitmap> imgDic = new ConcurrentDictionary<Point, Bitmap>();
+        private readonly ConcurrentDictionary<Point, Bitmap> imgDic = new ConcurrentDictionary<Point, Bitmap>();
         private Point LastMousePosition;
 
         internal MapGuidePanel()
         {
-            this.DoubleBuffered = true;
-            this.Size = new Size(652, 424);
+            DoubleBuffered = true;
+            Size = new Size(652, 424);
 
-            this.Paint += MapGuidePanel_Paint;
-            this.MouseUp += MapGuidePanel_MouseUp;
-            this.MouseDown += MapGuidePanel_MouseDown;
+            Paint += MapGuidePanel_Paint;
+            MouseUp += MapGuidePanel_MouseUp;
+            MouseDown += MapGuidePanel_MouseDown;
             InitializeMapImages();
         }
 
         private void InitializeMapImages()
         {
-            var filesExist = ClientDataStorage.Client.Media.MediaPk2.GetFilesInFolder(FilePath, out Structs.Pk2.Pk2File[] files);
+            bool filesExist = ClientDataStorage.Client.Media.MediaPk2.GetFilesInFolder(FilePath, out Structs.Pk2.Pk2File[] files);
 
-            foreach (var i in files)
+            foreach (Structs.Pk2.Pk2File i in files)
             {
-                var name = i.name;
+                string name = i.name;
 
                 if (!name.StartsWith("map_world_"))
+                {
                     continue;
+                }
 
-                var Coordinates = name.Replace("map_world_", "").Replace(".ddj", "").Split('x');
+                string[] Coordinates = name.Replace("map_world_", "").Replace(".ddj", "").Split('x');
 
                 if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
+                {
                     if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
+                    {
                         imgDic.TryAdd(new Point(x, y), new ClientDataStorage.Client.Files.DDJImage(file).BitmapImage);
+                    }
+                }
             }
         }
 
         private void MapGuidePanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button.Equals(MouseButtons.Left))
-                this.LastMousePosition = e.Location;
+            {
+                LastMousePosition = e.Location;
+            }
         }
 
         private void MapGuidePanel_MouseUp(object sender, MouseEventArgs e)
@@ -54,22 +62,26 @@ namespace WorldMapSpawnEditor.MapGuide
             {
                 DrawStartPoint.X = DrawStartPoint.X + (e.X - LastMousePosition.X);
                 DrawStartPoint.Y = DrawStartPoint.Y + (e.Y - LastMousePosition.Y);
-                this.Invalidate();
+                Invalidate();
             }
         }
 
         private void MapGuidePanel_Paint(object sender, PaintEventArgs e)
         {
             int minX = 255, maxY = 0;
-            foreach (var poinnt in imgDic.Keys)
+            foreach (Point poinnt in imgDic.Keys)
             {
                 if (minX > poinnt.X)
+                {
                     minX = poinnt.X;
+                }
 
                 if (maxY < poinnt.Y)
+                {
                     maxY = poinnt.Y;
+                }
             }
-            foreach (var item in imgDic)
+            foreach (System.Collections.Generic.KeyValuePair<Point, Bitmap> item in imgDic)
             {
                 e.Graphics.DrawImage(item.Value, item.Key);
             }

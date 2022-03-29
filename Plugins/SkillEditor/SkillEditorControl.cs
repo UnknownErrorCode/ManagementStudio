@@ -53,7 +53,7 @@ namespace SkillEditor
         private void vSroSmallButton1_vSroClickEvent()
         {
             //ClientDataStorage.Database.SRO_VT_SHARD.InitializeSkillEditor();
-            this.buttonSearch.Enabled = true;
+            buttonSearch.Enabled = true;
         }
     }
 }

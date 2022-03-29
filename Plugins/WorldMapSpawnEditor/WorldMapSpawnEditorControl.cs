@@ -15,7 +15,7 @@ namespace WorldMapSpawnEditor
         /// </summary>
         private MapGraphics.GraphicsPanel MapPanel;
 
-        private TabPage Parent;
+        private readonly TabPage Parent;
 
         public WorldMapSpawnEditorControl(TabPage parentPage)
         {
@@ -39,15 +39,19 @@ namespace WorldMapSpawnEditor
         private void InitializePerformance(Control c)
         {
             if (typeof(Panel) == c.GetType())
+            {
                 typeof(Panel).InvokeMember("DoubleBuffered",
                     BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                     null, c, new object[] { true });
+            }
         }
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
             if (arg2.ReadAscii() != STRING_DLL)
+            {
                 return PacketHandlerResult.Block;
+            }
             // Initialize SRO_VT_SHARD for ShopEditor
             ClientDataStorage.Database.SRO_VT_SHARD.InitializeWorldMapEditor();
 
