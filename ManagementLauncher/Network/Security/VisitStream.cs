@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ManagementLauncher.Network.Security
@@ -153,10 +150,10 @@ namespace ManagementLauncher.Network.Security
 
     public class BinaryWriterVisitStream : VisitStream
     {
-        BinaryWriter m_writer;
-        MemoryStream m_memory;
+        readonly BinaryWriter m_writer;
+        readonly MemoryStream m_memory;
 
-        public MemoryStream MemoryStream { get { return m_memory; } }
+        public MemoryStream MemoryStream => m_memory;
 
         public BinaryWriterVisitStream()
         {
@@ -202,8 +199,8 @@ namespace ManagementLauncher.Network.Security
     }
     public class BinaryReaderVisitStream : VisitStream
     {
-        BinaryReader m_reader;
-        MemoryStream m_memory;
+        readonly BinaryReader m_reader;
+        readonly MemoryStream m_memory;
 
         public BinaryReaderVisitStream(MemoryStream memory)
         {

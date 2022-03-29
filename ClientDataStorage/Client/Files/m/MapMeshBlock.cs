@@ -71,7 +71,9 @@ namespace ClientDataStorage.Client.Files
         /// <param name="y"></param>
         /// <returns>MapMeshCell cell</returns>
         public MapMeshCell GetCellFromBlock(int x, int y)
-            => GetCellFromBlock(new Point(x, y));
+        {
+            return GetCellFromBlock(new Point(x, y));
+        }
 
         /// <summary>
         /// Returns the Cell of this block by System.Drawing.Point.
@@ -79,6 +81,8 @@ namespace ClientDataStorage.Client.Files
         /// <param name="point"></param>
         /// <returns>MapMeshCell cell</returns>
         public MapMeshCell GetCellFromBlock(Point point)
-            => MapCells.ContainsKey(point) ? MapCells[point] : new MapMeshCell();
+        {
+            return MapCells.ContainsKey(point) ? MapCells[point] : new MapMeshCell();
+        }
     }
 }

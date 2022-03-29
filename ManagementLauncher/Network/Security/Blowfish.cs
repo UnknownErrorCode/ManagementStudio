@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.Security
 {
     public class Blowfish
     {
-        private static uint[] bf_P =
+        private static readonly uint[] bf_P =
         {
             0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
             0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89,
@@ -17,7 +13,7 @@ namespace ManagementLauncher.Network.Security
             0x9216d5d9, 0x8979fb1b,
         };
 
-        private static uint[,] bf_S =
+        private static readonly uint[,] bf_S =
         {
             {
                 0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7, 0xb8e1afed, 0x6a267e96, 0xba7c9045, 0xf12c7f99,
@@ -160,8 +156,8 @@ namespace ManagementLauncher.Network.Security
             }
         };
 
-        private uint[] PArray;
-        private uint[,] SBoxes;
+        private readonly uint[] PArray;
+        private readonly uint[,] SBoxes;
 
         public Blowfish()
         {

@@ -1,22 +1,21 @@
 ﻿using ServerFrameworkRes.Network.AsyncNetwork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes
 {
     public interface IAsyncInterface
     {
-        bool OnConnect(AsyncContext context);
+        #region Public Methods
 
-        bool OnReceive(AsyncContext context, byte[] buffer, int count);
+        bool OnConnect(AsyncContext context);
 
         void OnDisconnect(AsyncContext context);
 
         void OnError(AsyncContext context, object user);
 
+        bool OnReceive(AsyncContext context, byte[] buffer, int count);
+
         void OnTick(AsyncContext context);
+
+        #endregion Public Methods
     }
 }

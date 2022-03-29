@@ -34,9 +34,9 @@ namespace Structs.Pk2
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public byte[] padding;
 
-        public long nChain { get => BitConverter.ToInt64(nextChain, 0); }
-        public long Position { get { return BitConverter.ToInt64(position, 0); } }
-        public uint Size { get { return BitConverter.ToUInt32(size, 0); } }
+        public long nChain => BitConverter.ToInt64(nextChain, 0);
+        public long Position => BitConverter.ToInt64(position, 0);
+        public uint Size => BitConverter.ToUInt32(size, 0);
     }
 
 }

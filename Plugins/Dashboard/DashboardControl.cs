@@ -8,7 +8,6 @@ namespace Dashboard
 {
     public partial class DashboardControl : UserControl
     {
-
         public DashboardControl(TabPage page)
         {
             InitializeComponent();
@@ -23,7 +22,6 @@ namespace Dashboard
             page.Controls.Add(this);
         }
 
-
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (DashboardTopicEditor editor = new DashboardTopicEditor(ClientDataStorage.ClientMemory.AccountName))
@@ -32,24 +30,6 @@ namespace Dashboard
             }
             //splitContainerDashboardText.Panel2Collapsed = false;
             //vSroSmallButtonSave.vSroSmallButtonName = "Add Topic";
-        }
-
-        private void editShownTopicToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (vSroButtonList1.LatestSelectedButton != null)
-            {
-                using (DashboardTopicEditor editor = new DashboardTopicEditor((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag))
-                {
-                    editor.ShowDialog();
-                }
-
-
-                //        vSroSmallButtonSave.vSroSmallButtonName = "Save topic";
-                //    splitContainerDashboardText.Panel2Collapsed = false;
-                //
-                //    richTextBoxEditTopicText.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Text;
-                //    textBoxTopic.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Title;
-            }
         }
 
         private void deleteShownTopicToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,15 +42,29 @@ namespace Dashboard
             }
         }
 
+        private void editShownTopicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (vSroButtonList1.LatestSelectedButton != null)
+            {
+                using (DashboardTopicEditor editor = new DashboardTopicEditor((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag))
+                {
+                    editor.ShowDialog();
+                }
+
+                //        vSroSmallButtonSave.vSroSmallButtonName = "Save topic";
+                //    splitContainerDashboardText.Panel2Collapsed = false;
+                //
+                //    richTextBoxEditTopicText.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Text;
+                //    textBoxTopic.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Title;
+            }
+        }
+
         private void OnIdexChange(object sender, EventArgs e)
         {
-
-
         }
 
         private void richTextBoxShowTopicText_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void vSroButtonList1_OnIndCh(object sender, EventArgs e)

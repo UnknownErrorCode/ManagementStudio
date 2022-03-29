@@ -6,15 +6,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer
 {
     public class ServerMembory
     {
         public static Config.NetEngine.OnlineUser OnlineUserSerie { get; set; }
-        public static Int32 OnlineUsers { get => UserOnline.Count; }
+        public static Int32 OnlineUsers => UserOnline.Count;
         public static Dictionary<string, ServerData> UserOnline = new Dictionary<string, ServerData>();
         public static Dictionary<string, List<string>> PluginDataaccess = InitializePluginsAllowed();
 
@@ -34,8 +32,8 @@ namespace StudioServer
                         new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
 
                     };
-                    var logoutResut = SQL.ReturnDataTableByProcedure("_LoginToolUser", StudioServer.settings.DBDev, logoutParameter);
-                    var restext = logoutResut.Rows[0][1].ToString();
+                    DataTable logoutResut = SQL.ReturnDataTableByProcedure("_LoginToolUser", StudioServer.settings.DBDev, logoutParameter);
+                    string restext = logoutResut.Rows[0][1].ToString();
                     SendPacketToAllOnlineMember(OutgoingPackets.PlayerLogoff(restext));
                     StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, restext);
                 }
@@ -79,15 +77,15 @@ namespace StudioServer
             SendPacketToAllOnlineMember(OutgoingPackets.SuccessNoticePlayer(text, UserName));
             SQL.ExecuteQuery($"UPDATE _ToolUser SET UpdatedRows +=1 where Account = '{UserName}'", StudioServer.settings.DBDev);
         }
-       
+
         internal static Dictionary<string, List<string>> InitializePluginsAllowed()
         {
-            var allInfos = SQL.ReturnDataTable("SELECT * FROM _ToolPluginDataAccess order by PluginName, LoadIndex", StudioServer.settings.DBDev);
-            var Dataaccess = new Dictionary<string, List<string>>();
+            DataTable allInfos = SQL.ReturnDataTable("SELECT * FROM _ToolPluginDataAccess order by PluginName, LoadIndex", StudioServer.settings.DBDev);
+            Dictionary<string, List<string>> Dataaccess = new Dictionary<string, List<string>>();
             foreach (DataRow item in allInfos.Rows)
             {
-                var name = item.Field<string>("PluginName");
-                var tableName = item.Field<string>("TableName");
+                string name = item.Field<string>("PluginName");
+                string tableName = item.Field<string>("TableName");
                 if (Dataaccess.ContainsKey(name))
                 {
                     Dataaccess[name].Add(tableName);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StudioServer.Handler.PacketHandler.Skills.SkillInterfaces.MonsterSkills
+﻿namespace StudioServer.Handler.PacketHandler.Skills.SkillInterfaces.MonsterSkills
 {
     internal class MobSpawnSkill
     {

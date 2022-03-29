@@ -1,9 +1,7 @@
 ﻿
 using ServerFrameworkRes.BasicControls;
-using ServerFrameworkRes.Network.Security;
 using Structs;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Editors.Shop
@@ -18,9 +16,9 @@ namespace Editors.Shop
             Good = good;
 
             InitializeComponent();
-            this.vSroSizableWindow1.Title = $"Edit: {Good.PackageItemCodeName}";
+            vSroSizableWindow1.Title = $"Edit: {Good.PackageItemCodeName}";
             vSroButtonList1.OnIndCh += VSroButtonList1_OnIndCh;
-            foreach (var item in good.PricePolicyOfItem)
+            foreach (DataModelRefPricePolicyOfItem item in good.PricePolicyOfItem)
             {
                 vSroButtonList1.AddSingleButtonToList(item.PaymentDevice.ToString(), item);
             }
@@ -57,7 +55,7 @@ namespace Editors.Shop
         /// </summary>
         private void vSroSmallButton3_vSroClickEvent()
         {
-            var strarr = vSroMessageBox.GetInput($"Enter a PaymentDevice for the package item:{Good.PackageItemCodeName}\n1 = Gold  2 = silk  4 = Silk Gift\n8 = GuildPoint  16 = Silk Point  32 = Honor\n64 = Copper  128 = IronCoin  256 = SilverCoin\n512 = GoldCoin  1024 = ArenaCoin", "Add new PaymentDevice", "Device", "Price");
+            string[] strarr = vSroMessageBox.GetInput($"Enter a PaymentDevice for the package item:{Good.PackageItemCodeName}\n1 = Gold  2 = silk  4 = Silk Gift\n8 = GuildPoint  16 = Silk Point  32 = Honor\n64 = Copper  128 = IronCoin  256 = SilverCoin\n512 = GoldCoin  1024 = ArenaCoin", "Add new PaymentDevice", "Device", "Price");
 
             if (int.TryParse(strarr[0], out int device))
             {
@@ -66,7 +64,7 @@ namespace Editors.Shop
                 {
                     if (vSroMessageBox.YesOrNo($"Do you want to add a new [{dev}] price for \n[{price}] {dev}? ", $"Add [{dev}] price"))
                     {
-                        var rppoi = new DataModelRefPricePolicyOfItem(1, Good.PackageItemCodeName, price, dev);
+                        DataModelRefPricePolicyOfItem rppoi = new DataModelRefPricePolicyOfItem(1, Good.PackageItemCodeName, price, dev);
 
                         vSroButtonList1.AddSingleButtonToList(rppoi.PaymentDevice.ToString(), rppoi);
                     }

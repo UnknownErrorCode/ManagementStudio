@@ -1,16 +1,12 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StudioServer.Handler.PacketHandler.Skills.SkillInterfaces.MonsterSkills;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace StudioServer.Handler.PacketHandler.Skills
 {
-   internal static class REQ_ADD_NEW_SKILL_MOB
+    internal static class REQ_ADD_NEW_SKILL_MOB
     {
 
 
@@ -53,7 +49,7 @@ namespace StudioServer.Handler.PacketHandler.Skills
                 AI_Attack_Chance = packet.ReadInt(),
                 SkillFlag = packet.ReadAscii(),
             };
-            var TargetReq = (basicSkill.TargetRequired ? (byte)1 : (byte)0);
+            byte TargetReq = (basicSkill.TargetRequired ? (byte)1 : (byte)0);
 
             SqlParamList.Add(new SqlParameter("@MobName", SqlDbType.VarChar, 128) { Value = basicSkill.MobName });
             SqlParamList.Add(new SqlParameter("@SkillName", SqlDbType.VarChar, 128) { Value = basicSkill.SkillName });
@@ -99,7 +95,7 @@ namespace StudioServer.Handler.PacketHandler.Skills
                     SqlParamList.Add(new SqlParameter("@Value3", SqlDbType.VarChar) { Value = SpawnSkill.MinSpawnCount.ToString() });
                     SqlParamList.Add(new SqlParameter("@Value4", SqlDbType.VarChar) { Value = SpawnSkill.MaxSpawnCount.ToString() });
 
-                
+
 
                     break;
                 case "Attack":
@@ -132,7 +128,7 @@ namespace StudioServer.Handler.PacketHandler.Skills
                     SqlParamList.Add(new SqlParameter("@Value4", SqlDbType.VarChar, 128) { Value = ASkill.PowerMax.ToString() });
                     SqlParamList.Add(new SqlParameter("@Value5", SqlDbType.VarChar, 128) { Value = ASkill.ReinforceMax.ToString() });
                     SqlParamList.Add(new SqlParameter("@Value6", SqlDbType.VarChar, 128) { Value = ASkill.NumberOfHits.ToString() });
-                   
+
                     break;
                 case "Buff":
                     break;
@@ -143,8 +139,8 @@ namespace StudioServer.Handler.PacketHandler.Skills
             }
 
             DataRow resuult = SQL.ReturnDataTableByProcedure("_ADD_NEW_SKILL_MONSTER", StudioServer.settings.DBDev, SqlParamList.ToArray()).Rows[0];
-            var booler = bool.Parse(resuult[0].ToString()); 
-            var returnString = resuult[0].ToString();
+            bool booler = bool.Parse(resuult[0].ToString());
+            string returnString = resuult[0].ToString();
 
             if (booler)
             {
@@ -154,7 +150,7 @@ namespace StudioServer.Handler.PacketHandler.Skills
             }
             else
             {
-                StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning,$"{AccName} : {returnString}");
+                StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"{AccName} : {returnString}");
                 packet = new Packet(0xA009);
                 packet.WriteAscii(returnString);
                 return packet;

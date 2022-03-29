@@ -5,18 +5,55 @@ using System.Linq;
 
 namespace ManagementServer
 {
-    static class PluginSecurityManager
+    internal static class PluginSecurityManager
     {
-        static Dictionary<string, string[]> PluginDataTableBindings; //= new Dictionary<string, string[]>();
+        #region Private Fields
 
-        static Dictionary<byte, string[]> SecurityGroupPluginBindings;
+        private static Dictionary<string, string[]> PluginDataTableBindings; //= new Dictionary<string, string[]>();
 
-        static Dictionary<byte, string[]> SecurityGroupDataAccess;
+        private static Dictionary<byte, string[]> SecurityGroupDataAccess;
+        private static Dictionary<byte, string[]> SecurityGroupPluginBindings;
+
+        #endregion Private Fields
+
+        #region Internal Methods
+
+        internal static string[] GetPluginDataTableNames(string pluginname)
+        {
+            if (PluginDataTableBindings.TryGetValue(pluginname, out string[] tableNames))
+            {
+                return tableNames;
+            }
+
+            return null;
+        }
+
+        internal static string[] GetSecurityDataTableNames(byte securityGroupID)
+        {
+            if (SecurityGroupDataAccess.ContainsKey(securityGroupID))
+            {
+                return SecurityGroupDataAccess[securityGroupID];
+            }
+
+            return null;
+        }
+
+        internal static string[] GetSecurityPluginNames(byte securityGroup)
+        {
+            if (SecurityGroupPluginBindings.ContainsKey(securityGroup))
+            {
+                return SecurityGroupPluginBindings[securityGroup];
+            }
+
+            return null;
+        }
 
         internal static bool IsAllowed(string pluginName, byte securityGroup)
         {
             if (!SecurityGroupPluginBindings.ContainsKey(securityGroup))
+            {
                 return false;
+            }
 
             return SecurityGroupPluginBindings[securityGroup].Contains(pluginName);
         }
@@ -31,12 +68,17 @@ namespace ManagementServer
             foreach (DataRow row in dt.Rows)
             {
                 if (PluginDataTableBindings.ContainsKey(row.Field<string>("PluginName")))
+                {
                     continue;
-                var list = new List<string>();
+                }
+
+                List<string> list = new List<string>();
                 foreach (DataRow pRow in dt.Rows)
                 {
                     if (pRow.Field<string>("PluginName").Equals(row.Field<string>("PluginName")))
+                    {
                         list.Add(pRow.Field<string>("TableName"));
+                    }
                 }
                 PluginDataTableBindings.Add(row.Field<string>("PluginName"), list.ToArray());
             }
@@ -44,30 +86,39 @@ namespace ManagementServer
             foreach (DataRow row in dt2.Rows)
             {
                 if (SecurityGroupPluginBindings.ContainsKey(row.Field<byte>("SecurityGroupID")))
+                {
                     continue;
-                var list = new List<string>();
+                }
+
+                List<string> list = new List<string>();
                 foreach (DataRow pRow in dt2.Rows)
                 {
                     if (pRow.Field<byte>("SecurityGroupID").Equals(row.Field<byte>("SecurityGroupID")))
+                    {
                         list.Add(pRow.Field<string>("AllowedPlugins"));
+                    }
                 }
                 SecurityGroupPluginBindings.Add(row.Field<byte>("SecurityGroupID"), list.ToArray());
             }
 
             SecurityGroupDataAccess = new Dictionary<byte, string[]>(SecurityGroupPluginBindings.Count);
 
-            foreach (var securityGroup in SecurityGroupPluginBindings)
+            foreach (KeyValuePair<byte, string[]> securityGroup in SecurityGroupPluginBindings)
             {
-                var list = new List<string>();
-                foreach (var pluginName in securityGroup.Value)
+                List<string> list = new List<string>();
+                foreach (string pluginName in securityGroup.Value)
                 {
                     if (!PluginDataTableBindings.ContainsKey(pluginName))
+                    {
                         continue;
+                    }
 
-                    foreach (var item in PluginDataTableBindings[pluginName])
+                    foreach (string item in PluginDataTableBindings[pluginName])
                     {
                         if (!list.Contains(item))
+                        {
                             list.Add(item);
+                        }
                     }
                 }
                 SecurityGroupDataAccess.Add(securityGroup.Key, list.ToArray());
@@ -75,25 +126,6 @@ namespace ManagementServer
             return true;
         }
 
-        internal static string[] GetSecurityPluginNames(byte securityGroup)
-        {
-            if (SecurityGroupPluginBindings.ContainsKey(securityGroup))
-                return SecurityGroupPluginBindings[securityGroup];
-            return null;
-        }
-
-        internal static string[] GetSecurityDataTableNames(byte securityGroupID)
-        {
-            if (SecurityGroupDataAccess.ContainsKey(securityGroupID))
-                return SecurityGroupDataAccess[securityGroupID];
-            return null;
-        }
-
-        internal static string[] GetPluginDataTableNames(string pluginname)
-        {
-            if (PluginDataTableBindings.TryGetValue(pluginname, out string[] tableNames))
-                return tableNames;
-            return null;
-        }
+        #endregion Internal Methods
     }
 }

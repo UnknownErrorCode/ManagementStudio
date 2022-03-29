@@ -1,11 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Trigger
 {
@@ -15,10 +10,10 @@ namespace StudioServer.Handler.PacketHandler.Trigger
         internal static Packet TriggerToCategory(Packet packet, string contentUser)
         {
 
-            var CategoryName = packet.ReadAscii();
-            var TriggerName = packet.ReadAscii();
-            var IsRepeatable = packet.ReadInt();
-            var TriggerDescription = packet.ReadAscii();
+            string CategoryName = packet.ReadAscii();
+            string TriggerName = packet.ReadAscii();
+            int IsRepeatable = packet.ReadInt();
+            string TriggerDescription = packet.ReadAscii();
             SqlParameter[] AddTriggerToCategoryParams = new SqlParameter[]
                {
                 new SqlParameter("@BindToCategoryName",SqlDbType.VarChar,128) { Value = CategoryName},
@@ -26,13 +21,13 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                 new SqlParameter("@IsRepeat",SqlDbType.Int) { Value = IsRepeatable},
                 new SqlParameter("@PersonalComment",SqlDbType.VarChar,513) { Value = TriggerDescription}
                };
-            DataRow prepare = SQL.ReturnDataTableByProcedure("_ADD_TRIGGER_TO_CATEGORY",StudioServer.settings.DBDev, AddTriggerToCategoryParams).Rows[0];
-            var ok= bool.Parse(prepare[0].ToString());
-            var resultText = prepare[1].ToString();
-            
+            DataRow prepare = SQL.ReturnDataTableByProcedure("_ADD_TRIGGER_TO_CATEGORY", StudioServer.settings.DBDev, AddTriggerToCategoryParams).Rows[0];
+            bool ok = bool.Parse(prepare[0].ToString());
+            string resultText = prepare[1].ToString();
+
             if (ok)
             {
-            StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, resultText);
+                StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, resultText);
 
                 ServerMembory.SendUpdateSuccessNoticeToAll(resultText, contentUser);
                 ServerMembory.RefreshTableForAll("_RefTrigger");

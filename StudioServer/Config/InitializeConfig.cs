@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Config
 {
@@ -15,7 +12,7 @@ namespace StudioServer.Config
         public static string ConfigString = "Config/settings.ini";
         public static string FilterString = "Config/FilterSettings.ini";
         public static string EventBotString = "Config/EventBotSettings.ini";
-        public string configString { get => ConfigString; }
+        public string configString => ConfigString;
 
         public static InitializeFile Cfg = new InitializeFile(ConfigString);
         public static InitializeFile FilterCfg = new InitializeFile(FilterString);
@@ -34,7 +31,7 @@ namespace StudioServer.Config
             }
             try
             {
-               
+
                 if (!File.Exists(configPath))
                 {
 
@@ -45,7 +42,7 @@ namespace StudioServer.Config
                     Cfg.IniWriteValue("SQL", "Host", ".\\SQLEXPRESS");
                     Cfg.IniWriteValue("SQL", "User", "sa");
                     Cfg.IniWriteValue("SQL", "Password", "FuckYou");
-                  
+
                     Cfg.IniWriteValue("DBs", "Account", "SRO_VT_ACCOUNT");
                     Cfg.IniWriteValue("DBs", "Log", "SRO_VT_LOG");
                     Cfg.IniWriteValue("DBs", "Shard", "SRO_VT_SHARD");
@@ -81,7 +78,7 @@ namespace StudioServer.Config
 
             finally
             {
-                cfgPair = new KeyValuePair<string, bool>((string)string1, (bool)bool1);
+                cfgPair = new KeyValuePair<string, bool>(string1, bool1);
             }
             return cfgPair;
         }

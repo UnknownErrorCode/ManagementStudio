@@ -4,17 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer
 {
     public static class SQL
     {
-        private static Settings cfg { get => new Settings(); }
+        private static Settings cfg => new Settings();
 
-        public static string SqlConnectionString { get => cfg.SQL_ConnectionString; }
+        public static string SqlConnectionString => cfg.SQL_ConnectionString;
 
         public static KeyValuePair<string, bool> TestSqlConnection()
         {
@@ -106,8 +103,8 @@ namespace StudioServer
 
                 command.Connection.Close();
             }
-            var listOfParams = new List<string>();
-            foreach (var item in param)
+            List<string> listOfParams = new List<string>();
+            foreach (SqlParameter item in param)
             {
                 if (item.SqlDbType == SqlDbType.VarChar)
                 {
@@ -118,8 +115,8 @@ namespace StudioServer
                     listOfParams.Add($"{item.Value},");
                 }
             }
-            var paramstring = "";
-            foreach (var item in listOfParams)
+            string paramstring = "";
+            foreach (string item in listOfParams)
             {
                 if (item != listOfParams[listOfParams.Count - 1])
                 {
@@ -177,9 +174,9 @@ namespace StudioServer
             {
                 con.Open();
                 con.ChangeDatabase(DB);
-               
+
                 SqlCommand cmd = new SqlCommand(query, con);
-                returnstring = (string) cmd.ExecuteScalar();
+                returnstring = (string)cmd.ExecuteScalar();
                 con.Close();
             }
             StudioServer.StaticCertificationGrid.WriteLogLine(query);

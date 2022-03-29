@@ -21,8 +21,8 @@ namespace ClientDataStorage.Network
 
         private PacketHandlerResult ReceiveNotification(ServerData arg1, Packet arg2)
         {
-            var type = (ServerFrameworkRes.Ressources.LogLevel)arg2.ReadByte();
-            var text = arg2.ReadAscii();
+            ServerFrameworkRes.Ressources.LogLevel type = (ServerFrameworkRes.Ressources.LogLevel)arg2.ReadByte();
+            string text = arg2.ReadAscii();
             Log.Logger.WriteLogLine(type, text);
             return PacketHandlerResult.Block;
         }
@@ -60,12 +60,14 @@ namespace ClientDataStorage.Network
         /// <returns>PacketHandlerResult result</returns>
         internal PacketHandlerResult ReceiveDataTable(ServerData arg1, Packet arg2)
         {
-            var tableName = arg2.ReadAscii();
+            string tableName = arg2.ReadAscii();
 
             if (!ClientMemory.AllowedDataTables.Contains(tableName))
+            {
                 return PacketHandlerResult.Disconnect;
+            }
 
-            var arg3 = arg2.ReadByteArray(arg2.Remaining);
+            byte[] arg3 = arg2.ReadByteArray(arg2.Remaining);
             DataTable table = arg2.ReadDataTable(arg3);
             Database.SRO_VT_SHARD.PoolDataTable(tableName, table);
 

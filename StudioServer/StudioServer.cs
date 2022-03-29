@@ -16,10 +16,10 @@ namespace StudioServer
 {
     public partial class StudioServer : Form
     {
-        private ServerData ServerData = new ServerData() { UserIP = settings.IP, AccountName = "vSroStudioServer" };
+        private readonly ServerData ServerData = new ServerData() { UserIP = settings.IP, AccountName = "vSroStudioServer" };
         public static Config.Settings settings = new Config.Settings();
         public static LogGridView StaticCertificationGrid;
-        private bool Ticker = true;
+        private readonly bool Ticker = true;
         private byte[] buffer { get; set; }
         private static AsyncServer AsyncronousNetwork { get; set; }
         private ArchitectureBody SingleBody { get; set; }
@@ -27,12 +27,12 @@ namespace StudioServer
         {
             InitializeComponent();
             StaticCertificationGrid = ServerLog;
-            this.Text = $"Studio Server Version {settings.Version}";
+            Text = $"Studio Server Version {settings.Version}";
             SingleBody = new ArchitectureBody(ServerData, new Point(20, 20));
             architecturePanel2.Controls.Add(SingleBody);
 
             SingleBody.BackgroundImage = SingleBody.ServerBodyImages[ServerBodyState.Cert];
-            foreach (var item in ServerTimer.OnBegin())
+            foreach (object item in ServerTimer.OnBegin())
             {
                 StudioServer.StaticCertificationGrid.WriteLogLine(LogLevel.notify, (string)item);
             }
@@ -68,15 +68,15 @@ namespace StudioServer
             {
                 StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Status: vSro-Studio-Server failed to start... Exception: {0}", ex.Message));
             }
-            
+
         }
 
         private void startServerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var offs = SQL.ExecuteQuery("UPDATE _ToolUser SET Active = 0 where Active = 1", StudioServer.settings.DBDev);
+            int offs = SQL.ExecuteQuery("UPDATE _ToolUser SET Active = 0 where Active = 1", StudioServer.settings.DBDev);
             ServerMembory.SendUpdateSuccessNoticeToAll($"Kicked {offs} online users! Closed for maintenance!", "StudioServer");
             LogLevel level = LogLevel.warning;
-           
+
             KeyValuePair<string, bool> Initialize = settings.InitializeSettings;
             if (Initialize.Value)
             {
@@ -104,13 +104,13 @@ namespace StudioServer
         }
         private void testSQLConnectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var kpv = SQL.TestSqlConnection();
-            StudioServer.StaticCertificationGrid.WriteLogLine(kpv.Value ? kpv.Key:"Failed to login to the Server");
+            KeyValuePair<string, bool> kpv = SQL.TestSqlConnection();
+            StudioServer.StaticCertificationGrid.WriteLogLine(kpv.Value ? kpv.Key : "Failed to login to the Server");
         }
 
         private void StudioServer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var offs = SQL.ExecuteQuery("UPDATE _ToolUser SET Active = 0 where Active = 1", StudioServer.settings.DBDev);
+            int offs = SQL.ExecuteQuery("UPDATE _ToolUser SET Active = 0 where Active = 1", StudioServer.settings.DBDev);
             ServerMembory.SendUpdateSuccessNoticeToAll($"Kicked {offs} online users! Closed for maintenance!", "StudioServer");
             Process.GetCurrentProcess().CloseMainWindow();
             Process.GetProcessesByName("StudioServer").ToList().ForEach(process => process.Kill());
@@ -123,7 +123,7 @@ namespace StudioServer
 
         private void patchManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var manager = new PatchManager();
+            PatchManager manager = new PatchManager();
             manager.Show();
         }
     }

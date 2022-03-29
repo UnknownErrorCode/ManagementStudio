@@ -852,7 +852,9 @@ namespace ClientDataStorage.Database
         {
             stack = new ConcurrentStack<T>();
             for (int i = 0; i < table.Rows.Count; i++)
+            {
                 stack.Push((T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
+            }
         }
 
         private static void InitializeRefTableToStruct<T>(
@@ -862,7 +864,9 @@ namespace ClientDataStorage.Database
         {
             stack = new ConcurrentBag<T>();
             for (int i = 0; i < table.Rows.Count; i++)
+            {
                 stack.Add((T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
+            }
         }
 
         private static void InitializeRefTableToStruct<T>(
@@ -873,35 +877,45 @@ namespace ClientDataStorage.Database
         {
             dic = new ConcurrentDictionary<int, T>(2, table.Rows.Count);
             for (int i = 0; i < table.Rows.Count; i++)
+            {
                 dic.TryAdd(table.Rows[i].Field<int>(keyName), (T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
+            }
         }
 
         private static void InitializeRefTableToStruct<T>(DataTable table, ref ConcurrentDictionary<short, T> dic, string keyName = "ID") where T : struct
         {
             dic = new ConcurrentDictionary<short, T>(2, table.Rows.Count);
             for (int i = 0; i < table.Rows.Count; i++)
+            {
                 dic.TryAdd(table.Rows[i].Field<short>(keyName), (T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
+            }
         }
 
         private static void InitializeRefTableToStruct<T>(DataTable table, ref ConcurrentDictionary<string, T> dic, string keyName = "ID") where T : struct
         {
             dic = new ConcurrentDictionary<string, T>(2, table.Rows.Count);
             for (int i = 0; i < table.Rows.Count; i++)
+            {
                 dic.TryAdd(table.Rows[i].Field<string>(keyName), (T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i] }));
+            }
         }
 
         private static void InitializeRefTableToStruct<T>(DataTable table, ref ConcurrentDictionary<string, T[]> dic, string keyName = "ID") where T : struct
         {
-            var dict = new ConcurrentDictionary<string, List<T>>();
+            ConcurrentDictionary<string, List<T>> dict = new ConcurrentDictionary<string, List<T>>();
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                var keyValue = table.Rows[i].Field<string>(keyName);
+                string keyValue = table.Rows[i].Field<string>(keyName);
                 if (!dict.ContainsKey(keyValue))
+                {
                     if (dict.TryAdd(keyValue, new List<T>()))
+                    {
                         dict[keyValue].Add((T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
+                    }
+                }
             }
             dic = new ConcurrentDictionary<string, T[]>(1, dict.Count);
-            foreach (var pair in dict)
+            foreach (KeyValuePair<string, List<T>> pair in dict)
             {
                 dic.TryAdd(pair.Key, pair.Value.ToArray());
             }

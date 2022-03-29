@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace StudioServer.Patch
@@ -15,30 +9,30 @@ namespace StudioServer.Patch
     {
         public PatchManager()
         {
-            InitializeComponent(); 
+            InitializeComponent();
             Initialize2ndComponent();
-         
+
         }
 
         private void Initialize2ndComponent()
         {
-            this.SuspendLayout(); 
-            this.Text = $"Studio Server Version: [{StudioServer.settings.Version}]";
-            this.listView1.Items.Clear();
+            SuspendLayout();
+            Text = $"Studio Server Version: [{StudioServer.settings.Version}]";
+            listView1.Items.Clear();
             dataGridView1.DataSource = SQL.ReturnDataTable("SELECT * from _ToolUpdates ;", StudioServer.settings.DBDev);
-            var AllFiles = Directory.GetFiles(StudioServer.settings.PatchFolderDirectory,"*",SearchOption.AllDirectories);
+            string[] AllFiles = Directory.GetFiles(StudioServer.settings.PatchFolderDirectory, "*", SearchOption.AllDirectories);
             FileCount.Text = $"Files to patch: {AllFiles.Length}";
-            var size = 0;
-            foreach (var item in AllFiles )
+            int size = 0;
+            foreach (string item in AllFiles)
             {
                 size += File.ReadAllBytes(item).Length;
-                var nToBePatched = item.Remove(0, StudioServer.settings.PatchFolderDirectory.Length+1);
+                string nToBePatched = item.Remove(0, StudioServer.settings.PatchFolderDirectory.Length + 1);
                 ListViewItem itemList = new ListViewItem(nToBePatched);
-                
-                this.listView1.Items.Add(itemList);
+
+                listView1.Items.Add(itemList);
             }
-            FileSize.Text = $"Total Size ={size/1000} KB";
-            this.ResumeLayout();
+            FileSize.Text = $"Total Size ={size / 1000} KB";
+            ResumeLayout();
         }
 
 
@@ -46,7 +40,7 @@ namespace StudioServer.Patch
         {
             foreach (ListViewItem item in listView1.SelectedItems.OfType<ListViewItem>())
             {
-                if (item.SubItems.Count==0)
+                if (item.SubItems.Count == 0)
                 {
                     if (File.Exists(Path.Combine(StudioServer.settings.PatchFolderDirectory, item.Text)))
                     {
@@ -57,7 +51,7 @@ namespace StudioServer.Patch
                 {
                     if (File.Exists(Path.Combine(StudioServer.settings.PatchFolderDirectory, item.Text)))
                     {
-                        Directory.Delete(Path.Combine(StudioServer.settings.PatchFolderDirectory, item.Text),true);
+                        Directory.Delete(Path.Combine(StudioServer.settings.PatchFolderDirectory, item.Text), true);
                     }
                 }
             }
@@ -85,7 +79,7 @@ namespace StudioServer.Patch
             button2.Enabled = false;
             button3.Enabled = false;
             Initialize2ndComponent();
-          
+
         }
 
         private void button2_Click(object sender, EventArgs e)

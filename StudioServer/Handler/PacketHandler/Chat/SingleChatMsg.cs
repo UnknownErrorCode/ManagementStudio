@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Chat
 {
     public class ChatStructs
     {
 
-        [StructLayout(LayoutKind.Sequential, Size =1024)]  //16AccName + 8 Date  +1000 Text
+        [StructLayout(LayoutKind.Sequential, Size = 1024)]  //16AccName + 8 Date  +1000 Text
         public struct SingleAllChatMsg
         {
             [MarshalAs(UnmanagedType.HString, SizeConst = 16)]
@@ -38,6 +34,6 @@ namespace StudioServer.Handler.PacketHandler.Chat
             public string Receiver;
             public Dictionary<string, SinglePrivateChatMsg> AllLoggedPrivateChats;
         }
-        
+
     }
 }

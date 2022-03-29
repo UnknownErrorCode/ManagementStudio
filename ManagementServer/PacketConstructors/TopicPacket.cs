@@ -5,11 +5,15 @@ namespace ManagementServer.PacketConstructors
 {
     internal class TopicPacket
     {
+        #region Internal Methods
+
         internal static Packet AddNew(DashboardMessage msg)
         {
-            var newTopic = new Packet(PacketID.Server.TopicAddNewResponse);
+            Packet newTopic = new Packet(PacketID.Server.TopicAddNewResponse);
             newTopic.WriteStruct<DashboardMessage>(msg);
             return newTopic;
         }
+
+        #endregion Internal Methods
     }
 }

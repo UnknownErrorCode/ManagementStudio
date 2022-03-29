@@ -7,20 +7,7 @@ namespace ClientDataStorage.Client
 {
     public class Map
     {
-        /// <summary>
-        /// The Main abstract Pk2 reader.
-        /// </summary>
-        public static Pk2.Pk2Reader MapPk2 { get; set; }
-
-        /// <summary>
-        /// All Textures for tiles as dds format. Key = TextureID. Value = .dds file to display bitmap.
-        /// </summary>
-        public static Dictionary<int, DDJImage> TileTextureDictionary = new Dictionary<int, DDJImage>();
-
-        /// <summary>
-        /// List of all .o2 files inside the Map.pk2.
-        /// </summary>
-        public static List<o2File> Allo2Files = new List<o2File>();
+        #region Public Fields
 
         /// <summary>
         /// List of all .m files inside the Map.pk2.
@@ -28,9 +15,28 @@ namespace ClientDataStorage.Client
         public static Dictionary<Point, mFile> AllmFiles = new Dictionary<Point, mFile>();
 
         /// <summary>
+        /// List of all .o2 files inside the Map.pk2.
+        /// </summary>
+        public static List<o2File> Allo2Files = new List<o2File>();
+
+        /// <summary>
+        /// The Main abstract Pk2 reader.
+        /// </summary>
+        public static Pk2.Pk2Reader MapPk2;
+
+        /// <summary>
         /// Each texture infos for 2d tiles.
         /// </summary>
         public static Tile2dIFOFile Tile2d_ifo;
+
+        /// <summary>
+        /// All Textures for tiles as dds format. Key = TextureID. Value = .dds file to display bitmap.
+        /// </summary>
+        public static Dictionary<int, DDJImage> TileTextureDictionary = new Dictionary<int, DDJImage>();
+
+        #endregion Public Fields
+
+        #region Public Methods
 
         /// <summary>
         /// Initialize the Map.pk2 syncronous.
@@ -50,6 +56,10 @@ namespace ClientDataStorage.Client
         /// Initialize the Map.pk2 file async.
         /// </summary>
         public static async Task<bool> InitializeMapAsync()
-            => await Initialize();
+        {
+            return await Initialize();
+        }
+
+        #endregion Public Methods
     }
 }

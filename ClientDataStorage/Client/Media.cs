@@ -6,15 +6,21 @@ namespace ClientDataStorage.Client
 {
     public static class Media
     {
+        #region Public Fields
+
+        /// <summary>
+        /// Contains all necessary ddj images.
+        /// </summary>
+        public static Dictionary<string, DDJImage> DDJFiles = new Dictionary<string, DDJImage>();
+
+        #endregion Public Fields
+
+        #region Public Properties
+
         /// <summary>
         /// Main static Pk2 reader
         /// </summary>
         public static Pk2.Pk2Reader MediaPk2 { get; set; }
-
-        /// <summary>
-        /// TextUISystem from Media.pk2
-        /// </summary>
-        public static Textdata.TextUISystem StaticTextuiSystem { get; set; }
 
         /// <summary>
         /// Skilleffect from Media.pk2
@@ -22,9 +28,13 @@ namespace ClientDataStorage.Client
         public static Textdata.SkillEffect SkillEffect { get; set; }
 
         /// <summary>
-        /// Contains all necessary ddj images.
+        /// TextUISystem from Media.pk2
         /// </summary>
-        public static Dictionary<string, DDJImage> DDJFiles = new Dictionary<string, DDJImage>();
+        public static Textdata.TextUISystem StaticTextuiSystem { get; set; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         /// <summary>
         /// Initialize Media syncronous.
@@ -34,7 +44,9 @@ namespace ClientDataStorage.Client
             MediaPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Media.pk2");
 
             if (Media.MediaPk2.GetByteArrayByDirectory("Media\\server_dep\\silkroad\\textdata\\textuisystem.txt", out byte[] file))
+            {
                 StaticTextuiSystem = new Textdata.TextUISystem(file);
+            }
 
             SkillEffect = new Textdata.SkillEffect();
 
@@ -47,6 +59,10 @@ namespace ClientDataStorage.Client
         /// Initialize Media asyncronous.
         /// </summary>
         public static async Task<bool> InitializeMediaAsync()
-          => Task.Run(() => InitializeMedia()).Result;
+        {
+            return Task.Run(() => InitializeMedia()).Result;
+        }
+
+        #endregion Public Methods
     }
 }

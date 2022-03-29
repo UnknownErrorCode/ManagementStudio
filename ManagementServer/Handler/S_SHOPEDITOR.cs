@@ -4,12 +4,17 @@ using System;
 
 namespace ManagementServer.Network
 {
-    partial class ServerPacketHandler
+    internal partial class ServerPacketHandler
     {
+        #region Private Methods
+
         private PacketHandlerResult ShopDataPricePolicyOfItem(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
         {
-            if (arg2.Opcode != (ushort)PacketID.Client.ShopDataRefPricePolicyOfItem)
+            if (arg2.Opcode != PacketID.Client.ShopDataRefPricePolicyOfItem)
+            {
                 return PacketHandlerResult.Block;
+            }
+
             try
             {
                 EditAction type = (EditAction)arg2.ReadByte();
@@ -19,14 +24,16 @@ namespace ManagementServer.Network
                 {
                     case EditAction.Add:
                         break;
+
                     case EditAction.Update:
                         break;
+
                     case EditAction.Delete:
                         break;
+
                     default:
                         break;
                 }
-
             }
             catch (Exception ex)
             {
@@ -35,5 +42,7 @@ namespace ManagementServer.Network
 
             return PacketHandlerResult.Block;
         }
+
+        #endregion Private Methods
     }
 }

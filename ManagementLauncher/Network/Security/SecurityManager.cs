@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.Security
 {
@@ -43,15 +40,17 @@ namespace ManagementLauncher.Network.Security
 
         private static SecurityFlags CopySecurityFlags(SecurityFlags flags)
         {
-            SecurityFlags copy = new SecurityFlags();
-            copy.none = flags.none;
-            copy.blowfish = flags.blowfish;
-            copy.security_bytes = flags.security_bytes;
-            copy.handshake = flags.handshake;
-            copy.handshake_response = flags.handshake_response;
-            copy._6 = flags._6;
-            copy._7 = flags._7;
-            copy._8 = flags._8;
+            SecurityFlags copy = new SecurityFlags
+            {
+                none = flags.none,
+                blowfish = flags.blowfish,
+                security_bytes = flags.security_bytes,
+                handshake = flags.handshake,
+                handshake_response = flags.handshake_response,
+                _6 = flags._6,
+                _7 = flags._7,
+                _8 = flags._8
+            };
             return copy;
         }
 
@@ -64,8 +63,10 @@ namespace ManagementLauncher.Network.Security
         // Returns a SecurityFlags object from a byte.
         private static SecurityFlags ToSecurityFlags(byte value)
         {
-            SecurityFlags flags = new SecurityFlags();
-            flags.none = (byte)(value & 1);
+            SecurityFlags flags = new SecurityFlags
+            {
+                none = (byte)(value & 1)
+            };
             value >>= 1;
             flags.blowfish = (byte)(value & 1);
             value >>= 1;
@@ -197,7 +198,7 @@ namespace ManagementLauncher.Network.Security
         }
 
         // Use one security table for all objects.
-        private static uint[] global_security_table = GenerateSecurityTable();
+        private static readonly uint[] global_security_table = GenerateSecurityTable();
 
         #endregion SecurityTable
 
@@ -207,14 +208,14 @@ namespace ManagementLauncher.Network.Security
         {
             ulong a_ = a;
             ulong b_ = b;
-            return (ulong)((b_ << 32) | a_);
+            return (b_ << 32) | a_;
         }
 
         private static uint MAKELONG_(ushort a, ushort b)
         {
             uint a_ = a;
             uint b_ = b;
-            return (uint)((b_ << 16) | a_);
+            return (b_ << 16) | a_;
         }
 
         private static ushort MAKEWORD_(byte a, byte b)
@@ -248,25 +249,25 @@ namespace ManagementLauncher.Network.Security
 
         #region Random
 
-        private static Random random = new Random();
+        private static readonly Random random = new Random();
 
         private static UInt64 NextUInt64()
         {
-            var buffer = new byte[sizeof(UInt64)];
+            byte[] buffer = new byte[sizeof(UInt64)];
             random.NextBytes(buffer);
             return BitConverter.ToUInt64(buffer, 0);
         }
 
         private static UInt32 NextUInt32()
         {
-            var buffer = new byte[sizeof(UInt32)];
+            byte[] buffer = new byte[sizeof(UInt32)];
             random.NextBytes(buffer);
             return BitConverter.ToUInt32(buffer, 0);
         }
 
         private static UInt16 NextUInt16()
         {
-            var buffer = new byte[sizeof(UInt16)];
+            byte[] buffer = new byte[sizeof(UInt16)];
             random.NextBytes(buffer);
             return BitConverter.ToUInt16(buffer, 0);
         }
@@ -288,7 +289,7 @@ namespace ManagementLauncher.Network.Security
         private uint m_crc_seed;
         private ulong m_initial_blowfish_key;
         private ulong m_handshake_blowfish_key;
-        private byte[] m_count_byte_seeds;
+        private readonly byte[] m_count_byte_seeds;
         private ulong m_client_key;
         private ulong m_challenge_key;
 
@@ -299,26 +300,26 @@ namespace ManagementLauncher.Network.Security
         private bool m_started_handshake;
         private bool m_identity_send;
 
-        public byte IdentityFlag { get { return m_identity_flag; } }
-        public string IdentityName { get { return m_identity_name; } }
+        public byte IdentityFlag => m_identity_flag;
+        public string IdentityName => m_identity_name;
 
         private byte m_identity_flag;
         private string m_identity_name;
 
         private List<Packet> m_incoming_packets;
-        private List<Packet> m_outgoing_packets;
+        private readonly List<Packet> m_outgoing_packets;
 
-        private List<ushort> m_enc_opcodes;
+        private readonly List<ushort> m_enc_opcodes;
 
-        private Blowfish m_blowfish;
+        private readonly Blowfish m_blowfish;
 
-        private TransferBuffer m_recv_buffer;
+        private readonly TransferBuffer m_recv_buffer;
         private TransferBuffer m_current_buffer;
 
         private ushort m_massive_count;
         private Packet m_massive_packet;
 
-        private object m_class_lock;
+        private readonly object m_class_lock;
 
         #region CoreSecurityFunction
 
@@ -336,7 +337,11 @@ namespace ManagementLauncher.Network.Security
         // This function's logic was written by jMerlin as part of the article "How to generate the security bytes for SRO"
         private void SetupCountByte(uint seed)
         {
-            if (seed == 0) seed = 0x9ABFB3B6;
+            if (seed == 0)
+            {
+                seed = 0x9ABFB3B6;
+            }
+
             uint mut = seed;
             uint mut1 = GenerateValue(ref mut);
             uint mut2 = GenerateValue(ref mut);
@@ -344,8 +349,16 @@ namespace ManagementLauncher.Network.Security
             GenerateValue(ref mut);
             byte byte1 = (byte)((mut & 0xFF) ^ (mut3 & 0xFF));
             byte byte2 = (byte)((mut1 & 0xFF) ^ (mut2 & 0xFF));
-            if (byte1 == 0) byte1 = 1;
-            if (byte2 == 0) byte2 = 1;
+            if (byte1 == 0)
+            {
+                byte1 = 1;
+            }
+
+            if (byte2 == 0)
+            {
+                byte2 = 1;
+            }
+
             m_count_byte_seeds[0] = (byte)(byte1 ^ byte2);
             m_count_byte_seeds[1] = byte2;
             m_count_byte_seeds[2] = byte1;
@@ -408,7 +421,7 @@ namespace ManagementLauncher.Network.Security
             uint moddedseed = m_crc_seed << 8;
             for (int x = offset; x < offset + length; ++x)
             {
-                checksum = (checksum >> 8) ^ global_security_table[moddedseed + (((uint)stream[x] ^ checksum) & 0xFF)];
+                checksum = (checksum >> 8) ^ global_security_table[moddedseed + ((stream[x] ^ checksum) & 0xFF)];
             }
             return (byte)(((checksum >> 24) & 0xFF) + ((checksum >> 8) & 0xFF) + ((checksum >> 16) & 0xFF) + (checksum & 0xFF));
         }
@@ -566,8 +579,10 @@ namespace ManagementLauncher.Network.Security
                 KeyTransformValue(ref m_handshake_blowfish_key, m_value_K, 0x3);
                 m_blowfish.Initialize(BitConverter.GetBytes(m_handshake_blowfish_key));
 
-                SecurityFlags tmp_flags = new SecurityFlags();
-                tmp_flags.handshake_response = 1;
+                SecurityFlags tmp_flags = new SecurityFlags
+                {
+                    handshake_response = 1
+                };
                 byte tmp_flag = FromSecurityFlags(tmp_flags);
 
                 Packet response = new Packet(0x5000);
@@ -716,7 +731,7 @@ namespace ManagementLauncher.Network.Security
                 ushort packet_size = (ushort)(data_length | 0x8000);
 
                 writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                writer.Write((ushort)packet_size);
+                writer.Write(packet_size);
                 writer.Flush();
 
                 writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
@@ -759,7 +774,7 @@ namespace ManagementLauncher.Network.Security
                     long seek_index = writer.BaseStream.Seek(0, SeekOrigin.Current);
 
                     writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                    writer.Write((ushort)data_length);
+                    writer.Write(data_length);
                     writer.Flush();
 
                     writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
@@ -816,7 +831,7 @@ namespace ManagementLauncher.Network.Security
                 byte[] input_data = packet.GetBytes();
                 PacketReader input_reader = new PacketReader(input_data);
 
-                TransferBuffer workspace = new TransferBuffer(4089, 0, (int)input_data.Length);
+                TransferBuffer workspace = new TransferBuffer(4089, 0, input_data.Length);
 
                 while (workspace.Size > 0)
                 {
@@ -900,13 +915,15 @@ namespace ManagementLauncher.Network.Security
             m_outgoing_packets = new List<Packet>();
             m_incoming_packets = new List<Packet>();
 
-            m_enc_opcodes = new List<ushort>();
-            m_enc_opcodes.Add(0x2001);
-            m_enc_opcodes.Add(0x6100);
-            m_enc_opcodes.Add(0x6101);
-            m_enc_opcodes.Add(0x6102);
-            m_enc_opcodes.Add(0x6103);
-            m_enc_opcodes.Add(0x6107);
+            m_enc_opcodes = new List<ushort>
+            {
+                0x2001,
+                0x6100,
+                0x6101,
+                0x6102,
+                0x6103,
+                0x6107
+            };
 
             m_blowfish = new Blowfish();
 

@@ -1,10 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Dashboard
 {
@@ -13,14 +9,14 @@ namespace StudioServer.Handler.PacketHandler.Dashboard
 
         internal static Packet WriteNewTopic(Packet packet)
         {
-            var author = packet.ReadAscii();
-            var title = packet.ReadAscii();
-            var text = packet.ReadAscii();
-            var pathtitle = title.Replace("?", "_question_").Replace("`", "_appostroph_").Replace("´", "_appostroph_");
-            var dir = Path.Combine(StudioServer.settings.GuidePath, author);
+            string author = packet.ReadAscii();
+            string title = packet.ReadAscii();
+            string text = packet.ReadAscii();
+            string pathtitle = title.Replace("?", "_question_").Replace("`", "_appostroph_").Replace("´", "_appostroph_");
+            string dir = Path.Combine(StudioServer.settings.GuidePath, author);
             try
             {
-                
+
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir).Create();

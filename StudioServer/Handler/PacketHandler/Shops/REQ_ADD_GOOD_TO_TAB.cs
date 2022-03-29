@@ -1,5 +1,4 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -14,13 +13,13 @@ namespace StudioServer.Handler.PacketHandler.Shops
             int Slot = opcode.ReadInt();
 
 
-            var ParamArray = new SqlParameter[]
+            SqlParameter[] ParamArray = new SqlParameter[]
             {
                 new SqlParameter("@PackageItemCodeName128",SqlDbType.VarChar, 128) {Value = PackageItemCodeName128},
                 new SqlParameter("@StoreTabName", SqlDbType.VarChar, 128) {Value = StoreTabName},
                 new SqlParameter("@Slot", SqlDbType.Int) {Value = Slot}
             };
-            var rowcount = SQL.ReturnDataTableByProcedure("_ADD_SHOPGOOD_TO_TAB", StudioServer.settings.DBDev, ParamArray).Rows[0];
+            DataRow rowcount = SQL.ReturnDataTableByProcedure("_ADD_SHOPGOOD_TO_TAB", StudioServer.settings.DBDev, ParamArray).Rows[0];
 
             int valueReturn = int.Parse(rowcount[0].ToString());
             string textReturn = rowcount[1].ToString();

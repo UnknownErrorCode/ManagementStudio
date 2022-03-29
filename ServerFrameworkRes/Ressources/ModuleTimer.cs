@@ -1,9 +1,5 @@
-﻿using ServerFrameworkRes.Network.ServerBody;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -22,10 +18,10 @@ namespace ServerFrameworkRes.Ressources
         }
         public Timer MTimer { get; set; }
         private Chart _chart { get; set; }
-       
+
 
         private NoBody BodySwitch { get; }
-   
+
 
 
 
@@ -39,14 +35,14 @@ namespace ServerFrameworkRes.Ressources
         }
         private void MTimer_Tick(object sender, EventArgs e)
         {
-            foreach (var item in _chart.Series)
+            foreach (Series item in _chart.Series)
             {
                 if (item.Points.Count >= 60)
                 {
                     item.Points.RemoveAt(0);
                 }
                 KeyValuePair<int, string> SeriesInfo = new KeyValuePair<int, string>();
-               
+
 
                 //Adding Pointer
                 item.Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), SeriesInfo.Key);

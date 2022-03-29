@@ -46,6 +46,8 @@ namespace Structs
         public byte Z => y;
 
         public bool Equals(WRegionID other)
-            => this.Equals(other);
+        {
+            return Equals(other);
+        }
     }
 }

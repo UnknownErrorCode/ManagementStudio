@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.AsyncClient
 {
     public class AsyncState
     {
-        private Socket m_socket;
-        private AsyncBase m_server;
+        private readonly Socket m_socket;
+        private readonly AsyncBase m_server;
 
-        private SocketAsyncEventArgs m_read_event_args;
-        private SocketAsyncEventArgs m_write_event_args;
+        private readonly SocketAsyncEventArgs m_read_event_args;
+        private readonly SocketAsyncEventArgs m_write_event_args;
 
-        private byte[] m_read_buffer;
+        private readonly byte[] m_read_buffer;
 
-        private Queue<AsyncBuffer> m_write_buffers;
+        private readonly Queue<AsyncBuffer> m_write_buffers;
         private AsyncBuffer m_current_write_buffer;
 
-        private AsyncOperation m_operation;
+        private readonly AsyncOperation m_operation;
 
         public AsyncContext Context { get; set; }
-        public AsyncOperation Operation { get { return m_operation; } }
-        public EndPoint EndPoint { get { return m_socket.RemoteEndPoint; } }
+        public AsyncOperation Operation => m_operation;
+        public EndPoint EndPoint => m_socket.RemoteEndPoint;
 
         public AsyncState(AsyncBase server, Socket socket, AsyncOperation operation, IAsyncInterface interface_, object user)
         {
@@ -48,10 +45,12 @@ namespace ManagementLauncher.Network.AsyncClient
 
             m_write_buffers = new Queue<AsyncBuffer>();
 
-            Context = new AsyncContext();
-            Context.State = this;
-            Context.User = user;
-            Context.Interface = interface_;
+            Context = new AsyncContext
+            {
+                State = this,
+                User = user,
+                Interface = interface_
+            };
         }
 
         internal void Disconnect()

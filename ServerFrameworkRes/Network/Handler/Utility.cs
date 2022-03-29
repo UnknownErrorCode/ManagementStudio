@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Handler
 {
     public class Utility
     {
+        #region Public Methods
+
         public static string HexDump(byte[] buffer)
         {
             return HexDump(buffer, 0, buffer.Length);
         }
+
         public static string HexDump(byte[] buffer, int offset, int count)
         {
             const int bytesPerLine = 16;
@@ -57,5 +57,7 @@ namespace ServerFrameworkRes.Network.Handler
             }
             return output.ToString();
         }
+
+        #endregion Public Methods
     }
 }

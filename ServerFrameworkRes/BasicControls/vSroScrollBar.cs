@@ -1,23 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroScrollBar : UserControl
     {
-        bool ScrollButtonIsHold;
-        Point LastScrollButtonPoint;
+        #region Private Fields
+
+        private Point LastScrollButtonPoint;
+        private bool ScrollButtonIsHold;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
         public vSroScrollBar()
         {
             InitializeComponent();
         }
+
+        #endregion Public Constructors
+
+        #region Private Methods
 
         private void panel3_MouseDown(object sender, MouseEventArgs e)
         {
@@ -28,20 +32,10 @@ namespace ServerFrameworkRes.BasicControls
             }
         }
 
-        private void panel3_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ScrollButtonIsHold = false;
-            }
-           
-        }
-
         private void panel3_MouseMove(object sender, MouseEventArgs e)
         {
             if (ScrollButtonIsHold)
             {
-
                 Point mousePos = Control.MousePosition;
                 mousePos.Offset(LastScrollButtonPoint.X, LastScrollButtonPoint.Y);
 
@@ -51,5 +45,15 @@ namespace ServerFrameworkRes.BasicControls
                 }
             }
         }
+
+        private void panel3_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ScrollButtonIsHold = false;
+            }
+        }
+
+        #endregion Private Methods
     }
 }

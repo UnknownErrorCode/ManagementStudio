@@ -6,13 +6,21 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroMessageBox : Form
     {
-        private bool onMove;
-        private Point LastPoint;
+        #region Public Fields
+
         public bool OK = false;
 
-        public string ReturnValue1 { get => vSroInputBox1.ValueText; }
-        public string ReturnValue2 { get => vSroInputBox2.ValueText; }
-        public string ReturnValue3 { get => vSroInputBox3.ValueText; }
+        #endregion Public Fields
+
+        #region Private Fields
+
+        private Point LastPoint;
+        private bool onMove;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
         public vSroMessageBox(string text)
         {
             InitializeComponent();
@@ -21,7 +29,6 @@ namespace ServerFrameworkRes.BasicControls
             vSroButtonYes.RealButton.Click += ButtonYes_Click;
             vSroButtonNo.RealButton.Text = "No";
             vSroButtonNo.RealButton.Click += ButtonNo_Click;
-
         }
 
         public vSroMessageBox(string text, string Title)
@@ -35,41 +42,18 @@ namespace ServerFrameworkRes.BasicControls
             labelTitle.Text = Title;
         }
 
-        private void ButtonNo_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        private void ButtonYes_Click(object sender, EventArgs e)
-        {
-            OK = true;
-            this.Close();
-        }
-        private void RealButton_Click(object sender, EventArgs e)
-        {
-            OK = true;
-            this.Close();
-        }
+        #endregion Public Constructors
 
+        #region Public Properties
 
-        public static void Show(string message)
-        {
-            using (vSroMessageBox showTempMsg = new vSroMessageBox(message))
-                showTempMsg.ShowDialog();
-        }
-        public static void Show(string message, string title)
-        {
-            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
-                showTempMsg.ShowDialog();
-        }
+        public string ReturnValue1 => vSroInputBox1.ValueText;
+        public string ReturnValue2 => vSroInputBox2.ValueText;
+        public string ReturnValue3 => vSroInputBox3.ValueText;
 
-        public static bool YesOrNo(string message, string title)
-        {
-            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
-            {
-                showTempMsg.ShowDialog();
-                return showTempMsg.OK;
-            }
-        }
+        #endregion Public Properties
+
+        #region Public Methods
+
         public static string GetInput(string message, string title, string valueTitle)
         {
             string ret = "";
@@ -77,11 +61,14 @@ namespace ServerFrameworkRes.BasicControls
             {
                 showTempMsg.vSroInputBox1.Visible = true;
                 showTempMsg.ShowDialog();
-                if (showTempMsg.ReturnValue1.Length>0)
+                if (showTempMsg.ReturnValue1.Length > 0)
+                {
                     ret = showTempMsg.ReturnValue1;
+                }
             }
             return ret;
         }
+
         public static string[] GetInput(string message, string title, string valueTitle, string valueTitle2)
         {
             string[] ret = new string[2];
@@ -97,6 +84,7 @@ namespace ServerFrameworkRes.BasicControls
             }
             return ret;
         }
+
         public static string[] GetInput(string message, string title, string valueTitle, string valueTitle2, string valueTitle3)
         {
             string[] ret = new string[3];
@@ -116,6 +104,52 @@ namespace ServerFrameworkRes.BasicControls
             return ret;
         }
 
+        public static void Show(string message)
+        {
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message))
+            {
+                showTempMsg.ShowDialog();
+            }
+        }
+
+        public static void Show(string message, string title)
+        {
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
+            {
+                showTempMsg.ShowDialog();
+            }
+        }
+
+        public static bool YesOrNo(string message, string title)
+        {
+            using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
+            {
+                showTempMsg.ShowDialog();
+                return showTempMsg.OK;
+            }
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void ButtonNo_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ButtonYes_Click(object sender, EventArgs e)
+        {
+            OK = true;
+            Close();
+        }
+
+        private void RealButton_Click(object sender, EventArgs e)
+        {
+            OK = true;
+            Close();
+        }
+
         private void vSroMessageBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.X <= 355 && e.Y <= 25)
@@ -127,10 +161,7 @@ namespace ServerFrameworkRes.BasicControls
                 }
             }
         }
-        private void vSroMessageBox_MouseUp(object sender, MouseEventArgs e)
-        {
-            onMove = false;
-        }
+
         private void vSroMessageBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (onMove)
@@ -138,8 +169,17 @@ namespace ServerFrameworkRes.BasicControls
                 Point mousePos = Control.MousePosition;
                 mousePos.Offset(LastPoint.X, LastPoint.Y);
                 if (Location != mousePos)
+                {
                     Location = mousePos;
+                }
             }
         }
+
+        private void vSroMessageBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            onMove = false;
+        }
+
+        #endregion Private Methods
     }
 }

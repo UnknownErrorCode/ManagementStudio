@@ -1,25 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Security
 {
     public static class Unmanaged
     {
+        #region Public Interfaces
 
-        public static unsafe byte[] Serialize<T>(T value) where T : unmanaged
+        public interface IMarshalled
         {
-            byte[] buffer = new byte[sizeof(T)];
+        }
 
-            fixed (byte* bufferPtr = buffer)
+        #endregion Public Interfaces
+
+        #region Public Methods
+
+        public static T BufferToStruct<T>(byte[] buffer, int offset = 0) where T : IMarshalled
+        {
+            unsafe
             {
-                Buffer.MemoryCopy(&value, bufferPtr, sizeof(T), sizeof(T));
+                fixed (byte* ptr = &buffer[offset])
+                {
+                    return (T)Marshal.PtrToStructure((IntPtr)ptr, typeof(T));
+                }
             }
+        }
 
-            return buffer;
+        public static T BufferToStruct2<T>(byte[] buffer, int offset = 0) where T : struct
+        {
+            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            T str = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+            handle.Free();
+            return str;
         }
 
         public static unsafe T Deserialize<T>(byte[] buffer) where T : unmanaged
@@ -34,28 +46,21 @@ namespace ServerFrameworkRes.Network.Security
             return result;
         }
 
+        public static unsafe byte[] Serialize<T>(T value) where T : unmanaged
+        {
+            byte[] buffer = new byte[sizeof(T)];
 
-        public static T BufferToStruct<T>(byte[] buffer, int offset = 0) where T : IMarshalled
-        {
-            unsafe
+            fixed (byte* bufferPtr = buffer)
             {
-                fixed (byte* ptr = &buffer[offset])
-                {
-                    return (T)Marshal.PtrToStructure((IntPtr)ptr, typeof(T));
-                }
+                Buffer.MemoryCopy(&value, bufferPtr, sizeof(T), sizeof(T));
             }
-        }
-        public static T BufferToStruct2<T>(byte[] buffer, int offset = 0) where T : struct
-        {
-            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-            T str = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
-            handle.Free();
-            return str;
+
+            return buffer;
         }
 
         public static byte[] StructToBuffer<T>(T structure) where T : IMarshalled
         {
-            var buffer = new byte[Marshal.SizeOf(typeof(T))];
+            byte[] buffer = new byte[Marshal.SizeOf(typeof(T))];
             unsafe
             {
                 fixed (byte* ptr = &buffer[0])
@@ -65,9 +70,10 @@ namespace ServerFrameworkRes.Network.Security
                 }
             }
         }
+
         public static byte[] StructToBuffer2<T>(T structure) where T : struct
         {
-            var buffer = new byte[Marshal.SizeOf(typeof(T))];
+            byte[] buffer = new byte[Marshal.SizeOf(typeof(T))];
             unsafe
             {
                 fixed (byte* ptr = &buffer[0])
@@ -78,12 +84,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-
-
-
-        public interface IMarshalled
-        {
-        }
-
+        #endregion Public Methods
     }
 }

@@ -2,14 +2,18 @@
 
 namespace ManagementServer.PacketConstructors
 {
-    static class NotificationPacket
+    internal static class NotificationPacket
     {
+        #region Internal Methods
+
         internal static Packet NotifyPacket(ServerFrameworkRes.Ressources.LogLevel type, string message)
         {
-            var packet = new Packet(PacketID.Server.LogNotification);
+            Packet packet = new Packet(PacketID.Server.LogNotification);
             packet.WriteByte((byte)type);
             packet.WriteAscii(message);
             return packet;
         }
+
+        #endregion Internal Methods
     }
 }

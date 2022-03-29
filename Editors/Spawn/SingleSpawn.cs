@@ -2,7 +2,6 @@
 using Structs.Database;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Editors.Spawn
 {
@@ -25,10 +24,11 @@ namespace Editors.Spawn
         /// </summary>
         private void Initialize()
         {
-           
-            if (SRO_VT_SHARD.dbo.Tables["Tab_RefHive"].Rows.OfType<DataRow>().Any(row => row.Field<int>("dwHiveID").Equals(Nest.dwHiveID)))
-                Hive = new Tab_RefHive(SRO_VT_SHARD.dbo.Tables["Tab_RefHive"].Rows.OfType<DataRow>().Single(row => row.Field<int>("dwHiveID").Equals(Nest.dwHiveID)).ItemArray);
 
+            if (SRO_VT_SHARD.dbo.Tables["Tab_RefHive"].Rows.OfType<DataRow>().Any(row => row.Field<int>("dwHiveID").Equals(Nest.dwHiveID)))
+            {
+                Hive = new Tab_RefHive(SRO_VT_SHARD.dbo.Tables["Tab_RefHive"].Rows.OfType<DataRow>().Single(row => row.Field<int>("dwHiveID").Equals(Nest.dwHiveID)).ItemArray);
+            }
 
             if (SRO_VT_SHARD.dbo.Tables["Tab_RefTactics"].Rows.OfType<DataRow>().Any(row => row.Field<int>("dwTacticsID").Equals(Nest.dwTacticsID)))
             {

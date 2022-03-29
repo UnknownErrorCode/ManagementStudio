@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
@@ -46,7 +45,7 @@ namespace Structs.Database
             Param4_Desc128 = row[13].ToString();
             //Index =0;
         }
-       
+
 
 
     }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.Security
 {
@@ -17,14 +13,13 @@ namespace ManagementLauncher.Network.Security
 
         public string Value
         {
-            get
-            {
-                return _value;
-            }
+            get => _value;
             set
             {
                 if (value.Length > SIZE)
+                {
                     throw new ArgumentOutOfRangeException(nameof(value), $"Exceeds maximum padding of {SIZE}");
+                }
 
                 _value = value;
             }
@@ -35,7 +30,9 @@ namespace ManagementLauncher.Network.Security
         public PaddedString64(string value)
         {
             if (value.Length > SIZE)
+            {
                 throw new ArgumentOutOfRangeException(nameof(value), $"Exceeds maximum padding of {SIZE}");
+            }
 
             _value = value;
         }

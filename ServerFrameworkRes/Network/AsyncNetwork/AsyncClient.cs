@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncClient : AsyncBase
     {
+        #region Public Methods
+
         public void Connect(string host, int port, IAsyncInterface @interface)
         {
             Connect(host, port, @interface, null);
@@ -19,34 +17,31 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            IPAddress address = null;
-            if (!IPAddress.TryParse(host, out address))
+            if (!IPAddress.TryParse(host, out IPAddress address))
             {
                 IPHostEntry host_entry = Dns.GetHostEntry(host);
                 address = host_entry.AddressList[0];
             }
 
-            AsyncToken token = new AsyncToken();
-            token.Socket = socket;
-            token.User = user;
-            token.Interface = @interface;
+            AsyncToken token = new AsyncToken
+            {
+                Socket = socket,
+                User = user,
+                Interface = @interface
+            };
 
-            SocketAsyncEventArgs connectEvtArgs = new SocketAsyncEventArgs();
-            connectEvtArgs.UserToken = token;
+            SocketAsyncEventArgs connectEvtArgs = new SocketAsyncEventArgs
+            {
+                UserToken = token
+            };
             connectEvtArgs.Completed += NetworkOnConnect;
             connectEvtArgs.RemoteEndPoint = new IPEndPoint(address, port);
             ProcessConnect(connectEvtArgs);
         }
 
-        private void ProcessConnect(SocketAsyncEventArgs e)
-        {
-            AsyncToken token = (AsyncToken)e.UserToken;
+        #endregion Public Methods
 
-            if (!token.Socket.ConnectAsync(e))
-            {
-                NetworkOnConnect(null, e);
-            }
-        }
+        #region Private Methods
 
         private void NetworkOnConnect(object sender, SocketAsyncEventArgs e)
         {
@@ -85,7 +80,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             {
                 state.Read(); // Begin receiving data on the socket
             }
-
             catch (Exception)
             {
                 state.Cleanup(); // Cleanup the object
@@ -94,5 +88,17 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 
             AddState(state); // Store the state to keep it alive
         }
+
+        private void ProcessConnect(SocketAsyncEventArgs e)
+        {
+            AsyncToken token = (AsyncToken)e.UserToken;
+
+            if (!token.Socket.ConnectAsync(e))
+            {
+                NetworkOnConnect(null, e);
+            }
+        }
+
+        #endregion Private Methods
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.Security
 {
@@ -22,7 +18,7 @@ namespace ManagementLauncher.Network.Security
 
         public static byte[] StructToBuffer<T>(T structure) where T : IMarshalled
         {
-            var buffer = new byte[Marshal.SizeOf(typeof(T))];
+            byte[] buffer = new byte[Marshal.SizeOf(typeof(T))];
             unsafe
             {
                 fixed (byte* ptr = &buffer[0])

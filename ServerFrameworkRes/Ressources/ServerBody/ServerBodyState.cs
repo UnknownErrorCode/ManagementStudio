@@ -1,11 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerFrameworkRes.Ressources.ServerBody
+﻿namespace ServerFrameworkRes.Ressources.ServerBody
 {
     public enum ServerBodyState : int
     {

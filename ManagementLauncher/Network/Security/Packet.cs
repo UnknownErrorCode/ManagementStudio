@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.Security
 {
     public class Packet : IDisposable
     {
-        private ushort _opcode;
+        private readonly ushort _opcode;
         private PacketWriter _writer;
         private PacketReader _reader;
-        private bool _encrypted;
-        private bool _massive;
+        private readonly bool _encrypted;
+        private readonly bool _massive;
         private bool _locked;
         private byte[] _readerBytes;
         private object _lock;
@@ -78,7 +75,9 @@ namespace ManagementLauncher.Network.Security
         public Packet(ushort opcode, bool encrypted, bool massive)
         {
             if (encrypted && massive)
+            {
                 throw new PacketException("[Packet::ctor] Packets cannot both be massive and encrypted!");
+            }
 
             _lock = new object();
             _opcode = opcode;
@@ -92,7 +91,9 @@ namespace ManagementLauncher.Network.Security
         public Packet(ushort opcode, bool encrypted, bool massive, byte[] bytes)
         {
             if (encrypted && massive)
+            {
                 throw new PacketException("[Packet::ctor] Packets cannot both be massive and encrypted!");
+            }
 
             _lock = new object();
             _opcode = opcode;
@@ -134,11 +135,15 @@ namespace ManagementLauncher.Network.Security
 
         public override string ToString()
         {
-            var packet_bytes = this.GetBytes();
+            byte[] packet_bytes = GetBytes();
             if (packet_bytes.Length > 0)
+            {
                 return BitConverter.ToString(_readerBytes).Replace("-", "");
+            }
             else
+            {
                 return string.Empty;
+            }
         }
 
         public void Lock()
@@ -370,38 +375,38 @@ namespace ManagementLauncher.Network.Security
                 using (MemoryStream memStream = new MemoryStream(array))
                 {
                     BinaryFormatter brFormatter = new BinaryFormatter();
-                    vvalue.RemotingFormat= SerializationFormat.Binary;
+                    vvalue.RemotingFormat = SerializationFormat.Binary;
                     vvalue = (DataTable)brFormatter.Deserialize(memStream);
                     memStream.Close();
                 }
                 return vvalue;
             }
         }
-        public char ReadChar() 
+        public char ReadChar()
         {
-            lock(_lock) 
-            { 
-                if(!_locked) 
+            lock (_lock)
+            {
+                if (!_locked)
                 {
                     throw new PacketException("Cannot Read from an unlocked Packet.");
                 }
                 return _reader.ReadChar();
-            } 
+            }
 
-        } 
+        }
 
-        public char[] ReadChars(int chararraylenght) 
+        public char[] ReadChars(int chararraylenght)
         {
-            lock(_lock) 
-            { 
-                if(!_locked) 
+            lock (_lock)
+            {
+                if (!_locked)
                 {
                     throw new PacketException("Cannot Read from an unlocked Packet.");
                 }
                 return _reader.ReadChars(chararraylenght);
-            } 
+            }
 
-        } 
+        }
 
         public string ReadAscii()
         {
@@ -419,7 +424,7 @@ namespace ManagementLauncher.Network.Security
 
                 ushort length = _reader.ReadUInt16();
                 byte[] bytes = _reader.ReadBytes(length);
-                
+
 
                 return Encoding.GetEncoding(codepage).GetString(bytes);
             }
@@ -436,7 +441,7 @@ namespace ManagementLauncher.Network.Security
 
                 char[] length = _reader.ReadChars(int1);
                 string ssssss = "";
-                foreach (var item in length)
+                foreach (char item in length)
                 {
                     ssssss += item;
                 }
@@ -457,7 +462,7 @@ namespace ManagementLauncher.Network.Security
 
                 char[] length = _reader.ReadChars(256);
                 string ssssss = "";
-                foreach (var item in length)
+                foreach (char item in length)
                 {
                     ssssss += item;
                 }
@@ -477,7 +482,7 @@ namespace ManagementLauncher.Network.Security
 
                 char[] length = _reader.ReadChars(64);
                 string ssssss = "";
-                foreach (var item in length)
+                foreach (char item in length)
                 {
                     ssssss += item;
                 }
@@ -497,7 +502,7 @@ namespace ManagementLauncher.Network.Security
 
                 char[] length = _reader.ReadChars(32);
                 string ssssss = "";
-                foreach (var item in length)
+                foreach (char item in length)
                 {
                     ssssss += item;
                 }
@@ -517,7 +522,7 @@ namespace ManagementLauncher.Network.Security
 
                 char[] length = _reader.ReadChars(16);
                 string ssssss = "";
-                foreach (var item in length)
+                foreach (char item in length)
                 {
                     ssssss += item;
                 }
@@ -559,13 +564,13 @@ namespace ManagementLauncher.Network.Security
 
         public TStruct ReadMarshalled<TStruct>() where TStruct : Unmanaged.IMarshalled
         {
-            var buffer = this.ReadByteArray(Marshal.SizeOf(typeof(TStruct)));
+            byte[] buffer = ReadByteArray(Marshal.SizeOf(typeof(TStruct)));
             return Unmanaged.BufferToStruct<TStruct>(buffer);
         }
 
         public TPaddedString ReadPaddedString<TPaddedString>() where TPaddedString : Unmanaged.IMarshalled, IPaddedString
         {
-            return this.ReadMarshalled<TPaddedString>();
+            return ReadMarshalled<TPaddedString>();
         }
 
         public bool[] ReadBoolArray(int count)
@@ -757,7 +762,7 @@ namespace ManagementLauncher.Network.Security
 
         public string[] ReadStringArray(int count)
         {
-            return ReadStringArray(1252,count);
+            return ReadStringArray(1252, count);
         }
 
         public string[] ReadStringArray(int codepage, int count)
@@ -974,16 +979,16 @@ namespace ManagementLauncher.Network.Security
                 if (_locked)
                 {
                     throw new PacketException("Cannot Write to a locked Packet.");
-               } 
-               foreach(char cha in value.ToCharArray())
-               {
-                
-                _writer.Write(cha);
-               } 
-               for(int i = 0; i < length-value.Length; i++) 
-               {
-                _writer.Write((char)' ');
-               } 
+                }
+                foreach (char cha in value.ToCharArray())
+                {
+
+                    _writer.Write(cha);
+                }
+                for (int i = 0; i < length - value.Length; i++)
+                {
+                    _writer.Write(' ');
+                }
             }
         }
         public void WriteAscii(string value)
@@ -1223,14 +1228,14 @@ namespace ManagementLauncher.Network.Security
                     throw new PacketException("Cannot Write to a locked Packet.");
                 }
 
-                var bytes = Unmanaged.StructToBuffer(value);
+                byte[] bytes = Unmanaged.StructToBuffer(value);
                 _writer.Write(bytes);
             }
         }
 
         public void WritePaddedString<TPaddedString>(TPaddedString value) where TPaddedString : Unmanaged.IMarshalled, IPaddedString
         {
-            this.WriteMarshalled<TPaddedString>(value);
+            WriteMarshalled<TPaddedString>(value);
         }
 
         #region WriteArray
@@ -1742,10 +1747,14 @@ namespace ManagementLauncher.Network.Security
                 {
                     // Free other state (managed objects).
                     if (_writer != null)
+                    {
                         _writer.Dispose();
+                    }
 
                     if (_reader != null)
+                    {
                         _reader.Dispose();
+                    }
                 }
                 // Free your own state (unmanaged objects).
                 // Set large fields to null.

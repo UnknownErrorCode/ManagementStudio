@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Security
 {
     public class Blowfish
     {
-        private static uint[] bf_P =
+        #region Private Fields
+
+        private static readonly uint[] bf_P =
         {
             0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
             0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89,
@@ -17,7 +15,7 @@ namespace ServerFrameworkRes.Network.Security
             0x9216d5d9, 0x8979fb1b,
         };
 
-        private static uint[,] bf_S =
+        private static readonly uint[,] bf_S =
         {
             {
                 0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7, 0xb8e1afed, 0x6a267e96, 0xba7c9045, 0xf12c7f99,
@@ -160,8 +158,12 @@ namespace ServerFrameworkRes.Network.Security
             }
         };
 
-        private uint[] PArray;
-        private uint[,] SBoxes;
+        private readonly uint[] PArray;
+        private readonly uint[,] SBoxes;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public Blowfish()
         {
@@ -169,67 +171,83 @@ namespace ServerFrameworkRes.Network.Security
             SBoxes = new uint[4, 256];
         }
 
-        private uint S(uint x, int i)
+        #endregion Public Constructors
+
+        #region Public Methods
+
+        // Decodes a stream of data and returns an array of the decoded data.
+        // Returns null if length is not % 8.
+        public byte[] Decode(byte[] stream)
         {
-            if (i < 0 || i > 3)
+            return Decode(stream, 0, stream.Length);
+        }
+
+        // Decodes a stream of data and returns an array of the decoded data.
+        // Returns null if length is not % 8.
+        public byte[] Decode(byte[] stream, int offset, int length)
+        {
+            if (length % 8 != 0 || length == 0)
             {
-                throw (new Exception(String.Format("[Blowfish::S] Invalid i index of [{0}].", i)));
+                return null;
             }
 
-            x >>= (24 - (8 * i));
-            x &= 0xFF;
+            byte[] workspace = new byte[length];
+            Buffer.BlockCopy(stream, offset, workspace, 0, length);
 
-            return SBoxes[i, x];
+            for (int x = 0; x < workspace.Length; x += 8)
+            {
+                uint l = BitConverter.ToUInt32(workspace, x + 0);
+                uint r = BitConverter.ToUInt32(workspace, x + 4);
+                Blowfish_decipher(ref l, ref r);
+                Buffer.BlockCopy(BitConverter.GetBytes(l), 0, workspace, x + 0, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(r), 0, workspace, x + 4, 4);
+            }
+
+            return workspace;
         }
 
-        private uint bf_F(uint x)
+        // Encodes a stream of data and returns a new array of the encoded data.
+        // Returns null if length is 0.
+        public byte[] Encode(byte[] stream)
         {
-            return (((S(x, 0) + S(x, 1)) ^ S(x, 2)) + S(x, 3));
+            return Encode(stream, 0, stream.Length);
         }
 
-        private void ROUND(ref uint a, uint b, int n)
+        // Encodes a stream of data and returns a new array of the encoded data.
+        // Returns null if length is 0.
+        public byte[] Encode(byte[] stream, int offset, int length)
         {
-            a ^= (bf_F(b) ^ PArray[n]);
+            if (length == 0)
+            {
+                return null;
+            }
+
+            byte[] workspace = new byte[GetOutputLength(length)];
+
+            Buffer.BlockCopy(stream, offset, workspace, 0, length);
+            for (int x = length; x < workspace.Length; ++x)
+            {
+                workspace[x] = 0;
+            }
+
+            for (int x = 0; x < workspace.Length; x += 8)
+            {
+                uint l = BitConverter.ToUInt32(workspace, x + 0);
+                uint r = BitConverter.ToUInt32(workspace, x + 4);
+                Blowfish_encipher(ref l, ref r);
+                Buffer.BlockCopy(BitConverter.GetBytes(l), 0, workspace, x + 0, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(r), 0, workspace, x + 4, 4);
+            }
+
+            return workspace;
         }
 
-        private void Blowfish_encipher(ref uint xl, ref uint xr)
+        // Returns the output length based on the size. This can be used to
+        // determine how many bytes of output space is needed for data that
+        // is about to be encoded or decoded.
+        public int GetOutputLength(int length)
         {
-            uint Xl = xl;
-            uint Xr = xr;
-
-            Xl ^= PArray[0];
-            ROUND(ref Xr, Xl, 1); ROUND(ref Xl, Xr, 2);
-            ROUND(ref Xr, Xl, 3); ROUND(ref Xl, Xr, 4);
-            ROUND(ref Xr, Xl, 5); ROUND(ref Xl, Xr, 6);
-            ROUND(ref Xr, Xl, 7); ROUND(ref Xl, Xr, 8);
-            ROUND(ref Xr, Xl, 9); ROUND(ref Xl, Xr, 10);
-            ROUND(ref Xr, Xl, 11); ROUND(ref Xl, Xr, 12);
-            ROUND(ref Xr, Xl, 13); ROUND(ref Xl, Xr, 14);
-            ROUND(ref Xr, Xl, 15); ROUND(ref Xl, Xr, 16);
-            Xr ^= PArray[17];
-
-            xr = Xl;
-            xl = Xr;
-        }
-
-        private void Blowfish_decipher(ref uint xl, ref uint xr)
-        {
-            uint Xl = xl;
-            uint Xr = xr;
-
-            Xl ^= PArray[17];
-            ROUND(ref Xr, Xl, 16); ROUND(ref Xl, Xr, 15);
-            ROUND(ref Xr, Xl, 14); ROUND(ref Xl, Xr, 13);
-            ROUND(ref Xr, Xl, 12); ROUND(ref Xl, Xr, 11);
-            ROUND(ref Xr, Xl, 10); ROUND(ref Xl, Xr, 9);
-            ROUND(ref Xr, Xl, 8); ROUND(ref Xl, Xr, 7);
-            ROUND(ref Xr, Xl, 6); ROUND(ref Xl, Xr, 5);
-            ROUND(ref Xr, Xl, 4); ROUND(ref Xl, Xr, 3);
-            ROUND(ref Xr, Xl, 2); ROUND(ref Xl, Xr, 1);
-            Xr ^= PArray[0];
-
-            xl = Xr;
-            xr = Xl;
+            return (length % 8) == 0 ? length : length + (8 - (length % 8));
         }
 
         // Sets up the blowfish object with this specific key.
@@ -291,79 +309,73 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        // Returns the output length based on the size. This can be used to
-        // determine how many bytes of output space is needed for data that
-        // is about to be encoded or decoded.
-        public int GetOutputLength(int length)
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private uint bf_F(uint x)
         {
-            return (length % 8) == 0 ? length : length + (8 - (length % 8));
+            return (((S(x, 0) + S(x, 1)) ^ S(x, 2)) + S(x, 3));
         }
 
-        // Encodes a stream of data and returns a new array of the encoded data.
-        // Returns null if length is 0.
-        public byte[] Encode(byte[] stream)
+        private void Blowfish_decipher(ref uint xl, ref uint xr)
         {
-            return Encode(stream, 0, stream.Length);
+            uint Xl = xl;
+            uint Xr = xr;
+
+            Xl ^= PArray[17];
+            ROUND(ref Xr, Xl, 16); ROUND(ref Xl, Xr, 15);
+            ROUND(ref Xr, Xl, 14); ROUND(ref Xl, Xr, 13);
+            ROUND(ref Xr, Xl, 12); ROUND(ref Xl, Xr, 11);
+            ROUND(ref Xr, Xl, 10); ROUND(ref Xl, Xr, 9);
+            ROUND(ref Xr, Xl, 8); ROUND(ref Xl, Xr, 7);
+            ROUND(ref Xr, Xl, 6); ROUND(ref Xl, Xr, 5);
+            ROUND(ref Xr, Xl, 4); ROUND(ref Xl, Xr, 3);
+            ROUND(ref Xr, Xl, 2); ROUND(ref Xl, Xr, 1);
+            Xr ^= PArray[0];
+
+            xl = Xr;
+            xr = Xl;
         }
 
-        // Encodes a stream of data and returns a new array of the encoded data.
-        // Returns null if length is 0.
-        public byte[] Encode(byte[] stream, int offset, int length)
+        private void Blowfish_encipher(ref uint xl, ref uint xr)
         {
-            if (length == 0)
-            {
-                return null;
-            }
+            uint Xl = xl;
+            uint Xr = xr;
 
-            byte[] workspace = new byte[GetOutputLength(length)];
+            Xl ^= PArray[0];
+            ROUND(ref Xr, Xl, 1); ROUND(ref Xl, Xr, 2);
+            ROUND(ref Xr, Xl, 3); ROUND(ref Xl, Xr, 4);
+            ROUND(ref Xr, Xl, 5); ROUND(ref Xl, Xr, 6);
+            ROUND(ref Xr, Xl, 7); ROUND(ref Xl, Xr, 8);
+            ROUND(ref Xr, Xl, 9); ROUND(ref Xl, Xr, 10);
+            ROUND(ref Xr, Xl, 11); ROUND(ref Xl, Xr, 12);
+            ROUND(ref Xr, Xl, 13); ROUND(ref Xl, Xr, 14);
+            ROUND(ref Xr, Xl, 15); ROUND(ref Xl, Xr, 16);
+            Xr ^= PArray[17];
 
-            Buffer.BlockCopy(stream, offset, workspace, 0, length);
-            for (int x = length; x < workspace.Length; ++x)
-            {
-                workspace[x] = 0;
-            }
-
-            for (int x = 0; x < workspace.Length; x += 8)
-            {
-                uint l = BitConverter.ToUInt32(workspace, x + 0);
-                uint r = BitConverter.ToUInt32(workspace, x + 4);
-                Blowfish_encipher(ref l, ref r);
-                Buffer.BlockCopy(BitConverter.GetBytes(l), 0, workspace, x + 0, 4);
-                Buffer.BlockCopy(BitConverter.GetBytes(r), 0, workspace, x + 4, 4);
-            }
-
-            return workspace;
+            xr = Xl;
+            xl = Xr;
         }
 
-        // Decodes a stream of data and returns an array of the decoded data.
-        // Returns null if length is not % 8.
-        public byte[] Decode(byte[] stream)
+        private void ROUND(ref uint a, uint b, int n)
         {
-            return Decode(stream, 0, stream.Length);
+            a ^= (bf_F(b) ^ PArray[n]);
         }
 
-        // Decodes a stream of data and returns an array of the decoded data.
-        // Returns null if length is not % 8.
-        public byte[] Decode(byte[] stream, int offset, int length)
+        private uint S(uint x, int i)
         {
-            if (length % 8 != 0 || length == 0)
+            if (i < 0 || i > 3)
             {
-                return null;
+                throw (new Exception(String.Format("[Blowfish::S] Invalid i index of [{0}].", i)));
             }
 
-            byte[] workspace = new byte[length];
-            Buffer.BlockCopy(stream, offset, workspace, 0, length);
+            x >>= (24 - (8 * i));
+            x &= 0xFF;
 
-            for (int x = 0; x < workspace.Length; x += 8)
-            {
-                uint l = BitConverter.ToUInt32(workspace, x + 0);
-                uint r = BitConverter.ToUInt32(workspace, x + 4);
-                Blowfish_decipher(ref l, ref r);
-                Buffer.BlockCopy(BitConverter.GetBytes(l), 0, workspace, x + 0, 4);
-                Buffer.BlockCopy(BitConverter.GetBytes(r), 0, workspace, x + 4, 4);
-            }
-
-            return workspace;
+            return SBoxes[i, x];
         }
+
+        #endregion Private Methods
     }
 }

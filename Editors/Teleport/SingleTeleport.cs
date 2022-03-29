@@ -1,8 +1,5 @@
 ﻿using Structs.Database;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 
 namespace Editors.Teleport
 {
@@ -15,7 +12,7 @@ namespace Editors.Teleport
         public Tab_RefNest Nest { get; set; }
         public List<RefTeleLink> TeleLinks { get; set; } = new List<RefTeleLink>();
 
-       // public PointF ControlPosition { get; set; }
+        // public PointF ControlPosition { get; set; }
         public SingleTeleport(RefTeleport teleport)
         {
             Teleport = teleport;
@@ -38,7 +35,9 @@ namespace Editors.Teleport
             {
                 if (ClientDataStorage.Database.SRO_VT_SHARD._RefTeleLink[i].OwnerTeleport.Equals(Teleport.ID)
                     || ClientDataStorage.Database.SRO_VT_SHARD._RefTeleLink[i].TargetTeleport.Equals(Teleport.ID))
+                {
                     TeleLinks.Add(ClientDataStorage.Database.SRO_VT_SHARD._RefTeleLink[i]);
+                }
             }
         }
     }

@@ -71,27 +71,27 @@ namespace ClientDataStorage.Client.Files.bsr
         /// <summary>
         /// if has Skeleton CPrimBranch gets read.
         /// </summary>
-        private uint hasSkeleton;
+        private readonly uint hasSkeleton;
 
         /// <summary>
         /// CPrimBranch
         /// </summary>
-        private uint skeletonPathLength;
+        private readonly uint skeletonPathLength;
 
         /// <summary>
         /// CPrimBranch
         /// </summary>
-        private string skeletonPath;
+        private readonly string skeletonPath;
 
         /// <summary>
         /// CPrimBranch
         /// </summary>
-        private uint attachmentBoneLength;
+        private readonly uint attachmentBoneLength;
 
         /// <summary>
         /// CPrimBranch
         /// </summary>
-        private string attachmentBone;
+        private readonly string attachmentBone;
 
         #endregion SkeletonOffset
 
@@ -124,12 +124,12 @@ namespace ClientDataStorage.Client.Files.bsr
         /// <summary>
         /// Number of Mesh Groups.
         /// </summary>
-        private uint meshGroupCnt;
+        private readonly uint meshGroupCnt;
 
         /// <summary>
         /// Mesh Groups.
         /// </summary>
-        private List<CPrimMeshGroup> MeshGroupList;
+        private readonly List<CPrimMeshGroup> MeshGroupList;
 
         #endregion PrimMeshGroupOffset
 
@@ -138,12 +138,12 @@ namespace ClientDataStorage.Client.Files.bsr
         /// <summary>
         /// Number of Animation Groups.
         /// </summary>
-        private uint aniGroupCnt;
+        private readonly uint aniGroupCnt;
 
         /// <summary>
         /// Animation Groups.
         /// </summary>
-        private List<CPrimAniGroup> AniGroupList;
+        private readonly List<CPrimAniGroup> AniGroupList;
 
         #endregion PrimAniGroupOffset
 
@@ -152,12 +152,12 @@ namespace ClientDataStorage.Client.Files.bsr
         /// <summary>
         /// Number of ModelSets.
         /// </summary>
-        private uint modSetCnt;
+        private readonly uint modSetCnt;
 
         /// <summary>
         /// Model Data Sets.
         /// </summary>
-        private List<CModDataSet> ModSetDataSetList;
+        private readonly List<CModDataSet> ModSetDataSetList;
 
         #endregion ModPaletteOffset
 

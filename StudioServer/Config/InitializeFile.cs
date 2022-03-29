@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Config
 {
@@ -30,7 +26,7 @@ namespace StudioServer.Config
 
         public void IniWriteValue(string Section, string Key, string Value)
         {
-            WritePrivateProfileString(Section, Key, Value, this.path);
+            WritePrivateProfileString(Section, Key, Value, path);
         }
 
 
@@ -38,7 +34,7 @@ namespace StudioServer.Config
         public string IniReadValue(string Section, string Key)
         {
             StringBuilder temp = new StringBuilder(255);
-            long i = GetPrivateProfileString(Section, Key, "", temp, 255, this.path);
+            long i = GetPrivateProfileString(Section, Key, "", temp, 255, path);
             return temp.ToString();
         }
     }

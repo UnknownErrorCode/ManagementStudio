@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace ManagementLauncher
@@ -18,8 +11,8 @@ namespace ManagementLauncher
 
         public string Title
         {
-            get { return label1.Text; }
-            set { label1.Text = value; }
+            get => label1.Text;
+            set => label1.Text = value;
         }
 
         public vSroSizableWindow()
@@ -34,7 +27,7 @@ namespace ManagementLauncher
 
         private void vSroSizableWindow_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.X > 0 && e.X < this.Size.Width  && e.Y < 27)
+            if (e.X > 0 && e.X < Size.Width && e.Y < 27)
             {
                 if (e.Button == MouseButtons.Left)
                 {

@@ -2,26 +2,32 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementServer.Utility
 {
-
     public class InitializeConfig
     {
+        #region Public Fields
+
+        public static InitializeFile Cfg = new InitializeFile(ConfigString);
 
         //statics
         public static string ConfigString = "Config/settings.ini";
-        public static string FilterString = "Config/FilterSettings.ini";
-        public static string EventBotString = "Config/EventBotSettings.ini";
-        public string configString { get => ConfigString; }
 
-        public static InitializeFile Cfg = new InitializeFile(ConfigString);
-        public static InitializeFile FilterCfg = new InitializeFile(FilterString);
         public static InitializeFile EventBotCfg = new InitializeFile(EventBotString);
+        public static string EventBotString = "Config/EventBotSettings.ini";
+        public static InitializeFile FilterCfg = new InitializeFile(FilterString);
+        public static string FilterString = "Config/FilterSettings.ini";
 
+        #endregion Public Fields
+
+        #region Public Properties
+
+        public string configString => ConfigString;
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public static KeyValuePair<string, bool> InitializeConfigFile(string configPath)
         {
@@ -30,22 +36,20 @@ namespace ManagementServer.Utility
             bool bool1 = false;
 
             if (!Directory.Exists("Config"))
+            {
                 Directory.CreateDirectory("Config").Create();
-            
+            }
+
             try
             {
-               
                 if (!File.Exists(configPath))
                 {
-
                     File.Create(configPath).Dispose();
-
-
 
                     Cfg.IniWriteValue("SQL", "Host", ".\\SQLEXPRESS");
                     Cfg.IniWriteValue("SQL", "User", "sa");
                     Cfg.IniWriteValue("SQL", "Password", "FuckYou");
-                  
+
                     Cfg.IniWriteValue("DBs", "Account", "SRO_VT_ACCOUNT");
                     Cfg.IniWriteValue("DBs", "Log", "SRO_VT_LOG");
                     Cfg.IniWriteValue("DBs", "Shard", "SRO_VT_SHARD");
@@ -59,8 +63,6 @@ namespace ManagementServer.Utility
                     Cfg.IniWriteValue("StudioServer", "PatchFolderArchiv", "C:\\PatchFolderArchiv");
                     Cfg.IniWriteValue("StudioServer", "PatchFolderDirectory", "C:\\RisingSecurity");
                     Cfg.IniWriteValue("StudioServer", "ChatLogPath", "C:\\StudioServerChatLog");
-
-
 
                     KeyValuePair<string, bool> s = InitializeConfigFile(configPath);
 
@@ -78,14 +80,14 @@ namespace ManagementServer.Utility
                 bool1 = false;
                 string1 = "CFG: Error loading settings, please check your configuration or restart the tool! " + ex;
             }
-
             finally
-            { 
-                cfgPair = new KeyValuePair<string, bool>((string)string1, (bool)bool1);
+            {
+                cfgPair = new KeyValuePair<string, bool>(string1, bool1);
             }
 
             return cfgPair;
         }
+
+        #endregion Public Methods
     }
 }
-

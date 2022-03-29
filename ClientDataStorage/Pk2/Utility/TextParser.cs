@@ -10,21 +10,33 @@ namespace ClientDataStorage.Client.Textdata
         public static TextParser StaticTextParser = new TextParser();
 
         public string ConvertByteArrayToAsciiText(byte[] array)
-            => Encoding.ASCII.GetString(array);
+        {
+            return Encoding.ASCII.GetString(array);
+        }
 
         public IEnumerable<string[]> ConvertByteArrayToStructedTextArray(byte[] byteArray, byte minSize, char[] splitCharakterArray)
-            => ConvertTextArrayToStructedText(ConvertTextToTextArray(ConvertByteArrayToUnicodeText(byteArray)), minSize, splitCharakterArray);
+        {
+            return ConvertTextArrayToStructedText(ConvertTextToTextArray(ConvertByteArrayToUnicodeText(byteArray)), minSize, splitCharakterArray);
+        }
 
         public string[] ConvertByteArrayToTextArray(byte[] sourceFile)
-            => ConvertTextToTextArray(ConvertByteArrayToUnicodeText(sourceFile));
+        {
+            return ConvertTextToTextArray(ConvertByteArrayToUnicodeText(sourceFile));
+        }
 
         public string ConvertByteArrayToUnicodeText(byte[] array)
-                                    => Encoding.Unicode.GetString(array);
+        {
+            return Encoding.Unicode.GetString(array);
+        }
 
         public IEnumerable<string[]> ConvertTextArrayToStructedText(string[] textArray, byte minSize, char[] splitCharakterArray)
-            => (IEnumerable<string[]>)base.ConvertTextArrayToStructuredTextArray(textArray, minSize, splitCharakterArray);
+        {
+            return base.ConvertTextArrayToStructuredTextArray(textArray, minSize, splitCharakterArray);
+        }
 
         public string[] ConvertTextToTextArray(string text)
-                    => text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(str => !str.StartsWith("//")).ToArray();
+        {
+            return text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(str => !str.StartsWith("//")).ToArray();
+        }
     }
 }

@@ -1,67 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroButtonList : UserControl
     {
-        Dictionary<string, vSroListButton> AllButtonsOnTable2 = new Dictionary<string, vSroListButton>();
-        private List<vSroListButton> AllButtonsOnTable = new List<vSroListButton>();
-        public vSroListButton LatestSelectedButton { get; private set; }
+        #region Private Fields
 
-        public event EventHandler OnIndCh;
+        private readonly List<vSroListButton> AllButtonsOnTable = new List<vSroListButton>();
+        private readonly Dictionary<string, vSroListButton> AllButtonsOnTable2 = new Dictionary<string, vSroListButton>();
 
-        public bool ContainsTitle(string title) => AllButtonsOnTable.Exists(itm => itm.ButtonName.Equals(title));
+        #endregion Private Fields
 
+        #region Public Constructors
 
         public vSroButtonList()
         {
             InitializeComponent();
         }
 
-        private void RefreshTable()
-        {
-            if (this.InvokeRequired)
-            {
-                var invoke = this.BeginInvoke(new Action(() =>
-                {
-                    this.SuspendLayout();
-                    this.Controls.Clear();
-                    foreach (var item in AllButtonsOnTable)
-                    {
-                        item.Click += recolorItems;
-                        item.labelButtonName.Click += recolorItems;
+        #endregion Public Constructors
 
-                        this.Controls.Add(item);
-                    }
-                    this.ResumeLayout();
-                }));
-                this.EndInvoke(invoke);
-            }
-            else
-            {
-                this.SuspendLayout();
-                this.Controls.Clear();
-                foreach (var item in AllButtonsOnTable)
-                {
-                    this.Controls.Add(item);
-                }
-                this.ResumeLayout();
-            }
+        #region Public Events
 
-        }
+        public event EventHandler OnIndCh;
 
-        private void recolorItems(object sender, EventArgs e)
-        {
-            AllButtonsOnTable.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
-        }
+        #endregion Public Events
+
+        #region Public Properties
+
+        public vSroListButton LatestSelectedButton { get; private set; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         /// <summary>
         /// Adds a Button with 'incomeButtonName' name on the List
@@ -71,37 +47,71 @@ namespace ServerFrameworkRes.BasicControls
         {
             if (!AllButtonsOnTable.Exists(btn => btn.ButtonName == incomeButtonName))
             {
-                vSroListButton singleButton = new vSroListButton(incomeButtonName);
-                singleButton.Tag = tag;
+                vSroListButton singleButton = new vSroListButton(incomeButtonName)
+                {
+                    Tag = tag
+                };
                 singleButton.Click += ResetSelectionOnClick;
                 singleButton.labelButtonName.Click += LabelButtonName_Click;
                 singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count) * singleButton.Height)));
-                if (this.InvokeRequired)
+                if (InvokeRequired)
                 {
-                    var invoke = this.BeginInvoke(new Action(() =>
+                    IAsyncResult invoke = BeginInvoke(new Action(() =>
                     {
-                        this.Controls.Add(singleButton);
+                        Controls.Add(singleButton);
                     }));
-                    this.EndInvoke(invoke);
+                    EndInvoke(invoke);
                 }
                 else
                 {
-                    this.Controls.Add(singleButton);
+                    Controls.Add(singleButton);
                 }
                 AllButtonsOnTable.Add(singleButton);
-               // OnAddButton();
+                // OnAddButton();
             }
         }
 
-        private void LabelButtonName_Click(object sender, EventArgs e)
+        public void AddSingleButtonToList(vSroListButton singleButton)
         {
-            ResetSelectionOnClick((vSroListButton)((Label)sender).Parent, e);
+            if (!AllButtonsOnTable.Contains(singleButton))
+            {
+                singleButton.Click += ResetSelectionOnClick;
+                AllButtonsOnTable.Add(singleButton);
+
+                singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count - 1) * singleButton.Height)));
+                if (InvokeRequired)
+                {
+                    IAsyncResult invoke = BeginInvoke(new Action(() =>
+                    {
+                        Controls.Add(singleButton);
+                    }));
+                    EndInvoke(invoke);
+                }
+                else
+                {
+                    Controls.Add(singleButton);
+                }
+            }
         }
 
         public void Clear()
         {
             AllButtonsOnTable.Clear();
-            this.RefreshTable();
+            RefreshTable();
+        }
+
+        public bool ContainsTitle(string title)
+        {
+            return AllButtonsOnTable.Exists(itm => itm.ButtonName.Equals(title));
+        }
+
+        public void RemoveSingleButtonFromList(string buttonToDelete)
+        {
+            if (AllButtonsOnTable.Exists(btn => btn.ButtonName == buttonToDelete))
+            {
+                AllButtonsOnTable.Remove(AllButtonsOnTable.Single(btn => btn.ButtonName == buttonToDelete));
+                RefreshTable();
+            }
         }
 
         public void ResetSelectionOnClick(object sender, EventArgs e)
@@ -118,37 +128,51 @@ namespace ServerFrameworkRes.BasicControls
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
         }
 
-        public void AddSingleButtonToList(vSroListButton singleButton)
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void LabelButtonName_Click(object sender, EventArgs e)
         {
-            if (!AllButtonsOnTable.Contains(singleButton))
+            ResetSelectionOnClick((vSroListButton)((Label)sender).Parent, e);
+        }
+
+        private void recolorItems(object sender, EventArgs e)
+        {
+            AllButtonsOnTable.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
+        }
+
+        private void RefreshTable()
+        {
+            if (InvokeRequired)
             {
-                singleButton.Click += ResetSelectionOnClick;
-                AllButtonsOnTable.Add(singleButton);
-
-
-                singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count - 1) * singleButton.Height)));
-                if (this.InvokeRequired)
+                IAsyncResult invoke = BeginInvoke(new Action(() =>
                 {
-                    var invoke = this.BeginInvoke(new Action(() =>
+                    SuspendLayout();
+                    Controls.Clear();
+                    foreach (vSroListButton item in AllButtonsOnTable)
                     {
-                        this.Controls.Add(singleButton);
-                    }));
-                    this.EndInvoke(invoke);
-                }
-                else
+                        item.Click += recolorItems;
+                        item.labelButtonName.Click += recolorItems;
+
+                        Controls.Add(item);
+                    }
+                    ResumeLayout();
+                }));
+                EndInvoke(invoke);
+            }
+            else
+            {
+                SuspendLayout();
+                Controls.Clear();
+                foreach (vSroListButton item in AllButtonsOnTable)
                 {
-                    this.Controls.Add(singleButton);
+                    Controls.Add(item);
                 }
+                ResumeLayout();
             }
         }
 
-        public void RemoveSingleButtonFromList(string buttonToDelete)
-        {
-            if (AllButtonsOnTable.Exists(btn => btn.ButtonName == buttonToDelete))
-            {
-                AllButtonsOnTable.Remove(AllButtonsOnTable.Single(btn => btn.ButtonName == buttonToDelete));
-                RefreshTable();
-            }
-        }
+        #endregion Private Methods
     }
 }

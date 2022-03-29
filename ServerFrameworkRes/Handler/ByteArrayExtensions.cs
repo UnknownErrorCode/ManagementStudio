@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Handler
 {
     public static class ByteArrayExtensions
     {
+        #region Public Methods
+
         public static string HexDump(this byte[] buffer)
         {
             return HexDump(buffer, 0, buffer.Length);
@@ -58,5 +57,7 @@ namespace ServerFrameworkRes.Handler
             }
             return output.ToString();
         }
+
+        #endregion Public Methods
     }
 }

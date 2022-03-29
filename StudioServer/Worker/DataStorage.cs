@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Worker
 {
@@ -13,15 +9,15 @@ namespace StudioServer.Worker
 
         internal static string[] AllFilesAsArray()
         {
-            var stringList = new List<string>();
-            foreach (var item in AllDataInStorage.Values)
+            List<string> stringList = new List<string>();
+            foreach (StoredData item in AllDataInStorage.Values)
             {
                 stringList.Add(item.FileTitle);
             }
             return stringList.ToArray();
         }
-        internal static int DataCount { get => AllDataInStorage.Count; }
-        internal static string DataStoragePath { get => Path.Combine(Directory.GetCurrentDirectory(), "DataStorage"); }
+        internal static int DataCount => AllDataInStorage.Count;
+        internal static string DataStoragePath => Path.Combine(Directory.GetCurrentDirectory(), "DataStorage");
         /// <summary>
         /// Creates the Environment for the DataStorage
         /// </summary>
@@ -30,18 +26,18 @@ namespace StudioServer.Worker
             AllDataInStorage = new Dictionary<string, StoredData>();
             if (!File.Exists(DataStoragePath))
             {
-            StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, $"Initialized Environment for DataStorage at: {DataStoragePath}");
+                StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, $"Initialized Environment for DataStorage at: {DataStoragePath}");
                 Directory.CreateDirectory(DataStoragePath);
             }
-            foreach (var item in Directory.GetFiles(DataStoragePath, "*.7z", SearchOption.TopDirectoryOnly))
+            foreach (string item in Directory.GetFiles(DataStoragePath, "*.7z", SearchOption.TopDirectoryOnly))
             {
                 AllDataInStorage.Add(item, new StoredData(item));
             }
-            foreach (var item in Directory.GetFiles(DataStoragePath, "*.zip", SearchOption.TopDirectoryOnly))
+            foreach (string item in Directory.GetFiles(DataStoragePath, "*.zip", SearchOption.TopDirectoryOnly))
             {
                 AllDataInStorage.Add(item, new StoredData(item));
             }
-            foreach (var item in Directory.GetFiles(DataStoragePath, "*.rar", SearchOption.TopDirectoryOnly))
+            foreach (string item in Directory.GetFiles(DataStoragePath, "*.rar", SearchOption.TopDirectoryOnly))
             {
                 AllDataInStorage.Add(item, new StoredData(item));
             }
@@ -64,7 +60,7 @@ namespace StudioServer.Worker
         }
         internal struct StoredData
         {
-            byte[] dataAsArray;
+            readonly byte[] dataAsArray;
             public string FileTitle;
             internal StoredData(string path)
             {

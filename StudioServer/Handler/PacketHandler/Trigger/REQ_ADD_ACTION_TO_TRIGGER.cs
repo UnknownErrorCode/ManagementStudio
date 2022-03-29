@@ -1,12 +1,7 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using StudioServer.Handler.PacketHandler.Trigger.ActionInterfaces;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Trigger
 {
@@ -15,9 +10,9 @@ namespace StudioServer.Handler.PacketHandler.Trigger
         internal static Packet TriggerActionToTrigger(Packet opcode, string UserName) //0x7002
         {
             SqlParameter[] AddActionParams = null;
-            var Question = "";
+            string Question = "";
 
-            var ActionType = opcode.ReadAscii();
+            string ActionType = opcode.ReadAscii();
 
 
             switch (ActionType)
@@ -37,17 +32,17 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 	            @Value8 varchar(128)='non'
                      */
                 case "TRIGGER_ACTION_MONSTER_LOAD_MONSTER":
-                    var LMTriggerName = opcode.ReadAscii();
-                    var LMCommonTriggerCondition = opcode.ReadAscii();
-                    var LMDelay = opcode.ReadInt();
-                    var LMMobRarity = opcode.ReadInt();
-                    var LMMobName = opcode.ReadAscii();
-                    var LMTargetPlayer = opcode.ReadAscii();
-                    var LMSpawnRate = opcode.ReadAscii();
-                    var LMSpawnCount = opcode.ReadInt();
+                    string LMTriggerName = opcode.ReadAscii();
+                    string LMCommonTriggerCondition = opcode.ReadAscii();
+                    int LMDelay = opcode.ReadInt();
+                    int LMMobRarity = opcode.ReadInt();
+                    string LMMobName = opcode.ReadAscii();
+                    string LMTargetPlayer = opcode.ReadAscii();
+                    string LMSpawnRate = opcode.ReadAscii();
+                    int LMSpawnCount = opcode.ReadInt();
 
 
-                    var ITAMonster = new ITRIGGER_ACTION_MONSTER_LOAD_MONSTER()
+                    ITRIGGER_ACTION_MONSTER_LOAD_MONSTER ITAMonster = new ITRIGGER_ACTION_MONSTER_LOAD_MONSTER()
                     {
                         TriggerName = LMTriggerName,
                         CommonTriggerCondition = LMCommonTriggerCondition,
@@ -76,12 +71,12 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
                 case "TRIGGER_ACTION_MONSTER_ACTIVE_NEST":
 
-                    var ANTriggerName = opcode.ReadAscii();
-                    var ANCommonTriggerCondition = opcode.ReadAscii();
-                    var ANDelay = opcode.ReadInt();
-                    var ANNestID = opcode.ReadInt();
+                    string ANTriggerName = opcode.ReadAscii();
+                    string ANCommonTriggerCondition = opcode.ReadAscii();
+                    int ANDelay = opcode.ReadInt();
+                    int ANNestID = opcode.ReadInt();
 
-                    var man = new ITRIGGER_ACTION_MONSTER_ACTIVE_NEST()
+                    ITRIGGER_ACTION_MONSTER_ACTIVE_NEST man = new ITRIGGER_ACTION_MONSTER_ACTIVE_NEST()
                     {
                         TriggerName = ANTriggerName,
                         CommonTriggerCondition = ANCommonTriggerCondition,
@@ -96,7 +91,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                             new SqlParameter("@Delay",SqlDbType.Int){Value = man.Delay },
                             new SqlParameter("@Value1",SqlDbType.VarChar,128){ Value = man.NestID.ToString() }
                        };
-                   
+
 
 
                     break;
@@ -104,12 +99,12 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
                     break;
                 case "TRIGGER_ACTION_SWITCH_EVENTZONE":
-                    var SETriggerName = opcode.ReadAscii();
-                    var SECommonTriggerCondition=opcode.ReadAscii(); 
-                    var SEDelay=opcode.ReadInt();
+                    string SETriggerName = opcode.ReadAscii();
+                    string SECommonTriggerCondition = opcode.ReadAscii();
+                    int SEDelay = opcode.ReadInt();
 
-                    var SEEventzone=opcode.ReadAscii();
-                    var SEONOFF =opcode.ReadBool();
+                    string SEEventzone = opcode.ReadAscii();
+                    bool SEONOFF = opcode.ReadBool();
 
                     ITRIGGER_ACTION_SWITCH_EVENTZONE unsereEventZone = new ITRIGGER_ACTION_SWITCH_EVENTZONE(SEEventzone, SEONOFF)
                     {
@@ -131,12 +126,12 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
                 case "TRIGGER_ACTION_MESSAGE_NOTIFY_WINDOW":
 
-                   var NWTriggerName= opcode.ReadAscii();
-                   var NWCommonTriggerCondition = opcode.ReadAscii();
-                   var NWDelay = opcode.ReadInt();
-                   var NWSTRING_INPUT = opcode.ReadAscii();
-                   var NWTARGET_PLAYER_INS_SELECT = opcode.ReadBool();
-                   
+                    string NWTriggerName = opcode.ReadAscii();
+                    string NWCommonTriggerCondition = opcode.ReadAscii();
+                    int NWDelay = opcode.ReadInt();
+                    string NWSTRING_INPUT = opcode.ReadAscii();
+                    bool NWTARGET_PLAYER_INS_SELECT = opcode.ReadBool();
+
 
                     ITRIGGER_ACTION_MESSAGE_NOTIFY_WINDOW OwnNotifyMsg = new ITRIGGER_ACTION_MESSAGE_NOTIFY_WINDOW(NWSTRING_INPUT, NWTARGET_PLAYER_INS_SELECT)
                     {
@@ -159,11 +154,11 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                 case "TRIGGER_ACTION_MESSAGE_SYSTEM_WINDOW":
 
 
-                    var SWTriggerName = opcode.ReadAscii();
-                    var SWCommonTriggerCondition = opcode.ReadAscii();
-                    var SWDelay = opcode.ReadInt();
-                    var SWSTRING_INPUT = opcode.ReadAscii();
-                    var SWTARGET_PLAYER_INS_SELECT = opcode.ReadBool();
+                    string SWTriggerName = opcode.ReadAscii();
+                    string SWCommonTriggerCondition = opcode.ReadAscii();
+                    int SWDelay = opcode.ReadInt();
+                    string SWSTRING_INPUT = opcode.ReadAscii();
+                    bool SWTARGET_PLAYER_INS_SELECT = opcode.ReadBool();
 
                     ITRIGGER_ACTION_MESSAGE_SYSTEM_WINDOW OwnNotifySysMsg = new ITRIGGER_ACTION_MESSAGE_SYSTEM_WINDOW(SWSTRING_INPUT, SWTARGET_PLAYER_INS_SELECT)
                     {
@@ -188,7 +183,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
             DataRow ResultActionToTrigger = SQL.ReturnDataTableByProcedure("_ADD_TRIGGERACTION", StudioServer.settings.DBDev, AddActionParams).Rows[0];
             bool ok = bool.Parse(ResultActionToTrigger[0].ToString());
-            var resultText = ResultActionToTrigger[1].ToString();
+            string resultText = ResultActionToTrigger[1].ToString();
             if (ok)
             {
                 StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, resultText);

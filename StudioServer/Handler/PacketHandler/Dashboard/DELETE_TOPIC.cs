@@ -1,6 +1,5 @@
-﻿using System;
+﻿using ServerFrameworkRes.Network.Security;
 using System.IO;
-using ServerFrameworkRes.Network.Security;
 
 namespace StudioServer.Handler.PacketHandler.Dashboard
 {
@@ -14,7 +13,7 @@ namespace StudioServer.Handler.PacketHandler.Dashboard
                 Title = opcode.ReadAscii(),
                 Text = opcode.ReadAscii()
             };
-            var fileName = Path.Combine(StudioServer.settings.GuidePath, t.Author, $"{t.Title}.log");
+            string fileName = Path.Combine(StudioServer.settings.GuidePath, t.Author, $"{t.Title}.log");
             if (File.Exists(fileName))
             {
                 if (!Directory.Exists(Path.Combine(StudioServer.settings.DeletedGuidePath, t.Author)))

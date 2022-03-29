@@ -3,10 +3,6 @@ using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Network.Security;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer
 {
@@ -14,11 +10,12 @@ namespace StudioServer
     {
         public bool OnConnect(AsyncContext context)
         {
-            ServerData context_data = new ServerData();
-
-            context_data.m_certification_buffer = (byte[])context.User;
-            context_data.m_connected = true;
-            context_data.UserIP = context.State.EndPoint.ToString();
+            ServerData context_data = new ServerData
+            {
+                m_certification_buffer = (byte[])context.User,
+                m_connected = true,
+                UserIP = context.State.EndPoint.ToString()
+            };
             context.User = context_data;
 
             return true;
@@ -28,9 +25,9 @@ namespace StudioServer
         {
             ServerData context_data = (ServerData)context.User;
             context_data.m_connected = false;
-            
-                ServerMembory.RemoveUserOnline(context_data);
-           
+
+            ServerMembory.RemoveUserOnline(context_data);
+
         }
 
         public void OnError(AsyncContext context, object user)
@@ -60,7 +57,7 @@ namespace StudioServer
                         // StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Received Package Opcode: {0:X4}", packet.Opcode));
 
                         Packet result = Handler.IncomePackage.HandlePackage(packet, context_data);
-                        if (result!=null)
+                        if (result != null)
                         {
                             context_data.m_security.Send(result);
                         }
@@ -80,10 +77,14 @@ namespace StudioServer
         {
             ServerData context_data = (ServerData)context.User;
             if (context_data == null)
+            {
                 return;
+            }
 
             if (!context_data.m_connected)
+            {
                 return;
+            }
 
             List<KeyValuePair<TransferBuffer, Packet>> buffers = context_data.m_security.TransferOutgoing();
             if (buffers != null)

@@ -1,13 +1,5 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler
 {
@@ -160,11 +152,11 @@ namespace StudioServer.Handler
         }
         public static Packet packet0x2005(Packet packet)
         {
-            var test = packet.ReadAscii();
+            string test = packet.ReadAscii();
             return OutgoingPackets.SuccessOfCertification(test);
         }
-       
-      
+
+
         public static Packet p0xA000(Packet packet)
         {
             String name = packet.ReadAscii();

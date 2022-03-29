@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Security
 {
     public class SecurityException : Exception, ISerializable
     {
+        #region Public Constructors
+
         public SecurityException()
         {
             // Add implementation.
@@ -26,11 +24,17 @@ namespace ServerFrameworkRes.Network.Security
             // Add implementation.
         }
 
+        #endregion Public Constructors
+
+        #region Protected Constructors
+
         // This constructor is needed for serialization.
         protected SecurityException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             // Add implementation.
         }
+
+        #endregion Protected Constructors
     }
 }

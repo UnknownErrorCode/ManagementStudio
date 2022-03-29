@@ -18,8 +18,15 @@ namespace ClientDataStorage.Client.Files
 
         public DDJImage(byte[] ddsImage)
         {
-            if (ddsImage == null) return;
-            if (ddsImage.Length == 0) return;
+            if (ddsImage == null)
+            {
+                return;
+            }
+
+            if (ddsImage.Length == 0)
+            {
+                return;
+            }
 
             using (MemoryStream stream = new MemoryStream(ddsImage.Length))
             {
@@ -28,25 +35,32 @@ namespace ClientDataStorage.Client.Files
 
                 using (BinaryReader reader = new BinaryReader(stream))
                 {
-                    this.Parse(reader);
+                    Parse(reader);
                 }
             }
         }
 
         public DDJImage(Stream ddsImage)
         {
-            if (ddsImage == null) return;
-            if (!ddsImage.CanRead) return;
+            if (ddsImage == null)
+            {
+                return;
+            }
+
+            if (!ddsImage.CanRead)
+            {
+                return;
+            }
 
             using (BinaryReader reader = new BinaryReader(ddsImage))
             {
-                this.Parse(reader);
+                Parse(reader);
             }
         }
 
         private DDJImage(System.Drawing.Bitmap bitmap)
         {
-            this.m_bitmap = bitmap;
+            m_bitmap = bitmap;
         }
 
         #endregion Constructor/Destructor
@@ -59,25 +73,28 @@ namespace ClientDataStorage.Client.Files
             PixelFormat pixelFormat = PixelFormat.UNKNOWN;
             byte[] data = null;
 
-            if (this.ReadHeader(reader, ref header))
+            if (ReadHeader(reader, ref header))
             {
-                this.m_isValid = true;
+                m_isValid = true;
                 // patches for stuff
-                if (header.depth == 0) header.depth = 1;
+                if (header.depth == 0)
+                {
+                    header.depth = 1;
+                }
 
                 uint blocksize = 0;
-                pixelFormat = this.GetFormat(header, ref blocksize);
+                pixelFormat = GetFormat(header, ref blocksize);
                 if (pixelFormat == PixelFormat.UNKNOWN)
                 {
                     throw new InvalidFileHeaderException();
                 }
 
                 //here is the fail somehow
-                data = this.ReadData(reader, header);
+                data = ReadData(reader, header);
                 if (data != null)
                 {
-                    byte[] rawData = this.DecompressData(header, data, pixelFormat);
-                    this.m_bitmap = this.CreateBitmap((int)header.width, (int)header.height, rawData);
+                    byte[] rawData = DecompressData(header, data, pixelFormat);
+                    m_bitmap = CreateBitmap((int)header.width, (int)header.height, rawData);
                 }
             }
         }
@@ -150,11 +167,15 @@ namespace ClientDataStorage.Client.Files
         {
             byte[] signature = reader.ReadBytes(4);
             if (!(signature[0] == 'D' && signature[1] == 'D' && signature[2] == 'S' && signature[3] == ' '))
+            {
                 return false;
+            }
 
             header.size = reader.ReadUInt32();
             if (header.size != 124)
+            {
                 return false;
+            }
 
             //convert the data
             header.flags = reader.ReadUInt32();
@@ -375,15 +396,21 @@ namespace ClientDataStorage.Client.Files
         private bool Check16BitComponents(DDSStruct header)
         {
             if (header.pixelformat.rgbbitcount != 32)
+            {
                 return false;
+            }
             // a2b10g10r10 format
             if (header.pixelformat.rbitmask == 0x3FF00000 && header.pixelformat.gbitmask == 0x000FFC00 && header.pixelformat.bbitmask == 0x000003FF
                 && header.pixelformat.alphabitmask == 0xC0000000)
+            {
                 return true;
+            }
             // a2r10g10b10 format
             else if (header.pixelformat.rbitmask == 0x000003FF && header.pixelformat.gbitmask == 0x000FFC00 && header.pixelformat.bbitmask == 0x3FF00000
                 && header.pixelformat.alphabitmask == 0xC0000000)
+            {
                 return true;
+            }
 
             return false;
         }
@@ -393,7 +420,11 @@ namespace ClientDataStorage.Client.Files
             for (uint i = 0; i < pixnum; i++)
             {
                 byte alpha = buffer[i + 3];
-                if (alpha == 0) continue;
+                if (alpha == 0)
+                {
+                    continue;
+                }
+
                 int red = (buffer[i] << 8) / alpha;
                 int green = (buffer[i + 1] << 8) / alpha;
                 int blue = (buffer[i + 2] << 8) / alpha;
@@ -413,9 +444,16 @@ namespace ClientDataStorage.Client.Files
                 shift1++;
             }
             uint bc = 0;
-            while ((mask & (1 << (int)bc)) != 0) bc++;
+            while ((mask & (1 << (int)bc)) != 0)
+            {
+                bc++;
+            }
+
             while ((mask * mul) < 255)
+            {
                 mul = (mul << (int)bc) + 1;
+            }
+
             mask *= (uint)mul;
 
             while ((mask & ~0xff) != 0)
@@ -484,7 +522,9 @@ namespace ClientDataStorage.Client.Files
             for (i = 0; i < 32; i++, temp >>= 1)
             {
                 if ((temp & 1) != 0)
+                {
                     break;
+                }
             }
             shiftRight = i;
 
@@ -492,7 +532,9 @@ namespace ClientDataStorage.Client.Files
             for (i = 0; i < 8; i++, temp >>= 1)
             {
                 if ((temp & 1) == 0)
+                {
                     break;
+                }
             }
             shiftLeft = 8 - i;
         }
@@ -508,11 +550,16 @@ namespace ClientDataStorage.Client.Files
                 if ((mask & testBit) != 0)
                 {
                     if (!foundBit)
+                    {
                         foundBit = true;
+                    }
+
                     count++;
                 }
                 else if (foundBit)
+                {
                     return count;
+                }
             }
 
             return count;
@@ -628,48 +675,48 @@ namespace ClientDataStorage.Client.Files
             switch (pixelFormat)
             {
                 case PixelFormat.RGBA:
-                    rawData = this.DecompressRGBA(header, data, pixelFormat);
+                    rawData = DecompressRGBA(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.RGB:
-                    rawData = this.DecompressRGB(header, data, pixelFormat);
+                    rawData = DecompressRGB(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.LUMINANCE:
                 case PixelFormat.LUMINANCE_ALPHA:
-                    rawData = this.DecompressLum(header, data, pixelFormat);
+                    rawData = DecompressLum(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.DXT1:
-                    rawData = this.DecompressDXT1(header, data, pixelFormat);
+                    rawData = DecompressDXT1(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.DXT2:
-                    rawData = this.DecompressDXT2(header, data, pixelFormat);
+                    rawData = DecompressDXT2(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.DXT3:
-                    rawData = this.DecompressDXT3(header, data, pixelFormat);
+                    rawData = DecompressDXT3(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.DXT4:
-                    rawData = this.DecompressDXT4(header, data, pixelFormat);
+                    rawData = DecompressDXT4(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.DXT5:
-                    rawData = this.DecompressDXT5(header, data, pixelFormat);
+                    rawData = DecompressDXT5(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.THREEDC:
-                    rawData = this.Decompress3Dc(header, data, pixelFormat);
+                    rawData = Decompress3Dc(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.ATI1N:
-                    rawData = this.DecompressAti1n(header, data, pixelFormat);
+                    rawData = DecompressAti1n(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.RXGB:
-                    rawData = this.DecompressRXGB(header, data, pixelFormat);
+                    rawData = DecompressRXGB(header, data, pixelFormat);
                     break;
 
                 case PixelFormat.R16F:
@@ -678,7 +725,7 @@ namespace ClientDataStorage.Client.Files
                 case PixelFormat.R32F:
                 case PixelFormat.G32R32F:
                 case PixelFormat.A32B32G32R32F:
-                    rawData = this.DecompressFloat(header, data, pixelFormat);
+                    rawData = DecompressFloat(header, data, pixelFormat);
                     break;
 
                 default:
@@ -766,10 +813,10 @@ namespace ClientDataStorage.Client.Files
                                     if (((x + i) < width) && ((y + j) < height))
                                     {
                                         uint offset = (uint)(z * sizeofplane + (y + j) * bps + (x + i) * bpp);
-                                        rawData[offset + 0] = (byte)col.red;
-                                        rawData[offset + 1] = (byte)col.green;
-                                        rawData[offset + 2] = (byte)col.blue;
-                                        rawData[offset + 3] = (byte)col.alpha;
+                                        rawData[offset + 0] = col.red;
+                                        rawData[offset + 1] = col.green;
+                                        rawData[offset + 2] = col.blue;
+                                        rawData[offset + 3] = col.alpha;
                                     }
                                 }
                             }
@@ -851,9 +898,9 @@ namespace ClientDataStorage.Client.Files
                                     if (((x + i) < width) && ((y + j) < height))
                                     {
                                         uint offset = (uint)(z * sizeofplane + (y + j) * bps + (x + i) * bpp);
-                                        rawData[offset + 0] = (byte)colours[select].red;
-                                        rawData[offset + 1] = (byte)colours[select].green;
-                                        rawData[offset + 2] = (byte)colours[select].blue;
+                                        rawData[offset + 0] = colours[select].red;
+                                        rawData[offset + 1] = colours[select].green;
+                                        rawData[offset + 2] = colours[select].blue;
                                     }
                                 }
                             }
@@ -919,7 +966,9 @@ namespace ClientDataStorage.Client.Files
                         for (int x = 0; x < width; x += 4)
                         {
                             if (y >= height || x >= width)
+                            {
                                 break;
+                            }
 
                             alphas[0] = temp[0];
                             alphas[1] = temp[1];
@@ -955,9 +1004,9 @@ namespace ClientDataStorage.Client.Files
                                     if (((x + i) < width) && ((y + j) < height))
                                     {
                                         uint offset = (uint)(z * sizeofplane + (y + j) * bps + (x + i) * bpp);
-                                        rawData[offset] = (byte)col.red;
-                                        rawData[offset + 1] = (byte)col.green;
-                                        rawData[offset + 2] = (byte)col.blue;
+                                        rawData[offset] = col.red;
+                                        rawData[offset + 1] = col.green;
+                                        rawData[offset + 2] = col.blue;
                                     }
                                 }
                             }
@@ -1033,8 +1082,8 @@ namespace ClientDataStorage.Client.Files
         private unsafe byte[] DecompressRGB(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
-            int bpp = (int)(this.PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
-            int bps = (int)(header.width * bpp * this.PixelFormatToBpc(pixelFormat));
+            int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
+            int bps = (int)(header.width * bpp * PixelFormatToBpc(pixelFormat));
             int sizeofplane = (int)(bps * header.height);
             int width = (int)header.width;
             int height = (int)header.height;
@@ -1076,8 +1125,8 @@ namespace ClientDataStorage.Client.Files
         private unsafe byte[] DecompressRGBA(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
-            int bpp = (int)(this.PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
-            int bps = (int)(header.width * bpp * this.PixelFormatToBpc(pixelFormat));
+            int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
+            int bps = (int)(header.width * bpp * PixelFormatToBpc(pixelFormat));
             int sizeofplane = (int)(bps * header.height);
             int width = (int)header.width;
             int height = (int)header.height;
@@ -1124,8 +1173,8 @@ namespace ClientDataStorage.Client.Files
         private unsafe byte[] Decompress3Dc(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
-            int bpp = (int)(this.PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
-            int bps = (int)(header.width * bpp * this.PixelFormatToBpc(pixelFormat));
+            int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
+            int bps = (int)(header.width * bpp * PixelFormatToBpc(pixelFormat));
             int sizeofplane = (int)(bps * header.height);
             int width = (int)header.width;
             int height = (int)header.height;
@@ -1152,12 +1201,19 @@ namespace ClientDataStorage.Client.Files
                             int t2 = yColours[1] = temp[1];
                             temp += 2;
                             if (t1 > t2)
+                            {
                                 for (int i = 2; i < 8; ++i)
+                                {
                                     yColours[i] = (byte)(t1 + ((t2 - t1) * (i - 1)) / 7);
+                                }
+                            }
                             else
                             {
                                 for (int i = 2; i < 6; ++i)
+                                {
                                     yColours[i] = (byte)(t1 + ((t2 - t1) * (i - 1)) / 5);
+                                }
+
                                 yColours[6] = 0;
                                 yColours[7] = 255;
                             }
@@ -1167,12 +1223,19 @@ namespace ClientDataStorage.Client.Files
                             t2 = xColours[1] = temp2[1];
                             temp2 += 2;
                             if (t1 > t2)
+                            {
                                 for (int i = 2; i < 8; ++i)
+                                {
                                     xColours[i] = (byte)(t1 + ((t2 - t1) * (i - 1)) / 7);
+                                }
+                            }
                             else
                             {
                                 for (int i = 2; i < 6; ++i)
+                                {
                                     xColours[i] = (byte)(t1 + ((t2 - t1) * (i - 1)) / 5);
+                                }
+
                                 xColours[6] = 0;
                                 xColours[7] = 255;
                             }
@@ -1204,9 +1267,13 @@ namespace ClientDataStorage.Client.Files
                                                 //calculate b (z) component ((r/255)^2 + (g/255)^2 + (b/255)^2 = 1
                                                 t = 127 * 128 - (tx - 127) * (tx - 128) - (ty - 127) * (ty - 128);
                                                 if (t > 0)
+                                                {
                                                     rawData[t1 + 2] = (byte)(Math.Sqrt(t) + 128);
+                                                }
                                                 else
+                                                {
                                                     rawData[t1 + 2] = 0x7F;
+                                                }
                                             }
                                             bitmask >>= 3;
                                             bitmask2 >>= 3;
@@ -1232,8 +1299,8 @@ namespace ClientDataStorage.Client.Files
         private unsafe byte[] DecompressAti1n(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
-            int bpp = (int)(this.PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
-            int bps = (int)(header.width * bpp * this.PixelFormatToBpc(pixelFormat));
+            int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
+            int bps = (int)(header.width * bpp * PixelFormatToBpc(pixelFormat));
             int sizeofplane = (int)(bps * header.height);
             int width = (int)header.width;
             int height = (int)header.height;
@@ -1257,12 +1324,19 @@ namespace ClientDataStorage.Client.Files
                             int t2 = colours[1] = temp[1];
                             temp += 2;
                             if (t1 > t2)
+                            {
                                 for (int i = 2; i < 8; ++i)
+                                {
                                     colours[i] = (byte)(t1 + ((t2 - t1) * (i - 1)) / 7);
+                                }
+                            }
                             else
                             {
                                 for (int i = 2; i < 6; ++i)
+                                {
                                     colours[i] = (byte)(t1 + ((t2 - t1) * (i - 1)) / 5);
+                                }
+
                                 colours[6] = 0;
                                 colours[7] = 255;
                             }
@@ -1304,8 +1378,8 @@ namespace ClientDataStorage.Client.Files
         private unsafe byte[] DecompressLum(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
-            int bpp = (int)(this.PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
-            int bps = (int)(header.width * bpp * this.PixelFormatToBpc(pixelFormat));
+            int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
+            int bps = (int)(header.width * bpp * PixelFormatToBpc(pixelFormat));
             int sizeofplane = (int)(bps * header.height);
             int width = (int)header.width;
             int height = (int)header.height;
@@ -1337,8 +1411,8 @@ namespace ClientDataStorage.Client.Files
         private unsafe byte[] DecompressRXGB(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
-            int bpp = (int)(this.PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
-            int bps = (int)(header.width * bpp * this.PixelFormatToBpc(pixelFormat));
+            int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
+            int bps = (int)(header.width * bpp * PixelFormatToBpc(pixelFormat));
             int sizeofplane = (int)(bps * header.height);
             int width = (int)header.width;
             int height = (int)header.height;
@@ -1361,7 +1435,10 @@ namespace ClientDataStorage.Client.Files
                         for (int x = 0; x < width; x += 4)
                         {
                             if (y >= height || x >= width)
+                            {
                                 break;
+                            }
+
                             alphas[0] = temp[0];
                             alphas[1] = temp[1];
                             byte* alphamask = temp + 2;
@@ -1483,8 +1560,8 @@ namespace ClientDataStorage.Client.Files
         private unsafe byte[] DecompressFloat(DDSStruct header, byte[] data, PixelFormat pixelFormat)
         {
             // allocate bitmap
-            int bpp = (int)(this.PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
-            int bps = (int)(header.width * bpp * this.PixelFormatToBpc(pixelFormat));
+            int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
+            int bps = (int)(header.width * bpp * PixelFormatToBpc(pixelFormat));
             int sizeofplane = (int)(bps * header.height);
             int width = (int)header.width;
             int height = (int)header.height;
@@ -1561,7 +1638,9 @@ namespace ClientDataStorage.Client.Files
             int depth = (int)header.depth;
 
             if (Check16BitComponents(header))
+            {
                 return DecompressARGB16(header, data, pixelFormat);
+            }
 
             int sizeOfData = (int)((header.width * header.pixelformat.rgbbitcount / 8) * header.height * header.depth);
             byte[] rawData = new byte[depth * sizeofplane + height * bps + width * bpp];
@@ -1602,12 +1681,19 @@ namespace ClientDataStorage.Client.Files
                             readI = (uint)(*temp | ((*(temp + 1)) << 8) | ((*(temp + 2)) << 16));
                         }
                         else if (tempBpp == 1)
-                            readI = *((byte*)temp);
+                        {
+                            readI = *temp;
+                        }
                         else if (tempBpp == 2)
+                        {
                             readI = (uint)(temp[0] | (temp[1] << 8));
+                        }
                     }
                     else
+                    {
                         readI = (uint)(temp[0] | (temp[1] << 8) | (temp[2] << 16) | (temp[3] << 24));
+                    }
+
                     temp += tempBpp;
 
                     rawData[i] = (byte)((((int)readI & (int)header.pixelformat.rbitmask) >> (int)redR) << (int)redL);
@@ -1703,12 +1789,19 @@ namespace ClientDataStorage.Client.Files
                                 readI = (uint)(*temp | ((*(temp + 1)) << 8) | ((*(temp + 2)) << 16));
                             }
                             else if (tempBpp == 1)
-                                readI = *((byte*)temp);
+                            {
+                                readI = *temp;
+                            }
                             else if (tempBpp == 2)
+                            {
                                 readI = (uint)(temp[0] | (temp[1] << 8));
+                            }
                         }
                         else
+                        {
                             readI = (uint)(temp[0] | (temp[1] << 8) | (temp[2] << 16) | (temp[3] << 24));
+                        }
+
                         temp += tempBpp;
 
                         ((ushort*)destData)[i + 2] = (ushort)((((int)readI & (int)header.pixelformat.rbitmask) >> (int)redR) << (int)redL);
@@ -1759,10 +1852,10 @@ namespace ClientDataStorage.Client.Files
 
         public void Dispose()
         {
-            if (this.m_bitmap != null)
+            if (m_bitmap != null)
             {
-                this.m_bitmap.Dispose();
-                this.m_bitmap = null;
+                m_bitmap.Dispose();
+                m_bitmap = null;
             }
         }
 
@@ -1773,18 +1866,12 @@ namespace ClientDataStorage.Client.Files
         /// <summary>
         /// Returns a System.Imaging.Bitmap containing the DDS image.
         /// </summary>
-        public System.Drawing.Bitmap BitmapImage
-        {
-            get { return this.m_bitmap; }
-        }
+        public System.Drawing.Bitmap BitmapImage => m_bitmap;
 
         /// <summary>
         /// Returns the DDS image is valid format.
         /// </summary>
-        public bool IsValid
-        {
-            get { return this.m_isValid; }
-        }
+        public bool IsValid => m_isValid;
 
         #endregion Properties
 

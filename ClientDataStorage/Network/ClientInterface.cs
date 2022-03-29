@@ -32,7 +32,9 @@ namespace ClientDataStorage.Network
         public void OnError(AsyncContext context, object user)
         {
             if (context != null && context.User != null)
+            {
                 OnDisconnect(context);
+            }
         }
 
         public bool OnReceive(AsyncContext context, byte[] buffer, int count)
@@ -78,16 +80,22 @@ namespace ClientDataStorage.Network
             cData = (ClientData)context.User;
 
             if (cData == null)
+            {
                 return;
+            }
 
             if (!cData.m_connected)
+            {
                 return;
+            }
 
             List<KeyValuePair<TransferBuffer, Packet>> buffers = cData.m_security.TransferOutgoing();
             if (buffers != null)
             {
                 foreach (KeyValuePair<TransferBuffer, Packet> buffer in buffers)
+                {
                     context.Send(buffer.Key.Buffer, 0, buffer.Key.Size);
+                }
             }
         }
     }

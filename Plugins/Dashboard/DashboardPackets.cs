@@ -3,12 +3,18 @@ using Structs.Dashboard;
 
 namespace Dashboard
 {
-    partial class DashboardControl
+    public partial class DashboardControl
     {
+        #region Public Properties
+
         /// <summary>
         /// 0x1001 -- requests all topics from Server
         /// </summary>
         public static Packet RequestAllTopics => new Packet(PacketID.Client.TopicsRequest);
+
+        #endregion Public Properties
+
+        #region Internal Methods
 
         /// <summary>
         /// 0x1002 -- returns Packet with DashboardMessage inside to broadcast to all clients
@@ -32,5 +38,7 @@ namespace Dashboard
             packet.WriteAscii(msg.Title);
             return packet;
         }
+
+        #endregion Internal Methods
     }
 }

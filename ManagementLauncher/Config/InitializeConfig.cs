@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Config
 {
-    class InitializeConfig
+    internal class InitializeConfig
     {
+        #region Internal Fields
+
         internal static readonly string ConfigString = "Config/LauncherInfo.ini";
         internal static InitializeFile ConfigFile = new InitializeFile(ConfigString);
-        
-        internal protected string HostIP { get => GetHostIP(); }
-        internal protected ushort HostPort { get => GetHostPort(); }
-        internal protected int Version { get => GetVersion(); }
+
+        #endregion Internal Fields
+
+        #region Internal Constructors
 
         internal InitializeConfig()
         {
             if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Config")))
+            {
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Config")).Create();
+            }
 
             if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), ConfigString)))
             {
@@ -30,6 +30,18 @@ namespace ManagementLauncher.Config
                 ConfigFile.IniWriteValue("ToolServer", "Version", "1");
             }
         }
+
+        #endregion Internal Constructors
+
+        #region Protected Internal Properties
+
+        protected internal string HostIP => GetHostIP();
+        protected internal ushort HostPort => GetHostPort();
+        protected internal int Version => GetVersion();
+
+        #endregion Protected Internal Properties
+
+        #region Private Methods
 
         private string GetHostIP()
         {
@@ -48,7 +60,9 @@ namespace ManagementLauncher.Config
             try
             {
                 if (ushort.TryParse(ConfigFile.IniReadValue("ToolServer", "Port"), out ushort port))
+                {
                     return port;
+                }
             }
             catch (Exception ex)
             {
@@ -61,12 +75,16 @@ namespace ManagementLauncher.Config
             try
             {
                 if (int.TryParse(ConfigFile.IniReadValue("ToolServer", "Version"), out int ver))
+                {
                     return ver;
+                }
             }
             catch (Exception ex)
             {
             }
             return 0;
         }
+
+        #endregion Private Methods
     }
 }

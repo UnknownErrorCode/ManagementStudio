@@ -9,8 +9,8 @@ namespace ClientDataStorage.Dashboard
 {
     public partial class DashboardTopicEditor : Form
     {
-        private bool IsEditMode;
-        private bool IsPreview = false;
+        private readonly bool IsEditMode;
+        private readonly bool IsPreview = false;
 
         private DashboardMessage Message;
         private DashboardMessage NewMessage;
@@ -48,7 +48,7 @@ namespace ClientDataStorage.Dashboard
             {
                 NewMessage = new DashboardMessage(EditTopicTitle, EditTopicText, Author);
 
-                var pack = new Packet(PacketID.Client.TopicAddRequest);
+                Packet pack = new Packet(PacketID.Client.TopicAddRequest);
                 pack.WriteStruct(NewMessage);
                 ClientCore.Send(pack);
             }
@@ -60,7 +60,7 @@ namespace ClientDataStorage.Dashboard
             {
                 NewMessage = new DashboardMessage(EditTopicTitle, EditTopicText, Author);
 
-                var pack = new Packet(PacketID.Client.TopicEditRequest);
+                Packet pack = new Packet(PacketID.Client.TopicEditRequest);
                 pack.WriteStruct(Message);
                 pack.WriteStruct(NewMessage);
                 ClientCore.Send(pack);
@@ -84,7 +84,9 @@ namespace ClientDataStorage.Dashboard
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (!EditTopicTitle.Equals(TopicTitle) && IsEditMode && textBox1.ForeColor != Color.Red)
+            {
                 textBox1.ForeColor = Color.Red;
+            }
         }
     }
 }

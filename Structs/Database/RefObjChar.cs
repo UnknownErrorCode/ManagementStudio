@@ -159,45 +159,95 @@ namespace Structs.Database
             DefaultSkill_10 = int.Parse(row[68].ToString());
             TextureType = byte.Parse(row[69].ToString());
             if (int.TryParse(row[70].ToString(), out int _Except_1))
+            {
                 Except_1 = _Except_1;
+            }
             else
+            {
                 Except_1 = 0;
-           if(int.TryParse(row[71].ToString(), out int _Except_2))
+            }
+
+            if (int.TryParse(row[71].ToString(), out int _Except_2))
+            {
                 Except_2 = _Except_2;
+            }
             else
+            {
                 Except_2 = 0;
+            }
+
             if (int.TryParse(row[72].ToString(), out int _Except_3))
+            {
                 Except_3 = _Except_3;
+            }
             else
+            {
                 Except_3 = 0;
+            }
+
             if (int.TryParse(row[73].ToString(), out int _Except_4))
+            {
                 Except_4 = _Except_4;
+            }
             else
+            {
                 Except_4 = 0;
+            }
+
             if (int.TryParse(row[74].ToString(), out int _Except_5))
+            {
                 Except_5 = _Except_5;
+            }
             else
+            {
                 Except_5 = 0;
-            if (int.TryParse(row[75].ToString(), out int _Except_6))   
+            }
+
+            if (int.TryParse(row[75].ToString(), out int _Except_6))
+            {
                 Except_6 = _Except_6;
+            }
             else
+            {
                 Except_6 = 0;
-           if(int.TryParse(row[76].ToString(), out int _Except_7))
+            }
+
+            if (int.TryParse(row[76].ToString(), out int _Except_7))
+            {
                 Except_7 = _Except_7;
+            }
             else
+            {
                 Except_7 = 0;
-           if(int.TryParse(row[77].ToString(), out int _Except_8))  
+            }
+
+            if (int.TryParse(row[77].ToString(), out int _Except_8))
+            {
                 Except_8 = _Except_8;
+            }
             else
+            {
                 Except_8 = 0;
-           if(int.TryParse(row[78].ToString(), out int _Except_9))  
+            }
+
+            if (int.TryParse(row[78].ToString(), out int _Except_9))
+            {
                 Except_9 = _Except_9;
+            }
             else
+            {
                 Except_9 = 0;
-           if(int.TryParse(row[79].ToString(), out int _Except_10))  
+            }
+
+            if (int.TryParse(row[79].ToString(), out int _Except_10))
+            {
                 Except_10 = _Except_10;
+            }
             else
+            {
                 Except_10 = 0;
+            }
+
             Link = int.Parse(row[80].ToString());
         }
     }

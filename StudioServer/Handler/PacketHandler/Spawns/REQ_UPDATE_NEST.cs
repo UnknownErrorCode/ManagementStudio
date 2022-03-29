@@ -1,15 +1,11 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Spawns
 {
-   internal static class REQ_UPDATE_NEST
+    internal static class REQ_UPDATE_NEST
     {
-        internal static Packet UpdateNest (Packet packet, string AccountName)
+        internal static Packet UpdateNest(Packet packet, string AccountName)
         {
 
 
@@ -34,7 +30,7 @@ namespace StudioServer.Handler.PacketHandler.Spawns
                              $"btFlag =  {packet.ReadAscii()}, " +
                              $"btRespawn =  {packet.ReadAscii()}, " +
                              $"btType =  {packet.ReadAscii()} where dwNestID = {packet.ReadInt()};";
-            var AffectedRows = 0;
+            int AffectedRows = 0;
             try
             {
                 AffectedRows = SQL.ExecuteQuery(query, StudioServer.settings.DBSha);
@@ -45,10 +41,10 @@ namespace StudioServer.Handler.PacketHandler.Spawns
                 packet.WriteAscii(ex.Message);
                 return packet;
             }
-            if (AffectedRows >=1)
+            if (AffectedRows >= 1)
             {
-                    ServerMembory.SendUpdateSuccessNoticeToAll($"Successfully affected {AffectedRows} rows with NestUpdater => Query '{query}'!", AccountName);
-                    ServerMembory.RefreshTableForAll("Tab_RefNest");
+                ServerMembory.SendUpdateSuccessNoticeToAll($"Successfully affected {AffectedRows} rows with NestUpdater => Query '{query}'!", AccountName);
+                ServerMembory.RefreshTableForAll("Tab_RefNest");
             }
             else
             {

@@ -2,10 +2,10 @@
 {
     public struct RefGameWorldBindTriggerCategory
     {
-        public int Service ;
-        public int ID ;
-        public int GameWorldID ;
-        public int TriggerCategoryID ;
+        public int Service;
+        public int ID;
+        public int GameWorldID;
+        public int TriggerCategoryID;
 
         public RefGameWorldBindTriggerCategory(object[] row)
         {

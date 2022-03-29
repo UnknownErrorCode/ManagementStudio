@@ -1,6 +1,6 @@
 ﻿namespace ServerFrameworkRes.Network.Security
 {
-    public enum  PacketHandlerResult
+    public enum PacketHandlerResult
     {
         Block,
         Response,

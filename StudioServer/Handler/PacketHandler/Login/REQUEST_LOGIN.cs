@@ -1,18 +1,14 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Login
 {
     internal class REQUEST_LOGIN
     {
 
-        
+
 
 
         /// <summary>
@@ -25,8 +21,8 @@ namespace StudioServer.Handler.PacketHandler.Login
         {
 
             byte register = opcode.ReadByte();
-            var accname = opcode.ReadAscii();
-            var password = opcode.ReadAscii();
+            string accname = opcode.ReadAscii();
+            string password = opcode.ReadAscii();
 
             SqlParameter[] regparams = new SqlParameter[4]
               {
@@ -36,7 +32,7 @@ namespace StudioServer.Handler.PacketHandler.Login
                     new SqlParameter("@OnOff",SqlDbType.TinyInt) { Value = 1}
               };
             opcode = new Packet(0xA101);
-            var procName = "";
+            string procName = "";
             if (register == 1)
             {
                 procName = "_RegisterToolUser";
@@ -47,37 +43,37 @@ namespace StudioServer.Handler.PacketHandler.Login
             }
             DataTable boolstring = SQL.ReturnDataTableByProcedure(procName, StudioServer.settings.DBDev, regparams);
 
-            var test = boolstring.Rows[0][0].ToString();
-            var restext = boolstring.Rows[0][1].ToString();
-            var SecurityDesc = boolstring.Rows[0][2].ToString();
+            string test = boolstring.Rows[0][0].ToString();
+            string restext = boolstring.Rows[0][1].ToString();
+            string SecurityDesc = boolstring.Rows[0][2].ToString();
             opcode.WriteAscii(restext);
 
             if (test == "true")
             {
-                var RealAccountName = boolstring.Rows[0][3].ToString();
+                string RealAccountName = boolstring.Rows[0][3].ToString();
                 opcode.WriteBool(true);
                 opcode.WriteByte(byte.Parse(SecurityDesc));
-                opcode.WriteAscii((string)RealAccountName);
-                context_data.AccountName = (string)RealAccountName;
-                ServerMembory.UserOnline.Add((string)RealAccountName, context_data);
-                ServerMembory.SendPacketToAllOnlineMember(OutgoingPackets.PlayerLogin($"{(string)RealAccountName}"));
-                
+                opcode.WriteAscii(RealAccountName);
+                context_data.AccountName = RealAccountName;
+                ServerMembory.UserOnline.Add(RealAccountName, context_data);
+                ServerMembory.SendPacketToAllOnlineMember(OutgoingPackets.PlayerLogin($"{RealAccountName}"));
+
                 DataTable PluginsToUse = SQL.ReturnDataTable($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {SecurityDesc}", StudioServer.settings.DBDev);
-                StudioServer.StaticCertificationGrid.WriteLogLine($"User {(string)RealAccountName} with Security {SecurityDesc} has logged in!");
-                var rowcount = byte.Parse(PluginsToUse.Rows.Count.ToString());
-                if (rowcount>0)
+                StudioServer.StaticCertificationGrid.WriteLogLine($"User {RealAccountName} with Security {SecurityDesc} has logged in!");
+                byte rowcount = byte.Parse(PluginsToUse.Rows.Count.ToString());
+                if (rowcount > 0)
                 {
                     opcode.WriteByte(rowcount);
-                    var ListOfTables = new List<string>();
+                    List<string> ListOfTables = new List<string>();
                     foreach (DataRow item in PluginsToUse.Rows)
                     {
-                        var PluginName = item.Field<string>("AllowedPlugins");
+                        string PluginName = item.Field<string>("AllowedPlugins");
                         opcode.WriteAscii(PluginName);
 
                         if (ServerMembory.PluginDataaccess.ContainsKey(PluginName))
                         {
-                            var Liste = ServerMembory.PluginDataaccess[PluginName];
-                            foreach (var tablename in Liste)
+                            List<string> Liste = ServerMembory.PluginDataaccess[PluginName];
+                            foreach (string tablename in Liste)
                             {
                                 if (!ListOfTables.Contains(tablename))
                                 {
@@ -87,15 +83,15 @@ namespace StudioServer.Handler.PacketHandler.Login
 
                         }
                     }
-                    var tablecount = byte.Parse(ListOfTables.Count.ToString());
+                    byte tablecount = byte.Parse(ListOfTables.Count.ToString());
                     opcode.WriteByte(tablecount);
 
-                    foreach (var item in ListOfTables)
+                    foreach (string item in ListOfTables)
                     {
                         opcode.WriteAscii(item);
                     }
                 }
-                
+
             }
             else
             {

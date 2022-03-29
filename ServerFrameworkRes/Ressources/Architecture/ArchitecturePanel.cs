@@ -1,14 +1,8 @@
-﻿using System;
+﻿using ServerFrameworkRes.Ressources.ServerBody;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ServerFrameworkRes.Ressources.ServerBody;
-using ServerFrameworkRes.Network.AsyncNetwork;
 
 namespace ServerFrameworkRes.Ressources.Architecture
 {
@@ -16,7 +10,7 @@ namespace ServerFrameworkRes.Ressources.Architecture
     {
 
         private ArchitectureBody CertificationBody { get; set; }
-        private Dictionary<string, ArchitectureBody> srNodeDataDictionary = new Dictionary<string, ArchitectureBody>();
+        private readonly Dictionary<string, ArchitectureBody> srNodeDataDictionary = new Dictionary<string, ArchitectureBody>();
 
 
         public ArchitecturePanel()
@@ -26,9 +20,9 @@ namespace ServerFrameworkRes.Ressources.Architecture
         public ArchitecturePanel(List<ArchitectureBody> listOfNodeDatas)
         {
             InitializeComponent();
-            foreach (var item in listOfNodeDatas)
+            foreach (ArchitectureBody item in listOfNodeDatas)
             {
-               // srNodeDataDictionary.Add(item.SelfBody.AccountName, item);
+                // srNodeDataDictionary.Add(item.SelfBody.AccountName, item);
             }
         }
 
@@ -53,7 +47,7 @@ namespace ServerFrameworkRes.Ressources.Architecture
                 item2.pictureBoxCertification.Visible = true;
                 item2.pictureBoxCertification.Image = CertificationBody.ServerBodyImages[ServerBodyState.None];
                 Certpoint.Y += 50;
-                this.Controls.Add(item2);
+                Controls.Add(item2);
                 Certpoint.Y = 20;
                 Certpoint.X += 50;
 

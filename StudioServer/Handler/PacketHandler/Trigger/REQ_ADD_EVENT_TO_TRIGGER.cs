@@ -1,11 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Trigger
 {
@@ -13,8 +8,8 @@ namespace StudioServer.Handler.PacketHandler.Trigger
     {
         public static Packet EventToTrigger(Packet packet, string AccName)
         {
-            var TriggerName = packet.ReadAscii();
-            var TriggerCommonName = packet.ReadAscii();
+            string TriggerName = packet.ReadAscii();
+            string TriggerCommonName = packet.ReadAscii();
 
 
             SqlParameter[] AddEventParams = new SqlParameter[]
@@ -25,8 +20,8 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
             DataRow EventToTriggerRowResult = SQL.ReturnDataTableByProcedure("_ADD_TRIGGEREVENT_TO_TRIGGER", StudioServer.settings.DBDev, AddEventParams).Rows[0];
 
-            var ok = bool.Parse(EventToTriggerRowResult[0].ToString());
-            var resultText = EventToTriggerRowResult[1].ToString();
+            bool ok = bool.Parse(EventToTriggerRowResult[0].ToString());
+            string resultText = EventToTriggerRowResult[1].ToString();
             if (ok)
             {
 
@@ -34,7 +29,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                 ServerMembory.SendUpdateSuccessNoticeToAll(resultText, AccName);
                 ServerMembory.RefreshTableForAll("_RefTriggerBindEvent");
                 ServerMembory.RefreshTableForAll("_RefTriggerEvent");
-              
+
             }
             else
             {

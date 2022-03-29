@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.AsyncClient
-{ 
+{
     public class AsyncContext
     {
         public AsyncState State { get; set; }
-        public Guid Guid { get { return guid; } }
+        public Guid Guid => guid;
         public IAsyncInterface Interface { get; set; }
         public object User { get; set; }
 

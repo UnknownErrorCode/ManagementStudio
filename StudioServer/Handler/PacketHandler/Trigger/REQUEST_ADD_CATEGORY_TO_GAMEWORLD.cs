@@ -1,11 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Trigger
 {
@@ -13,9 +8,9 @@ namespace StudioServer.Handler.PacketHandler.Trigger
     {
         internal static Packet TriggerCategoryToGameWorld(Packet opcode, string AccountName) //0x7001
         {
-            var WorldID = opcode.ReadInt();
-            var CategoryName = opcode.ReadAscii();
-            var CategoryDescription = opcode.ReadAscii();
+            int WorldID = opcode.ReadInt();
+            string CategoryName = opcode.ReadAscii();
+            string CategoryDescription = opcode.ReadAscii();
             SqlParameter[] AddCategoryToWorldParams = new SqlParameter[]
                     {
 
@@ -25,14 +20,14 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                     };
             DataRow CategoryToGameWorldResult = SQL.ReturnDataTableByProcedure("_ADD_TRIGGERCATEGORY_TO_WORLD", StudioServer.settings.DBDev, AddCategoryToWorldParams).Rows[0];
             bool test = bool.Parse(CategoryToGameWorldResult[0].ToString());
-            var resString = CategoryToGameWorldResult[1].ToString();
+            string resString = CategoryToGameWorldResult[1].ToString();
             if (test)
             {
                 StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, resString);
 
                 ServerMembory.RefreshTableForAll("_RefTriggerCategory");
                 ServerMembory.RefreshTableForAll("_RefGameWorldBindTriggerCategory");
-                ServerMembory.SendUpdateSuccessNoticeToAll(resString,AccountName);
+                ServerMembory.SendUpdateSuccessNoticeToAll(resString, AccountName);
             }
             else
             {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.Security
 {
@@ -15,19 +11,19 @@ namespace ManagementLauncher.Network.Security
 
         public byte[] Buffer
         {
-            get { return m_buffer; }
+            get => m_buffer;
             set { lock (m_lock) { m_buffer = value; } }
         }
 
         public int Offset
         {
-            get { return m_offset; }
+            get => m_offset;
             set { lock (m_lock) { m_offset = value; } }
         }
 
         public int Size
         {
-            get { return m_size; }
+            get => m_size;
             set { lock (m_lock) { m_size = value; } }
         }
 

@@ -11,7 +11,6 @@ namespace ShopEditor.Interface
         internal SingleTabPageWindow[] SingleTabPages;
         internal Label StrIDLabel;
         private bool onFocus = false;
-
         private ShopInterface.RefShopTab TabPage;
 
         internal BlueShopTabWindow(ShopInterface.RefShopTab page, byte index)

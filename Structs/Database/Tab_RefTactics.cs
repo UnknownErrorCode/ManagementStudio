@@ -3,7 +3,7 @@ namespace Structs.Database
 {
     public struct Tab_RefTactics
     {
-		public readonly int dwTacticsID;
+        public readonly int dwTacticsID;
         public int dwObjID;
         public byte btAIQoS;
         public int nMaxStamina;

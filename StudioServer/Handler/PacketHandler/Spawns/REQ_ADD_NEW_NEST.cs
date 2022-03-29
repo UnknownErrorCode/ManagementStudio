@@ -1,12 +1,7 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using StudioServer.Handler.PacketHandler.Spawns.SpawnInterfaces;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Spawns
 {
@@ -19,7 +14,7 @@ namespace StudioServer.Handler.PacketHandler.Spawns
             ITabRefNestUpdater tab_RefNest = new ITabRefNestUpdater()
             {
                 dwHiveID = packet.ReadAscii(),
-                dwTacticsID =packet.ReadAscii(),
+                dwTacticsID = packet.ReadAscii(),
                 CharName16 = packet.ReadAscii(),
                 nRegionDBID = packet.ReadInt(),
                 fLocalPosX = packet.ReadAscii(),
@@ -29,7 +24,7 @@ namespace StudioServer.Handler.PacketHandler.Spawns
                 nRadius = packet.ReadAscii(),
                 nGenerateRadius = packet.ReadAscii(),
                 nChampionGenPercentage = packet.ReadAscii(),
-                dwDelayTimeMin =packet.ReadAscii(),
+                dwDelayTimeMin = packet.ReadAscii(),
                 dwDelayTimeMax = packet.ReadAscii(),
                 dwMaxTotalCount = packet.ReadAscii(),
                 btFlag = packet.ReadAscii(),
@@ -76,8 +71,8 @@ namespace StudioServer.Handler.PacketHandler.Spawns
                     new SqlParameter("@btType",SqlDbType.TinyInt) {Value=tab_RefNest.btType}
                };
             DataRow NestResult = SQL.ReturnDataTableByProcedure("_ADD_NEW_NEST", StudioServer.settings.DBDev, AddNestParams).Rows[0];
-            var booler = bool.Parse(NestResult[0].ToString());
-            var returnString = NestResult[0].ToString();
+            bool booler = bool.Parse(NestResult[0].ToString());
+            string returnString = NestResult[0].ToString();
 
             if (booler)
             {

@@ -1,14 +1,16 @@
 ﻿using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Security
 {
     internal class PacketReader : BinaryReader
     {
-        private byte[] _input;
+        #region Private Fields
+
+        private readonly byte[] _input;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public PacketReader(byte[] input)
             : base(new MemoryStream(input, false))
@@ -21,5 +23,7 @@ namespace ServerFrameworkRes.Network.Security
         {
             _input = input;
         }
+
+        #endregion Public Constructors
     }
 }

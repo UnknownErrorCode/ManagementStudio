@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ManagementLauncher.Network.AsyncClient
+﻿namespace ManagementLauncher.Network.AsyncClient
 {
     public class AsyncBuffer
     {
-        public byte[] Buffer { get; set; }
-        public int Offset { get; set; }
-        public int Count { get; set; }
+        #region Public Constructors
 
         public AsyncBuffer(byte[] buffer, int offset, int count)
         {
@@ -25,5 +17,17 @@ namespace ManagementLauncher.Network.AsyncClient
             Offset = 0;
             Count = buffer.Length;
         }
+
+        #endregion Public Constructors
+
+
+
+        #region Public Properties
+
+        public byte[] Buffer { get; set; }
+        public int Count { get; set; }
+        public int Offset { get; set; }
+
+        #endregion Public Properties
     }
 }

@@ -1,18 +1,15 @@
 ﻿using ServerFrameworkRes.Ressources;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Patch
 {
     class PatchProces
     {
-        public static void Exaggurate ()
+        public static void Exaggurate()
         {
             if (!Directory.Exists(StudioServer.settings.PatchFolderDirectory))
             {
@@ -22,18 +19,18 @@ namespace StudioServer.Patch
             {
                 Directory.CreateDirectory(StudioServer.settings.PatchFolderDirectory_Archiv).Create();
             }
-                if (Directory.Exists(StudioServer.settings.PatchFolderDirectory) && Directory.Exists(StudioServer.settings.PatchFolderDirectory_Archiv))
+            if (Directory.Exists(StudioServer.settings.PatchFolderDirectory) && Directory.Exists(StudioServer.settings.PatchFolderDirectory_Archiv))
             {
-                var FilesinPatchFolderStringsFull = Directory.GetFiles(StudioServer.settings.PatchFolderDirectory, "*", SearchOption.AllDirectories);
+                string[] FilesinPatchFolderStringsFull = Directory.GetFiles(StudioServer.settings.PatchFolderDirectory, "*", SearchOption.AllDirectories);
                 if (FilesinPatchFolderStringsFull.Length > 0)
                 {
-                    foreach (var item in FilesinPatchFolderStringsFull)
+                    foreach (string item in FilesinPatchFolderStringsFull)
                     {
-                        var byteFile = File.ReadAllBytes(item);
-                        var FileNameWithAdditionDir = item.Remove(0, StudioServer.settings.PatchFolderDirectory.Length + 1); //+1 because the slash /
-                        var splittta = FileNameWithAdditionDir.Split('\\').ToList();
+                        byte[] byteFile = File.ReadAllBytes(item);
+                        string FileNameWithAdditionDir = item.Remove(0, StudioServer.settings.PatchFolderDirectory.Length + 1); //+1 because the slash /
+                        List<string> splittta = FileNameWithAdditionDir.Split('\\').ToList();
 
-                        var CFileDir = "";
+                        string CFileDir = "";
                         if (splittta.Count > 1)
                         {
                             for (int i = 0; i < splittta.Count - 1; i++)
@@ -42,9 +39,9 @@ namespace StudioServer.Patch
                             }
                         }
 
-                        var CFileName = splittta[splittta.Count - 1];
+                        string CFileName = splittta[splittta.Count - 1];
 
-                        var paramse = new SqlParameter[]
+                        SqlParameter[] paramse = new SqlParameter[]
                          {
                             new SqlParameter("@path",SqlDbType.VarChar,255) {Value =CFileDir},
                         new SqlParameter("@file", SqlDbType.VarChar, 128) { Value = CFileName },
@@ -52,7 +49,7 @@ namespace StudioServer.Patch
                         new SqlParameter("@Version", SqlDbType.Int) { Value = StudioServer.settings.Version + 1 },
                         new SqlParameter("@ServerDirectoryToLoadFrom", SqlDbType.VarChar) { Value = Path.Combine(StudioServer.settings.PatchFolderDirectory, CFileDir, CFileName) },
                         };
-                        
+
 
                         SQL.ReturnDataTableByProcedure("_Update_Tool_Files", StudioServer.settings.DBDev, paramse);
 

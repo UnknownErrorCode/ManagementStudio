@@ -3,9 +3,6 @@ using ManagementLauncher.Network.Security;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network
 {
@@ -13,8 +10,10 @@ namespace ManagementLauncher.Network
     {
         public bool OnConnect(AsyncContext context)
         {
-            LauncherClient.LData = new LauncherData();
-            LauncherClient.LData.m_connected = true;
+            LauncherClient.LData = new LauncherData
+            {
+                m_connected = true
+            };
             context.User = LauncherClient.LData;
             return true;
         }
@@ -43,11 +42,11 @@ namespace ManagementLauncher.Network
 
             if (packets != null)
             {
-                foreach (var packet in packets)
+                foreach (Packet packet in packets)
                 {
                     if (packet.Opcode == 0xA001)
                     {
-                        var version = packet.ReadInt();
+                        int version = packet.ReadInt();
                         if (Launcher.LConfig.Version != version)
                         {
                             Packet RequestUpdate = new Packet(0x3000);
@@ -57,24 +56,26 @@ namespace ManagementLauncher.Network
                         else
                         {
                             Launcher.WriteStaticLine($"Studio version {Launcher.LConfig.Version} is up to date!");
-                            Launcher.StaticLauncher.vSroSmallButtonPatch.Invoke(new Action( () =>Launcher.StaticLauncher.vSroSmallButtonPatch.Enabled = false));
-                            Launcher.StaticLauncher.vSroSmallButtonStart.Invoke(new Action( () => Launcher.StaticLauncher.vSroSmallButtonStart.Enabled = true));
+                            Launcher.StaticLauncher.vSroSmallButtonPatch.Invoke(new Action(() => Launcher.StaticLauncher.vSroSmallButtonPatch.Enabled = false));
+                            Launcher.StaticLauncher.vSroSmallButtonStart.Invoke(new Action(() => Launcher.StaticLauncher.vSroSmallButtonStart.Enabled = true));
                         }
 
                     }
                     else if (packet.Opcode == 0xA002)
                     {
-                        var cversion = packet.ReadInt();
-                        var fileName = packet.ReadAscii();
-                        var fileDire = packet.ReadAscii();
-                        var cBinaryF = packet.ReadByteArray(packet.Remaining);
+                        int cversion = packet.ReadInt();
+                        string fileName = packet.ReadAscii();
+                        string fileDire = packet.ReadAscii();
+                        byte[] cBinaryF = packet.ReadByteArray(packet.Remaining);
 
 
                         if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), fileDire)))
+                        {
                             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), fileDire));
+                        }
 
                         //if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), fileDire, fileName)))
-                        using (var stream = File.Create(Path.Combine(Directory.GetCurrentDirectory(), fileDire, fileName)))
+                        using (FileStream stream = File.Create(Path.Combine(Directory.GetCurrentDirectory(), fileDire, fileName)))
                         {
                             stream.Write(cBinaryF, 0, cBinaryF.Length);
                             stream.Close();
@@ -90,7 +91,7 @@ namespace ManagementLauncher.Network
                     }
                     else if (packet.Opcode == 0xA003)
                     {
-                        var newVersion = packet.ReadInt();
+                        int newVersion = packet.ReadInt();
                         Launcher.WriteStaticLine($"Update version {newVersion} finished!");
                         Config.InitializeConfig.ConfigFile.IniWriteValue("ToolServer", "Version", newVersion.ToString());
                         Launcher.StaticLauncher.vSroSmallButtonPatch.Enabled = false;
@@ -98,7 +99,7 @@ namespace ManagementLauncher.Network
                     }
                 }
             }
-            
+
 
             return true;
         }
@@ -108,16 +109,22 @@ namespace ManagementLauncher.Network
             LauncherClient.LData = (LauncherData)context.User;
 
             if (LauncherClient.LData == null)
+            {
                 return;
+            }
 
             if (!LauncherClient.LData.m_connected)
+            {
                 return;
+            }
 
             List<KeyValuePair<TransferBuffer, Packet>> buffers = LauncherClient.LData.m_security.TransferOutgoing();
             if (buffers != null)
             {
                 foreach (KeyValuePair<TransferBuffer, Packet> buffer in buffers)
+                {
                     context.Send(buffer.Key.Buffer, 0, buffer.Key.Size);
+                }
             }
         }
     }

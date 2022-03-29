@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace StudioServer
@@ -48,9 +45,11 @@ namespace StudioServer
             {
                 return false;
             }
-            var t =  new Timer()
-            { Interval = interv ,
-             Enabled = true};
+            Timer t = new Timer()
+            {
+                Interval = interv,
+                Enabled = true
+            };
             t.Tick += ChatLogTick;
             TimerFactory.Add(ChatLogKey, t);
             return true;

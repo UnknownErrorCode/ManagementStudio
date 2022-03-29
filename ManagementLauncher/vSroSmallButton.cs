@@ -10,12 +10,12 @@ namespace ManagementLauncher
         public vSroSmallButton()
         {
             InitializeComponent();
-            this.buttonvSroSmall.Click += onClickvSroButton;
+            buttonvSroSmall.Click += onClickvSroButton;
         }
 
         private void onClickvSroButton(object sender, EventArgs e)
         {
-            if (vSroClickEvent!= null)
+            if (vSroClickEvent != null)
             {
                 vSroClickEvent();
             }

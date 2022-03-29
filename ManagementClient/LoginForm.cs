@@ -24,7 +24,7 @@ namespace ManagementClient
         /// <returns>PacketHandlerResult result</returns>
         internal static PacketHandlerResult LoginStatus(ServerData arg1, Packet arg2)
         {
-            var status = arg2.ReadStruct<LoginStatus>();
+            LoginStatus status = arg2.ReadStruct<LoginStatus>();
 
             if (status.Success)
             {
@@ -33,7 +33,9 @@ namespace ManagementClient
                 Program.StaticLoginForm.Invoke(new Action(() => Program.StaticLoginForm.OnHide()));
             }
             else
+            {
                 vSroMessageBox.Show($"Login failed! \n{status.Notification}");
+            }
 
             return PacketHandlerResult.Block;
         }
@@ -41,12 +43,12 @@ namespace ManagementClient
         internal void OnHide()
         {
             Program.StaticClientForm.Show();
-            this.Visible = false;
+            Visible = false;
         }
 
         private void ClientTool_Load(object sender, EventArgs e)
         {
-            this.vSroSizableWindow1.Title = "Offline";
+            vSroSizableWindow1.Title = "Offline";
 
             Thread startThread = new Thread(Connect);
             startThread.Start();
@@ -55,16 +57,21 @@ namespace ManagementClient
         private void Connect()
         {
             if (ClientCore.Connected)
+            {
                 return;
-            var connected = ClientCore.Start().GetAwaiter().GetResult();
+            }
+
+            bool connected = ClientCore.Start().GetAwaiter().GetResult();
             if (connected)
-                this.vSroSmallButtonLogin.Invoke(new Action(() => { this.vSroSmallButtonLogin.Enabled = true; }));
+            {
+                vSroSmallButtonLogin.Invoke(new Action(() => { vSroSmallButtonLogin.Enabled = true; }));
+            }
             else
             {
                 vSroMessageBox.Show("The connection to server failed", "Connection failed");
-                this.vSroSmallButtonLogin.Invoke(new Action(() => { this.vSroSmallButtonLogin.Enabled = false; }));
+                vSroSmallButtonLogin.Invoke(new Action(() => { vSroSmallButtonLogin.Enabled = false; }));
             }
-            Invoke(new Action(() => this.vSroSizableWindow1.Title = connected ? "Online" : "Offline"));
+            Invoke(new Action(() => vSroSizableWindow1.Title = connected ? "Online" : "Offline"));
         }
 
         /// <summary>
@@ -72,10 +79,10 @@ namespace ManagementClient
         /// </summary>
         private void InitializeCustomnComponent()
         {
-            this.vSroInputBox1.ValueText = Program.MainConfig.PToolUser;
-            this.vSroInputBox2.ValueText = Program.MainConfig.PToolUserPassword;
-            this.vSroCheckBox1.ChangeStatus(Program.MainConfig.ShowPwInText);
-            this.vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData);
+            vSroInputBox1.ValueText = Program.MainConfig.PToolUser;
+            vSroInputBox2.ValueText = Program.MainConfig.PToolUserPassword;
+            vSroCheckBox1.ChangeStatus(Program.MainConfig.ShowPwInText);
+            vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData);
             vSroCheckBox1.vSroCheckChange += VSroCheckBox1_vSroCheckChange;
             vSroCheckBoxSaveLogin.vSroCheckChange += OnCheckChangeSaveUserData;
             ClientCore.AddEntry(0xC000, LoginStatus);
@@ -89,7 +96,9 @@ namespace ManagementClient
         private void OnClose(object sender, FormClosingEventArgs e)
         {
             if (!ClientMemory.LoggedIn)
+            {
                 ClientCore.Disconnect();
+            }
         }
 
         /// <summary>
@@ -100,7 +109,7 @@ namespace ManagementClient
         private void VSroCheckBox1_vSroCheckChange(object sender, EventArgs e)
         {
             Program.MainConfig.ConfigEditor.IniWriteValue("ToolClient", "ShowPW", vSroCheckBox1.vSroCheck.ToString());
-            this.vSroInputBox2.vSroUseSystemPasswordChar = Program.MainConfig.ShowPwInText ? false : true;
+            vSroInputBox2.vSroUseSystemPasswordChar = Program.MainConfig.ShowPwInText ? false : true;
         }
 
         private void vSroInputBox2_KeyPress(object sender, KeyPressEventArgs e)

@@ -1,10 +1,5 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using StudioServer.Config;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Skills
 {
@@ -22,17 +17,17 @@ namespace StudioServer.Handler.PacketHandler.Skills
 
             for (int i = 0; i < CountSkillsToUpdate; i++)
             {
-                var strinng = updatePacket.ReadAscii();
+                string strinng = updatePacket.ReadAscii();
                 Queries.Add($"UPDATE _RefSkill SET { strinng} WHERE ID = {updatePacket.ReadInt()}");
             }
 
-            if (Queries.Count>0)
+            if (Queries.Count > 0)
             {
-                var wasFinallyUpdated = false;
-                foreach (var item in Queries)
+                bool wasFinallyUpdated = false;
+                foreach (string item in Queries)
                 {
-                    var rowCount =SQL.ExecuteQuery(item, StudioServer.settings.DBSha);
-                    if (rowCount>0)
+                    int rowCount = SQL.ExecuteQuery(item, StudioServer.settings.DBSha);
+                    if (rowCount > 0)
                     {
                         ServerMembory.SendUpdateSuccessNoticeToAll($"Successfully updated Skill! Query: {item}", accountName);
                         wasFinallyUpdated = true;

@@ -12,7 +12,7 @@ namespace ManagementClient
         public ClientForm()
         {
             InitializeComponent();
-            this.Controls.Add(ClientDataStorage.Log.Logger);
+            Controls.Add(ClientDataStorage.Log.Logger);
             ClientDataStorage.ClientCore.OnDataReceived += OnReceiveAllData;
             ClientDataStorage.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
         }
@@ -22,14 +22,16 @@ namespace ManagementClient
             ClientDataStorage.Log.Logger.WriteLogLine("Loading pk2 ressources...");
 
             if (!InitializePk2Files().Result)
+            {
                 ClientDataStorage.Log.Logger.WriteLogLine("Failed initialize pk2 ressources!");
+            }
         }
 
         private void OnAllowedPluginReceived()
         {
             Invoke(new Action(() =>
             {
-                foreach (var pluginName in ClientDataStorage.ClientMemory.AllowedPlugin)
+                foreach (string pluginName in ClientDataStorage.ClientMemory.AllowedPlugin)
                 {
                     loadPluginsToolStripMenuItem.DropDownItems.Add(pluginName);
                     loadPluginsToolStripMenuItem.DropDownItems[loadPluginsToolStripMenuItem.DropDownItems.Count - 1].Click += ClickLoadPlugin;
@@ -42,12 +44,14 @@ namespace ManagementClient
         {
             ToolStripItem itm = (ToolStripItem)sender;
 
-            var pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(itm.Text);
+            ServerFrameworkRes.Network.Security.Packet pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(itm.Text);
 
             ClientDataStorage.ClientCore.Send(pack);
 
             if (TryLoadPlugin(itm.Text, out TabPage page))
+            {
                 tabControlPlugins.TabPages.Add(page);
+            }
         }
 
         private bool TryLoadPlugin(string text, out TabPage tabPage)
@@ -74,10 +78,14 @@ namespace ManagementClient
         private async Task<bool> InitializePk2Files()
         {
             if (!await ClientDataStorage.Client.Media.InitializeMediaAsync())
+            {
                 return false;
+            }
 
             if (!await ClientDataStorage.Client.Map.InitializeMapAsync())
+            {
                 return false;
+            }
 
             return ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
         }
@@ -92,9 +100,13 @@ namespace ManagementClient
         private void OnReceiveAllData()
         {
             if (InvokeRequired)
+            {
                 Invoke(new Action(() => { loadPluginsToolStripMenuItem.Enabled = true; }));
+            }
             else
+            {
                 loadPluginsToolStripMenuItem.Enabled = true;
+            }
         }
 
         private bool Pk2Initialized => ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
@@ -102,7 +114,9 @@ namespace ManagementClient
         private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Pk2Initialized)
+            {
                 return;
+            }
 
             //ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
             //ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
@@ -123,14 +137,16 @@ namespace ManagementClient
                 }
             }
 
-            this.loadPluginsToolStripMenuItem.Checked = true;
-            this.loadPluginsToolStripMenuItem.Enabled = false;
+            loadPluginsToolStripMenuItem.Checked = true;
+            loadPluginsToolStripMenuItem.Enabled = false;
         }
 
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!ClientDataStorage.Log.Logger.Visible)
+            {
                 ClientDataStorage.Log.Logger.Show();
+            }
         }
 
         private void openSettingsToolStripMenuItem_Click(object sender, EventArgs e)

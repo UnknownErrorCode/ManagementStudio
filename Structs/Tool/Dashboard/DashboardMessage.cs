@@ -25,6 +25,7 @@ namespace Structs.Dashboard
             Created = DateTime.UtcNow.ToString("dd.MM.yyyy  HH:mm:ss");
             Text = $"{text}\n\nCreated:{Created}";
         }
+
         public DashboardMessage(DashboardMessage msg)
         {
             this = msg;

@@ -30,12 +30,16 @@ namespace ManagementClient
         }
 
         private void OnLoadSettings()
-            => this.InitializeSettings();
+        {
+            InitializeSettings();
+        }
 
         private void OnSaveSettings()
         {
             if (!ReadOnlyCfg.ToolServerIP.Equals(vSroInputBox1.ValueText))
+            {
                 ReadOnlyCfg.ToolServerIP = vSroInputBox1.ValueText;
+            }
 
             ReadOnlyCfg.ToolServerPort = int.Parse(vSroInputBox2.ValueText);
             ReadOnlyCfg.ToolServerVersion = int.Parse(vSroInputBox3.ValueText);
@@ -46,6 +50,8 @@ namespace ManagementClient
         }
 
         private void OnShowPasswordCheckChange(object sender, EventArgs e)
-            => vSroInputBox5.ShowPWCharakter(!vSroCheckBox1.vSroCheck);
+        {
+            vSroInputBox5.ShowPWCharakter(!vSroCheckBox1.vSroCheck);
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Structs.Pk2.Media
             DamagePos = incomeLine[8];
             BloodType = incomeLine[9];
             DeadEffect = incomeLine[10];
-            var lastarray = new List<string>();
+            List<string> lastarray = new List<string>();
             if (incomeLine.Length > 11)
             {
                 for (int i = 11; i < incomeLine.Length; i++)
@@ -101,7 +101,7 @@ namespace Structs.Pk2.Media
             OP = incomeLine[17];
             texture = incomeLine[18];
 
-            var lastarray = new List<string>();
+            List<string> lastarray = new List<string>();
             if (incomeLine.Length > 19)
             {
                 for (int i = 19; i < incomeLine.Length; i++)
@@ -185,7 +185,7 @@ namespace Structs.Pk2.Media
             Script = incomeLine[28];
             SndBegin = incomeLine[29];
             SndEnd = incomeLine[30];
-            var lastarray = new List<string>();
+            List<string> lastarray = new List<string>();
             if (incomeLine.Length > 31)
             {
                 for (int i = 31; i < incomeLine.Length; i++)

@@ -10,31 +10,31 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
         internal static Packet UpdateTeleLink(Packet updatePacket, string AccountName)
         {
 
-            var Service = updatePacket.ReadInt();
+            int Service = updatePacket.ReadInt();
             int OwnerTeleport = updatePacket.ReadInt();
-            var TargetTeleport = updatePacket.ReadInt();
-            var Fee = updatePacket.ReadInt();
-            var RestrictBindMethod = updatePacket.ReadByte();
-            var RunTimeTeleportMethod = updatePacket.ReadByte();
-            var CheckResult = updatePacket.ReadByte();
-            var Restrict1 = updatePacket.ReadInt();
-            var Data1_1 = updatePacket.ReadInt();
-            var Data1_2 = updatePacket.ReadInt();
-            var Restrict2 = updatePacket.ReadInt();
-            var Data2_1 = updatePacket.ReadInt();
-            var Data2_2 = updatePacket.ReadInt();
-            var Restrict3 = updatePacket.ReadInt();
-            var Data3_1 = updatePacket.ReadInt();
-            var Data3_2 = updatePacket.ReadInt();
-            var Restrict4 = updatePacket.ReadInt();
-            var Data4_1 = updatePacket.ReadInt();
-            var Data4_2 = updatePacket.ReadInt();
-            var Restrict5 = updatePacket.ReadInt();
-            var Data5_1 = updatePacket.ReadInt();
-            var Data5_2 = updatePacket.ReadInt();
+            int TargetTeleport = updatePacket.ReadInt();
+            int Fee = updatePacket.ReadInt();
+            byte RestrictBindMethod = updatePacket.ReadByte();
+            byte RunTimeTeleportMethod = updatePacket.ReadByte();
+            byte CheckResult = updatePacket.ReadByte();
+            int Restrict1 = updatePacket.ReadInt();
+            int Data1_1 = updatePacket.ReadInt();
+            int Data1_2 = updatePacket.ReadInt();
+            int Restrict2 = updatePacket.ReadInt();
+            int Data2_1 = updatePacket.ReadInt();
+            int Data2_2 = updatePacket.ReadInt();
+            int Restrict3 = updatePacket.ReadInt();
+            int Data3_1 = updatePacket.ReadInt();
+            int Data3_2 = updatePacket.ReadInt();
+            int Restrict4 = updatePacket.ReadInt();
+            int Data4_1 = updatePacket.ReadInt();
+            int Data4_2 = updatePacket.ReadInt();
+            int Restrict5 = updatePacket.ReadInt();
+            int Data5_1 = updatePacket.ReadInt();
+            int Data5_2 = updatePacket.ReadInt();
 
 
-            var ParamArray = new SqlParameter[]
+            SqlParameter[] ParamArray = new SqlParameter[]
             {
                 new SqlParameter("@Service"  ,              SqlDbType.Int)                    {Value = Service               }  ,
                 new SqlParameter("@OwnerTeleport"  ,        SqlDbType.Int)                    {Value = OwnerTeleport        }   ,
@@ -60,7 +60,7 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
                 new SqlParameter("@Data5_2" ,               SqlDbType.Int)                    {Value = Data5_2 }
             };
 
-            var rowcount = SQL.ReturnDataTableByProcedure("_UPDATE_TELELINK", StudioServer.settings.DBDev, ParamArray).Rows[0];
+            DataRow rowcount = SQL.ReturnDataTableByProcedure("_UPDATE_TELELINK", StudioServer.settings.DBDev, ParamArray).Rows[0];
 
             int valueReturn = int.Parse(rowcount[0].ToString());
             string textReturn = rowcount[1].ToString();

@@ -1,35 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Security
 {
     public class TransferBuffer : IDisposable
     {
+        #region Private Fields
+
         private byte[] m_buffer;
+        private object m_lock;
         private int m_offset;
         private int m_size;
-        private object m_lock;
 
-        public byte[] Buffer
-        {
-            get { return m_buffer; }
-            set { lock (m_lock) { m_buffer = value; } }
-        }
+        #endregion Private Fields
 
-        public int Offset
-        {
-            get { return m_offset; }
-            set { lock (m_lock) { m_offset = value; } }
-        }
-
-        public int Size
-        {
-            get { return m_size; }
-            set { lock (m_lock) { m_size = value; } }
-        }
+        #region Public Constructors
 
         public TransferBuffer(TransferBuffer rhs)
         {
@@ -83,9 +67,40 @@ namespace ServerFrameworkRes.Network.Security
             m_lock = new object();
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public byte[] Buffer
+        {
+            get => m_buffer;
+            set { lock (m_lock) { m_buffer = value; } }
+        }
+
+        public int Offset
+        {
+            get => m_offset;
+            set { lock (m_lock) { m_offset = value; } }
+        }
+
+        public int Size
+        {
+            get => m_size;
+            set { lock (m_lock) { m_size = value; } }
+        }
+
+        #endregion Public Properties
+
         #region Dispose
 
         private bool disposed = false;
+
+        // Use C# destructor syntax for finalization code.
+        ~TransferBuffer()
+        {
+            // Simply call Dispose(false).
+            Dispose(false);
+        }
 
         //Implement IDisposable.
         public void Dispose()
@@ -103,13 +118,6 @@ namespace ServerFrameworkRes.Network.Security
 
                 disposed = true;
             }
-        }
-
-        // Use C# destructor syntax for finalization code.
-        ~TransferBuffer()
-        {
-            // Simply call Dispose(false).
-            Dispose(false);
         }
 
         #endregion Dispose

@@ -2,13 +2,13 @@
 {
     public struct RefTrigger
     {
-        public int Service ;
-        public int ID ;
-        public string CodeName128 ;
-        public byte IsActive ;
-        public byte IsRepeat ;
-        public string Comment512 ;
-        public int IndexNumber ;
+        public int Service;
+        public int ID;
+        public string CodeName128;
+        public byte IsActive;
+        public byte IsRepeat;
+        public string Comment512;
+        public int IndexNumber;
 
         public RefTrigger(object[] row)
         {

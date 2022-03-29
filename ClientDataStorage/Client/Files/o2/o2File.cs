@@ -27,16 +27,20 @@ namespace ClientDataStorage.Client.Files
         /// <param name="binFile"></param>
         public o2File(Pk2File binFile)
         {
-            var buffer = Map.MapPk2.GetByteArrayByFile(binFile);
+            byte[] buffer = Map.MapPk2.GetByteArrayByFile(binFile);
 
             if (!byte.TryParse(binFile.parentFolder.name, out byte xval))
+            {
                 return;
+            }
 
             if (!byte.TryParse(binFile.name.Replace(".o2", ""), out byte zval))
+            {
                 return;
+            }
 
-            this.OX = xval;
-            this.OZ = zval;
+            OX = xval;
+            OZ = zval;
             Initialize(buffer, xval, zval);
         }
 

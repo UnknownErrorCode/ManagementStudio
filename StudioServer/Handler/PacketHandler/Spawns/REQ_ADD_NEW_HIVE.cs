@@ -1,16 +1,11 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using StudioServer.Handler.PacketHandler.Spawns.SpawnInterfaces;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Spawns
 {
-   public static class REQ_ADD_NEW_HIVE
+    public static class REQ_ADD_NEW_HIVE
     {
         public static Packet AddNewHive(Packet packet, string AccName)
         {
@@ -52,8 +47,8 @@ namespace StudioServer.Handler.PacketHandler.Spawns
                     new SqlParameter("@szDescString128",SqlDbType.VarChar,128) {Value = test.szDescString128},
                };
             DataRow HiveResult = SQL.ReturnDataTableByProcedure("_ADD_NEW_HIVE", StudioServer.settings.DBDev, parameterForHive).Rows[0];
-            var ok = bool.Parse(HiveResult.ItemArray[0].ToString());
-            var resultText = HiveResult.ItemArray[1].ToString();
+            bool ok = bool.Parse(HiveResult.ItemArray[0].ToString());
+            string resultText = HiveResult.ItemArray[1].ToString();
             if (ok)
             {
                 StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, resultText);

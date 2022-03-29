@@ -19,7 +19,7 @@ namespace Structs.Database
         public string Param4_Desc128;
         public readonly int Index;
 
-       
+
         public RefShopGood(object[] row)
         {
             Service = byte.Parse(row[0].ToString());
@@ -37,7 +37,7 @@ namespace Structs.Database
             Param4_Desc128 = row[12].ToString();
             Index = 0;//  int.Parse(row[13].ToString());
         }
-       
+
         public RefShopGood(DataRow row)
         {
             Service = row.Field<byte>("Service");

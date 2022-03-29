@@ -8,14 +8,22 @@ using System.Collections.Generic;
 
 namespace ManagementServer
 {
-    class ServerInterface : IAsyncInterface
+    internal class ServerInterface : IAsyncInterface
     {
-        private static ServerPacketHandler Handler = new ServerPacketHandler();
+        #region Private Fields
+
+        private static readonly ServerPacketHandler Handler = new ServerPacketHandler();
+
+        #endregion Private Fields
+
+        #region Public Methods
+
         public bool OnConnect(AsyncContext context)
         {
             if (context.State.EndPoint == null)
+            {
                 return false;
-
+            }
 
             ServerMemory.ClientDataPool.Add(
                 $"{context.State.EndPoint}",
@@ -36,19 +44,21 @@ namespace ManagementServer
             ServerMemory.ClientDataPool.Remove($"{context.State.EndPoint}");
 
             if (context_data.AccountName != null)
+            {
                 SQL.CheckLogout(context_data.AccountName, context_data.UserIP);
+            }
 
             context.Disconnect();
             GC.Collect();
             ServerMemory.OnlineUser--;
-
-
         }
 
         public void OnError(AsyncContext context, object user)
         {
             if (context != null && context.User != null)
+            {
                 OnDisconnect(context);
+            }
         }
 
         public bool OnReceive(AsyncContext context, byte[] buffer, int count)
@@ -63,7 +73,6 @@ namespace ManagementServer
                 {
                     foreach (ServerFrameworkRes.Network.Security.Packet packet in packets)
                     {
-
                         try
                         {
                             PacketHandlerResult result = Handler.HandlePacketAction(serverClientData, packet).GetAwaiter().GetResult();
@@ -80,15 +89,14 @@ namespace ManagementServer
                                 case PacketHandlerResult.Disconnect:
                                     OnDisconnect(context);
                                     break;
+
                                 default:
                                     continue;
                             }
                         }
                         catch (Exception)
                         {
-
                         }
-                       
                     }
                 }
             }
@@ -106,12 +114,15 @@ namespace ManagementServer
             {
                 ServerClientData context_data = (ServerClientData)context.User;
                 if (context_data == null)
+                {
                     return;
+                }
 
                 if (!context_data.m_connected)
+                {
                     return;
+                }
 
-              
                 List<KeyValuePair<TransferBuffer, Packet>> buffers = context_data.m_security.TransferOutgoing();
                 if (buffers != null)
                 {
@@ -126,5 +137,7 @@ namespace ManagementServer
                 ServerManager.Logger.WriteLogLine(e.Message);
             }
         }
+
+        #endregion Public Methods
     }
 }

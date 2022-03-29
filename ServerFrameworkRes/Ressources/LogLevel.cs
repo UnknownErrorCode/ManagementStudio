@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerFrameworkRes.Ressources
+﻿namespace ServerFrameworkRes.Ressources
 {
     public enum LogLevel : byte
     {

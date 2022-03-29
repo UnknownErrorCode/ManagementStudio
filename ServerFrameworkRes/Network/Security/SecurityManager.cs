@@ -1,16 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.Security
 {
     public class SecurityManager
     {
         #region SecurityFlags
+
+        private static SecurityFlags CopySecurityFlags(SecurityFlags flags)
+        {
+            SecurityFlags copy = new SecurityFlags
+            {
+                none = flags.none,
+                blowfish = flags.blowfish,
+                security_bytes = flags.security_bytes,
+                handshake = flags.handshake,
+                handshake_response = flags.handshake_response,
+                _6 = flags._6,
+                _7 = flags._7,
+                _8 = flags._8
+            };
+            return copy;
+        }
+
+        // Returns a byte from a SecurityFlags object.
+        private static byte FromSecurityFlags(SecurityFlags flags)
+        {
+            return (byte)(flags.none | flags.blowfish << 1 | flags.security_bytes << 2 | flags.handshake << 3 | flags.handshake_response << 4 | flags._6 << 5 | flags._7 << 6 | flags._8 << 7);
+        }
+
+        // Returns a SecurityFlags object from a byte.
+        private static SecurityFlags ToSecurityFlags(byte value)
+        {
+            SecurityFlags flags = new SecurityFlags
+            {
+                none = (byte)(value & 1)
+            };
+            value >>= 1;
+            flags.blowfish = (byte)(value & 1);
+            value >>= 1;
+            flags.security_bytes = (byte)(value & 1);
+            value >>= 1;
+            flags.handshake = (byte)(value & 1);
+            value >>= 1;
+            flags.handshake_response = (byte)(value & 1);
+            value >>= 1;
+            flags._6 = (byte)(value & 1);
+            value >>= 1;
+            flags._7 = (byte)(value & 1);
+            value >>= 1;
+            flags._8 = (byte)(value & 1);
+            value >>= 1;
+            return flags;
+        }
 
         // Security flags container
         [StructLayout(LayoutKind.Explicit, Size = 8, CharSet = CharSet.Ansi)]
@@ -41,52 +85,12 @@ namespace ServerFrameworkRes.Network.Security
             public byte _8;
         }
 
-        private static SecurityFlags CopySecurityFlags(SecurityFlags flags)
-        {
-            SecurityFlags copy = new SecurityFlags();
-            copy.none = flags.none;
-            copy.blowfish = flags.blowfish;
-            copy.security_bytes = flags.security_bytes;
-            copy.handshake = flags.handshake;
-            copy.handshake_response = flags.handshake_response;
-            copy._6 = flags._6;
-            copy._7 = flags._7;
-            copy._8 = flags._8;
-            return copy;
-        }
-
-        // Returns a byte from a SecurityFlags object.
-        private static byte FromSecurityFlags(SecurityFlags flags)
-        {
-            return (byte)(flags.none | flags.blowfish << 1 | flags.security_bytes << 2 | flags.handshake << 3 | flags.handshake_response << 4 | flags._6 << 5 | flags._7 << 6 | flags._8 << 7);
-        }
-
-        // Returns a SecurityFlags object from a byte.
-        private static SecurityFlags ToSecurityFlags(byte value)
-        {
-            SecurityFlags flags = new SecurityFlags();
-            flags.none = (byte)(value & 1);
-            value >>= 1;
-            flags.blowfish = (byte)(value & 1);
-            value >>= 1;
-            flags.security_bytes = (byte)(value & 1);
-            value >>= 1;
-            flags.handshake = (byte)(value & 1);
-            value >>= 1;
-            flags.handshake_response = (byte)(value & 1);
-            value >>= 1;
-            flags._6 = (byte)(value & 1);
-            value >>= 1;
-            flags._7 = (byte)(value & 1);
-            value >>= 1;
-            flags._8 = (byte)(value & 1);
-            value >>= 1;
-            return flags;
-        }
-
         #endregion SecurityFlags
 
         #region SecurityTable
+
+        // Use one security table for all objects.
+        private static readonly uint[] global_security_table = GenerateSecurityTable();
 
         // Generates the crc bytes lookup table
         private static uint[] GenerateSecurityTable()
@@ -196,37 +200,13 @@ namespace ServerFrameworkRes.Network.Security
             return security_table;
         }
 
-        // Use one security table for all objects.
-        private static uint[] global_security_table = GenerateSecurityTable();
-
         #endregion SecurityTable
 
         #region WIN32_Helper_Functions
 
-        private static ulong MAKELONGLONG_(uint a, uint b)
+        private static byte HIBYTE_(ushort a)
         {
-            ulong a_ = a;
-            ulong b_ = b;
-            return (ulong)((b_ << 32) | a_);
-        }
-
-        private static uint MAKELONG_(ushort a, ushort b)
-        {
-            uint a_ = a;
-            uint b_ = b;
-            return (uint)((b_ << 16) | a_);
-        }
-
-        private static ushort MAKEWORD_(byte a, byte b)
-        {
-            ushort a_ = a;
-            ushort b_ = b;
-            return (ushort)((b_ << 8) | a_);
-        }
-
-        private static ushort LOWORD_(uint a)
-        {
-            return (ushort)(a & 0xFFFF);
+            return (byte)((a >> 8) & 0xFF);
         }
 
         private static ushort HIWORD_(uint a)
@@ -239,36 +219,57 @@ namespace ServerFrameworkRes.Network.Security
             return (byte)(a & 0xFF);
         }
 
-        private static byte HIBYTE_(ushort a)
+        private static ushort LOWORD_(uint a)
         {
-            return (byte)((a >> 8) & 0xFF);
+            return (ushort)(a & 0xFFFF);
+        }
+
+        private static uint MAKELONG_(ushort a, ushort b)
+        {
+            uint a_ = a;
+            uint b_ = b;
+            return (b_ << 16) | a_;
+        }
+
+        private static ulong MAKELONGLONG_(uint a, uint b)
+        {
+            ulong a_ = a;
+            ulong b_ = b;
+            return (b_ << 32) | a_;
+        }
+
+        private static ushort MAKEWORD_(byte a, byte b)
+        {
+            ushort a_ = a;
+            ushort b_ = b;
+            return (ushort)((b_ << 8) | a_);
         }
 
         #endregion WIN32_Helper_Functions
 
         #region Random
 
-        private static Random random = new Random();
+        private static readonly Random random = new Random();
 
-        private static UInt64 NextUInt64()
+        private static UInt16 NextUInt16()
         {
-            var buffer = new byte[sizeof(UInt64)];
+            byte[] buffer = new byte[sizeof(UInt16)];
             random.NextBytes(buffer);
-            return BitConverter.ToUInt64(buffer, 0);
+            return BitConverter.ToUInt16(buffer, 0);
         }
 
         private static UInt32 NextUInt32()
         {
-            var buffer = new byte[sizeof(UInt32)];
+            byte[] buffer = new byte[sizeof(UInt32)];
             random.NextBytes(buffer);
             return BitConverter.ToUInt32(buffer, 0);
         }
 
-        private static UInt16 NextUInt16()
+        private static UInt64 NextUInt64()
         {
-            var buffer = new byte[sizeof(UInt16)];
+            byte[] buffer = new byte[sizeof(UInt64)];
             random.NextBytes(buffer);
-            return BitConverter.ToUInt16(buffer, 0);
+            return BitConverter.ToUInt64(buffer, 0);
         }
 
         private static byte NextUInt8()
@@ -278,78 +279,105 @@ namespace ServerFrameworkRes.Network.Security
 
         #endregion Random
 
-        private uint m_value_x;
-        private uint m_value_g;
-        private uint m_value_p;
-        private uint m_value_A;
-        private uint m_value_B;
-        private uint m_value_K;
-        private uint m_seed_count;
-        private uint m_crc_seed;
-        private ulong m_initial_blowfish_key;
-        private ulong m_handshake_blowfish_key;
-        private byte[] m_count_byte_seeds;
-        private ulong m_client_key;
-        private ulong m_challenge_key;
+        #region Private Fields
 
-        private bool m_client_security;
-        private byte m_security_flag;
-        private SecurityFlags m_security_flags;
         private bool m_accepted_handshake;
-        private bool m_started_handshake;
-        private bool m_identity_send;
-
-        public byte IdentityFlag { get { return m_identity_flag; } }
-        public string IdentityName { get { return m_identity_name; } }
-
+        private readonly Blowfish m_blowfish;
+        private ulong m_challenge_key;
+        private readonly object m_class_lock;
+        private ulong m_client_key;
+        private bool m_client_security;
+        private readonly byte[] m_count_byte_seeds;
+        private uint m_crc_seed;
+        private TransferBuffer m_current_buffer;
+        private readonly List<ushort> m_enc_opcodes;
+        private ulong m_handshake_blowfish_key;
         private byte m_identity_flag;
         private string m_identity_name;
-
+        private bool m_identity_send;
         private List<Packet> m_incoming_packets;
-        private List<Packet> m_outgoing_packets;
-
-        private List<ushort> m_enc_opcodes;
-
-        private Blowfish m_blowfish;
-
-        private TransferBuffer m_recv_buffer;
-        private TransferBuffer m_current_buffer;
-
+        private ulong m_initial_blowfish_key;
         private ushort m_massive_count;
         private Packet m_massive_packet;
+        private readonly List<Packet> m_outgoing_packets;
+        private readonly TransferBuffer m_recv_buffer;
+        private byte m_security_flag;
+        private SecurityFlags m_security_flags;
+        private uint m_seed_count;
+        private bool m_started_handshake;
+        private uint m_value_A;
+        private uint m_value_B;
+        private uint m_value_g;
+        private uint m_value_K;
+        private uint m_value_p;
+        private uint m_value_x;
 
-        private object m_class_lock;
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        // Default constructor
+        public SecurityManager()
+        {
+            m_value_x = 0;
+            m_value_g = 0;
+            m_value_p = 0;
+            m_value_A = 0;
+            m_value_B = 0;
+            m_value_K = 0;
+            m_seed_count = 0;
+            m_crc_seed = 0;
+            m_initial_blowfish_key = 0;
+            m_handshake_blowfish_key = 0;
+            m_count_byte_seeds = new byte[3];
+            m_count_byte_seeds[0] = 0;
+            m_count_byte_seeds[1] = 0;
+            m_count_byte_seeds[2] = 0;
+            m_client_key = 0;
+            m_challenge_key = 0;
+
+            m_client_security = false;
+            m_security_flag = 0;
+            m_security_flags = new SecurityFlags();
+            m_accepted_handshake = false;
+            m_started_handshake = false;
+            m_identity_flag = 0;
+            m_identity_name = "None";
+
+            m_outgoing_packets = new List<Packet>();
+            m_incoming_packets = new List<Packet>();
+
+            m_enc_opcodes = new List<ushort>
+            {
+                0x2001,
+                0x6100,
+                0x6101,
+                0x6102,
+                0x6103,
+                0x6107
+            };
+
+            m_blowfish = new Blowfish();
+
+            m_recv_buffer = new TransferBuffer(8192); // must be at minimal 2 bytes!
+            m_current_buffer = null;
+
+            m_massive_count = 0;
+            m_massive_packet = null;
+            m_class_lock = new object();
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public byte IdentityFlag => m_identity_flag;
+
+        public string IdentityName => m_identity_name;
+
+        #endregion Public Properties
 
         #region CoreSecurityFunction
-
-        // This function's logic was written by jMerlin as part of the article "How to generate the security bytes for SRO"
-        private uint GenerateValue(ref uint val)
-        {
-            for (int i = 0; i < 32; ++i)
-            {
-                val = (((((((((((val >> 2) ^ val) >> 2) ^ val) >> 1) ^ val) >> 1) ^ val) >> 1) ^ val) & 1) | ((((val & 1) << 31) | (val >> 1)) & 0xFFFFFFFE);
-            }
-            return val;
-        }
-
-        // Sets up the count bytes
-        // This function's logic was written by jMerlin as part of the article "How to generate the security bytes for SRO"
-        private void SetupCountByte(uint seed)
-        {
-            if (seed == 0) seed = 0x9ABFB3B6;
-            uint mut = seed;
-            uint mut1 = GenerateValue(ref mut);
-            uint mut2 = GenerateValue(ref mut);
-            uint mut3 = GenerateValue(ref mut);
-            GenerateValue(ref mut);
-            byte byte1 = (byte)((mut & 0xFF) ^ (mut3 & 0xFF));
-            byte byte2 = (byte)((mut1 & 0xFF) ^ (mut2 & 0xFF));
-            if (byte1 == 0) byte1 = 1;
-            if (byte2 == 0) byte2 = 1;
-            m_count_byte_seeds[0] = (byte)(byte1 ^ byte2);
-            m_count_byte_seeds[1] = byte2;
-            m_count_byte_seeds[2] = byte1;
-        }
 
         // Helper function used in the handshake, X may be a or b, this clean version of the function is from jMerlin (Func_X_4)
         private uint G_pow_X_mod_P(uint P, uint X, uint G)
@@ -372,19 +400,22 @@ namespace ServerFrameworkRes.Network.Security
             return (uint)result;
         }
 
-        // Helper function used in the handshake (Func_X_2)
-        private void KeyTransformValue(ref ulong val, uint key, byte key_byte)
+        // Function called to generate the crc byte
+        // This function's logic was written by jMerlin as part of the article "How to generate the security bytes for SRO"
+        private byte GenerateCheckByte(byte[] stream, int offset, int length)
         {
-            byte[] stream = BitConverter.GetBytes(val);
-            stream[0] ^= (byte)(stream[0] + LOBYTE_(LOWORD_(key)) + key_byte);
-            stream[1] ^= (byte)(stream[1] + HIBYTE_(LOWORD_(key)) + key_byte);
-            stream[2] ^= (byte)(stream[2] + LOBYTE_(HIWORD_(key)) + key_byte);
-            stream[3] ^= (byte)(stream[3] + HIBYTE_(HIWORD_(key)) + key_byte);
-            stream[4] ^= (byte)(stream[4] + LOBYTE_(LOWORD_(key)) + key_byte);
-            stream[5] ^= (byte)(stream[5] + HIBYTE_(LOWORD_(key)) + key_byte);
-            stream[6] ^= (byte)(stream[6] + LOBYTE_(HIWORD_(key)) + key_byte);
-            stream[7] ^= (byte)(stream[7] + HIBYTE_(HIWORD_(key)) + key_byte);
-            val = BitConverter.ToUInt64(stream, 0);
+            uint checksum = 0xFFFFFFFF;
+            uint moddedseed = m_crc_seed << 8;
+            for (int x = offset; x < offset + length; ++x)
+            {
+                checksum = (checksum >> 8) ^ global_security_table[moddedseed + ((stream[x] ^ checksum) & 0xFF)];
+            }
+            return (byte)(((checksum >> 24) & 0xFF) + ((checksum >> 8) & 0xFF) + ((checksum >> 16) & 0xFF) + (checksum & 0xFF));
+        }
+
+        private byte GenerateCheckByte(byte[] stream)
+        {
+            return GenerateCheckByte(stream, 0, stream.Length);
         }
 
         // Function called to generate a count byte
@@ -400,27 +431,145 @@ namespace ServerFrameworkRes.Network.Security
             return result;
         }
 
-        // Function called to generate the crc byte
         // This function's logic was written by jMerlin as part of the article "How to generate the security bytes for SRO"
-        private byte GenerateCheckByte(byte[] stream, int offset, int length)
+        private uint GenerateValue(ref uint val)
         {
-            uint checksum = 0xFFFFFFFF;
-            uint moddedseed = m_crc_seed << 8;
-            for (int x = offset; x < offset + length; ++x)
+            for (int i = 0; i < 32; ++i)
             {
-                checksum = (checksum >> 8) ^ global_security_table[moddedseed + (((uint)stream[x] ^ checksum) & 0xFF)];
+                val = (((((((((((val >> 2) ^ val) >> 2) ^ val) >> 1) ^ val) >> 1) ^ val) >> 1) ^ val) & 1) | ((((val & 1) << 31) | (val >> 1)) & 0xFFFFFFFE);
             }
-            return (byte)(((checksum >> 24) & 0xFF) + ((checksum >> 8) & 0xFF) + ((checksum >> 16) & 0xFF) + (checksum & 0xFF));
+            return val;
         }
 
-        private byte GenerateCheckByte(byte[] stream)
+        // Helper function used in the handshake (Func_X_2)
+        private void KeyTransformValue(ref ulong val, uint key, byte key_byte)
         {
-            return GenerateCheckByte(stream, 0, stream.Length);
+            byte[] stream = BitConverter.GetBytes(val);
+            stream[0] ^= (byte)(stream[0] + LOBYTE_(LOWORD_(key)) + key_byte);
+            stream[1] ^= (byte)(stream[1] + HIBYTE_(LOWORD_(key)) + key_byte);
+            stream[2] ^= (byte)(stream[2] + LOBYTE_(HIWORD_(key)) + key_byte);
+            stream[3] ^= (byte)(stream[3] + HIBYTE_(HIWORD_(key)) + key_byte);
+            stream[4] ^= (byte)(stream[4] + LOBYTE_(LOWORD_(key)) + key_byte);
+            stream[5] ^= (byte)(stream[5] + HIBYTE_(LOWORD_(key)) + key_byte);
+            stream[6] ^= (byte)(stream[6] + LOBYTE_(HIWORD_(key)) + key_byte);
+            stream[7] ^= (byte)(stream[7] + HIBYTE_(HIWORD_(key)) + key_byte);
+            val = BitConverter.ToUInt64(stream, 0);
+        }
+
+        // Sets up the count bytes
+        // This function's logic was written by jMerlin as part of the article "How to generate the security bytes for SRO"
+        private void SetupCountByte(uint seed)
+        {
+            if (seed == 0)
+            {
+                seed = 0x9ABFB3B6;
+            }
+
+            uint mut = seed;
+            uint mut1 = GenerateValue(ref mut);
+            uint mut2 = GenerateValue(ref mut);
+            uint mut3 = GenerateValue(ref mut);
+            GenerateValue(ref mut);
+            byte byte1 = (byte)((mut & 0xFF) ^ (mut3 & 0xFF));
+            byte byte2 = (byte)((mut1 & 0xFF) ^ (mut2 & 0xFF));
+            if (byte1 == 0)
+            {
+                byte1 = 1;
+            }
+
+            if (byte2 == 0)
+            {
+                byte2 = 1;
+            }
+
+            m_count_byte_seeds[0] = (byte)(byte1 ^ byte2);
+            m_count_byte_seeds[1] = byte2;
+            m_count_byte_seeds[2] = byte1;
         }
 
         #endregion CoreSecurityFunction
 
         #region ExtendedSecurityFunctions
+
+        private byte[] FormatPacket(ushort opcode, byte[] data, bool encrypted)
+        {
+            // Sanity check
+            if (data.Length >= 0x8000)
+            {
+                throw (new SecurityException("SecurityManager::FormatPacket->Payload is too large!"));
+            }
+
+            ushort data_length = (ushort)data.Length;
+
+            // Add the packet header to the start of the data
+            PacketWriter writer = new PacketWriter();
+            writer.Write(data_length); // packet size
+            writer.Write(opcode); // packet opcode
+            writer.Write((ushort)0); // packet security bytes
+            writer.Write(data);
+            writer.Flush();
+
+            // Determine if we need to mark the packet size as encrypted
+            if (encrypted && (m_security_flags.blowfish == 1 || (m_security_flags.security_bytes == 1 && m_security_flags.blowfish == 0)))
+            {
+                long seek_index = writer.BaseStream.Seek(0, SeekOrigin.Current);
+
+                ushort packet_size = (ushort)(data_length | 0x8000);
+
+                writer.BaseStream.Seek(0, SeekOrigin.Begin);
+                writer.Write(packet_size);
+                writer.Flush();
+
+                writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
+            }
+
+            // Only need to stamp bytes if this is a clientless object
+            if (m_client_security == false && m_security_flags.security_bytes == 1)
+            {
+                long seek_index = writer.BaseStream.Seek(0, SeekOrigin.Current);
+
+                byte sb1 = GenerateCountByte(true);
+                writer.BaseStream.Seek(4, SeekOrigin.Begin);
+                writer.Write(sb1);
+                writer.Flush();
+
+                byte sb2 = GenerateCheckByte(writer.GetBytes());
+                writer.BaseStream.Seek(5, SeekOrigin.Begin);
+                writer.Write(sb2);
+                writer.Flush();
+
+                writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
+            }
+
+            // If the packet should be physically encrypted, return an encrypted version of it
+            if (encrypted && m_security_flags.blowfish == 1)
+            {
+                byte[] raw_data = writer.GetBytes();
+                byte[] encrypted_data = m_blowfish.Encode(raw_data, 2, raw_data.Length - 2);
+
+                writer.BaseStream.Seek(2, SeekOrigin.Begin);
+
+                writer.Write(encrypted_data);
+                writer.Flush();
+            }
+            else
+            {
+                // Determine if we need to unmark the packet size from being encrypted but not physically encrypted
+                if (encrypted && (m_security_flags.security_bytes == 1 && m_security_flags.blowfish == 0))
+                {
+                    long seek_index = writer.BaseStream.Seek(0, SeekOrigin.Current);
+
+                    writer.BaseStream.Seek(0, SeekOrigin.Begin);
+                    writer.Write(data_length);
+                    writer.Flush();
+
+                    writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
+                }
+            }
+
+            // Return the final data
+            return writer.GetBytes();
+        }
 
         private void GenerateSecurity(SecurityFlags flags)
         {
@@ -464,6 +613,77 @@ namespace ServerFrameworkRes.Network.Security
             }
 
             m_outgoing_packets.Add(response);
+        }
+
+        private KeyValuePair<TransferBuffer, Packet> GetPacketsToSend()
+        {
+            if (m_outgoing_packets.Count == 0)
+            {
+                throw (new SecurityException("SecurityManager::GetPacketsToSend->No packets are avaliable to send."));
+            }
+
+            Packet packet = m_outgoing_packets[0];
+            m_outgoing_packets.RemoveAt(0);
+
+            if (packet.Massive)
+            {
+                ushort parts = 0;
+
+                PacketWriter final = new PacketWriter();
+                PacketWriter final_data = new PacketWriter();
+
+                byte[] input_data = packet.GetBytes();
+                PacketReader input_reader = new PacketReader(input_data);
+
+                TransferBuffer workspace = new TransferBuffer(4089, 0, input_data.Length);
+
+                while (workspace.Size > 0)
+                {
+                    PacketWriter part_data = new PacketWriter();
+
+                    int cur_size = workspace.Size > 4089 ? 4089 : workspace.Size; // Max buffer size is 4kb for the client
+
+                    part_data.Write((byte)0); // Data flag
+
+                    part_data.Write(input_data, workspace.Offset, cur_size);
+
+                    workspace.Offset += cur_size;
+                    workspace.Size -= cur_size; // Update the size
+
+                    final_data.Write(FormatPacket(0x600D, part_data.GetBytes(), false));
+
+                    ++parts; // Track how many parts there are
+                }
+
+                // Write the final header packet to the front of the packet
+                PacketWriter final_header = new PacketWriter();
+                final_header.Write((byte)1); // Header flag
+                final_header.Write((short)parts);
+                final_header.Write(packet.Opcode);
+                final.Write(FormatPacket(0x600D, final_header.GetBytes(), false));
+
+                // Finish the large packet of all the data
+                final.Write(final_data.GetBytes());
+
+                // Return the collated data
+                byte[] raw_bytes = final.GetBytes();
+                packet.Lock();
+                return new KeyValuePair<TransferBuffer, Packet>(new TransferBuffer(raw_bytes, 0, raw_bytes.Length, true), packet);
+            }
+            else
+            {
+                bool encrypted = packet.Encrypted;
+                if (!m_client_security)
+                {
+                    if (m_enc_opcodes.Contains(packet.Opcode))
+                    {
+                        encrypted = true;
+                    }
+                }
+                byte[] raw_bytes = FormatPacket(packet.Opcode, packet.GetBytes(), encrypted);
+                packet.Lock();
+                return new KeyValuePair<TransferBuffer, Packet>(new TransferBuffer(raw_bytes, 0, raw_bytes.Length, true), packet);
+            }
         }
 
         private void Handshake(ushort packetID, PacketReader packet_data, bool packet_encrypted)
@@ -566,8 +786,10 @@ namespace ServerFrameworkRes.Network.Security
                 KeyTransformValue(ref m_handshake_blowfish_key, m_value_K, 0x3);
                 m_blowfish.Initialize(BitConverter.GetBytes(m_handshake_blowfish_key));
 
-                SecurityFlags tmp_flags = new SecurityFlags();
-                tmp_flags.handshake_response = 1;
+                SecurityFlags tmp_flags = new SecurityFlags
+                {
+                    handshake_response = 1
+                };
                 byte tmp_flag = FromSecurityFlags(tmp_flags);
 
                 Packet response = new Packet(0x5000);
@@ -690,86 +912,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        private byte[] FormatPacket(ushort opcode, byte[] data, bool encrypted)
-        {
-            // Sanity check
-            if (data.Length >= 0x8000)
-            {
-                throw (new SecurityException("SecurityManager::FormatPacket->Payload is too large!"));
-            }
-
-            ushort data_length = (ushort)data.Length;
-
-            // Add the packet header to the start of the data
-            PacketWriter writer = new PacketWriter();
-            writer.Write(data_length); // packet size
-            writer.Write(opcode); // packet opcode
-            writer.Write((ushort)0); // packet security bytes
-            writer.Write(data);
-            writer.Flush();
-
-            // Determine if we need to mark the packet size as encrypted
-            if (encrypted && (m_security_flags.blowfish == 1 || (m_security_flags.security_bytes == 1 && m_security_flags.blowfish == 0)))
-            {
-                long seek_index = writer.BaseStream.Seek(0, SeekOrigin.Current);
-
-                ushort packet_size = (ushort)(data_length | 0x8000);
-
-                writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                writer.Write((ushort)packet_size);
-                writer.Flush();
-
-                writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
-            }
-
-            // Only need to stamp bytes if this is a clientless object
-            if (m_client_security == false && m_security_flags.security_bytes == 1)
-            {
-                long seek_index = writer.BaseStream.Seek(0, SeekOrigin.Current);
-
-                byte sb1 = GenerateCountByte(true);
-                writer.BaseStream.Seek(4, SeekOrigin.Begin);
-                writer.Write(sb1);
-                writer.Flush();
-
-                byte sb2 = GenerateCheckByte(writer.GetBytes());
-                writer.BaseStream.Seek(5, SeekOrigin.Begin);
-                writer.Write(sb2);
-                writer.Flush();
-
-                writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
-            }
-
-            // If the packet should be physically encrypted, return an encrypted version of it
-            if (encrypted && m_security_flags.blowfish == 1)
-            {
-                byte[] raw_data = writer.GetBytes();
-                byte[] encrypted_data = m_blowfish.Encode(raw_data, 2, raw_data.Length - 2);
-
-                writer.BaseStream.Seek(2, SeekOrigin.Begin);
-
-                writer.Write(encrypted_data);
-                writer.Flush();
-            }
-            else
-            {
-                // Determine if we need to unmark the packet size from being encrypted but not physically encrypted
-                if (encrypted && (m_security_flags.security_bytes == 1 && m_security_flags.blowfish == 0))
-                {
-                    long seek_index = writer.BaseStream.Seek(0, SeekOrigin.Current);
-
-                    writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                    writer.Write((ushort)data_length);
-                    writer.Flush();
-
-                    writer.BaseStream.Seek(seek_index, SeekOrigin.Begin);
-                }
-            }
-
-            // Return the final data
-            return writer.GetBytes();
-        }
-
         private bool HasPacketToSend()
         {
             // No packets, easy case
@@ -796,126 +938,22 @@ namespace ServerFrameworkRes.Network.Security
             return false;
         }
 
-        private KeyValuePair<TransferBuffer, Packet> GetPacketsToSend()
-        {
-            if (m_outgoing_packets.Count == 0)
-            {
-                throw (new SecurityException("SecurityManager::GetPacketsToSend->No packets are avaliable to send."));
-            }
-
-            Packet packet = m_outgoing_packets[0];
-            m_outgoing_packets.RemoveAt(0);
-
-            if (packet.Massive)
-            {
-                ushort parts = 0;
-
-                PacketWriter final = new PacketWriter();
-                PacketWriter final_data = new PacketWriter();
-
-                byte[] input_data = packet.GetBytes();
-                PacketReader input_reader = new PacketReader(input_data);
-
-                TransferBuffer workspace = new TransferBuffer(4089, 0, (int)input_data.Length);
-
-                while (workspace.Size > 0)
-                {
-                    PacketWriter part_data = new PacketWriter();
-
-                    int cur_size = workspace.Size > 4089 ? 4089 : workspace.Size; // Max buffer size is 4kb for the client
-
-                    part_data.Write((byte)0); // Data flag
-
-                    part_data.Write(input_data, workspace.Offset, cur_size);
-
-                    workspace.Offset += cur_size;
-                    workspace.Size -= cur_size; // Update the size
-
-                    final_data.Write(FormatPacket(0x600D, part_data.GetBytes(), false));
-
-                    ++parts; // Track how many parts there are
-                }
-
-                // Write the final header packet to the front of the packet
-                PacketWriter final_header = new PacketWriter();
-                final_header.Write((byte)1); // Header flag
-                final_header.Write((short)parts);
-                final_header.Write(packet.Opcode);
-                final.Write(FormatPacket(0x600D, final_header.GetBytes(), false));
-
-                // Finish the large packet of all the data
-                final.Write(final_data.GetBytes());
-
-                // Return the collated data
-                byte[] raw_bytes = final.GetBytes();
-                packet.Lock();
-                return new KeyValuePair<TransferBuffer, Packet>(new TransferBuffer(raw_bytes, 0, raw_bytes.Length, true), packet);
-            }
-            else
-            {
-                bool encrypted = packet.Encrypted;
-                if (!m_client_security)
-                {
-                    if (m_enc_opcodes.Contains(packet.Opcode))
-                    {
-                        encrypted = true;
-                    }
-                }
-                byte[] raw_bytes = FormatPacket(packet.Opcode, packet.GetBytes(), encrypted);
-                packet.Lock();
-                return new KeyValuePair<TransferBuffer, Packet>(new TransferBuffer(raw_bytes, 0, raw_bytes.Length, true), packet);
-            }
-        }
-
         #endregion ExtendedSecurityFunctions
 
-        // Default constructor
-        public SecurityManager()
+        #region Public Methods
+
+        // Adds an encrypted opcode to the API. Any opcodes registered here will automatically
+        // be encrypted as needed. Users should add the current Item Use opcode if they will be
+        // mixing security modes.
+        public void AddEncryptedPacket(ushort opcode)
         {
-            m_value_x = 0;
-            m_value_g = 0;
-            m_value_p = 0;
-            m_value_A = 0;
-            m_value_B = 0;
-            m_value_K = 0;
-            m_seed_count = 0;
-            m_crc_seed = 0;
-            m_initial_blowfish_key = 0;
-            m_handshake_blowfish_key = 0;
-            m_count_byte_seeds = new byte[3];
-            m_count_byte_seeds[0] = 0;
-            m_count_byte_seeds[1] = 0;
-            m_count_byte_seeds[2] = 0;
-            m_client_key = 0;
-            m_challenge_key = 0;
-
-            m_client_security = false;
-            m_security_flag = 0;
-            m_security_flags = new SecurityFlags();
-            m_accepted_handshake = false;
-            m_started_handshake = false;
-            m_identity_flag = 0;
-            m_identity_name = "None";
-
-            m_outgoing_packets = new List<Packet>();
-            m_incoming_packets = new List<Packet>();
-
-            m_enc_opcodes = new List<ushort>();
-            m_enc_opcodes.Add(0x2001);
-            m_enc_opcodes.Add(0x6100);
-            m_enc_opcodes.Add(0x6101);
-            m_enc_opcodes.Add(0x6102);
-            m_enc_opcodes.Add(0x6103);
-            m_enc_opcodes.Add(0x6107);
-
-            m_blowfish = new Blowfish();
-
-            m_recv_buffer = new TransferBuffer(8192); // must be at minimal 2 bytes!
-            m_current_buffer = null;
-
-            m_massive_count = 0;
-            m_massive_packet = null;
-            m_class_lock = new object();
+            lock (m_class_lock)
+            {
+                if (m_enc_opcodes.Contains(opcode) == false)
+                {
+                    m_enc_opcodes.Add(opcode);
+                }
+            }
         }
 
         // Changes the 0x2001 identify packet data that will be sent out by
@@ -956,41 +994,6 @@ namespace ServerFrameworkRes.Network.Security
                     flags.none = 1;
                 }
                 GenerateSecurity(flags);
-            }
-        }
-
-        // Adds an encrypted opcode to the API. Any opcodes registered here will automatically
-        // be encrypted as needed. Users should add the current Item Use opcode if they will be
-        // mixing security modes.
-        public void AddEncryptedPacket(ushort opcode)
-        {
-            lock (m_class_lock)
-            {
-                if (m_enc_opcodes.Contains(opcode) == false)
-                {
-                    m_enc_opcodes.Add(opcode);
-                }
-            }
-        }
-
-        // Queues a packet for processing to be sent. The data is simply formatted and processed during
-        // the next call to TransferOutgoing.
-        public void Send(Packet packet)
-        {
-            if (packet.Opcode == 0x5000 || packet.Opcode == 0x9000)
-            {
-                throw (new SecurityException("SecurityManager::Send->Handshake packets cannot be sent through this function."));
-            }
-            lock (m_class_lock)
-            {
-                m_outgoing_packets.Add(packet);
-            }
-        }
-        public void Send(Packet[] packets)
-        {
-            foreach (var packet in packets)
-            {
-                this.Send(packet);
             }
         }
 
@@ -1266,6 +1269,44 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
+        // Queues a packet for processing to be sent. The data is simply formatted and processed during
+        // the next call to TransferOutgoing.
+        public void Send(Packet packet)
+        {
+            if (packet.Opcode == 0x5000 || packet.Opcode == 0x9000)
+            {
+                throw (new SecurityException("SecurityManager::Send->Handshake packets cannot be sent through this function."));
+            }
+            lock (m_class_lock)
+            {
+                m_outgoing_packets.Add(packet);
+            }
+        }
+
+        public void Send(Packet[] packets)
+        {
+            foreach (Packet packet in packets)
+            {
+                Send(packet);
+            }
+        }
+
+        // Returns a list of all packets that are ready for processing. If no packets are available,
+        // null is packet.
+        public List<Packet> TransferIncoming()
+        {
+            List<Packet> packets = null;
+            lock (m_class_lock)
+            {
+                if (m_incoming_packets.Count > 0)
+                {
+                    packets = m_incoming_packets;
+                    m_incoming_packets = new List<Packet>();
+                }
+            }
+            return packets;
+        }
+
         // Returns a list of buffers that is ready to be sent. These buffers must be sent in order.
         // If no buffers are available for sending, null is returned.
         public List<KeyValuePair<TransferBuffer, Packet>> TransferOutgoing()
@@ -1285,20 +1326,6 @@ namespace ServerFrameworkRes.Network.Security
             return buffers;
         }
 
-        // Returns a list of all packets that are ready for processing. If no packets are available,
-        // null is packet.
-        public List<Packet> TransferIncoming()
-        {
-            List<Packet> packets = null;
-            lock (m_class_lock)
-            {
-                if (m_incoming_packets.Count > 0)
-                {
-                    packets = m_incoming_packets;
-                    m_incoming_packets = new List<Packet>();
-                }
-            }
-            return packets;
-        }
+        #endregion Public Methods
     }
 }

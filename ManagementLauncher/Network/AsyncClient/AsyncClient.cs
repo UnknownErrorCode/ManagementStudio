@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.AsyncClient
 {
@@ -19,20 +15,23 @@ namespace ManagementLauncher.Network.AsyncClient
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            IPAddress address = null;
-            if (!IPAddress.TryParse(host, out address))
+            if (!IPAddress.TryParse(host, out IPAddress address))
             {
                 IPHostEntry host_entry = Dns.GetHostEntry(host);
                 address = host_entry.AddressList[0];
             }
 
-            AsyncToken token = new AsyncToken();
-            token.Socket = socket;
-            token.User = user;
-            token.Interface = @interface;
+            AsyncToken token = new AsyncToken
+            {
+                Socket = socket,
+                User = user,
+                Interface = @interface
+            };
 
-            SocketAsyncEventArgs connectEvtArgs = new SocketAsyncEventArgs();
-            connectEvtArgs.UserToken = token;
+            SocketAsyncEventArgs connectEvtArgs = new SocketAsyncEventArgs
+            {
+                UserToken = token
+            };
             connectEvtArgs.Completed += NetworkOnConnect;
             connectEvtArgs.RemoteEndPoint = new IPEndPoint(address, port);
             ProcessConnect(connectEvtArgs);

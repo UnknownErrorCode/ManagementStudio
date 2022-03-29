@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServerFrameworkRes.Network.Security;
+﻿using ServerFrameworkRes.Network.Security;
 using StudioServer.Handler.PacketHandler.Dashboard;
 
 namespace StudioServer.Handler
@@ -18,7 +12,7 @@ namespace StudioServer.Handler
 
         internal static Packet CurrentVersion()
         {
-            var version = new Packet(0xD000);
+            Packet version = new Packet(0xD000);
             version.WriteInt(StudioServer.settings.Version);
             return version;
         }
@@ -30,8 +24,8 @@ namespace StudioServer.Handler
         {
             Packet packet = new Packet(0x2099);
             packet.WriteInt(Worker.DataStorage.DataCount);
-            var array = Worker.DataStorage.AllFilesAsArray();
-            foreach (var item in array)
+            string[] array = Worker.DataStorage.AllFilesAsArray();
+            foreach (string item in array)
             {
                 packet.WriteAscii(item);
             }
@@ -88,7 +82,7 @@ namespace StudioServer.Handler
         #region Chats
         internal static Packet PastPrivateChatPacket(string partner, byte[] arr)
         {
-            Packet SinglePCPacket = new Packet(0x1818,false,true);
+            Packet SinglePCPacket = new Packet(0x1818, false, true);
             SinglePCPacket.WriteAscii(partner);
             SinglePCPacket.WriteByteArray(arr);
             return SinglePCPacket;
@@ -101,7 +95,7 @@ namespace StudioServer.Handler
         /// <returns></returns>
         internal static Packet PastAllChatPacket(byte[] allChatAsByte)
         {
-            var returner= new Packet(0x1717, false, true);
+            Packet returner = new Packet(0x1717, false, true);
             returner.WriteBool(true);
             returner.WriteByteArray(allChatAsByte);
             return returner;
@@ -113,7 +107,7 @@ namespace StudioServer.Handler
         /// <returns></returns>
         internal static Packet PastAllChatPacket(bool empty)
         {
-            var ereturn = new Packet(0x1717);
+            Packet ereturn = new Packet(0x1717);
             ereturn.WriteBool(false);
             return ereturn;
         }

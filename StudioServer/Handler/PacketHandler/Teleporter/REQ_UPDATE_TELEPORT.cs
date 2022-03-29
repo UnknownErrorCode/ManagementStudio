@@ -1,11 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudioServer.Handler.PacketHandler.Teleporter
 {
@@ -15,26 +10,26 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
         internal static Packet UpdateTeleport(Packet updatePacket, string accountName)
         {
 
-            var TeleportID = updatePacket.ReadInt();
-            int Service = updatePacket.ReadBool()==true ? 1:0;
-            var CodeName128 = updatePacket.ReadAscii();
-            var AssocRefObjCodeName = updatePacket.ReadAscii();
-            var AssicRefObjID = updatePacket.ReadInt();
-            var ZoneName128 = updatePacket.ReadAscii();
-            var RegionID = updatePacket.ReadShort();
-            var X = updatePacket.ReadShort();
-            var Y = updatePacket.ReadShort();
-            var Z = updatePacket.ReadShort();
-            var GenerateRadius = updatePacket.ReadShort();
-            var CanBeRessurectPos = updatePacket.ReadBool() ? 1 : 0;
-            var CanGoToRessurect = updatePacket.ReadBool() ? 1 : 0;
-            var GenerateWorldID = updatePacket.ReadShort();
-            var BindInteractMask = updatePacket.ReadBool() ? 1:0;
-            var FixedService = updatePacket.ReadBool() ? 1 : 0;
+            int TeleportID = updatePacket.ReadInt();
+            int Service = updatePacket.ReadBool() == true ? 1 : 0;
+            string CodeName128 = updatePacket.ReadAscii();
+            string AssocRefObjCodeName = updatePacket.ReadAscii();
+            int AssicRefObjID = updatePacket.ReadInt();
+            string ZoneName128 = updatePacket.ReadAscii();
+            short RegionID = updatePacket.ReadShort();
+            short X = updatePacket.ReadShort();
+            short Y = updatePacket.ReadShort();
+            short Z = updatePacket.ReadShort();
+            short GenerateRadius = updatePacket.ReadShort();
+            int CanBeRessurectPos = updatePacket.ReadBool() ? 1 : 0;
+            int CanGoToRessurect = updatePacket.ReadBool() ? 1 : 0;
+            short GenerateWorldID = updatePacket.ReadShort();
+            int BindInteractMask = updatePacket.ReadBool() ? 1 : 0;
+            int FixedService = updatePacket.ReadBool() ? 1 : 0;
 
 
 
-            var ParamArray = new SqlParameter[]
+            SqlParameter[] ParamArray = new SqlParameter[]
             {
                 new SqlParameter("@TeleportID", SqlDbType.Int) {Value = TeleportID},
                 new SqlParameter("@Service", SqlDbType.Int) {Value = Service},
@@ -54,7 +49,7 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
                 new SqlParameter("@FixedService", SqlDbType.TinyInt) {Value = FixedService},
             };
 
-            var res = SQL.ReturnDataTableByProcedure("_UPDATE_TELEPORT", StudioServer.settings.DBDev, ParamArray);
+            DataTable res = SQL.ReturnDataTableByProcedure("_UPDATE_TELEPORT", StudioServer.settings.DBDev, ParamArray);
 
 
 

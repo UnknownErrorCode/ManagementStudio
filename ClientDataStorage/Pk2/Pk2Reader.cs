@@ -17,7 +17,7 @@ namespace ClientDataStorage.Pk2
             Initialized = File.Exists(path);
             base.Pk2DataPath = path;
             base.Blowfish.Initialize(base.bKey);
-            this.Read();
+            Read();
         }
 
         public bool Initialized { get; }
@@ -35,13 +35,21 @@ namespace ClientDataStorage.Pk2
             for (int i = 0; i < splittedDirectory.Length; i++)
             {
                 if (i == splittedDirectory.Length - 1)
+                {
                     if (tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
+                    {
                         return true;
+                    }
                     else
+                    {
                         return false;
+                    }
+                }
 
                 if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i + 1]))
+                {
                     tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i + 1]);
+                }
             }
             return false;
         }
@@ -55,9 +63,11 @@ namespace ClientDataStorage.Pk2
         public override bool GetByteArrayByDirectory(string directory, out byte[] fileArray)
         {
             fileArray = null;
-            var file = GetFileByDirectory(directory);
+            Pk2File file = GetFileByDirectory(directory);
             if (file.name == null)
+            {
                 return false;
+            }
 
             fileArray = GetByteArrayByFile(file);
             return true;
@@ -90,28 +100,40 @@ namespace ClientDataStorage.Pk2
             for (int i = 0; i < splittedDirectory.Length; i++)
             {
                 if (i == splittedDirectory.Length - 1)
+                {
                     if (tempFodler.files.Exists(file => file.name == splittedDirectory[i]))
+                    {
                         return tempFodler.files.First(fi => fi.name == splittedDirectory[i]);
+                    }
                     else
+                    {
                         return new Pk2File();
+                    }
+                }
 
                 if (tempFodler.subfolders.Exists(sub => sub.name == splittedDirectory[i + 1]))
+                {
                     tempFodler = tempFodler.subfolders.First(subF => subF.name == splittedDirectory[i + 1]);
+                }
             }
             return new Pk2File();
         }
 
         public bool GetFilesInFolder(string filePath, out Structs.Pk2.Pk2File[] filesInFolder)
         {
-            var tempFolder = base.Pk2File;
-            var folders = filePath.Split('\\');
+            Pk2Folder tempFolder = base.Pk2File;
+            string[] folders = filePath.Split('\\');
             filesInFolder = null;
             for (int i = 0; i < folders.Length - 1; i++)
             {
                 if (tempFolder.subfolders.Exists(fold => fold.name.Equals(folders[i + 1])))
+                {
                     tempFolder = tempFolder.subfolders.First(fol => fol.name.Equals(folders[i + 1]));
+                }
                 else
+                {
                     return false;
+                }
             }
             filesInFolder = tempFolder.files.Count > 0 ? tempFolder.files.ToArray() : null;
             return true;
@@ -126,14 +148,18 @@ namespace ClientDataStorage.Pk2
             base.Pk2File = new Pk2Folder() { name = Path.GetFileNameWithoutExtension(base.Pk2DataPath) };
 
             if (!File.Exists(Pk2DataPath))
+            {
                 return;
+            }
 
             using (BinaryReader reader = new BinaryReader(File.OpenRead(base.Pk2DataPath)))
             {
                 Pk2Folder tempFolder = new Pk2Folder() { parentFolder = base.Pk2File, name = base.Pk2File.name };
 
                 if (GenerateFolder(reader, 256, tempFolder, out Pk2Folder newFolder))
+                {
                     base.Pk2File = newFolder;
+                }
             }
         }
 
@@ -144,7 +170,7 @@ namespace ClientDataStorage.Pk2
         public override bool Refresh()
         {
             base.Pk2File = null;
-            this.Read();
+            Read();
             return base.Pk2File != null;
         }
 
@@ -192,7 +218,10 @@ namespace ClientDataStorage.Pk2
                         case Pk2EntryType.Folder when entry.name != "." && entry.name != "..":
 
                             if (GenerateFolder(reader, entry.Position, new Pk2Folder(entry) { parentFolder = unusedMainFolder.parentFolder }, out Pk2Folder sub))
+                            {
                                 unusedMainFolder.subfolders.Add(sub);
+                            }
+
                             break;
 
                         case Pk2EntryType.File:

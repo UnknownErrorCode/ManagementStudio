@@ -7,24 +7,30 @@ namespace ClientDataStorage.Client.Textdata
 {
     public class SkillEffect
     {
+        #region Public Fields
+
         public SkilleffectStruct Skilleffects;
+
+        #endregion Public Fields
+
+        #region Public Constructors
 
         public SkillEffect()
         {
             if (Media.MediaPk2.GetByteArrayByDirectory("Media\\server_dep\\silkroad\\textdata\\skilleffect.txt", out byte[] rawfile))
             {
-                var FileAsLineArray = TextParser.StaticTextParser.ConvertByteArrayToTextArray(rawfile);
+                string[] FileAsLineArray = TextParser.StaticTextParser.ConvertByteArrayToTextArray(rawfile);
 
                 Skilleffects.AllCharakterInfos = new List<CharakterInfo>();
                 Skilleffects.AllAniSet2s = new List<AniSet2>();
                 Skilleffects.AllEffectSets = new List<EffectSet>();
 
-                var coordinationFlag = SkillEffectSection.None;
+                SkillEffectSection coordinationFlag = SkillEffectSection.None;
                 foreach (string line in FileAsLineArray)
                 {
                     if (line.Split(new string[] { "//" }, StringSplitOptions.None)[0].Length > 0)
                     {
-                        var newline = line.Split(new string[] { "//" }, StringSplitOptions.None)[0];
+                        string newline = line.Split(new string[] { "//" }, StringSplitOptions.None)[0];
                         if (newline == "")
                         {
                             continue;
@@ -44,7 +50,7 @@ namespace ClientDataStorage.Client.Textdata
                             coordinationFlag = SkillEffectSection.skilleffectset;
                             continue;
                         }
-                        var splittedSingleLine = newline.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+                        List<string> splittedSingleLine = newline.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
 
                         switch (coordinationFlag)
                         {
@@ -86,5 +92,7 @@ namespace ClientDataStorage.Client.Textdata
                 }
             }
         }
+
+        #endregion Public Constructors
     }
 }

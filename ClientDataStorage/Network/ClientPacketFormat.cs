@@ -7,7 +7,7 @@ namespace ClientDataStorage.Network
     {
         public static Packet RequestPluginDataTables(string plugin)
         {
-            var packet = new Packet(PacketID.Client.RequestPlugiDataTable);
+            Packet packet = new Packet(PacketID.Client.RequestPlugiDataTable);
             packet.WriteAscii(plugin);
             return packet;
         }

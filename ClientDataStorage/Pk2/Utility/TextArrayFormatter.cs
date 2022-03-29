@@ -13,10 +13,14 @@ namespace ClientDataStorage.Client.Textdata
         /// <returns>IEnumerator<string[]> Formatted Strings</returns>
         internal IEnumerable<string[]> ConvertTextArrayToStructuredTextArray(string[] array, byte minSize, char[] splitCharakterArray)
         {
-            var FormattedStringArray = new List<string[]>();
+            List<string[]> FormattedStringArray = new List<string[]>();
             for (int i = 0; i < array.Length; i++)
+            {
                 if (array[i].Split(splitCharakterArray).Length >= minSize)
+                {
                     FormattedStringArray.Add(array[i].Split(splitCharakterArray));
+                }
+            }
 
             return FormattedStringArray.AsEnumerable();
         }

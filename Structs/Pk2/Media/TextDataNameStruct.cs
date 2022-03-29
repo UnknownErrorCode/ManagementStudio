@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Structs.Pk2.Media
 {
@@ -29,9 +25,13 @@ namespace Structs.Pk2.Media
         public TextDataNameStruct(string[] array)
         {
             if (Byte.TryParse(array[0], out byte service))
+            {
                 Service = service;
+            }
             else
+            {
                 Service = 0;
+            }
 
             Code = array[1];
             Korean = array[2];

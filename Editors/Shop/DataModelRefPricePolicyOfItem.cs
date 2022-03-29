@@ -15,7 +15,7 @@ namespace Editors.Shop
         public PaymentDevice PaymentDevice { get => policy.PaymentDevice; set => policy.PaymentDevice = value; }
         public int Cost { get => policy.Cost; set => policy.Cost = value; }
 
-        public RefPricePolicyOfItem PricePolicyOfItem { get => policy; }
+        public RefPricePolicyOfItem PricePolicyOfItem => policy;
         #endregion
 
         public DataModelRefPricePolicyOfItem(object[] itemArray)

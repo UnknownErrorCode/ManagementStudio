@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Ressources;
-using ServerFrameworkRes.Network.AsyncNetwork;
+using System;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ManagementServer
@@ -21,7 +18,7 @@ namespace ManagementServer
         public ServerManager()
         {
             InitializeComponent();
-            this.Controls.Add(Logger);
+            Controls.Add(Logger);
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
@@ -36,10 +33,10 @@ namespace ManagementServer
             int counter = 0;
             while (Ticker)
             {
-                this.toolStripStatusLabelOnlineUser.Text = $"Connected user: {ServerMemory.OnlineUser}";
+                toolStripStatusLabelOnlineUser.Text = $"Connected user: {ServerMemory.OnlineUser}";
                 Thread.Sleep(100);
                 counter++;
-                if (counter >100)
+                if (counter > 100)
                 {
                     GC.Collect(2);
                     counter = 0;
@@ -53,10 +50,14 @@ namespace ManagementServer
             try
             {
                 if (!Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString))
+                {
                     return;
+                }
 
                 if (!PluginSecurityManager.TryRefreshSecurityManager())
+                {
                     return;
+                }
 
                 Utility.SQL.LogoutEveryone();
                 Server = new AsyncServer();
@@ -95,7 +96,10 @@ namespace ManagementServer
         private void StopServer()
         {
             if (!Ticker)
+            {
                 return;
+            }
+
             Logger.WriteLogLine("Status: vSro-Studio-Server stopped!");
             Ticker = false;
             Server.Stop();
@@ -114,7 +118,7 @@ namespace ManagementServer
                 Logger.WriteLogLine("please establish a SQL connection first!");
                 return;
             }
-            using (var patchManager = new PatchManager())
+            using (PatchManager patchManager = new PatchManager())
             {
                 patchManager.ShowDialog();
             }

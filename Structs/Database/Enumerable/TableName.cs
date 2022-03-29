@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Structs.Database.Enumerable
+﻿namespace Structs.Database.Enumerable
 {
-    public enum TableName: short
+    public enum TableName : short
     {
         _AccountJID,
         _AlliedClans,

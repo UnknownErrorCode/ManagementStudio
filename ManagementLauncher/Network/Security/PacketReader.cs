@@ -1,14 +1,10 @@
 ﻿using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementLauncher.Network.Security
 {
     internal class PacketReader : BinaryReader
     {
-        private byte[] _input;
+        private readonly byte[] _input;
 
         public PacketReader(byte[] input)
             : base(new MemoryStream(input, false))

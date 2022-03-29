@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerFrameworkRes.Handler
+﻿namespace ServerFrameworkRes.Handler
 {
     public static class Caller
     {
-        public static string GetMemberName([System.Runtime.CompilerServices.CallerMemberName] string memberName = null)
-        {
-            return memberName;
-        }
+        #region Public Methods
 
         public static string GetFilePath([System.Runtime.CompilerServices.CallerFilePath] string filePath = null)
         {
@@ -22,5 +13,12 @@ namespace ServerFrameworkRes.Handler
         {
             return lineNumber;
         }
+
+        public static string GetMemberName([System.Runtime.CompilerServices.CallerMemberName] string memberName = null)
+        {
+            return memberName;
+        }
+
+        #endregion Public Methods
     }
 }

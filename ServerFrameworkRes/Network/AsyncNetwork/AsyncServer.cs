@@ -1,17 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncServer : AsyncBase
     {
+        #region Private Fields
+
         private Socket socket;
+
+        #endregion Private Fields
+
+        #region Public Methods
+
         public void Accept(string host, int port, int outstanding, IAsyncInterface @interface)
         {
             Accept(host, port, outstanding, @interface, null);
@@ -19,7 +22,7 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 
         public void Accept(string host, int port, int outstanding, IAsyncInterface @interface, object user)
         {
-             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             if (!IPAddress.TryParse(host, out IPAddress address))
             {
@@ -59,26 +62,16 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
                 throw ex;
             }
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
         private void DispatchAccept(object param)
         {
             SocketAsyncEventArgs e = (SocketAsyncEventArgs)param;
 
             NetworkOnAccept(null, e);
-        }
-
-        private void ProcessAccept(SocketAsyncEventArgs e)
-        {
-            if (e.SocketError != SocketError.OperationAborted)
-            {
-                AsyncToken token = (AsyncToken)e.UserToken;
-
-                e.AcceptSocket = null;
-
-                if (!token.Socket.AcceptAsync(e))
-                {
-                    ThreadPool.QueueUserWorkItem(DispatchAccept, e);
-                }
-            }
         }
 
         private void NetworkOnAccept(object sender, SocketAsyncEventArgs e)
@@ -127,5 +120,22 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 
             AddState(state); // Store the state to keep it alive
         }
+
+        private void ProcessAccept(SocketAsyncEventArgs e)
+        {
+            if (e.SocketError != SocketError.OperationAborted)
+            {
+                AsyncToken token = (AsyncToken)e.UserToken;
+
+                e.AcceptSocket = null;
+
+                if (!token.Socket.AcceptAsync(e))
+                {
+                    ThreadPool.QueueUserWorkItem(DispatchAccept, e);
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }

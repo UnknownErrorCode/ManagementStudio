@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
 namespace ManagementLauncher.Network
 {
     class LauncherClient
     {
         public Thread TickerThread;
-        internal  LauncherInterface LInterface { get; set; }
+        internal LauncherInterface LInterface { get; set; }
         internal static LauncherData LData { get; set; }
-        internal  AsyncClient.AsyncClient LClient;
+        internal AsyncClient.AsyncClient LClient;
 
         internal LauncherClient()
         {
@@ -25,21 +20,31 @@ namespace ManagementLauncher.Network
         internal bool Connect()
         {
             if (LData == null)
+            {
                 return false;
-            if (LData.m_connected)
-                return true;
+            }
 
-            LClient.Connect(Launcher.LConfig.HostIP, (int)Launcher.LConfig.HostPort, LInterface, LData);
+            if (LData.m_connected)
+            {
+                return true;
+            }
+
+            LClient.Connect(Launcher.LConfig.HostIP, Launcher.LConfig.HostPort, LInterface, LData);
 
             for (int i = 0; i < 5000; i++)
             {
                 if (LData.m_connected)
+                {
                     break;
+                }
+
                 Thread.Sleep(1);
             }
 
             if (LData.m_connected)
+            {
                 TickerThread.Start();
+            }
 
             return LData.m_connected;
         }

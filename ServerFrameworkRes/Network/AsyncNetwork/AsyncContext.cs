@@ -1,24 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncContext
     {
-        public AsyncState State { get; set; }
-        public Guid Guid { get { return guid; } }
-        public IAsyncInterface Interface { get; set; }
-        public object User { get; set; }
+        #region Private Fields
 
         private Guid guid;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public AsyncContext()
         {
             guid = Guid.NewGuid();
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public Guid Guid => guid;
+
+        public IAsyncInterface Interface { get; set; }
+        public AsyncState State { get; set; }
+        public object User { get; set; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public void Disconnect()
         {
@@ -34,5 +45,7 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
         {
             State.Write(new AsyncBuffer(buffer, offset, count));
         }
+
+        #endregion Public Methods
     }
 }

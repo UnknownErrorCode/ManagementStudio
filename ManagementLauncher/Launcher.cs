@@ -1,13 +1,6 @@
 ﻿using ManagementLauncher.Network;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ManagementLauncher
@@ -22,12 +15,12 @@ namespace ManagementLauncher
         public Launcher()
         {
             InitializeComponent();
-            LogBox = this.richTextBoxLog;
+            LogBox = richTextBoxLog;
             LConfig = new Config.InitializeConfig();
             MainClient = new LauncherClient();
             vSroInputBoxHost.ValueText = LConfig.HostIP;
             vSroInputBoxPort.ValueText = LConfig.HostPort.ToString();
-            this.vSroSizableWindow1.Title = $"vSro Studio Launcher v.{LConfig.Version}";
+            vSroSizableWindow1.Title = $"vSro Studio Launcher v.{LConfig.Version}";
 
             StaticLauncher = this;
             WriteLine("Connecting to server... Please wait!");
@@ -55,16 +48,16 @@ namespace ManagementLauncher
         {
             if (richTextBoxLog.InvokeRequired)
             {
-                this.richTextBoxLog.Invoke(new Action(() =>
+                richTextBoxLog.Invoke(new Action(() =>
                 {
-                    this.richTextBoxLog.AppendText($"{msg}\n");
-                    this.richTextBoxLog.ScrollToCaret();
+                    richTextBoxLog.AppendText($"{msg}\n");
+                    richTextBoxLog.ScrollToCaret();
                 }));
             }
             else
             {
-                this.richTextBoxLog.AppendText($"{msg}\n");
-                this.richTextBoxLog.ScrollToCaret();
+                richTextBoxLog.AppendText($"{msg}\n");
+                richTextBoxLog.ScrollToCaret();
             }
         }
         private void TryConnect()
@@ -72,13 +65,17 @@ namespace ManagementLauncher
             try
             {
                 if (MainClient.Connect())
+                {
                     WriteLine("Successfully connected to Server!");
+                }
                 else
+                {
                     WriteLine($"Failed to connect to Server!");
+                }
             }
             catch (Exception ex)
             {
-                WriteLine($"Failed to connect to Server! {ex.Message}"); 
+                WriteLine($"Failed to connect to Server! {ex.Message}");
             }
         }
 

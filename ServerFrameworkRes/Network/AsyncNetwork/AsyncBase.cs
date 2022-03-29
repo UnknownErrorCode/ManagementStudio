@@ -1,18 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public abstract class AsyncBase
     {
-        private List<AsyncState> states;
+        #region Private Fields
+
+        private readonly List<AsyncState> states;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public AsyncBase()
         {
             states = new List<AsyncState>();
+        }
+
+        #endregion Public Constructors
+
+        #region Public Methods
+
+        public void AddState(AsyncState state)
+        {
+            lock (states)
+            {
+                states.Add(state);
+            }
+        }
+
+        public void RemoveState(AsyncState state)
+        {
+            lock (states)
+            {
+                states.Remove(state);
+            }
         }
 
         public void Tick()
@@ -30,20 +53,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             }
         }
 
-        public void AddState(AsyncState state)
-        {
-            lock (states)
-            {
-                states.Add(state);
-            }
-        }
-
-        public void RemoveState(AsyncState state)
-        {
-            lock (states)
-            {
-                states.Remove(state);
-            }
-        }
+        #endregion Public Methods
     }
 }

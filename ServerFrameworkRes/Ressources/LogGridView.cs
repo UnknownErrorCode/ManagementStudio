@@ -1,13 +1,9 @@
-﻿using System;
+﻿using ServerFrameworkRes.Network.ServerStructs;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ServerFrameworkRes.Network.ServerStructs;
 
 namespace ServerFrameworkRes.Ressources
 {
@@ -15,7 +11,7 @@ namespace ServerFrameworkRes.Ressources
     {
         public Stack<string> MessageStack = new Stack<string>();
 
-        private ReportLog Reporter { get => new ReportLog(TypeOfModuleLog); }
+        private ReportLog Reporter => new ReportLog(TypeOfModuleLog);
         public ModuleType TypeOfModuleLog { get; set; }
         public LogGridView()
         {
@@ -30,7 +26,7 @@ namespace ServerFrameworkRes.Ressources
 
         public void WriteLogLine(LogLevel Level, string message)
         {
-            var LogArray = new string[3]
+            string[] LogArray = new string[3]
             {
                 $"{Level}",
                 message,
@@ -65,7 +61,7 @@ namespace ServerFrameworkRes.Ressources
                 // dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
                 dataGridView1.Invoke(new Action(() => { dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1; }));
             }
-            
+
             // dataGridView1.ClearSelection();
             dataGridView1.Invoke(new Action(() => { dataGridView1.ClearSelection(); }));
         }
@@ -107,12 +103,12 @@ namespace ServerFrameworkRes.Ressources
 
         private void LogMsgThread()
         {
-            this.WriteLogLine(LogLevel.notify, "Runtime logThread started!");
+            WriteLogLine(LogLevel.notify, "Runtime logThread started!");
             while (true)
             {
                 if (MessageStack.Count > 0)
                 {
-                    this.WriteLogLine(LogLevel.notify, MessageStack.Pop());
+                    WriteLogLine(LogLevel.notify, MessageStack.Pop());
                 }
                 System.Threading.Thread.Sleep(100);
             }

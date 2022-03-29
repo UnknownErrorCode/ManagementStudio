@@ -8,10 +8,16 @@ namespace SkillEditor
 {
     public partial class SkillEditorControl : UserControl
     {
+        #region Public Constructors
+
         public SkillEditorControl()
         {
             InitializeComponent();
         }
+
+        #endregion Public Constructors
+
+        #region Private Methods
 
         /// <summary>
         /// Takes action after click on a Monster. Opens the monster skill editor.
@@ -21,9 +27,10 @@ namespace SkillEditor
         private void OnMonsterClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridViewMonster.SelectedRows.Count > 0)
+            {
                 if (dataGridViewMonster.SelectedRows[0] != null)
                 {
-                    var commonID = (int)dataGridViewMonster.SelectedRows[0].Cells["ID"].Value;
+                    int commonID = (int)dataGridViewMonster.SelectedRows[0].Cells["ID"].Value;
 
                     if (ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(commonID))
                     {
@@ -36,6 +43,7 @@ namespace SkillEditor
                         }
                     }
                 }
+            }
         }
 
         /// <summary>
@@ -46,7 +54,9 @@ namespace SkillEditor
         private void SearchMonster(object sender, EventArgs e)
         {
             if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Any(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())))
+            {
                 dataGridViewMonster.DataSource = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Where(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())).CopyToDataTable();
+            }
             else { dataGridViewMonster.DataSource = null; }
         }
 
@@ -55,5 +65,7 @@ namespace SkillEditor
             //ClientDataStorage.Database.SRO_VT_SHARD.InitializeSkillEditor();
             buttonSearch.Enabled = true;
         }
+
+        #endregion Private Methods
     }
 }

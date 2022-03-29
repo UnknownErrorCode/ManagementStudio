@@ -1,16 +1,11 @@
 ﻿using ManagementServer.Utility;
 using ServerFrameworkRes.Network.Security;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementServer.Handler
 {
-    class S_UPDATE
+    internal class S_UPDATE
     {
         /// <summary>
         /// SERVER => CLIENT  0xA001 include latest version
@@ -18,12 +13,7 @@ namespace ManagementServer.Handler
         /// </summary>
         /// <returns></returns>
 
-        internal static ServerFrameworkRes.Network.Security.Packet SendServerVersion()
-        {
-            ServerFrameworkRes.Network.Security.Packet loginSuccessPacket = new Packet(0xA001);
-            loginSuccessPacket.WriteInt(SQL.LatestVersion());
-            return loginSuccessPacket;
-        }
+        #region Internal Methods
 
         /// <summary>
         /// SERVER_UPDATE_SEND_FILES -- C_0x1001 -> S_0xA002 -- contains a file with directory information for the Client
@@ -36,14 +26,14 @@ namespace ManagementServer.Handler
 
             foreach (DataRow row in ToBePatched.Rows)
             {
-                var ToClientDir = row.Field<string>("CFilePath");
-                var version = row.Field<int>("Version");
-                var ToClientFileName = row.Field<string>("CFileName");
-                var FileitselfStringPath = Path.Combine(ServerManager.settings.PatchFolderDirectory_Archiv, ToClientDir, ToClientFileName);
+                string ToClientDir = row.Field<string>("CFilePath");
+                int version = row.Field<int>("Version");
+                string ToClientFileName = row.Field<string>("CFileName");
+                string FileitselfStringPath = Path.Combine(ServerManager.settings.PatchFolderDirectory_Archiv, ToClientDir, ToClientFileName);
                 if (File.Exists(FileitselfStringPath))
                 {
-                    var BinaryFile = File.ReadAllBytes(FileitselfStringPath);
-                    var packeta = new Packet(0xA002, false, true);
+                    byte[] BinaryFile = File.ReadAllBytes(FileitselfStringPath);
+                    Packet packeta = new Packet(0xA002, false, true);
                     packeta.WriteInt(version);
                     packeta.WriteAscii(ToClientFileName);
                     packeta.WriteAscii(ToClientDir);
@@ -52,13 +42,20 @@ namespace ManagementServer.Handler
                 }
             }
 
-            var updateSuccess = new Packet(0xA003);
+            Packet updateSuccess = new Packet(0xA003);
             updateSuccess.WriteInt(SQL.LatestVersion());
             data.m_security.Send(updateSuccess);
 
             return PacketHandlerResult.Block;
         }
 
-      
+        internal static ServerFrameworkRes.Network.Security.Packet SendServerVersion()
+        {
+            ServerFrameworkRes.Network.Security.Packet loginSuccessPacket = new Packet(0xA001);
+            loginSuccessPacket.WriteInt(SQL.LatestVersion());
+            return loginSuccessPacket;
+        }
+
+        #endregion Internal Methods
     }
 }

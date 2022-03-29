@@ -24,7 +24,7 @@ namespace ManagementLauncher
         {
             ValueText = textBoxText;
         }
-       
+
         public void AppendNameNAppendText(string Name, string Text)
         {
             ValueText = Text; TitleText = Name;

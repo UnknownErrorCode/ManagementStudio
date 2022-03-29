@@ -55,21 +55,31 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private readonly Dictionary<int, IChar> AllPlayer = new Dictionary<int, IChar>();
 
+        /// <summary>
+        /// Consists of all RegionGraphics on the WorldMap existing in the DB.
+        /// </summary>
+        private readonly Dictionary<Point, RegionGraphic> AllRegionGraphics = new Dictionary<Point, RegionGraphic>();
+
         private readonly Dictionary<int, Teleport> AllTeleports = new Dictionary<int, Teleport>();
+
+        /// <summary>
+        /// Consists of all RegionGraphics on the WorldMap that does not existing in the DB but -m file is aviable.
+        /// </summary>
+        private readonly Dictionary<Point, RegionGraphic> AllUnusedRegionGraphics = new Dictionary<Point, RegionGraphic>();
 
         private readonly Dictionary<string, NewPosition> NewPosDic = new Dictionary<string, NewPosition>();
 
         private readonly List<Spawn> Spawns = new List<Spawn>();
 
         /// <summary>
-        /// Consists of all RegionGraphics on the WorldMap existing in the DB.
+        /// String builder for tooltip text help.
         /// </summary>
-        private readonly Dictionary<Point, RegionGraphic> AllRegionGraphics = new Dictionary<Point, RegionGraphic>();
+        private readonly StringBuilder StrBuilder = new StringBuilder();
 
         /// <summary>
-        /// Consists of all RegionGraphics on the WorldMap that does not existing in the DB but -m file is aviable.
+        /// Unique tooltip used for anyting that requires a Tip to display to avoid creating duplicate tooltips.
         /// </summary>
-        private readonly Dictionary<Point, RegionGraphic> AllUnusedRegionGraphics = new Dictionary<Point, RegionGraphic>();
+        private readonly ToolTip tip = new ToolTip();
 
         /// <summary>
         /// Delta position from last MouseDown and MouseUp. This is required to calculate the MovePoint for swiping
@@ -85,16 +95,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// The Location of the mouse while dragging and swiping.
         /// </summary>
         private Point MouseSroRegioDownPoint = Point.Empty;
-
-        /// <summary>
-        /// String builder for tooltip text help.
-        /// </summary>
-        private readonly StringBuilder StrBuilder = new StringBuilder();
-
-        /// <summary>
-        /// Unique tooltip used for anyting that requires a Tip to display to avoid creating duplicate tooltips.
-        /// </summary>
-        private readonly ToolTip tip = new ToolTip();
 
         /// <summary>
         /// The start Position for Drawing.

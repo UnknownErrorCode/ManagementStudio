@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Sockets;
 
 namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncToken
     {
-        public Socket Socket { get; set; }
+        #region Public Properties
+
         public IAsyncInterface Interface { get; set; }
+        public Socket Socket { get; set; }
         public object User { get; set; }
+
+        #endregion Public Properties
     }
 }

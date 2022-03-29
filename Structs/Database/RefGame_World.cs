@@ -4,17 +4,17 @@ namespace Structs.Database
 {
     public struct RefGame_World
     {
-        public readonly int ID ;
-        public string WorldCodeName128 ;
-        public byte Type ;
-        public short WorldMaxCount ;
-        public short WorldMaxUserCount ;
-        public byte WorldEntryType ;
-        public byte WorldEntranceType ;
-        public byte WorldLeaveType ;
-        public int WorldDurationTime ;
-        public int WorldEmptyRemainTime ;
-        public string ConfigGroupCodeName128 ;
+        public readonly int ID;
+        public string WorldCodeName128;
+        public byte Type;
+        public short WorldMaxCount;
+        public short WorldMaxUserCount;
+        public byte WorldEntryType;
+        public byte WorldEntranceType;
+        public byte WorldLeaveType;
+        public int WorldDurationTime;
+        public int WorldEmptyRemainTime;
+        public string ConfigGroupCodeName128;
 
 
         public RefGame_World(object[] row)
