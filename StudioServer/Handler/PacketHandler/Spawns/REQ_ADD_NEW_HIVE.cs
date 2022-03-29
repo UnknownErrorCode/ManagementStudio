@@ -7,6 +7,8 @@ namespace StudioServer.Handler.PacketHandler.Spawns
 {
     public static class REQ_ADD_NEW_HIVE
     {
+        #region Public Methods
+
         public static Packet AddNewHive(Packet packet, string AccName)
         {
             ITabRefHiveUpdater test = new ITabRefHiveUpdater()
@@ -28,7 +30,7 @@ namespace StudioServer.Handler.PacketHandler.Spawns
                 @dwOverwriteMaxTotalCount int = 1,
                 @fMonsterCountPerPC real = 0,
                 @dwSpawnSpeedIncreaseRate int = 0,
-                @dwMaxIncreaseRate int = 0, 
+                @dwMaxIncreaseRate int = 0,
                 @btFlag tinyint= 0,
                 @GameWorldID smallint,
                 @HatchObjType smallint= 1,
@@ -64,5 +66,7 @@ namespace StudioServer.Handler.PacketHandler.Spawns
             }
             return null;
         }
+
+        #endregion Public Methods
     }
 }

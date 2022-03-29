@@ -3,14 +3,27 @@ using ServerFrameworkRes.Ressources.ServerBody;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+
 namespace ServerFrameworkRes.Ressources
 {
     public partial class ArchitectureBody : UserControl
     {
-        public Dictionary<ServerBodyState, Image> ServerBodyImages = new Dictionary<ServerBodyState, Image>();
+        #region Public Fields
+
         public ServerData SelfBody;
-        public Point BodyLocation { get; set; }
-        public Point DockChordsPoint => new Point(Location.X + 25, Location.Y + 25);
+        public Dictionary<ServerBodyState, Image> ServerBodyImages = new Dictionary<ServerBodyState, Image>();
+
+        #endregion Public Fields
+
+        #region Protected Fields
+
+        protected Point clickPosition;
+        protected Point scrollPosition;
+
+        #endregion Protected Fields
+
+        #region Public Constructors
+
         public ArchitectureBody(ServerData IncomeSelfBody, Point Locationee)
         {
             BodyLocation = Locationee;
@@ -27,13 +40,19 @@ namespace ServerFrameworkRes.Ressources
             ServerBodyImages.Add(ServerBodyState.Blue, pictureBoxActive.BackgroundImage);
             ServerBodyImages.Add(ServerBodyState.Busy, pictureBoxActive.InitialImage);
             ServerBodyImages.Add(ServerBodyState.Red, pictureBoxActive.ErrorImage);
-
-
         }
 
+        #endregion Public Constructors
 
-        protected Point clickPosition;
-        protected Point scrollPosition;
+        #region Public Properties
+
+        public Point BodyLocation { get; set; }
+        public Point DockChordsPoint => new Point(Location.X + 25, Location.Y + 25);
+
+        #endregion Public Properties
+
+        #region Private Methods
+
         private void ArchitectureBody_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -52,7 +71,8 @@ namespace ServerFrameworkRes.Ressources
                 Location = new Point((Size)Location - (Size)DeltaXY);
                 ResumeLayout(false);
             }
-
         }
+
+        #endregion Private Methods
     }
 }

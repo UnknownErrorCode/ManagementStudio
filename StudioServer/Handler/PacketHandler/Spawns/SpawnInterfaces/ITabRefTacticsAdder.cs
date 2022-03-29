@@ -2,9 +2,15 @@
 {
     public class ITabRefTacticsAdder
     {
-        public string MobName;
+        #region Public Fields
+
         public byte Aggro;
         public string Desc;
+        public string MobName;
+
+        #endregion Public Fields
+
+        #region Public Constructors
 
         public ITabRefTacticsAdder(string name, bool aggro, string desc)
         {
@@ -12,5 +18,7 @@
             Aggro = aggro ? (byte)2 : (byte)1;
             Desc = desc;
         }
+
+        #endregion Public Constructors
     }
 }

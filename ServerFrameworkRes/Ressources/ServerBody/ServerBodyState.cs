@@ -2,7 +2,6 @@
 {
     public enum ServerBodyState : int
     {
-
         None = 0,
         Wait = 1,
         Busy = 2,
@@ -14,4 +13,3 @@
         Hide = 8,
     }
 }
-

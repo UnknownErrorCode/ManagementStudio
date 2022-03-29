@@ -8,34 +8,14 @@ namespace StudioServer.Handler.PacketHandler.Skills
 {
     internal static class REQ_ADD_NEW_SKILL_MOB
     {
-
-
-
-        private static int GetAttackType(string aType)
-        {
-            int rValue = 10;
-            switch (aType)
-            {
-                case "Physical":
-                    rValue = 5;
-                    break;
-                case "Magical":
-                    rValue = 10;
-                    break;
-                default:
-                    break;
-            }
-            return rValue;
-        }
+        #region Internal Methods
 
         internal static Packet NewMobSkill(Packet packet, string AccName)
         {
             List<SqlParameter> SqlParamList = new List<SqlParameter>();
 
-
             BasicMobSkill basicSkill = new BasicMobSkill()
             {
-
                 MobName = packet.ReadAscii(),
                 SkillName = packet.ReadAscii(),
                 SkillLevel = packet.ReadByte(),
@@ -63,8 +43,6 @@ namespace StudioServer.Handler.PacketHandler.Skills
             SqlParamList.Add(new SqlParameter("@AI_AttackChance", SqlDbType.Int) { Value = basicSkill.AI_Attack_Chance });
             SqlParamList.Add(new SqlParameter("@Target_Required", SqlDbType.TinyInt) { Value = TargetReq });
             SqlParamList.Add(new SqlParameter("@SkillTypeFlag", SqlDbType.VarChar, 64) { Value = basicSkill.SkillFlag });
-
-
 
             switch (basicSkill.SkillFlag)
             {
@@ -95,12 +73,10 @@ namespace StudioServer.Handler.PacketHandler.Skills
                     SqlParamList.Add(new SqlParameter("@Value3", SqlDbType.VarChar) { Value = SpawnSkill.MinSpawnCount.ToString() });
                     SqlParamList.Add(new SqlParameter("@Value4", SqlDbType.VarChar) { Value = SpawnSkill.MaxSpawnCount.ToString() });
 
-
-
                     break;
+
                 case "Attack":
                     /*
-                     
                      else if(@SkillTypeFlag='Attack')
 	SELECT	@ParamValue1 = 6386804, --Say it is Attack Skill
 				@ParamValue2 = Convert(int,@Value1),  --Physical or Magical    5 0r 10
@@ -130,10 +106,13 @@ namespace StudioServer.Handler.PacketHandler.Skills
                     SqlParamList.Add(new SqlParameter("@Value6", SqlDbType.VarChar, 128) { Value = ASkill.NumberOfHits.ToString() });
 
                     break;
+
                 case "Buff":
                     break;
+
                 case "Debuff":
                     break;
+
                 default:
                     break;
             }
@@ -157,5 +136,30 @@ namespace StudioServer.Handler.PacketHandler.Skills
             }
             return null;
         }
+
+        #endregion Internal Methods
+
+        #region Private Methods
+
+        private static int GetAttackType(string aType)
+        {
+            int rValue = 10;
+            switch (aType)
+            {
+                case "Physical":
+                    rValue = 5;
+                    break;
+
+                case "Magical":
+                    rValue = 10;
+                    break;
+
+                default:
+                    break;
+            }
+            return rValue;
+        }
+
+        #endregion Private Methods
     }
 }

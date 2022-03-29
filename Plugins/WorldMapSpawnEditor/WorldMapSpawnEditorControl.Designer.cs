@@ -51,12 +51,12 @@
             this.nestNRadiusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.spawnInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spawnEditorOnClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vSroSmallButtonLoad = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.spawnEditorOnClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -265,8 +265,17 @@
             this.spawnInformationToolStripMenuItem.Text = "Spawn information";
             this.spawnInformationToolStripMenuItem.Click += new System.EventHandler(this.spawnInformationToolStripMenuItem_Click);
             // 
+            // spawnEditorOnClickToolStripMenuItem
+            // 
+            this.spawnEditorOnClickToolStripMenuItem.CheckOnClick = true;
+            this.spawnEditorOnClickToolStripMenuItem.Name = "spawnEditorOnClickToolStripMenuItem";
+            this.spawnEditorOnClickToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.spawnEditorOnClickToolStripMenuItem.Text = "Spawn Editor on Click";
+            this.spawnEditorOnClickToolStripMenuItem.Click += new System.EventHandler(this.spawnEditorOnClickToolStripMenuItem_Click);
+            // 
             // vSroSmallButtonLoad
             // 
+            this.vSroSmallButtonLoad.Enabled = false;
             this.vSroSmallButtonLoad.Location = new System.Drawing.Point(16, 346);
             this.vSroSmallButtonLoad.MaximumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonLoad.MinimumSize = new System.Drawing.Size(152, 24);
@@ -308,14 +317,6 @@
             this.saveCoordinateToolStripMenuItem.Name = "saveCoordinateToolStripMenuItem";
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
-            // 
-            // spawnEditorOnClickToolStripMenuItem
-            // 
-            this.spawnEditorOnClickToolStripMenuItem.CheckOnClick = true;
-            this.spawnEditorOnClickToolStripMenuItem.Name = "spawnEditorOnClickToolStripMenuItem";
-            this.spawnEditorOnClickToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.spawnEditorOnClickToolStripMenuItem.Text = "Spawn Editor on Click";
-            this.spawnEditorOnClickToolStripMenuItem.Click += new System.EventHandler(this.spawnEditorOnClickToolStripMenuItem_Click);
             // 
             // WorldMapSpawnEditorControl
             // 

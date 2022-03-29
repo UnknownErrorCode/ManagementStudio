@@ -7,9 +7,7 @@ namespace StudioServer.Handler.PacketHandler.Login
 {
     internal class REQUEST_LOGIN
     {
-
-
-
+        #region Internal Methods
 
         /// <summary>
         /// Replies with 0xA101 about the Login Information
@@ -19,7 +17,6 @@ namespace StudioServer.Handler.PacketHandler.Login
         /// <returns></returns>
         internal static Packet LoginPackage(Packet opcode, ServerFrameworkRes.Network.Security.ServerData context_data)
         {
-
             byte register = opcode.ReadByte();
             string accname = opcode.ReadAscii();
             string password = opcode.ReadAscii();
@@ -80,7 +77,6 @@ namespace StudioServer.Handler.PacketHandler.Login
                                     ListOfTables.Add(tablename);
                                 }
                             }
-
                         }
                     }
                     byte tablecount = byte.Parse(ListOfTables.Count.ToString());
@@ -91,7 +87,6 @@ namespace StudioServer.Handler.PacketHandler.Login
                         opcode.WriteAscii(item);
                     }
                 }
-
             }
             else
             {
@@ -103,5 +98,6 @@ namespace StudioServer.Handler.PacketHandler.Login
             return opcode;
         }
 
+        #endregion Internal Methods
     }
 }

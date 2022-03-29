@@ -4,8 +4,9 @@ using System.IO;
 
 namespace StudioServer.Handler.PacketHandler.Dashboard
 {
-    class REC_NEW_TOPICGUIDE
+    internal class REC_NEW_TOPICGUIDE
     {
+        #region Internal Methods
 
         internal static Packet WriteNewTopic(Packet packet)
         {
@@ -16,7 +17,6 @@ namespace StudioServer.Handler.PacketHandler.Dashboard
             string dir = Path.Combine(StudioServer.settings.GuidePath, author);
             try
             {
-
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir).Create();
@@ -32,7 +32,8 @@ namespace StudioServer.Handler.PacketHandler.Dashboard
             {
                 return OutgoingPackets.FailNoticePlayer($"Failed to added new Topic {title} {ex.Message}");
             }
-
         }
+
+        #endregion Internal Methods
     }
 }

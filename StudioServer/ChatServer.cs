@@ -9,21 +9,22 @@ namespace StudioServer
 {
     public static class ChatServer
     {
-        private static readonly List<ChatStructs.SingleAllChatMsg> AllChat = new List<ChatStructs.SingleAllChatMsg>();
-        private static readonly List<ChatStructs.SinglePrivateChatMsg> PrivateChat = new List<ChatStructs.SinglePrivateChatMsg>();
+        #region Internal Fields
+
         internal static string AllChatLogDir = Path.Combine(StudioServer.settings.ChatLogPath, "ChatLog");
         internal static string AllChatLogTXT = Path.Combine(StudioServer.settings.ChatLogPath, "ChatLog", "AllChat.log");
         internal static string PrivateChatLogDir = Path.Combine(StudioServer.settings.ChatLogPath, "ChatLog", "PrivateChats");
 
+        #endregion Internal Fields
 
+        #region Private Fields
 
-        internal static void SendSingleAllChatMessage(ChatStructs.SingleAllChatMsg singleMessageStruct)
-        {
-            AllChat.Add(singleMessageStruct);
-            ServerMembory.SendPacketToAllOnlineMember(OutgoingPackets.SingleAllChatMsgPacket(singleMessageStruct));
-            StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Received All Chat: Sender: {0}  Text:{1}", singleMessageStruct.Sender, singleMessageStruct.Text));
-        }
+        private static readonly List<ChatStructs.SingleAllChatMsg> AllChat = new List<ChatStructs.SingleAllChatMsg>();
+        private static readonly List<ChatStructs.SinglePrivateChatMsg> PrivateChat = new List<ChatStructs.SinglePrivateChatMsg>();
 
+        #endregion Private Fields
+
+        #region Public Methods
 
         public static void SendSinglePrivateMessage(ChatStructs.SinglePrivateChatMsg singleMessageStruct)
         {
@@ -33,10 +34,21 @@ namespace StudioServer
             StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Received Private Chat: Sender: {0}  Receiver: {2} Text:{1}", singleMessageStruct.Sender, singleMessageStruct.Text, singleMessageStruct.Receiver));
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        internal static bool HasChatToLog()
+        {
+            if (AllChat.Count > 0 || PrivateChat.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
 
         internal static void LogChatsOnServerDevice()
         {
-
             lock (AllChat)
             {
                 List<string> tempChatList = new List<string>(AllChat.Count);
@@ -70,19 +82,15 @@ namespace StudioServer
 
                 PrivateChat.RemoveAt(0);
             }
-
-
         }
 
-        internal static bool HasChatToLog()
+        internal static void SendSingleAllChatMessage(ChatStructs.SingleAllChatMsg singleMessageStruct)
         {
-            if (AllChat.Count > 0 || PrivateChat.Count > 0)
-            {
-                return true;
-            }
-            return false;
+            AllChat.Add(singleMessageStruct);
+            ServerMembory.SendPacketToAllOnlineMember(OutgoingPackets.SingleAllChatMsgPacket(singleMessageStruct));
+            StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Received All Chat: Sender: {0}  Text:{1}", singleMessageStruct.Sender, singleMessageStruct.Text));
         }
 
-
+        #endregion Internal Methods
     }
 }

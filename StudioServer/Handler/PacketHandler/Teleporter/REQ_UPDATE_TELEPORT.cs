@@ -4,12 +4,12 @@ using System.Data.SqlClient;
 
 namespace StudioServer.Handler.PacketHandler.Teleporter
 {
-    sealed class REQ_UPDATE_TELEPORT
+    internal sealed class REQ_UPDATE_TELEPORT
     {
+        #region Internal Methods
 
         internal static Packet UpdateTeleport(Packet updatePacket, string accountName)
         {
-
             int TeleportID = updatePacket.ReadInt();
             int Service = updatePacket.ReadBool() == true ? 1 : 0;
             string CodeName128 = updatePacket.ReadAscii();
@@ -26,8 +26,6 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
             short GenerateWorldID = updatePacket.ReadShort();
             int BindInteractMask = updatePacket.ReadBool() ? 1 : 0;
             int FixedService = updatePacket.ReadBool() ? 1 : 0;
-
-
 
             SqlParameter[] ParamArray = new SqlParameter[]
             {
@@ -51,9 +49,9 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
 
             DataTable res = SQL.ReturnDataTableByProcedure("_UPDATE_TELEPORT", StudioServer.settings.DBDev, ParamArray);
 
-
-
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

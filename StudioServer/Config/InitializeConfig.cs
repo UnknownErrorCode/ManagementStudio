@@ -4,20 +4,29 @@ using System.IO;
 
 namespace StudioServer.Config
 {
-
     public class InitializeConfig
     {
+        #region Public Fields
+
+        public static InitializeFile Cfg = new InitializeFile(ConfigString);
 
         //statics
         public static string ConfigString = "Config/settings.ini";
-        public static string FilterString = "Config/FilterSettings.ini";
+
+        public static InitializeFile EventBotCfg = new InitializeFile(EventBotString);
         public static string EventBotString = "Config/EventBotSettings.ini";
+        public static InitializeFile FilterCfg = new InitializeFile(FilterString);
+        public static string FilterString = "Config/FilterSettings.ini";
+
+        #endregion Public Fields
+
+        #region Public Properties
+
         public string configString => ConfigString;
 
-        public static InitializeFile Cfg = new InitializeFile(ConfigString);
-        public static InitializeFile FilterCfg = new InitializeFile(FilterString);
-        public static InitializeFile EventBotCfg = new InitializeFile(EventBotString);
+        #endregion Public Properties
 
+        #region Public Methods
 
         public static KeyValuePair<string, bool> InitializeConfigFile(string configPath)
         {
@@ -31,13 +40,9 @@ namespace StudioServer.Config
             }
             try
             {
-
                 if (!File.Exists(configPath))
                 {
-
                     File.Create(configPath).Dispose();
-
-
 
                     Cfg.IniWriteValue("SQL", "Host", ".\\SQLEXPRESS");
                     Cfg.IniWriteValue("SQL", "User", "sa");
@@ -57,8 +62,6 @@ namespace StudioServer.Config
                     Cfg.IniWriteValue("StudioServer", "PatchFolderDirectory", "C:\\RisingSecurity");
                     Cfg.IniWriteValue("StudioServer", "ChatLogPath", "C:\\StudioServerChatLog");
 
-
-
                     KeyValuePair<string, bool> s = InitializeConfigFile(configPath);
 
                     string1 = $"Created Config.ini... Now loading \n{s.Key}";
@@ -75,13 +78,13 @@ namespace StudioServer.Config
                 bool1 = false;
                 string1 = "CFG: Error loading settings, please check your configuration or restart the tool! " + ex;
             }
-
             finally
             {
                 cfgPair = new KeyValuePair<string, bool>(string1, bool1);
             }
             return cfgPair;
         }
+
+        #endregion Public Methods
     }
 }
-

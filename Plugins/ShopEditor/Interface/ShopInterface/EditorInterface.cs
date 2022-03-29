@@ -8,8 +8,14 @@ namespace ShopEditor.Interface.ShopInterface
 {
     internal class EditorInterface
     {
+        #region Private Fields
+
         private readonly Editors.Shop.ShopEditor editor;
         private readonly List<Packet> PacketsToSend = new List<Packet>();
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public EditorInterface(CIShopGood good)
         {
@@ -17,6 +23,10 @@ namespace ShopEditor.Interface.ShopInterface
             editor.OnUpdatePricePolicy += Editor_OnUpdatePricePolicy;
             editor.Show();
         }
+
+        #endregion Public Constructors
+
+        #region Private Methods
 
         private void Editor_OnUpdatePricePolicy()
         {
@@ -31,11 +41,13 @@ namespace ShopEditor.Interface.ShopInterface
                 packet.WriteStruct(pricePolicyOfItem);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 packet = null;
                 return false;
             }
         }
+
+        #endregion Private Methods
     }
 }

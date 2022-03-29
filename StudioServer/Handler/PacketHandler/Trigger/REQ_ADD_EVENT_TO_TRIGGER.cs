@@ -6,11 +6,12 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 {
     public class REQ_ADD_EVENT_TO_TRIGGER
     {
+        #region Public Methods
+
         public static Packet EventToTrigger(Packet packet, string AccName)
         {
             string TriggerName = packet.ReadAscii();
             string TriggerCommonName = packet.ReadAscii();
-
 
             SqlParameter[] AddEventParams = new SqlParameter[]
             {
@@ -24,12 +25,10 @@ namespace StudioServer.Handler.PacketHandler.Trigger
             string resultText = EventToTriggerRowResult[1].ToString();
             if (ok)
             {
-
                 StudioServer.StaticCertificationGrid.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify, resultText);
                 ServerMembory.SendUpdateSuccessNoticeToAll(resultText, AccName);
                 ServerMembory.RefreshTableForAll("_RefTriggerBindEvent");
                 ServerMembory.RefreshTableForAll("_RefTriggerEvent");
-
             }
             else
             {
@@ -40,5 +39,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
             }
             return null;
         }
+
+        #endregion Public Methods
     }
 }

@@ -4,12 +4,11 @@ namespace StudioServer.Handler.PacketHandler
 {
     public static class REQUEST_DATATABLE
     {
+        #region Public Methods
 
         public static Packet Request(Packet packet)
         {
-
             string tab = packet.ReadAscii();
-
 
             if (tab == "_AccountJID")
             {
@@ -1551,13 +1550,12 @@ namespace StudioServer.Handler.PacketHandler
                 packet.WriteDataTable(dt);
                 return packet;
             }
-
-
             else
             {
                 return null;
             }
-
         }
+
+        #endregion Public Methods
     }
 }

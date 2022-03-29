@@ -4,8 +4,10 @@ using System.Text;
 
 namespace StudioServer.Handler.PacketHandler.Chat
 {
-    class ManageChat
+    internal class ManageChat
     {
+        #region Public Methods
+
         public static Packet IncomeAllChat(Packet incomeChat, ServerData context_user)
         {
             ChatStructs.SingleAllChatMsg singleMessage = new ChatStructs.SingleAllChatMsg
@@ -33,11 +35,14 @@ namespace StudioServer.Handler.PacketHandler.Chat
             return null;
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
         internal static Packet RequestAll_AllChatLog(string logFilePath)
         {
             if (File.Exists(logFilePath))
             {
-
                 byte[] arr = ASCIIEncoding.UTF8.GetBytes(File.ReadAllText(logFilePath));
 
                 //  var AllChatAsByte = new byte[logfiletxt.Length * sizeof(char)];
@@ -49,6 +54,7 @@ namespace StudioServer.Handler.PacketHandler.Chat
                 return OutgoingPackets.PastAllChatPacket(false);
             }
         }
+
         /// <summary>
         /// Sends all stored chats to the Account that requested 0x1818
         /// </summary>
@@ -63,7 +69,6 @@ namespace StudioServer.Handler.PacketHandler.Chat
             }
             if (Directory.GetFileSystemEntries(Path.Combine(ChatServer.PrivateChatLogDir, context_data.AccountName), $"@*.log", SearchOption.TopDirectoryOnly).Length > 0)
             {
-
                 foreach (string item in Directory.GetFileSystemEntries(Path.Combine(ChatServer.PrivateChatLogDir, context_data.AccountName), $"@*.log", SearchOption.TopDirectoryOnly))
                 {
                     string partner = item.Replace(".log", "").Split('@')[1];
@@ -74,5 +79,7 @@ namespace StudioServer.Handler.PacketHandler.Chat
 
             return OutgoingPackets.SuccessNoticePlayer("Private Chat-Backup successfully sent!", context_data.AccountName);
         }
+
+        #endregion Internal Methods
     }
 }

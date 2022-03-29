@@ -4,12 +4,12 @@ using System.Data.SqlClient;
 
 namespace StudioServer.Handler.PacketHandler.Trigger
 {
-    class REQ_ADD_TRIGGER_TO_CATEGORY
+    internal class REQ_ADD_TRIGGER_TO_CATEGORY
     {
+        #region Internal Methods
 
         internal static Packet TriggerToCategory(Packet packet, string contentUser)
         {
-
             string CategoryName = packet.ReadAscii();
             string TriggerName = packet.ReadAscii();
             int IsRepeatable = packet.ReadInt();
@@ -43,5 +43,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
             }
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

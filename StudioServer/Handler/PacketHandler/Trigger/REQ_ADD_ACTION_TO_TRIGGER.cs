@@ -7,13 +7,14 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 {
     public class REQ_ADD_ACTION_TO_TRIGGER
     {
+        #region Internal Methods
+
         internal static Packet TriggerActionToTrigger(Packet opcode, string UserName) //0x7002
         {
             SqlParameter[] AddActionParams = null;
             string Question = "";
 
             string ActionType = opcode.ReadAscii();
-
 
             switch (ActionType)
             {
@@ -41,7 +42,6 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                     string LMSpawnRate = opcode.ReadAscii();
                     int LMSpawnCount = opcode.ReadInt();
 
-
                     ITRIGGER_ACTION_MONSTER_LOAD_MONSTER ITAMonster = new ITRIGGER_ACTION_MONSTER_LOAD_MONSTER()
                     {
                         TriggerName = LMTriggerName,
@@ -68,7 +68,6 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
                     break;
 
-
                 case "TRIGGER_ACTION_MONSTER_ACTIVE_NEST":
 
                     string ANTriggerName = opcode.ReadAscii();
@@ -92,12 +91,12 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                             new SqlParameter("@Value1",SqlDbType.VarChar,128){ Value = man.NestID.ToString() }
                        };
 
-
-
                     break;
+
                 case "TRIGGER_ACTION_CREATEOBJECT_TELEPORT":
 
                     break;
+
                 case "TRIGGER_ACTION_SWITCH_EVENTZONE":
                     string SETriggerName = opcode.ReadAscii();
                     string SECommonTriggerCondition = opcode.ReadAscii();
@@ -123,7 +122,6 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
                     break;
 
-
                 case "TRIGGER_ACTION_MESSAGE_NOTIFY_WINDOW":
 
                     string NWTriggerName = opcode.ReadAscii();
@@ -131,7 +129,6 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                     int NWDelay = opcode.ReadInt();
                     string NWSTRING_INPUT = opcode.ReadAscii();
                     bool NWTARGET_PLAYER_INS_SELECT = opcode.ReadBool();
-
 
                     ITRIGGER_ACTION_MESSAGE_NOTIFY_WINDOW OwnNotifyMsg = new ITRIGGER_ACTION_MESSAGE_NOTIFY_WINDOW(NWSTRING_INPUT, NWTARGET_PLAYER_INS_SELECT)
                     {
@@ -150,9 +147,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 
                     break;
 
-
                 case "TRIGGER_ACTION_MESSAGE_SYSTEM_WINDOW":
-
 
                     string SWTriggerName = opcode.ReadAscii();
                     string SWCommonTriggerCondition = opcode.ReadAscii();
@@ -176,6 +171,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                      };
 
                     break;
+
                 default:
                     opcode = null;
                     break;
@@ -200,8 +196,8 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                 return opcode;
             }
             return null;
-
-
         }
+
+        #endregion Internal Methods
     }
 }

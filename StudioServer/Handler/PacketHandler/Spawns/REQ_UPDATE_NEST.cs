@@ -5,13 +5,10 @@ namespace StudioServer.Handler.PacketHandler.Spawns
 {
     internal static class REQ_UPDATE_NEST
     {
+        #region Internal Methods
+
         internal static Packet UpdateNest(Packet packet, string AccountName)
         {
-
-
-
-
-
             string query = $"UPDATE {StudioServer.settings.DBSha}.dbo.Tab_RefNest SET " +
 
                              $"dwHiveID =     {packet.ReadAscii()}, " +
@@ -54,5 +51,7 @@ namespace StudioServer.Handler.PacketHandler.Spawns
             }
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

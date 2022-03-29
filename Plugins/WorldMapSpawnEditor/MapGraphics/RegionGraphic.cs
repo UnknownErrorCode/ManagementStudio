@@ -12,17 +12,19 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// Region texture from media/minimap.
         /// TODO: Change to bitmap to decrease usage.
         /// </summary>
-        internal Bitmap RegionLayer;
+        internal Bitmap RegionLayer => (Bitmap)Image.FromFile(TexturePath);
+
+        internal bool HasLayer;
 
         internal RegionGraphic(short regionID)
         {
             RegionID = new WRegionID(regionID);
             if (RegionID.IsDungeon || regionID < 0)
             {
+                HasLayer = false;
                 return;
             }
-
-            RegionLayer = File.Exists(TexturePath) ? (Bitmap)Image.FromFile(TexturePath) : null;
+            HasLayer = File.Exists(TexturePath);
         }
 
         /// <summary>

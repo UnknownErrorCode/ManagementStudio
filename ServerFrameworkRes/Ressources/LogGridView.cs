@@ -9,15 +9,35 @@ namespace ServerFrameworkRes.Ressources
 {
     public partial class LogGridView : UserControl
     {
+        #region Public Fields
+
         public Stack<string> MessageStack = new Stack<string>();
 
-        private ReportLog Reporter => new ReportLog(TypeOfModuleLog);
-        public ModuleType TypeOfModuleLog { get; set; }
+        #endregion Public Fields
+
+        #region Public Constructors
+
         public LogGridView()
         {
             InitializeComponent();
             Dock = DockStyle.Bottom;
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public ModuleType TypeOfModuleLog { get; set; }
+
+        #endregion Public Properties
+
+        #region Private Properties
+
+        private ReportLog Reporter => new ReportLog(TypeOfModuleLog);
+
+        #endregion Private Properties
+
+        #region Public Methods
 
         public void WriteLogLine(string message)
         {
@@ -39,18 +59,20 @@ namespace ServerFrameworkRes.Ressources
                 r.CreateCells(dataGridView1);
                 r.SetValues(LogArray);
 
-
                 switch (Level)
                 {
                     case LogLevel.fatal:
                         r.DefaultCellStyle.ForeColor = Color.Red;
                         break;
+
                     case LogLevel.notify:
                         r.DefaultCellStyle.ForeColor = Color.RoyalBlue;
                         break;
+
                     case LogLevel.warning:
                         r.DefaultCellStyle.ForeColor = Color.OrangeRed;
                         break;
+
                     default:
                         r.DefaultCellStyle.ForeColor = Color.Black;
                         break;
@@ -66,34 +88,25 @@ namespace ServerFrameworkRes.Ressources
             dataGridView1.Invoke(new Action(() => { dataGridView1.ClearSelection(); }));
         }
 
-        private void dataGridView1_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                contextMenuStripPlayLog.Show(this, e.Location);
-            }
-        }
+        #endregion Public Methods
+
+        #region Private Methods
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            WriteLogLine(Reporter.SaveReportLog(dataGridView1));
-        }
-
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
 
-        private void saveClearToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dataGridView1_MouseUp(object sender, MouseEventArgs e)
         {
-
-            WriteLogLine(Reporter.SaveReportLog(dataGridView1));
-            dataGridView1.Rows.Clear();
+            if (e.Button == MouseButtons.Right)
+            {
+                contextMenuStripPlayLog.Show(this, e.Location);
+            }
         }
 
         private void LogGridView_Load(object sender, EventArgs e)
@@ -113,5 +126,18 @@ namespace ServerFrameworkRes.Ressources
                 System.Threading.Thread.Sleep(100);
             }
         }
+
+        private void saveClearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WriteLogLine(Reporter.SaveReportLog(dataGridView1));
+            dataGridView1.Rows.Clear();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WriteLogLine(Reporter.SaveReportLog(dataGridView1));
+        }
+
+        #endregion Private Methods
     }
 }

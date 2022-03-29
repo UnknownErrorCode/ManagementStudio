@@ -9,7 +9,7 @@ namespace Editors.Teleport
         public RefObjCommon ObjCommon { get; set; }
         public RefTeleport Teleport { get; set; }
 
-        public Tab_RefNest Nest { get; set; }
+        public TabRefNest Nest { get; set; }
         public List<RefTeleLink> TeleLinks { get; set; } = new List<RefTeleLink>();
 
         // public PointF ControlPosition { get; set; }

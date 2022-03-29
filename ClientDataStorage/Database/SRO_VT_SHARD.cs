@@ -10,6 +10,8 @@ namespace ClientDataStorage.Database
 {
     public static class SRO_VT_SHARD //<T> where T : struct
     {
+        #region Public Fields
+
         public static ConcurrentDictionary<int, IChar> _Char;
         public static ConcurrentDictionary<int, RefGame_World> _RefGame_World;
         public static ConcurrentDictionary<int, RefGameWorldBindTriggerCategory> _RefGameWorldBindTriggerCategory;
@@ -32,15 +34,18 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, RefSkillGroup> _RefSkillGroup;
         public static ConcurrentDictionary<int, RefSkillMastery> _RefSkillMastery;
         public static List<RefTeleLink> _RefTeleLink;
-        public static ConcurrentStack<RefTeleLink> _RefTeleLinkStack;
         public static ConcurrentDictionary<int, RefTeleport> _RefTeleport;
         public static ConcurrentDictionary<int, RefTrigger> _RefTrigger;
         public static ConcurrentDictionary<int, RefTriggerCategory> _RefTriggerCategory;
         public static ConcurrentDictionary<int, RefTriggerCategoryBindTrigger> _RefTriggerCategoryBindTrigger;
         public static DataSet dbo = new DataSet("SRO_VT_SHARD");
         public static ConcurrentDictionary<int, Tab_RefHive> Tab_RefHive;
-        public static ConcurrentDictionary<int, Tab_RefNest> Tab_RefNest;
+        public static ConcurrentDictionary<int, TabRefNest> Tab_RefNest;
         public static ConcurrentDictionary<int, Tab_RefTactics> Tab_RefTactics;
+
+        #endregion Public Fields
+
+        #region Public Methods
 
         public static void InitializeShopEditor()
         {
@@ -49,6 +54,10 @@ namespace ClientDataStorage.Database
         public static void InitializeWorldMapEditor()
         {
         }
+
+        #endregion Public Methods
+
+        #region Internal Methods
 
         /// <summary>
         /// Save or update the Table in memory.
@@ -639,10 +648,11 @@ namespace ClientDataStorage.Database
                         break;
 
                     case TableName._RefTeleLink:
-                        InitializeRefTableToStruct<RefTeleLink>(arg2, ref _RefTeleLinkStack);
+                        InitializeRefTableToStruct<RefTeleLink>(arg2, ref _RefTeleLink);
                         break;
 
                     case TableName._RefTeleport:
+                        InitializeRefTableToStruct<RefTeleport>(arg2, ref _RefTeleport);
                         break;
 
                     case TableName._RefTradeConflict_Class:
@@ -805,9 +815,11 @@ namespace ClientDataStorage.Database
                         break;
 
                     case TableName.Tab_RefHive:
+                        InitializeRefTableToStruct<Tab_RefHive>(arg2, ref Tab_RefHive, "dwHiveID");
                         break;
 
                     case TableName.Tab_RefNest:
+                        InitializeRefTableToStruct<TabRefNest>(arg2, ref Tab_RefNest, "dwNestID");
                         break;
 
                     case TableName.Tab_RefRanking_HunterActivity:
@@ -829,6 +841,7 @@ namespace ClientDataStorage.Database
                         break;
 
                     case TableName.Tab_RefTactics:
+                        InitializeRefTableToStruct<Tab_RefTactics>(arg2, ref Tab_RefTactics, "dwTacticsID");
                         break;
 
                     default:
@@ -843,6 +856,22 @@ namespace ClientDataStorage.Database
             //   SRO_VT_SHARD.dbo.Tables.Add(arg2);
 
             await Task.Delay(1);
+        }
+
+        #endregion Internal Methods
+
+        #region Private Methods
+
+        private static void InitializeRefTableToStruct<T>(
+           DataTable table,
+           ref List<T> stack
+           ) where T : struct
+        {
+            stack = new List<T>(table.Rows.Count);
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                stack.Add((T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
+            }
         }
 
         private static void InitializeRefTableToStruct<T>(
@@ -920,5 +949,7 @@ namespace ClientDataStorage.Database
                 dic.TryAdd(pair.Key, pair.Value.ToArray());
             }
         }
+
+        #endregion Private Methods
     }
 }

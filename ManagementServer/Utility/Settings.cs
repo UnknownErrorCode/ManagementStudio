@@ -1,25 +1,32 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
 namespace ManagementServer.Utility
 {
     public class Settings
     {
-        #region Public Fields
+        #region Public Methods
 
-        public KeyValuePair<string, bool> InitializeSettings = InitializeConfig.InitializeConfigFile(InitializeConfig.ConfigString);
+        public bool InitializeSettings(out string msg)
+        { return InitializeConfig.InitializeConfigFile(InitializeConfig.ConfigString, out msg); }
 
-        #endregion Public Fields
+        #endregion Public Methods
 
         #region Public Properties
 
         public string ChatLogPath => InitializeConfig.Cfg.IniReadValue("StudioServer", "ChatLogPath");
+
         public string DBAcc => InitializeConfig.Cfg.IniReadValue("DBs", "Account");
+
         public string DBBot => InitializeConfig.Cfg.IniReadValue("DBs", "Bot");
+
         public string DBDev => InitializeConfig.Cfg.IniReadValue("DBs", "Developement");
+
         public string DBFilter => InitializeConfig.Cfg.IniReadValue("DBs", "Filter");
+
         public string DBLog => InitializeConfig.Cfg.IniReadValue("DBs", "Log");
+
         public string DBSha => InitializeConfig.Cfg.IniReadValue("DBs", "Shard");
+
         public string DeletedGuidePath => Path.Combine(Directory.GetCurrentDirectory(), "Dashboard", "DeletedTopics");
         public string GuidePath => Path.Combine(Directory.GetCurrentDirectory(), "Dashboard", "Topics");
         public string IP => InitializeConfig.Cfg.IniReadValue("StudioServer", "IP");

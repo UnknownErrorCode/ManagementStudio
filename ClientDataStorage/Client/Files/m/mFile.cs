@@ -10,6 +10,25 @@ namespace ClientDataStorage.Client.Files
 {
     public class mFile
     {
+        #region Public Fields
+
+        /// <summary>
+        /// Each region consists of 36 Blocks. 6 x 6 Blocks equals 1 WorldRegion.
+        /// <br>__________________ </br>
+        /// <br>|1 |2 |3 |4 |5 |6 |</br>
+        /// <br>|7 |8 |9 |10|11|12|</br>
+        /// <br>|13|14|15|16|17|18|</br>
+        /// <br>|19|20|21|22|23|24|</br>
+        /// <br>|25|26|27|28|29|30|</br>
+        /// <br>|31|32|33|34|35|36|</br>
+        /// </summary>
+        public readonly Dictionary<System.Drawing.Point, MapMeshBlock> Blocks = new Dictionary<System.Drawing.Point, MapMeshBlock>();
+
+        /// <summary>
+        /// JMX Header file of version
+        /// </summary>
+        public char[] Header;
+
         /// <summary>
         /// X coordinate of .m file.
         /// </summary>
@@ -20,15 +39,9 @@ namespace ClientDataStorage.Client.Files
         /// </summary>
         public byte Y;
 
-        /// <summary>
-        /// JMX Header file of version
-        /// </summary>
-        public char[] Header;
+        #endregion Public Fields
 
-        /// <summary>
-        /// Each region consists of 36 Blocks. 6 x 6 Blocks equals 1 WorldRegion.
-        /// </summary>
-        public readonly Dictionary<System.Drawing.Point, MapMeshBlock> Blocks = new Dictionary<System.Drawing.Point, MapMeshBlock>();
+        #region Public Constructors
 
         /// <summary>
         /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
@@ -54,7 +67,6 @@ namespace ClientDataStorage.Client.Files
             byte[] buffer = Map.MapPk2.GetByteArrayByFile(pk2file);
 
             Initialize(buffer, xCoordinate, yCoordinate);
-
         }
 
         /// <summary>
@@ -68,70 +80,9 @@ namespace ClientDataStorage.Client.Files
             Initialize(buffer, xCoordinate, yCoordinate);
         }
 
-        /// <summary>
-        /// initialize the mFile by byte array, x and y coordinate.
-        /// </summary>
-        /// <param name="buffer"></param>
-        /// <param name="xCoordinate"></param>
-        /// <param name="yCoordinate"></param>
-        private void Initialize(byte[] buffer, byte xCoordinate, byte yCoordinate)
-        {
-            X = xCoordinate;
-            Y = yCoordinate;
+        #endregion Public Constructors
 
-            using (MemoryStream strea = new MemoryStream(buffer))
-            {
-                using (BinaryReader readBin = new BinaryReader(strea))
-                {
-                    Header = readBin.ReadChars(12);
-
-                    for (int xBlock = 0; xBlock < 6; xBlock++)
-                    {
-                        for (int yBlock = 0; yBlock < 6; yBlock++)
-                        {
-                            Dictionary<System.Drawing.Point, MapMeshCell> Cells = new Dictionary<System.Drawing.Point, MapMeshCell>();
-                            char[] blockName = Encoding.UTF8.GetChars(readBin.ReadBytes(6));
-
-                            for (int Cellx = 0; Cellx < 17; Cellx++)
-                            {
-                                for (int Celly = 0; Celly < 17; Celly++)
-                                {
-                                    float hei = readBin.ReadSingle();
-                                    byte tex = readBin.ReadByte();
-                                    byte bri = readBin.ReadByte();
-                                    byte skip = readBin.ReadByte();
-
-                                    try
-                                    {
-                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new MapMeshCell(hei, tex, 0, bri));
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                                }
-                            }
-
-                            byte waterType = readBin.ReadByte();
-                            byte waterWaveType = readBin.ReadByte();
-                            float WaterHeight = readBin.ReadSingle();
-                            List<KeyValuePair<byte, byte>> ExtraMinMax = new List<KeyValuePair<byte, byte>>();
-
-                            for (int mapMeshTile = 0; mapMeshTile < 256; mapMeshTile++)
-                            {
-                                byte extraMin = readBin.ReadByte();
-                                byte extraMax = readBin.ReadByte();
-                                ExtraMinMax.Add(new KeyValuePair<byte, byte>(extraMin, extraMax));
-                            }
-
-                            float HeightMax = readBin.ReadSingle();
-                            float HeightMin = readBin.ReadSingle();
-                            byte[] reserved = readBin.ReadBytes(20);
-                            Blocks.Add(new System.Drawing.Point(xBlock, yBlock), new MapMeshBlock(blockName, Cells, waterType, waterWaveType, WaterHeight, ExtraMinMax, HeightMax, HeightMin, reserved));
-                        }
-                    }
-                }
-            }
-        }
+        #region Public Methods
 
         /// <summary>
         /// Check if Block exists inside one of 6*6 MeshBlocks.
@@ -155,28 +106,21 @@ namespace ClientDataStorage.Client.Files
             return (Blocks.ContainsKey(point) ? Blocks[point] : null);
         }
 
-
-        /// <summary>
-        /// Returns the height of the MeshCell inside the MeshBlock.
-        /// </summary>
-        /// <param name="BlockX"></param>
-        /// <param name="BlockY"></param>
-        /// <param name="CellX"></param>
-        /// <param name="CellY"></param>
-        /// <returns>float Height of MapMeshCell</returns>
-        public float GetMapMeshHeight(int BlockX, int BlockY, int CellX, int CellY)
+        public bool GetHightByfPoint(float regX, float regY, out float Z)
         {
-            System.Drawing.Point p = new System.Drawing.Point(BlockX, BlockY);
-            System.Drawing.Point cp = new System.Drawing.Point(CellX, CellY);
+            Z = 0.0f;
+            BlockEntry(regX, out byte BlockX);
+            BlockEntry(regY, out byte BlockY);
 
-            if (Blocks[p].MapCells.ContainsKey(p))
-            {
-                return Blocks[p].MapCells[p].Height;
-            }
-            else
-            {
-                return 0f;
-            }
+            CellEntry(regX, false, out byte CellX);
+            CellEntry(regY, true, out byte CellY);
+
+            System.Drawing.Point Point1 = new System.Drawing.Point(BlockX, BlockY);
+            System.Drawing.Point Point2 = new System.Drawing.Point(CellX, CellY);
+
+            Z = Blocks[Point1].MapCells[Point2].Height;
+
+            return true;
         }
 
         /// <summary>
@@ -206,23 +150,32 @@ namespace ClientDataStorage.Client.Files
             return true;
         }
 
-        public bool GetHightByfPoint(float regX, float regY, out float Z)
+        /// <summary>
+        /// Returns the height of the MeshCell inside the MeshBlock.
+        /// </summary>
+        /// <param name="BlockX"></param>
+        /// <param name="BlockY"></param>
+        /// <param name="CellX"></param>
+        /// <param name="CellY"></param>
+        /// <returns>float Height of MapMeshCell</returns>
+        public float GetMapMeshHeight(int BlockX, int BlockY, int CellX, int CellY)
         {
-            Z = 0.0f;
-            BlockEntry(regX, out byte BlockX);
-            BlockEntry(regY, out byte BlockY);
+            System.Drawing.Point p = new System.Drawing.Point(BlockX, BlockY);
+            System.Drawing.Point cp = new System.Drawing.Point(CellX, CellY);
 
-            CellEntry(regX, false, out byte CellX);
-            CellEntry(regY, true, out byte CellY);
-
-            System.Drawing.Point Point1 = new System.Drawing.Point(BlockX, BlockY);
-            System.Drawing.Point Point2 = new System.Drawing.Point(CellX, CellY);
-
-            Z = Blocks[Point1].MapCells[Point2].Height;
-
-            return true;
+            if (Blocks[p].MapCells.ContainsKey(p))
+            {
+                return Blocks[p].MapCells[p].Height;
+            }
+            else
+            {
+                return 0f;
+            }
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
 
         private static bool BlockEntry(float regX, out byte blockX)
         {
@@ -335,5 +288,72 @@ namespace ClientDataStorage.Client.Files
 
             return true;
         }
+
+        /// <summary>
+        /// initialize the mFile by byte array, x and y coordinate.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="xCoordinate"></param>
+        /// <param name="yCoordinate"></param>
+        private void Initialize(byte[] buffer, byte xCoordinate, byte yCoordinate)
+        {
+            X = xCoordinate;
+            Y = yCoordinate;
+
+            using (MemoryStream strea = new MemoryStream(buffer))
+            {
+                using (BinaryReader readBin = new BinaryReader(strea))
+                {
+                    Header = readBin.ReadChars(12);
+
+                    for (int xBlock = 0; xBlock < 6; xBlock++)
+                    {
+                        for (int yBlock = 0; yBlock < 6; yBlock++)
+                        {
+                            Dictionary<System.Drawing.Point, MapMeshCell> Cells = new Dictionary<System.Drawing.Point, MapMeshCell>();
+                            char[] blockName = Encoding.UTF8.GetChars(readBin.ReadBytes(6));
+
+                            for (int Cellx = 0; Cellx < 17; Cellx++)
+                            {
+                                for (int Celly = 0; Celly < 17; Celly++)
+                                {
+                                    float hei = readBin.ReadSingle();
+                                    byte tex = readBin.ReadByte();
+                                    byte bri = readBin.ReadByte();
+                                    byte skip = readBin.ReadByte();
+
+                                    try
+                                    {
+                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new MapMeshCell(hei, tex, 0, bri));
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+                                }
+                            }
+
+                            byte waterType = readBin.ReadByte();
+                            byte waterWaveType = readBin.ReadByte();
+                            float WaterHeight = readBin.ReadSingle();
+                            List<KeyValuePair<byte, byte>> ExtraMinMax = new List<KeyValuePair<byte, byte>>();
+
+                            for (int mapMeshTile = 0; mapMeshTile < 256; mapMeshTile++)
+                            {
+                                byte extraMin = readBin.ReadByte();
+                                byte extraMax = readBin.ReadByte();
+                                ExtraMinMax.Add(new KeyValuePair<byte, byte>(extraMin, extraMax));
+                            }
+
+                            float HeightMax = readBin.ReadSingle();
+                            float HeightMin = readBin.ReadSingle();
+                            byte[] reserved = readBin.ReadBytes(20);
+                            Blocks.Add(new System.Drawing.Point(xBlock, yBlock), new MapMeshBlock(blockName, Cells, waterType, waterWaveType, WaterHeight, ExtraMinMax, HeightMax, HeightMin, reserved));
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }

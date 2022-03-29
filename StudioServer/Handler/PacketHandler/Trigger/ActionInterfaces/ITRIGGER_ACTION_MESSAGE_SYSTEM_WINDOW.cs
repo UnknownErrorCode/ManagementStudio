@@ -2,15 +2,17 @@
 {
     public class ITRIGGER_ACTION_MESSAGE_SYSTEM_WINDOW
     {
+        #region Public Fields
 
-        public string TriggerName;
         public string CommonTriggerCondition;
         public int Delay;
-
-
         public string STRING_INPUT;
-
         public string TARGET_PLAYER_INS_SELECT;
+        public string TriggerName;
+
+        #endregion Public Fields
+
+        #region Public Constructors
 
         public ITRIGGER_ACTION_MESSAGE_SYSTEM_WINDOW(string UIITString, bool TargetAllPlayer)
         {
@@ -20,12 +22,16 @@
                 case true:
                     TARGET_PLAYER_INS_SELECT = "TARGET_PLAYER_ALL";
                     break;
+
                 case false:
                     TARGET_PLAYER_INS_SELECT = "TARGET_PLAYER_EVENT_USER";
                     break;
+
                 default:
                     break;
             }
         }
+
+        #endregion Public Constructors
     }
 }

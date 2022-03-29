@@ -1,6 +1,5 @@
 ﻿using ServerFrameworkRes;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace ManagementServer.Utility
@@ -9,31 +8,16 @@ namespace ManagementServer.Utility
     {
         #region Public Fields
 
+        public const string ConfigString = "Config/settings.ini";
         public static InitializeFile Cfg = new InitializeFile(ConfigString);
-
-        //statics
-        public static string ConfigString = "Config/settings.ini";
-
-        public static InitializeFile EventBotCfg = new InitializeFile(EventBotString);
-        public static string EventBotString = "Config/EventBotSettings.ini";
-        public static InitializeFile FilterCfg = new InitializeFile(FilterString);
-        public static string FilterString = "Config/FilterSettings.ini";
 
         #endregion Public Fields
 
-        #region Public Properties
-
-        public string configString => ConfigString;
-
-        #endregion Public Properties
-
         #region Public Methods
 
-        public static KeyValuePair<string, bool> InitializeConfigFile(string configPath)
+        public static bool InitializeConfigFile(string configPath, out string msg)
         {
-            KeyValuePair<string, bool> cfgPair;
-            string string1 = "Start Initialize ConfigLibrary.dll";
-            bool bool1 = false;
+            msg = "Start Initialize ConfigLibrary.dll";
 
             if (!Directory.Exists("Config"))
             {
@@ -64,28 +48,19 @@ namespace ManagementServer.Utility
                     Cfg.IniWriteValue("StudioServer", "PatchFolderDirectory", "C:\\RisingSecurity");
                     Cfg.IniWriteValue("StudioServer", "ChatLogPath", "C:\\StudioServerChatLog");
 
-                    KeyValuePair<string, bool> s = InitializeConfigFile(configPath);
-
-                    string1 = $"Created Config.ini... Now loading \n{s.Key}";
-                    bool1 = s.Value;
+                    return InitializeConfigFile(configPath, out msg);
                 }
                 else
                 {
-                    string1 = $"Successfully initialized: {configPath}";
-                    bool1 = true;
+                    msg = $"Successfully initialized: {configPath}";
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                bool1 = false;
-                string1 = "CFG: Error loading settings, please check your configuration or restart the tool! " + ex;
+                msg = "CFG: Error loading settings, please check your configuration or restart the tool! " + ex;
+                return false;
             }
-            finally
-            {
-                cfgPair = new KeyValuePair<string, bool>(string1, bool1);
-            }
-
-            return cfgPair;
         }
 
         #endregion Public Methods

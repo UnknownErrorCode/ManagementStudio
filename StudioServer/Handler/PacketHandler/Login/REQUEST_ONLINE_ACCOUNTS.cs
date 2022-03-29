@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 namespace StudioServer.Handler.PacketHandler.Login
 {
-    class REQUEST_ONLINE_ACCOUNTS
+    internal class REQUEST_ONLINE_ACCOUNTS
     {
+        #region Public Methods
+
         /// <summary>
-        /// Sends 0xA105 to the Client, containing all Online Users 
+        /// Sends 0xA105 to the Client, containing all Online Users
         /// </summary>
         /// <param name="packet"></param>
         /// <returns></returns>
@@ -29,5 +31,7 @@ namespace StudioServer.Handler.PacketHandler.Login
             }
             return packet;
         }
+
+        #endregion Public Methods
     }
 }

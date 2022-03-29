@@ -281,16 +281,18 @@ namespace ServerFrameworkRes.Network.Security
 
         #region Private Fields
 
-        private bool m_accepted_handshake;
         private readonly Blowfish m_blowfish;
-        private ulong m_challenge_key;
         private readonly object m_class_lock;
+        private readonly byte[] m_count_byte_seeds;
+        private readonly List<ushort> m_enc_opcodes;
+        private readonly List<Packet> m_outgoing_packets;
+        private readonly TransferBuffer m_recv_buffer;
+        private bool m_accepted_handshake;
+        private ulong m_challenge_key;
         private ulong m_client_key;
         private bool m_client_security;
-        private readonly byte[] m_count_byte_seeds;
         private uint m_crc_seed;
         private TransferBuffer m_current_buffer;
-        private readonly List<ushort> m_enc_opcodes;
         private ulong m_handshake_blowfish_key;
         private byte m_identity_flag;
         private string m_identity_name;
@@ -299,8 +301,6 @@ namespace ServerFrameworkRes.Network.Security
         private ulong m_initial_blowfish_key;
         private ushort m_massive_count;
         private Packet m_massive_packet;
-        private readonly List<Packet> m_outgoing_packets;
-        private readonly TransferBuffer m_recv_buffer;
         private byte m_security_flag;
         private SecurityFlags m_security_flags;
         private uint m_seed_count;

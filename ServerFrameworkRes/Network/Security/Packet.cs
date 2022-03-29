@@ -13,10 +13,10 @@ namespace ServerFrameworkRes.Network.Security
         #region Private Fields
 
         private readonly bool _encrypted;
-        private object _lock;
-        private bool _locked;
         private readonly bool _massive;
         private readonly ushort _opcode;
+        private object _lock;
+        private bool _locked;
         private PacketReader _reader;
         private byte[] _readerBytes;
         private PacketWriter _writer;

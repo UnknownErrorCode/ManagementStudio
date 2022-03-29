@@ -4,14 +4,15 @@ using System.IO;
 
 namespace StudioServer.Handler.PacketHandler.Login
 {
-    class REQ_LATEST_FILES
+    internal class REQ_LATEST_FILES
     {
+        #region Public Methods
+
         public static Packet AllFiles(Packet packet, SecurityManager incomeSocketData)
         {
             int version = packet.ReadInt();
             if (version != StudioServer.settings.Version)//not CurrentVersion
             {
-
                 DataTable ToBePatched = SQL.ReturnDataTable($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {version.ToString()};", StudioServer.settings.DBDev);
 
                 foreach (DataRow row in ToBePatched.Rows)
@@ -32,7 +33,6 @@ namespace StudioServer.Handler.PacketHandler.Login
                     }
                     else
                     {
-
                     }
                 }
                 Packet P = new Packet(0xD110);
@@ -41,5 +41,7 @@ namespace StudioServer.Handler.PacketHandler.Login
             }
             return null;
         }
+
+        #endregion Public Methods
     }
 }

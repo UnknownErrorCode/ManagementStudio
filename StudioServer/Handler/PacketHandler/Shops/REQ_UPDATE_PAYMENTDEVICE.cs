@@ -3,12 +3,12 @@ using System.Data.SqlClient;
 
 namespace StudioServer.Handler.PacketHandler.Shops
 {
-    class REQ_UPDATE_PAYMENTDEVICE
+    internal class REQ_UPDATE_PAYMENTDEVICE
     {
+        #region Public Methods
 
         public static Packet UpdateDevice(Packet packet, string AccountName)
         {
-
             if (AccountName == null)
             {
                 OutgoingPackets.FailNoticePlayer("Please reconnect with your tool in order to establish a connection again!");
@@ -41,5 +41,7 @@ namespace StudioServer.Handler.PacketHandler.Shops
 
             return null;
         }
+
+        #endregion Public Methods
     }
 }

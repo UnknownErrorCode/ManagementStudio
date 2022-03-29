@@ -2,8 +2,12 @@
 {
     public struct SingleTopic
     {
+        #region Public Fields
+
         public string Author;
-        public string Title;
         public string Text;
+        public string Title;
+
+        #endregion Public Fields
     }
 }

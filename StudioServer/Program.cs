@@ -3,17 +3,21 @@ using System.Windows.Forms;
 
 namespace StudioServer
 {
-    static class Program
+    internal static class Program
     {
+        #region Private Methods
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new StudioServer());
         }
+
+        #endregion Private Methods
     }
 }

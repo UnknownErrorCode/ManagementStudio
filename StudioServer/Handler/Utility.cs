@@ -5,10 +5,13 @@ namespace StudioServer
 {
     public class Utility
     {
+        #region Public Methods
+
         public static string HexDump(byte[] buffer)
         {
             return HexDump(buffer, 0, buffer.Length);
         }
+
         public static string HexDump(byte[] buffer, int offset, int count)
         {
             const int bytesPerLine = 16;
@@ -54,5 +57,7 @@ namespace StudioServer
             }
             return output.ToString();
         }
+
+        #endregion Public Methods
     }
 }

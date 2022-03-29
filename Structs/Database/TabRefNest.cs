@@ -1,6 +1,6 @@
 ﻿namespace Structs.Database
 {
-    public struct Tab_RefNest
+    public struct TabRefNest
     {
         public readonly int dwNestID;
         public int dwHiveID;
@@ -20,7 +20,7 @@
         public byte btRespawn;
         public byte btType;
 
-        public Tab_RefNest(object[] row)
+        public TabRefNest(object[] row)
         {
             dwNestID = int.Parse(row[0].ToString());
             dwHiveID = int.Parse(row[1].ToString());

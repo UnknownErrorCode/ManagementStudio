@@ -7,8 +7,10 @@ using System.Linq;
 
 namespace StudioServer.Patch
 {
-    class PatchProces
+    internal class PatchProces
     {
+        #region Public Methods
+
         public static void Exaggurate()
         {
             if (!Directory.Exists(StudioServer.settings.PatchFolderDirectory))
@@ -50,7 +52,6 @@ namespace StudioServer.Patch
                         new SqlParameter("@ServerDirectoryToLoadFrom", SqlDbType.VarChar) { Value = Path.Combine(StudioServer.settings.PatchFolderDirectory, CFileDir, CFileName) },
                         };
 
-
                         SQL.ReturnDataTableByProcedure("_Update_Tool_Files", StudioServer.settings.DBDev, paramse);
 
                         if (!Directory.Exists(Path.Combine(StudioServer.settings.PatchFolderDirectory_Archiv, CFileDir)))
@@ -63,13 +64,10 @@ namespace StudioServer.Patch
                             stream.Close();
                         }
                         File.Delete(item);
-
-
                     }
                     Config.InitializeConfig.Cfg.IniWriteValue("StudioServer", "Version", $"{StudioServer.settings.Version + 1}");
                     StudioServer.StaticCertificationGrid.WriteLogLine(LogLevel.notify, $"Successfully patched: '{FilesinPatchFolderStringsFull.Length}' Files");
                 }
-
                 else
                 {
                     StudioServer.StaticCertificationGrid.WriteLogLine(LogLevel.warning, $"No files found in: '{StudioServer.settings.PatchFolderDirectory}'");
@@ -80,5 +78,7 @@ namespace StudioServer.Patch
                 StudioServer.StaticCertificationGrid.WriteLogLine(LogLevel.warning, $"Directory '{StudioServer.settings.PatchFolderDirectory}'  or '{StudioServer.settings.PatchFolderDirectory_Archiv}'  does not exist!");
             }
         }
+
+        #endregion Public Methods
     }
 }

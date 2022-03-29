@@ -4,12 +4,12 @@ using System.Data.SqlClient;
 
 namespace StudioServer.Handler.PacketHandler.Teleporter
 {
-    class REQ_UPDATE_TELELINK
+    internal class REQ_UPDATE_TELELINK
     {
+        #region Internal Methods
 
         internal static Packet UpdateTeleLink(Packet updatePacket, string AccountName)
         {
-
             int Service = updatePacket.ReadInt();
             int OwnerTeleport = updatePacket.ReadInt();
             int TargetTeleport = updatePacket.ReadInt();
@@ -32,7 +32,6 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
             int Restrict5 = updatePacket.ReadInt();
             int Data5_1 = updatePacket.ReadInt();
             int Data5_2 = updatePacket.ReadInt();
-
 
             SqlParameter[] ParamArray = new SqlParameter[]
             {
@@ -74,8 +73,9 @@ namespace StudioServer.Handler.PacketHandler.Teleporter
                 return OutgoingPackets.FailNoticePlayer(textReturn);
             }
 
-
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

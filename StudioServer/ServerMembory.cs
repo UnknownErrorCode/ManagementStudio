@@ -11,11 +11,27 @@ namespace StudioServer
 {
     public class ServerMembory
     {
-        public static Config.NetEngine.OnlineUser OnlineUserSerie { get; set; }
-        public static Int32 OnlineUsers => UserOnline.Count;
-        public static Dictionary<string, ServerData> UserOnline = new Dictionary<string, ServerData>();
-        public static Dictionary<string, List<string>> PluginDataaccess = InitializePluginsAllowed();
+        #region Public Fields
 
+        public static Dictionary<string, List<string>> PluginDataaccess = InitializePluginsAllowed();
+        public static Dictionary<string, ServerData> UserOnline = new Dictionary<string, ServerData>();
+
+        #endregion Public Fields
+
+        #region Public Properties
+
+        public static Int32 OnlineUsers => UserOnline.Count;
+        public static Config.NetEngine.OnlineUser OnlineUserSerie { get; set; }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        public static void RefreshTableForAll(string tablename)
+        {
+            Packet packet = REQUEST_SINGLE_DATATABLE_STRING.Request(tablename);
+            ServerMembory.SendPacketToAllOnlineMember(packet);
+        }
 
         public static void RemoveUserOnline(ServerData dataToRemove)
         {
@@ -30,7 +46,6 @@ namespace StudioServer
                         new SqlParameter("@Password" ,System.Data.SqlDbType.VarChar,128) { Value = "non" },
                         new SqlParameter("@IP" ,System.Data.SqlDbType.VarChar,15) { Value = dataToRemove.UserIP },
                         new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
-
                     };
                     DataTable logoutResut = SQL.ReturnDataTableByProcedure("_LoginToolUser", StudioServer.settings.DBDev, logoutParameter);
                     string restext = logoutResut.Rows[0][1].ToString();
@@ -39,28 +54,6 @@ namespace StudioServer
                 }
             }
         }
-
-        internal static void SendPacketToSpecificOnlineMember(Packet retreiveChat, string receiver)
-        {
-            if (retreiveChat != null)
-            {
-                if (UserOnline.ContainsKey(receiver))
-                {
-                    ServerData dataToSend = UserOnline.Values.Single(user => user.AccountName == receiver);
-                    if (dataToSend != null)
-                    {
-                        dataToSend.m_security.Send(retreiveChat);
-                    }
-                }
-            }
-        }
-
-        public static void RefreshTableForAll(string tablename)
-        {
-            Packet packet = REQUEST_SINGLE_DATATABLE_STRING.Request(tablename);
-            ServerMembory.SendPacketToAllOnlineMember(packet);
-        }
-
 
         public static void SendPacketToAllOnlineMember(Packet packet)
         {
@@ -72,11 +65,16 @@ namespace StudioServer
                 }
             }
         }
+
         public static void SendUpdateSuccessNoticeToAll(string text, string UserName)
         {
             SendPacketToAllOnlineMember(OutgoingPackets.SuccessNoticePlayer(text, UserName));
             SQL.ExecuteQuery($"UPDATE _ToolUser SET UpdatedRows +=1 where Account = '{UserName}'", StudioServer.settings.DBDev);
         }
+
+        #endregion Public Methods
+
+        #region Internal Methods
 
         internal static Dictionary<string, List<string>> InitializePluginsAllowed()
         {
@@ -99,6 +97,21 @@ namespace StudioServer
             return Dataaccess;
         }
 
+        internal static void SendPacketToSpecificOnlineMember(Packet retreiveChat, string receiver)
+        {
+            if (retreiveChat != null)
+            {
+                if (UserOnline.ContainsKey(receiver))
+                {
+                    ServerData dataToSend = UserOnline.Values.Single(user => user.AccountName == receiver);
+                    if (dataToSend != null)
+                    {
+                        dataToSend.m_security.Send(retreiveChat);
+                    }
+                }
+            }
+        }
 
+        #endregion Internal Methods
     }
 }

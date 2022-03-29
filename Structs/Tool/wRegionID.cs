@@ -9,13 +9,13 @@ namespace Structs
     [StructLayout(LayoutKind.Explicit)]
     public struct WRegionID : IEquatable<WRegionID>
     {
+        private const int DUNGEON_MASK = 0b10000000_00000000;
+
         /// <summary>
         /// World Region Identifier.
         /// </summary>
         [FieldOffset(0)]
         public readonly short RegionID;
-
-        private const int DUNGEON_MASK = 0b10000000_00000000;
 
         [FieldOffset(0)]
         private readonly byte x;

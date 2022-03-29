@@ -7,6 +7,7 @@ namespace ServerFrameworkRes.Ressources
 {
     public class ModuleTimer
     {
+        #region Private Enums
 
         private enum NoBody
         {
@@ -16,23 +17,33 @@ namespace ServerFrameworkRes.Ressources
             GatewayServerServerBody,
             AgentServerServerBody,
         }
-        public Timer MTimer { get; set; }
-        private Chart _chart { get; set; }
 
+        #endregion Private Enums
+
+        #region Public Properties
+
+        public Timer MTimer { get; set; }
+
+        #endregion Public Properties
+
+        #region Private Properties
+
+        private Chart _chart { get; set; }
 
         private NoBody BodySwitch { get; }
 
+        #endregion Private Properties
 
+        #region Private Methods
 
-
-
-        void InitializeMTimer(Chart Charter)
+        private void InitializeMTimer(Chart Charter)
         {
             _chart = Charter;
             MTimer = new Timer()
             { Interval = 1000 };
             MTimer.Tick += MTimer_Tick;
         }
+
         private void MTimer_Tick(object sender, EventArgs e)
         {
             foreach (Series item in _chart.Series)
@@ -43,7 +54,6 @@ namespace ServerFrameworkRes.Ressources
                 }
                 KeyValuePair<int, string> SeriesInfo = new KeyValuePair<int, string>();
 
-
                 //Adding Pointer
                 item.Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), SeriesInfo.Key);
 
@@ -53,5 +63,7 @@ namespace ServerFrameworkRes.Ressources
                 item.LegendText = legendText;
             }
         }
+
+        #endregion Private Methods
     }
 }

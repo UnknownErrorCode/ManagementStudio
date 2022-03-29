@@ -7,6 +7,8 @@ namespace StudioServer.Handler.PacketHandler
 {
     internal class REQ_UPDATE_TABLE
     {
+        #region Internal Methods
+
         /// <summary>
         /// 0x7500
         /// </summary>
@@ -21,7 +23,6 @@ namespace StudioServer.Handler.PacketHandler
             try
             {
                 string tableName = opcode.ReadAscii();
-
 
                 int IndCount = opcode.ReadInt();
                 for (int i = 0; i < IndCount; i++)
@@ -42,13 +43,14 @@ namespace StudioServer.Handler.PacketHandler
             }
             catch (Exception ex)
             {
-
                 opcode = null;
             }
             return opcode;
-
         }
 
+        #endregion Internal Methods
+
+        #region Private Methods
 
         private static string GenerateUpdateString(string name, Dictionary<string, string> columns, Dictionary<string, string> Indicators)
         {
@@ -76,5 +78,7 @@ namespace StudioServer.Handler.PacketHandler
 
             return QueryText;
         }
+
+        #endregion Private Methods
     }
 }

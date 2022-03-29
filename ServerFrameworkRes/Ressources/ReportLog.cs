@@ -8,22 +8,43 @@ namespace ServerFrameworkRes.Ressources
 {
     public class ReportLog
     {
-
-
-        public virtual ModuleType ModuleReportLog { get => ModuleReportLog; set => ModuleName = value.ToString(); }
-
-
+        #region Private Fields
 
         private const string Name = "ReportLog";
-        private protected string DirectoryLogFolder => Path.Combine(Directory.GetCurrentDirectory(), Name);
-        private protected string DirectoryLog => Path.Combine(DirectoryLogFolder, LogTxtName);
-        private string ModuleName { get; set; }
-        private string LogTxtName { get => $"ReportLog_[{ModuleName}][{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}].txt"; set => LogTxtName = value; }
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public ReportLog(ModuleType module)
         {
             ModuleReportLog = module;
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public virtual ModuleType ModuleReportLog { get => ModuleReportLog; set => ModuleName = value.ToString(); }
+
+        #endregion Public Properties
+
+        #region Protected Properties
+
+        protected string DirectoryLog => Path.Combine(DirectoryLogFolder, LogTxtName);
+        protected string DirectoryLogFolder => Path.Combine(Directory.GetCurrentDirectory(), Name);
+
+        #endregion Protected Properties
+
+        #region Private Properties
+
+        private string LogTxtName { get => $"ReportLog_[{ModuleName}][{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}].txt"; set => LogTxtName = value; }
+        private string ModuleName { get; set; }
+
+        #endregion Private Properties
+
+        #region Public Methods
+
         public string SaveReportLog(DataGridView dataGridView)
         {
             string[] LogText = dataGridView.Rows.OfType<DataGridViewRow>().Select(k => $"{k.Cells[0].Value}\t{k.Cells[1].Value}\t{k.Cells[2].Value}").ToArray();
@@ -37,16 +58,14 @@ namespace ServerFrameworkRes.Ressources
             if (!Directory.Exists(DirectoryLogFolder))
             {
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), Name));
-
             }
             if (!File.Exists(DirectoryLog))
             {
                 File.WriteAllText(DirectoryLog, LogTextFileInput);
-
-
-
             }
             return $"successfully log saved: {DirectoryLog}";
         }
+
+        #endregion Public Methods
     }
 }

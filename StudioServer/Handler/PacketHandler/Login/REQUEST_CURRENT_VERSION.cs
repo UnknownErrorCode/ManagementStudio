@@ -2,8 +2,10 @@
 
 namespace StudioServer.Handler.PacketHandler.Login
 {
-    class REQUEST_CURRENT_VERSION
+    internal class REQUEST_CURRENT_VERSION
     {
+        #region Public Methods
+
         public static Packet VersionSame(Packet packet, SecurityManager incomeSocketData)
         {
             int version = packet.ReadInt();
@@ -13,7 +15,6 @@ namespace StudioServer.Handler.PacketHandler.Login
                 packet.WriteInt(StudioServer.settings.Version);
                 packet.WriteAscii($"Your version '{version}' is incompatible,please launch vSroStudioLauncher to get the newest version: {StudioServer.settings.Version}");
                 return packet;
-
             }
             else
             {
@@ -22,9 +23,8 @@ namespace StudioServer.Handler.PacketHandler.Login
                 packet.WriteAscii($"Successfully load vSroStudio v.{version}");
                 return packet;
             }
-
         }
 
-
+        #endregion Public Methods
     }
 }

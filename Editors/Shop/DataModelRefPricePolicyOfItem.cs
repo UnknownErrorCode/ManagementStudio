@@ -5,22 +5,33 @@ namespace Editors.Shop
 {
     public class DataModelRefPricePolicyOfItem
     {
+        #region Private Fields
+
         private RefPricePolicyOfItem policy;
+
+        #endregion Private Fields
 
         #region public properties
 
-        public byte Service { get => policy.Service; set => policy.Service = value; }
+        public int Cost { get => policy.Cost; set => policy.Cost = value; }
         public int Country { get => policy.Country; set => policy.Country = value; }
         public string PackageItemCodeName { get => policy.RefPackageItemCodeName; set => policy.RefPackageItemCodeName = value; }
         public PaymentDevice PaymentDevice { get => policy.PaymentDevice; set => policy.PaymentDevice = value; }
-        public int Cost { get => policy.Cost; set => policy.Cost = value; }
-
         public RefPricePolicyOfItem PricePolicyOfItem => policy;
-        #endregion
+        public byte Service { get => policy.Service; set => policy.Service = value; }
+
+        #endregion public properties
+
+        #region Public Constructors
 
         public DataModelRefPricePolicyOfItem(object[] itemArray)
         {
             policy = new RefPricePolicyOfItem(itemArray);
+        }
+
+        public DataModelRefPricePolicyOfItem(RefPricePolicyOfItem _policy)
+        {
+            policy = _policy;
         }
 
         public DataModelRefPricePolicyOfItem(byte service = 1, string codeName = "", int cost = 1, PaymentDevice device = PaymentDevice.Gold)
@@ -43,5 +54,7 @@ namespace Editors.Shop
                 Param4_Desc128 = "xxx"
             };
         }
+
+        #endregion Public Constructors
     }
 }

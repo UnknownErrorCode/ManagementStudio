@@ -4,11 +4,12 @@ namespace StudioServer.Handler.PacketHandler
 {
     public static class REQUEST_SINGLE_DATATABLE_STRING
     {
+        #region Public Methods
+
         public static Packet Request(string tableName)
         {
             Packet packet;
             string tab = tableName;
-
 
             if (tab == "_AccountJID")
             {
@@ -1554,7 +1555,8 @@ namespace StudioServer.Handler.PacketHandler
             {
                 return null;
             }
-
         }
+
+        #endregion Public Methods
     }
 }

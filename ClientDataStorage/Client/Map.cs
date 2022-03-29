@@ -41,7 +41,7 @@ namespace ClientDataStorage.Client
         /// <summary>
         /// Initialize the Map.pk2 syncronous.
         /// </summary>
-        public static async Task<bool> Initialize()
+        public static bool Initialize()
         {
             MapPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Map.pk2");
 
@@ -57,7 +57,7 @@ namespace ClientDataStorage.Client
         /// </summary>
         public static async Task<bool> InitializeMapAsync()
         {
-            return await Initialize();
+            return Task.Run(() => Initialize()).Result;
         }
 
         #endregion Public Methods

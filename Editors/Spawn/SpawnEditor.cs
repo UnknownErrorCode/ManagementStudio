@@ -59,7 +59,7 @@ namespace Editors.Spawn
         #region Show Query Click Voids
         private void ShowNestUpdate(object sender, EventArgs e)
         {
-            if (GenerateQuery("Tab_RefNest", "dwNestID", ((Tab_RefNest)propertyGrid1.SelectedObject).dwNestID.ToString(), NestUpdateValues, out string query))
+            if (GenerateQuery("Tab_RefNest", "dwNestID", ((TabRefNest)propertyGrid1.SelectedObject).dwNestID.ToString(), NestUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }

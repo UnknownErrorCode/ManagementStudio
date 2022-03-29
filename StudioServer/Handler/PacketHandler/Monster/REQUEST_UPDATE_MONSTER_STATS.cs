@@ -5,6 +5,8 @@ namespace StudioServer.Handler.PacketHandler.Monster
 {
     internal static class REQUEST_UPDATE_MONSTER_STATS
     {
+        #region Internal Methods
+
         internal static Packet UpdateMonsterStat(Packet packet, string accountName)
         {
             if (accountName == null)
@@ -40,5 +42,7 @@ namespace StudioServer.Handler.PacketHandler.Monster
 
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

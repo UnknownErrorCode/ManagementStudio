@@ -9,9 +9,132 @@ namespace StudioServer
 {
     public static class SQL
     {
-        private static Settings cfg => new Settings();
+        #region Public Properties
 
         public static string SqlConnectionString => cfg.SQL_ConnectionString;
+
+        #endregion Public Properties
+
+        #region Private Properties
+
+        private static Settings cfg => new Settings();
+
+        #endregion Private Properties
+
+        #region Public Methods
+
+        public static int ExecuteQuery(string Query, string DB)
+        {
+            SqlConnection con = new SqlConnection(SqlConnectionString);
+            using (SqlCommand cmd = new SqlCommand(Query, con))
+            {
+                cmd.CommandType = CommandType.Text;
+                if (cmd.Connection.State == ConnectionState.Closed)
+                {
+                    cmd.Connection.Open();
+                }
+                cmd.Connection.ChangeDatabase(DB);
+
+                int returner = cmd.ExecuteNonQuery();
+                StudioServer.StaticCertificationGrid.WriteLogLine($"{Query} ; Affected Rows:{returner}");
+                return returner;
+            }
+        }
+
+        public static DataTable ReturnDataTable(string query, string DB)
+        {
+            DataTable dataTable = new DataTable();
+            using (SqlConnection con = new SqlConnection(SqlConnectionString))
+            {
+                con.Open();
+                con.ChangeDatabase(DB);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, con);
+                sqlDataAdapter.Fill(dataTable);
+                con.Close();
+            }
+            StudioServer.StaticCertificationGrid.WriteLogLine(query);
+            return dataTable;
+        }
+
+        public static Packet ReturnDataTableAsPacket(ushort opcode, DataTable blancDataTable)
+        {
+            int[] columnsNrows = new int[2] { blancDataTable.Columns.Count, blancDataTable.Rows.Count };
+
+            Packet ReturnDataTablePacket = new Packet(opcode, false, true);
+            ReturnDataTablePacket.WriteIntArray(columnsNrows);
+
+            foreach (DataRow item in blancDataTable.Rows)
+            {
+                ReturnDataTablePacket.WriteAsciiArray(item.ItemArray);
+            }
+
+            return ReturnDataTablePacket;
+        }
+
+        public static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
+        {
+            DataTable dataTableProcedure = new DataTable();
+            SqlConnection con = new SqlConnection(SqlConnectionString);
+
+            using (SqlCommand command = new SqlCommand(procedureName, con))
+            {
+                if (command.Connection.State != ConnectionState.Open)
+                {
+                    command.Connection.Open();
+                }
+                command.Connection.ChangeDatabase(DB);
+
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddRange(param);
+
+                SqlDataAdapter addi = new SqlDataAdapter(command);
+                addi.Fill(dataTableProcedure);
+
+                command.Connection.Close();
+            }
+            List<string> listOfParams = new List<string>();
+            foreach (SqlParameter item in param)
+            {
+                if (item.SqlDbType == SqlDbType.VarChar)
+                {
+                    listOfParams.Add($"'{item.Value}',");
+                }
+                else
+                {
+                    listOfParams.Add($"{item.Value},");
+                }
+            }
+            string paramstring = "";
+            foreach (string item in listOfParams)
+            {
+                if (item != listOfParams[listOfParams.Count - 1])
+                {
+                    paramstring += item;
+                }
+                else
+                {
+                    paramstring += item.Replace(",", "");
+                }
+            }
+            StudioServer.StaticCertificationGrid.WriteLogLine($"EXEC {DB}.dbo.{procedureName} {paramstring}");
+            return dataTableProcedure;
+        }
+
+        public static string ReturnStringByQuery(string query, string DB)
+        {
+            string returnstring = null;
+            using (SqlConnection con = new SqlConnection(SqlConnectionString))
+            {
+                con.Open();
+                con.ChangeDatabase(DB);
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                returnstring = (string)cmd.ExecuteScalar();
+                con.Close();
+            }
+            StudioServer.StaticCertificationGrid.WriteLogLine(query);
+            return returnstring;
+        }
 
         public static KeyValuePair<string, bool> TestSqlConnection()
         {
@@ -64,123 +187,8 @@ namespace StudioServer
             }
             KeyValuePair<string, bool> SqlTestPair = new KeyValuePair<string, bool>(testString, testOK);
             return SqlTestPair;
-
         }
 
-        public static DataTable ReturnDataTable(string query, string DB)
-        {
-            DataTable dataTable = new DataTable();
-            using (SqlConnection con = new SqlConnection(SqlConnectionString))
-            {
-                con.Open();
-                con.ChangeDatabase(DB);
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, con);
-                sqlDataAdapter.Fill(dataTable);
-                con.Close();
-            }
-            StudioServer.StaticCertificationGrid.WriteLogLine(query);
-            return dataTable;
-        }
-
-        public static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
-        {
-            DataTable dataTableProcedure = new DataTable();
-            SqlConnection con = new SqlConnection(SqlConnectionString);
-
-            using (SqlCommand command = new SqlCommand(procedureName, con))
-            {
-                if (command.Connection.State != ConnectionState.Open)
-                {
-                    command.Connection.Open();
-                }
-                command.Connection.ChangeDatabase(DB);
-
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddRange(param);
-
-                SqlDataAdapter addi = new SqlDataAdapter(command);
-                addi.Fill(dataTableProcedure);
-
-                command.Connection.Close();
-            }
-            List<string> listOfParams = new List<string>();
-            foreach (SqlParameter item in param)
-            {
-                if (item.SqlDbType == SqlDbType.VarChar)
-                {
-                    listOfParams.Add($"'{item.Value}',");
-                }
-                else
-                {
-                    listOfParams.Add($"{item.Value},");
-                }
-            }
-            string paramstring = "";
-            foreach (string item in listOfParams)
-            {
-                if (item != listOfParams[listOfParams.Count - 1])
-                {
-                    paramstring += item;
-                }
-                else
-                {
-                    paramstring += item.Replace(",", "");
-                }
-            }
-            StudioServer.StaticCertificationGrid.WriteLogLine($"EXEC {DB}.dbo.{procedureName} {paramstring}");
-            return dataTableProcedure;
-        }
-
-        public static int ExecuteQuery(string Query, string DB)
-        {
-            SqlConnection con = new SqlConnection(SqlConnectionString);
-            using (SqlCommand cmd = new SqlCommand(Query, con))
-            {
-                cmd.CommandType = CommandType.Text;
-                if (cmd.Connection.State == ConnectionState.Closed)
-                {
-                    cmd.Connection.Open();
-                }
-                cmd.Connection.ChangeDatabase(DB);
-
-                int returner = cmd.ExecuteNonQuery();
-                StudioServer.StaticCertificationGrid.WriteLogLine($"{Query} ; Affected Rows:{returner}");
-                return returner;
-
-
-            }
-        }
-
-
-        public static Packet ReturnDataTableAsPacket(ushort opcode, DataTable blancDataTable)
-        {
-            int[] columnsNrows = new int[2] { blancDataTable.Columns.Count, blancDataTable.Rows.Count };
-
-            Packet ReturnDataTablePacket = new Packet(opcode, false, true);
-            ReturnDataTablePacket.WriteIntArray(columnsNrows);
-
-            foreach (DataRow item in blancDataTable.Rows)
-            {
-                ReturnDataTablePacket.WriteAsciiArray(item.ItemArray);
-            }
-
-            return ReturnDataTablePacket;
-        }
-
-        public static string ReturnStringByQuery(string query, string DB)
-        {
-            string returnstring = null;
-            using (SqlConnection con = new SqlConnection(SqlConnectionString))
-            {
-                con.Open();
-                con.ChangeDatabase(DB);
-
-                SqlCommand cmd = new SqlCommand(query, con);
-                returnstring = (string)cmd.ExecuteScalar();
-                con.Close();
-            }
-            StudioServer.StaticCertificationGrid.WriteLogLine(query);
-            return returnstring;
-        }
+        #endregion Public Methods
     }
 }

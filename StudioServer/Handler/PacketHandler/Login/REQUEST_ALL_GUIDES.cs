@@ -6,7 +6,14 @@ namespace StudioServer.Handler.PacketHandler.Login
 {
     internal class REQUEST_ALL_GUIDES
     {
+        #region Private Properties
+
         private static string GuidePath => StudioServer.settings.GuidePath;
+
+        #endregion Private Properties
+
+        #region Internal Methods
+
         internal static Packet GetFromDirectory(SecurityManager data)
         {
             if (!Directory.Exists(GuidePath))
@@ -29,5 +36,7 @@ namespace StudioServer.Handler.PacketHandler.Login
 
             return null; //TODO Guides sent rdy approve
         }
+
+        #endregion Internal Methods
     }
 }

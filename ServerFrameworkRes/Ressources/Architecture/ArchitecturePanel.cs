@@ -8,15 +8,19 @@ namespace ServerFrameworkRes.Ressources.Architecture
 {
     public partial class ArchitecturePanel : UserControl
     {
+        #region Private Fields
 
-        private ArchitectureBody CertificationBody { get; set; }
         private readonly Dictionary<string, ArchitectureBody> srNodeDataDictionary = new Dictionary<string, ArchitectureBody>();
 
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public ArchitecturePanel()
         {
             InitializeComponent();
         }
+
         public ArchitecturePanel(List<ArchitectureBody> listOfNodeDatas)
         {
             InitializeComponent();
@@ -26,13 +30,23 @@ namespace ServerFrameworkRes.Ressources.Architecture
             }
         }
 
+        #endregion Public Constructors
+
+        #region Private Properties
+
+        private ArchitectureBody CertificationBody { get; set; }
+
+        #endregion Private Properties
+
+        #region Private Methods
 
         private void InitializeArchitecture()
         {
-
-
         }
 
+        private void loadCertificationFromCertificationManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
 
         private void showArchitectureTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -50,12 +64,9 @@ namespace ServerFrameworkRes.Ressources.Architecture
                 Controls.Add(item2);
                 Certpoint.Y = 20;
                 Certpoint.X += 50;
-
             }
         }
 
-        private void loadCertificationFromCertificationManagerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
+        #endregion Private Methods
     }
 }

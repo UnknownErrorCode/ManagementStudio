@@ -7,21 +7,7 @@ namespace ShopEditor.Interface
 {
     internal class NpcShopData
     {
-        #region Properties
-
-        /// <summary>
-        /// Name of NPC from _RefObjCommon
-        /// </summary>
-        protected internal string NpcCodeName { get; set; }
-
-        /// <summary>
-        /// Contains all RefShopGroups assigned to this NPC.
-        /// </summary>
-        internal RefShopGroup[] ShopGroups { get; set; }
-
-        #endregion Properties
-
-        #region Methods
+        #region Internal Constructors
 
         /// <summary>
         /// Searches all Store Informations by a simpe NPC Name like NPC_TT_TEST
@@ -47,6 +33,24 @@ namespace ShopEditor.Interface
             }
         }
 
-        #endregion Methods
+        #endregion Internal Constructors
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Contains all RefShopGroups assigned to this NPC.
+        /// </summary>
+        internal RefShopGroup[] ShopGroups { get; set; }
+
+        #endregion Internal Properties
+
+        #region Protected Internal Properties
+
+        /// <summary>
+        /// Name of NPC from _RefObjCommon
+        /// </summary>
+        protected internal string NpcCodeName { get; set; }
+
+        #endregion Protected Internal Properties
     }
 }

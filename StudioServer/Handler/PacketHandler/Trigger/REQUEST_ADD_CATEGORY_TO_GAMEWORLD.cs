@@ -4,8 +4,10 @@ using System.Data.SqlClient;
 
 namespace StudioServer.Handler.PacketHandler.Trigger
 {
-    class REQUEST_ADD_CATEGORY_TO_GAMEWORLD
+    internal class REQUEST_ADD_CATEGORY_TO_GAMEWORLD
     {
+        #region Internal Methods
+
         internal static Packet TriggerCategoryToGameWorld(Packet opcode, string AccountName) //0x7001
         {
             int WorldID = opcode.ReadInt();
@@ -13,7 +15,6 @@ namespace StudioServer.Handler.PacketHandler.Trigger
             string CategoryDescription = opcode.ReadAscii();
             SqlParameter[] AddCategoryToWorldParams = new SqlParameter[]
                     {
-
                 new SqlParameter("@WorldID",SqlDbType.Int) { Value = WorldID},
                 new SqlParameter("@TriggerCategoryName",SqlDbType.VarChar,129) { Value = CategoryName},
                 new SqlParameter("@CategoryDesc",SqlDbType.VarChar,129) { Value = CategoryDescription},
@@ -38,5 +39,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
             }
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

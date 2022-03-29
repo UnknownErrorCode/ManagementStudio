@@ -5,6 +5,8 @@ namespace StudioServer.Handler.PacketHandler.Skills
 {
     internal static class REQ_UPDATE_SKILL
     {
+        #region Internal Methods
+
         /// <summary>
         /// 0x7021 reads int and string[] to identify how many skills needs to be update
         /// </summary>
@@ -46,5 +48,7 @@ namespace StudioServer.Handler.PacketHandler.Skills
             }
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

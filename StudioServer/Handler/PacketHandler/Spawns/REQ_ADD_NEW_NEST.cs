@@ -7,10 +7,10 @@ namespace StudioServer.Handler.PacketHandler.Spawns
 {
     internal class REQ_ADD_NEW_NEST
     {
+        #region Internal Methods
 
         internal static Packet AddNewNest(Packet packet, string AccName)
         {
-
             ITabRefNestUpdater tab_RefNest = new ITabRefNestUpdater()
             {
                 dwHiveID = packet.ReadAscii(),
@@ -89,6 +89,6 @@ namespace StudioServer.Handler.PacketHandler.Spawns
             return null;
         }
 
-
+        #endregion Internal Methods
     }
 }

@@ -6,12 +6,13 @@ namespace StudioServer.Handler.PacketHandler.Shops
 {
     internal class REQ_ADD_GOOD_TO_TAB
     {
+        #region Internal Methods
+
         internal static Packet Add(Packet opcode, string AccountName)
         {
             string PackageItemCodeName128 = opcode.ReadAscii();
             string StoreTabName = opcode.ReadAscii();
             int Slot = opcode.ReadInt();
-
 
             SqlParameter[] ParamArray = new SqlParameter[]
             {
@@ -33,7 +34,8 @@ namespace StudioServer.Handler.PacketHandler.Shops
                 return OutgoingPackets.FailNoticePlayer(textReturn);
             }
             return null;
-
         }
+
+        #endregion Internal Methods
     }
 }

@@ -2,10 +2,17 @@
 {
     internal class MobSpawnSkill
     {
+        #region Public Fields
+
         public BasicMobSkill basicSkillInfos;
-        public byte Rarity; //tinyint
-        public string MobToSpawnCodeName; //varchar
-        public int MinSpawnCount;
         public int MaxSpawnCount;
+        public int MinSpawnCount;
+        public string MobToSpawnCodeName;
+        public byte Rarity;
+
+        #endregion Public Fields
+
+        //tinyint
+        //varchar
     }
 }

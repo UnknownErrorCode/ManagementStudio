@@ -2,13 +2,13 @@
 
 namespace StudioServer.Handler.PacketHandler
 {
-    class REQUEST_SINGLE_DATATABLE
+    internal class REQUEST_SINGLE_DATATABLE
     {
+        #region Public Methods
+
         public static Packet Request(Packet packet)
         {
-
             string tab = packet.ReadAscii();
-
 
             if (tab == "_AccountJID")
             {
@@ -1550,15 +1550,12 @@ namespace StudioServer.Handler.PacketHandler
                 packet.WriteDataTable(dt);
                 return packet;
             }
-
-
             else
             {
                 return null;
             }
-
         }
 
-
+        #endregion Public Methods
     }
 }

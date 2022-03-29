@@ -4,15 +4,7 @@ namespace ShopEditor.Interface.ShopInterface
 {
     internal class RefShop
     {
-        /// <summary>
-        /// CodeName128 from _RefShop.
-        /// </summary>
-        protected string Name { get; set; }
-
-        /// <summary>
-        /// Array of TabGroups from _RefShopTabGroup where StoreCodeName128 is equal to this.Name.
-        /// </summary>
-        protected internal RefShopTabGroup[] TabGroups { get; set; }
+        #region Internal Constructors
 
         internal RefShop(string _RefShopCodeName)
         {
@@ -31,5 +23,25 @@ namespace ShopEditor.Interface.ShopInterface
                 TabGroups[i] = new RefShopTabGroup(tabGroups[i].RefTabGroupCodeName);
             }
         }
+
+        #endregion Internal Constructors
+
+        #region Protected Internal Properties
+
+        /// <summary>
+        /// Array of TabGroups from _RefShopTabGroup where StoreCodeName128 is equal to this.Name.
+        /// </summary>
+        protected internal RefShopTabGroup[] TabGroups { get; set; }
+
+        #endregion Protected Internal Properties
+
+        #region Protected Properties
+
+        /// <summary>
+        /// CodeName128 from _RefShop.
+        /// </summary>
+        protected string Name { get; set; }
+
+        #endregion Protected Properties
     }
 }

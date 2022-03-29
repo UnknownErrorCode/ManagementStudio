@@ -16,13 +16,22 @@ namespace StudioServer
 {
     public partial class StudioServer : Form
     {
-        private readonly ServerData ServerData = new ServerData() { UserIP = settings.IP, AccountName = "vSroStudioServer" };
+        #region Public Fields
+
         public static Config.Settings settings = new Config.Settings();
         public static LogGridView StaticCertificationGrid;
+
+        #endregion Public Fields
+
+        #region Private Fields
+
+        private readonly ServerData ServerData = new ServerData() { UserIP = settings.IP, AccountName = "vSroStudioServer" };
         private readonly bool Ticker = true;
-        private byte[] buffer { get; set; }
-        private static AsyncServer AsyncronousNetwork { get; set; }
-        private ArchitectureBody SingleBody { get; set; }
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
         public StudioServer()
         {
             InitializeComponent();
@@ -39,36 +48,27 @@ namespace StudioServer
             Worker.DataStorage.CreateEnvironment();
         }
 
+        #endregion Public Constructors
 
-        private void vood()
+        #region Private Properties
+
+        private static AsyncServer AsyncronousNetwork { get; set; }
+        private byte[] buffer { get; set; }
+        private ArchitectureBody SingleBody { get; set; }
+
+        #endregion Private Properties
+
+        #region Private Methods
+
+        private void patchClientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Parse(StudioServer.settings.IP), StudioServer.settings.Port);
+            Patch.PatchProces.Exaggurate();
+        }
 
-                AsyncronousNetwork = new AsyncServer();
-
-                ServerInterface certificationServerInterface = new ServerInterface();
-
-
-                AsyncronousNetwork.Accept(ServerEndPoint.Address.ToString(), ServerEndPoint.Port, 5, certificationServerInterface, buffer);
-
-                SingleBody.BackgroundImage = SingleBody.ServerBodyImages[ServerBodyState.Blue];
-                StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Status: vSro-Studio-Server started on {0}:{1}", ServerEndPoint.Address.ToString(), ServerEndPoint.Port.ToString()));
-
-
-                while (Ticker)
-                {
-                    AsyncronousNetwork.Tick();
-                    Thread.Sleep(1);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Status: vSro-Studio-Server failed to start... Exception: {0}", ex.Message));
-            }
-
+        private void patchManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PatchManager manager = new PatchManager();
+            manager.Show();
         }
 
         private void startServerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -102,11 +102,6 @@ namespace StudioServer
                 StaticCertificationGrid.WriteLogLine(level, Initialize.Key);
             }
         }
-        private void testSQLConnectionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            KeyValuePair<string, bool> kpv = SQL.TestSqlConnection();
-            StudioServer.StaticCertificationGrid.WriteLogLine(kpv.Value ? kpv.Key : "Failed to login to the Server");
-        }
 
         private void StudioServer_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -116,15 +111,39 @@ namespace StudioServer
             Process.GetProcessesByName("StudioServer").ToList().ForEach(process => process.Kill());
         }
 
-        private void patchClientsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void testSQLConnectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Patch.PatchProces.Exaggurate();
+            KeyValuePair<string, bool> kpv = SQL.TestSqlConnection();
+            StudioServer.StaticCertificationGrid.WriteLogLine(kpv.Value ? kpv.Key : "Failed to login to the Server");
         }
 
-        private void patchManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void vood()
         {
-            PatchManager manager = new PatchManager();
-            manager.Show();
+            try
+            {
+                IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Parse(StudioServer.settings.IP), StudioServer.settings.Port);
+
+                AsyncronousNetwork = new AsyncServer();
+
+                ServerInterface certificationServerInterface = new ServerInterface();
+
+                AsyncronousNetwork.Accept(ServerEndPoint.Address.ToString(), ServerEndPoint.Port, 5, certificationServerInterface, buffer);
+
+                SingleBody.BackgroundImage = SingleBody.ServerBodyImages[ServerBodyState.Blue];
+                StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Status: vSro-Studio-Server started on {0}:{1}", ServerEndPoint.Address.ToString(), ServerEndPoint.Port.ToString()));
+
+                while (Ticker)
+                {
+                    AsyncronousNetwork.Tick();
+                    Thread.Sleep(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                StudioServer.StaticCertificationGrid.WriteLogLine(String.Format("Status: vSro-Studio-Server failed to start... Exception: {0}", ex.Message));
+            }
         }
+
+        #endregion Private Methods
     }
 }

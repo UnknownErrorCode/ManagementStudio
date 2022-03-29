@@ -6,12 +6,13 @@ namespace StudioServer.Handler.PacketHandler.Trigger
 {
     public class REQ_ADD_CONDITION_TO_TRIGGER
     {
+        #region Internal Methods
+
         internal static Packet AddConditionToTrigger(Packet packet, string AccName)
         {
             string TriggerName = packet.ReadAscii();
             string ConditionName = packet.ReadAscii();
             string obj = packet.ReadAscii();
-
 
             SqlParameter[] AddConditionWithActionParams = new SqlParameter[]
                {
@@ -31,7 +32,6 @@ namespace StudioServer.Handler.PacketHandler.Trigger
                 ServerMembory.RefreshTableForAll("_RefTriggerBindCondition");
                 ServerMembory.RefreshTableForAll("_RefTriggerCondition");
                 ServerMembory.RefreshTableForAll("_RefTriggerConditionParam");
-
             }
             else
             {
@@ -42,5 +42,7 @@ namespace StudioServer.Handler.PacketHandler.Trigger
             }
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

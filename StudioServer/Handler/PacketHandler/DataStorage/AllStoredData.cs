@@ -5,6 +5,8 @@ namespace StudioServer.Handler.PacketHandler.DataStorage
 {
     internal static class AllStoredData
     {
+        #region Internal Methods
+
         /// <summary>
         /// Returns Packet 0x3099 with all FileTitles
         /// </summary>
@@ -13,6 +15,7 @@ namespace StudioServer.Handler.PacketHandler.DataStorage
         {
             return OutgoingPackets.AllStoredDataTitles();
         }
+
         /// <summary>
         /// Returns Packet 0x3098 with File inside, or null!
         /// </summary>
@@ -29,5 +32,7 @@ namespace StudioServer.Handler.PacketHandler.DataStorage
             }
             return new Packet(0x3098);
         }
+
+        #endregion Internal Methods
     }
 }

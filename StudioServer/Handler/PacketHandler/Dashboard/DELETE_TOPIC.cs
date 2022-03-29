@@ -5,6 +5,8 @@ namespace StudioServer.Handler.PacketHandler.Dashboard
 {
     internal class DELETE_TOPIC
     {
+        #region Internal Methods
+
         internal static Packet DELETE(Packet opcode)
         {
             SingleTopic t = new SingleTopic()
@@ -27,5 +29,7 @@ namespace StudioServer.Handler.PacketHandler.Dashboard
 
             return null;
         }
+
+        #endregion Internal Methods
     }
 }

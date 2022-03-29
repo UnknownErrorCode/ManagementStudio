@@ -9,14 +9,14 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
     {
         #region Private Fields
 
-        private readonly Socket m_socket;
-        private AsyncBuffer m_current_write_buffer;
         private readonly AsyncOperation m_operation;
         private readonly byte[] m_read_buffer;
         private readonly SocketAsyncEventArgs m_read_event_args;
         private readonly AsyncBase m_server;
+        private readonly Socket m_socket;
         private readonly Queue<AsyncBuffer> m_write_buffers;
         private readonly SocketAsyncEventArgs m_write_event_args;
+        private AsyncBuffer m_current_write_buffer;
 
         #endregion Private Fields
 

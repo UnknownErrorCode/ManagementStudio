@@ -6,8 +6,10 @@ using System.Collections.Generic;
 
 namespace StudioServer
 {
-    class ServerInterface : IAsyncInterface
+    internal class ServerInterface : IAsyncInterface
     {
+        #region Public Methods
+
         public bool OnConnect(AsyncContext context)
         {
             ServerData context_data = new ServerData
@@ -27,7 +29,6 @@ namespace StudioServer
             context_data.m_connected = false;
 
             ServerMembory.RemoveUserOnline(context_data);
-
         }
 
         public void OnError(AsyncContext context, object user)
@@ -95,5 +96,7 @@ namespace StudioServer
                 }
             }
         }
+
+        #endregion Public Methods
     }
 }

@@ -49,7 +49,7 @@ namespace ManagementLauncher.Config
             {
                 return ConfigFile.IniReadValue("ToolServer", "Host");
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }

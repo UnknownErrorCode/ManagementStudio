@@ -7,6 +7,8 @@ namespace StudioServer.Handler.PacketHandler.Spawns
 {
     public class REQ_ADD_NEW_TACTICS
     {
+        #region Public Methods
+
         public static Packet NEW_TACTICS(Packet packet, string AccName) //7010
         {
             string MobName = packet.ReadAscii();
@@ -40,5 +42,7 @@ namespace StudioServer.Handler.PacketHandler.Spawns
             }
             return null;
         }
+
+        #endregion Public Methods
     }
 }

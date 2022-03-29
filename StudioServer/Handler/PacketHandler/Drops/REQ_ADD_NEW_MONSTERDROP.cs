@@ -6,6 +6,8 @@ namespace StudioServer.Handler.PacketHandler.Drops
 {
     internal class REQ_ADD_NEW_MONSTERDROP
     {
+        #region Internal Methods
+
         internal static Packet AddNewMonsterAssignedDrop(Packet opcode, string accountName)
         {
             try
@@ -49,5 +51,7 @@ namespace StudioServer.Handler.PacketHandler.Drops
                 return OutgoingPackets.FailNoticePlayer("Failed to add new MonsterDrop!");
             }
         }
+
+        #endregion Internal Methods
     }
 }
