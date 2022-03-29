@@ -31,22 +31,32 @@ namespace ShopEditor
         internal void OnNpcClick(string npcName)
         {
             foreach (IDisposable item in splitContainer1.Panel2.Controls)
+            {
                 item.Dispose();
+            }
 
             splitContainer1.Panel2.Controls.Clear();
 
             if (!NpcShopInformation.ContainsKey(npcName))
+            {
                 NpcShopInformation.Add(npcName, new NpcShopData(npcName));
+            }
 
             foreach (RefShopGroup group in NpcShopInformation[npcName].ShopGroups)
+            {
                 foreach (RefShop store in group.ShopGroup)
+                {
                     foreach (RefShopTabGroup tabgroup in store.TabGroups)
                     {
                         if (tabgroup.StrID128Name == null)
+                        {
                             continue;
+                        }
 
                         splitContainer1.Panel2.Controls.Add(CreateLabel(npcName, tabgroup));
                     }
+                }
+            }
         }
 
         private Label CreateLabel(string npcName, RefShopTabGroup shopTabGroup)

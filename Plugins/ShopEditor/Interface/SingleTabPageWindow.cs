@@ -31,7 +31,9 @@ namespace ShopEditor.Interface
         {
             ShopGoodsOnPage = new ShopGoodWindow[goodsOnPage.Length];
             for (int i = 0; i < goodsOnPage.Length; i++)
+            {
                 ShopGoodsOnPage[i] = new ShopGoodWindow(goodsOnPage[i]);
+            }
         }
 
         /// <summary>
@@ -40,7 +42,9 @@ namespace ShopEditor.Interface
         private void DrawGoodsOnPage()
         {
             for (int i = 0; i < ShopGoodsOnPage.Length; i++)
+            {
                 Controls.Add(ShopGoodsOnPage[i]);
+            }
         }
 
         private void InitializeComponent()

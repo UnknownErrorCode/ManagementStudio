@@ -26,7 +26,9 @@ namespace ShopEditor
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
             if (arg2.ReadAscii() != STRING_DLL)
+            {
                 return PacketHandlerResult.Block;
+            }
             // Initialize SRO_VT_SHARD for ShopEditor
             ClientDataStorage.Database.SRO_VT_SHARD.InitializeShopEditor();
 
@@ -40,7 +42,7 @@ namespace ShopEditor
         private void InitializeListView()
         {
             listViewAllNpcs.Items.Clear();
-            foreach (var item in ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup)
+            foreach (Structs.Database.RefShopGroup item in ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup)
             {
                 if (!listViewAllNpcs.Items.ContainsKey(item.RefNPCCodeName) && (!item.RefNPCCodeName.ToLower().Equals("xxx")))
                 {
@@ -59,7 +61,9 @@ namespace ShopEditor
         private void listViewAllNpcs_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (((ListView)sender).SelectedItems.Count > 0)
+            {
                 talkWindow1.OnNpcClick(((ListView)sender).SelectedItems[0].Text);
+            }
         }
 
         private void onLoadShops(object sender, EventArgs e)

@@ -37,12 +37,14 @@ namespace ShopEditor.Interface
                 vSroMessageBox.Show($"No Group CodeName128 found for NPC: {npcCodeName128}", "Error loading RefShopGroup");
                 return;
             }
-            var shopGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup.Where(group => group.RefNPCCodeName.Equals(npcCodeName128)).ToArray();
+            Structs.Database.RefShopGroup[] shopGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup.Where(group => group.RefNPCCodeName.Equals(npcCodeName128)).ToArray();
             //  DataRow[] ShopGroupCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Where(Row => Row.Field<string>("RefNPCCodeName") == npcCodeName128).ToArray();
             ShopGroups = new RefShopGroup[shopGroups.Length];
 
             for (int i = 0; i < ShopGroups.Length; i++)
+            {
                 ShopGroups[i] = new RefShopGroup(shopGroups[i].CodeName128);
+            }
         }
 
         #endregion Methods

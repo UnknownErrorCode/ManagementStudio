@@ -23,7 +23,7 @@ namespace ShopEditor.Interface.ShopInterface
                 vSroMessageBox.Show($"No RefTabGroupCodeNames found for \nRefShopCodeName:{Name}", "Error loading RefMappingShopWithTab");
                 return;
             }
-            var tabGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopWithTab[Name];
+            Structs.Database.RefMappingShopWithTab[] tabGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopWithTab[Name];
             TabGroups = new RefShopTabGroup[tabGroups.Length];
 
             for (int i = 0; i < tabGroups.Length; i++)

@@ -21,7 +21,9 @@ namespace ShopEditor.Interface
             InitializeComponent();
             InitializeUIElements(shopTabGroup.StrID128Name);
             if (GenerateShopTabWindows(shopTabGroup, out ShopBlueTabWindows))
+            {
                 Controls.AddRange(ShopBlueTabWindows);
+            }
 
             DisplaySingleTabPage(ShopBlueTabWindows[0], CurrentPageIndex);
         }
@@ -31,14 +33,18 @@ namespace ShopEditor.Interface
             shopTabWindows = new BlueShopTabWindow[shopTabGroup.ShopTabs.Length];
 
             for (int i = 0; i < shopTabGroup.ShopTabs.Length; i++)
+            {
                 shopTabWindows[i] = new BlueShopTabWindow(shopTabGroup.ShopTabs[i], (byte)i);
+            }
 
             foreach (BlueShopTabWindow tabWindow in ShopBlueTabWindows)
+            {
                 if (tabWindow != null)
                 {
                     tabWindow.MouseClick += TabWindow_MouseClick;
                     tabWindow.StrIDLabel.MouseClick += TabWindow_onLabelClick;
                 }
+            }
 
             return shopTabWindows[0].SingleTabPages != null;
         }
@@ -49,12 +55,20 @@ namespace ShopEditor.Interface
 
             CurrentPageIndex = 0;
             if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(TabOnUIPath))
+            {
                 if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(TabOnUIPath, out byte[] ddjbytearray))
+                {
                     ClientDataStorage.Client.Media.DDJFiles.Add(TabOnUIPath, new DDJImage(ddjbytearray));
+                }
+            }
 
             if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(TabOffUIPath))
+            {
                 if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(TabOffUIPath, out byte[] ddjbytearray2))
+                {
                     ClientDataStorage.Client.Media.DDJFiles.Add(TabOffUIPath, new DDJImage(ddjbytearray2));
+                }
+            }
         }
 
         private void TabWindow_MouseClick(object sender, MouseEventArgs e)
@@ -74,8 +88,12 @@ namespace ShopEditor.Interface
             panelCurrentPage.Controls.Clear();
             DisplayedBlueTab = window;
             if (DisplayedBlueTab.SingleTabPages != null)
+            {
                 if (DisplayedBlueTab.SingleTabPages.Length > 0)
+                {
                     panelCurrentPage.Controls.Add(DisplayedBlueTab.SingleTabPages[page]);
+                }
+            }
 
             CurrentPageIndex = DisplayedBlueTab.SingleTabPages != null ? DisplayedBlueTab.SingleTabPages.Length > 0 ? DisplayedBlueTab.SingleTabPages[page].PageIndex : page : (byte)0;
         }
@@ -88,13 +106,17 @@ namespace ShopEditor.Interface
         private void ShowNextPage(object sender, MouseEventArgs e)
         {
             if (DisplayedBlueTab.SingleTabPages.Length > CurrentPageIndex)
+            {
                 DisplaySingleTabPage(DisplayedBlueTab, CurrentPageIndex);
+            }
         }
 
         private void ShowPreviousPage(object sender, MouseEventArgs e)
         {
             if (CurrentPageIndex > 1)
+            {
                 DisplaySingleTabPage(DisplayedBlueTab, (byte)(CurrentPageIndex - 2));
+            }
         }
     }
 }

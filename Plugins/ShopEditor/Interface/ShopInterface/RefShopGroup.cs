@@ -31,12 +31,14 @@ namespace ShopEditor.Interface.ShopInterface
                 return;
             }
 
-            var ShopCodeNames = ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopGroup.Where(row => row.RefShopGroupCodeName.Equals(Name)).ToArray();
+            Structs.Database.RefMappingShopGroup[] ShopCodeNames = ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopGroup.Where(row => row.RefShopGroupCodeName.Equals(Name)).ToArray();
 
             ShopGroup = new RefShop[ShopCodeNames.Length];
 
             for (int i = 0; i < ShopCodeNames.Length; i++)
+            {
                 ShopGroup[i] = new RefShop(ShopCodeNames[i].RefShopCodeName);
+            }
         }
     }
 }

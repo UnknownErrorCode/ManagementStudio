@@ -25,13 +25,17 @@ namespace ShopEditor.Interface.ShopInterface
             Name = refTabGroupCodeName128;
 
             if (!ClientDataStorage.Database.SRO_VT_SHARD._RefShopTab.Values.Any(row => row.RefTabGroupCodeName.Equals(Name) && row.Service == 1))
+            {
                 return;
+            }
 
-            var tempShopTabs = ClientDataStorage.Database.SRO_VT_SHARD._RefShopTab.Values.Where(row => row.RefTabGroupCodeName.Equals(Name) && row.Service == 1).ToArray();
+            Structs.Database.RefShopTab[] tempShopTabs = ClientDataStorage.Database.SRO_VT_SHARD._RefShopTab.Values.Where(row => row.RefTabGroupCodeName.Equals(Name) && row.Service == 1).ToArray();
 
             ShopTabs = new RefShopTab[tempShopTabs.Length];
             for (int i = 0; i < tempShopTabs.Length; i++)
+            {
                 ShopTabs[i] = new RefShopTab(tempShopTabs[i].CodeName128, tempShopTabs[i].StrID128_Tab);
+            }
 
             //Due to different tables, the StrID128_Name needs to be set manually.
             StrID128Name = ClientDataStorage.Database.SRO_VT_SHARD._RefShopTabGroup[Name].StrID128_Group;
