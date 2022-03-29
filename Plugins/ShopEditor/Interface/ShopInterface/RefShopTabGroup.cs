@@ -8,7 +8,7 @@ namespace ShopEditor.Interface.ShopInterface
         /// <summary>
         /// RefShopTabGroupCodeName from RefShopTabGroup
         /// </summary>
-        private protected string Name { get; set; }
+        protected string Name { get; set; }
 
         /// <summary>
         /// StrID128_CodeName128 from _RefShopTabGroup
@@ -19,7 +19,6 @@ namespace ShopEditor.Interface.ShopInterface
         /// All RefShopTabs inside this TabGroup.
         /// </summary>
         internal RefShopTab[] ShopTabs { get; set; }
-
 
         internal RefShopTabGroup(string refTabGroupCodeName128)
         {
@@ -36,8 +35,6 @@ namespace ShopEditor.Interface.ShopInterface
 
             //Due to different tables, the StrID128_Name needs to be set manually.
             StrID128Name = ClientDataStorage.Database.SRO_VT_SHARD._RefShopTabGroup[Name].StrID128_Group;
-
         }
-
     }
 }

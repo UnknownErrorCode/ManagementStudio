@@ -3,7 +3,6 @@ using ShopEditor.Interface.ShopInterface;
 using System.Data;
 using System.Linq;
 
-
 namespace ShopEditor.Interface
 {
     internal class NpcShopData
@@ -20,13 +19,12 @@ namespace ShopEditor.Interface
         /// </summary>
         internal RefShopGroup[] ShopGroups { get; set; }
 
-        #endregion
-
+        #endregion Properties
 
         #region Methods
 
         /// <summary>
-        /// Searches all Store Informations by a simpe NPC Name like NPC_TT_TEST  
+        /// Searches all Store Informations by a simpe NPC Name like NPC_TT_TEST
         /// _RefShopGroup > _RefMappingShopGroup >_RefMappingShopWithTab > _RefShopItemGroup +_RefShopTabGroup > _RefShopTab  > _RefShopGoods   >Edits can start
         /// </summary>
         /// <param name="npcCodeName128"></param>
@@ -34,20 +32,19 @@ namespace ShopEditor.Interface
         {
             NpcCodeName = npcCodeName128;
 
-           
             if (!ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup.Any(group => group.RefNPCCodeName.Equals(npcCodeName128)))
             {
                 vSroMessageBox.Show($"No Group CodeName128 found for NPC: {npcCodeName128}", "Error loading RefShopGroup");
                 return;
             }
             var shopGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup.Where(group => group.RefNPCCodeName.Equals(npcCodeName128)).ToArray();
-          //  DataRow[] ShopGroupCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Where(Row => Row.Field<string>("RefNPCCodeName") == npcCodeName128).ToArray();
+            //  DataRow[] ShopGroupCodeNames = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefShopGroup"].Rows.OfType<DataRow>().Where(Row => Row.Field<string>("RefNPCCodeName") == npcCodeName128).ToArray();
             ShopGroups = new RefShopGroup[shopGroups.Length];
 
             for (int i = 0; i < ShopGroups.Length; i++)
                 ShopGroups[i] = new RefShopGroup(shopGroups[i].CodeName128);
         }
 
-        #endregion
+        #endregion Methods
     }
 }

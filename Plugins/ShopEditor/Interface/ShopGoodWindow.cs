@@ -11,7 +11,6 @@ namespace ShopEditor.Interface
         private string IconPath => $"Media\\icon\\{Good.PackageItem.AssocFileIcon}";
         internal CIShopGood Good { get; set; }
 
-
         internal ShopGoodWindow(CIShopGood good)
         {
             Good = good;

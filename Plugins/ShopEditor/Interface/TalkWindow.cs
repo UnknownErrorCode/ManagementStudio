@@ -49,7 +49,6 @@ namespace ShopEditor
                     }
         }
 
-
         private Label CreateLabel(string npcName, RefShopTabGroup shopTabGroup)
         {
             Label label = new Label()

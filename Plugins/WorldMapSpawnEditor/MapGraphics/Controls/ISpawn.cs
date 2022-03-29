@@ -1,11 +1,9 @@
-﻿using ClientDataStorage.Client.Files;
+﻿using Editors.Spawn;
 using System;
-using Editors.Spawn;
 using System.Drawing;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
-
     public abstract class ISpawn
     {
         #region Properties
@@ -26,18 +24,16 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal byte Y;
 
         /// <summary>
-        /// Region Identifier build as Int16 from a string that consists of HexString(Y) + HexString(X) .
-        /// </summary>
-        private short RegionID { get => Spawn.Nest.nRegionDBID; }
-
-        
-
-        /// <summary>
         /// Translated Location on Control.
         /// </summary>
         public Point Location { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Region Identifier build as Int16 from a string that consists of HexString(Y) + HexString(X) .
+        /// </summary>
+        private short RegionID { get => Spawn.Nest.nRegionDBID; }
+
+        #endregion Properties
 
         /// <summary>
         /// Raw logic of a single spawn. (Monster, UniqueMonster, Npc)
@@ -57,13 +53,14 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         /// <param name="RegionSize"></param>
         public void UpdateISpawn(int RegionSize)
-            => this.Location = new Point(((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0)), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize)) * -1));
-
+        {
+            this.Location = new Point(((int)Math.Round(Spawn.Nest.fLocalPosX / (1920f / RegionSize), 0)), (int)Math.Round((Spawn.Nest.fLocalPosZ / (1920f / RegionSize)) * -1));
+        }
 
         /// <summary>
         /// Initialize required Properties to load Components with no error.
         /// </summary>
-        void InitializeProperties()
+        private void InitializeProperties()
         {
             string convertedRegionID = RegionID.ToString("X");
             Y = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(0, 2), 16));

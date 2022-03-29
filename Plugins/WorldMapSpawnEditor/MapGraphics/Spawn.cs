@@ -1,15 +1,17 @@
-﻿namespace WorldMapSpawnEditor.MapGraphics
+﻿using Structs;
+
+namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Spawn
     {
         public readonly int ID;
+        public readonly GraphicsPanel.SpawnType spawnType;
         public WRegionID RegionID;
         public float xLocation;
         public float yLocation;
-        internal float zLocation;
-        internal int nRadius;
         internal int nGenerateRadius;
-        public readonly GraphicsPanel.SpawnType spawnType;
+        internal int nRadius;
+        internal float zLocation;
 
         internal Spawn(int id, short wRegionID, float x, float y, float z, GraphicsPanel.SpawnType type, int radius, int genRaius)
         {

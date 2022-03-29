@@ -35,22 +35,21 @@ namespace ShopEditor.Interface
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void DrawGoodsOnPage()
         {
             for (int i = 0; i < ShopGoodsOnPage.Length; i++)
                 Controls.Add(ShopGoodsOnPage[i]);
-
         }
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SingleTabPageWindow));
             SuspendLayout();
-            // 
+            //
             // SingleTabPageWindow
-            // 
+            //
             BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             DoubleBuffered = true;
             MaximumSize = new System.Drawing.Size(223, 186);

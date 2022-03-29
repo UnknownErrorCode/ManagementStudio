@@ -56,7 +56,6 @@
     <Compile Include="MapGraphics\RegionGraphic.cs" />
     <Compile Include="MapGraphics\Controls\Teleport.cs" />
     <Compile Include="MapGraphics\Spawn.cs" />
-    <Compile Include="MapGraphics\WRegionID.cs" />
     <Compile Include="MapGuide\MapGuideForm.cs">
       <SubType>Form</SubType>
     </Compile>

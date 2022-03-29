@@ -6,11 +6,10 @@ using System.Collections.Generic;
 
 namespace ShopEditor.Interface.ShopInterface
 {
-    class EditorInterface
+    internal class EditorInterface
     {
-        readonly Editors.Shop.ShopEditor editor;
+        private readonly Editors.Shop.ShopEditor editor;
         private readonly List<Packet> PacketsToSend = new List<Packet>();
-
 
         public EditorInterface(CIShopGood good)
         {
@@ -21,11 +20,7 @@ namespace ShopEditor.Interface.ShopInterface
 
         private void Editor_OnUpdatePricePolicy()
         {
-
-
         }
-
-
 
         private bool ShopItemPricePolicyOfItemUpdateRequest(RefPricePolicyOfItem pricePolicyOfItem, EditAction action, out Packet packet)
         {
@@ -42,6 +37,5 @@ namespace ShopEditor.Interface.ShopInterface
                 return false;
             }
         }
-
     }
 }

@@ -1,6 +1,4 @@
 ﻿using ServerFrameworkRes.BasicControls;
-using System.Data;
-using System.Linq;
 
 namespace ShopEditor.Interface.ShopInterface
 {
@@ -9,7 +7,7 @@ namespace ShopEditor.Interface.ShopInterface
         /// <summary>
         /// CodeName128 from _RefShop.
         /// </summary>
-        private protected string Name { get; set; }
+        protected string Name { get; set; }
 
         /// <summary>
         /// Array of TabGroups from _RefShopTabGroup where StoreCodeName128 is equal to this.Name.

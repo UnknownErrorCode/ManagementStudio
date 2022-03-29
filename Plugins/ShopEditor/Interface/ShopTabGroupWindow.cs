@@ -9,12 +9,13 @@ namespace ShopEditor.Interface
     {
         private readonly BlueShopTabWindow[] ShopBlueTabWindows;
 
-        private protected const string TabOnUIPath = "Media\\interface\\ifcommon\\com_tab_on.ddj";
-        private protected const string TabOffUIPath = "Media\\interface\\ifcommon\\com_tab_off.ddj";
+        protected const string TabOnUIPath = "Media\\interface\\ifcommon\\com_tab_on.ddj";
+        protected const string TabOffUIPath = "Media\\interface\\ifcommon\\com_tab_off.ddj";
 
         public string ShopTitle { get => labelShopTabGroup.Text; set => labelShopTabGroup.Text = value; }
         public byte CurrentPageIndex { get => byte.Parse(labelPageIndex.Text); set => labelPageIndex.Text = $"{value}"; }
         private BlueShopTabWindow DisplayedBlueTab { get; set; }
+
         internal ShopTabGroupWindow(RefShopTabGroup shopTabGroup)
         {
             InitializeComponent();
@@ -42,10 +43,8 @@ namespace ShopEditor.Interface
             return shopTabWindows[0].SingleTabPages != null;
         }
 
-
         private void InitializeUIElements(string title)
         {
-
             //ShopTitle = Media.StaticTextuiSystem.UIIT_Strings.TryGetValue(title, out TextUISystemStruct str) ? str.Viethnam : title;
 
             CurrentPageIndex = 0;
@@ -77,7 +76,6 @@ namespace ShopEditor.Interface
             if (DisplayedBlueTab.SingleTabPages != null)
                 if (DisplayedBlueTab.SingleTabPages.Length > 0)
                     panelCurrentPage.Controls.Add(DisplayedBlueTab.SingleTabPages[page]);
-
 
             CurrentPageIndex = DisplayedBlueTab.SingleTabPages != null ? DisplayedBlueTab.SingleTabPages.Length > 0 ? DisplayedBlueTab.SingleTabPages[page].PageIndex : page : (byte)0;
         }

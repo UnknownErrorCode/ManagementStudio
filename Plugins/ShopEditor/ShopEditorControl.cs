@@ -1,16 +1,15 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Data;
 using System.Windows.Forms;
 
 namespace ShopEditor
 {
     public partial class ShopEditorControl : UserControl
     {
-
         private const string STRING_DLL = "ShopEditor.dll";
 
         private new readonly TabPage Parent;
+
         /// <summary>
         /// The ShopEditor consists of all NPC Shops and the TalkWindow.
         /// </summary>

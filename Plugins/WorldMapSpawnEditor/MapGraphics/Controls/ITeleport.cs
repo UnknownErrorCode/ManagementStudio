@@ -11,27 +11,22 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// Contains all Database Informations about the spawn.
         /// </summary>
-        internal SingleTeleport TeleportData { get; set; }
+        internal SingleTeleport TeleportData;
 
         /// <summary>
         /// Ordinate of Region Coorainate.
         /// </summary>
-        internal byte X { get; set; }
+        internal byte X;
 
         /// <summary>
         /// Abszisse of Region Coordinate.
         /// </summary>
-        internal byte Y { get; set; }
+        internal byte Y;
 
         /// <summary>
         /// Region Identifier build as Int16 from a string that consists of HexString(Y) + HexString(X) .
         /// </summary>
-        private short RegionID { get; set; }
-
-        /// <summary>
-        /// Location of spawn inside Region. Float coordinates.
-        /// </summary>
-        public PointF Location { get; set; }
+        private short RegionID;
 
         private Tab_RefNest TempNest;
 
@@ -58,6 +53,11 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             InitializeProperties();
         }
+
+        /// <summary>
+        /// Location of spawn inside Region. Float coordinates.
+        /// </summary>
+        public PointF Location { get; set; }
 
         /// <summary>
         /// Initialize required Properties to load Components with no error.
