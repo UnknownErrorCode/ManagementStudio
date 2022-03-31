@@ -1,136 +1,137 @@
 ﻿namespace BinaryFiles.PackFile.Data.Dungeon
 {
-    internal struct DungeonRoomObject
+    public struct DungeonRoomObject
     {
         #region Fields
 
         /// <summary>
         /// width = aabb[3] - aabb[0], height= aabb[4] - aabb[1], length = aabb[5] - aabb[2]
         /// </summary>
-        private float[] AABB;
+        public float[] AABB;
 
         /// <summary>
         /// Count of directly-connected objects. Example: 70, 146
         /// </summary>
-        private uint connectedObjectCount;
+        public uint connectedObjectCount;
 
         /// <summary>
         /// List of connected objects. Example: 70, 4, 146, 80
         /// </summary>
-        private uint[] ConnectedObjectList;
+        public uint[] ConnectedObjectList;
 
-        private uint entryCounter;
-        private DungeonRoomObjectEntry[] entryList;
-        private DungeonRoomObjectExtraInformation ExtraA;
-        private DungeonRoomObjectExtraInformation ExtraB;
-        private byte extraFlagA;
-        private byte extraFlagB;
+        public uint entryCounter;
+        public DungeonRoomObjectEntry[] entryList;
+        public DungeonRoomObjectExtraInformation ExtraA;
+        public DungeonRoomObjectExtraInformation ExtraB;
+        public byte extraFlagA;
+        public byte extraFlagB;
 
         /// <summary>
         ///  // Used for floorNames
         /// </summary>
-        private uint floorIndex;
+        public uint floorIndex;
 
         /// <summary>
         /// Count of indirectly-connected objects.
         /// </summary>
-        private uint indirectConnectedObjectCount;
+        public uint indirectConnectedObjectCount;
 
         /// <summary>
         /// List of indirectly-connected objects. Example: 70, 4, 146, 80
         /// </summary>
-        private uint[] IndirectConnectedObjectList;
+        public uint[] IndirectConnectedObjectList;
 
-        private string Name;
-        private ushort NameLength;
-        private string Path;
-        private ushort PathLength;
-        private float PITCH;
-        private uint pointCounter;
-        private DungeonRoomObjectPointStruct[] pointList;
+        public string Name;
+        public ushort NameLength;
+        public string path;
+        public ushort PathLength;
+        public float PITCH;
+        public uint pointCounter;
+        public DungeonRoomObjectPointStruct[] pointList;
 
         /// <summary>
         /// Used for roomNames
         /// </summary>
-        private uint roomIndex;
+        public uint roomIndex;
 
         /// <summary>
         /// Has been 0 in every file...
         /// </summary>
-        private float unk_float0;
+        public float unk_float0;
 
         /// <summary>
         /// Seems fixed to -2,848866E+38
         /// </summary>
-        private float unk_float12;
+        public float unk_float12;
 
         /// <summary>
         /// Seems fixed to -2,288091E+38
         /// </summary>
-        private float unk_float13;
+        public float unk_float13;
 
-        private float unk_float14;
-        private float unk_float15;
-        private float unk_float16;
+        public float unk_float14;
+        public float unk_float15;
+        public float unk_float16;
 
         /// <summary>
         /// Has been 0 in every file...
         /// </summary>
-        private uint unk_uint0;
+        public uint unk_uint0;
 
         /// <summary>
         /// Either 0 or 1 ?..
         /// </summary>
-        private uint unk_uint1;
+        public uint unk_uint1;
 
-        private float X;
-        private float Y;
-        private float YAW;
-        private float Z;
+        public float X;
+        public float Y;
+        public float YAW;
+        public float Z;
 
         #endregion Fields
     }
 
-    internal struct DungeonRoomObjectEntry
+    public struct DungeonRoomObjectEntry
     {
         #region Fields
 
+        public string EPath;
+
         /// <summary>
-        /// I've seen this as
+        /// no byte??
         /// <br> 0x00 = Flames (Torch, Lamps, ect..) </br>
         /// <br> 0x02 = Stones (impassable)</br>
         /// <br> 0x04 =  Water </br>
         /// </summary>
-        private uint extraFlag;
+        public uint extraFlag;
 
-        private uint ID;
-        private string Name;
-        private ushort NameLength;
-        private string Path;
-        private ushort PathLength;
-        private float Pitch;
-        private float Roll;
-        private float ScaleHeight;
-        private float ScaleLength;
-        private float ScaleWidth;
+        public uint ID;
+        public string Name;
+        public ushort NameLength;
+        public ushort PathLength;
+        public float Pitch;
+        public float Roll;
+        public float ScaleHeight;
+        public float ScaleLength;
+        public float ScaleWidth;
 
         /// <summary>
         /// <br>1962.75232 for out_obj_stone</br>
         /// <br>902.9495 for out_obj_door</br>
         /// <br>-3.18711172E+38 and similar for water</br>
         /// </summary>
-        private float unk_float0;
+        public float unk_float0;
 
-        private uint waterExta;
-        private float X;
-        private float Y;
-        private float Yaw;
-        private float Z;
+        public uint waterExta;
+        public float X;
+        public float Y;
+        public float Yaw;
+        public float Z;
 
         #endregion Fields
     }
 
-    internal struct DungeonRoomObjectExtraInformation
+    public struct DungeonRoomObjectExtraInformation
     {
         #region Fields
 
@@ -145,65 +146,65 @@
         #endregion Fields
     }
 
-    internal struct DungeonRoomObjectGroop
+    public struct DungeonRoomObjectGroop
     {
         #region Fields
 
         /// <summary>
         /// service?
         /// </summary>
-        private uint Flag;
+        public uint Flag;
 
-        private string Name;
-        private uint[] ObjIndexArray;
+        public string Name;
+        public uint[] ObjIndexArray;
 
         #endregion Fields
     }
 
-    internal struct DungeonRoomObjectLink
+    public struct DungeonRoomObjectLink
     {
         #region Fields
 
-        private uint connectionCount;
-        private uint[] connectionList;
-        private uint ID;
+        public uint connectionCount;
+        public uint[] connectionList;
+        public uint ID;
 
         #endregion Fields
     }
 
-    internal struct DungeonRoomObjectPointStruct
+    public struct DungeonRoomObjectPointStruct
     {
         #region Fields
 
         /// <summary>
         /// also Roll ?
         /// </summary>
-        private float float09;
+        public float float09;
 
         /// <summary>
         /// also Yaw ??
         /// </summary>
-        private float float10;
+        public float float10;
 
         /// <summary>
         /// also Pitch ?
         /// </summary>
-        private float float11;
+        public float float11;
 
-        private float float12;
-        private float float13;
-        private float float14;
-        private float Height;
-        private float Length;
-        private string Name;
-        private ushort NameLength;
-        private float Pitch;
-        private float Roll;
-        private float Width;
-        private float X;
-        private float Y;
-        private float Yaw;
-        private float Z;
+        public float float12;
+        public float float13;
+        public float float14;
+        public float Height;
+        public float Length;
+        public string Name;
+        public ushort NameLength;
+        public float Pitch;
+        public float Roll;
+        public float Width;
+        public float X;
+        public float Y;
+        public float Yaw;
+        public float Z;
 
         #endregion Fields
     }
