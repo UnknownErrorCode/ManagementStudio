@@ -16,7 +16,7 @@
 
         public Player(int _charID) : base(ClientDataStorage.Database.SRO_VT_SHARD._Char[_charID])
         {
-            var charResult = ClientDataStorage.Database.SRO_VT_SHARD._Char[charID];
+            var charResult = ClientDataStorage.Database.SRO_VT_SHARD._Char[_charID];
             charID = charResult.CharID;
             charName16 = charResult.CharName16;
             curLevel = charResult.CurLevel;

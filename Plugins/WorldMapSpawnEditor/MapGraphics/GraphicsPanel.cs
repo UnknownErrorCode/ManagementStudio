@@ -1,4 +1,4 @@
-﻿using ClientDataStorage.Client.Files;
+﻿using BinaryFiles.PackFile;
 using Structs.Tool;
 using System;
 using System.Collections.Generic;
@@ -22,11 +22,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         private const string UMonsterIconPath = "Media\\interface\\minimap\\mm_sign_unique.ddj";
 
         /// <summary>
-        /// Consists of all RegionGraphics on the WorldMap existing in the DB.
-        /// </summary>
-        private readonly Dictionary<Point, RegionGraphic> AllRegionGraphics = new Dictionary<Point, RegionGraphic>();
-
-        /// <summary>
         /// Consists of all RegionGraphics on the WorldMap that does not existing in the DB but -m file is aviable.
         /// </summary>
         private readonly Dictionary<Point, RegionGraphic> AllUnusedRegionGraphics = new Dictionary<Point, RegionGraphic>();
@@ -35,11 +30,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// Holds all <see cref="NewPosition"/> the user creates.
         /// </summary>
         private readonly Dictionary<string, NewPosition> NewPosDic = new Dictionary<string, NewPosition>();
-
-        /// <summary>
-        /// Holds an <see cref="IEnumerable{T} "/> of <see cref="Spawn"/> from inherited <see cref="Interface.InterfaceSpawn"/>
-        /// </summary>
-        private readonly List<Interface.InterfaceSpawn> Spawns = new List<Interface.InterfaceSpawn>();
 
         /// <summary>
         /// String builder for tooltip text help.
@@ -176,12 +166,6 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Methods
 
-        internal void SetAlexView()
-        {
-            RegionPixelSize = 26;
-            PointOfView = new Point(-1100, -750);
-        }
-
         internal bool TryViewContinent(string continentName)
         {
             if (World.GetContinentView(continentName, Width, Height, out Point viewPoint, out int size))
@@ -226,9 +210,9 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                 if (!ClientDataStorage.Client.Map.AllmFiles.ContainsKey(PointMouseSroRegioDown))
                 {
-                    if (ClientDataStorage.Client.Map.MapPk2.GetByteArrayByDirectory($"Map\\{PointMouseSroRegioDown.Y}\\{PointMouseSroRegioDown.X}.m", out byte[] mFile))
+                    if (ClientDataStorage.Client.Map.Reader.GetByteArrayByDirectory($"Map\\{PointMouseSroRegioDown.Y}\\{PointMouseSroRegioDown.X}.m", out byte[] mFile))
                     {
-                        mFile mfi = new mFile(mFile, (byte)PointMouseSroRegioDown.X, (byte)PointMouseSroRegioDown.Y);
+                        BinaryFiles.PackFile.Map.m.MeshFile mfi = new BinaryFiles.PackFile.Map.m.MeshFile(mFile, (byte)PointMouseSroRegioDown.X, (byte)PointMouseSroRegioDown.Y);
                         ClientDataStorage.Client.Map.AllmFiles.Add(PointMouseSroRegioDown, mfi);
                     }
                 }
@@ -318,8 +302,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                             break;
 
                         case SpawnType.Player when ShowPlayer:
-                            var player = (Player)spawn;
-                            StrBuilder.AppendLine($"{player.CharName16}\n Level:{player.CurLevel}\n HP:{player.HP}\n MP:{player.MP}");
+                            StrBuilder.AppendLine($"{ ((Player)spawn).CharName16}\n Level:{((Player)spawn).CurLevel}\n HP:{((Player)spawn).HP}\n MP:{((Player)spawn).MP}");
                             break;
 
                         default:
@@ -560,7 +543,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                                 break;
 
                             case SpawnType.Player when showPlayer:
-                                e.Graphics.DrawImage(ImagePlayer, (((Player)spawn).RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(((Player)spawn).XLocation / (1920f / PictureSize), 0), (((((((Player)spawn).RegionID.Z) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((((Player)spawn).ZLocation / (1920f / PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
+                                e.Graphics.DrawImage(ImagePlayer, (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0), (((((((Player)spawn).RegionID.Z) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((((Player)spawn).ZLocation / (1920f / PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
                                 break;
 
                             default:
@@ -758,7 +741,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                     if (System.IO.File.Exists(str) && !World.ContainsRegion(p))
                     {
                         int rID = Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
-                        RegionGraphic regLayer = new RegionGraphic((short)rID);
+                        RegionGraphic regLayer = new RegionGraphic((short)rID, "Unassigned");
                         if (regLayer.HasLayer)
                         {
                             AllUnusedRegionGraphics.Add(p, regLayer);

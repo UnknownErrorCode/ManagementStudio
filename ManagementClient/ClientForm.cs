@@ -23,7 +23,7 @@ namespace ManagementClient
 
         #region Properties
 
-        private bool Pk2Initialized => ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
+        private bool Pk2Initialized => ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.Reader.Initialized;
 
         #endregion Properties
 
@@ -65,7 +65,12 @@ namespace ManagementClient
                 return false;
             }
 
-            return ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
+            if (!await ClientDataStorage.Client.DataPack.InitializeDataAsync())
+            {
+                return false;
+            }
+
+            return ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.Reader.Initialized;
         }
 
         private void OnAllowedPluginReceived()
@@ -122,7 +127,8 @@ namespace ManagementClient
             tabPage = new TabPage(text);
             if (ClientDataStorage.ClientMemory.AllowedPlugin.Contains(text))
             {
-                Assembly plugin = Assembly.LoadFrom(Path.Combine("Plugins", text));
+                var p = Path.Combine("Plugins", text);
+                Assembly plugin = Assembly.LoadFrom(p);
                 string typeName = text.Replace(".dll", "Control");
                 if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
                 {

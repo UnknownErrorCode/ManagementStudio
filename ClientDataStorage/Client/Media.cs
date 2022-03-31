@@ -1,4 +1,4 @@
-﻿using ClientDataStorage.Client.Files;
+﻿using BinaryFiles.PackFile;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,26 +13,14 @@ namespace ClientDataStorage.Client
         /// </summary>
         public static Dictionary<string, DDJImage> DDJFiles = new Dictionary<string, DDJImage>();
 
-        #endregion Fields
-
-        #region Properties
-
         /// <summary>
         /// Main static Pk2 reader
         /// </summary>
-        public static Pk2.Pk2Reader MediaPk2 { get; set; }
+        public static Pk2.Pk2Reader MediaPk2;
 
-        /// <summary>
-        /// Skilleffect from Media.pk2
-        /// </summary>
-        public static Textdata.SkillEffect SkillEffect { get; set; }
+        public static ServerDependencies Server_Dep = new ServerDependencies();
 
-        /// <summary>
-        /// TextUISystem from Media.pk2
-        /// </summary>
-        public static Textdata.TextUISystem StaticTextuiSystem { get; set; }
-
-        #endregion Properties
+        #endregion Fields
 
         #region Methods
 
@@ -42,13 +30,8 @@ namespace ClientDataStorage.Client
         public static bool InitializeMedia()
         {
             MediaPk2 = new Pk2.Pk2Reader($"{Config.StaticConfig.ClientPath}\\Media.pk2");
-
-            if (Media.MediaPk2.GetByteArrayByDirectory("Media\\server_dep\\silkroad\\textdata\\textuisystem.txt", out byte[] file))
-            {
-                StaticTextuiSystem = new Textdata.TextUISystem(file);
-            }
-
-            SkillEffect = new Textdata.SkillEffect();
+            if (!Server_Dep.Initialize())
+                return false;
 
             Log.Logger.MessageStack.Push(MediaPk2.Initialized ? "Successfully load Media.pk2..." : "Cannot find Media.pk2...");
 

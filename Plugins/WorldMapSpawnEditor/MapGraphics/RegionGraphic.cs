@@ -8,27 +8,35 @@ namespace WorldMapSpawnEditor.MapGraphics
     {
         #region Fields
 
-        internal bool HasLayer;
-        internal WRegionID RegionID;
+        private readonly bool hasLayer;
+        private readonly WRegionID regionID;
+        private string areaName;
 
         #endregion Fields
 
         #region Constructors
 
-        internal RegionGraphic(short regionID)
+        internal RegionGraphic(short ID, string name)
         {
-            RegionID = new WRegionID(regionID);
-            if (RegionID.IsDungeon || regionID < 0)
+            areaName = name;
+            regionID = new WRegionID(ID);
+            if (RegionID.IsDungeon || ID < 0)
             {
-                HasLayer = false;
+                hasLayer = false;
                 return;
             }
-            HasLayer = File.Exists(TexturePath);
+            hasLayer = File.Exists(TexturePath);
         }
 
         #endregion Constructors
 
         #region Properties
+
+        public bool HasLayer => hasLayer;
+
+        public WRegionID RegionID => regionID;
+
+        internal string AreaName { get => areaName; }
 
         /// <summary>
         /// Region texture from media/minimap.
@@ -39,7 +47,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// TexturePath is combined by  {X}x{Y}.ddj.
         /// </summary>
-        protected string TexturePath => $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{RegionID.X}x{RegionID.Z}.JPG";
+        protected string TexturePath => $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{regionID.X}x{regionID.Z}.JPG";
 
         #endregion Properties
     }

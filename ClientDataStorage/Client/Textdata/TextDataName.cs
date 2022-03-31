@@ -1,22 +1,19 @@
-﻿using Structs.Pk2.Media;
-using System.Collections.Generic;
+﻿using BinaryFiles.PackFile.Media.Textdata;
 
 namespace ClientDataStorage.Client.Textdata
 {
-    public class TextDataName
+    public class TextDataName : TextDataNameData
     {
-        #region Fields
-
-        public Dictionary<string, TextDataNameStruct> TextDataNames;
-        private readonly TextGroupParser Group;
-
-        #endregion Fields
-
         #region Constructors
 
-        public TextDataName(byte[] array)
+        public TextDataName(byte[] array) : base(array)
         {
-            Group = new TextGroupParser(array, "Media\\server_dep\\silkroad\\textdata", 9, "\t".ToCharArray());
+            foreach (var item in Group.GroupFiles.Keys)
+            {
+                if (Media.MediaPk2.GetByteArrayByDirectory($"Media\\server_dep\\silkroad\\textdata\\{item}", out byte[] member))
+                    Merge(item, member, 9, "\t".ToCharArray());
+            }
+            EndLoad();
         }
 
         #endregion Constructors

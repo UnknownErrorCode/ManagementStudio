@@ -1,4 +1,5 @@
-﻿using ClientDataStorage.Client;
+﻿using BinaryFiles.PackFile;
+using ClientDataStorage.Client;
 using Editors.Shop;
 using System;
 using System.Drawing;
@@ -19,7 +20,7 @@ namespace ShopEditor.Interface
             {
                 if (Media.MediaPk2.GetByteArrayByDirectory(IconPath, out byte[] file))
                 {
-                    Media.DDJFiles.Add(IconPath, new ClientDataStorage.Client.Files.DDJImage(file));
+                    Media.DDJFiles.Add(IconPath, new DDJImage(file));
                 }
             }
 

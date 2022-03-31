@@ -24,11 +24,16 @@ namespace ShopEditor
         {
             InitializeComponent();
             ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
-            // page.Controls.Add(this);
+            ClientDataStorage.ClientCore.Send(RequestDataPacket);
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        private Packet RequestDataPacket => ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+
+        #endregion Properties
 
         #region Methods
 
@@ -62,7 +67,7 @@ namespace ShopEditor
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
-            if (arg2.ReadAscii() != STRING_DLL)
+            if (arg2.ReadAscii() != PLUGINDATA.ToString())
                 return PacketHandlerResult.Block;
 
             Invoke(new Action(() => InitializeListView()));

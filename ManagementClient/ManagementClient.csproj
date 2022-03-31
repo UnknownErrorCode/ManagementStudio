@@ -111,6 +111,10 @@
       <Project>{0ff3fae3-3d03-4240-9e42-4bb0111fb9a5}</Project>
       <Name>Dashboard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plugins\FileEditor\FileEditor.csproj">
+      <Project>{6ee9b532-89b3-4643-87f0-595cc77ecb9b}</Project>
+      <Name>FileEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Plugins\ShopEditor\ShopEditor.csproj">
       <Project>{0160bbec-b1a7-4e52-9443-f0d2c1f97920}</Project>
       <Name>ShopEditor</Name>
@@ -127,12 +131,12 @@
       <Project>{ecd8fda9-e279-4cf0-9f5d-dc639188c35b}</Project>
       <Name>WorldMapSpawnEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServerFrameworkRes\ServerFrameworkRes.csproj">
+    <ProjectReference Include="..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
       <Name>ServerFrameworkRes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Structs\Structs.csproj">
-      <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
+    <ProjectReference Include="..\Utility\Structs\Structs.csproj">
+      <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>
       <Name>Structs</Name>
     </ProjectReference>
   </ItemGroup>

@@ -8,13 +8,15 @@ namespace WorldMapSpawnEditor.MapGraphics
     {
         #region Fields
 
+        internal readonly string ContinentName;
+
         internal readonly int minX = 255
-                , minY = 255
-                , maxX = 0
-                , maxY = 0;
+                                    , minY = 255
+                            , maxX = 0
+                            , maxY = 0;
 
+        private readonly List<Dungeon> dungeonList;
         private readonly Dictionary<short, RegionGraphic> Dungeons = new Dictionary<short, RegionGraphic>();
-
         private readonly Dictionary<short, RegionGraphic> ErrorRegions = new Dictionary<short, RegionGraphic>();
 
         /// <summary>
@@ -26,12 +28,13 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Constructors
 
-        public Continent(RefRegion[] enumerable)
+        public Continent(string continentname, RefRegion[] enumerable)
         {
+            ContinentName = continentname;
             var pointer = Point.Empty;
             for (int i = 0; i < enumerable.Length; i++)
             {
-                var region = new RegionGraphic(enumerable[i].wRegionID);
+                var region = new RegionGraphic(enumerable[i].wRegionID, enumerable[i].AreaName);
                 pointer.X = region.RegionID.X;
                 pointer.Y = region.RegionID.Z;
 
@@ -60,14 +63,39 @@ namespace WorldMapSpawnEditor.MapGraphics
                     }
                 }
             }
+            if (Dungeons.Count > 0)
+            {
+                dungeonList = new List<Dungeon>(Dungeons.Count);
+                foreach (var item in Dungeons.Keys)
+                {
+                    var dun = new Dungeon(continentname, item);
+                    dungeonList.Add(dun);
+                }
+            }
+        }
+
+        internal Dungeon[] GetDungeons()
+        {
+            return dungeonList.ToArray();
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        public bool HasDungeon => dungeonList?.Count > 0;
+
+        #endregion Properties
 
         #region Methods
 
         internal bool ContainsRegion(Point p)
              => Regions.ContainsKey(p);
+
+        internal IEnumerable<RegionGraphic> GetDungeonRegions()
+        {
+            return Dungeons.Values;
+        }
 
         internal IEnumerable<RegionGraphic> GetRegions(Rectangle range)
         {

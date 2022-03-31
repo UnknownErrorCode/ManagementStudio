@@ -66,8 +66,12 @@ namespace WorldMapSpawnEditor
 
                 foreach (var item in MapPanel.Continents)
                 {
+                    //Add continent to continent View
                     continentToolStripMenuItem.DropDownItems.Add(item);
                     continentToolStripMenuItem.DropDownItems[continentToolStripMenuItem.DropDownItems.Count - 1].Click += OnContinentClick;
+                    // Add dungeons to dungeon view
+
+                    // TODO: manage to view Dungeons and WorldMaps...
                 }
                 vSroSmallButtonLoad.Enabled = true;
             }));

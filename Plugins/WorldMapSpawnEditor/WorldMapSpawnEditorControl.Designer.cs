@@ -60,6 +60,7 @@
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dungeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -161,7 +162,7 @@
             this.playerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("playerToolStripMenuItem.Image")));
             this.playerToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.playerToolStripMenuItem.Name = "playerToolStripMenuItem";
-            this.playerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.playerToolStripMenuItem.Text = "Player";
             this.playerToolStripMenuItem.Click += new System.EventHandler(this.showPlayerToolStripMenuItem_Click);
             // 
@@ -172,7 +173,7 @@
             this.unassignedToolStripMenuItem,
             this.dBRegionsWithoutDdjToolStripMenuItem});
             this.regionToolStripMenuItem.Name = "regionToolStripMenuItem";
-            this.regionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.regionToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.regionToolStripMenuItem.Text = "Region";
             // 
             // assignedToolStripMenuItem
@@ -214,7 +215,7 @@
             this.uniqueToolStripMenuItem,
             this.noMsgUniqueToolStripMenuItem});
             this.monsterToolStripMenuItem.Name = "monsterToolStripMenuItem";
-            this.monsterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.monsterToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.monsterToolStripMenuItem.Text = "Monster";
             // 
             // commonToolStripMenuItem
@@ -223,7 +224,7 @@
             this.commonToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("commonToolStripMenuItem.Image")));
             this.commonToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.commonToolStripMenuItem.Name = "commonToolStripMenuItem";
-            this.commonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.commonToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.commonToolStripMenuItem.Text = "Common";
             this.commonToolStripMenuItem.Click += new System.EventHandler(this.showCommonToolStripMenuItem_Click);
             // 
@@ -233,7 +234,7 @@
             this.uniqueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("uniqueToolStripMenuItem.Image")));
             this.uniqueToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.uniqueToolStripMenuItem.Name = "uniqueToolStripMenuItem";
-            this.uniqueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uniqueToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.uniqueToolStripMenuItem.Text = "Unique";
             this.uniqueToolStripMenuItem.Click += new System.EventHandler(this.showUniqueToolStripMenuItem_Click);
             // 
@@ -241,7 +242,7 @@
             // 
             this.noMsgUniqueToolStripMenuItem.CheckOnClick = true;
             this.noMsgUniqueToolStripMenuItem.Name = "noMsgUniqueToolStripMenuItem";
-            this.noMsgUniqueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.noMsgUniqueToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.noMsgUniqueToolStripMenuItem.Text = "No Msg Unique";
             // 
             // nPCToolStripMenuItem
@@ -250,7 +251,7 @@
             this.nPCToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("nPCToolStripMenuItem.Image")));
             this.nPCToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.nPCToolStripMenuItem.Name = "nPCToolStripMenuItem";
-            this.nPCToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nPCToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.nPCToolStripMenuItem.Text = "NPC";
             this.nPCToolStripMenuItem.Click += new System.EventHandler(this.showNPCToolStripMenuItem_Click);
             // 
@@ -259,14 +260,14 @@
             this.teleportToolStripMenuItem.CheckOnClick = true;
             this.teleportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("teleportToolStripMenuItem.Image")));
             this.teleportToolStripMenuItem.Name = "teleportToolStripMenuItem";
-            this.teleportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.teleportToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.teleportToolStripMenuItem.Text = "Teleport";
             this.teleportToolStripMenuItem.Click += new System.EventHandler(this.showTeleportToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(172, 6);
             // 
             // nestNGenRadiusToolStripMenuItem
             // 
@@ -274,7 +275,7 @@
             this.nestNGenRadiusToolStripMenuItem.CheckOnClick = true;
             this.nestNGenRadiusToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.nestNGenRadiusToolStripMenuItem.Name = "nestNGenRadiusToolStripMenuItem";
-            this.nestNGenRadiusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nestNGenRadiusToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.nestNGenRadiusToolStripMenuItem.Text = "Nest nGenRadius";
             this.nestNGenRadiusToolStripMenuItem.Click += new System.EventHandler(this.showNestNGenRadiusToolStripMenuItem_Click);
             // 
@@ -283,20 +284,20 @@
             this.nestNRadiusToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.nestNRadiusToolStripMenuItem.CheckOnClick = true;
             this.nestNRadiusToolStripMenuItem.Name = "nestNRadiusToolStripMenuItem";
-            this.nestNRadiusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nestNRadiusToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.nestNRadiusToolStripMenuItem.Text = "Nest nRadius";
             this.nestNRadiusToolStripMenuItem.Click += new System.EventHandler(this.showNestNRadiusToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(172, 6);
             // 
             // spawnInformationToolStripMenuItem
             // 
             this.spawnInformationToolStripMenuItem.CheckOnClick = true;
             this.spawnInformationToolStripMenuItem.Name = "spawnInformationToolStripMenuItem";
-            this.spawnInformationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.spawnInformationToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.spawnInformationToolStripMenuItem.Text = "Spawn information";
             this.spawnInformationToolStripMenuItem.Click += new System.EventHandler(this.showSpawnInformationToolStripMenuItem_Click);
             // 
@@ -311,7 +312,8 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.continentToolStripMenuItem});
+            this.continentToolStripMenuItem,
+            this.dungeonToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.viewToolStripMenuItem.Text = "View";
@@ -321,7 +323,7 @@
             this.continentToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("continentToolStripMenuItem.Image")));
             this.continentToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.continentToolStripMenuItem.Name = "continentToolStripMenuItem";
-            this.continentToolStripMenuItem.Size = new System.Drawing.Size(147, 42);
+            this.continentToolStripMenuItem.Size = new System.Drawing.Size(200, 42);
             this.continentToolStripMenuItem.Text = "Continent";
             // 
             // vSroSmallButtonLoad
@@ -368,6 +370,12 @@
             this.saveCoordinateToolStripMenuItem.Name = "saveCoordinateToolStripMenuItem";
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
+            // 
+            // dungeonToolStripMenuItem
+            // 
+            this.dungeonToolStripMenuItem.Name = "dungeonToolStripMenuItem";
+            this.dungeonToolStripMenuItem.Size = new System.Drawing.Size(200, 42);
+            this.dungeonToolStripMenuItem.Text = "Dungeon";
             // 
             // WorldMapSpawnEditorControl
             // 
@@ -421,5 +429,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem continentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dBRegionsWithoutDdjToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dungeonToolStripMenuItem;
     }
 }

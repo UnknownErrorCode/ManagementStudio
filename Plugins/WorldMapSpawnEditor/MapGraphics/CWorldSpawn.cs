@@ -7,11 +7,15 @@ using WorldMapSpawnEditor.MapGraphics.Interface;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
+    /// <summary>
+    /// Holds an <see cref="IEnumerable{T} "/> of <see cref="Spawn"/> from inherited <see cref="InterfaceSpawn"/>
+    /// </summary>
     internal class CWorldSpawn : IEnumerable<InterfaceSpawn>
     {
         #region Fields
 
         private readonly List<InterfaceSpawn> cSpawns = new List<InterfaceSpawn>();
+        private readonly List<InterfaceSpawn> pSpawns = new List<InterfaceSpawn>();
 
         #endregion Fields
 
@@ -24,13 +28,20 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Methods
 
-        public IEnumerator<InterfaceSpawn> GetEnumerator() => cSpawns.GetEnumerator();
+        public IEnumerator<InterfaceSpawn> GetEnumerator()
+        {
+            var mobSpawns = cSpawns.ToList();
+            mobSpawns.AddRange(pSpawns.ToArray());
+            return mobSpawns.GetEnumerator();
+        }
 
         public IEnumerator<InterfaceSpawn> GetEnumerator(ushort wRegionID) => cSpawns.Where(s => s.RegionID.RegionID.Equals(wRegionID)).GetEnumerator();
 
         public IEnumerator<InterfaceSpawn> GetEnumerator(int gameWorldID) => cSpawns.Where(s => s.GameWorldID.Equals(gameWorldID)).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public IEnumerator<InterfaceSpawn> GetPlayer(ushort wRegionID) => pSpawns.Where(s => s.RegionID.RegionID.Equals(wRegionID)).GetEnumerator();
 
         internal InterfaceSpawn FromSpawn<T>(Spawn spawn) where T : class
             => (InterfaceSpawn)System.Activator.CreateInstance(typeof(T), spawn.ID);
@@ -47,7 +58,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             foreach (IChar ichar in ClientDataStorage.Database.SRO_VT_SHARD._Char.Values)
             {
-                cSpawns.Add(Spawn.FromSpawn<Player>(new Spawn(ichar)));
+                pSpawns.Add(Spawn.FromSpawn<Player>(new Spawn(ichar)));
             }
         }
 

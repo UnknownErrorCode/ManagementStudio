@@ -106,7 +106,7 @@ namespace ShopEditor.Interface
             }
 
             StrIDLabel = new Label() { Text = page.StrID128Name, Tag = this, Location = new Point(4, 4), BackColor = Color.Transparent };
-            if (Media.StaticTextuiSystem.UIIT_Strings.TryGetValue(page.StrID128Name, out TextUISystemStruct str))
+            if (Media.Server_Dep.TextUISystem.UIIT_Strings.TryGetValue(page.StrID128Name, out TextUISystemStruct str))
             {
                 StrIDLabel.Text = str.Viethnam;
             }

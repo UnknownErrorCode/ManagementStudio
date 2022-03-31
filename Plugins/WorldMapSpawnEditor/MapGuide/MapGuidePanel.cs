@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using BinaryFiles.PackFile;
+using System.Collections.Concurrent;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -51,7 +52,7 @@ namespace WorldMapSpawnEditor.MapGuide
                 {
                     if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
                     {
-                        imgDic.TryAdd(new Point(x, y), new ClientDataStorage.Client.Files.DDJImage(file).BitmapImage);
+                        imgDic.TryAdd(new Point(x, y), new DDJImage(file).BitmapImage);
                     }
                 }
             }

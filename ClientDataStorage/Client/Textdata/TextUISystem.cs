@@ -1,28 +1,19 @@
-﻿using Structs.Pk2.Media;
-using System.Collections.Concurrent;
-using System.Linq;
+﻿using BinaryFiles.PackFile.Media.Textdata;
 
 namespace ClientDataStorage.Client.Textdata
 {
     /// <summary>
     /// Contains all Text User Interface System elements from Media.pk2.
     /// </summary>
-    public class TextUISystem
+    public class TextUISystem : TextUISystemData
     {
-        #region Fields
-
-        /// <summary>
-        /// Dictionary of Text User Interface System elements.
-        /// </summary>
-        public ConcurrentDictionary<string, TextUISystemStruct> UIIT_Strings = new ConcurrentDictionary<string, TextUISystemStruct>();
-
-        #endregion Fields
-
         #region Constructors
 
-        public TextUISystem(byte[] file)
+        /// <summary>
+        /// TextUISystem from Media.pk2
+        /// </summary>
+        public TextUISystem(byte[] file) : base(file)
         {
-            TextParser.StaticTextParser.ConvertByteArrayToStructedTextArray(file, 10, "\t".ToCharArray()).ToList().ForEach(arr => UIIT_Strings.TryAdd(arr[1], new TextUISystemStruct(arr)));
         }
 
         #endregion Constructors

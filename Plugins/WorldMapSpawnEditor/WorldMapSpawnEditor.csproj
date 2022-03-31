@@ -49,6 +49,7 @@
     <Compile Include="MapGraphics\Controls\UniqueMonster.cs" />
     <Compile Include="MapGraphics\CWorld.cs" />
     <Compile Include="MapGraphics\CWorldSpawn.cs" />
+    <Compile Include="MapGraphics\Dungeon.cs" />
     <Compile Include="MapGraphics\GraphicsPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -99,16 +100,20 @@
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
       <Name>ClientDataStorage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Editors\Editors.csproj">
-      <Project>{5185c5c8-39d7-48ed-b45e-231dc36a3f10}</Project>
+    <ProjectReference Include="..\..\Utility\BinaryFiles\BinaryFiles.csproj">
+      <Project>{AD7421FC-847B-41FB-BA2F-6CA9A7069FB0}</Project>
+      <Name>BinaryFiles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Editors\Editors.csproj">
+      <Project>{5185C5C8-39D7-48ED-B45E-231DC36A3F10}</Project>
       <Name>Editors</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ServerFrameworkRes\ServerFrameworkRes.csproj">
+    <ProjectReference Include="..\..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
       <Name>ServerFrameworkRes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Structs\Structs.csproj">
-      <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>
+    <ProjectReference Include="..\..\Utility\Structs\Structs.csproj">
+      <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
       <Name>Structs</Name>
     </ProjectReference>
   </ItemGroup>

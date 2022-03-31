@@ -46,26 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientMemory.cs" />
-    <Compile Include="Client\Files\bsr\AnimationEvent.cs" />
-    <Compile Include="Client\Files\bsr\AnimationType.cs" />
-    <Compile Include="Client\Files\bsr\CModDataSet.cs" />
-    <Compile Include="Client\Files\bsr\CPrimAniGroup.cs" />
-    <Compile Include="Client\Files\bsr\CPrimAniTypeData.cs" />
-    <Compile Include="Client\Files\bsr\CPrimMeshGroup.cs" />
-    <Compile Include="Client\Files\bsr\JMXbsrFile.cs" />
-    <Compile Include="Client\Files\bsr\CPrimMaterialSet.cs" />
-    <Compile Include="Client\Files\bsr\CPrimMesh.cs" />
-    <Compile Include="Client\Files\bsr\ModDataType.cs" />
-    <Compile Include="Client\Files\bsr\ObjectGeneralInfo.cs" />
-    <Compile Include="Client\Files\bsr\ResourceType.cs" />
-    <Compile Include="Client\Files\ddj\DDJImage.cs" />
-    <Compile Include="Client\Files\ddj\PixelFormat.cs" />
-    <Compile Include="Client\Files\m\MapMeshBlock.cs" />
-    <Compile Include="Client\Files\o2\MapObject.cs" />
-    <Compile Include="Client\Files\o2\o2File.cs" />
-    <Compile Include="Client\Files\m\mFile.cs" />
+    <Compile Include="Client\DataPack.cs" />
     <Compile Include="Client\Map.cs" />
     <Compile Include="Client\Media.cs" />
+    <Compile Include="Client\ServerDependencies.cs" />
+    <Compile Include="Client\Textdata\DungeonInfo.cs" />
     <Compile Include="Client\Textdata\SkillEffect.cs" />
     <Compile Include="Client\Textdata\TextDataName.cs" />
     <Compile Include="Client\Textdata\Tile2dIFOFile.cs" />
@@ -80,10 +65,6 @@
     <Compile Include="Network\ClientInterface.cs" />
     <Compile Include="Network\ClientPacketFormat.cs" />
     <Compile Include="Network\ClientPacketHandler.cs" />
-    <Compile Include="Pk2\Utility\ITextParser.cs" />
-    <Compile Include="Pk2\Utility\TextArrayFormatter.cs" />
-    <Compile Include="Pk2\Utility\TextGroupParser.cs" />
-    <Compile Include="Pk2\Utility\TextParser.cs" />
     <Compile Include="Client\Textdata\TextUISystem.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLoader.cs" />
@@ -98,12 +79,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServerFrameworkRes\ServerFrameworkRes.csproj">
+    <ProjectReference Include="..\Utility\BinaryFiles\BinaryFiles.csproj">
+      <Project>{ad7421fc-847b-41fb-ba2f-6ca9a7069fb0}</Project>
+      <Name>BinaryFiles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
       <Name>ServerFrameworkRes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Structs\Structs.csproj">
-      <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
+    <ProjectReference Include="..\Utility\Structs\Structs.csproj">
+      <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>
       <Name>Structs</Name>
     </ProjectReference>
   </ItemGroup>
@@ -112,5 +97,6 @@
       <DependentUpon>DashboardTopicEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

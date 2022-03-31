@@ -8,6 +8,12 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Reader : Pk2Data
     {
+        #region Fields
+
+        private bool initialized;
+
+        #endregion Fields
+
         #region Constructors
 
         /// <summary>
@@ -16,7 +22,7 @@ namespace ClientDataStorage.Pk2
         /// <param name="path"></param>
         public Pk2Reader(string path)
         {
-            Initialized = File.Exists(path);
+            initialized = File.Exists(path);
             base.Pk2DataPath = path;
             base.Blowfish.Initialize(base.bKey);
             Read();
@@ -26,7 +32,7 @@ namespace ClientDataStorage.Pk2
 
         #region Properties
 
-        public bool Initialized { get; }
+        public bool Initialized { get => initialized; }
 
         #endregion Properties
 

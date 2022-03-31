@@ -10,6 +10,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         #region Fields
 
         internal Dictionary<string, Continent> Continents;
+        internal Dictionary<string, Dungeon[]> Dungeons;
 
         #endregion Fields
 
@@ -18,11 +19,17 @@ namespace WorldMapSpawnEditor.MapGraphics
         public CWorld(IEnumerable<RefRegion> allRegions)
         {
             Continents = new Dictionary<string, Continent>();
+            Dungeons = new Dictionary<string, Dungeon[]>();
             foreach (var item in allRegions)
             {
                 if (!Continents.ContainsKey(item.ContinentName))
                 {
-                    Continents.Add(item.ContinentName, new Continent(allRegions.Where(reg => reg.ContinentName == item.ContinentName).ToArray()));
+                    var continent = new Continent(item.ContinentName, allRegions.Where(reg => reg.ContinentName == item.ContinentName).ToArray());
+                    if (!Dungeons.ContainsKey(item.AreaName) && continent.HasDungeon)
+                    {
+                        Dungeons.Add(item.ContinentName, continent.GetDungeons());
+                    }
+                    Continents.Add(item.ContinentName, continent);
                 }
             }
         }
