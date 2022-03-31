@@ -7,8 +7,7 @@ namespace ShopEditor.Interface
 {
     internal class NpcShopData
     {
-
-        #region Internal Fields
+        #region Fields
 
         /// <summary>
         /// Name of NPC from _RefObjCommon
@@ -20,9 +19,9 @@ namespace ShopEditor.Interface
         /// </summary>
         internal readonly RefShopGroup[] ShopGroups;
 
-        #endregion Internal Fields
+        #endregion Fields
 
-        #region Internal Constructors
+        #region Constructors
 
         /// <summary>
         /// Searches all Store Informations by a simpe NPC Name like NPC_TT_TEST
@@ -48,7 +47,6 @@ namespace ShopEditor.Interface
             }
         }
 
-        #endregion Internal Constructors
-
+        #endregion Constructors
     }
 }

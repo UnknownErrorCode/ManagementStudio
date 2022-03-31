@@ -8,7 +8,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal abstract class ITeleport
     {
-        #region Internal Fields
+        #region Fields
 
         /// <summary>
         /// Contains all Database Informations about the spawn.
@@ -25,10 +25,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         internal byte Y;
 
-        #endregion Internal Fields
-
-        #region Private Fields
-
         /// <summary>
         /// Region Identifier build as Int16 from a string that consists of HexString(Y) + HexString(X) .
         /// </summary>
@@ -36,9 +32,9 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private TabRefNest TempNest;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public ITeleport(SingleTeleport teleportData)
         {
@@ -64,18 +60,18 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeProperties();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         /// <summary>
         /// Location of spawn inside Region. Float coordinates.
         /// </summary>
         public PointF Location { get; set; }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Initialize required Properties to load Components with no error.
@@ -92,6 +88,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             X = Convert.ToByte(Convert.ToInt32(convertedRegionID.Substring(2, 2), 16));
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

@@ -7,13 +7,13 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncServer : AsyncBase
     {
-        #region Private Fields
+        #region Fields
 
         private Socket socket;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Methods
+        #region Methods
 
         public void Accept(string host, int port, int outstanding, IAsyncInterface @interface)
         {
@@ -62,10 +62,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
                 throw ex;
             }
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         private void DispatchAccept(object param)
         {
@@ -136,6 +132,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

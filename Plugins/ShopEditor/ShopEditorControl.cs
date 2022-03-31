@@ -7,15 +7,14 @@ namespace ShopEditor
 {
     public partial class ShopEditorControl : UserControl
     {
+        #region Fields
 
-        #region Private Fields
-
-        private const string STRING_DLL = "ShopEditor.dll";
         private const PluginData PLUGINDATA = PluginData.ShopEditor;
+        private const string STRING_DLL = "ShopEditor.dll";
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         /// <summary>
         /// The ShopEditor consists of all NPC Shops and the TalkWindow.
@@ -29,9 +28,9 @@ namespace ShopEditor
             // page.Controls.Add(this);
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// initialize the ListView with all aviable NPC context from SRO_VT_SHARD.dbo.Tables["_RefShopGroup"]
@@ -70,7 +69,6 @@ namespace ShopEditor
             return PacketHandlerResult.Block;
         }
 
-        #endregion Private Methods
-
+        #endregion Methods
     }
 }

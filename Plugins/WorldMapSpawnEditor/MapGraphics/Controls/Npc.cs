@@ -5,16 +5,15 @@
     /// </summary>
     internal class Npc : Spawn
     {
-
-        #region Private Fields
+        #region Fields
 
         private readonly int nGenerateRadius;
         private readonly int nRadius;
         private string codeName128;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Internal Constructors
+        #region Constructors
 
         public Npc(int nestID) : base(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
@@ -38,15 +37,14 @@
             }
         }
 
-        #endregion Internal Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public string CodeName128 => codeName128;
         public int NGenerateRadius => nGenerateRadius;
         public int NRadius => nRadius;
 
-        #endregion Public Properties
-
+        #endregion Properties
     }
 }

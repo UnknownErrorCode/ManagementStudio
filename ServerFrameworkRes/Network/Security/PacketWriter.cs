@@ -4,21 +4,21 @@ namespace ServerFrameworkRes.Network.Security
 {
     internal class PacketWriter : BinaryWriter
     {
-        #region Public Constructors
+        #region Constructors
 
         public PacketWriter() : base(new MemoryStream())
         {
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public byte[] GetBytes()
         {
             return ((MemoryStream)base.OutStream).ToArray();
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

@@ -8,19 +8,19 @@ namespace ManagementServer.Utility
 {
     internal static class SQL
     {
-        #region Private Fields
+        #region Fields
 
         private static SqlConnection sqlConnection;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Private Properties
+        #region Properties
 
         private static string SqlConnectionString => ServerManager.settings.SQL_ConnectionString;
 
-        #endregion Private Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         /// <summary>
         /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
@@ -71,10 +71,6 @@ namespace ManagementServer.Utility
 
             return forsfor;
         }
-
-        #endregion Public Methods
-
-        #region Internal Methods
 
         internal static DataTable AllowedPlugins(byte securityDescription)
         {
@@ -188,10 +184,6 @@ namespace ManagementServer.Utility
             ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
-
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {
             DataTable dataTableProcedure = new DataTable();
@@ -269,6 +261,6 @@ namespace ManagementServer.Utility
             return dataTable;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

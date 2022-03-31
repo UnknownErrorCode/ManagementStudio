@@ -5,7 +5,7 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroSmallButton : UserControl
     {
-        #region Public Constructors
+        #region Constructors
 
         public vSroSmallButton()
         {
@@ -13,36 +13,32 @@ namespace ServerFrameworkRes.BasicControls
             buttonvSroSmall.Click += onClickvSroButton;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Delegates
+        #region Delegates
 
         public delegate void vSroClick();
 
-        #endregion Public Delegates
+        #endregion Delegates
 
-        #region Public Events
+        #region Events
 
         public event vSroClick vSroClickEvent;
 
-        #endregion Public Events
+        #endregion Events
 
-        #region Public Properties
+        #region Properties
 
         public string vSroSmallButtonName { get => buttonvSroSmall.Text; set => buttonvSroSmall.Text = value; }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         public void RenameButton(string Name)
         {
             buttonvSroSmall.Text = Name;
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         private void onClickvSroButton(object sender, EventArgs e)
         {
@@ -77,6 +73,6 @@ namespace ServerFrameworkRes.BasicControls
             ((Button)sender).Image = ButtonImageList.Images[1];
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

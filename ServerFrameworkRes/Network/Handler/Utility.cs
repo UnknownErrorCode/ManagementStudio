@@ -5,7 +5,7 @@ namespace ServerFrameworkRes.Network.Handler
 {
     public class Utility
     {
-        #region Public Methods
+        #region Methods
 
         public static string HexDump(byte[] buffer)
         {
@@ -58,6 +58,6 @@ namespace ServerFrameworkRes.Network.Handler
             return output.ToString();
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

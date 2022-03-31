@@ -6,10 +6,7 @@ namespace ShopEditor.Interface.ShopInterface
 {
     internal class RefShopTab
     {
-        protected internal string Name { get; set; }
-        protected internal byte TabPageIndex { get; set; }
-        protected internal string StrID128Name { get; set; }
-        internal CIShopGood[] ShopGoods { get; set; }
+        #region Constructors
 
         internal RefShopTab(string refShopTabCodeName, string StrID_CodeName128)
         {
@@ -39,5 +36,16 @@ namespace ShopEditor.Interface.ShopInterface
                 ShopGoods[i] = new CIShopGood(allGoodsOnTab[i]);
             }
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        internal CIShopGood[] ShopGoods { get; set; }
+        protected internal string Name { get; set; }
+        protected internal string StrID128Name { get; set; }
+        protected internal byte TabPageIndex { get; set; }
+
+        #endregion Properties
     }
 }

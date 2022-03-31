@@ -7,13 +7,13 @@ namespace ClientDataStorage.Client.Textdata
 {
     public class SkillEffect
     {
-        #region Public Fields
+        #region Fields
 
         public SkilleffectStruct Skilleffects;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public SkillEffect()
         {
@@ -93,6 +93,6 @@ namespace ClientDataStorage.Client.Textdata
             }
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
     }
 }

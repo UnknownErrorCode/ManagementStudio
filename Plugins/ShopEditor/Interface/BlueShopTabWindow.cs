@@ -8,18 +8,32 @@ namespace ShopEditor.Interface
 {
     internal class BlueShopTabWindow : Panel
     {
+        #region Fields
+
         internal SingleTabPageWindow[] SingleTabPages;
         internal Label StrIDLabel;
         private bool onFocus = false;
         private ShopInterface.RefShopTab TabPage;
+
+        #endregion Fields
+
+        #region Constructors
 
         internal BlueShopTabWindow(ShopInterface.RefShopTab page, byte index)
         {
             InitializeComponents(page, index);
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         internal bool Active
         { get => onFocus; set { onFocus = value; BackgroundImage = value ? Media.DDJFiles["Media\\interface\\ifcommon\\com_tab_on.ddj"].BitmapImage : ClientDataStorage.Client.Media.DDJFiles["Media\\interface\\ifcommon\\com_tab_off.ddj"].BitmapImage; } }
+
+        #endregion Properties
+
+        #region Methods
 
         private void GenerateSingleTabPages()
         {
@@ -99,5 +113,7 @@ namespace ShopEditor.Interface
 
             Controls.Add(StrIDLabel);
         }
+
+        #endregion Methods
     }
 }

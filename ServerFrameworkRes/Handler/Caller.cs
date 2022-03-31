@@ -2,7 +2,7 @@
 {
     public static class Caller
     {
-        #region Public Methods
+        #region Methods
 
         public static string GetFilePath([System.Runtime.CompilerServices.CallerFilePath] string filePath = null)
         {
@@ -19,6 +19,6 @@
             return memberName;
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

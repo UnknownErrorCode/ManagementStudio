@@ -4,15 +4,21 @@ namespace ClientDataStorage.Pk2
 {
     public abstract class Pk2Data : IPk2Data
     {
-        /// <summary>
-        /// This bKey is used to parse the security blowfish of the pk2 File
-        /// </summary>
-        protected readonly byte[] bKey = new byte[] { 0x32, 0xCE, 0xDD, 0x7C, 0xBC, 0xA8 };
+        #region Fields
 
         /// <summary>
         /// Used to encrypt and decrypt the pk2 stream
         /// </summary>
         internal Blowfish Blowfish = new Blowfish();
+
+        /// <summary>
+        /// This bKey is used to parse the security blowfish of the pk2 File
+        /// </summary>
+        protected readonly byte[] bKey = new byte[] { 0x32, 0xCE, 0xDD, 0x7C, 0xBC, 0xA8 };
+
+        #endregion Fields
+
+        #region Properties
 
         /// <summary>
         /// Pk2 File contains all information and files from pk2 data
@@ -23,6 +29,10 @@ namespace ClientDataStorage.Pk2
         /// Pk2 data directory
         /// </summary>
         protected string Pk2DataPath { get; set; }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Check if file exists in certain pk2 data.
@@ -62,5 +72,7 @@ namespace ClientDataStorage.Pk2
         /// Refreshs the Pk2File of changes
         /// </summary>
         public abstract bool Refresh();
+
+        #endregion Methods
     }
 }

@@ -11,7 +11,7 @@ namespace ManagementServer
 {
     public partial class PatchManager : Form
     {
-        #region Public Constructors
+        #region Constructors
 
         public PatchManager()
         {
@@ -28,9 +28,9 @@ namespace ManagementServer
             }
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public void Exaggurate()
         {
@@ -96,10 +96,6 @@ namespace ManagementServer
             }
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void buttonCancelPatch_Click(object sender, EventArgs e)
         {
             PatchManager_Load(null, new EventArgs());
@@ -137,6 +133,6 @@ namespace ManagementServer
             FileCount.Text = $"File count: {allFiles.Length} files";
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

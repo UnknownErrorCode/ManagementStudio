@@ -6,31 +6,7 @@ namespace ManagementServer.Network
 {
     internal partial class ServerPacketHandler
     {
-        #region Internal Methods
-
-
-
-        /// <summary>
-        /// Sends all certificated DataTables to the Client.
-        /// </summary>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <returns></returns>
-        internal static PacketHandlerResult ResponseSecurityGroupDataTables(ServerData arg1, Packet arg2)
-        {
-
-            try
-            {
-                string[] tableNameArray = PluginSecurityManager.GetSecurityDataTableNames(((ServerClientData)arg1).SecurityGroup);
-
-                string[] array = arg2.ReadAsciiArray();
-
-                arg1.m_security.Send(PacketConstructors.LoginPacket.DataTablePackets(array.Where(tableName => tableNameArray.Contains(tableName)).ToArray()));
-            }
-            catch (System.Exception)
-            { }
-            return PacketHandlerResult.Block;
-        }
+        #region Methods
 
         internal static PacketHandlerResult ResponsePluginDataTables(ServerData arg1, Packet arg2)
         {
@@ -59,6 +35,27 @@ namespace ManagementServer.Network
             return PacketHandlerResult.Block;
         }
 
-        #endregion Internal Methods
+        /// <summary>
+        /// Sends all certificated DataTables to the Client.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
+        internal static PacketHandlerResult ResponseSecurityGroupDataTables(ServerData arg1, Packet arg2)
+        {
+            try
+            {
+                string[] tableNameArray = PluginSecurityManager.GetSecurityDataTableNames(((ServerClientData)arg1).SecurityGroup);
+
+                string[] array = arg2.ReadAsciiArray();
+
+                arg1.m_security.Send(PacketConstructors.LoginPacket.DataTablePackets(array.Where(tableName => tableNameArray.Contains(tableName)).ToArray()));
+            }
+            catch (System.Exception)
+            { }
+            return PacketHandlerResult.Block;
+        }
+
+        #endregion Methods
     }
 }

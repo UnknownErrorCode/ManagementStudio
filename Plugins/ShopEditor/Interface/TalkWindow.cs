@@ -9,12 +9,18 @@ namespace ShopEditor
 {
     public partial class TalkWindow : UserControl
     {
+        #region Fields
+
+        public static ToolTip ShopToolTip = new ToolTip();
+
         /// <summary>
         /// Storing NpcData into the application to prevent recreate when needed.
         /// </summary>
         private readonly Dictionary<string, NpcShopData> NpcShopInformation = new Dictionary<string, NpcShopData>();
 
-        public static ToolTip ShopToolTip = new ToolTip();
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// Communication window like click on an NPC. This window has to be static and aviable only 1 times in the entired application!!!
@@ -24,6 +30,10 @@ namespace ShopEditor
             InitializeComponent();
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         /// <summary>
         /// Task to complete when NPC gets selected.
         /// </summary>
@@ -32,7 +42,6 @@ namespace ShopEditor
         {
             foreach (IDisposable item in splitContainer1.Panel2.Controls)
                 item.Dispose();
-
 
             splitContainer1.Panel2.Controls.Clear();
 
@@ -82,14 +91,16 @@ namespace ShopEditor
             new ShopTabGroupWindow((RefShopTabGroup)((Label)sender).Tag).Show();
         }
 
+        private void Label_MouseEnter(object sender, EventArgs e)
+        {
+            ((Label)sender).ForeColor = Color.FromArgb(255, 138, 0);
+        }
+
         private void Label_MouseLeave(object sender, EventArgs e)
         {
             ((Label)sender).ForeColor = Color.FromArgb(239, 218, 164);
         }
 
-        private void Label_MouseEnter(object sender, EventArgs e)
-        {
-            ((Label)sender).ForeColor = Color.FromArgb(255, 138, 0);
-        }
+        #endregion Methods
     }
 }

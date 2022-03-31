@@ -4,8 +4,7 @@ namespace ManagementServer.Network
 {
     internal partial class ServerPacketHandler : PacketHandler
     {
-
-        #region Public Constructors
+        #region Constructors
 
         public ServerPacketHandler()
         {
@@ -27,9 +26,11 @@ namespace ManagementServer.Network
             base.AddEntry(0x3000, SendFiles);
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Private Methods
+        #region Methods
+
+        private PacketHandlerResult Reply0x1003EditNewTopic(ServerData arg1, Packet arg2) => PacketHandlerResult.Block;
 
         /// <summary>
         /// Server receives handshake process packet and verifiels that user is using the originale Tool, no bot or other stuff...
@@ -51,10 +52,6 @@ namespace ManagementServer.Network
             return PacketHandlerResult.Block;
         }
 
-
-        private PacketHandlerResult Reply0x1003EditNewTopic(ServerData arg1, Packet arg2) => PacketHandlerResult.Block;
-
-        #endregion Private Methods
-
+        #endregion Methods
     }
 }

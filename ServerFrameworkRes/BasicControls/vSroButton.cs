@@ -5,23 +5,23 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroButton : UserControl
     {
-        #region Public Constructors
+        #region Constructors
 
         public vSroButton()
         {
             InitializeComponent();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Delegates
+        #region Delegates
 
         //  public static event vSroClicker vSroClick;
         public delegate void vSroClicker(object sender, EventArgs e);
 
-        #endregion Public Delegates
+        #endregion Delegates
 
-        #region Public Properties
+        #region Properties
 
         //  [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Bindable(true)]
         //  [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -31,9 +31,9 @@ namespace ServerFrameworkRes.BasicControls
             set => RealButton.Text = value;
         }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Private Methods
+        #region Methods
 
         private void button1_Leave(object sender, EventArgs e)
         {
@@ -66,6 +66,6 @@ namespace ServerFrameworkRes.BasicControls
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

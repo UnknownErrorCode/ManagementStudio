@@ -5,8 +5,12 @@
     /// </summary>
     internal class UniqueMonster : Spawn
     {
+        #region Constructors
+
         internal UniqueMonster(int nestID) : base(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
         }
+
+        #endregion Constructors
     }
 }

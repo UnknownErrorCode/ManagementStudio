@@ -6,14 +6,14 @@ namespace ManagementServer.Utility
 {
     public class InitializeConfig
     {
-        #region Public Fields
+        #region Fields
 
         public const string ConfigString = "Config/settings.ini";
         public static InitializeFile Cfg = new InitializeFile(ConfigString);
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Methods
+        #region Methods
 
         public static bool InitializeConfigFile(string configPath, out string msg)
         {
@@ -63,6 +63,6 @@ namespace ManagementServer.Utility
             }
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

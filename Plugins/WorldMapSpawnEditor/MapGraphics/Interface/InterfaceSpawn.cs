@@ -5,12 +5,16 @@ namespace WorldMapSpawnEditor.MapGraphics.Interface
 {
     internal interface InterfaceSpawn
     {
+        #region Properties
+
+        int GameWorldID { get; }
         int ID { get; }
-        SpawnType SpawnType { get; }
         WRegionID RegionID { get; }
+        SpawnType SpawnType { get; }
         float XLocation { get; }
         float YLocation { get; }
         float ZLocation { get; }
-        int GameWorldID { get; }
+
+        #endregion Properties
     }
 }

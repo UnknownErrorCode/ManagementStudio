@@ -6,20 +6,7 @@ namespace ClientDataStorage.Client.Files
 {
     public class o2File
     {
-        /// <summary>
-        /// List of all Objects inside the .o file.
-        /// </summary>
-        private List<MapObject> AllObjects { get; set; } = new List<MapObject>();
-
-        /// <summary>
-        /// X coordinate from .o file.
-        /// </summary>
-        public byte OX { get; set; }
-
-        /// <summary>
-        /// Z coordinate from .o file.
-        /// </summary>
-        public byte OZ { get; set; }
+        #region Constructors
 
         /// <summary>
         /// Initialize .o file from Pk2File
@@ -43,6 +30,29 @@ namespace ClientDataStorage.Client.Files
             OZ = zval;
             Initialize(buffer, xval, zval);
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// X coordinate from .o file.
+        /// </summary>
+        public byte OX { get; set; }
+
+        /// <summary>
+        /// Z coordinate from .o file.
+        /// </summary>
+        public byte OZ { get; set; }
+
+        /// <summary>
+        /// List of all Objects inside the .o file.
+        /// </summary>
+        private List<MapObject> AllObjects { get; set; } = new List<MapObject>();
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Initialize .o file from raw byte[].
@@ -90,5 +100,7 @@ namespace ClientDataStorage.Client.Files
                 }
             }
         }
+
+        #endregion Methods
     }
 }

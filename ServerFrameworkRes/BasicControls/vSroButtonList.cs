@@ -9,35 +9,35 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroButtonList : UserControl
     {
-        #region Private Fields
+        #region Fields
 
         private readonly List<vSroListButton> AllButtonsOnTable = new List<vSroListButton>();
         private readonly Dictionary<string, vSroListButton> AllButtonsOnTable2 = new Dictionary<string, vSroListButton>();
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public vSroButtonList()
         {
             InitializeComponent();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Events
+        #region Events
 
         public event EventHandler OnIndCh;
 
-        #endregion Public Events
+        #endregion Events
 
-        #region Public Properties
+        #region Properties
 
         public vSroListButton LatestSelectedButton { get; private set; }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         /// <summary>
         /// Adds a Button with 'incomeButtonName' name on the List
@@ -128,10 +128,6 @@ namespace ServerFrameworkRes.BasicControls
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void LabelButtonName_Click(object sender, EventArgs e)
         {
             ResetSelectionOnClick((vSroListButton)((Label)sender).Parent, e);
@@ -173,6 +169,6 @@ namespace ServerFrameworkRes.BasicControls
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

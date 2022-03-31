@@ -4,7 +4,7 @@ namespace ManagementServer.PacketConstructors
 {
     internal static class NotificationPacket
     {
-        #region Internal Methods
+        #region Methods
 
         internal static Packet NotifyPacket(ServerFrameworkRes.Ressources.LogLevel type, string message)
         {
@@ -14,6 +14,6 @@ namespace ManagementServer.PacketConstructors
             return packet;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

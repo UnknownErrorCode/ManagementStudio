@@ -8,21 +8,17 @@ namespace ServerFrameworkRes.Ressources
 {
     public partial class ArchitectureBody : UserControl
     {
-        #region Public Fields
+        #region Fields
 
         public ServerData SelfBody;
         public Dictionary<ServerBodyState, Image> ServerBodyImages = new Dictionary<ServerBodyState, Image>();
 
-        #endregion Public Fields
-
-        #region Protected Fields
-
         protected Point clickPosition;
         protected Point scrollPosition;
 
-        #endregion Protected Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public ArchitectureBody(ServerData IncomeSelfBody, Point Locationee)
         {
@@ -42,16 +38,16 @@ namespace ServerFrameworkRes.Ressources
             ServerBodyImages.Add(ServerBodyState.Red, pictureBoxActive.ErrorImage);
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public Point BodyLocation { get; set; }
         public Point DockChordsPoint => new Point(Location.X + 25, Location.Y + 25);
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Private Methods
+        #region Methods
 
         private void ArchitectureBody_MouseDown(object sender, MouseEventArgs e)
         {
@@ -73,6 +69,6 @@ namespace ServerFrameworkRes.Ressources
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

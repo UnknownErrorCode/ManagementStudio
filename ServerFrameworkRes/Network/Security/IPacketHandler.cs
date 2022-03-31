@@ -4,10 +4,10 @@ namespace ServerFrameworkRes.Network.Security
 {
     public interface IPacketHandler
     {
-        #region Public Methods
+        #region Methods
 
         Task<PacketHandlerResult> HandlePacketAction(ServerData data, Packet packet);
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

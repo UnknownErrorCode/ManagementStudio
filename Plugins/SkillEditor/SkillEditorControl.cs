@@ -10,31 +10,30 @@ namespace SkillEditor
 {
     public partial class SkillEditorControl : UserControl
     {
-        #region Private Fields
+        #region Fields
 
-        private const string STRING_DLL = "SkillEditor.dll";
         private const PluginData PLUGINDATA = PluginData.SkillEditor;
+        private const string STRING_DLL = "SkillEditor.dll";
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public SkillEditorControl()
         {
             InitializeComponent();
             ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
             ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
-
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
             return PacketHandlerResult.Block;
         }
-
-        #endregion Public Constructors
-
-        #region Private Methods
 
         /// <summary>
         /// Takes action after click on a Monster. Opens the monster skill editor.
@@ -83,6 +82,6 @@ namespace SkillEditor
             buttonSearch.Enabled = true;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

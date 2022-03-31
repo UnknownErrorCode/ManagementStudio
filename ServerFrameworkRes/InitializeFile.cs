@@ -5,22 +5,22 @@ namespace ServerFrameworkRes
 {
     public class InitializeFile
     {
-        #region Public Fields
+        #region Fields
 
         public string path;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public InitializeFile(string INIPath)
         {
             path = INIPath;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public string IniReadValue(string Section, string Key)
         {
@@ -34,10 +34,6 @@ namespace ServerFrameworkRes
             WritePrivateProfileString(Section, Key, Value, path);
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         [DllImport("kernel32")]
         private static extern long GetPrivateProfileString(string section,
                  string key, string def, StringBuilder retVal,
@@ -47,6 +43,6 @@ namespace ServerFrameworkRes
         private static extern long WritePrivateProfileString(string section,
             string key, string val, string filePath);
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

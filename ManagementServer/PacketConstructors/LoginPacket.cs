@@ -6,8 +6,7 @@ namespace ManagementServer.PacketConstructors
 {
     internal class LoginPacket
     {
-
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// Sends <see cref="PacketID.Server.AllowedDataTableNameResponse"/> with all required <see cref="DataTable"/> names as string array to the Client.
@@ -28,13 +27,6 @@ namespace ManagementServer.PacketConstructors
             }
         }
 
-        internal static Packet PluginDataReceiveConfirmation(PluginData pluginData)
-        {
-            Packet tablePacket = new Packet((ushort)pluginData);
-            tablePacket.WriteAscii(pluginData.ToString());
-            return tablePacket;
-        }
-
         /// <summary>
         /// Sends 0xB002 with all Plugins to load to the Client in order to warrant security group authority
         /// </summary>
@@ -53,26 +45,6 @@ namespace ManagementServer.PacketConstructors
             {
                 return NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
             }
-        }
-
-        internal static Packet OnlineUser()
-        {
-            var packet = new Packet(PacketID.Server.UserLogOnOff);
-            packet.WriteInt(ServerMemory.ClientDataPool.Count);
-            foreach (var item in ServerMemory.ClientDataPool.Values)
-            {
-                packet.WriteBool(true);
-                packet.WriteAscii(item.AccountName);
-            }
-            return packet;
-        }
-
-        internal static Packet SendDataTable(string tableName, DataTable table)
-        {
-            Packet tablePacket = new Packet(PacketID.Server.DataTableResponse, false, true);
-            tablePacket.WriteAscii(tableName);
-            tablePacket.WriteDataTable(table);
-            return tablePacket;
         }
 
         internal static Packet[] DataTablePackets(string[] tableNames)
@@ -97,6 +69,33 @@ namespace ManagementServer.PacketConstructors
             return list;
         }
 
+        internal static Packet OnlineUser()
+        {
+            var packet = new Packet(PacketID.Server.UserLogOnOff);
+            packet.WriteInt(ServerMemory.ClientDataPool.Count);
+            foreach (var item in ServerMemory.ClientDataPool.Values)
+            {
+                packet.WriteBool(true);
+                packet.WriteAscii(item.AccountName);
+            }
+            return packet;
+        }
+
+        internal static Packet PluginDataReceiveConfirmation(PluginData pluginData)
+        {
+            Packet tablePacket = new Packet((ushort)pluginData);
+            tablePacket.WriteAscii(pluginData.ToString());
+            return tablePacket;
+        }
+
+        internal static Packet SendDataTable(string tableName, DataTable table)
+        {
+            Packet tablePacket = new Packet(PacketID.Server.DataTableResponse, false, true);
+            tablePacket.WriteAscii(tableName);
+            tablePacket.WriteDataTable(table);
+            return tablePacket;
+        }
+
         internal static Packet Status(LoginStatus status)
         {
             Packet LoginStatus = new Packet(PacketID.Server.LoginStatusResponse, false, true);
@@ -104,7 +103,6 @@ namespace ManagementServer.PacketConstructors
             return LoginStatus;
         }
 
-        #endregion Internal Methods
-
+        #endregion Methods
     }
 }

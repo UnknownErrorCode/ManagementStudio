@@ -7,8 +7,14 @@ namespace ClientDataStorage.Network
 {
     internal class ClientInterface : IAsyncInterface
     {
+        #region Fields
+
         internal ClientData cData = new ClientData();
         internal ClientPacketHandler CHandler = new ClientPacketHandler();
+
+        #endregion Fields
+
+        #region Methods
 
         /// <summary>
         /// </summary>
@@ -98,5 +104,7 @@ namespace ClientDataStorage.Network
                 }
             }
         }
+
+        #endregion Methods
     }
 }

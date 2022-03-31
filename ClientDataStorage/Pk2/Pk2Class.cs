@@ -9,6 +9,8 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Class
     {
+        #region Fields
+
         public List<Pk2File> Files = new List<Pk2File>();
 
         public List<Pk2Folder> Folders = new List<Pk2Folder>();
@@ -25,11 +27,15 @@ namespace ClientDataStorage.Pk2
         /// </summary>
         private readonly Blowfish blowfish = new Blowfish();
 
-        private Pk2Folder currentFolder;
         private readonly List<Pk2EntryBlock> EntryBlocks = new List<Pk2EntryBlock>();
         private readonly FileStream fileStream;
-        private Pk2Header header;
         private readonly Pk2Folder mainFolder;
+        private Pk2Folder currentFolder;
+        private Pk2Header header;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Pk2Class(string pk2FilePath)
         {
@@ -52,6 +58,10 @@ namespace ClientDataStorage.Pk2
                 }
             }
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public void ExtractSingleFile(string CreatePath, Pk2File file)
         {
@@ -213,5 +223,7 @@ namespace ClientDataStorage.Pk2
                 read(folder.position);
             }
         }
+
+        #endregion Methods
     }
 }

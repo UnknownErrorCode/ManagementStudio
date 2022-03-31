@@ -4,136 +4,7 @@ namespace ClientDataStorage.Client.Files.bsr
 {
     public class JMXbsrFile
     {
-        /// <summary>
-        /// JMXVRES 0109
-        /// </summary>
-        public byte[] signature { get; set; }
-
-        #region Header
-
-        public uint MaterialOffset { get; set; }
-        public uint MeshOffset { get; set; }
-        public uint SkeletonOffset { get; set; }
-        public uint AnimationOffset { get; set; }
-        public uint PrimMeshGroupOffset { get; set; }
-        public uint PrimAniGroupOffset { get; set; }
-        public uint ModPaletteOffset { get; set; }
-        public uint CollisionOffset { get; set; }
-
-        public uint Int0 { get; set; }
-        public uint Int1 { get; set; }
-        public uint Int2 { get; set; }
-        public uint Int3 { get; set; }
-        public uint Int4 { get; set; }
-
-        #endregion Header
-
-        /// <summary>
-        /// General information about the bsr object.
-        /// </summary>
-        public ObjectGeneralInfo Generalinfo { get; set; }
-
-        /// <summary>
-        /// reserved  40 length
-        /// </summary>
-        public byte[] unkBuffer0 { get; set; }
-
-        #region MaterialOffset
-
-        /// <summary>
-        /// MATERIALSET_MAXCOUNTMAX = 5.
-        /// </summary>
-        public uint mtrlSetCnt { get; set; }
-
-        /// <summary>
-        /// Material Sets of bsr file.
-        /// </summary>
-        public List<CPrimMaterialSet> MaterialSets { get; set; } = new List<CPrimMaterialSet>();
-
-        #endregion MaterialOffset
-
-        #region MeshOffset
-
-        /// <summary>
-        /// Number of Meshes contained in the bsr file.
-        /// </summary>
-        public uint meshCnt { get; set; }
-
-        /// <summary>
-        /// CPrimMeshes inside the bsr file.
-        /// </summary>
-        public CPrimMesh[] MeshArray { get; set; }
-
-        #endregion MeshOffset
-
-        #region SkeletonOffset
-
-        /// <summary>
-        /// if has Skeleton CPrimBranch gets read.
-        /// </summary>
-        private readonly uint hasSkeleton;
-
-        /// <summary>
-        /// CPrimBranch
-        /// </summary>
-        private readonly uint skeletonPathLength;
-
-        /// <summary>
-        /// CPrimBranch
-        /// </summary>
-        private readonly string skeletonPath;
-
-        /// <summary>
-        /// CPrimBranch
-        /// </summary>
-        private readonly uint attachmentBoneLength;
-
-        /// <summary>
-        /// CPrimBranch
-        /// </summary>
-        private readonly string attachmentBone;
-
-        #endregion SkeletonOffset
-
-        #region AnimationOffset
-
-        /// <summary>
-        ///  ANIMATION_TOOL_VERSION = 0x1000, "Animation Type의 Version이 다릅니다."
-        /// </summary>
-        public uint animationTypeVersion { get; set; }
-
-        /// <summary>
-        /// 0, "User Define Animation Type을 사용 하였습니다."
-        /// </summary>
-        public uint animationTypeUserDefine { get; set; }
-
-        /// <summary>
-        /// Number of Animations inside the bsr.
-        /// </summary>
-        public uint animationCnt { get; set; }
-
-        /// <summary>
-        /// Animation names.
-        /// </summary>
-        public List<string> CPrimAnimation { get; set; } = new List<string>();
-
-        #endregion AnimationOffset
-
-        #region PrimMeshGroupOffset
-
-        /// <summary>
-        /// Number of Mesh Groups.
-        /// </summary>
-        private readonly uint meshGroupCnt;
-
-        /// <summary>
-        /// Mesh Groups.
-        /// </summary>
-        private readonly List<CPrimMeshGroup> MeshGroupList;
-
-        #endregion PrimMeshGroupOffset
-
-        #region PrimAniGroupOffset
+        #region Fields
 
         /// <summary>
         /// Number of Animation Groups.
@@ -145,9 +16,30 @@ namespace ClientDataStorage.Client.Files.bsr
         /// </summary>
         private readonly List<CPrimAniGroup> AniGroupList;
 
-        #endregion PrimAniGroupOffset
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
+        private readonly string attachmentBone;
 
-        #region ModPaletteOffset
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
+        private readonly uint attachmentBoneLength;
+
+        /// <summary>
+        /// if has Skeleton CPrimBranch gets read.
+        /// </summary>
+        private readonly uint hasSkeleton;
+
+        /// <summary>
+        /// Number of Mesh Groups.
+        /// </summary>
+        private readonly uint meshGroupCnt;
+
+        /// <summary>
+        /// Mesh Groups.
+        /// </summary>
+        private readonly List<CPrimMeshGroup> MeshGroupList;
 
         /// <summary>
         /// Number of ModelSets.
@@ -159,22 +51,117 @@ namespace ClientDataStorage.Client.Files.bsr
         /// </summary>
         private readonly List<CModDataSet> ModSetDataSetList;
 
-        #endregion ModPaletteOffset
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
+        private readonly string skeletonPath;
 
-        #region CollisionOffset
+        /// <summary>
+        /// CPrimBranch
+        /// </summary>
+        private readonly uint skeletonPathLength;
 
-        public uint collisionMeshLength { get; set; }
-        public string collisionMesh { get; set; }
-        public float[] collisionBox0 { get; set; }  //24
-        public float[] collisionBox1 { get; set; }  //24
-        public uint requireCollisionMatrix { get; set; }
+        #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// Number of Animations inside the bsr.
+        /// </summary>
+        public uint animationCnt { get; set; }
+
+        public uint AnimationOffset { get; set; }
+
+        /// <summary>
+        /// 0, "User Define Animation Type을 사용 하였습니다."
+        /// </summary>
+        public uint animationTypeUserDefine { get; set; }
+
+        /// <summary>
+        ///  ANIMATION_TOOL_VERSION = 0x1000, "Animation Type의 Version이 다릅니다."
+        /// </summary>
+        public uint animationTypeVersion { get; set; }
+
+        public float[] collisionBox0 { get; set; }
+
+        //24
+        public float[] collisionBox1 { get; set; }
 
         //if(requireCollisionMatrix<>0)
         public byte[] collisionMatrix { get; set; }
 
-        #endregion CollisionOffset
+        public string collisionMesh { get; set; }
 
-        #region AniModSets
+        public uint collisionMeshLength { get; set; }
+
+        public uint CollisionOffset { get; set; }
+
+        /// <summary>
+        /// Animation names.
+        /// </summary>
+        public List<string> CPrimAnimation { get; set; } = new List<string>();
+
+        /// <summary>
+        /// General information about the bsr object.
+        /// </summary>
+        public ObjectGeneralInfo Generalinfo { get; set; }
+
+        public uint Int0 { get; set; }
+
+        public uint Int1 { get; set; }
+
+        public uint Int2 { get; set; }
+
+        public uint Int3 { get; set; }
+
+        public uint Int4 { get; set; }
+
+        public uint MaterialOffset { get; set; }
+
+        /// <summary>
+        /// Material Sets of bsr file.
+        /// </summary>
+        public List<CPrimMaterialSet> MaterialSets { get; set; } = new List<CPrimMaterialSet>();
+
+        /// <summary>
+        /// CPrimMeshes inside the bsr file.
+        /// </summary>
+        public CPrimMesh[] MeshArray { get; set; }
+
+        /// <summary>
+        /// Number of Meshes contained in the bsr file.
+        /// </summary>
+        public uint meshCnt { get; set; }
+
+        public uint MeshOffset { get; set; }
+
+        public uint ModPaletteOffset { get; set; }
+
+        /// <summary>
+        /// MATERIALSET_MAXCOUNTMAX = 5.
+        /// </summary>
+        public uint mtrlSetCnt { get; set; }
+
+        public uint PrimAniGroupOffset { get; set; }
+
+        public uint PrimMeshGroupOffset { get; set; }
+
+        //24
+        public uint requireCollisionMatrix { get; set; }
+
+        /// <summary>
+        /// JMXVRES 0109
+        /// </summary>
+        public byte[] signature { get; set; }
+
+        public uint SkeletonOffset { get; set; }
+
+        /// <summary>
+        /// reserved  40 length
+        /// </summary>
+        public byte[] unkBuffer0 { get; set; }
+
+        #endregion Properties
 
         /*
          * TODO:
@@ -242,7 +229,5 @@ namespace ClientDataStorage.Client.Files.bsr
         //14 = attach/cape (on the back)?
 
          */
-
-        #endregion AniModSets
     }
 }

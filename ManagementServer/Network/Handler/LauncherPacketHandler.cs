@@ -7,9 +7,7 @@ namespace ManagementServer.Network
 {
     internal partial class ServerPacketHandler
     {
-
-
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// SERVER_UPDATE_SEND_FILES -- C_0x1001 -> S_0xA002 -- contains a file with directory information for the Client
@@ -47,7 +45,7 @@ namespace ManagementServer.Network
         }
 
         /// <summary>
-        /// SERVER => CLIENT  
+        /// SERVER => CLIENT
         /// <br>0xA001</br>
         /// <br>Sends latest version to client.</br>
         /// </summary>
@@ -59,6 +57,6 @@ namespace ManagementServer.Network
             return connectionSuccess;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

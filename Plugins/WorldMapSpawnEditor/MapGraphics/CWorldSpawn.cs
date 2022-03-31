@@ -9,21 +9,20 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class CWorldSpawn : IEnumerable<InterfaceSpawn>
     {
-
-        #region Private Fields
+        #region Fields
 
         private readonly List<InterfaceSpawn> cSpawns = new List<InterfaceSpawn>();
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Internal Constructors
+        #region Constructors
 
         internal CWorldSpawn() =>
             Initialize();
 
-        #endregion Internal Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public IEnumerator<InterfaceSpawn> GetEnumerator() => cSpawns.GetEnumerator();
 
@@ -33,9 +32,8 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        #endregion Public Methods
-
-        #region Internal Methods
+        internal InterfaceSpawn FromSpawn<T>(Spawn spawn) where T : class
+            => (InterfaceSpawn)System.Activator.CreateInstance(typeof(T), spawn.ID);
 
         internal void Initialize()
         {
@@ -43,22 +41,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeNest();
             InitializeChars();
             InitializeTeleports();
-        }
-
-        internal InterfaceSpawn FromSpawn<T>(Spawn spawn) where T : class
-            => (InterfaceSpawn)System.Activator.CreateInstance(typeof(T), spawn.ID);
-
-        #endregion Internal Methods
-
-        #region Private Methods
-
-        private void InitializeTeleports()
-        {
-            foreach (RefTeleport teleport in ClientDataStorage.Database.SRO_VT_SHARD._RefTeleport.Values)
-            {
-                if (teleport.AssocRefObjID > 0)
-                    cSpawns.Add(new Spawn(teleport));
-            }
         }
 
         private void InitializeChars()
@@ -94,7 +76,15 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
-        #endregion Private Methods
+        private void InitializeTeleports()
+        {
+            foreach (RefTeleport teleport in ClientDataStorage.Database.SRO_VT_SHARD._RefTeleport.Values)
+            {
+                if (teleport.AssocRefObjID > 0)
+                    cSpawns.Add(new Spawn(teleport));
+            }
+        }
 
+        #endregion Methods
     }
 }

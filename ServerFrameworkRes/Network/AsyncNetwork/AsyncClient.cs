@@ -6,7 +6,7 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncClient : AsyncBase
     {
-        #region Public Methods
+        #region Methods
 
         public void Connect(string host, int port, IAsyncInterface @interface)
         {
@@ -38,10 +38,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             connectEvtArgs.RemoteEndPoint = new IPEndPoint(address, port);
             ProcessConnect(connectEvtArgs);
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         private void NetworkOnConnect(object sender, SocketAsyncEventArgs e)
         {
@@ -99,6 +95,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

@@ -4,10 +4,21 @@ namespace ClientDataStorage
 {
     public abstract class ConfigLoader
     {
+        #region Fields
+
         public ServerFrameworkRes.InitializeFile ConfigEditor;
+
+        #endregion Fields
+
+        #region Properties
+
         private string ConfigFile => "settings.ini";
         private string ConfigFilePath => Path.Combine(ConfigPath, ConfigFile);
         private string ConfigPath => Path.Combine(Directory.GetCurrentDirectory(), "Config");
+
+        #endregion Properties
+
+        #region Methods
 
         internal void Initialize()
         {
@@ -47,5 +58,7 @@ namespace ClientDataStorage
                 ConfigEditor = new ServerFrameworkRes.InitializeFile(ConfigFilePath);
             }
         }
+
+        #endregion Methods
     }
 }

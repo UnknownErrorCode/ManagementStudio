@@ -2,7 +2,7 @@
 {
     internal class Player : Spawn
     {
-        #region Private Fields
+        #region Fields
 
         private readonly int charID;
         private readonly string charName16;
@@ -10,9 +10,9 @@
         private readonly int hP;
         private readonly int mP;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public Player(int _charID) : base(ClientDataStorage.Database.SRO_VT_SHARD._Char[_charID])
         {
@@ -24,9 +24,9 @@
             mP = charResult.MP;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Internal Properties
+        #region Properties
 
         internal int CharID => charID;
         internal string CharName16 => charName16;
@@ -34,6 +34,6 @@
         internal int HP => hP;
         internal int MP => mP;
 
-        #endregion Internal Properties
+        #endregion Properties
     }
 }

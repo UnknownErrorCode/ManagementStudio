@@ -7,7 +7,13 @@ namespace ClientDataStorage.Client.Textdata
 {
     public class TextParser : TextArrayFormatter, ITextParser
     {
+        #region Fields
+
         public static TextParser StaticTextParser = new TextParser();
+
+        #endregion Fields
+
+        #region Methods
 
         public string ConvertByteArrayToAsciiText(byte[] array)
         {
@@ -38,5 +44,7 @@ namespace ClientDataStorage.Client.Textdata
         {
             return text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(str => !str.StartsWith("//")).ToArray();
         }
+
+        #endregion Methods
     }
 }

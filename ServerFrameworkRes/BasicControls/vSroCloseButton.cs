@@ -5,16 +5,16 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroCloseButton : UserControl
     {
-        #region Public Constructors
+        #region Constructors
 
         public vSroCloseButton()
         {
             InitializeComponent();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Private Methods
+        #region Methods
 
         private void vSroCloseButton_Click(object sender, EventArgs e)
         {
@@ -36,6 +36,6 @@ namespace ServerFrameworkRes.BasicControls
             BackgroundImage = imageListCloseButton.Images[0];
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

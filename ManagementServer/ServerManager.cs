@@ -8,25 +8,32 @@ namespace ManagementServer
 {
     public partial class ServerManager : Form
     {
-        internal static Utility.Settings settings = new Utility.Settings();
+        #region Fields
+
         internal static LogGridView Logger = new LogGridView() { Dock = DockStyle.Bottom };
         internal static AsyncServer Server;
-
-
-        private byte[] buffer { get; set; }
+        internal static Utility.Settings settings = new Utility.Settings();
         private bool Ticker = false;
+
+        #endregion Fields
+
+        #region Constructors
+
         public ServerManager()
         {
             InitializeComponent();
             Controls.Add(Logger);
         }
 
-        private void startToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Logger.WriteLogLine("Starting...");
-            Thread thread = new Thread(StartServer);
-            thread.Start();
-        }
+        #endregion Constructors
+
+        #region Properties
+
+        private byte[] buffer { get; set; }
+
+        #endregion Properties
+
+        #region Methods
 
         private void DiagnosticThread()
         {
@@ -43,6 +50,45 @@ namespace ManagementServer
                 }
             }
             Logger.WriteLogLine("Status: Diagnostic thread aborted!");
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            startToolStripMenuItem.Enabled = Ticker ? false : true;
+            stopToolStripMenuItem.Enabled = Ticker;
+        }
+
+        private void gen1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GC.Collect(1);
+        }
+
+        private void gen2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GC.Collect(2);
+        }
+
+        private void gen3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GC.Collect(3);
+        }
+
+        private void OnClose(object sender, FormClosingEventArgs e)
+        {
+            StopServer();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Ticker)
+            {
+                Logger.WriteLogLine("please establish a SQL connection first!");
+                return;
+            }
+            using (PatchManager patchManager = new PatchManager())
+            {
+                patchManager.ShowDialog();
+            }
         }
 
         private void StartServer()
@@ -83,14 +129,11 @@ namespace ManagementServer
             }
         }
 
-        private void OnClose(object sender, FormClosingEventArgs e)
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StopServer();
-        }
-
-        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StopServer();
+            Logger.WriteLogLine("Starting...");
+            Thread thread = new Thread(StartServer);
+            thread.Start();
         }
 
         private void StopServer()
@@ -105,43 +148,16 @@ namespace ManagementServer
             Server.Stop();
         }
 
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            startToolStripMenuItem.Enabled = Ticker ? false : true;
-            stopToolStripMenuItem.Enabled = Ticker;
-        }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!Ticker)
-            {
-                Logger.WriteLogLine("please establish a SQL connection first!");
-                return;
-            }
-            using (PatchManager patchManager = new PatchManager())
-            {
-                patchManager.ShowDialog();
-            }
-        }
-
-        private void gen1ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GC.Collect(1);
-        }
-
-        private void gen2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GC.Collect(2);
-        }
-
-        private void gen3ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GC.Collect(3);
+            StopServer();
         }
 
         private void vSroSmallButtonRefreshSec_vSroClickEvent()
         {
             PluginSecurityManager.TryRefreshSecurityManager();
         }
+
+        #endregion Methods
     }
 }

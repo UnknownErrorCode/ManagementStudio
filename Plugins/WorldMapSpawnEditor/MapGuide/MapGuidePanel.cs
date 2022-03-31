@@ -6,11 +6,16 @@ namespace WorldMapSpawnEditor.MapGuide
 {
     internal class MapGuidePanel : Panel
     {
-        private const string FilePath = "Media\\interface\\worldmap\\map";
-        private Point DrawStartPoint;
+        #region Fields
 
+        private const string FilePath = "Media\\interface\\worldmap\\map";
         private readonly ConcurrentDictionary<Point, Bitmap> imgDic = new ConcurrentDictionary<Point, Bitmap>();
+        private Point DrawStartPoint;
         private Point LastMousePosition;
+
+        #endregion Fields
+
+        #region Constructors
 
         internal MapGuidePanel()
         {
@@ -22,6 +27,10 @@ namespace WorldMapSpawnEditor.MapGuide
             MouseDown += MapGuidePanel_MouseDown;
             InitializeMapImages();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         private void InitializeMapImages()
         {
@@ -104,5 +113,7 @@ namespace WorldMapSpawnEditor.MapGuide
             }
              */
         }
+
+        #endregion Methods
     }
 }

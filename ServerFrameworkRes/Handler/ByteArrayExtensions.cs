@@ -5,7 +5,7 @@ namespace ServerFrameworkRes.Handler
 {
     public static class ByteArrayExtensions
     {
-        #region Public Methods
+        #region Methods
 
         public static string HexDump(this byte[] buffer)
         {
@@ -58,6 +58,6 @@ namespace ServerFrameworkRes.Handler
             return output.ToString();
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

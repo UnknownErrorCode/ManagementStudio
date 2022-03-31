@@ -10,7 +10,7 @@ namespace ClientDataStorage.Client.Files
 {
     public class mFile
     {
-        #region Public Fields
+        #region Fields
 
         /// <summary>
         /// Each region consists of 36 Blocks. 6 x 6 Blocks equals 1 WorldRegion.
@@ -39,9 +39,9 @@ namespace ClientDataStorage.Client.Files
         /// </summary>
         public byte Y;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         /// <summary>
         /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
@@ -80,9 +80,9 @@ namespace ClientDataStorage.Client.Files
             Initialize(buffer, xCoordinate, yCoordinate);
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         /// <summary>
         /// Check if Block exists inside one of 6*6 MeshBlocks.
@@ -172,10 +172,6 @@ namespace ClientDataStorage.Client.Files
                 return 0f;
             }
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         private static bool BlockEntry(float regX, out byte blockX)
         {
@@ -354,6 +350,6 @@ namespace ClientDataStorage.Client.Files
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

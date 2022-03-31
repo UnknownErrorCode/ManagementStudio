@@ -5,7 +5,13 @@ namespace ClientDataStorage.Client
 {
     public class Tile2dIFOFile
     {
+        #region Fields
+
         public string[] TexturePaths;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Tile2dIFOFile()
         {
@@ -27,5 +33,7 @@ namespace ClientDataStorage.Client
                 }
             }
         }
+
+        #endregion Constructors
     }
 }

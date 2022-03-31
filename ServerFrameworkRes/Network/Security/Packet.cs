@@ -10,7 +10,7 @@ namespace ServerFrameworkRes.Network.Security
 {
     public class Packet : IDisposable
     {
-        #region Private Fields
+        #region Fields
 
         private readonly bool _encrypted;
         private readonly bool _massive;
@@ -21,9 +21,11 @@ namespace ServerFrameworkRes.Network.Security
         private byte[] _readerBytes;
         private PacketWriter _writer;
 
-        #endregion Private Fields
+        private bool disposed = false;
 
-        #region Public Constructors
+        #endregion Fields
+
+        #region Constructors
 
         public Packet(Packet rhs)
         {
@@ -122,63 +124,23 @@ namespace ServerFrameworkRes.Network.Security
             _readerBytes = null;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Destructors
+
+        // Use C# destructor syntax for finalization code.
+        ~Packet()
+        {
+            // Simply call Dispose(false).
+            Dispose(false);
+        }
+
+        #endregion Destructors
+
+        #region Properties
 
         public bool Encrypted => _encrypted;
         public string HexCode => _opcode.ToString("X4");
-        public bool Massive => _massive;
-        public ushort Opcode => _opcode;
-        public byte Type => Convert.ToByte((_opcode >> 12) & byte.MaxValue);
-
-        #endregion Public Properties
-
-        #region Public Methods
-
-        public byte[] GetBytes()
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    return _readerBytes;
-                }
-                return _writer.GetBytes();
-            }
-        }
-
-        public void Lock()
-        {
-            lock (_lock)
-            {
-                if (!_locked)
-                {
-                    _readerBytes = _writer.GetBytes();
-                    _reader = new PacketReader(_readerBytes);
-                    _writer.Close();
-                    _writer = null;
-                    _locked = true;
-                }
-            }
-        }
-
-        public override string ToString()
-        {
-            byte[] packet_bytes = GetBytes();
-            if (packet_bytes.Length > 0)
-            {
-                return BitConverter.ToString(_readerBytes).Replace("-", "");
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
-        #endregion Public Methods
-
-        #region Read
 
         public int Length
         {
@@ -194,6 +156,9 @@ namespace ServerFrameworkRes.Network.Security
                 }
             }
         }
+
+        public bool Massive => _massive;
+        public ushort Opcode => _opcode;
 
         public int Position
         {
@@ -232,6 +197,46 @@ namespace ServerFrameworkRes.Network.Security
                         throw new PacketException("Cannot read Remaining from an unlocked Packet.");
                     }
                     return (int)(_reader.BaseStream.Length - _reader.BaseStream.Position);
+                }
+            }
+        }
+
+        public byte Type => Convert.ToByte((_opcode >> 12) & byte.MaxValue);
+
+        #endregion Properties
+
+        #region Methods
+
+        //Implement IDisposable.
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public byte[] GetBytes()
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    return _readerBytes;
+                }
+                return _writer.GetBytes();
+            }
+        }
+
+        public void Lock()
+        {
+            lock (_lock)
+            {
+                if (!_locked)
+                {
+                    _readerBytes = _writer.GetBytes();
+                    _reader = new PacketReader(_readerBytes);
+                    _writer.Close();
+                    _writer = null;
+                    _locked = true;
                 }
             }
         }
@@ -724,10 +729,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        #endregion Read
-
-        #region Write
-
         public long SeekWrite(long offset, SeekOrigin orgin)
         {
             lock (_lock)
@@ -737,6 +738,19 @@ namespace ServerFrameworkRes.Network.Security
                     throw new PacketException("Cannot SeekWrite on a locked Packet.");
                 }
                 return _writer.BaseStream.Seek(offset, orgin);
+            }
+        }
+
+        public override string ToString()
+        {
+            byte[] packet_bytes = GetBytes();
+            if (packet_bytes.Length > 0)
+            {
+                return BitConverter.ToString(_readerBytes).Replace("-", "");
+            }
+            else
+            {
+                return string.Empty;
             }
         }
 
@@ -785,355 +799,6 @@ namespace ServerFrameworkRes.Network.Security
                 _writer.Write(bytes);
             }
         }
-
-        public void WriteBool(bool value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteBool(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(Convert.ToBoolean(Convert.ToUInt64(value) & 0xFF));
-            }
-        }
-
-        public void WriteByte(byte value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteByte(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write((byte)(Convert.ToUInt64(value) & 0xFF));
-            }
-        }
-
-        public void WriteDateTime(DateTime date)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write((ushort)date.Year);
-                _writer.Write((ushort)date.Month);
-                _writer.Write((ushort)date.Day);
-                _writer.Write((ushort)date.Hour);
-                _writer.Write((ushort)date.Minute);
-                _writer.Write((ushort)date.Second);
-                _writer.Write((uint)date.Millisecond);
-            }
-        }
-
-        public void WriteDouble(double value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteDouble(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(Convert.ToDouble(value));
-            }
-        }
-
-        public void WriteFloat(float value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteFloat(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(Convert.ToSingle(value));
-            }
-        }
-
-        public void WriteInt(int value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteInt(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write((int)(Convert.ToInt64(value) & 0xFFFFFFFF));
-            }
-        }
-
-        public void WriteLong(long value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteLong(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(Convert.ToInt64(value));
-            }
-        }
-
-        public void WriteMarshalled<TMarshal>(TMarshal value) where TMarshal : Unmanaged.IMarshalled
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-
-                byte[] bytes = Unmanaged.StructToBuffer(value);
-                _writer.Write(bytes);
-            }
-        }
-
-        public void WritePaddedString<TPaddedString>(TPaddedString value) where TPaddedString : Unmanaged.IMarshalled, IPaddedString
-        {
-            WriteMarshalled<TPaddedString>(value);
-        }
-
-        public void WriteSByte(sbyte value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteSByte(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write((sbyte)(Convert.ToInt64(value) & 0xFF));
-            }
-        }
-
-        public void WriteShort(short value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteShort(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write((ushort)(Convert.ToInt64(value) & 0xFFFF));
-            }
-        }
-
-        public void WriteStruct<T>(T structure) where T : struct
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-
-                byte[] bytes = Unmanaged.StructToBuffer2(structure);
-                _writer.Write(bytes);
-            }
-        }
-
-        public void WriteUInt(uint value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteUInt(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write((uint)(Convert.ToUInt64(value) & 0xFFFFFFFF));
-            }
-        }
-
-        public void WriteULong(ulong value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteULong(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(Convert.ToUInt64(value));
-            }
-        }
-
-        public void WriteUnicode(string value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-
-                byte[] bytes = Encoding.Unicode.GetBytes(value);
-
-                _writer.Write((ushort)value.ToString().Length);
-                _writer.Write(bytes);
-            }
-        }
-
-        public void WriteUnicode(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-
-                byte[] bytes = Encoding.Unicode.GetBytes(value.ToString());
-
-                _writer.Write((ushort)value.ToString().Length);
-                _writer.Write(bytes);
-            }
-        }
-
-        public void WriteUShort(ushort value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write(value);
-            }
-        }
-
-        public void WriteUShort(object value)
-        {
-            lock (_lock)
-            {
-                if (_locked)
-                {
-                    throw new PacketException("Cannot Write to a locked Packet.");
-                }
-                _writer.Write((ushort)(Convert.ToUInt64(value) & 0xFFFF));
-            }
-        }
-
-        #region WriteArray
 
         public void WriteAsciiArray(string[] values, int codepage)
         {
@@ -1194,6 +859,54 @@ namespace ServerFrameworkRes.Network.Security
         public void WriteAsciiArray(object[] values, int index, int count)
         {
             WriteAsciiArray(values, index, count, 1252);
+        }
+
+        public void WriteBool(bool value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteBool(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(Convert.ToBoolean(Convert.ToUInt64(value) & 0xFF));
+            }
+        }
+
+        public void WriteByte(byte value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteByte(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write((byte)(Convert.ToUInt64(value) & 0xFF));
+            }
         }
 
         public void WriteByteArray(byte[] values)
@@ -1265,6 +978,48 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
+        public void WriteDateTime(DateTime date)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write((ushort)date.Year);
+                _writer.Write((ushort)date.Month);
+                _writer.Write((ushort)date.Day);
+                _writer.Write((ushort)date.Hour);
+                _writer.Write((ushort)date.Minute);
+                _writer.Write((ushort)date.Second);
+                _writer.Write((uint)date.Millisecond);
+            }
+        }
+
+        public void WriteDouble(double value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteDouble(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(Convert.ToDouble(value));
+            }
+        }
+
         public void WriteDoubleArray(double[] values)
         {
             WriteDoubleArray(values, 0, values.Length);
@@ -1305,6 +1060,30 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
+        public void WriteFloat(float value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteFloat(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(Convert.ToSingle(value));
+            }
+        }
+
         public void WriteFloatArray(float[] values)
         {
             WriteFloatArray(values, 0, values.Length);
@@ -1342,6 +1121,30 @@ namespace ServerFrameworkRes.Network.Security
                 {
                     WriteFloat(values[x]);
                 }
+            }
+        }
+
+        public void WriteInt(int value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteInt(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write((int)(Convert.ToInt64(value) & 0xFFFFFFFF));
             }
         }
 
@@ -1405,6 +1208,30 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
+        public void WriteLong(long value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteLong(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(Convert.ToInt64(value));
+            }
+        }
+
         public void WriteLongArray(long[] values)
         {
             WriteLongArray(values, 0, values.Length);
@@ -1442,6 +1269,73 @@ namespace ServerFrameworkRes.Network.Security
                 {
                     WriteLong(values[x]);
                 }
+            }
+        }
+
+        public void WriteMarshalled<TMarshal>(TMarshal value) where TMarshal : Unmanaged.IMarshalled
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+
+                byte[] bytes = Unmanaged.StructToBuffer(value);
+                _writer.Write(bytes);
+            }
+        }
+
+        public void WritePaddedString<TPaddedString>(TPaddedString value) where TPaddedString : Unmanaged.IMarshalled, IPaddedString
+        {
+            WriteMarshalled<TPaddedString>(value);
+        }
+
+        public void WriteSByte(sbyte value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteSByte(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write((sbyte)(Convert.ToInt64(value) & 0xFF));
+            }
+        }
+
+        public void WriteShort(short value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteShort(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write((ushort)(Convert.ToInt64(value) & 0xFFFF));
             }
         }
 
@@ -1485,6 +1379,44 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
+        public void WriteStruct<T>(T structure) where T : struct
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+
+                byte[] bytes = Unmanaged.StructToBuffer2(structure);
+                _writer.Write(bytes);
+            }
+        }
+
+        public void WriteUInt(uint value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteUInt(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write((uint)(Convert.ToUInt64(value) & 0xFFFFFFFF));
+            }
+        }
+
         public void WriteUIntArray(uint[] values)
         {
             WriteUIntArray(values, 0, values.Length);
@@ -1522,6 +1454,30 @@ namespace ServerFrameworkRes.Network.Security
                 {
                     WriteUInt(values[x]);
                 }
+            }
+        }
+
+        public void WriteULong(ulong value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteULong(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(Convert.ToUInt64(value));
             }
         }
 
@@ -1565,6 +1521,38 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
+        public void WriteUnicode(string value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+
+                byte[] bytes = Encoding.Unicode.GetBytes(value);
+
+                _writer.Write((ushort)value.ToString().Length);
+                _writer.Write(bytes);
+            }
+        }
+
+        public void WriteUnicode(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+
+                byte[] bytes = Encoding.Unicode.GetBytes(value.ToString());
+
+                _writer.Write((ushort)value.ToString().Length);
+                _writer.Write(bytes);
+            }
+        }
+
         public void WriteUnicodeArray(string[] values)
         {
             WriteUnicodeArray(values, 0, values.Length);
@@ -1602,6 +1590,30 @@ namespace ServerFrameworkRes.Network.Security
                 {
                     WriteUnicode(values[x].ToString());
                 }
+            }
+        }
+
+        public void WriteUShort(ushort value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write(value);
+            }
+        }
+
+        public void WriteUShort(object value)
+        {
+            lock (_lock)
+            {
+                if (_locked)
+                {
+                    throw new PacketException("Cannot Write to a locked Packet.");
+                }
+                _writer.Write((ushort)(Convert.ToUInt64(value) & 0xFFFF));
             }
         }
 
@@ -1645,28 +1657,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        #endregion WriteArray
-
-        #endregion Write
-
-        #region Dispose
-
-        private bool disposed = false;
-
-        // Use C# destructor syntax for finalization code.
-        ~Packet()
-        {
-            // Simply call Dispose(false).
-            Dispose(false);
-        }
-
-        //Implement IDisposable.
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -1693,6 +1683,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        #endregion Dispose
+        #endregion Methods
     }
 }

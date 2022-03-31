@@ -7,7 +7,7 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncState
     {
-        #region Private Fields
+        #region Fields
 
         private readonly AsyncOperation m_operation;
         private readonly byte[] m_read_buffer;
@@ -18,9 +18,9 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
         private readonly SocketAsyncEventArgs m_write_event_args;
         private AsyncBuffer m_current_write_buffer;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public AsyncState(AsyncBase server, Socket socket, AsyncOperation operation, IAsyncInterface interface_, object user)
         {
@@ -51,9 +51,9 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             };
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public AsyncContext Context { get; set; }
 
@@ -61,9 +61,9 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 
         public AsyncOperation Operation => m_operation;
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Internal Methods
+        #region Methods
 
         internal void Cleanup()
         {
@@ -106,10 +106,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
                 CheckWrite(); // Perform the logic to check for the next write. NOTE: This stays inside the lock to keep FIFO order.
             }
         }
-
-        #endregion Internal Methods
-
-        #region Private Methods
 
         private void CheckWrite()
         {
@@ -264,6 +260,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             return true; // Everything is fine
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

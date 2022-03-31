@@ -4,6 +4,8 @@ namespace ClientDataStorage.Client.Files.bsr
 {
     internal class CModDataSet
     {
+        #region Properties
+
         /// <summary>
         /// from PrimAnimationType
         /// </summary>
@@ -22,5 +24,7 @@ namespace ClientDataStorage.Client.Files.bsr
         /// Locomotion = 0, Simple = 1, Ambient = 2,
         /// </summary>
         private uint Type { get; set; }
+
+        #endregion Properties
     }
 }

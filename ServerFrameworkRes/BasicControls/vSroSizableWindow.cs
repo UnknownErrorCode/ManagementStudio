@@ -5,22 +5,22 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroSizableWindow : UserControl
     {
-        #region Private Fields
+        #region Fields
 
         private bool onMove;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public vSroSizableWindow()
         {
             InitializeComponent();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public Point LastMovePoint { get; private set; }
 
@@ -30,9 +30,9 @@ namespace ServerFrameworkRes.BasicControls
             set => label1.Text = value;
         }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Private Methods
+        #region Methods
 
         private void vSroSizableWindow_KeyDown(object sender, KeyEventArgs e)
         {
@@ -70,6 +70,6 @@ namespace ServerFrameworkRes.BasicControls
             onMove = false;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

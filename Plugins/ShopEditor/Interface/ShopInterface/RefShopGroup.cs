@@ -6,16 +6,7 @@ namespace ShopEditor.Interface.ShopInterface
 {
     internal class RefShopGroup
     {
-        /// <summary>
-        /// CodeName128 from _RefShopGroup
-        /// </summary>
-        protected string Name { get; set; }
-
-        /// <summary>
-        /// All Stores caged by "Select RefShopCodeName from _RefMappingShopGroup where RefShopGroupCodeName = 'this.Name' " .
-        /// This way we jump over RefMappingShopGroup to save memory internal.
-        /// </summary>
-        internal RefShop[] ShopGroup { get; set; }
+        #region Constructors
 
         /// <summary>
         /// Requires the ShopGroupCodeName128 to get all StoreCodeNames.
@@ -40,5 +31,22 @@ namespace ShopEditor.Interface.ShopInterface
                 ShopGroup[i] = new RefShop(ShopCodeNames[i].RefShopCodeName);
             }
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// All Stores caged by "Select RefShopCodeName from _RefMappingShopGroup where RefShopGroupCodeName = 'this.Name' " .
+        /// This way we jump over RefMappingShopGroup to save memory internal.
+        /// </summary>
+        internal RefShop[] ShopGroup { get; set; }
+
+        /// <summary>
+        /// CodeName128 from _RefShopGroup
+        /// </summary>
+        protected string Name { get; set; }
+
+        #endregion Properties
     }
 }

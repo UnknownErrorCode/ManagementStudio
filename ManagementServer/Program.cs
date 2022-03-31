@@ -5,7 +5,7 @@ namespace ManagementServer
 {
     internal static class Program
     {
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
@@ -18,6 +18,6 @@ namespace ManagementServer
             Application.Run(new ServerManager());
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

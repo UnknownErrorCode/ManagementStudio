@@ -6,10 +6,10 @@ namespace ManagementServer.Network
 {
     internal partial class ServerPacketHandler
     {
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
-        /// Sends 0xC000 with LoginStatus, message and SecurityGroup. 
+        /// Sends 0xC000 with LoginStatus, message and SecurityGroup.
         /// <br>Also sends 0xB000 on success login with all plugins to load.</br>
         ///  <br>Also sends 0xB001 on success login with DataTables to load from Database</br>
         /// </summary>
@@ -50,6 +50,6 @@ namespace ManagementServer.Network
             return PacketHandlerResult.Block;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

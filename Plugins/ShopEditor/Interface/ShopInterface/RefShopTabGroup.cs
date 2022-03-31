@@ -5,20 +5,7 @@ namespace ShopEditor.Interface.ShopInterface
 {
     internal class RefShopTabGroup
     {
-        /// <summary>
-        /// RefShopTabGroupCodeName from RefShopTabGroup
-        /// </summary>
-        protected string Name { get; set; }
-
-        /// <summary>
-        /// StrID128_CodeName128 from _RefShopTabGroup
-        /// </summary>
-        protected internal string StrID128Name { get; set; }
-
-        /// <summary>
-        /// All RefShopTabs inside this TabGroup.
-        /// </summary>
-        internal RefShopTab[] ShopTabs { get; set; }
+        #region Constructors
 
         internal RefShopTabGroup(string refTabGroupCodeName128)
         {
@@ -40,5 +27,26 @@ namespace ShopEditor.Interface.ShopInterface
             //Due to different tables, the StrID128_Name needs to be set manually.
             StrID128Name = ClientDataStorage.Database.SRO_VT_SHARD._RefShopTabGroup[Name].StrID128_Group;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// All RefShopTabs inside this TabGroup.
+        /// </summary>
+        internal RefShopTab[] ShopTabs { get; set; }
+
+        /// <summary>
+        /// StrID128_CodeName128 from _RefShopTabGroup
+        /// </summary>
+        protected internal string StrID128Name { get; set; }
+
+        /// <summary>
+        /// RefShopTabGroupCodeName from RefShopTabGroup
+        /// </summary>
+        protected string Name { get; set; }
+
+        #endregion Properties
     }
 }

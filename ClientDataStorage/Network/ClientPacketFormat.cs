@@ -5,6 +5,8 @@ namespace ClientDataStorage.Network
 {
     public static class ClientPacketFormat
     {
+        #region Methods
+
         public static Packet RequestPluginDataTables(string plugin, ushort packetID)
         {
             Packet packet = new Packet(PacketID.Client.RequestPlugiDataTable);
@@ -26,5 +28,7 @@ namespace ClientDataStorage.Network
                 return packet;
             }
         }
+
+        #endregion Methods
     }
 }

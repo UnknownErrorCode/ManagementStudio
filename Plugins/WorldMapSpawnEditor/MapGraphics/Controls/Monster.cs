@@ -4,17 +4,16 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Monster : Spawn
     {
-
-        #region Private Fields
+        #region Fields
 
         private readonly string codeName128;
         private readonly int nGenerateRadius;
         private readonly int nRadius;
         private readonly Rarity rarity;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Internal Constructors
+        #region Constructors
 
         public Monster(int nestID) : base(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
@@ -40,21 +39,16 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
-        #endregion Internal Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public string CodeName128 => codeName128;
-
-        #endregion Public Properties
-
-        #region Internal Properties
 
         internal int NGenerateRadius => nGenerateRadius;
         internal int NRadius => nRadius;
         internal Rarity Rarity => rarity;
 
-        #endregion Internal Properties
-
+        #endregion Properties
     }
 }

@@ -2,24 +2,23 @@
 {
     public class ServerData
     {
-        #region Public Fields
+        #region Fields
 
         public string AccountName;
-        public string UserIP;
-
         public byte[] m_certification_buffer;
         public bool m_connected;
         public SecurityManager m_security = new SecurityManager();
+        public string UserIP;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public ServerData()
         {
             m_connected = false;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
     }
 }

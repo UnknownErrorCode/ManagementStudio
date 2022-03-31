@@ -2,10 +2,14 @@
 {
     public class ObjectGeneralInfo
     {
-        internal ResourceType Type;
-        internal uint NameLength;
+        #region Fields
+
         internal string Name;
+        internal uint NameLength;
+        internal ResourceType Type;
         internal uint unkUInt0;
         internal uint unkUInt1;
+
+        #endregion Fields
     }
 }

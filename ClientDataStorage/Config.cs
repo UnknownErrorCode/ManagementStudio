@@ -2,12 +2,22 @@
 {
     public class Config : ConfigLoader
     {
+        #region Fields
+
         public static Config StaticConfig = new Config();
+
+        #endregion Fields
+
+        #region Constructors
 
         public Config()
         {
             base.Initialize();
         }
+
+        #endregion Constructors
+
+        #region Properties
 
         public string ClientCaptcha { get => base.ConfigEditor.IniReadValue("Client", "Captcha"); set => base.ConfigEditor.IniWriteValue("Client", "Captcha", value); }
         public string ClientDivision { get => base.ConfigEditor.IniReadValue("Client", "Division"); set => base.ConfigEditor.IniWriteValue("Client", "Division", value); }
@@ -26,5 +36,7 @@
         public string ToolServerIP { get => base.ConfigEditor.IniReadValue("ToolServer", "Host"); set => base.ConfigEditor.IniWriteValue("ToolServer", "Host", value); }
         public int ToolServerPort { get => int.Parse(base.ConfigEditor.IniReadValue("ToolServer", "Port")); set => base.ConfigEditor.IniWriteValue("ToolServer", "Port", value.ToString()); }
         public int ToolServerVersion { get => int.Parse(base.ConfigEditor.IniReadValue("ToolServer", "Version")); set => base.ConfigEditor.IniWriteValue("ToolServer", "Version", value.ToString()); }
+
+        #endregion Properties
     }
 }

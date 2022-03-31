@@ -6,7 +6,7 @@ namespace Dashboard
 {
     public partial class DashboardControl
     {
-        #region Internal Methods
+        #region Methods
 
         internal PacketHandlerResult TopicDeleteResponse(ServerData arg1, Packet arg2)
         {
@@ -35,10 +35,6 @@ namespace Dashboard
             return PacketHandlerResult.Block;
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
-
         private PacketHandlerResult TopicReceive(ServerData arg1, Packet arg2, bool isNew = false)
         {
             DashboardMessage msg = arg2.ReadStruct<DashboardMessage>();
@@ -59,6 +55,6 @@ namespace Dashboard
             return PacketHandlerResult.Block;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

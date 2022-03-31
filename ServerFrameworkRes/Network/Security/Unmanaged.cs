@@ -5,15 +5,15 @@ namespace ServerFrameworkRes.Network.Security
 {
     public static class Unmanaged
     {
-        #region Public Interfaces
+        #region Interfaces
 
         public interface IMarshalled
         {
         }
 
-        #endregion Public Interfaces
+        #endregion Interfaces
 
-        #region Public Methods
+        #region Methods
 
         public static T BufferToStruct<T>(byte[] buffer, int offset = 0) where T : IMarshalled
         {
@@ -84,6 +84,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

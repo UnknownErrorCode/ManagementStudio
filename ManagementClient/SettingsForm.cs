@@ -6,13 +6,23 @@ namespace ManagementClient
 {
     public partial class SettingsForm : Form
     {
+        #region Fields
+
         private readonly Config ReadOnlyCfg;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SettingsForm(Config config = null)
         {
             ReadOnlyCfg = config;
             InitializeComponent();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public bool InitializeSettings()
         {
@@ -53,5 +63,7 @@ namespace ManagementClient
         {
             vSroInputBox5.ShowPWCharakter(!vSroCheckBox1.vSroCheck);
         }
+
+        #endregion Methods
     }
 }

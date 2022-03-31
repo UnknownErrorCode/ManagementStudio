@@ -5,10 +5,16 @@ namespace ClientDataStorage.Client.Textdata
 {
     public class TextGroupParser
     {
+        #region Fields
+
         /// <summary>
         /// Consists of all filenames inside the TextGroup.
         /// </summary>
         public Dictionary<string, string[][]> GroupFiles = new Dictionary<string, string[][]>();
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// Constructor equals the byte[] from raw text group file inside pk2 data.
@@ -29,5 +35,7 @@ namespace ClientDataStorage.Client.Textdata
                 }
             }
         }
+
+        #endregion Constructors
     }
 }

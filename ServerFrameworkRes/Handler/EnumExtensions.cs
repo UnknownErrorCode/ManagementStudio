@@ -5,7 +5,7 @@ namespace ServerFrameworkRes.Handler
 {
     public static class EnumExtensions
     {
-        #region Public Static Methods
+        #region Methods
 
         /// <summary>
         /// Determines whether the specified value has flags. Note this method is up to 60 times faster
@@ -23,22 +23,22 @@ namespace ServerFrameworkRes.Handler
             return EnumExtensionsInternal<TEnum>.HasFlagsDelegate(value, flag);
         }
 
-        #endregion Public Static Methods
+        #endregion Methods
 
-        #region Nested Classes
+        #region Classes
 
         private static class EnumExtensionsInternal<TEnum> where TEnum : struct, IComparable, IConvertible, IFormattable
         {
-            #region Public Static Variables
+            #region Fields
 
             /// <summary>
             /// The delegate which determines if a flag is set.
             /// </summary>
             public static readonly Func<TEnum, TEnum, bool> HasFlagsDelegate = CreateHasFlagDelegate();
 
-            #endregion Public Static Variables
+            #endregion Fields
 
-            #region Private Static Methods
+            #region Methods
 
             /// <summary>
             /// Creates the has flag delegate.
@@ -80,9 +80,9 @@ namespace ServerFrameworkRes.Handler
                 return lambdaExpression.Compile();
             }
 
-            #endregion Private Static Methods
+            #endregion Methods
         }
 
-        #endregion Nested Classes
+        #endregion Classes
     }
 }

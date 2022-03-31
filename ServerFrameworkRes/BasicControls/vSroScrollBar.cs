@@ -5,23 +5,23 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroScrollBar : UserControl
     {
-        #region Private Fields
+        #region Fields
 
         private Point LastScrollButtonPoint;
         private bool ScrollButtonIsHold;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public vSroScrollBar()
         {
             InitializeComponent();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Private Methods
+        #region Methods
 
         private void panel3_MouseDown(object sender, MouseEventArgs e)
         {
@@ -54,6 +54,6 @@ namespace ServerFrameworkRes.BasicControls
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

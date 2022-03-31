@@ -62,6 +62,8 @@ namespace WorldMapSpawnEditor
 
             Invoke(new Action(() =>
             {
+                continentToolStripMenuItem.DropDownItems.Clear();
+
                 foreach (var item in MapPanel.Continents)
                 {
                     continentToolStripMenuItem.DropDownItems.Add(item);

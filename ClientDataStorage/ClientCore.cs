@@ -8,12 +8,23 @@ namespace ClientDataStorage
 {
     public static class ClientCore
     {
+        #region Fields
+
         private static readonly ClientInterface CInterface = new ClientInterface();
         private static readonly AsyncClient ClientNetwork = new AsyncClient();
+
+        #endregion Fields
+
+        #region Properties
+
         public static bool Connected => CInterface.cData.m_connected;
         public static Action OnAllowedPluginReceived { get => CInterface.CHandler.OnAllowedPluginReceived; set => CInterface.CHandler.OnAllowedPluginReceived = value; }
         public static Action OnDataReceived { get => CInterface.CHandler.OnReceiveAllTables; set => CInterface.CHandler.OnReceiveAllTables = value; }
         internal static string AccountName => CInterface.cData.AccountName;
+
+        #endregion Properties
+
+        #region Methods
 
         public static void AddEntry(ushort packetID, Func<ServerData, Packet, PacketHandlerResult> handler)
         {
@@ -66,5 +77,7 @@ namespace ClientDataStorage
                 ClientNetwork.Tick();
             }
         }
+
+        #endregion Methods
     }
 }

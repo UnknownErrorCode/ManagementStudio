@@ -5,6 +5,8 @@ namespace ClientDataStorage.Client.Textdata
 {
     public abstract class TextArrayFormatter
     {
+        #region Methods
+
         /// <summary>
         /// Converts a string[] including each row of the binary file and returns all elements with minimum column size.
         /// </summary>
@@ -24,5 +26,7 @@ namespace ClientDataStorage.Client.Textdata
 
             return FormattedStringArray.AsEnumerable();
         }
+
+        #endregion Methods
     }
 }

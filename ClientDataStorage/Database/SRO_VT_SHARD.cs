@@ -10,8 +10,7 @@ namespace ClientDataStorage.Database
 {
     public static class SRO_VT_SHARD //<T> where T : struct
     {
-
-        #region Public Fields
+        #region Fields
 
         public static ConcurrentDictionary<int, IChar> _Char;
         public static ConcurrentDictionary<int, RefGame_World> _RefGame_World;
@@ -44,9 +43,9 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, TabRefNest> Tab_RefNest;
         public static ConcurrentDictionary<int, Tab_RefTactics> Tab_RefTactics;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// Save or update the Table in memory.
@@ -847,10 +846,6 @@ namespace ClientDataStorage.Database
             await Task.Delay(1);
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
-
         private static void InitializeRefTableToStruct<T>(
            DataTable table,
            ref List<T> stack
@@ -943,7 +938,6 @@ namespace ClientDataStorage.Database
             }
         }
 
-        #endregion Private Methods
-
+        #endregion Methods
     }
 }

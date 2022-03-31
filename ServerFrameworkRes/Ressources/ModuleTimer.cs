@@ -7,7 +7,7 @@ namespace ServerFrameworkRes.Ressources
 {
     public class ModuleTimer
     {
-        #region Private Enums
+        #region Enums
 
         private enum NoBody
         {
@@ -18,23 +18,19 @@ namespace ServerFrameworkRes.Ressources
             AgentServerServerBody,
         }
 
-        #endregion Private Enums
+        #endregion Enums
 
-        #region Public Properties
+        #region Properties
 
         public Timer MTimer { get; set; }
-
-        #endregion Public Properties
-
-        #region Private Properties
 
         private Chart _chart { get; set; }
 
         private NoBody BodySwitch { get; }
 
-        #endregion Private Properties
+        #endregion Properties
 
-        #region Private Methods
+        #region Methods
 
         private void InitializeMTimer(Chart Charter)
         {
@@ -64,6 +60,6 @@ namespace ServerFrameworkRes.Ressources
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

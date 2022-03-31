@@ -6,7 +6,7 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroListButton : UserControl
     {
-        #region Public Constructors
+        #region Constructors
 
         public vSroListButton(string buttonText)
         {
@@ -20,15 +20,15 @@ namespace ServerFrameworkRes.BasicControls
             InitializeComponent();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public string ButtonName { get; set; }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         public static void OnButtonClick(object sender, EventArgs e)
         {
@@ -41,10 +41,6 @@ namespace ServerFrameworkRes.BasicControls
             ButtonName = buttonText.Length > 0 ? buttonText : "EmptyName";
             labelButtonName.Text = ButtonName;
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         private void labelEnter(object sender, EventArgs e)
         {
@@ -73,6 +69,6 @@ namespace ServerFrameworkRes.BasicControls
             labelButtonName.ForeColor = Color.Red;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

@@ -10,10 +10,22 @@ namespace ManagementClient
 {
     public partial class LoginForm : Form
     {
+        #region Constructors
+
         public LoginForm()
         {
             InitializeComponent();
             InitializeCustomnComponent();
+        }
+
+        #endregion Constructors
+
+        #region Methods
+
+        internal void OnHide()
+        {
+            Program.StaticClientForm.Show();
+            Visible = false;
         }
 
         /// <summary>
@@ -40,12 +52,6 @@ namespace ManagementClient
             }
 
             return PacketHandlerResult.Block;
-        }
-
-        internal void OnHide()
-        {
-            Program.StaticClientForm.Show();
-            Visible = false;
         }
 
         private void ClientTool_Load(object sender, EventArgs e)
@@ -140,5 +146,7 @@ namespace ManagementClient
             requestLogin.WriteAscii(Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
             ClientCore.Send(requestLogin);
         }
+
+        #endregion Methods
     }
 }

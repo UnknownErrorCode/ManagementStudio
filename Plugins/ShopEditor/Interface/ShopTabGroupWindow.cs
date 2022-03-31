@@ -7,14 +7,15 @@ namespace ShopEditor.Interface
 {
     public partial class ShopTabGroupWindow : Form
     {
+        #region Fields
+
+        protected const string TabOffUIPath = "Media\\interface\\ifcommon\\com_tab_off.ddj";
+        protected const string TabOnUIPath = "Media\\interface\\ifcommon\\com_tab_on.ddj";
         private readonly BlueShopTabWindow[] ShopBlueTabWindows;
 
-        protected const string TabOnUIPath = "Media\\interface\\ifcommon\\com_tab_on.ddj";
-        protected const string TabOffUIPath = "Media\\interface\\ifcommon\\com_tab_off.ddj";
+        #endregion Fields
 
-        public string ShopTitle { get => labelShopTabGroup.Text; set => labelShopTabGroup.Text = value; }
-        public byte CurrentPageIndex { get => byte.Parse(labelPageIndex.Text); set => labelPageIndex.Text = $"{value}"; }
-        private BlueShopTabWindow DisplayedBlueTab { get; set; }
+        #region Constructors
 
         internal ShopTabGroupWindow(RefShopTabGroup shopTabGroup)
         {
@@ -26,6 +27,40 @@ namespace ShopEditor.Interface
             }
 
             DisplaySingleTabPage(ShopBlueTabWindows[0], CurrentPageIndex);
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public byte CurrentPageIndex { get => byte.Parse(labelPageIndex.Text); set => labelPageIndex.Text = $"{value}"; }
+        public string ShopTitle { get => labelShopTabGroup.Text; set => labelShopTabGroup.Text = value; }
+        private BlueShopTabWindow DisplayedBlueTab { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        private void DisabeTabFocus()
+        {
+            ShopBlueTabWindows.ToList().ForEach(tw => tw.Active = false);
+        }
+
+        private void DisplaySingleTabPage(BlueShopTabWindow window, byte page)
+        {
+            DisabeTabFocus();
+            window.Active = true;
+            panelCurrentPage.Controls.Clear();
+            DisplayedBlueTab = window;
+            if (DisplayedBlueTab.SingleTabPages != null)
+            {
+                if (DisplayedBlueTab.SingleTabPages.Length > 0)
+                {
+                    panelCurrentPage.Controls.Add(DisplayedBlueTab.SingleTabPages[page]);
+                }
+            }
+
+            CurrentPageIndex = DisplayedBlueTab.SingleTabPages != null ? DisplayedBlueTab.SingleTabPages.Length > 0 ? DisplayedBlueTab.SingleTabPages[page].PageIndex : page : (byte)0;
         }
 
         private bool GenerateShopTabWindows(RefShopTabGroup shopTabGroup, out BlueShopTabWindow[] shopTabWindows)
@@ -71,38 +106,6 @@ namespace ShopEditor.Interface
             }
         }
 
-        private void TabWindow_MouseClick(object sender, MouseEventArgs e)
-        {
-            DisplaySingleTabPage((BlueShopTabWindow)sender, 0);
-        }
-
-        private void TabWindow_onLabelClick(object sender, MouseEventArgs e)
-        {
-            DisplaySingleTabPage((BlueShopTabWindow)((Label)sender).Tag, 0);
-        }
-
-        private void DisplaySingleTabPage(BlueShopTabWindow window, byte page)
-        {
-            DisabeTabFocus();
-            window.Active = true;
-            panelCurrentPage.Controls.Clear();
-            DisplayedBlueTab = window;
-            if (DisplayedBlueTab.SingleTabPages != null)
-            {
-                if (DisplayedBlueTab.SingleTabPages.Length > 0)
-                {
-                    panelCurrentPage.Controls.Add(DisplayedBlueTab.SingleTabPages[page]);
-                }
-            }
-
-            CurrentPageIndex = DisplayedBlueTab.SingleTabPages != null ? DisplayedBlueTab.SingleTabPages.Length > 0 ? DisplayedBlueTab.SingleTabPages[page].PageIndex : page : (byte)0;
-        }
-
-        private void DisabeTabFocus()
-        {
-            ShopBlueTabWindows.ToList().ForEach(tw => tw.Active = false);
-        }
-
         private void ShowNextPage(object sender, MouseEventArgs e)
         {
             if (DisplayedBlueTab.SingleTabPages.Length > CurrentPageIndex)
@@ -118,5 +121,17 @@ namespace ShopEditor.Interface
                 DisplaySingleTabPage(DisplayedBlueTab, (byte)(CurrentPageIndex - 2));
             }
         }
+
+        private void TabWindow_MouseClick(object sender, MouseEventArgs e)
+        {
+            DisplaySingleTabPage((BlueShopTabWindow)sender, 0);
+        }
+
+        private void TabWindow_onLabelClick(object sender, MouseEventArgs e)
+        {
+            DisplaySingleTabPage((BlueShopTabWindow)((Label)sender).Tag, 0);
+        }
+
+        #endregion Methods
     }
 }

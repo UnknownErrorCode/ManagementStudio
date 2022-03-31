@@ -7,7 +7,7 @@ namespace ClientDataStorage.Client
 {
     public class Map
     {
-        #region Public Fields
+        #region Fields
 
         /// <summary>
         /// List of all .m files inside the Map.pk2.
@@ -34,9 +34,9 @@ namespace ClientDataStorage.Client
         /// </summary>
         public static Dictionary<int, DDJImage> TileTextureDictionary = new Dictionary<int, DDJImage>();
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Methods
+        #region Methods
 
         /// <summary>
         /// Initialize the Map.pk2 syncronous.
@@ -60,6 +60,6 @@ namespace ClientDataStorage.Client
             return Task.Run(() => Initialize()).Result;
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

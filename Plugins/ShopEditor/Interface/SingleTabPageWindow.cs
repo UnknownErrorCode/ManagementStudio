@@ -5,15 +5,16 @@ namespace ShopEditor.Interface
 {
     internal class SingleTabPageWindow : UserControl
     {
-        /// <summary>
-        /// Index of a single GoodsPage inside the Tab.
-        /// </summary>
-        internal byte PageIndex { get; set; }
+        #region Fields
 
         /// <summary>
         /// A Single TabPage window can contain max 30 ShopGood Windows.
         /// </summary>
         internal ShopGoodWindow[] ShopGoodsOnPage;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SingleTabPageWindow(byte page, CIShopGood[] goodsOnPage)
         {
@@ -23,18 +24,18 @@ namespace ShopEditor.Interface
             DrawGoodsOnPage();
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         /// <summary>
-        /// Initialize all Goods on this Page.
+        /// Index of a single GoodsPage inside the Tab.
         /// </summary>
-        /// <param name="goodsOnPage">Raw goods without UI Elements.</param>
-        private void InitializeShopGoods(CIShopGood[] goodsOnPage)
-        {
-            ShopGoodsOnPage = new ShopGoodWindow[goodsOnPage.Length];
-            for (int i = 0; i < goodsOnPage.Length; i++)
-            {
-                ShopGoodsOnPage[i] = new ShopGoodWindow(goodsOnPage[i]);
-            }
-        }
+        internal byte PageIndex { get; set; }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         ///
@@ -62,5 +63,20 @@ namespace ShopEditor.Interface
             Size = new System.Drawing.Size(223, 186);
             ResumeLayout(false);
         }
+
+        /// <summary>
+        /// Initialize all Goods on this Page.
+        /// </summary>
+        /// <param name="goodsOnPage">Raw goods without UI Elements.</param>
+        private void InitializeShopGoods(CIShopGood[] goodsOnPage)
+        {
+            ShopGoodsOnPage = new ShopGoodWindow[goodsOnPage.Length];
+            for (int i = 0; i < goodsOnPage.Length; i++)
+            {
+                ShopGoodsOnPage[i] = new ShopGoodWindow(goodsOnPage[i]);
+            }
+        }
+
+        #endregion Methods
     }
 }

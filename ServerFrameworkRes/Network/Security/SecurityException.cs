@@ -5,7 +5,7 @@ namespace ServerFrameworkRes.Network.Security
 {
     public class SecurityException : Exception, ISerializable
     {
-        #region Public Constructors
+        #region Constructors
 
         public SecurityException()
         {
@@ -24,10 +24,6 @@ namespace ServerFrameworkRes.Network.Security
             // Add implementation.
         }
 
-        #endregion Public Constructors
-
-        #region Protected Constructors
-
         // This constructor is needed for serialization.
         protected SecurityException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -35,6 +31,6 @@ namespace ServerFrameworkRes.Network.Security
             // Add implementation.
         }
 
-        #endregion Protected Constructors
+        #endregion Constructors
     }
 }

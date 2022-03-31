@@ -5,9 +5,15 @@ namespace ManagementClient
 {
     internal static class Program
     {
+        #region Fields
+
         internal static ClientDataStorage.Config MainConfig = new ClientDataStorage.Config();
-        internal static LoginForm StaticLoginForm;
         internal static ClientForm StaticClientForm;
+        internal static LoginForm StaticLoginForm;
+
+        #endregion Fields
+
+        #region Methods
 
         /// <summary>
         /// Main entry point for the application!
@@ -21,5 +27,7 @@ namespace ManagementClient
             StaticClientForm = new ClientForm();
             Application.Run(StaticLoginForm);
         }
+
+        #endregion Methods
     }
 }

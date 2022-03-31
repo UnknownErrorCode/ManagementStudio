@@ -6,16 +6,16 @@ namespace ClientDataStorage.Client
 {
     public static class Media
     {
-        #region Public Fields
+        #region Fields
 
         /// <summary>
         /// Contains all necessary ddj images.
         /// </summary>
         public static Dictionary<string, DDJImage> DDJFiles = new Dictionary<string, DDJImage>();
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Properties
+        #region Properties
 
         /// <summary>
         /// Main static Pk2 reader
@@ -32,9 +32,9 @@ namespace ClientDataStorage.Client
         /// </summary>
         public static Textdata.TextUISystem StaticTextuiSystem { get; set; }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         /// <summary>
         /// Initialize Media syncronous.
@@ -63,6 +63,6 @@ namespace ClientDataStorage.Client
             return Task.Run(() => InitializeMedia()).Result;
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

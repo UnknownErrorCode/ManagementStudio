@@ -8,8 +8,7 @@ namespace ShopEditor.Interface
 {
     internal class ShopGoodWindow : Panel
     {
-        private string IconPath => $"Media\\icon\\{Good.PackageItem.AssocFileIcon}";
-        internal CIShopGood Good { get; set; }
+        #region Constructors
 
         internal ShopGoodWindow(CIShopGood good)
         {
@@ -33,10 +32,16 @@ namespace ShopEditor.Interface
             Click += ShopGoodWindow_Click;
         }
 
-        private void ShopGoodWindow_Click(object sender, EventArgs e)
-        {
-            ShopInterface.EditorInterface ed = new ShopInterface.EditorInterface(Good);
-        }
+        #endregion Constructors
+
+        #region Properties
+
+        internal CIShopGood Good { get; set; }
+        private string IconPath => $"Media\\icon\\{Good.PackageItem.AssocFileIcon}";
+
+        #endregion Properties
+
+        #region Methods
 
         private Point GetPositionBySlotIndex(byte slotIndex)
         {
@@ -49,5 +54,12 @@ namespace ShopEditor.Interface
             int abszesse = slotIndex % 6;
             return new Point(abszesse * 36 + 4, ordinate * 36 + 4);
         }
+
+        private void ShopGoodWindow_Click(object sender, EventArgs e)
+        {
+            ShopInterface.EditorInterface ed = new ShopInterface.EditorInterface(Good);
+        }
+
+        #endregion Methods
     }
 }

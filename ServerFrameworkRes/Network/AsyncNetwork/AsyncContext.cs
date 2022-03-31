@@ -4,22 +4,22 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public class AsyncContext
     {
-        #region Private Fields
+        #region Fields
 
         private Guid guid;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public AsyncContext()
         {
             guid = Guid.NewGuid();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public Guid Guid => guid;
 
@@ -27,9 +27,9 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
         public AsyncState State { get; set; }
         public object User { get; set; }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         public void Disconnect()
         {
@@ -46,6 +46,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             State.Write(new AsyncBuffer(buffer, offset, count));
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

@@ -6,22 +6,22 @@ namespace ServerFrameworkRes.Network.Security
 {
     public class PacketHandler : IPacketHandler
     {
-        #region Private Fields
+        #region Fields
 
         private readonly Dictionary<ushort, Func<ServerData, Packet, PacketHandlerResult>> PacketHandlerDictionary;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public PacketHandler()
         {
             PacketHandlerDictionary = new Dictionary<ushort, Func<ServerData, Packet, PacketHandlerResult>>();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public void AddEntry(ushort opcode, Func<ServerData, Packet, PacketHandlerResult> func)
         {
@@ -41,6 +41,6 @@ namespace ServerFrameworkRes.Network.Security
             return PacketHandlerResult.Block; //Put to disconnect if done to avoid malicious packets
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

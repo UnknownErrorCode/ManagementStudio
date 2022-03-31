@@ -2,13 +2,13 @@
 {
     internal class ServerClientData : ServerFrameworkRes.Network.Security.ServerData
     {
-        #region Internal Fields
+        #region Fields
 
         internal byte SecurityGroup;
 
-        #endregion Internal Fields
+        #endregion Fields
 
-        #region Internal Constructors
+        #region Constructors
 
         internal ServerClientData(string userIP, byte[] user) : base()
         {
@@ -18,6 +18,6 @@
             base.m_security.GenerateSecurity(false, false, false);
         }
 
-        #endregion Internal Constructors
+        #endregion Constructors
     }
 }

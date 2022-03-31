@@ -6,30 +6,29 @@ namespace ClientDataStorage.Client.Files
 {
     public class MapMeshBlock
     {
+        #region Constructors
+
+        public MapMeshBlock(char[] blockName, Dictionary<Point, MapMeshCell> mapCells, byte density, byte unkByte0, float seaLevel, List<KeyValuePair<byte, byte>> extraMin, float heightMax, float heightMin, byte[] unkBuffer0)
+        {
+            BlockName = blockName;
+            MapCells = mapCells;
+            ExtraMin = extraMin;
+            HeightMax = heightMax;
+            HeightMin = heightMin;
+            Reserved = unkBuffer0;
+            WaterType = density;
+            WaterWaveType = unkByte0;
+            SeaLevel = seaLevel;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         /// <summary>
         /// Name of the Block
         /// </summary>
         public char[] BlockName { get; set; }
-
-        /// <summary>
-        /// Dictionary of all MapMeshCells. each Block consists of 16x16 MapmeshCells
-        /// </summary>
-        public Dictionary<Point, MapMeshCell> MapCells { get; set; }
-
-        /// <summary>
-        /// 0x00 = Water, 0x01 = Ice, FF = Solid
-        /// </summary>
-        public byte WaterType { get; set; }
-
-        /// <summary>
-        /// related to Block.Density (see screens)
-        /// </summary>
-        public byte WaterWaveType { get; set; }
-
-        /// <summary>
-        /// Sea level height
-        /// </summary>
-        public float SeaLevel { get; set; }
 
         /// <summary>
         /// unknown
@@ -47,22 +46,33 @@ namespace ClientDataStorage.Client.Files
         public float HeightMin { get; set; }
 
         /// <summary>
+        /// Dictionary of all MapMeshCells. each Block consists of 16x16 MapmeshCells
+        /// </summary>
+        public Dictionary<Point, MapMeshCell> MapCells { get; set; }
+
+        /// <summary>
         /// unknown.
         /// </summary>
         public byte[] Reserved { get; set; }
 
-        public MapMeshBlock(char[] blockName, Dictionary<Point, MapMeshCell> mapCells, byte density, byte unkByte0, float seaLevel, List<KeyValuePair<byte, byte>> extraMin, float heightMax, float heightMin, byte[] unkBuffer0)
-        {
-            BlockName = blockName;
-            MapCells = mapCells;
-            ExtraMin = extraMin;
-            HeightMax = heightMax;
-            HeightMin = heightMin;
-            Reserved = unkBuffer0;
-            WaterType = density;
-            WaterWaveType = unkByte0;
-            SeaLevel = seaLevel;
-        }
+        /// <summary>
+        /// Sea level height
+        /// </summary>
+        public float SeaLevel { get; set; }
+
+        /// <summary>
+        /// 0x00 = Water, 0x01 = Ice, FF = Solid
+        /// </summary>
+        public byte WaterType { get; set; }
+
+        /// <summary>
+        /// related to Block.Density (see screens)
+        /// </summary>
+        public byte WaterWaveType { get; set; }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Returns the Cell of this block by x and y coordinates.
@@ -84,5 +94,7 @@ namespace ClientDataStorage.Client.Files
         {
             return MapCells.ContainsKey(point) ? MapCells[point] : new MapMeshCell();
         }
+
+        #endregion Methods
     }
 }

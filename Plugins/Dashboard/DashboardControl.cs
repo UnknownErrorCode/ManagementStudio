@@ -10,11 +10,14 @@ namespace Dashboard
 {
     public partial class DashboardControl : UserControl
     {
+        #region Fields
 
-        private const string STRING_DLL = "Dashboard.dll";
         private const PluginData PLUGINDATA = PluginData.SkillEditor;
+        private const string STRING_DLL = "Dashboard.dll";
 
-        #region Public Constructors
+        #endregion Fields
+
+        #region Constructors
 
         public DashboardControl()
         {
@@ -31,25 +34,9 @@ namespace Dashboard
             ClientDataStorage.ClientCore.Send(DashboardPackets.RequestOnlineUser);
         }
 
-        private PacketHandlerResult UserLogOnOff(ServerData arg1, Packet arg2)
-        {
-            var count = arg2.ReadInt();
-            for (int i = 0; i < count; i++)
-            {
-                var login = arg2.ReadBool();
-                var user = arg2.ReadAscii();
-                if (login)
-                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.AddSingleButtonToList(user)));
-                else
-                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.RemoveSingleButtonFromList(user)));
+        #endregion Constructors
 
-            }
-            return PacketHandlerResult.Block;
-        }
-
-        #endregion Public Constructors
-
-        #region Private Methods
+        #region Methods
 
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -80,6 +67,21 @@ namespace Dashboard
             }
         }
 
+        private PacketHandlerResult UserLogOnOff(ServerData arg1, Packet arg2)
+        {
+            var count = arg2.ReadInt();
+            for (int i = 0; i < count; i++)
+            {
+                var login = arg2.ReadBool();
+                var user = arg2.ReadAscii();
+                if (login)
+                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.AddSingleButtonToList(user)));
+                else
+                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.RemoveSingleButtonFromList(user)));
+            }
+            return PacketHandlerResult.Block;
+        }
+
         private void vSroButtonList1_OnIndCh(object sender, EventArgs e)
         {
             DashboardMessage msg = (DashboardMessage)((vSroListButton)sender).Tag;
@@ -91,6 +93,6 @@ namespace Dashboard
             }));
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

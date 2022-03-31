@@ -9,11 +9,17 @@ namespace ClientDataStorage.Dashboard
 {
     public partial class DashboardTopicEditor : Form
     {
+        #region Fields
+
         private readonly bool IsEditMode;
         private readonly bool IsPreview = false;
 
         private DashboardMessage Message;
         private DashboardMessage NewMessage;
+
+        #endregion Fields
+
+        #region Constructors
 
         public DashboardTopicEditor(DashboardMessage msg)
         {
@@ -36,11 +42,19 @@ namespace ClientDataStorage.Dashboard
             IsEditMode = false;
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         private string Author { get => labelAuthor.Text; set => labelAuthor.Text = value; }
         private string EditTopicText { get => richTextBox1.Text; set => richTextBox1.Text = value; }
         private string EditTopicTitle { get => textBox1.Text; set => textBox1.Text = value; }
         private string TopicText { get => labelText.Text; set => labelText.Text = value; }
         private string TopicTitle { get => labelTopic.Text; set => labelTopic.Text = value; }
+
+        #endregion Properties
+
+        #region Methods
 
         private void OnAddNew()
         {
@@ -88,5 +102,7 @@ namespace ClientDataStorage.Dashboard
                 textBox1.ForeColor = Color.Red;
             }
         }
+
+        #endregion Methods
     }
 }

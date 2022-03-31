@@ -4,7 +4,7 @@ namespace ServerFrameworkRes.Network.ServerBody
 {
     public class ISeries : Series
     {
-        #region Public Constructors
+        #region Constructors
 
         public ISeries(string textName, string realName, int YBindings)
         {
@@ -21,14 +21,14 @@ namespace ServerFrameworkRes.Network.ServerBody
             CurrentYValue = YBindings;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public int CurrentYValue { get; set; }
         public string RealName { get; set; }
         public string TextName { get; set; }
 
-        #endregion Public Properties
+        #endregion Properties
     }
 }

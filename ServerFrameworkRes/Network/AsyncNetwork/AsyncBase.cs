@@ -5,22 +5,22 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 {
     public abstract class AsyncBase
     {
-        #region Private Fields
+        #region Fields
 
         private readonly List<AsyncState> states;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public AsyncBase()
         {
             states = new List<AsyncState>();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public void AddState(AsyncState state)
         {
@@ -53,6 +53,6 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
             }
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

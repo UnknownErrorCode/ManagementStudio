@@ -6,20 +6,16 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroMessageBox : Form
     {
-        #region Public Fields
+        #region Fields
 
         public bool OK = false;
-
-        #endregion Public Fields
-
-        #region Private Fields
 
         private Point LastPoint;
         private bool onMove;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public vSroMessageBox(string text)
         {
@@ -42,17 +38,17 @@ namespace ServerFrameworkRes.BasicControls
             labelTitle.Text = Title;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public string ReturnValue1 => vSroInputBox1.ValueText;
         public string ReturnValue2 => vSroInputBox2.ValueText;
         public string ReturnValue3 => vSroInputBox3.ValueText;
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         public static string GetInput(string message, string title, string valueTitle)
         {
@@ -129,10 +125,6 @@ namespace ServerFrameworkRes.BasicControls
             }
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void ButtonNo_Click(object sender, EventArgs e)
         {
             Close();
@@ -180,6 +172,6 @@ namespace ServerFrameworkRes.BasicControls
             onMove = false;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

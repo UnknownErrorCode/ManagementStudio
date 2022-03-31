@@ -9,13 +9,13 @@ namespace ServerFrameworkRes.Ressources
 {
     public partial class LogGridView : UserControl
     {
-        #region Public Fields
+        #region Fields
 
         public Stack<string> MessageStack = new Stack<string>();
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public LogGridView()
         {
@@ -23,21 +23,17 @@ namespace ServerFrameworkRes.Ressources
             Dock = DockStyle.Bottom;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public ModuleType TypeOfModuleLog { get; set; }
 
-        #endregion Public Properties
-
-        #region Private Properties
-
         private ReportLog Reporter => new ReportLog(TypeOfModuleLog);
 
-        #endregion Private Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         public void WriteLogLine(string message)
         {
@@ -88,10 +84,6 @@ namespace ServerFrameworkRes.Ressources
             dataGridView1.Invoke(new Action(() => { dataGridView1.ClearSelection(); }));
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
@@ -138,6 +130,6 @@ namespace ServerFrameworkRes.Ressources
             WriteLogLine(Reporter.SaveReportLog(dataGridView1));
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

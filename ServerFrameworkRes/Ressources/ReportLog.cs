@@ -8,42 +8,34 @@ namespace ServerFrameworkRes.Ressources
 {
     public class ReportLog
     {
-        #region Private Fields
+        #region Fields
 
         private const string Name = "ReportLog";
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public ReportLog(ModuleType module)
         {
             ModuleReportLog = module;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public virtual ModuleType ModuleReportLog { get => ModuleReportLog; set => ModuleName = value.ToString(); }
-
-        #endregion Public Properties
-
-        #region Protected Properties
 
         protected string DirectoryLog => Path.Combine(DirectoryLogFolder, LogTxtName);
         protected string DirectoryLogFolder => Path.Combine(Directory.GetCurrentDirectory(), Name);
 
-        #endregion Protected Properties
-
-        #region Private Properties
-
         private string LogTxtName { get => $"ReportLog_[{ModuleName}][{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}].txt"; set => LogTxtName = value; }
         private string ModuleName { get; set; }
 
-        #endregion Private Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         public string SaveReportLog(DataGridView dataGridView)
         {
@@ -66,6 +58,6 @@ namespace ServerFrameworkRes.Ressources
             return $"successfully log saved: {DirectoryLog}";
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

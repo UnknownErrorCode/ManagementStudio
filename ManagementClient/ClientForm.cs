@@ -9,12 +9,38 @@ namespace ManagementClient
 {
     public partial class ClientForm : Form
     {
+        #region Constructors
+
         public ClientForm()
         {
             InitializeComponent();
             Controls.Add(ClientDataStorage.Log.Logger);
             ClientDataStorage.ClientCore.OnDataReceived += OnReceiveAllData;
             ClientDataStorage.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        private bool Pk2Initialized => ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
+
+        #endregion Properties
+
+        #region Methods
+
+        private void ClickLoadPlugin(object sender, EventArgs e)
+        {
+            ToolStripItem itm = (ToolStripItem)sender;
+
+            // ServerFrameworkRes.Network.Security.Packet pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(itm.Text);
+            //
+            // ClientDataStorage.ClientCore.Send(pack);
+            //
+            if (TryLoadPlugin(itm.Text, out TabPage page))
+            {
+                tabControlPlugins.TabPages.Add(page);
+            }
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
@@ -25,6 +51,21 @@ namespace ManagementClient
             {
                 ClientDataStorage.Log.Logger.WriteLogLine("Failed initialize pk2 ressources!");
             }
+        }
+
+        private async Task<bool> InitializePk2Files()
+        {
+            if (!await ClientDataStorage.Client.Media.InitializeMediaAsync())
+            {
+                return false;
+            }
+
+            if (!await ClientDataStorage.Client.Map.InitializeMapAsync())
+            {
+                return false;
+            }
+
+            return ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
         }
 
         private void OnAllowedPluginReceived()
@@ -40,17 +81,39 @@ namespace ManagementClient
             }));
         }
 
-        private void ClickLoadPlugin(object sender, EventArgs e)
+        private void OnClose(object sender, FormClosingEventArgs e)
         {
-            ToolStripItem itm = (ToolStripItem)sender;
+            ClientDataStorage.ClientMemory.LoggedIn = false;
+            Program.StaticLoginForm.Close();
+            GC.Collect(5);
+        }
 
-            // ServerFrameworkRes.Network.Security.Packet pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(itm.Text);
-            //
-            // ClientDataStorage.ClientCore.Send(pack);
-            //
-            if (TryLoadPlugin(itm.Text, out TabPage page))
+        private void OnReceiveAllData()
+        {
+            if (InvokeRequired)
             {
-                tabControlPlugins.TabPages.Add(page);
+                Invoke(new Action(() => { loadPluginsToolStripMenuItem.Enabled = true; }));
+            }
+            else
+            {
+                loadPluginsToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void openSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SettingsForm form = new SettingsForm(Program.MainConfig))
+            {
+                form.InitializeSettings();
+                form.ShowDialog();
+            }
+        }
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!ClientDataStorage.Log.Logger.Visible)
+            {
+                ClientDataStorage.Log.Logger.Show();
             }
         }
 
@@ -75,59 +138,6 @@ namespace ManagementClient
             return false;
         }
 
-        private async Task<bool> InitializePk2Files()
-        {
-            if (!await ClientDataStorage.Client.Media.InitializeMediaAsync())
-            {
-                return false;
-            }
-
-            if (!await ClientDataStorage.Client.Map.InitializeMapAsync())
-            {
-                return false;
-            }
-
-            return ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
-        }
-
-        private void OnClose(object sender, FormClosingEventArgs e)
-        {
-            ClientDataStorage.ClientMemory.LoggedIn = false;
-            Program.StaticLoginForm.Close();
-            GC.Collect(5);
-        }
-
-        private void OnReceiveAllData()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(() => { loadPluginsToolStripMenuItem.Enabled = true; }));
-            }
-            else
-            {
-                loadPluginsToolStripMenuItem.Enabled = true;
-            }
-        }
-
-        private bool Pk2Initialized => ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
-
-
-
-        private void showToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!ClientDataStorage.Log.Logger.Visible)
-            {
-                ClientDataStorage.Log.Logger.Show();
-            }
-        }
-
-        private void openSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (SettingsForm form = new SettingsForm(Program.MainConfig))
-            {
-                form.InitializeSettings();
-                form.ShowDialog();
-            }
-        }
+        #endregion Methods
     }
 }

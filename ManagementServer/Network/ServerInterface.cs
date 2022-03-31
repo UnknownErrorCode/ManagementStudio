@@ -10,13 +10,13 @@ namespace ManagementServer
 {
     internal class ServerInterface : IAsyncInterface
     {
-        #region Private Fields
+        #region Fields
 
         private static readonly ServerPacketHandler Handler = new ServerPacketHandler();
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Methods
+        #region Methods
 
         public bool OnConnect(AsyncContext context)
         {
@@ -136,6 +136,6 @@ namespace ManagementServer
             }
         }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

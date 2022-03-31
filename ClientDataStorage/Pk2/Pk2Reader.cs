@@ -8,6 +8,8 @@ namespace ClientDataStorage.Pk2
 {
     public class Pk2Reader : Pk2Data
     {
+        #region Constructors
+
         /// <summary>
         /// The Reader is one .pk2 file. Here you can read all informations from the files inside the abstract base class Pk2Data.
         /// </summary>
@@ -20,7 +22,15 @@ namespace ClientDataStorage.Pk2
             Read();
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         public bool Initialized { get; }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Check if file exists in certain pk2 data.
@@ -245,5 +255,7 @@ namespace ClientDataStorage.Pk2
             }
             return true;
         }
+
+        #endregion Methods
     }
 }

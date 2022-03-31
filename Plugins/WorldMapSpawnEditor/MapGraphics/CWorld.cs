@@ -7,13 +7,13 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class CWorld
     {
-        #region Internal Fields
+        #region Fields
 
         internal Dictionary<string, Continent> Continents;
 
-        #endregion Internal Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public CWorld(IEnumerable<RefRegion> allRegions)
         {
@@ -27,6 +27,21 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
+        #endregion Constructors
+
+        #region Methods
+
+        internal bool ContainsRegion(Point p)
+        {
+            foreach (var item in Continents.Values)
+            {
+                if (item.ContainsRegion(p))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         internal bool GetContinentView(string continent, int width, int height, out Point viewPoint, out int size)
         {
@@ -42,17 +57,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             return true;
         }
 
-        internal bool ContainsRegion(Point p)
-        {
-            foreach (var item in Continents.Values)
-            {
-                if (item.ContainsRegion(p))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        #endregion Public Constructors
+        #endregion Methods
     }
 }

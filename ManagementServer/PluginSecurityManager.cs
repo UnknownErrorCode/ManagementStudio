@@ -7,16 +7,16 @@ namespace ManagementServer
 {
     internal static class PluginSecurityManager
     {
-        #region Private Fields
+        #region Fields
 
         private static Dictionary<string, string[]> PluginDataTableBindings; //= new Dictionary<string, string[]>();
 
         private static Dictionary<byte, string[]> SecurityGroupDataAccess;
         private static Dictionary<byte, string[]> SecurityGroupPluginBindings;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Internal Methods
+        #region Methods
 
         internal static string[] GetPluginDataTableNames(string pluginname)
         {
@@ -126,6 +126,6 @@ namespace ManagementServer
             return true;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

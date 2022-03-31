@@ -4,7 +4,7 @@ namespace ServerFrameworkRes
 {
     public interface IAsyncInterface
     {
-        #region Public Methods
+        #region Methods
 
         bool OnConnect(AsyncContext context);
 
@@ -16,6 +16,6 @@ namespace ServerFrameworkRes
 
         void OnTick(AsyncContext context);
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

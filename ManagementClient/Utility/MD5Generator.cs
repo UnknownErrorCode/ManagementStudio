@@ -5,6 +5,8 @@ namespace ManagementClient.Utility
 {
     public class MD5Generator
     {
+        #region Methods
+
         public static string MD5String(string ToEncrypt)
         {
             using (MD5 md5Hash = MD5.Create())
@@ -25,5 +27,7 @@ namespace ManagementClient.Utility
                 return sBuilder.ToString();
             }
         }
+
+        #endregion Methods
     }
 }

@@ -6,14 +6,14 @@ namespace ClientDataStorage.Network
 {
     internal partial class ClientPacketHandler : PacketHandler
     {
-        #region Public Fields
+        #region Fields
 
-        public Action OnReceiveAllTables;
         public Action OnAllowedPluginReceived;
+        public Action OnReceiveAllTables;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Internal Constructors
+        #region Constructors
 
         internal ClientPacketHandler()
         {
@@ -24,9 +24,21 @@ namespace ClientDataStorage.Network
             base.AddEntry(PacketID.Server.LogNotification, ReceiveNotification);
         }
 
-        #endregion Internal Constructors
+        #endregion Constructors
 
-        #region Internal Methods
+        #region Methods
+
+        /// <summary>
+        /// Receives a string[] of all DataTables that the application is permitted to load.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns>PacketHandlerResult result</returns>
+        internal PacketHandlerResult AllowedDataTable(ServerData arg1, Packet arg2)
+        {
+            ClientMemory.AllowedDataTables = arg2.ReadAsciiArray();
+            return PacketHandlerResult.Block;
+        }
 
         /// <summary>
         /// Receives a string[] of all .dll Plugins that the application is permitted to load.
@@ -38,18 +50,6 @@ namespace ClientDataStorage.Network
         {
             ClientMemory.AllowedPlugin = arg2.ReadAsciiArray();
             OnAllowedPluginReceived();
-            return PacketHandlerResult.Block;
-        }
-
-        /// <summary>
-        /// Receives a string[] of all DataTables that the application is permitted to load.
-        /// </summary>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <returns>PacketHandlerResult result</returns>
-        internal PacketHandlerResult AllowedDataTable(ServerData arg1, Packet arg2)
-        {
-            ClientMemory.AllowedDataTables = arg2.ReadAsciiArray();
             return PacketHandlerResult.Block;
         }
 
@@ -79,10 +79,6 @@ namespace ClientDataStorage.Network
             return PacketHandlerResult.Block;
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
-
         private PacketHandlerResult ReceiveNotification(ServerData arg1, Packet arg2)
         {
             ServerFrameworkRes.Ressources.LogLevel type = (ServerFrameworkRes.Ressources.LogLevel)arg2.ReadByte();
@@ -91,6 +87,6 @@ namespace ClientDataStorage.Network
             return PacketHandlerResult.Block;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

@@ -4,6 +4,8 @@ namespace ClientDataStorage.Pk2
 {
     internal interface IPk2Data
     {
+        #region Methods
+
         bool FileExists(string dir);
 
         bool GetByteArrayByDirectory(string dir, out byte[] file);
@@ -15,5 +17,7 @@ namespace ClientDataStorage.Pk2
         void Read();
 
         bool Refresh();
+
+        #endregion Methods
     }
 }

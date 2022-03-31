@@ -8,20 +8,19 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Spawn : InterfaceSpawn
     {
+        #region Fields
 
-        #region Private Fields
-
+        private readonly int gameWorldID;
         private readonly int id;
         private readonly WRegionID regionID;
         private readonly SpawnType spawnType;
         private readonly float xLocation;
         private readonly float yLocation;
         private readonly float zLocation;
-        private readonly int gameWorldID;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Internal Constructors
+        #region Constructors
 
         internal Spawn(IChar _char)
         {
@@ -33,6 +32,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             spawnType = SpawnType.Player;
             gameWorldID = _char.WorldID;
         }
+
         internal Spawn(TabRefNest nest)
         {
             id = nest.dwNestID;
@@ -42,6 +42,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             zLocation = nest.fLocalPosZ;
             GetSpawnInformation(nest, ref spawnType, ref gameWorldID);
         }
+
         internal Spawn(RefTeleport teleport)
         {
             id = teleport.ID;
@@ -51,13 +52,14 @@ namespace WorldMapSpawnEditor.MapGraphics
             yLocation = objCommon.OffsetY;
             zLocation = objCommon.OffsetZ;
             spawnType = SpawnType.Teleport;
-            gameWorldID = 1; // TODO: Check if all teleports who does not belong to a NPC as associated ObjID are GameWorldID = 1; 
+            gameWorldID = 1; // TODO: Check if all teleports who does not belong to a NPC as associated ObjID are GameWorldID = 1;
         }
 
-        #endregion Internal Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
+        public int GameWorldID => gameWorldID;
         public int ID { get => id; }
         public WRegionID RegionID { get => regionID; }
         public SpawnType SpawnType { get => spawnType; }
@@ -65,20 +67,14 @@ namespace WorldMapSpawnEditor.MapGraphics
         public float YLocation { get => yLocation; }
         public float ZLocation { get => zLocation; }
 
-        public int GameWorldID => gameWorldID;
+        #endregion Properties
 
-        #endregion Public Properties
-
-        #region Internal Methods
+        #region Methods
 
         internal static InterfaceSpawn FromSpawn<T>(Spawn spawn) where T : class
         {
             return (InterfaceSpawn)Activator.CreateInstance(typeof(T), spawn.ID);
         }
-
-        #endregion Internal Methods
-
-        #region Private Methods
 
         private bool GetSpawnInformation(TabRefNest nest, ref SpawnType type, ref int gameWorldID)
         {
@@ -105,6 +101,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             return false;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

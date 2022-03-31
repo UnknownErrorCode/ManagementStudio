@@ -4,16 +4,17 @@ namespace ServerFrameworkRes.Network.Security
 {
     public class TransferBuffer : IDisposable
     {
-        #region Private Fields
+        #region Fields
 
+        private bool disposed = false;
         private byte[] m_buffer;
         private object m_lock;
         private int m_offset;
         private int m_size;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public TransferBuffer(TransferBuffer rhs)
         {
@@ -67,9 +68,20 @@ namespace ServerFrameworkRes.Network.Security
             m_lock = new object();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Destructors
+
+        // Use C# destructor syntax for finalization code.
+        ~TransferBuffer()
+        {
+            // Simply call Dispose(false).
+            Dispose(false);
+        }
+
+        #endregion Destructors
+
+        #region Properties
 
         public byte[] Buffer
         {
@@ -89,18 +101,9 @@ namespace ServerFrameworkRes.Network.Security
             set { lock (m_lock) { m_size = value; } }
         }
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Dispose
-
-        private bool disposed = false;
-
-        // Use C# destructor syntax for finalization code.
-        ~TransferBuffer()
-        {
-            // Simply call Dispose(false).
-            Dispose(false);
-        }
+        #region Methods
 
         //Implement IDisposable.
         public void Dispose()
@@ -120,6 +123,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        #endregion Dispose
+        #endregion Methods
     }
 }

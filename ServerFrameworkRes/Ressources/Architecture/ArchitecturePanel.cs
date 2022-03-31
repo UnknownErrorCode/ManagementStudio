@@ -8,13 +8,13 @@ namespace ServerFrameworkRes.Ressources.Architecture
 {
     public partial class ArchitecturePanel : UserControl
     {
-        #region Private Fields
+        #region Fields
 
         private readonly Dictionary<string, ArchitectureBody> srNodeDataDictionary = new Dictionary<string, ArchitectureBody>();
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public ArchitecturePanel()
         {
@@ -30,15 +30,15 @@ namespace ServerFrameworkRes.Ressources.Architecture
             }
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Private Properties
+        #region Properties
 
         private ArchitectureBody CertificationBody { get; set; }
 
-        #endregion Private Properties
+        #endregion Properties
 
-        #region Private Methods
+        #region Methods
 
         private void InitializeArchitecture()
         {
@@ -67,6 +67,6 @@ namespace ServerFrameworkRes.Ressources.Architecture
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

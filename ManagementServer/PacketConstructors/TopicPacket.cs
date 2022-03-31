@@ -6,13 +6,13 @@ namespace ManagementServer.PacketConstructors
 {
     internal class TopicPacket
     {
-        #region Internal Fields
+        #region Fields
 
         internal static Packet FinishedLoading = new Packet(PacketID.Server.TopicsEndLoading);
 
-        #endregion Internal Fields
+        #endregion Fields
 
-        #region Internal Methods
+        #region Methods
 
         internal static Packet AddNew(DashboardMessage msg)
         {
@@ -20,12 +20,14 @@ namespace ManagementServer.PacketConstructors
             newTopic.WriteStruct<DashboardMessage>(msg);
             return newTopic;
         }
+
         internal static Packet Delete(DashboardMessage msg)
         {
             Packet newTopic = new Packet(PacketID.Server.TopicDeleteResponse);
             newTopic.WriteStruct<DashboardMessage>(msg);
             return newTopic;
         }
+
         [Obsolete]
         internal static Packet Delete(string author, string title, string remover)
         {
@@ -49,6 +51,6 @@ namespace ManagementServer.PacketConstructors
             return newTopic;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

@@ -6,28 +6,25 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Continent
     {
-        #region Internal Fields
+        #region Fields
 
         internal readonly int minX = 255
                 , minY = 255
                 , maxX = 0
                 , maxY = 0;
 
-        #endregion Internal Fields
+        private readonly Dictionary<short, RegionGraphic> Dungeons = new Dictionary<short, RegionGraphic>();
 
-        #region Private Fields
+        private readonly Dictionary<short, RegionGraphic> ErrorRegions = new Dictionary<short, RegionGraphic>();
 
         /// <summary>
         /// Consists of all RegionGraphics on the WorldMap existing in the DB.
         /// </summary>
         private readonly Dictionary<Point, RegionGraphic> Regions = new Dictionary<Point, RegionGraphic>();
 
-        private readonly Dictionary<short, RegionGraphic> Dungeons = new Dictionary<short, RegionGraphic>();
-        private readonly Dictionary<short, RegionGraphic> ErrorRegions = new Dictionary<short, RegionGraphic>();
+        #endregion Fields
 
-        #endregion Private Fields
-
-        #region Public Constructors
+        #region Constructors
 
         public Continent(RefRegion[] enumerable)
         {
@@ -38,15 +35,10 @@ namespace WorldMapSpawnEditor.MapGraphics
                 pointer.X = region.RegionID.X;
                 pointer.Y = region.RegionID.Z;
 
-
-
-
-
                 if (!region.RegionID.IsDungeon && (pointer.X != enumerable[i].X || pointer.Y != enumerable[i].Z))
                     ErrorRegions.Add(enumerable[i].wRegionID, region);
                 else
                 {
-
                     try
                     {
                         if (region.RegionID.IsDungeon)
@@ -70,12 +62,12 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         internal bool ContainsRegion(Point p)
              => Regions.ContainsKey(p);
-
-        #endregion Public Constructors
-
-        #region Internal Methods
 
         internal IEnumerable<RegionGraphic> GetRegions(Rectangle range)
         {
@@ -117,6 +109,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             y = (maxY * picSize) - (128 * picSize) + picSize;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

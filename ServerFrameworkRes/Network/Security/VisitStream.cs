@@ -8,14 +8,14 @@ namespace ServerFrameworkRes.Network.Security
 {
     public class BinaryReaderVisitStream : VisitStream
     {
-        #region Private Fields
+        #region Fields
 
         private readonly MemoryStream m_memory;
         private readonly BinaryReader m_reader;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public BinaryReaderVisitStream(MemoryStream memory)
         {
@@ -28,9 +28,9 @@ namespace ServerFrameworkRes.Network.Security
             m_reader = reader;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public override VisitStream visit(String name, ref byte value)
         { value = m_reader.ReadByte(); return this; }
@@ -77,10 +77,6 @@ namespace ServerFrameworkRes.Network.Security
         public override VisitStream visit(String name, ref PaddedString_256 value)
         { value = new PaddedString_256(ReadPaddedString(256)); return this; }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         // null terminated, fixed size strings
         private String ReadPaddedString(int padding)
         {
@@ -100,19 +96,19 @@ namespace ServerFrameworkRes.Network.Security
             return Encoding.ASCII.GetString(buffer, 0, count);
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 
     public class BinaryWriterVisitStream : VisitStream
     {
-        #region Private Fields
+        #region Fields
 
         private readonly MemoryStream m_memory;
         private readonly BinaryWriter m_writer;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public BinaryWriterVisitStream()
         {
@@ -125,15 +121,15 @@ namespace ServerFrameworkRes.Network.Security
             m_writer = writer;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public MemoryStream MemoryStream => m_memory;
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Public Methods
+        #region Methods
 
         public override VisitStream visit(String name, ref byte value)
         { m_writer.Write(value); return this; }
@@ -180,10 +176,6 @@ namespace ServerFrameworkRes.Network.Security
         public override VisitStream visit(String name, ref PaddedString_256 value)
         { WritePaddedString(value.value, 256); return this; }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         // null terminated, fixed size strings
         private void WritePaddedString(string value, int padding)
         {
@@ -199,20 +191,20 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 
     public class INIReaderVisitStream : VisitStream
     {
-        #region Public Fields
+        #region Fields
 
         public string ini = "";
 
         public string section = "";
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Methods
+        #region Methods
 
         [DllImport("KERNEL32.DLL", EntryPoint = "GetPrivateProfileStringW", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         public static extern int GetPrivateProfileString(string lpAppName, string lpKeyName, string lpDefault, StringBuilder lpReturnString, int nSize, string lpFilename);
@@ -262,20 +254,20 @@ namespace ServerFrameworkRes.Network.Security
         public override VisitStream visit(String name, ref PaddedString_256 value)
         { if (name != "<ignore>") { StringBuilder sb = new StringBuilder(512); GetPrivateProfileString(section, name, "", sb, sb.Capacity, ini); value = new PaddedString_256(sb.ToString()); if (value.value.Length >= 256) { throw new NotImplementedException("[visit] The padded string is too long."); } } return this; }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 
     public class INIWriterVisitStream : VisitStream
     {
-        #region Public Fields
+        #region Fields
 
         public string ini = "";
 
         public string section = "";
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Methods
+        #region Methods
 
         [DllImport("KERNEL32.DLL", EntryPoint = "WritePrivateProfileStringW", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         public static extern int WritePrivateProfileString(string lpAppName, string lpKeyName, string lpString, string lpFilename);
@@ -325,83 +317,83 @@ namespace ServerFrameworkRes.Network.Security
         public override VisitStream visit(String name, ref PaddedString_256 value)
         { if (name != "<ignore>") { if (value.value.Length >= 256) { throw new NotImplementedException("[visit] The padded string is too long."); } WritePrivateProfileString(section, name, String.Format("{0}", value.value), ini); } return this; }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 
     public class PaddedString_16
     {
-        #region Public Fields
+        #region Fields
 
         public String value;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public PaddedString_16(String val)
         { value = val; }
 
-        #endregion Public Constructors
+        #endregion Constructors
     }
 
     public class PaddedString_256
     {
-        #region Public Fields
+        #region Fields
 
         public String value;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public PaddedString_256(String val)
         { value = val; }
 
-        #endregion Public Constructors
+        #endregion Constructors
     }
 
     public class PaddedString_32
     {
-        #region Public Fields
+        #region Fields
 
         public String value;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public PaddedString_32(String val)
         { value = val; }
 
-        #endregion Public Constructors
+        #endregion Constructors
     }
 
     public class PaddedString_64
     {
-        #region Public Fields
+        #region Fields
 
         public String value;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public PaddedString_64(String val)
         { value = val; }
 
-        #endregion Public Constructors
+        #endregion Constructors
     }
 
     public class VisitStream
     {
-        #region Public Constructors
+        #region Constructors
 
         public VisitStream()
         { }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         // core types
         public virtual VisitStream visit(String name, ref byte value)
@@ -450,27 +442,27 @@ namespace ServerFrameworkRes.Network.Security
         public virtual VisitStream visit(String name, ref PaddedString_256 value)
         { return this; }
 
-        #endregion Public Methods
+        #endregion Methods
 
         // etc...
     }
 
     public class XMLReaderVisitStream : VisitStream
     {
-        #region Public Fields
+        #region Fields
 
         public XElement current_element = null;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public XMLReaderVisitStream()
         { }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public override VisitStream visit(String name, ref byte value)
         { if (name != "<ignore>") { value = (byte)(int)current_element.Element(name); } return this; }
@@ -517,25 +509,25 @@ namespace ServerFrameworkRes.Network.Security
         public override VisitStream visit(String name, ref PaddedString_256 value)
         { if (name != "<ignore>") { value = new PaddedString_256((string)current_element.Element(name)); if (value.value.Length >= 256) { throw new NotImplementedException("[visit] The padded string is too long."); } } return this; }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 
     public class XMLWriterVisitStream : VisitStream
     {
-        #region Public Fields
+        #region Fields
 
         public XElement current_element = null;
 
-        #endregion Public Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public XMLWriterVisitStream()
         { }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         public override VisitStream visit(String name, ref byte value)
         { if (name != "<ignore>") { current_element.Add(new XElement(name, value)); } return this; }
@@ -582,6 +574,6 @@ namespace ServerFrameworkRes.Network.Security
         public override VisitStream visit(String name, ref PaddedString_256 value)
         { if (name != "<ignore>") { if (value.value.Length >= 256) { throw new NotImplementedException("[visit] The padded string is too long."); } current_element.Add(new XElement(name, value.value)); } return this; }
 
-        #endregion Public Methods
+        #endregion Methods
     }
 }

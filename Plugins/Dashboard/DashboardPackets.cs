@@ -5,7 +5,7 @@ namespace Dashboard
 {
     public static class DashboardPackets
     {
-        #region Public Properties
+        #region Properties
 
         /// <summary>
         /// 0x1001 -- requests all topics from Server
@@ -14,9 +14,9 @@ namespace Dashboard
 
         public static Packet RequestOnlineUser => new Packet(PacketID.Client.RequestOnlineUser);
 
-        #endregion Public Properties
+        #endregion Properties
 
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// 0x1002 -- returns Packet with DashboardMessage inside to broadcast to all clients
@@ -41,6 +41,6 @@ namespace Dashboard
             return packet;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

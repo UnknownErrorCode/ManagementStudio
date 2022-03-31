@@ -4,7 +4,7 @@ namespace ServerFrameworkRes.Network.Security
 {
     public class Blowfish
     {
-        #region Private Fields
+        #region Fields
 
         private static readonly uint[] bf_P =
         {
@@ -161,9 +161,9 @@ namespace ServerFrameworkRes.Network.Security
         private readonly uint[] PArray;
         private readonly uint[,] SBoxes;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public Blowfish()
         {
@@ -171,9 +171,9 @@ namespace ServerFrameworkRes.Network.Security
             SBoxes = new uint[4, 256];
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Methods
+        #region Methods
 
         // Decodes a stream of data and returns an array of the decoded data.
         // Returns null if length is not % 8.
@@ -309,10 +309,6 @@ namespace ServerFrameworkRes.Network.Security
             }
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private uint bf_F(uint x)
         {
             return (((S(x, 0) + S(x, 1)) ^ S(x, 2)) + S(x, 3));
@@ -376,6 +372,6 @@ namespace ServerFrameworkRes.Network.Security
             return SBoxes[i, x];
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

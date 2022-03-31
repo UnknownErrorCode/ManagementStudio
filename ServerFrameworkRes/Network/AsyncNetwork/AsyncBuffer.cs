@@ -2,7 +2,7 @@
 {
     public class AsyncBuffer
     {
-        #region Public Constructors
+        #region Constructors
 
         public AsyncBuffer(byte[] buffer, int offset, int count)
         {
@@ -18,14 +18,14 @@
             Count = buffer.Length;
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Public Properties
+        #region Properties
 
         public byte[] Buffer { get; set; }
         public int Count { get; set; }
         public int Offset { get; set; }
 
-        #endregion Public Properties
+        #endregion Properties
     }
 }

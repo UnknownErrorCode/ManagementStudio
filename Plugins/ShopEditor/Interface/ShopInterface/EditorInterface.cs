@@ -6,14 +6,14 @@ namespace ShopEditor.Interface.ShopInterface
 {
     internal class EditorInterface
     {
-        #region Private Fields
+        #region Fields
 
         private readonly Editors.Shop.ShopEditor editor;
         private readonly List<Packet> PacketsToSend = new List<Packet>();
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
         public EditorInterface(CIShopGood good)
         {
@@ -22,16 +22,14 @@ namespace ShopEditor.Interface.ShopInterface
             editor.Show();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Private Methods
+        #region Methods
 
         private void Editor_OnUpdatePricePolicy()
         {
         }
 
-
-
-        #endregion Private Methods
+        #endregion Methods
     }
 }

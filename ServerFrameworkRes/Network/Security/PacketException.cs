@@ -6,7 +6,7 @@ namespace ServerFrameworkRes.Network.Security
     [Serializable]
     public class PacketException : Exception
     {
-        #region Public Constructors
+        #region Constructors
 
         public PacketException()
         {
@@ -20,16 +20,12 @@ namespace ServerFrameworkRes.Network.Security
         {
         }
 
-        #endregion Public Constructors
-
-        #region Protected Constructors
-
         protected PacketException(
           SerializationInfo info,
           StreamingContext context)
             : base(info, context)
         { }
 
-        #endregion Protected Constructors
+        #endregion Constructors
     }
 }
