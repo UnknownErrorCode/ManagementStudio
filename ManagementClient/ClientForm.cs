@@ -44,10 +44,10 @@ namespace ManagementClient
         {
             ToolStripItem itm = (ToolStripItem)sender;
 
-            ServerFrameworkRes.Network.Security.Packet pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(itm.Text);
-
-            ClientDataStorage.ClientCore.Send(pack);
-
+            // ServerFrameworkRes.Network.Security.Packet pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(itm.Text);
+            //
+            // ClientDataStorage.ClientCore.Send(pack);
+            //
             if (TryLoadPlugin(itm.Text, out TabPage page))
             {
                 tabControlPlugins.TabPages.Add(page);
@@ -64,9 +64,9 @@ namespace ManagementClient
                 if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
                 {
                     Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
-                    UserControl controlal = (UserControl)Activator.CreateInstance(dll, tabPage);
+                    UserControl controlal = (UserControl)Activator.CreateInstance(dll);
                     controlal.Dock = DockStyle.Fill;
-                    // tabPage.Controls.Add(controlal);
+                    tabPage.Controls.Add(controlal);
 
                     ClientDataStorage.ClientMemory.UsedPlugins.Add(text);
                     return true;
@@ -111,35 +111,7 @@ namespace ManagementClient
 
         private bool Pk2Initialized => ClientDataStorage.Client.Media.MediaPk2.Initialized && ClientDataStorage.Client.Map.MapPk2.Initialized;
 
-        private void loadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!Pk2Initialized)
-            {
-                return;
-            }
 
-            //ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Media.pk2!");
-            //ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load Map.Pk2!");
-
-            foreach (string pluginPath in Directory.GetFiles("Plugins\\").Where(path => path.EndsWith(".dll") && ClientDataStorage.ClientMemory.AllowedPlugin.Contains(path.Remove(0, 8))))
-            {
-                Assembly plugin = Assembly.LoadFrom(pluginPath);
-                TabPage tabPage = new TabPage(pluginPath.Remove(0, 8));
-                string typeName = pluginPath.Remove(0, 8).Replace(".dll", "Control");
-                if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
-                {
-                    Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
-                    UserControl controlal = (UserControl)Activator.CreateInstance(dll);
-                    controlal.Dock = DockStyle.Fill;
-                    tabPage.Controls.Add(controlal);
-                    tabControlPlugins.TabPages.Add(tabPage);
-                    ClientDataStorage.ClientMemory.UsedPlugins.Add(pluginPath.Remove(0, 8));
-                }
-            }
-
-            loadPluginsToolStripMenuItem.Checked = true;
-            loadPluginsToolStripMenuItem.Enabled = false;
-        }
 
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {

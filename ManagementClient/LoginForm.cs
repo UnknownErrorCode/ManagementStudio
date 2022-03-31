@@ -22,7 +22,7 @@ namespace ManagementClient
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns>PacketHandlerResult result</returns>
-        internal static PacketHandlerResult LoginStatus(ServerData arg1, Packet arg2)
+        private static PacketHandlerResult LoginStatus(ServerData arg1, Packet arg2)
         {
             LoginStatus status = arg2.ReadStruct<LoginStatus>();
 
@@ -31,6 +31,8 @@ namespace ManagementClient
                 ClientMemory.LoggedIn = true;
                 arg1.AccountName = status.UserName;
                 Program.StaticLoginForm.Invoke(new Action(() => Program.StaticLoginForm.OnHide()));
+                var packet = new Packet(PacketID.Client.RequestAllowedPlugins);
+                ClientCore.Send(packet);
             }
             else
             {
@@ -61,7 +63,7 @@ namespace ManagementClient
                 return;
             }
 
-            bool connected = ClientCore.Start().GetAwaiter().GetResult();
+            bool connected = ClientCore.Start();
             if (connected)
             {
                 vSroSmallButtonLogin.Invoke(new Action(() => { vSroSmallButtonLogin.Enabled = true; }));
@@ -85,7 +87,7 @@ namespace ManagementClient
             vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData);
             vSroCheckBox1.vSroCheckChange += VSroCheckBox1_vSroCheckChange;
             vSroCheckBoxSaveLogin.vSroCheckChange += OnCheckChangeSaveUserData;
-            ClientCore.AddEntry(0xC000, LoginStatus);
+            ClientCore.AddEntry(PacketID.Server.LoginStatusResponse, LoginStatus);
         }
 
         private void OnCheckChangeSaveUserData(object sender, EventArgs e)
@@ -133,7 +135,7 @@ namespace ManagementClient
 
             Program.MainConfig.PToolUser = vSroInputBox1.ValueText;
             Program.MainConfig.PToolUserPassword = vSroInputBox2.ValueText;
-            Packet requestLogin = new Packet(0x1000);
+            Packet requestLogin = new Packet(PacketID.Client.Login);
             requestLogin.WriteAscii(vSroInputBox1.ValueText);
             requestLogin.WriteAscii(Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
             ClientCore.Send(requestLogin);

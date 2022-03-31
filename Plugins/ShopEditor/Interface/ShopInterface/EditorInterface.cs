@@ -1,7 +1,5 @@
 ﻿using Editors.Shop;
 using ServerFrameworkRes.Network.Security;
-using Structs.Database;
-using System;
 using System.Collections.Generic;
 
 namespace ShopEditor.Interface.ShopInterface
@@ -32,21 +30,7 @@ namespace ShopEditor.Interface.ShopInterface
         {
         }
 
-        private bool ShopItemPricePolicyOfItemUpdateRequest(RefPricePolicyOfItem pricePolicyOfItem, EditAction action, out Packet packet)
-        {
-            try
-            {
-                packet = new Packet(PacketID.Client.ShopDataRefPricePolicyOfItem, false, true);
-                packet.WriteByte(action);
-                packet.WriteStruct(pricePolicyOfItem);
-                return true;
-            }
-            catch (Exception)
-            {
-                packet = null;
-                return false;
-            }
-        }
+
 
         #endregion Private Methods
     }

@@ -1,4 +1,4 @@
-﻿namespace ManagementServer.Utility
+﻿namespace ManagementServer.Network
 {
     internal class ServerClientData : ServerFrameworkRes.Network.Security.ServerData
     {

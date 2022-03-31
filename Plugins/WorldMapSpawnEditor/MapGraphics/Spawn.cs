@@ -1,50 +1,94 @@
 ﻿using Structs;
 using Structs.Database;
 using Structs.Tool;
+using System;
+using WorldMapSpawnEditor.MapGraphics.Interface;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
-    internal class Spawn
+    internal class Spawn : InterfaceSpawn
     {
-        #region Public Fields
 
-        public readonly int ID;
-        public readonly SpawnType spawnType;
-        public WRegionID RegionID;
-        public float xLocation;
-        public float yLocation;
+        #region Private Fields
 
-        #endregion Public Fields
+        private readonly int id;
+        private readonly WRegionID regionID;
+        private readonly SpawnType spawnType;
+        private readonly float xLocation;
+        private readonly float yLocation;
+        private readonly float zLocation;
+        private readonly int gameWorldID;
 
-        #region Internal Fields
-
-        internal int nGenerateRadius;
-        internal int nRadius;
-        internal float zLocation;
-
-        #endregion Internal Fields
+        #endregion Private Fields
 
         #region Internal Constructors
 
-        internal Spawn(int id, short wRegionID, float x, float y, float z, int radius, int genRaius)
+        internal Spawn(IChar _char)
         {
-            ID = id;
-            RegionID = new WRegionID(wRegionID);
-            xLocation = x;
-            yLocation = y;
-            zLocation = z;
-            GetSpawnType(id, ref spawnType);
-            nRadius = radius;
-            nGenerateRadius = genRaius;
+            id = _char.CharID;
+            regionID = new WRegionID(_char.LatestRegion);
+            xLocation = _char.PosX;
+            yLocation = _char.PosY;
+            zLocation = _char.PosZ;
+            spawnType = SpawnType.Player;
+            gameWorldID = _char.WorldID;
+        }
+        internal Spawn(TabRefNest nest)
+        {
+            id = nest.dwNestID;
+            regionID = new WRegionID(nest.nRegionDBID);
+            xLocation = nest.fLocalPosX;
+            yLocation = nest.fLocalPosY;
+            zLocation = nest.fLocalPosZ;
+            GetSpawnInformation(nest, ref spawnType, ref gameWorldID);
+        }
+        internal Spawn(RefTeleport teleport)
+        {
+            id = teleport.ID;
+            var objCommon = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[teleport.AssocRefObjID];
+            regionID = new WRegionID(objCommon.RegionID);
+            xLocation = objCommon.OffsetX;
+            yLocation = objCommon.OffsetY;
+            zLocation = objCommon.OffsetZ;
+            spawnType = SpawnType.Teleport;
+            gameWorldID = 1; // TODO: Check if all teleports who does not belong to a NPC as associated ObjID are GameWorldID = 1; 
         }
 
         #endregion Internal Constructors
 
+        #region Public Properties
+
+        public int ID { get => id; }
+        public WRegionID RegionID { get => regionID; }
+        public SpawnType SpawnType { get => spawnType; }
+        public float XLocation { get => xLocation; }
+        public float YLocation { get => yLocation; }
+        public float ZLocation { get => zLocation; }
+
+        public int GameWorldID => gameWorldID;
+
+        #endregion Public Properties
+
+        #region Internal Methods
+
+        internal static InterfaceSpawn FromSpawn<T>(Spawn spawn) where T : class
+        {
+            return (InterfaceSpawn)Activator.CreateInstance(typeof(T), spawn.ID);
+        }
+
+        #endregion Internal Methods
+
         #region Private Methods
 
-        private bool GetSpawnType(int nestID, ref SpawnType type)
+        private bool GetSpawnInformation(TabRefNest nest, ref SpawnType type, ref int gameWorldID)
         {
             type = SpawnType.None;
+            int nestID = nest.dwNestID;
+
+            if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefHive.TryGetValue(nest.dwHiveID, out Tab_RefHive hive))
+                gameWorldID = hive.GameWorldID;
+            else
+                gameWorldID = -1;
 
             var tacticsID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID;
             if (!ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(tacticsID))

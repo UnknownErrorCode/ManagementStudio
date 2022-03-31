@@ -6,10 +6,11 @@ namespace ManagementServer.PacketConstructors
 {
     internal class LoginPacket
     {
+
         #region Internal Methods
 
         /// <summary>
-        /// Sends 0xB001 with all required DataTable names as string array to Client
+        /// Sends <see cref="PacketID.Server.AllowedDataTableNameResponse"/> with all required <see cref="DataTable"/> names as string array to the Client.
         /// </summary>
         /// <param name="securityGroup"></param>
         /// <returns></returns>
@@ -17,7 +18,7 @@ namespace ManagementServer.PacketConstructors
         {
             try
             {
-                Packet tableNames = new Packet(PacketID.Server.DataTableNames);
+                Packet tableNames = new Packet(PacketID.Server.AllowedDataTableNameResponse);
                 tableNames.WriteAsciiArray(PluginSecurityManager.GetSecurityDataTableNames(securityGroup));
                 return tableNames;
             }
@@ -27,48 +28,83 @@ namespace ManagementServer.PacketConstructors
             }
         }
 
-        internal static Packet PluginDataReceiveConfirmation(string pluginName)
+        internal static Packet PluginDataReceiveConfirmation(PluginData pluginData)
         {
-            Packet tablePacket = new Packet(PacketID.Server.PluginDataSent);
-            tablePacket.WriteAscii(pluginName);
+            Packet tablePacket = new Packet((ushort)pluginData);
+            tablePacket.WriteAscii(pluginData.ToString());
             return tablePacket;
         }
 
         /// <summary>
-        /// Sends 0xB000 with all Plugins to load to the Client in order to warrant security group authority
+        /// Sends 0xB002 with all Plugins to load to the Client in order to warrant security group authority
         /// </summary>
         /// <param name="securityGroup"></param>
         /// <returns></returns>
-        internal static Packet SendAllowedPlugins(byte securityGroup)
+        internal static Packet AllowedPluginNames(byte securityGroup)
         {
             try
             {
                 string[] pluginNames = PluginSecurityManager.GetSecurityPluginNames(securityGroup);
-                Packet packet = new Packet(0xB000);
+                Packet packet = new Packet(PacketID.Server.AllowedPluginResponse);
                 packet.WriteAsciiArray(pluginNames);
                 return packet;
             }
             catch (System.Exception ex)
             {
-                return PacketConstructors.NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
+                return NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
             }
+        }
+
+        internal static Packet OnlineUser()
+        {
+            var packet = new Packet(PacketID.Server.UserLogOnOff);
+            packet.WriteInt(ServerMemory.ClientDataPool.Count);
+            foreach (var item in ServerMemory.ClientDataPool.Values)
+            {
+                packet.WriteBool(true);
+                packet.WriteAscii(item.AccountName);
+            }
+            return packet;
         }
 
         internal static Packet SendDataTable(string tableName, DataTable table)
         {
-            Packet tablePacket = new Packet(PacketID.Server.DataTableSend, false, true);
+            Packet tablePacket = new Packet(PacketID.Server.DataTableResponse, false, true);
             tablePacket.WriteAscii(tableName);
             tablePacket.WriteDataTable(table);
             return tablePacket;
         }
 
+        internal static Packet[] DataTablePackets(string[] tableNames)
+        {
+            Packet[] list = new Packet[tableNames.Length];
+            try
+            {
+                for (int i = 0; i < tableNames.Length; i++)
+                {
+                    if (tableNames[i] == null)
+                        continue;
+
+                    string tableName = tableNames[i];
+                    var table = Utility.SQL.GetRequestedDataTable(tableName);
+
+                    list[i] = SendDataTable(tableName, table);
+                }
+            }
+            catch
+            { }
+
+            return list;
+        }
+
         internal static Packet Status(LoginStatus status)
         {
-            Packet LoginStatus = new Packet(PacketID.Server.LoginStatus, false, true);
+            Packet LoginStatus = new Packet(PacketID.Server.LoginStatusResponse, false, true);
             LoginStatus.WriteStruct(status);
             return LoginStatus;
         }
 
         #endregion Internal Methods
+
     }
 }

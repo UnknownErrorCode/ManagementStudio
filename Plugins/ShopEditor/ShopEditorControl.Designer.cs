@@ -81,7 +81,6 @@
             this.vSroSmallButtonLoadShops.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonLoadShops.TabIndex = 3;
             this.vSroSmallButtonLoadShops.vSroSmallButtonName = "Load Shops";
-            this.vSroSmallButtonLoadShops.Load += new System.EventHandler(this.onLoadShops);
             // 
             // ShopEditorControl
             // 

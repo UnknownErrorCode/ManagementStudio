@@ -43,16 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MapGraphics\Controls\ISpawn.cs" />
+    <Compile Include="MapGraphics\Continent.cs" />
     <Compile Include="MapGraphics\Controls\Monster.cs" />
     <Compile Include="MapGraphics\Controls\Npc.cs" />
     <Compile Include="MapGraphics\Controls\UniqueMonster.cs" />
+    <Compile Include="MapGraphics\CWorld.cs" />
+    <Compile Include="MapGraphics\CWorldSpawn.cs" />
     <Compile Include="MapGraphics\GraphicsPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MapGraphics\Controls\NewPosition.cs" />
     <Compile Include="MapGraphics\Controls\Player.cs" />
     <Compile Include="MapGraphics\Controls\ITeleport.cs" />
+    <Compile Include="MapGraphics\Interface\InterfaceSpawn.cs" />
     <Compile Include="MapGraphics\RegionGraphic.cs" />
     <Compile Include="MapGraphics\Controls\Teleport.cs" />
     <Compile Include="MapGraphics\Spawn.cs" />

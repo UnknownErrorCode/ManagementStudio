@@ -10,6 +10,7 @@ namespace ClientDataStorage.Database
 {
     public static class SRO_VT_SHARD //<T> where T : struct
     {
+
         #region Public Fields
 
         public static ConcurrentDictionary<int, IChar> _Char;
@@ -44,18 +45,6 @@ namespace ClientDataStorage.Database
         public static ConcurrentDictionary<int, Tab_RefTactics> Tab_RefTactics;
 
         #endregion Public Fields
-
-        #region Public Methods
-
-        public static void InitializeShopEditor()
-        {
-        }
-
-        public static void InitializeWorldMapEditor()
-        {
-        }
-
-        #endregion Public Methods
 
         #region Internal Methods
 
@@ -942,6 +931,10 @@ namespace ClientDataStorage.Database
                         dict[keyValue].Add((T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
                     }
                 }
+                else
+                {
+                    dict[keyValue].Add((T)Activator.CreateInstance(typeof(T), new object[1] { table.Rows[i].ItemArray }));
+                }
             }
             dic = new ConcurrentDictionary<string, T[]>(1, dict.Count);
             foreach (KeyValuePair<string, List<T>> pair in dict)
@@ -951,5 +944,6 @@ namespace ClientDataStorage.Database
         }
 
         #endregion Private Methods
+
     }
 }

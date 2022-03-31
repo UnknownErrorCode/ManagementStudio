@@ -7,6 +7,21 @@ namespace ShopEditor.Interface
 {
     internal class NpcShopData
     {
+
+        #region Internal Fields
+
+        /// <summary>
+        /// Name of NPC from _RefObjCommon
+        /// </summary>
+        internal readonly string NpcCodeName;
+
+        /// <summary>
+        /// Contains all RefShopGroups assigned to this NPC.
+        /// </summary>
+        internal readonly RefShopGroup[] ShopGroups;
+
+        #endregion Internal Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -35,22 +50,5 @@ namespace ShopEditor.Interface
 
         #endregion Internal Constructors
 
-        #region Internal Properties
-
-        /// <summary>
-        /// Contains all RefShopGroups assigned to this NPC.
-        /// </summary>
-        internal RefShopGroup[] ShopGroups { get; set; }
-
-        #endregion Internal Properties
-
-        #region Protected Internal Properties
-
-        /// <summary>
-        /// Name of NPC from _RefObjCommon
-        /// </summary>
-        protected internal string NpcCodeName { get; set; }
-
-        #endregion Protected Internal Properties
     }
 }

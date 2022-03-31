@@ -1,31 +1,32 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System;
-using System.Data;
 using System.Linq;
 
 namespace ClientDataStorage.Network
 {
     internal partial class ClientPacketHandler : PacketHandler
     {
+        #region Public Fields
+
         public Action OnReceiveAllTables;
         public Action OnAllowedPluginReceived;
 
+        #endregion Public Fields
+
+        #region Internal Constructors
+
         internal ClientPacketHandler()
         {
-            base.AddEntry(0xB000, AllowedPlugins);
-            base.AddEntry(0xB001, AllowedDataTable);
-            base.AddEntry(0xB002, ReceiveDataTable);
+            base.AddEntry(PacketID.Server.AllowedPluginResponse, AllowedPlugins);
+            base.AddEntry(PacketID.Server.AllowedDataTableNameResponse, AllowedDataTable);
+            base.AddEntry(PacketID.Server.DataTableResponse, ReceiveDataTable);
 
-            base.AddEntry(0xB003, ReceiveNotification);
+            base.AddEntry(PacketID.Server.LogNotification, ReceiveNotification);
         }
 
-        private PacketHandlerResult ReceiveNotification(ServerData arg1, Packet arg2)
-        {
-            ServerFrameworkRes.Ressources.LogLevel type = (ServerFrameworkRes.Ressources.LogLevel)arg2.ReadByte();
-            string text = arg2.ReadAscii();
-            Log.Logger.WriteLogLine(type, text);
-            return PacketHandlerResult.Block;
-        }
+        #endregion Internal Constructors
+
+        #region Internal Methods
 
         /// <summary>
         /// Receives a string[] of all .dll Plugins that the application is permitted to load.
@@ -64,25 +65,32 @@ namespace ClientDataStorage.Network
 
             if (!ClientMemory.AllowedDataTables.Contains(tableName))
             {
+                Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Not allowed to use DataTable: {tableName}");
+
                 return PacketHandlerResult.Disconnect;
             }
 
-            byte[] arg3 = arg2.ReadByteArray(arg2.Remaining);
-            DataTable table = arg2.ReadDataTable(arg3);
+            var arg3 = arg2.ReadByteArray(arg2.Remaining);
+            var table = arg2.ReadDataTable(arg3);
             Database.SRO_VT_SHARD.PoolDataTable(tableName, table);
 
             Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
 
-            if (ClientMemory.UsedDataTables?.Count == 0)
-            {
-                Log.Logger.WriteLogLine($"Successfully received  all DataTables!");
-
-                Log.Logger.WriteLogLine($"Start initialize Databases for Client usage...");
-                // Database.SRO_VT_SHARD.InitializeDBShard();
-                Log.Logger.WriteLogLine($"Finished initialize Databases");
-                OnReceiveAllTables();
-            }
             return PacketHandlerResult.Block;
         }
+
+        #endregion Internal Methods
+
+        #region Private Methods
+
+        private PacketHandlerResult ReceiveNotification(ServerData arg1, Packet arg2)
+        {
+            ServerFrameworkRes.Ressources.LogLevel type = (ServerFrameworkRes.Ressources.LogLevel)arg2.ReadByte();
+            string text = arg2.ReadAscii();
+            Log.Logger.WriteLogLine(type, text);
+            return PacketHandlerResult.Block;
+        }
+
+        #endregion Private Methods
     }
 }

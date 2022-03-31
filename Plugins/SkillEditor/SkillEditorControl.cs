@@ -1,4 +1,6 @@
 ﻿using Editors.Skills;
+using ServerFrameworkRes.Network.Security;
+using Structs.Tool;
 using System;
 using System.Data;
 using System.Linq;
@@ -8,11 +10,26 @@ namespace SkillEditor
 {
     public partial class SkillEditorControl : UserControl
     {
+        #region Private Fields
+
+        private const string STRING_DLL = "SkillEditor.dll";
+        private const PluginData PLUGINDATA = PluginData.SkillEditor;
+
+        #endregion Private Fields
+
         #region Public Constructors
 
         public SkillEditorControl()
         {
             InitializeComponent();
+            ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+
+        }
+
+        private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        {
+            return PacketHandlerResult.Block;
         }
 
         #endregion Public Constructors

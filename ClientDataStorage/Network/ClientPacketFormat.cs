@@ -5,10 +5,11 @@ namespace ClientDataStorage.Network
 {
     public static class ClientPacketFormat
     {
-        public static Packet RequestPluginDataTables(string plugin)
+        public static Packet RequestPluginDataTables(string plugin, ushort packetID)
         {
             Packet packet = new Packet(PacketID.Client.RequestPlugiDataTable);
             packet.WriteAscii(plugin);
+            packet.WriteUShort(packetID);
             return packet;
         }
 

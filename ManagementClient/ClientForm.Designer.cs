@@ -68,7 +68,6 @@ namespace ManagementClient
             this.loadPluginsToolStripMenuItem.Name = "loadPluginsToolStripMenuItem";
             this.loadPluginsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadPluginsToolStripMenuItem.Text = "Load Plugins";
-            this.loadPluginsToolStripMenuItem.Click += new System.EventHandler(this.loadPluginsToolStripMenuItem_Click);
             // 
             // openSettingsToolStripMenuItem
             // 

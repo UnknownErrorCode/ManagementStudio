@@ -1,58 +1,39 @@
 ﻿using ServerFrameworkRes.Network.Security;
+using Structs.Tool;
 using System;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
-        #region Private Fields
+        #region Fields
 
+        private const PluginData PLUGINDATA = PluginData.WorldMapSpawnEditor;
         private const string STRING_DLL = "WorldMapSpawnEditor.dll";
-
-        private readonly TabPage Parent;
 
         /// <summary>
         /// Map Panel to view the entired Open WorldMap without Dungeons.
         /// </summary>
         private MapGraphics.GraphicsPanel MapPanel;
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Public Constructors
+        #region Constructors
 
-        public WorldMapSpawnEditorControl(TabPage parentPage)
+        public WorldMapSpawnEditorControl()
         {
-            Parent = parentPage;
             InitializeComponent();
             InitializePerformance(this);
-            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.PluginDataSent, OnDataReceive);
-            ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL);
+            ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            var pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+            ClientDataStorage.ClientCore.Send(pack);
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
-        #region Private Methods
-
-        private void assignedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowDbRegions = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
-        private void commonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowMonster = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
-        private async void EnableControl(Control control, int InSeconds)
-        {
-            await Task.Delay(InSeconds * 1000);
-            control.Enabled = true;
-        }
+        #region Methods
 
         /// <summary>
         /// Sets the panel to Doublebuffered = true;
@@ -68,87 +49,104 @@ namespace WorldMapSpawnEditor
             }
         }
 
-        private void nestNGenRadiusToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OnContinentClick(object sender, EventArgs e)
         {
-            MapPanel.ShowNestGenRadius = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
-        private void nestNRadiusToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowNestRadius = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
-        }
-
-        private void nPCToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowNpc = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
+            var continent = ((ToolStripMenuItem)sender).Text;
+            if (!MapPanel.TryViewContinent(continent))
+                ClientDataStorage.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed to set view for continent: [{continent}]");
         }
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
-            if (arg2.ReadAscii() != STRING_DLL)
+            MapPanel = new MapGraphics.GraphicsPanel();
+
+            Invoke(new Action(() =>
             {
-                return PacketHandlerResult.Block;
-            }
-            // Initialize SRO_VT_SHARD for ShopEditor
-            ClientDataStorage.Database.SRO_VT_SHARD.InitializeWorldMapEditor();
-            Parent.Invoke(new Action(() => Parent.Controls.Add(this)));
-            Invoke(new Action(() => EnableControl(vSroSmallButtonLoad, 5)));
+                foreach (var item in MapPanel.Continents)
+                {
+                    continentToolStripMenuItem.DropDownItems.Add(item);
+                    continentToolStripMenuItem.DropDownItems[continentToolStripMenuItem.DropDownItems.Count - 1].Click += OnContinentClick;
+                }
+                vSroSmallButtonLoad.Enabled = true;
+            }));
 
             return PacketHandlerResult.Block;
         }
 
-        private void playerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showAssignedRegionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowRegionsDb = ((ToolStripMenuItem)sender).Checked;
+            assignedToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide DB Regions" : "Show DB Regions";
+        }
+
+        private void showCommonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowMonster = ((ToolStripMenuItem)sender).Checked;
+            commonToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide general monster" : "Show general monster";
+        }
+
+        private void showDBRegionsWithoutDdjToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowRegionDBnoDDJ = ((ToolStripMenuItem)sender).Checked;
+            dBRegionsWithoutDdjToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide DB regions without ddj" : "Show DB regions without ddj";
+        }
+
+        private void showNestNGenRadiusToolStripMenuItem_Click(object sender, EventArgs e) => MapPanel.ShowNestGenRadius = ((ToolStripMenuItem)sender).Checked;
+
+        private void showNestNRadiusToolStripMenuItem_Click(object sender, EventArgs e) => MapPanel.ShowNestRadius = ((ToolStripMenuItem)sender).Checked;
+
+        private void showNPCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowNpc = ((ToolStripMenuItem)sender).Checked;
+            nPCToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide NPCs" : "Show NPCs";
+        }
+
+        private void showPlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MapPanel.ShowPlayer = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
+            playerToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide players" : "Show players";
         }
 
-        private void spawnEditorOnClickToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showSpawnEditorOnClickToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MapPanel.OpenEditorOnClick = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.ShowEditorOnClick = ((ToolStripMenuItem)sender).Checked;
         }
 
-        private void spawnInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showSpawnInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MapPanel.HasToolTip = ((ToolStripMenuItem)sender).Checked;
+            MapPanel.ShowToolTip = ((ToolStripMenuItem)sender).Checked;
         }
 
-        private void teleportToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showTeleportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MapPanel.ShowTeleport = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
+            teleportToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide teleports" : "Show teleports";
         }
 
-        private void unassignedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showUnassignedRegionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MapPanel.ShowUnassignedRegions = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
+            MapPanel.ShowRegionsUnassigned = ((ToolStripMenuItem)sender).Checked;
+            unassignedToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide Regions with ddj but no DB" : "Show Regions with ddj but no DB";
         }
 
-        private void uniqueToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showUniqueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MapPanel.ShowUniqueMonster = ((ToolStripMenuItem)sender).Checked;
-            MapPanel.Invalidate();
+            uniqueToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide uniques" : "Show uniques";
         }
 
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
             splitContainer2dViewer.Panel1.Controls.Clear();
-
-            MapPanel = new MapGraphics.GraphicsPanel();
+            if (MapPanel == null)
+            {
+                return;
+            }
             splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
-
             vSroSmallButtonLoad.Enabled = false;
-
-            // using (WorldMapSpawnEditor.MapGuide.MapGuideForm guide = new MapGuide.MapGuideForm())
-            // {
-            //     guide.ShowDialog();
-            // }
+            toolStripDropDownButton1.Enabled = true;
         }
 
-        #endregion Private Methods
+        #endregion Methods
     }
 }

@@ -10,12 +10,12 @@ namespace ManagementServer.Network
 
         /// <summary>
         /// Response to <see cref="PacketID.Client.TopicDeleteRequest"/>
-        /// Broadcasts 0xC004 to each client to delete a topic on runtime.
+        /// <br>Broadcasts <see cref="PacketID.Server.TopicDeleteResponse"/> to each client to delete a topic on runtime.</br>
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal PacketHandlerResult DeleteTopic(ServerData arg1, ServerFrameworkRes.Network.Security.Packet arg2)
+        internal PacketHandlerResult DeleteTopic(ServerData arg1, Packet arg2)
         {
             string Author = arg2.ReadAscii();
             string Title = arg2.ReadAscii();
@@ -41,18 +41,17 @@ namespace ManagementServer.Network
         }
 
         /// <summary>
-        /// Sends <see cref="PacketID.Server.TopicLoadRequest"/> with guides and <see cref="PacketID.Server.TopicsEndLoading"/> on successful transfer
+        /// Sends <see cref="PacketID.Server.TopicLoadResponse"/> with guides and <see cref="PacketID.Server.TopicsEndLoading"/> on successful transfer
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
         internal PacketHandlerResult LoadTopics(ServerData arg1, Packet arg2)
         {
-            if (!Directory.Exists(ServerManager.settings.GuidePath))
-            {
-                Directory.CreateDirectory(ServerManager.settings.GuidePath);
-            }
 
+            Directory.CreateDirectory(ServerManager.settings.GuidePath);
+
+            //TODO: create a static DashboardManager who does the dirty shit...
             foreach (string dir in Directory.GetDirectories(ServerManager.settings.GuidePath, "*", SearchOption.TopDirectoryOnly))
             {
                 foreach (string file in Directory.GetFiles(dir, "*.log", SearchOption.TopDirectoryOnly))
@@ -60,10 +59,7 @@ namespace ManagementServer.Network
                     string title = file.Remove(0, dir.Length + 1).Replace(".log", "").Replace("_question_", "?").Replace("_appostroph_", "`");
                     string text = File.ReadAllText(file);
                     string author = dir.Remove(0, ServerManager.settings.GuidePath.Length + 1);
-                    Packet topicPack = new Packet(PacketID.Server.TopicLoadRequest);
-                    DashboardMessage msg = new DashboardMessage(title, text, author);
-                    topicPack.WriteStruct(msg);
-                    arg1.m_security.Send(topicPack);
+                    arg1.m_security.Send(PacketConstructors.TopicPacket.Load(new DashboardMessage(title, text, author)));
                 }
             }
 
@@ -77,9 +73,35 @@ namespace ManagementServer.Network
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <returns></returns>
-        internal PacketHandlerResult TryAddNewTopic(ServerData arg1, Packet arg2)
+        internal PacketHandlerResult AddNewTopic(ServerData arg1, Packet arg2)
         {
             DashboardMessage msg = arg2.ReadStruct<DashboardMessage>();
+
+
+            Directory.CreateDirectory(Path.Combine(ServerManager.settings.GuidePath, msg.Author)).Create();
+
+
+            if (!File.Exists(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log")))
+            {
+                File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log"), $"{msg.Title}\n\n{msg.Text}\n\nCreated:{System.DateTime.Now}\n\n Author:{msg.Author}");
+            }
+
+            ServerMemory.BroadcastPacket(PacketConstructors.TopicPacket.AddNew(msg));
+
+            return PacketHandlerResult.Response;
+        }
+
+        internal PacketHandlerResult EditTopic(ServerData arg1, Packet arg2)
+        {
+            DashboardMessage msg = arg2.ReadStruct<DashboardMessage>();
+            DashboardMessage msgnew = arg2.ReadStruct<DashboardMessage>();
+
+            string fileName = Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log");
+
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
 
             if (!Directory.Exists(Path.Combine(ServerManager.settings.GuidePath, msg.Author)))
             {
@@ -88,10 +110,10 @@ namespace ManagementServer.Network
 
             if (!File.Exists(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log")))
             {
-                File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msg.Title}.log"), $"{msg.Title}\n\n{msg.Text}\n\nCreated:{System.DateTime.Now}\n\n Author:{msg.Author}");
+                File.AppendAllText(Path.Combine(ServerManager.settings.GuidePath, msg.Author, $"{msgnew.Title}.log"), $"{msgnew.Title}\n\n{msgnew.Text}\n\nCreated:{System.DateTime.Now}\n\n Author:{msg.Author}");
             }
 
-            ServerMemory.BroadcastPacket(PacketConstructors.TopicPacket.AddNew(msg));
+            ServerMemory.BroadcastPacket(PacketConstructors.TopicPacket.Edit(msg, msgnew));
 
             return PacketHandlerResult.Response;
         }

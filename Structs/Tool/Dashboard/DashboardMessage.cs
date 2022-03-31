@@ -23,7 +23,7 @@ namespace Structs.Dashboard
             Title = title;
             Author = author;
             Created = DateTime.UtcNow.ToString("dd.MM.yyyy  HH:mm:ss");
-            Text = $"{text}\n\nCreated:{Created}";
+            Text = text;
         }
 
         public DashboardMessage(DashboardMessage msg)

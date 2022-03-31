@@ -3,14 +3,16 @@ using Structs.Dashboard;
 
 namespace Dashboard
 {
-    public partial class DashboardControl
+    public static class DashboardPackets
     {
         #region Public Properties
 
         /// <summary>
         /// 0x1001 -- requests all topics from Server
         /// </summary>
-        public static Packet RequestAllTopics => new Packet(PacketID.Client.TopicsRequest);
+        public static Packet RequestAllTopics => new Packet(PacketID.Client.TopicLoadRequest);
+
+        public static Packet RequestOnlineUser => new Packet(PacketID.Client.RequestOnlineUser);
 
         #endregion Public Properties
 

@@ -1,6 +1,8 @@
 ﻿using ClientDataStorage.Dashboard;
 using ServerFrameworkRes.BasicControls;
+using ServerFrameworkRes.Network.Security;
 using Structs.Dashboard;
+using Structs.Tool;
 using System;
 using System.Windows.Forms;
 
@@ -8,19 +10,46 @@ namespace Dashboard
 {
     public partial class DashboardControl : UserControl
     {
-        public DashboardControl(TabPage page)
+
+        private const string STRING_DLL = "Dashboard.dll";
+        private const PluginData PLUGINDATA = PluginData.SkillEditor;
+
+        #region Public Constructors
+
+        public DashboardControl()
         {
             InitializeComponent();
 
-            ClientDataStorage.ClientCore.AddEntry(0xC001, TopicReceiveExisting);
-            ClientDataStorage.ClientCore.AddEntry(0xC002, TopicReceiveNew);
-            ClientDataStorage.ClientCore.AddEntry(0xC003, TopicsFinishedLoading);
-            ClientDataStorage.ClientCore.AddEntry(0xC004, TopicDeleteResponse);
+            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicLoadResponse, TopicReceiveExisting);
+            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicAddResponse, TopicReceiveNew);
+            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicsEndLoading, TopicsFinishedLoading);
+            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicDeleteResponse, TopicDeleteResponse);
 
-            ClientDataStorage.ClientCore.Send(RequestAllTopics);
+            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.UserLogOnOff, UserLogOnOff);
 
-            page.Controls.Add(this);
+            ClientDataStorage.ClientCore.Send(DashboardPackets.RequestAllTopics);
+            ClientDataStorage.ClientCore.Send(DashboardPackets.RequestOnlineUser);
         }
+
+        private PacketHandlerResult UserLogOnOff(ServerData arg1, Packet arg2)
+        {
+            var count = arg2.ReadInt();
+            for (int i = 0; i < count; i++)
+            {
+                var login = arg2.ReadBool();
+                var user = arg2.ReadAscii();
+                if (login)
+                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.AddSingleButtonToList(user)));
+                else
+                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.RemoveSingleButtonFromList(user)));
+
+            }
+            return PacketHandlerResult.Block;
+        }
+
+        #endregion Public Constructors
+
+        #region Private Methods
 
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -28,8 +57,6 @@ namespace Dashboard
             {
                 editor.ShowDialog();
             }
-            //splitContainerDashboardText.Panel2Collapsed = false;
-            //vSroSmallButtonSave.vSroSmallButtonName = "Add Topic";
         }
 
         private void deleteShownTopicToolStripMenuItem_Click(object sender, EventArgs e)
@@ -38,7 +65,7 @@ namespace Dashboard
             {
                 DashboardMessage messageToDelete = (DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag;
 
-                ClientDataStorage.ClientCore.Send(RequestDeleteTopicFromDashboard(messageToDelete));
+                ClientDataStorage.ClientCore.Send(DashboardPackets.RequestDeleteTopicFromDashboard(messageToDelete));
             }
         }
 
@@ -50,21 +77,7 @@ namespace Dashboard
                 {
                     editor.ShowDialog();
                 }
-
-                //        vSroSmallButtonSave.vSroSmallButtonName = "Save topic";
-                //    splitContainerDashboardText.Panel2Collapsed = false;
-                //
-                //    richTextBoxEditTopicText.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Text;
-                //    textBoxTopic.Text = ((DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag).Title;
             }
-        }
-
-        private void OnIdexChange(object sender, EventArgs e)
-        {
-        }
-
-        private void richTextBoxShowTopicText_TextChanged(object sender, EventArgs e)
-        {
         }
 
         private void vSroButtonList1_OnIndCh(object sender, EventArgs e)
@@ -77,5 +90,7 @@ namespace Dashboard
                 labelText.Text = msg.Text;
             }));
         }
+
+        #endregion Private Methods
     }
 }

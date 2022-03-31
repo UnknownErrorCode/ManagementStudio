@@ -1,13 +1,11 @@
-﻿using Editors.Spawn;
-
-namespace WorldMapSpawnEditor.MapGraphics
+﻿namespace WorldMapSpawnEditor.MapGraphics
 {
     /// <summary>
     /// A single UniqueMonster spawn Control.
     /// </summary>
-    internal class UniqueMonster : ISpawn
+    internal class UniqueMonster : Spawn
     {
-        internal UniqueMonster(SingleSpawn spawn) : base(spawn)
+        internal UniqueMonster(int nestID) : base(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
         }
     }

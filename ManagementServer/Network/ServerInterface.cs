@@ -33,7 +33,6 @@ namespace ManagementServer
 
             context.User = ServerMemory.ClientDataPool[$"{context.State.EndPoint}"];
             GC.Collect();
-            ServerMemory.OnlineUser++;
             return true;
         }
 
@@ -50,7 +49,6 @@ namespace ManagementServer
 
             context.Disconnect();
             GC.Collect();
-            ServerMemory.OnlineUser--;
         }
 
         public void OnError(AsyncContext context, object user)

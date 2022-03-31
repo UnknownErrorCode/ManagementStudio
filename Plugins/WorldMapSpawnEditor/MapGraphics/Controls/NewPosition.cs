@@ -2,7 +2,7 @@
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
-    internal class NewPosition
+    internal struct NewPosition
     {
         internal Vector3 Position;
         internal short RegionID;

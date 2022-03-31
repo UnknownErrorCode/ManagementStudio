@@ -31,9 +31,8 @@ namespace ShopEditor
         internal void OnNpcClick(string npcName)
         {
             foreach (IDisposable item in splitContainer1.Panel2.Controls)
-            {
                 item.Dispose();
-            }
+
 
             splitContainer1.Panel2.Controls.Clear();
 
@@ -57,6 +56,8 @@ namespace ShopEditor
                     }
                 }
             }
+
+            GC.Collect(2);
         }
 
         private Label CreateLabel(string npcName, RefShopTabGroup shopTabGroup)

@@ -3,15 +3,11 @@ using ServerFrameworkRes.Network.Security;
 using System.Data;
 using System.IO;
 
-namespace ManagementServer.Handler
+namespace ManagementServer.Network
 {
-    internal class S_UPDATE
+    internal partial class ServerPacketHandler
     {
-        /// <summary>
-        /// SERVER => CLIENT  0xA001 include latest version
-        /// -- Sends latest version to client.
-        /// </summary>
-        /// <returns></returns>
+
 
         #region Internal Methods
 
@@ -20,8 +16,9 @@ namespace ManagementServer.Handler
         /// </summary>
         /// <param name="data"></param>
         /// <param name="latestClientVersion"></param>
-        internal static PacketHandlerResult SendFiles(ServerData data, int latestClientVersion)
+        internal PacketHandlerResult SendFiles(ServerData data, Packet packet)
         {
+            int latestClientVersion = packet.ReadInt();
             DataTable ToBePatched = SQL.RequestFilesToUpdate(latestClientVersion);
 
             foreach (DataRow row in ToBePatched.Rows)
@@ -49,11 +46,17 @@ namespace ManagementServer.Handler
             return PacketHandlerResult.Block;
         }
 
-        internal static ServerFrameworkRes.Network.Security.Packet SendServerVersion()
+        /// <summary>
+        /// SERVER => CLIENT  
+        /// <br>0xA001</br>
+        /// <br>Sends latest version to client.</br>
+        /// </summary>
+        /// <returns></returns>
+        internal Packet SendServerVersion()
         {
-            ServerFrameworkRes.Network.Security.Packet loginSuccessPacket = new Packet(0xA001);
-            loginSuccessPacket.WriteInt(SQL.LatestVersion());
-            return loginSuccessPacket;
+            var connectionSuccess = new Packet(0xA001);
+            connectionSuccess.WriteInt(SQL.LatestVersion());
+            return connectionSuccess;
         }
 
         #endregion Internal Methods

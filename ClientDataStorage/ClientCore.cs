@@ -3,7 +3,6 @@ using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Network.Security;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ClientDataStorage
 {
@@ -37,7 +36,7 @@ namespace ClientDataStorage
             }
         }
 
-        public static async Task<bool> Start()
+        public static bool Start()
         {
             ClientNetwork.Connect(Config.StaticConfig.ToolServerIP, Config.StaticConfig.ToolServerPort, CInterface, CInterface.cData);
 

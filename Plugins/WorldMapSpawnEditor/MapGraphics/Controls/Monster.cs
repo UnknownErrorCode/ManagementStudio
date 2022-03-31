@@ -1,40 +1,60 @@
-﻿using Editors.Spawn;
-using Structs.Database;
-using System.Data;
-using System.Linq;
+﻿using Structs.Database;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
-    /// <summary>
-    /// A single Monster spawn Control.
-    /// </summary>
-    internal class Monster : ISpawn
+    internal class Monster : Spawn
     {
-        #region Internal Constructors
 
-        internal Monster(SingleSpawn spawn) : base(spawn)
-        {
-        }
+        #region Private Fields
 
-        #endregion Internal Constructors
-    }
+        private readonly string codeName128;
+        private readonly int nGenerateRadius;
+        private readonly int nRadius;
+        private readonly Rarity rarity;
 
-    internal class SpawnMonster
-    {
-        #region Public Fields
-
-        public readonly Spawn Spawn;
-
-        #endregion Public Fields
+        #endregion Private Fields
 
         #region Internal Constructors
 
-        internal SpawnMonster(int nestID)
+        public Monster(int nestID) : base(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
-            TabRefNest nest = new TabRefNest(ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["Tab_RefNest"].Rows.OfType<DataRow>().Single(row => row.Field<int>("dwNestID").Equals(nestID)).ItemArray);
-            Spawn = new Spawn(nest.dwNestID, nest.nRegionDBID, nest.fLocalPosX, nest.fLocalPosZ, nest.fLocalPosY, nest.nRadius, nest.nGenerateRadius);
+            nGenerateRadius = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nGenerateRadius;
+            nRadius = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nRadius;
+
+            if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID))
+            {
+                int dwObjID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics[ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID].dwObjID;
+                if (ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(dwObjID))
+                {
+                    codeName128 = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].CodeName128;
+                    rarity = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].Rarity;
+                }
+                else
+                {
+                    codeName128 = $"No ObjCommon ID:{dwObjID}";
+                }
+            }
+            else
+            {
+                codeName128 = $"No TacticsID:{ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID}";
+            }
         }
 
         #endregion Internal Constructors
+
+        #region Public Properties
+
+        public string CodeName128 => codeName128;
+
+        #endregion Public Properties
+
+        #region Internal Properties
+
+        internal int NGenerateRadius => nGenerateRadius;
+        internal int NRadius => nRadius;
+        internal Rarity Rarity => rarity;
+
+        #endregion Internal Properties
+
     }
 }

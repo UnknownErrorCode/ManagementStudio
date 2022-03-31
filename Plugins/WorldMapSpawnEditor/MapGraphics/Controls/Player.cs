@@ -1,11 +1,39 @@
-﻿using System.Numerics;
-
-namespace WorldMapSpawnEditor.MapGraphics
+﻿namespace WorldMapSpawnEditor.MapGraphics
 {
-    internal class Player
+    internal class Player : Spawn
     {
-        internal string CharName16;
-        internal Vector3 Position;
-        internal short RegionID;
+        #region Private Fields
+
+        private readonly int charID;
+        private readonly string charName16;
+        private readonly byte curLevel;
+        private readonly int hP;
+        private readonly int mP;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public Player(int _charID) : base(ClientDataStorage.Database.SRO_VT_SHARD._Char[_charID])
+        {
+            var charResult = ClientDataStorage.Database.SRO_VT_SHARD._Char[charID];
+            charID = charResult.CharID;
+            charName16 = charResult.CharName16;
+            curLevel = charResult.CurLevel;
+            hP = charResult.HP;
+            mP = charResult.MP;
+        }
+
+        #endregion Public Constructors
+
+        #region Internal Properties
+
+        internal int CharID => charID;
+        internal string CharName16 => charName16;
+        internal virtual byte CurLevel => curLevel;
+        internal int HP => hP;
+        internal int MP => mP;
+
+        #endregion Internal Properties
     }
 }

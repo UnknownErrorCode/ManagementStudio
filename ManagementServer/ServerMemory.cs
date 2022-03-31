@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManagementServer.Network;
+using System;
 using System.Collections.Generic;
 
 namespace ManagementServer
@@ -7,11 +8,15 @@ namespace ManagementServer
     {
         #region Internal Fields
 
-        internal static Dictionary<string, Utility.ServerClientData> ClientDataPool = new Dictionary<string, Utility.ServerClientData>(100);
-
-        internal static int OnlineUser = 0;
+        internal static Dictionary<string, ServerClientData> ClientDataPool = new Dictionary<string, ServerClientData>(100);
 
         #endregion Internal Fields
+
+        #region Internal Properties
+
+        internal static int OnlineUser => ClientDataPool.Count;
+
+        #endregion Internal Properties
 
         #region Internal Methods
 
@@ -19,7 +24,7 @@ namespace ManagementServer
         {
             try
             {
-                foreach (KeyValuePair<string, Utility.ServerClientData> client in ClientDataPool)
+                foreach (KeyValuePair<string, ServerClientData> client in ClientDataPool)
                 {
                     if (client.Value.m_connected)
                     {

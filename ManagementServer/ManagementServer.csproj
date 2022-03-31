@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handler\S_DASHBOARD.cs" />
-    <Compile Include="Handler\S_LOGIN.cs" />
+    <Compile Include="Network\Handler\DashboardPacketHandler.cs" />
+    <Compile Include="Network\Handler\LoginPacketHandler.cs" />
+    <Compile Include="Network\Handler\PluginPacketHandler.cs" />
     <Compile Include="PluginSecurityManager.cs" />
-    <Compile Include="Handler\S_SHOPEDITOR.cs" />
-    <Compile Include="Handler\S_TABLEDATA.cs" />
+    <Compile Include="Network\Handler\DataTablePacketHandler.cs" />
     <Compile Include="Network\ServerPacketHandler.cs" />
     <Compile Include="PacketConstructors\LoginPacket.cs" />
     <Compile Include="PacketConstructors\NotificationPacket.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="Network\ServerInterface.cs" />
     <Compile Include="ServerMemory.cs" />
     <Compile Include="Network\ServerClientData.cs" />
-    <Compile Include="Handler\S_UPDATE.cs" />
+    <Compile Include="Network\Handler\LauncherPacketHandler.cs" />
     <Compile Include="Utility\InitializeConfig.cs" />
     <Compile Include="Utility\Settings.cs" />
     <Compile Include="Utility\SQL.cs" />
