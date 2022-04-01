@@ -41,8 +41,8 @@ namespace BinaryFiles.PackFile.Data.Dungeon
         private uint linkCounter;
         private uint objectConnectionCounter;
         private List<ObjLink> objectConnections;
-        private uint objectGroupCounter;
-        private DungeonRoomObjectGroop[] objGroupArray;
+        private uint objectGroupCount;
+        private List<DungeonRoomObjectGroop> objGroupArray;
         private uint pointerDungeonBoundingBoxes;
         private uint pointerIndexNames;
         private uint pointerLinks;
@@ -56,7 +56,7 @@ namespace BinaryFiles.PackFile.Data.Dungeon
         private uint roomFloorCounter;
         private string[] roomFloorNames;
         private string[] roomNames;
-        private DungeonRoomObject[] roomObjArray;
+        private List<DungeonRoomObject> roomObjArray;
         private uint roomObjectCount;
         private uint unk_uint0;
         private uint unk_uint1;
@@ -163,7 +163,7 @@ namespace BinaryFiles.PackFile.Data.Dungeon
 
                     reader.BaseStream.Position = pointerRoomObjects;
                     roomObjectCount = reader.ReadUInt32();
-                    roomObjArray = new DungeonRoomObject[roomObjectCount];
+                    roomObjArray = new List<DungeonRoomObject>((int)roomObjectCount);
                     for (int i = 0; i < roomObjectCount; i++)
                     {
                         DungeonRoomObject obj = new DungeonRoomObject()
@@ -278,11 +278,31 @@ namespace BinaryFiles.PackFile.Data.Dungeon
                             obj.pointList[pi] = dpoint;
                         }
 
-                        roomObjArray[i] = obj;
+                        roomObjArray.Add(obj);
                     }
 
                     PointerRoomObjectsLength = reader.BaseStream.Position - pointerRoomObjects;
                     PointerRoomObjectsEnd = reader.BaseStream.Position;
+
+                    reader.BaseStream.Position = pointerObjectGroups;
+                    objectGroupCount = reader.ReadUInt32();
+                    objGroupArray = new List<DungeonRoomObjectGroop>((int)objectGroupCount);
+                    for (int gobjIndex = 0; gobjIndex < objectGroupCount; gobjIndex++)
+                    {
+                        var gobj = new DungeonRoomObjectGroop()
+                        {
+                            Name = new string(reader.ReadChars(reader.ReadInt32())),
+                            Flag = reader.ReadUInt32(),
+                            ObjArrayCount = reader.ReadUInt32()
+                        };
+                        gobj.ObjIndexArray = new uint[gobj.ObjArrayCount];
+                        for (int objInGroup = 0; objInGroup < gobj.ObjArrayCount; objInGroup++)
+                        {
+                            gobj.ObjIndexArray[objInGroup] = reader.ReadUInt32();
+                        }
+                    }
+                    PointerObjectGroupsLength = reader.BaseStream.Position - pointerObjectGroups;
+                    PointerObjectGroupsEnd = reader.BaseStream.Position;
                 }
             }
             catch (System.Exception e)
@@ -305,9 +325,11 @@ namespace BinaryFiles.PackFile.Data.Dungeon
         public uint LinkCount { get => linkCounter; }
         public uint ObjectConnectionCount { get => objectConnectionCounter; }
         public List<ObjLink> ObjectConnections { get => objectConnections; set => objectConnections = value; }
-        public uint ObjectGroupCount { get => objectGroupCounter; }
-        public List<DungeonRoomObjectGroop> ObjGroupArray { get => objGroupArray.ToList(); set => objGroupArray = value.ToArray(); }
+        public uint ObjectGroupCount { get => objectGroupCount; }
+
+        // public List<DungeonRoomObjectGroop> ObjGroupArray { get => objGroupArray.ToList(); set => objGroupArray = value.ToArray(); }
         public uint PointerDungeonBoundingBoxes { get => pointerDungeonBoundingBoxes; set => pointerDungeonBoundingBoxes = value; }
+
         public uint PointerIndexNames { get => pointerIndexNames; set => pointerIndexNames = value; }
         public long PointerIndexNamesEnd { get; }
         public long PointerIndexNamesLength { get; }
@@ -318,6 +340,8 @@ namespace BinaryFiles.PackFile.Data.Dungeon
         public long PointerObjectConnectionsEnd { get; }
         public long PointerObjectConnectionsLength { get; }
         public uint PointerObjectGroups { get => pointerObjectGroups; set => pointerObjectGroups = value; }
+        public long PointerObjectGroupsEnd { get; }
+        public long PointerObjectGroupsLength { get; }
         public uint PointerRoomObjects { get => pointerRoomObjects; set => pointerRoomObjects = value; }
         public long PointerRoomObjectsEnd { get; }
         public long PointerRoomObjectsLength { get; }
@@ -328,7 +352,7 @@ namespace BinaryFiles.PackFile.Data.Dungeon
         public uint RoomFloorCount { get => roomFloorCounter; }
         public string[] RoomFloorNames { get => roomFloorNames; set => roomFloorNames = value; }
         public string[] RoomNames { get => roomNames; set => roomNames = value; }
-        public List<DungeonRoomObject> RoomObjArray { get => roomObjArray.ToList(); set => roomObjArray = value.ToArray(); }
+        public List<DungeonRoomObject> RoomObjArray { get => roomObjArray; set => roomObjArray = value; }
         public uint RoomObjectCount { get => roomObjectCount; set => roomObjectCount = value; }
         public uint Unk_uint0 { get => unk_uint0; set => unk_uint0 = value; }
         public uint Unk_uint1 { get => unk_uint1; set => unk_uint1 = value; }
@@ -337,6 +361,7 @@ namespace BinaryFiles.PackFile.Data.Dungeon
         public uint Unk_uint4 { get => unk_uint4; set => unk_uint4 = value; }
         public ushort Unk_ushort0 { get => unk_ushort0; set => unk_ushort0 = value; }
         public ushort Unk_ushort1 { get => unk_ushort1; set => unk_ushort1 = value; }
+        public long PointerDungeonBoundingBoxesEnd { get; }
 
         #endregion Properties
     }

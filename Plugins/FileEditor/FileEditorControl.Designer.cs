@@ -28,43 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vSroSmallButton1 = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // vSroSmallButton1
-            // 
-            this.vSroSmallButton1.Location = new System.Drawing.Point(365, 339);
-            this.vSroSmallButton1.MaximumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButton1.MinimumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButton1.Name = "vSroSmallButton1";
-            this.vSroSmallButton1.Size = new System.Drawing.Size(152, 24);
-            this.vSroSmallButton1.TabIndex = 0;
-            this.vSroSmallButton1.vSroSmallButtonName = "Empty";
-            this.vSroSmallButton1.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButton1_vSroClickEvent);
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Location = new System.Drawing.Point(297, 50);
+            this.propertyGrid1.CategorySplitterColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.HelpBackColor = System.Drawing.Color.Black;
+            this.propertyGrid1.HelpForeColor = System.Drawing.Color.White;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 24);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(365, 271);
+            this.propertyGrid1.Size = new System.Drawing.Size(800, 426);
             this.propertyGrid1.TabIndex = 1;
+            this.propertyGrid1.ViewBackColor = System.Drawing.Color.Black;
+            this.propertyGrid1.ViewForeColor = System.Drawing.Color.White;
             // 
-            // UserControl1
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // FileEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Controls.Add(this.propertyGrid1);
-            this.Controls.Add(this.vSroSmallButton1);
-            this.Name = "UserControl1";
+            this.Controls.Add(this.menuStrip1);
+            this.Name = "FileEditorControl";
             this.Size = new System.Drawing.Size(800, 450);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButton1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
     }
 }

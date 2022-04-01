@@ -3,9 +3,9 @@
     public struct DungeonRoomObject
     {
         #region Fields
+        /// width = aabb[3] - aabb[0], height= aabb[4] - aabb[1], length = aabb[5] - aabb[2]
 
         /// <summary>
-        /// width = aabb[3] - aabb[0], height= aabb[4] - aabb[1], length = aabb[5] - aabb[2]
         /// </summary>
         public float[] AABB;
 
@@ -157,6 +157,7 @@
 
         public string Name;
         public uint[] ObjIndexArray;
+        public uint ObjArrayCount;
 
         #endregion Fields
     }
