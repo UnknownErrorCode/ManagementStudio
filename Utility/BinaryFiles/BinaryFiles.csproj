@@ -59,6 +59,12 @@
     <Compile Include="PackFile\Data\Dungeon\DungeonFile.cs" />
     <Compile Include="PackFile\Data\Dungeon\DungeonInfoData.cs" />
     <Compile Include="PackFile\Data\Dungeon\DungeonRoomObject.cs" />
+    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectEntry.cs" />
+    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectExtraInformation.cs" />
+    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectGroop.cs" />
+    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectLink.cs" />
+    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectPointStruct.cs" />
+    <Compile Include="PackFile\Data\Dungeon\ObjLink.cs" />
     <Compile Include="PackFile\ddj\DDJImage.cs" />
     <Compile Include="PackFile\ddj\PixelFormat.cs" />
     <Compile Include="PackFile\Map\m\MapMeshBlock.cs" />
