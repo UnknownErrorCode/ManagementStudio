@@ -46,10 +46,8 @@
   <ItemGroup>
     <Compile Include="PackFile\Data\bsr\JMXbsrFile.cs" />
     <Compile Include="PackFile\Data\Dungeon\JMXdofFile.cs" />
-    <Compile Include="PackFile\ddj\DDJImage.cs" />
-    <Compile Include="PackFile\ddj\PixelFormat.cs" />
-    <Compile Include="PackFile\Map\m\MapMeshBlock.cs" />
-    <Compile Include="PackFile\Map\m\MeshFile.cs" />
+    <Compile Include="PackFile\ddj\JMXddjFile.cs" />
+    <Compile Include="PackFile\Map\m\JMXmFile.cs" />
     <Compile Include="PackFile\Map\o2\MapObject.cs" />
     <Compile Include="PackFile\Map\o2\o2File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

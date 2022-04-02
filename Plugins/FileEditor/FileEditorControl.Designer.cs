@@ -40,14 +40,15 @@
             this.propertyGrid1.CategorySplitterColor = System.Drawing.SystemColors.ControlDarkDark;
             this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.HelpBackColor = System.Drawing.Color.Black;
-            this.propertyGrid1.HelpForeColor = System.Drawing.Color.White;
+            this.propertyGrid1.HelpBackColor = System.Drawing.SystemColors.ControlDark;
+            this.propertyGrid1.HelpForeColor = System.Drawing.Color.Black;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 24);
             this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
             this.propertyGrid1.Size = new System.Drawing.Size(800, 426);
             this.propertyGrid1.TabIndex = 1;
-            this.propertyGrid1.ViewBackColor = System.Drawing.Color.Black;
-            this.propertyGrid1.ViewForeColor = System.Drawing.Color.White;
+            this.propertyGrid1.ViewBackColor = System.Drawing.Color.DimGray;
+            this.propertyGrid1.ViewForeColor = System.Drawing.Color.Black;
             // 
             // menuStrip1
             // 
@@ -70,7 +71,7 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 

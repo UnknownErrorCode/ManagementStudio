@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Structs.Pk2.BinaryFiles.JMXRessource.Dungeon
+﻿namespace Structs.Pk2.BinaryFiles.JMXRessource.Dungeon
 {
     public struct ObjLink
     {
@@ -25,8 +22,8 @@ namespace Structs.Pk2.BinaryFiles.JMXRessource.Dungeon
 
         #region Properties
 
-        public int LinkCount { get => Links.Count; }
-        public List<uint> Links { get => links.ToList(); set => links = value.ToArray(); }
+        public int LinkCount { get => Links.Length; }
+        public uint[] Links { get => links; set => links = value; }
         public uint LinkID { get => linkID; set => linkID = value; }
 
         #endregion Properties

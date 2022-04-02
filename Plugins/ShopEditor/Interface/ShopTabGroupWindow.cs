@@ -93,7 +93,7 @@ namespace ShopEditor.Interface
             {
                 if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(TabOnUIPath, out byte[] ddjbytearray))
                 {
-                    PackFile.MediaPack.DDJFiles.Add(TabOnUIPath, new DDJImage(ddjbytearray));
+                    PackFile.MediaPack.DDJFiles.Add(TabOnUIPath, new JMXddjFile(ddjbytearray));
                 }
             }
 
@@ -101,7 +101,7 @@ namespace ShopEditor.Interface
             {
                 if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(TabOffUIPath, out byte[] ddjbytearray2))
                 {
-                    PackFile.MediaPack.DDJFiles.Add(TabOffUIPath, new DDJImage(ddjbytearray2));
+                    PackFile.MediaPack.DDJFiles.Add(TabOffUIPath, new JMXddjFile(ddjbytearray2));
                 }
             }
         }

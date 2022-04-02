@@ -19,7 +19,7 @@ namespace ShopEditor.Interface
             {
                 if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(IconPath, out byte[] file))
                 {
-                    PackFile.MediaPack.DDJFiles.Add(IconPath, new DDJImage(file));
+                    PackFile.MediaPack.DDJFiles.Add(IconPath, new JMXddjFile(file));
                 }
             }
 

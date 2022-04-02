@@ -11,7 +11,7 @@ namespace PackFile
         /// <summary>
         /// Contains all necessary ddj images.
         /// </summary>
-        public static Dictionary<string, DDJImage> DDJFiles = new Dictionary<string, DDJImage>();
+        public static Dictionary<string, JMXddjFile> DDJFiles = new Dictionary<string, JMXddjFile>();
 
         /// <summary>
         /// Main static Pk2 reader

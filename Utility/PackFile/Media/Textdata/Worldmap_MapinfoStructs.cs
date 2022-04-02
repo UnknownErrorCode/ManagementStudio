@@ -3,10 +3,17 @@
     /// <summary>
     /// Type 0:Wmap, 1:Local
     /// </summary>
-    public enum WorldMapType : byte
+    public enum WorldMapInfoType : byte
     {
         WorldMap = 0x00,
         LocalMap = 0x01
+    }
+
+    public enum WorldMapInfoSection : byte
+    {
+        None = 0xFF,
+        wLocalMap = 0x00,
+        Dungeonmap = 0x01
     }
 
     public struct Worldmap_Mapinfo_DungeonStruct
@@ -17,12 +24,11 @@
         //					TextZoneName.txt에 있는 지역 코드와 이름	x 텍스쳐 개수	y 텍스쳐 개수	그려질 크기 x	그려질 크기 y	left(X)	top(Y)	right(X)	bottom(Y)	1.0 = 256	Texture path (path under media folder)			                       (1:Visible, 0:invisible)
         //2001	돈황석굴    	F	    1	        4	        32769	    3	            3	          768	 768	    127	    128	129	126	        1.0 	interface\worldmap\dungeon\map_world_donf01_	1 	             DH_A01_FLOOR01	                    1	                               0	0	0	0
         public int MapID;            //2001
-
         public string Name;        //돈황석굴
         public char Layer;         //F or B
-        public int Layers;         // 1
-        public int Total_layers;   // 4
-        public int Code;           //32769
+        public int LayerID;         // 1
+        public int LayerTotalCount;   // 4
+        public int wRegionID;           //32769
         public int Texture_num_x;  //3
         public int Texture_num_y;  //3
         public int Draw_x;         //768
@@ -49,12 +55,13 @@
 
         public Worldmap_Mapinfo_DungeonStruct(string[] data)
         {
+
             MapID = int.Parse(data[0]);
             Name = data[1];
             Layer = System.Convert.ToChar(data[2]);
-            Layers = int.Parse(data[3]);
-            Total_layers = int.Parse(data[4]);
-            Code = int.Parse(data[5]);
+            LayerID = int.Parse(data[3]);
+            LayerTotalCount = int.Parse(data[4]);
+            wRegionID = int.Parse(data[5]);
             Texture_num_x = int.Parse(data[6]);
             Texture_num_y = int.Parse(data[7]);
             Draw_x = int.Parse(data[8]);
@@ -87,7 +94,7 @@
         ///Addr	Texture Size_x	Texture Size_y	Pic Area_x	Pic Area_y	Draw x	Draw y	리젼 left	top	right	bottom	좌표 LT _ x	좌표 LT _y	좌표 RB_x	좌표 RB_y	요새월드ID	로컬 이름 스트링 코드	전체맵버튼타입(1:보임,0:안보임)	한 리젼 크기
         public int MapID;
 
-        public WorldMapType Type;
+        public WorldMapInfoType Type;
         public string Name;
         public string Path;
         public int Size_x;
@@ -116,7 +123,7 @@
         public Worldmap_Mapinfo_WorldStruct(string[] data)
         {
             MapID = int.Parse(data[0]);
-            Type = data[1].Equals("0") ? WorldMapType.WorldMap : WorldMapType.LocalMap;
+            Type = data[1].Equals("0") ? WorldMapInfoType.WorldMap : WorldMapInfoType.LocalMap;
             Name = data[2];
             Path = data[3];
             Size_x = int.Parse(data[4]);

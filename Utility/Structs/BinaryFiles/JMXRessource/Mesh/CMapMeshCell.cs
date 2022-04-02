@@ -1,20 +1,15 @@
 ﻿
-namespace Structs.Pk2.BinaryFiles
+namespace Structs.BinaryFiles.JMXRessource.Mesh
 {
     public struct CMapMeshCell
     {
-        public readonly float Height;
-        public readonly ushort texture;
-        public readonly byte textureFlag;
-        public readonly byte Brightness;
+        public float Height;
+        /// <summary>
+        /// 10 bit texture n 6 bit splash
+        /// </summary>
+        public ushort Texture;
+        public byte Brightness;
 
-        public CMapMeshCell(float f, ushort t, byte tf, byte b)
-        {
-            Height = f;
-            texture = t;
-            textureFlag = tf;
-            Brightness = b;
-        }
     }
 }
 

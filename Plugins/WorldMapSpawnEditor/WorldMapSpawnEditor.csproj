@@ -61,7 +61,12 @@
     <Compile Include="MapGraphics\Controls\Teleport.cs" />
     <Compile Include="MapGraphics\Spawn.cs" />
     <Compile Include="MapGuide\CGuideRegion.cs" />
-    <Compile Include="MapGuide\CWorldmap_Mapinfo.cs" />
+    <Compile Include="MapGuide\MapGuideEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapGuide\MapGuideEditor.Designer.cs">
+      <DependentUpon>MapGuideEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapGuide\MapGuideForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +74,9 @@
       <DependentUpon>MapGuideForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MapGuide\MapGuidePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MapGuide\WMapGuidePanelButtonFocus.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -86,6 +94,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MapGuide\MapGuideEditor.resx">
+      <DependentUpon>MapGuideEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MapGuide\MapGuideForm.resx">
       <DependentUpon>MapGuideForm.cs</DependentUpon>
     </EmbeddedResource>

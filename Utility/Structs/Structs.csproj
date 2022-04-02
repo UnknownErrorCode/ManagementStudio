@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryFiles\JMXInterface\JMX2dtFileStruct.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapMeshBlock.cs" />
+    <Compile Include="BinaryFiles\PixelFormat.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Dungeon\Dungeon.cs" />
     <Compile Include="Database\Enumerable\TableName.cs" />
     <Compile Include="Database\PaymentDevice.cs" />
     <Compile Include="Database\RefGameWorldBindTriggerCategory.cs" />
@@ -58,8 +62,8 @@
     <Compile Include="Database\RefTriggerCategoryBindTrigger.cs" />
     <Compile Include="Database\_RefMappingShopGroup.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Animation\AnimationEvent.cs" />
-    <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonRoomObject.cs" />
-    <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonRoomObjectEntry.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonBlockObject.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonBlockObjectEntry.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonRoomObjectExtraInformation.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonRoomObjectGroop.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonRoomObjectLink.cs" />
@@ -89,6 +93,8 @@
     <Compile Include="BinaryFiles\JMXRessource\Particles\CModDataParticleStruct.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Sound\CModDataSound.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapMeshCell.cs" />
+    <Compile Include="Geometry\Points.cs" />
+    <Compile Include="Geometry\SRectangle.cs" />
     <Compile Include="Tool\Dashboard\DashboardMessage.cs" />
     <Compile Include="Database\Enumerable\BorrowFlag.cs" />
     <Compile Include="Database\Enumerable\DropFlag.cs" />
@@ -114,8 +120,8 @@
     <Compile Include="Tool\LoginStatus.cs" />
     <Compile Include="Tool\PluginData.cs" />
     <Compile Include="Tool\SpawnType.cs" />
-    <Compile Include="Tool\SVector3.cs" />
-    <Compile Include="Tool\wRegionID.cs" />
+    <Compile Include="Geometry\SVector3.cs" />
+    <Compile Include="Geometry\wRegionID.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pk2\" />

@@ -1,10 +1,9 @@
-﻿namespace BinaryFiles.PackFile
+﻿namespace Structs.BinaryFiles
 {
     /// <summary>
     /// Various pixel formats/compressors used by the DDS image.
     /// </summary>
-    internal enum PixelFormat
-
+    public enum SPixelFormat : uint
     {
         /// <summary>
         /// 32-bit image, with 8-bit red, green, blue and alpha.
@@ -68,24 +67,3 @@
         UNKNOWN
     }
 }
-
-//ARGB,
-//RGB,
-//DXT1,
-//DXT2,
-//DXT3,
-//DXT4,
-//DTX5,
-//THREEDC,
-//ATI1N,
-//LUMINANCE,
-//LUMINANCE_ALPHA,
-//RXGB,
-//A16B16G16R16,
-//R16F,
-//G16R16F,
-//A16B16G16R16F,
-//R32F,
-//G32R32F,
-//A32B32G32R32F,
-//UNKNOWN,

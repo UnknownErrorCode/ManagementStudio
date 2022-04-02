@@ -1,6 +1,6 @@
 ﻿namespace Structs.Pk2.BinaryFiles.JMXRessource.Dungeon
 {
-    public struct DungeonRoomObject
+    public struct DungeonBlockObject
     {
         #region Fields
 
@@ -30,7 +30,7 @@
         private uint[] connectedObjectList;
 
         private uint entryCounter;
-        private DungeonRoomObjectEntry[] entryList;
+        private DungeonBlockObjectEntry[] entryList;
 
         //private DungeonRoomObjectExtraInformation extraA;
         //private DungeonRoomObjectExtraInformation extraB;
@@ -73,13 +73,9 @@
         /// </summary>
         private float unk_float12;
 
-        /// <summary>
-        /// Seems fixed to -2,288091E+38
-        /// </summary>
         private float unk_float13;
-
-        private float unk_float14;
-        private float unk_float15;
+        private float unk_float14;  // -200
+        private float unk_float15;  // 1000 
         private float unk_float16;
 
         /// <summary>
@@ -105,8 +101,8 @@
         public uint ConnectedObjectCount { get => connectedObjectCount; set => connectedObjectCount = value; }
         public uint[] ConnectedObjectList { get => connectedObjectList; set => connectedObjectList = value; }
         public uint EntryCounter { get => entryCounter; set => entryCounter = value; }
-        public DungeonRoomObjectEntry[] EntryList { get => entryList; set => entryList = value; }
-        public byte ExtraFlagA { get => extraFlagA; set => extraFlagA = value; }
+        public DungeonBlockObjectEntry[] EntryList { get => entryList; set => entryList = value; }
+        public byte HasHeightFog { get => extraFlagA; set => extraFlagA = value; }
         public byte ExtraFlagB { get => extraFlagB; set => extraFlagB = value; }
         public uint FloorIndex { get => floorIndex; set => floorIndex = value; }
         public uint IndirectConnectedObjectCount { get => indirectConnectedObjectCount; set => indirectConnectedObjectCount = value; }
@@ -118,18 +114,21 @@
         public uint RoomIndex { get => roomIndex; set => roomIndex = value; }
         public float Unk_float0 { get => unk_float0; set => unk_float0 = value; }
         public float Unk_float12 { get => unk_float12; set => unk_float12 = value; }
-        public float Unk_float13 { get => unk_float13; set => unk_float13 = value; }
-        public float Unk_float14 { get => unk_float14; set => unk_float14 = value; }
-        public float Unk_float15 { get => unk_float15; set => unk_float15 = value; }
-        public float Unk_float16 { get => unk_float16; set => unk_float16 = value; }
+        public float FogColor { get => unk_float13; set => unk_float13 = value; }
+        public float FogNearPlane { get => unk_float14; set => unk_float14 = value; }
+        public float FogFarPlane { get => unk_float15; set => unk_float15 = value; }
+        public float FogIndensity { get => unk_float16; set => unk_float16 = value; }
+        /// <summary>
+        /// Has been 0 in every file...
+        /// </summary>
         public uint Unk_uint0 { get => unk_uint0; set => unk_uint0 = value; }
         public uint Unk_uint1 { get => unk_uint1; set => unk_uint1 = value; }
         public float X { get => x; set => x = value; }
         public float Y { get => y; set => y = value; }
         public float YAW { get => yAW; set => yAW = value; }
         public float Z { get => z; set => z = value; }
-        public DungeonRoomObjectExtraInformation ExtraA { get => extraA; set => extraA = value; }
-        public DungeonRoomObjectExtraInformation ExtraB { get => extraB; set => extraB = value; }
+        public float[] ExtraA { get => extraA.Array; }
+        public float[] ExtraB { get => extraB.Array; }
 
         #endregion Properties
     }

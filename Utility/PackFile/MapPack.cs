@@ -14,12 +14,12 @@ namespace PackFile
         /// <summary>
         /// List of all .m files inside the Map.pk2.
         /// </summary>
-        public static Dictionary<short, MeshFile> AllmFiles = new Dictionary<short, MeshFile>();
+        public static Dictionary<short, JMXmFile> AllmFiles = new Dictionary<short, JMXmFile>();
 
         /// <summary>
         /// List of all .o2 files inside the Map.pk2.
         /// </summary>
-        public static List<o2File> Allo2Files = new List<o2File>();
+        public static List<JMXo2File> Allo2Files = new List<JMXo2File>();
 
         /// <summary>
         /// The Main abstract Pk2 reader.
@@ -31,7 +31,7 @@ namespace PackFile
         /// <summary>
         /// All Textures for tiles as dds format. Key = TextureID. Value = .dds file to display bitmap.
         /// </summary>
-        public static Dictionary<int, DDJImage> TileTextureDictionary = new Dictionary<int, DDJImage>();
+        public static Dictionary<int, JMXddjFile> TileTextureDictionary = new Dictionary<int, JMXddjFile>();
 
         #endregion Fields
 

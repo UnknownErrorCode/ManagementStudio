@@ -212,7 +212,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 {
                     if (PackFile.MapPack.Reader.GetByteArrayByDirectory($"Map\\{PointMouseSroRegioDown.Y}\\{PointMouseSroRegioDown.X}.m", out byte[] mFile))
                     {
-                        BinaryFiles.PackFile.Map.m.MeshFile mfi = new BinaryFiles.PackFile.Map.m.MeshFile(mFile, (byte)PointMouseSroRegioDown.X, (byte)PointMouseSroRegioDown.Y);
+                        BinaryFiles.PackFile.Map.m.JMXmFile mfi = new BinaryFiles.PackFile.Map.m.JMXmFile(mFile, (byte)PointMouseSroRegioDown.X, (byte)PointMouseSroRegioDown.Y);
                         PackFile.MapPack.AllmFiles.Add((short)regionID, mfi);
                     }
                 }
@@ -712,7 +712,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             {
                 if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(pk2PathString, out byte[] file))
                 {
-                    DDJImage DDJFile = new DDJImage(file);
+                    JMXddjFile DDJFile = new JMXddjFile(file);
                     PackFile.MediaPack.DDJFiles.Add(pk2PathString, DDJFile);
                 }
 

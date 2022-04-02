@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Structs.BinaryFiles;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace BinaryFiles.PackFile
 {
-    public class DDJImage : IDisposable
+    public class JMXddjFile : IDisposable
     {
 
         #region Fields
@@ -62,7 +63,7 @@ namespace BinaryFiles.PackFile
 
         #region Constructors
 
-        public DDJImage(byte[] ddsImage, bool ddj = true)
+        public JMXddjFile(byte[] ddsImage, bool ddj = true)
         {
             if (ddsImage == null)
             {
@@ -86,7 +87,7 @@ namespace BinaryFiles.PackFile
             }
         }
 
-        public DDJImage(Stream ddsImage)
+        public JMXddjFile(Stream ddsImage)
         {
             if (ddsImage == null)
             {
@@ -104,7 +105,7 @@ namespace BinaryFiles.PackFile
             }
         }
 
-        private DDJImage(System.Drawing.Bitmap bitmap)
+        private JMXddjFile(Bitmap bitmap)
         {
             m_bitmap = bitmap;
         }
@@ -113,72 +114,7 @@ namespace BinaryFiles.PackFile
 
         #region Enums
 
-        /// <summary>
-        /// Various pixel formats/compressors used by the DDS image.
-        /// </summary>
-        private enum PixelFormat
-        {
-            /// <summary>
-            /// 32-bit image, with 8-bit red, green, blue and alpha.
-            /// </summary>
-            RGBA,
 
-            /// <summary>
-            /// 24-bit image with 8-bit red, green, blue.
-            /// </summary>
-            RGB,
-
-            /// <summary>
-            /// 16-bit DXT-1 compression, 1-bit alpha.
-            /// </summary>
-            DXT1,
-
-            /// <summary>
-            /// DXT-2 Compression
-            /// </summary>
-            DXT2,
-
-            /// <summary>
-            /// DXT-3 Compression
-            /// </summary>
-            DXT3,
-
-            /// <summary>
-            /// DXT-4 Compression
-            /// </summary>
-            DXT4,
-
-            /// <summary>
-            /// DXT-5 Compression
-            /// </summary>
-            DXT5,
-
-            /// <summary>
-            /// 3DC Compression
-            /// </summary>
-            THREEDC,
-
-            /// <summary>
-            /// ATI1n Compression
-            /// </summary>
-            ATI1N,
-
-            LUMINANCE,
-            LUMINANCE_ALPHA,
-            RXGB,
-            A16B16G16R16,
-            R16F,
-            G16R16F,
-            A16B16G16R16F,
-            R32F,
-            G32R32F,
-            A32B32G32R32F,
-
-            /// <summary>
-            /// Unknown pixel format.
-            /// </summary>
-            UNKNOWN
-        }
 
         #endregion Enums
 
@@ -198,14 +134,14 @@ namespace BinaryFiles.PackFile
 
         #region Methods
 
-        public static explicit operator System.Drawing.Bitmap(DDJImage value)
+        public static explicit operator System.Drawing.Bitmap(JMXddjFile value)
         {
             return value.BitmapImage;
         }
 
-        public static implicit operator DDJImage(System.Drawing.Bitmap value)
+        public static implicit operator JMXddjFile(System.Drawing.Bitmap value)
         {
-            return new DDJImage(value);
+            return new JMXddjFile(value);
         }
 
         public void Dispose()
@@ -378,7 +314,7 @@ namespace BinaryFiles.PackFile
             return bitmap;
         }
 
-        private unsafe byte[] Decompress3Dc(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] Decompress3Dc(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -504,7 +440,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressARGB(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressARGB(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -522,7 +458,7 @@ namespace BinaryFiles.PackFile
             int sizeOfData = (int)((header.width * header.pixelformat.rgbbitcount / 8) * header.height * header.depth);
             byte[] rawData = new byte[depth * sizeofplane + height * bps + width * bpp];
 
-            if ((pixelFormat == PixelFormat.LUMINANCE) && (header.pixelformat.rgbbitcount == 16) && (header.pixelformat.rbitmask == 0xFFFF))
+            if ((pixelFormat == SPixelFormat.LUMINANCE) && (header.pixelformat.rgbbitcount == 16) && (header.pixelformat.rbitmask == 0xFFFF))
             {
                 Array.Copy(data, rawData, data.Length);
                 return rawData;
@@ -610,7 +546,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressARGB16(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressARGB16(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -719,7 +655,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressAti1n(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressAti1n(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -798,7 +734,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private byte[] DecompressData(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private byte[] DecompressData(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             //System.Diagnostics.Debug.WriteLine(pixelFormat);
             // allocate bitmap
@@ -806,57 +742,57 @@ namespace BinaryFiles.PackFile
 
             switch (pixelFormat)
             {
-                case PixelFormat.RGBA:
+                case SPixelFormat.RGBA:
                     rawData = DecompressRGBA(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.RGB:
+                case SPixelFormat.RGB:
                     rawData = DecompressRGB(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.LUMINANCE:
-                case PixelFormat.LUMINANCE_ALPHA:
+                case SPixelFormat.LUMINANCE:
+                case SPixelFormat.LUMINANCE_ALPHA:
                     rawData = DecompressLum(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.DXT1:
+                case SPixelFormat.DXT1:
                     rawData = DecompressDXT1(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.DXT2:
+                case SPixelFormat.DXT2:
                     rawData = DecompressDXT2(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.DXT3:
+                case SPixelFormat.DXT3:
                     rawData = DecompressDXT3(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.DXT4:
+                case SPixelFormat.DXT4:
                     rawData = DecompressDXT4(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.DXT5:
+                case SPixelFormat.DXT5:
                     rawData = DecompressDXT5(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.THREEDC:
+                case SPixelFormat.THREEDC:
                     rawData = Decompress3Dc(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.ATI1N:
+                case SPixelFormat.ATI1N:
                     rawData = DecompressAti1n(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.RXGB:
+                case SPixelFormat.RXGB:
                     rawData = DecompressRXGB(header, data, pixelFormat);
                     break;
 
-                case PixelFormat.R16F:
-                case PixelFormat.G16R16F:
-                case PixelFormat.A16B16G16R16F:
-                case PixelFormat.R32F:
-                case PixelFormat.G32R32F:
-                case PixelFormat.A32B32G32R32F:
+                case SPixelFormat.R16F:
+                case SPixelFormat.G16R16F:
+                case SPixelFormat.A16B16G16R16F:
+                case SPixelFormat.R32F:
+                case SPixelFormat.G32R32F:
+                case SPixelFormat.A32B32G32R32F:
                     rawData = DecompressFloat(header, data, pixelFormat);
                     break;
 
@@ -867,7 +803,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressDXT1(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressDXT1(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -960,7 +896,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private byte[] DecompressDXT2(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private byte[] DecompressDXT2(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int width = (int)header.width;
@@ -975,7 +911,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressDXT3(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressDXT3(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -1059,7 +995,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private byte[] DecompressDXT4(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private byte[] DecompressDXT4(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int width = (int)header.width;
@@ -1074,7 +1010,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressDXT5(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressDXT5(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -1211,7 +1147,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressFloat(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressFloat(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -1231,7 +1167,7 @@ namespace BinaryFiles.PackFile
                     byte* destData = destPtr;
                     switch (pixelFormat)
                     {
-                        case PixelFormat.R32F:  // Red float, green = blue = max
+                        case SPixelFormat.R32F:  // Red float, green = blue = max
                             size = width * height * depth * 3;
                             for (int i = 0, j = 0; i < size; i += 3, j++)
                             {
@@ -1241,11 +1177,11 @@ namespace BinaryFiles.PackFile
                             }
                             break;
 
-                        case PixelFormat.A32B32G32R32F:  // Direct copy of float RGBA data
+                        case SPixelFormat.A32B32G32R32F:  // Direct copy of float RGBA data
                             Array.Copy(data, rawData, data.Length);
                             break;
 
-                        case PixelFormat.G32R32F:  // Red float, green float, blue = max
+                        case SPixelFormat.G32R32F:  // Red float, green float, blue = max
                             size = width * height * depth * 3;
                             for (int i = 0, j = 0; i < size; i += 3, j += 2)
                             {
@@ -1255,17 +1191,17 @@ namespace BinaryFiles.PackFile
                             }
                             break;
 
-                        case PixelFormat.R16F:  // Red float, green = blue = max
+                        case SPixelFormat.R16F:  // Red float, green = blue = max
                             size = width * height * depth * bpp;
                             ConvR16ToFloat32((uint*)destData, (ushort*)temp, (uint)size);
                             break;
 
-                        case PixelFormat.A16B16G16R16F:  // Just convert from half to float.
+                        case SPixelFormat.A16B16G16R16F:  // Just convert from half to float.
                             size = width * height * depth * bpp;
                             ConvFloat16ToFloat32((uint*)destData, (ushort*)temp, (uint)size);
                             break;
 
-                        case PixelFormat.G16R16F:  // Convert from half to float, set blue = max.
+                        case SPixelFormat.G16R16F:  // Convert from half to float, set blue = max.
                             size = width * height * depth * bpp;
                             ConvG16R16ToFloat32((uint*)destData, (ushort*)temp, (uint)size);
                             break;
@@ -1279,7 +1215,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressLum(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressLum(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -1312,7 +1248,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressRGB(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressRGB(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -1355,7 +1291,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressRGBA(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressRGBA(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -1403,7 +1339,7 @@ namespace BinaryFiles.PackFile
             return rawData;
         }
 
-        private unsafe byte[] DecompressRXGB(DDSStruct header, byte[] data, PixelFormat pixelFormat)
+        private unsafe byte[] DecompressRXGB(DDSStruct header, byte[] data, SPixelFormat pixelFormat)
         {
             // allocate bitmap
             int bpp = (int)(PixelFormatToBpp(pixelFormat, header.pixelformat.rgbbitcount));
@@ -1628,9 +1564,9 @@ namespace BinaryFiles.PackFile
             shiftLeft = 8 - i;
         }
 
-        private PixelFormat GetFormat(DDSStruct header, ref uint blocksize)
+        private SPixelFormat GetFormat(DDSStruct header, ref uint blocksize)
         {
-            PixelFormat format = PixelFormat.UNKNOWN;
+            SPixelFormat format = SPixelFormat.UNKNOWN;
             if ((header.pixelformat.flags & DDPF_FOURCC) == DDPF_FOURCC)
             {
                 blocksize = ((header.width + 3) / 4) * ((header.height + 3) / 4) * header.depth;
@@ -1638,82 +1574,82 @@ namespace BinaryFiles.PackFile
                 switch (header.pixelformat.fourcc)
                 {
                     case FOURCC_DXT1:
-                        format = PixelFormat.DXT1;
+                        format = SPixelFormat.DXT1;
                         blocksize *= 8;
                         break;
 
                     case FOURCC_DXT2:
-                        format = PixelFormat.DXT2;
+                        format = SPixelFormat.DXT2;
                         blocksize *= 16;
                         break;
 
                     case FOURCC_DXT3:
-                        format = PixelFormat.DXT3;
+                        format = SPixelFormat.DXT3;
                         blocksize *= 16;
                         break;
 
                     case FOURCC_DXT4:
-                        format = PixelFormat.DXT4;
+                        format = SPixelFormat.DXT4;
                         blocksize *= 16;
                         break;
 
                     case FOURCC_DXT5:
-                        format = PixelFormat.DXT5;
+                        format = SPixelFormat.DXT5;
                         blocksize *= 16;
                         break;
 
                     case FOURCC_ATI1:
-                        format = PixelFormat.ATI1N;
+                        format = SPixelFormat.ATI1N;
                         blocksize *= 8;
                         break;
 
                     case FOURCC_ATI2:
-                        format = PixelFormat.THREEDC;
+                        format = SPixelFormat.THREEDC;
                         blocksize *= 16;
                         break;
 
                     case FOURCC_RXGB:
-                        format = PixelFormat.RXGB;
+                        format = SPixelFormat.RXGB;
                         blocksize *= 16;
                         break;
 
                     case FOURCC_DOLLARNULL:
-                        format = PixelFormat.A16B16G16R16;
+                        format = SPixelFormat.A16B16G16R16;
                         blocksize = header.width * header.height * header.depth * 8;
                         break;
 
                     case FOURCC_oNULL:
-                        format = PixelFormat.R16F;
+                        format = SPixelFormat.R16F;
                         blocksize = header.width * header.height * header.depth * 2;
                         break;
 
                     case FOURCC_pNULL:
-                        format = PixelFormat.G16R16F;
+                        format = SPixelFormat.G16R16F;
                         blocksize = header.width * header.height * header.depth * 4;
                         break;
 
                     case FOURCC_qNULL:
-                        format = PixelFormat.A16B16G16R16F;
+                        format = SPixelFormat.A16B16G16R16F;
                         blocksize = header.width * header.height * header.depth * 8;
                         break;
 
                     case FOURCC_rNULL:
-                        format = PixelFormat.R32F;
+                        format = SPixelFormat.R32F;
                         blocksize = header.width * header.height * header.depth * 4;
                         break;
 
                     case FOURCC_sNULL:
-                        format = PixelFormat.G32R32F;
+                        format = SPixelFormat.G32R32F;
                         blocksize = header.width * header.height * header.depth * 8;
                         break;
 
                     case FOURCC_tNULL:
-                        format = PixelFormat.A32B32G32R32F;
+                        format = SPixelFormat.A32B32G32R32F;
                         blocksize = header.width * header.height * header.depth * 16;
                         break;
 
                     default:
-                        format = PixelFormat.UNKNOWN;
+                        format = SPixelFormat.UNKNOWN;
                         blocksize *= 16;
                         break;
                 } // switch
@@ -1725,22 +1661,22 @@ namespace BinaryFiles.PackFile
                 {
                     if ((header.pixelformat.flags & DDPF_ALPHAPIXELS) == DDPF_ALPHAPIXELS)
                     {
-                        format = PixelFormat.LUMINANCE_ALPHA;
+                        format = SPixelFormat.LUMINANCE_ALPHA;
                     }
                     else
                     {
-                        format = PixelFormat.LUMINANCE;
+                        format = SPixelFormat.LUMINANCE;
                     }
                 }
                 else
                 {
                     if ((header.pixelformat.flags & DDPF_ALPHAPIXELS) == DDPF_ALPHAPIXELS)
                     {
-                        format = PixelFormat.RGBA;
+                        format = SPixelFormat.RGBA;
                     }
                     else
                     {
-                        format = PixelFormat.RGB;
+                        format = SPixelFormat.RGB;
                     }
                 }
 
@@ -1813,7 +1749,7 @@ namespace BinaryFiles.PackFile
         private void Parse(BinaryReader reader)
         {
             DDSStruct header = new DDSStruct();
-            PixelFormat pixelFormat = PixelFormat.UNKNOWN;
+            SPixelFormat pixelFormat = SPixelFormat.UNKNOWN;
             byte[] data = null;
 
             if (ReadHeader(reader, ref header))
@@ -1835,7 +1771,7 @@ namespace BinaryFiles.PackFile
 
                 uint blocksize = 0;
                 pixelFormat = GetFormat(header, ref blocksize);
-                if (pixelFormat == PixelFormat.UNKNOWN)
+                if (pixelFormat == SPixelFormat.UNKNOWN)
                 {
                     throw new InvalidFileHeaderException();
                 }
@@ -1851,21 +1787,21 @@ namespace BinaryFiles.PackFile
         }
 
         // iCompFormatToBpc
-        private uint PixelFormatToBpc(PixelFormat pf)
+        private uint PixelFormatToBpc(SPixelFormat pf)
         {
             switch (pf)
             {
-                case PixelFormat.R16F:
-                case PixelFormat.G16R16F:
-                case PixelFormat.A16B16G16R16F:
+                case SPixelFormat.R16F:
+                case SPixelFormat.G16R16F:
+                case SPixelFormat.A16B16G16R16F:
                     return 4;
 
-                case PixelFormat.R32F:
-                case PixelFormat.G32R32F:
-                case PixelFormat.A32B32G32R32F:
+                case SPixelFormat.R32F:
+                case SPixelFormat.G32R32F:
+                case SPixelFormat.A32B32G32R32F:
                     return 4;
 
-                case PixelFormat.A16B16G16R16:
+                case SPixelFormat.A16B16G16R16:
                     return 2;
 
                 default:
@@ -1874,32 +1810,32 @@ namespace BinaryFiles.PackFile
         }
 
         // iCompFormatToBpp
-        private uint PixelFormatToBpp(PixelFormat pf, uint rgbbitcount)
+        private uint PixelFormatToBpp(SPixelFormat pf, uint rgbbitcount)
         {
             switch (pf)
             {
-                case PixelFormat.LUMINANCE:
-                case PixelFormat.LUMINANCE_ALPHA:
-                case PixelFormat.RGBA:
-                case PixelFormat.RGB:
+                case SPixelFormat.LUMINANCE:
+                case SPixelFormat.LUMINANCE_ALPHA:
+                case SPixelFormat.RGBA:
+                case SPixelFormat.RGB:
                     return rgbbitcount / 8;
 
-                case PixelFormat.THREEDC:
-                case PixelFormat.RXGB:
+                case SPixelFormat.THREEDC:
+                case SPixelFormat.RXGB:
                     return 3;
 
-                case PixelFormat.ATI1N:
+                case SPixelFormat.ATI1N:
                     return 1;
 
-                case PixelFormat.R16F:
+                case SPixelFormat.R16F:
                     return 2;
 
-                case PixelFormat.A16B16G16R16:
-                case PixelFormat.A16B16G16R16F:
-                case PixelFormat.G32R32F:
+                case SPixelFormat.A16B16G16R16:
+                case SPixelFormat.A16B16G16R16F:
+                case SPixelFormat.G32R32F:
                     return 8;
 
-                case PixelFormat.A32B32G32R32F:
+                case SPixelFormat.A32B32G32R32F:
                     return 16;
 
                 default:

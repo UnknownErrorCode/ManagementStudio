@@ -1,4 +1,5 @@
 ﻿using BinaryFiles.PackFile;
+using PackFile.Media.Textdata;
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,34 +9,92 @@ namespace WorldMapSpawnEditor.MapGuide
     internal class MapGuidePanel : Panel
     {
         #region Fields
-
         private const string FilePath = "Media\\interface\\worldmap\\map";
         private readonly ConcurrentDictionary<Point, Bitmap> imgDic = new ConcurrentDictionary<Point, Bitmap>();
         private readonly ConcurrentDictionary<Point, CGuideRegion> MapPool = new ConcurrentDictionary<Point, CGuideRegion>();
-        private Point DrawStartPoint;
-        private Point LastMousePosition;
+        private Worldmap_Mapinfo worldmap_Mapinfo;
 
+        private WorldMapInfoSection ActiveSection;
+        Worldmap_Mapinfo_WorldStruct CurrentViewWorld;
+        Worldmap_Mapinfo_WorldStruct CurrentViewDungeon;
+
+        private Point DrawStartPoint = Point.Empty,
+            LastMousePosition = Point.Empty,
+            coordinatePoint = Point.Empty,
+            drawPoint = Point.Empty;
+        private bool IsDragging;
+        int newX, newY,
+            minX = 0,
+            minY = 0,
+            maxX = 0,
+            maxY = 0;
         #endregion Fields
 
         #region Constructors
 
+
+
+
+
+
         internal MapGuidePanel()
         {
             DoubleBuffered = true;
-            Size = new Size(652, 424);
+            Size = new Size(725, 350);
 
             Paint += MapGuidePanel_Paint;
             MouseUp += MapGuidePanel_MouseUp;
             MouseDown += MapGuidePanel_MouseDown;
+            MouseMove += MapGuidePanel_MouseMove;
+
+            if (!PackFile.MediaPack.GetWorldmap_Mapinfo(out worldmap_Mapinfo))
+                return;
+
+            if (worldmap_Mapinfo.TryGetMainWorldInfo(out CurrentViewWorld))
+                ActiveSection = WorldMapInfoSection.wLocalMap;
+
             InitializeMapImages();
+
+        }
+        private void MapGuidePanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (LastMousePosition == e.Location)
+            {
+                return;
+            }
+            if (IsDragging && e.Button == MouseButtons.Left)
+            {
+
+                newX = DrawStartPoint.X + (e.X - LastMousePosition.X);
+                newY = DrawStartPoint.Y + (e.Y - LastMousePosition.Y);
+                if (newX <= 0 && newX > (CurrentViewWorld.TotalSize_x * -1) + Width)
+                {
+                    DrawStartPoint.X = DrawStartPoint.X + (e.X - LastMousePosition.X);
+                }
+                if (newY <= 0 && newY > (CurrentViewWorld.TotalSize_y * -1) + Height)
+                {
+                    DrawStartPoint.Y = DrawStartPoint.Y + (e.Y - LastMousePosition.Y);
+                }
+
+
+
+                LastMousePosition = e.Location;
+
+                Invalidate();
+            }
         }
 
         #endregion Constructors
 
+        public Point ViewPoint
+        {
+            get => DrawStartPoint; set { DrawStartPoint = value; Invalidate(); }
+        }
         #region Methods
 
         private void InitializeMapImages()
         {
+            //TODO: somehow get better way to parse ddj files from pk2
             bool filesExist = PackFile.MediaPack.Reader.GetFilesInFolder(FilePath, out PackFile.Pk2File[] files);
 
             foreach (PackFile.Pk2File i in files)
@@ -51,9 +110,12 @@ namespace WorldMapSpawnEditor.MapGuide
 
                 if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
                 {
+                    var pointer = new Point(x, y);
+                    if (imgDic.ContainsKey(pointer))
+                        continue;
                     if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
                     {
-                        imgDic.TryAdd(new Point(x, y), new DDJImage(file).BitmapImage);
+                        imgDic.TryAdd(pointer, new JMXddjFile(file).BitmapImage);
                     }
                 }
             }
@@ -63,6 +125,7 @@ namespace WorldMapSpawnEditor.MapGuide
         {
             if (e.Button.Equals(MouseButtons.Left))
             {
+                IsDragging = true;
                 LastMousePosition = e.Location;
             }
         }
@@ -71,72 +134,44 @@ namespace WorldMapSpawnEditor.MapGuide
         {
             if (e.Button.Equals(MouseButtons.Left))
             {
-                DrawStartPoint.X = DrawStartPoint.X + (e.X - LastMousePosition.X);
-                DrawStartPoint.Y = DrawStartPoint.Y + (e.Y - LastMousePosition.Y);
-                Invalidate();
+                IsDragging = false;
             }
         }
-
         private void MapGuidePanel_Paint(object sender, PaintEventArgs e)
         {
-            int minX = 255, maxY = 0;
-            foreach (Point poinnt in imgDic.Keys)
+            switch (ActiveSection)
             {
-                if (minX > poinnt.X)
-                {
-                    minX = poinnt.X;
-                }
-
-                if (maxY < poinnt.Y)
-                {
-                    maxY = poinnt.Y;
-                }
+                case WorldMapInfoSection.None:
+                    return;
+                case WorldMapInfoSection.wLocalMap:
+                    minX = CurrentViewWorld.left;
+                    maxX = CurrentViewWorld.right;
+                    minY = CurrentViewWorld.bottom;
+                    maxY = CurrentViewWorld.top;
+                    break;
+                case WorldMapInfoSection.Dungeonmap:
+                    break;
+                default:
+                    break;
             }
-            var coordinatePoint = Point.Empty;
-            var drawPoint = Point.Empty;
 
-            for (int x = 1; x <= 256; x += 4)
+
+            for (int x = minX; x <= maxX; x += 4)
             {
-                for (int z = 1; z <= 256; z += 4)
+                for (int z = maxY; z >= minY; z -= 4)
                 {
                     coordinatePoint.X = x;
                     coordinatePoint.Y = z;
                     if (imgDic.ContainsKey(coordinatePoint))
                     {
-
                         drawPoint.X = DrawStartPoint.X + (((x - minX) * (imgDic[coordinatePoint].Width / 4)));
                         drawPoint.Y = DrawStartPoint.Y + (((maxY - z)) * (imgDic[coordinatePoint].Height / 4));
-                        //   e.Graphics.DrawImage(imgDic[coordinatePoint], drawPoint);
-                        //   TextRenderer.DrawText(e.Graphics, $"X:{x} Z:{z}", Font, drawPoint, Color.Red);
+                        e.Graphics.DrawImage(imgDic[coordinatePoint], drawPoint);
+                        TextRenderer.DrawText(e.Graphics, $"X:{x} Z:{z}", Font, drawPoint, Color.Red);
                     }
                 }
             }
-            foreach (System.Collections.Generic.KeyValuePair<Point, Bitmap> item in imgDic)
-            {
-                drawPoint.X = DrawStartPoint.X + (((item.Key.X - minX) * (item.Value.Width / 4)));
-                drawPoint.Y = DrawStartPoint.Y + (((item.Key.Y - maxY) * -1) * (item.Value.Height / 4));
-                e.Graphics.DrawImage(item.Value, drawPoint);
-                TextRenderer.DrawText(e.Graphics, $"X:{item.Key.X} Z:{item.Key.Y}", Font, drawPoint, Color.Red);
 
-            }
-
-            /*
-               var allfiles = Directory.GetFiles("D:\\projects\\resources\\map2");
-            imgDic = new Dictionary<Point, Image>(allfiles.Length - 1);
-
-            foreach (var i in allfiles)
-            {
-                var name = Path.GetFileNameWithoutExtension(i);
-
-                if (!name.StartsWith("map_world_"))
-                    continue;
-
-                var Coordinates = name.Replace("map_world_", "").Split("x");
-
-                if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
-                    imgDic.TryAdd(new Point(x, y), Image.FromFile(i));
-            }
-             */
         }
 
         #endregion Methods
