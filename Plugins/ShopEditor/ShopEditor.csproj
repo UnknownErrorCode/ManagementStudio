@@ -84,9 +84,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\ClientDataStorage.csproj">
+    <ProjectReference Include="..\..\ClientDataStorage\ClientFrameworkRes.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientDataStorage</Name>
+      <Name>ClientFrameworkRes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\BinaryFiles\BinaryFiles.csproj">
       <Project>{AD7421FC-847B-41FB-BA2F-6CA9A7069FB0}</Project>
@@ -95,6 +95,10 @@
     <ProjectReference Include="..\..\Utility\Editors\Editors.csproj">
       <Project>{5185C5C8-39D7-48ED-B45E-231DC36A3F10}</Project>
       <Name>Editors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\PackFile\PackFile.csproj">
+      <Project>{08885d2d-7dac-4902-bef2-d38132f77635}</Project>
+      <Name>PackFile</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>

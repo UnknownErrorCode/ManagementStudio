@@ -1,4 +1,4 @@
-﻿using ClientDataStorage.Dashboard;
+﻿using ClientFrameworkRes.Dashboard;
 using ServerFrameworkRes.BasicControls;
 using ServerFrameworkRes.Network.Security;
 using Structs.Dashboard;
@@ -23,15 +23,15 @@ namespace Dashboard
         {
             InitializeComponent();
 
-            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicLoadResponse, TopicReceiveExisting);
-            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicAddResponse, TopicReceiveNew);
-            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicsEndLoading, TopicsFinishedLoading);
-            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.TopicDeleteResponse, TopicDeleteResponse);
+            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicLoadResponse, TopicReceiveExisting);
+            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicAddResponse, TopicReceiveNew);
+            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicsEndLoading, TopicsFinishedLoading);
+            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicDeleteResponse, TopicDeleteResponse);
 
-            ClientDataStorage.ClientCore.AddEntry(PacketID.Server.UserLogOnOff, UserLogOnOff);
+            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.UserLogOnOff, UserLogOnOff);
 
-            ClientDataStorage.ClientCore.Send(DashboardPackets.RequestAllTopics);
-            ClientDataStorage.ClientCore.Send(DashboardPackets.RequestOnlineUser);
+            ClientFrameworkRes.ClientCore.Send(DashboardPackets.RequestAllTopics);
+            ClientFrameworkRes.ClientCore.Send(DashboardPackets.RequestOnlineUser);
         }
 
         #endregion Constructors
@@ -40,7 +40,7 @@ namespace Dashboard
 
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (DashboardTopicEditor editor = new DashboardTopicEditor(ClientDataStorage.ClientMemory.AccountName))
+            using (DashboardTopicEditor editor = new DashboardTopicEditor(ClientFrameworkRes.ClientMemory.AccountName))
             {
                 editor.ShowDialog();
             }
@@ -52,7 +52,7 @@ namespace Dashboard
             {
                 DashboardMessage messageToDelete = (DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag;
 
-                ClientDataStorage.ClientCore.Send(DashboardPackets.RequestDeleteTopicFromDashboard(messageToDelete));
+                ClientFrameworkRes.ClientCore.Send(DashboardPackets.RequestDeleteTopicFromDashboard(messageToDelete));
             }
         }
 

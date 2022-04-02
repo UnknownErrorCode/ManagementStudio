@@ -7,7 +7,7 @@ namespace ManagementClient
     {
         #region Fields
 
-        internal static ClientDataStorage.Config MainConfig = new ClientDataStorage.Config();
+        internal static ClientFrameworkRes.Config MainConfig = new ClientFrameworkRes.Config();
         internal static ClientForm StaticClientForm;
         internal static LoginForm StaticLoginForm;
 

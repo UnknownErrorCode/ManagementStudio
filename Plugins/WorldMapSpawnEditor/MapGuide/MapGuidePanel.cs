@@ -11,6 +11,7 @@ namespace WorldMapSpawnEditor.MapGuide
 
         private const string FilePath = "Media\\interface\\worldmap\\map";
         private readonly ConcurrentDictionary<Point, Bitmap> imgDic = new ConcurrentDictionary<Point, Bitmap>();
+        private readonly ConcurrentDictionary<Point, CGuideRegion> MapPool = new ConcurrentDictionary<Point, CGuideRegion>();
         private Point DrawStartPoint;
         private Point LastMousePosition;
 
@@ -35,9 +36,9 @@ namespace WorldMapSpawnEditor.MapGuide
 
         private void InitializeMapImages()
         {
-            bool filesExist = ClientDataStorage.Client.Media.MediaPk2.GetFilesInFolder(FilePath, out Structs.Pk2.Pk2File[] files);
+            bool filesExist = PackFile.MediaPack.Reader.GetFilesInFolder(FilePath, out PackFile.Pk2File[] files);
 
-            foreach (Structs.Pk2.Pk2File i in files)
+            foreach (PackFile.Pk2File i in files)
             {
                 string name = i.name;
 
@@ -50,7 +51,7 @@ namespace WorldMapSpawnEditor.MapGuide
 
                 if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
                 {
-                    if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
+                    if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
                     {
                         imgDic.TryAdd(new Point(x, y), new DDJImage(file).BitmapImage);
                     }
@@ -91,9 +92,32 @@ namespace WorldMapSpawnEditor.MapGuide
                     maxY = poinnt.Y;
                 }
             }
+            var coordinatePoint = Point.Empty;
+            var drawPoint = Point.Empty;
+
+            for (int x = 1; x <= 256; x += 4)
+            {
+                for (int z = 1; z <= 256; z += 4)
+                {
+                    coordinatePoint.X = x;
+                    coordinatePoint.Y = z;
+                    if (imgDic.ContainsKey(coordinatePoint))
+                    {
+
+                        drawPoint.X = DrawStartPoint.X + (((x - minX) * (imgDic[coordinatePoint].Width / 4)));
+                        drawPoint.Y = DrawStartPoint.Y + (((maxY - z)) * (imgDic[coordinatePoint].Height / 4));
+                        //   e.Graphics.DrawImage(imgDic[coordinatePoint], drawPoint);
+                        //   TextRenderer.DrawText(e.Graphics, $"X:{x} Z:{z}", Font, drawPoint, Color.Red);
+                    }
+                }
+            }
             foreach (System.Collections.Generic.KeyValuePair<Point, Bitmap> item in imgDic)
             {
-                e.Graphics.DrawImage(item.Value, item.Key);
+                drawPoint.X = DrawStartPoint.X + (((item.Key.X - minX) * (item.Value.Width / 4)));
+                drawPoint.Y = DrawStartPoint.Y + (((item.Key.Y - maxY) * -1) * (item.Value.Height / 4));
+                e.Graphics.DrawImage(item.Value, drawPoint);
+                TextRenderer.DrawText(e.Graphics, $"X:{item.Key.X} Z:{item.Key.Y}", Font, drawPoint, Color.Red);
+
             }
 
             /*

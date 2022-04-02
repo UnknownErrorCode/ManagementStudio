@@ -44,43 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PackFile\Data\bsr\AnimationEvent.cs" />
-    <Compile Include="PackFile\Data\bsr\AnimationType.cs" />
-    <Compile Include="PackFile\Data\bsr\CModDataSet.cs" />
-    <Compile Include="PackFile\Data\bsr\CPrimAniGroup.cs" />
-    <Compile Include="PackFile\Data\bsr\CPrimAniTypeData.cs" />
-    <Compile Include="PackFile\Data\bsr\CPrimMaterialSet.cs" />
-    <Compile Include="PackFile\Data\bsr\CPrimMesh.cs" />
-    <Compile Include="PackFile\Data\bsr\CPrimMeshGroup.cs" />
     <Compile Include="PackFile\Data\bsr\JMXbsrFile.cs" />
-    <Compile Include="PackFile\Data\bsr\ModDataType.cs" />
-    <Compile Include="PackFile\Data\bsr\ObjectGeneralInfo.cs" />
-    <Compile Include="PackFile\Data\bsr\ResourceType.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonFile.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonInfoData.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObject.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectEntry.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectExtraInformation.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectGroop.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectLink.cs" />
-    <Compile Include="PackFile\Data\Dungeon\DungeonRoomObjectPointStruct.cs" />
-    <Compile Include="PackFile\Data\Dungeon\ObjLink.cs" />
+    <Compile Include="PackFile\Data\Dungeon\JMXdofFile.cs" />
     <Compile Include="PackFile\ddj\DDJImage.cs" />
     <Compile Include="PackFile\ddj\PixelFormat.cs" />
     <Compile Include="PackFile\Map\m\MapMeshBlock.cs" />
     <Compile Include="PackFile\Map\m\MeshFile.cs" />
     <Compile Include="PackFile\Map\o2\MapObject.cs" />
     <Compile Include="PackFile\Map\o2\o2File.cs" />
-    <Compile Include="PackFile\Media\Textdata\SkillEffectData.cs" />
-    <Compile Include="PackFile\Media\Textdata\TextDataNameData.cs" />
-    <Compile Include="PackFile\Media\Textdata\TextUISystemData.cs" />
-    <Compile Include="PackFile\Media\Textdata\Tile2dIFOFileData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\TextArrayFormatter.cs" />
     <Compile Include="Utility\TextGroupParser.cs" />
     <Compile Include="Utility\TextParser.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="PackFile\Media\Textdata\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Structs\Structs.csproj">
       <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>

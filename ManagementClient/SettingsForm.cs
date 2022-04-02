@@ -1,4 +1,4 @@
-﻿using ClientDataStorage;
+﻿using ClientFrameworkRes;
 using System;
 using System.Windows.Forms;
 

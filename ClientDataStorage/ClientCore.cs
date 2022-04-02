@@ -1,10 +1,10 @@
-﻿using ClientDataStorage.Network;
+﻿using ClientFrameworkRes.Network;
 using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Network.Security;
 using System;
 using System.Threading;
 
-namespace ClientDataStorage
+namespace ClientFrameworkRes
 {
     public static class ClientCore
     {

@@ -1,5 +1,4 @@
-﻿using Structs.Pk2;
-using Structs.Pk2.BinaryFiles;
+﻿using Structs.Pk2.BinaryFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,35 +38,12 @@ namespace BinaryFiles.PackFile.Map.m
         /// </summary>
         public byte Y;
 
+        public bool Initialized { get; } = true;
+
         #endregion Fields
 
         #region Constructors
 
-        /// <summary>
-        /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
-        /// </summary>
-        /// <param name="pk2file"></param>
-        public MeshFile(Pk2File pk2file, byte[] buffer)
-        {
-            if (pk2file.name == null)
-            {
-                return;
-            }
-
-            if (!byte.TryParse(pk2file.parentFolder.name, out byte yCoordinate))
-            {
-                return;
-            }
-
-            if (!byte.TryParse(pk2file.name.Replace(".m", ""), out byte xCoordinate))
-            {
-                return;
-            }
-
-            //byte[] buffer = Map.MapPk2.GetByteArrayByFile(pk2file);
-
-            Initialize(buffer, xCoordinate, yCoordinate);
-        }
 
         /// <summary>
         /// .m file inside Map.Pk2 includes all informations about the terrain mesh.
@@ -77,7 +53,14 @@ namespace BinaryFiles.PackFile.Map.m
         /// <param name="yCoordinate"></param>
         public MeshFile(byte[] buffer, byte xCoordinate, byte yCoordinate)
         {
-            Initialize(buffer, xCoordinate, yCoordinate);
+            try
+            {
+                Initialize(buffer, xCoordinate, yCoordinate);
+            }
+            catch (Exception)
+            {
+                Initialized = false;
+            }
         }
 
         #endregion Constructors
@@ -131,12 +114,12 @@ namespace BinaryFiles.PackFile.Map.m
         /// <param name="Cx"></param>
         /// <param name="Cy"></param>
         /// <returns>MapMeshCell cell</returns>
-        public bool GetMapMeshCell(int x, int y, int Cx, int Cy, out MapMeshCell cell)
+        public bool GetMapMeshCell(int x, int y, int Cx, int Cy, out CMapMeshCell cell)
         {
             System.Drawing.Point p = new System.Drawing.Point(x, y);
             System.Drawing.Point cp = new System.Drawing.Point(Cx, Cy);
 
-            cell = new MapMeshCell();
+            cell = new CMapMeshCell();
 
             if (Blocks[p].MapCells.ContainsKey(p))
             {
@@ -306,7 +289,7 @@ namespace BinaryFiles.PackFile.Map.m
                     {
                         for (int yBlock = 0; yBlock < 6; yBlock++)
                         {
-                            Dictionary<System.Drawing.Point, MapMeshCell> Cells = new Dictionary<System.Drawing.Point, MapMeshCell>();
+                            Dictionary<System.Drawing.Point, CMapMeshCell> Cells = new Dictionary<System.Drawing.Point, CMapMeshCell>();
                             char[] blockName = Encoding.UTF8.GetChars(readBin.ReadBytes(6));
 
                             for (int Cellx = 0; Cellx < 17; Cellx++)
@@ -320,7 +303,7 @@ namespace BinaryFiles.PackFile.Map.m
 
                                     try
                                     {
-                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new MapMeshCell(hei, tex, 0, bri));
+                                        Cells.Add(new System.Drawing.Point(Cellx, Celly), new CMapMeshCell(hei, tex, 0, bri));
                                     }
                                     catch (Exception)
                                     {

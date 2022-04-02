@@ -1,7 +1,7 @@
 ﻿using ServerFrameworkRes.Network.Security;
 using System;
 
-namespace ClientDataStorage.Network
+namespace ClientFrameworkRes.Network
 {
     public static class ClientPacketFormat
     {

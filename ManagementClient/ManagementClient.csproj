@@ -103,9 +103,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientDataStorage\ClientDataStorage.csproj">
+    <ProjectReference Include="..\ClientDataStorage\ClientFrameworkRes.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientDataStorage</Name>
+      <Name>ClientFrameworkRes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugins\Dashboard\Dashboard.csproj">
       <Project>{0ff3fae3-3d03-4240-9e42-4bb0111fb9a5}</Project>
@@ -130,6 +130,10 @@
     <ProjectReference Include="..\Plugins\WorldMapSpawnEditor\WorldMapSpawnEditor.csproj">
       <Project>{ecd8fda9-e279-4cf0-9f5d-dc639188c35b}</Project>
       <Name>WorldMapSpawnEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\PackFile\PackFile.csproj">
+      <Project>{08885d2d-7dac-4902-bef2-d38132f77635}</Project>
+      <Name>PackFile</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>

@@ -55,12 +55,14 @@
             this.spawnEditorOnClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.continentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vSroSmallButtonLoad = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.dungeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dungeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vSroSmallButtonLoad = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.mapGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -117,10 +119,11 @@
             // 
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Top;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1});
+            this.toolStripDropDownButton1,
+            this.toolStripDropDownButton2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(255, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(255, 38);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -133,9 +136,10 @@
             this.viewToolStripMenuItem});
             this.toolStripDropDownButton1.Enabled = false;
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 20);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(41, 36);
             this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             // 
             // showToolStripMenuItem
@@ -326,17 +330,11 @@
             this.continentToolStripMenuItem.Size = new System.Drawing.Size(200, 42);
             this.continentToolStripMenuItem.Text = "Continent";
             // 
-            // vSroSmallButtonLoad
+            // dungeonToolStripMenuItem
             // 
-            this.vSroSmallButtonLoad.Enabled = false;
-            this.vSroSmallButtonLoad.Location = new System.Drawing.Point(16, 346);
-            this.vSroSmallButtonLoad.MaximumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonLoad.MinimumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonLoad.Name = "vSroSmallButtonLoad";
-            this.vSroSmallButtonLoad.Size = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonLoad.TabIndex = 8;
-            this.vSroSmallButtonLoad.vSroSmallButtonName = "Load Data";
-            this.vSroSmallButtonLoad.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButtonLoad_vSroClickEvent);
+            this.dungeonToolStripMenuItem.Name = "dungeonToolStripMenuItem";
+            this.dungeonToolStripMenuItem.Size = new System.Drawing.Size(200, 42);
+            this.dungeonToolStripMenuItem.Text = "Dungeon";
             // 
             // tabPage2
             // 
@@ -371,11 +369,36 @@
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
             // 
-            // dungeonToolStripMenuItem
+            // vSroSmallButtonLoad
             // 
-            this.dungeonToolStripMenuItem.Name = "dungeonToolStripMenuItem";
-            this.dungeonToolStripMenuItem.Size = new System.Drawing.Size(200, 42);
-            this.dungeonToolStripMenuItem.Text = "Dungeon";
+            this.vSroSmallButtonLoad.Enabled = false;
+            this.vSroSmallButtonLoad.Location = new System.Drawing.Point(16, 346);
+            this.vSroSmallButtonLoad.MaximumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoad.MinimumSize = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoad.Name = "vSroSmallButtonLoad";
+            this.vSroSmallButtonLoad.Size = new System.Drawing.Size(152, 24);
+            this.vSroSmallButtonLoad.TabIndex = 8;
+            this.vSroSmallButtonLoad.vSroSmallButtonName = "Load Data";
+            this.vSroSmallButtonLoad.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButtonLoad_vSroClickEvent);
+            // 
+            // toolStripDropDownButton2
+            // 
+            this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mapGuideToolStripMenuItem});
+            this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
+            this.toolStripDropDownButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(45, 36);
+            this.toolStripDropDownButton2.Text = "toolStripDropDownButton2";
+            // 
+            // mapGuideToolStripMenuItem
+            // 
+            this.mapGuideToolStripMenuItem.Name = "mapGuideToolStripMenuItem";
+            this.mapGuideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mapGuideToolStripMenuItem.Text = "Map Guide";
+            this.mapGuideToolStripMenuItem.Click += new System.EventHandler(this.mapGuideToolStripMenuItem_Click);
             // 
             // WorldMapSpawnEditorControl
             // 
@@ -430,5 +453,7 @@
         private System.Windows.Forms.ToolStripMenuItem continentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dBRegionsWithoutDdjToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dungeonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
+        private System.Windows.Forms.ToolStripMenuItem mapGuideToolStripMenuItem;
     }
 }

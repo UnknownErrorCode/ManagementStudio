@@ -1,7 +1,7 @@
 ﻿using Structs.Dashboard;
 using System.Collections.Generic;
 
-namespace ClientDataStorage
+namespace ClientFrameworkRes
 {
     public static class ClientMemory
     {

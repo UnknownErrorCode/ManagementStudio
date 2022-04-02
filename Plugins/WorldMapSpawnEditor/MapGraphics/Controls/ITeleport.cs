@@ -41,12 +41,12 @@ namespace WorldMapSpawnEditor.MapGraphics
             TeleportData = teleportData;
             if (TeleportData.IsNpcTeleport)
             {
-                if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.Values.Any(tac => tac.dwObjID == TeleportData.ObjCommon.ID))
+                if (ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics.Values.Any(tac => tac.dwObjID == TeleportData.ObjCommon.ID))
                 {
-                    Tab_RefTactics tacticsID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.Values.First(ta => ta.dwObjID == TeleportData.ObjCommon.ID);
-                    if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest.Values.Any(nest => nest.dwTacticsID == tacticsID.dwTacticsID))
+                    Tab_RefTactics tacticsID = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics.Values.First(ta => ta.dwObjID == TeleportData.ObjCommon.ID);
+                    if (ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest.Values.Any(nest => nest.dwTacticsID == tacticsID.dwTacticsID))
                     {
-                        TempNest = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest.Values.First(nest => nest.dwTacticsID == tacticsID.dwTacticsID);
+                        TempNest = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest.Values.First(nest => nest.dwTacticsID == tacticsID.dwTacticsID);
                         RegionID = TempNest.nRegionDBID;
                         Location = new PointF(TempNest.fLocalPosX, TempNest.fLocalPosZ);
                     }

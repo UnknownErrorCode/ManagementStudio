@@ -197,7 +197,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 string stry = PointMouseSroRegioDown.Y.ToString("X");
                 string strin = $"{stry}{strx}";
 
-                int regionID = Convert.ToInt32(strin, 16);
+                short regionID = (short)Convert.ToInt32(strin, 16);
 
                 float fRegX = ((PointMouseSroRegioDown.X) * PictureSize + (PointZeroLocation.X - e.X)) * -1;
                 float RegX = (float)Math.Round(fRegX * (1920f / PictureSize), 0);
@@ -208,17 +208,17 @@ namespace WorldMapSpawnEditor.MapGraphics
                 float fRegY = ((128 * PictureSize) + (PointZeroLocation.Y - e.Y)) - ((PointMouseSroRegioDown.Y) * PictureSize);
                 float RegY = (float)Math.Round(fRegY * (1920f / PictureSize));
 
-                if (!ClientDataStorage.Client.Map.AllmFiles.ContainsKey(PointMouseSroRegioDown))
+                if (!PackFile.MapPack.AllmFiles.ContainsKey(regionID))
                 {
-                    if (ClientDataStorage.Client.Map.Reader.GetByteArrayByDirectory($"Map\\{PointMouseSroRegioDown.Y}\\{PointMouseSroRegioDown.X}.m", out byte[] mFile))
+                    if (PackFile.MapPack.Reader.GetByteArrayByDirectory($"Map\\{PointMouseSroRegioDown.Y}\\{PointMouseSroRegioDown.X}.m", out byte[] mFile))
                     {
                         BinaryFiles.PackFile.Map.m.MeshFile mfi = new BinaryFiles.PackFile.Map.m.MeshFile(mFile, (byte)PointMouseSroRegioDown.X, (byte)PointMouseSroRegioDown.Y);
-                        ClientDataStorage.Client.Map.AllmFiles.Add(PointMouseSroRegioDown, mfi);
+                        PackFile.MapPack.AllmFiles.Add((short)regionID, mfi);
                     }
                 }
-                if (ClientDataStorage.Client.Map.AllmFiles.ContainsKey(PointMouseSroRegioDown))
+                if (PackFile.MapPack.AllmFiles.ContainsKey(regionID))
                 {
-                    if (ClientDataStorage.Client.Map.AllmFiles[PointMouseSroRegioDown].GetHightByfPoint(RegX, RegY, out float Z))
+                    if (PackFile.MapPack.AllmFiles[regionID].GetHightByfPoint(RegX, RegY, out float Z))
                     {
                         if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"/warp {regionID} {RegX} {Z} {RegY}\n\nX:{PointMouseSroRegioDown.X}\nY:{PointMouseSroRegioDown.Y}", "Add new Position?"))
                         {
@@ -311,7 +311,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 }
 
                 //if (ShowPlayer)
-                //    foreach (var player in ClientDataStorage.Database.SRO_VT_SHARD._Char.Where(ch => rangeXCoordPanel.Contains((((ch.Value.LatestRegion % 256) * PictureSize + PointZeroLocation.X) + ((int)Math.Round(ch.Value.PosX / (1920f / PictureSize), 0)))) && rangeYCoordPanel.Contains((((((ch.Value.LatestRegion / 256) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + ((int)Math.Round((ch.Value.PosZ / (1920f / PictureSize)) * -1)))))
+                //    foreach (var player in ClientFrameworkRes.Database.SRO_VT_SHARD._Char.Where(ch => rangeXCoordPanel.Contains((((ch.Value.LatestRegion % 256) * PictureSize + PointZeroLocation.X) + ((int)Math.Round(ch.Value.PosX / (1920f / PictureSize), 0)))) && rangeYCoordPanel.Contains((((((ch.Value.LatestRegion / 256) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + ((int)Math.Round((ch.Value.PosZ / (1920f / PictureSize)) * -1)))))
                 //        StrBuilder.AppendLine($"{player.Value.CharName16}\n Level:{player.Value.CurLevel}\n HP:{player.Value.HP}\n MP:{player.Value.MP}");
 
                 tip.Show(StrBuilder.ToString(), Parent, e.X + 20, e.Y + 2, 5000);
@@ -611,7 +611,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                 if (ShowPlayer)
                 {
-                    foreach (IChar item in ClientDataStorage.Database.SRO_VT_SHARD._Char.Values)
+                    foreach (IChar item in ClientFrameworkRes.Database.SRO_VT_SHARD._Char.Values)
                     {
                         e.Graphics.DrawImage(ImagePlayer, ((item.LatestRegion % 256) * PictureSize + PointZeroLocation.X) + (int)Math.Round(item.PosX / (1920f / PictureSize), 0), (((((item.LatestRegion / 256) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((item.PosZ / (1920f / PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
                     }
@@ -664,7 +664,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             //  Spawns.Clear();
 
             /*
-                        foreach (var nest in ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest.Values)
+                        foreach (var nest in ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest.Values)
                         {
                             var spawn = new Spawn(nest);
                             if (!spawn.SpawnType.Equals(SpawnType.None))
@@ -686,13 +686,13 @@ namespace WorldMapSpawnEditor.MapGraphics
                             }
                         }
 
-                        foreach (RefTeleport teleport in ClientDataStorage.Database.SRO_VT_SHARD._RefTeleport.Values)
+                        foreach (RefTeleport teleport in ClientFrameworkRes.Database.SRO_VT_SHARD._RefTeleport.Values)
                         {
                             if (teleport.AssocRefObjID > 0)
                                 Spawns.Add(new Spawn(teleport));
                         }
 
-                        foreach (IChar ichar in ClientDataStorage.Database.SRO_VT_SHARD._Char.Values)
+                        foreach (IChar ichar in ClientFrameworkRes.Database.SRO_VT_SHARD._Char.Values)
                         {
                             Spawns.Add(Spawn.FromSpawn<Player>(new Spawn(ichar)));
                         }
@@ -708,16 +708,22 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <param name="image"></param>
         private void InitializeSpawnImage(string pk2PathString, int ImageSize, out Bitmap image)
         {
-            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(pk2PathString))
+            if (!PackFile.MediaPack.DDJFiles.ContainsKey(pk2PathString))
             {
-                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(pk2PathString, out byte[] file))
+                if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(pk2PathString, out byte[] file))
                 {
                     DDJImage DDJFile = new DDJImage(file);
-                    ClientDataStorage.Client.Media.DDJFiles.Add(pk2PathString, DDJFile);
+                    PackFile.MediaPack.DDJFiles.Add(pk2PathString, DDJFile);
                 }
+
+                //if (ClientFrameworkRes.Client.Media.MediaPk2.GetByteArrayByDirectory(pk2PathString, out byte[] file))
+                //{
+                //    DDJImage DDJFile = new DDJImage(file);
+                //    ClientFrameworkRes.Client.Media.DDJFiles.Add(pk2PathString, DDJFile);
+                //}
             }
 
-            image = ClientDataStorage.Client.Media.DDJFiles[pk2PathString].BitmapImage;
+            image = PackFile.MediaPack.DDJFiles[pk2PathString].BitmapImage;
         }
 
         /// <summary>
@@ -725,7 +731,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private void InitializeWorldGraphics()
         {
-            var allRegions = ClientDataStorage.Database.SRO_VT_SHARD._RefRegion.Values;
+            var allRegions = ClientFrameworkRes.Database.SRO_VT_SHARD._RefRegion.Values;
             World = new CWorld(allRegions); // TODO: make fields for the unmanaged Regions inside CWorld...
 
             //Add images which are not present inside the database
@@ -737,7 +743,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 {
                     p.X = i; p.Y = i2;
 
-                    string str = $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{i}x{i2}.JPG";
+                    string str = $"{ClientFrameworkRes.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{i}x{i2}.JPG";
                     if (System.IO.File.Exists(str) && !World.ContainsRegion(p))
                     {
                         int rID = Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);

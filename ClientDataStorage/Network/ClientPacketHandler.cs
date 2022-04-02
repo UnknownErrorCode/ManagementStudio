@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace ClientDataStorage.Network
+namespace ClientFrameworkRes.Network
 {
     internal partial class ClientPacketHandler : PacketHandler
     {
@@ -65,7 +65,7 @@ namespace ClientDataStorage.Network
 
             if (!ClientMemory.AllowedDataTables.Contains(tableName))
             {
-                Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Not allowed to use DataTable: {tableName}");
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Not allowed to use DataTable: {tableName}");
 
                 return PacketHandlerResult.Disconnect;
             }
@@ -74,7 +74,7 @@ namespace ClientDataStorage.Network
             var table = arg2.ReadDataTable(arg3);
             Database.SRO_VT_SHARD.PoolDataTable(tableName, table);
 
-            Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
+            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
 
             return PacketHandlerResult.Block;
         }
@@ -83,7 +83,7 @@ namespace ClientDataStorage.Network
         {
             ServerFrameworkRes.Ressources.LogLevel type = (ServerFrameworkRes.Ressources.LogLevel)arg2.ReadByte();
             string text = arg2.ReadAscii();
-            Log.Logger.WriteLogLine(type, text);
+            ServerFrameworkRes.Log.Logger.WriteLogLine(type, text);
             return PacketHandlerResult.Block;
         }
 

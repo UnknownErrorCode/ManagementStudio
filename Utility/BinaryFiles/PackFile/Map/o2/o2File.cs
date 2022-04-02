@@ -1,5 +1,4 @@
-﻿using Structs.Pk2;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace BinaryFiles.PackFile.Map.o2
@@ -13,23 +12,23 @@ namespace BinaryFiles.PackFile.Map.o2
         /// </summary>
         /// <param name="binFile"></param>
         [System.Obsolete]
-        public o2File(Pk2File binFile, byte[] buffer)
+        public o2File(byte[] buffer)
         {
             //byte[] buffer = Map.MapPk2.GetByteArrayByFile(binFile);
 
-            if (!byte.TryParse(binFile.parentFolder.name, out byte xval))
-            {
-                return;
-            }
+            //if (!byte.TryParse(binFile.parentFolder.name, out byte xval))
+            //{
+            //    return;
+            //}
 
-            if (!byte.TryParse(binFile.name.Replace(".o2", ""), out byte zval))
-            {
-                return;
-            }
+            //if (!byte.TryParse(binFile.name.Replace(".o2", ""), out byte zval))
+            //{
+            //    return;
+            //}
 
-            OX = xval;
-            OZ = zval;
-            Initialize(buffer, xval, zval);
+            //OX = xval;
+            //OZ = zval;
+            //Initialize(buffer, xval, zval);
         }
 
         #endregion Constructors

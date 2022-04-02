@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PackFile.Media.Textdata;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Editors.Skills
 
         public bool ChangeAviable = false;
         private readonly Dictionary<int, Dictionary<string, string>> AviableChanges = new Dictionary<int, Dictionary<string, string>>();
-
+        private readonly SkillEffect skillEffect;
         #endregion Fields
 
         #region Constructors
@@ -20,7 +21,10 @@ namespace Editors.Skills
         public SkillEditor(Monster monster)
         {
             InitializeComponent();
-
+            if (!PackFile.MediaPack.GetSkillEffect(out skillEffect))
+            {
+                MessageBox.Show("Failed to read skilleffect.txt from client!!");
+            }
             List<int> UsedSkillIDs = new List<int>();
             foreach (Structs.Database.RefSkill skill in monster.Skills.Where(ski => ski.ID > 0))
             {
@@ -29,11 +33,11 @@ namespace Editors.Skills
 
             propertyGrid1.SelectedObject = monster;
             propertyGrid1.Refresh();
-            dataGridViewMobSkills.DataSource = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Where(row => UsedSkillIDs.Contains(row.Field<int>("ID"))).CopyToDataTable();
+            dataGridViewMobSkills.DataSource = ClientFrameworkRes.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Where(row => UsedSkillIDs.Contains(row.Field<int>("ID"))).CopyToDataTable();
 
-            if (ClientDataStorage.Client.Media.Server_Dep.SkillEffect.ExistsCharInfoCodename128(monster.ObjCommon.CodeName128))
+            if (skillEffect.ExistsCharInfoCodename128(monster.ObjCommon.CodeName128))
             {
-                IEnumerable<Structs.Pk2.Media.CharakterInfo> CharInfoOfMob = ClientDataStorage.Client.Media.Server_Dep.SkillEffect.GetCharakterInfos(monster.ObjCommon.CodeName128);
+                IEnumerable<CharakterInfo> CharInfoOfMob = skillEffect.GetCharakterInfos(monster.ObjCommon.CodeName128);
 
                 //If charInfoOfMob exists, assign it to the Grid after create
                 if (CharInfoOfMob.Count() > 0)
@@ -43,7 +47,7 @@ namespace Editors.Skills
                         ServerFrameworkRes.BasicControls.vSroMessageBox.Show("This monster has 2 or more charInfos in SkillEffect.txt!\nYou should use 1 charInfo per mob only!");
                     }
 
-                    foreach (Structs.Pk2.Media.CharakterInfo charinfo in CharInfoOfMob)
+                    foreach (CharakterInfo charinfo in CharInfoOfMob)
                     {
                         //Check if columncount matches the result
                         if (charinfo.ObjectArray.Length > dataGridViewSkillEffectCharakterInfo.Columns.Count)
@@ -90,10 +94,10 @@ namespace Editors.Skills
                     string CurrentlySelectedBasicCode = $"{dataGridViewMobSkills.SelectedRows[i].Cells["Basic_Code"].Value}";
                     if (CurrentlySelectedBasicCode.Length > 0)
                     {
-                        if (ClientDataStorage.Client.Media.Server_Dep.SkillEffect.ExistsAniSet2s(CurrentlySelectedBasicCode))
+                        if (skillEffect.ExistsAniSet2s(CurrentlySelectedBasicCode))
                         {
-                            IEnumerable<Structs.Pk2.Media.AniSet2> anienum = ClientDataStorage.Client.Media.Server_Dep.SkillEffect.GetAniSet2s(CurrentlySelectedBasicCode);
-                            foreach (Structs.Pk2.Media.AniSet2 item in anienum)
+                            IEnumerable<AniSet2> anienum = skillEffect.GetAniSet2s(CurrentlySelectedBasicCode);
+                            foreach (AniSet2 item in anienum)
                             {
                                 while (item.ObjectArray.Length > dataGridViewSkillEffectAniSet2.Columns.Count)
                                 {
@@ -103,10 +107,10 @@ namespace Editors.Skills
                             }
                         }
 
-                        if (ClientDataStorage.Client.Media.Server_Dep.SkillEffect.ExistsEffectSets(CurrentlySelectedBasicCode))
+                        if (skillEffect.ExistsEffectSets(CurrentlySelectedBasicCode))
                         {
-                            IEnumerable<Structs.Pk2.Media.EffectSet> effectSetEnum = ClientDataStorage.Client.Media.Server_Dep.SkillEffect.Skilleffects.AllEffectSets.Where(singleEffect => (string)singleEffect.SkillEffectID == CurrentlySelectedBasicCode);
-                            foreach (Structs.Pk2.Media.EffectSet effectset in effectSetEnum)
+                            IEnumerable<EffectSet> effectSetEnum = skillEffect.Skilleffects.AllEffectSets.Where(singleEffect => (string)singleEffect.SkillEffectID == CurrentlySelectedBasicCode);
+                            foreach (EffectSet effectset in effectSetEnum)
                             {
                                 if ((string)effectset.SkillEffectID == CurrentlySelectedBasicCode)
                                 {

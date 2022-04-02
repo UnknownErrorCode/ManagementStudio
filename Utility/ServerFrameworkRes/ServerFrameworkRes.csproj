@@ -116,6 +116,7 @@
     <Compile Include="Handler\Caller.cs" />
     <Compile Include="Handler\EnumExtensions.cs" />
     <Compile Include="InitializeFile.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Network\AsyncNetwork\AsyncBase.cs" />
     <Compile Include="Network\AsyncNetwork\AsyncBuffer.cs" />
     <Compile Include="Network\AsyncNetwork\AsyncClient.cs" />

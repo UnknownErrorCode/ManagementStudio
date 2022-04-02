@@ -26,9 +26,9 @@ namespace WorldMapSpawnEditor
         {
             InitializeComponent();
             InitializePerformance(this);
-            ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            var pack = ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
-            ClientDataStorage.ClientCore.Send(pack);
+            ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            var pack = ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+            ClientFrameworkRes.ClientCore.Send(pack);
         }
 
         #endregion Constructors
@@ -53,7 +53,7 @@ namespace WorldMapSpawnEditor
         {
             var continent = ((ToolStripMenuItem)sender).Text;
             if (!MapPanel.TryViewContinent(continent))
-                ClientDataStorage.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed to set view for continent: [{continent}]");
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed to set view for continent: [{continent}]");
         }
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
@@ -154,5 +154,13 @@ namespace WorldMapSpawnEditor
         }
 
         #endregion Methods
+
+        private void mapGuideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var mguide = new MapGuide.MapGuideForm())
+            {
+                mguide.ShowDialog();
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using PackFile.Media.Textdata;
+using ServerFrameworkRes.Network.Security;
 using Structs.Tool;
 using System;
 using System.Windows.Forms;
@@ -12,6 +13,7 @@ namespace ShopEditor
         private const PluginData PLUGINDATA = PluginData.ShopEditor;
         private const string STRING_DLL = "ShopEditor.dll";
 
+        internal static TextUISystem StaticTextUISystem;
         #endregion Fields
 
         #region Constructors
@@ -23,15 +25,20 @@ namespace ShopEditor
         public ShopEditorControl()
         {
             InitializeComponent();
-            ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            ClientDataStorage.ClientCore.Send(RequestDataPacket);
+            if (!PackFile.MediaPack.GetTextUISystem(out StaticTextUISystem))
+            {
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, "Failed to get textuisystem for ShopEditor.");
+            }
+
+            ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            ClientFrameworkRes.ClientCore.Send(RequestDataPacket);
         }
 
         #endregion Constructors
 
         #region Properties
 
-        private Packet RequestDataPacket => ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+        private Packet RequestDataPacket => ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
 
         #endregion Properties
 
@@ -43,7 +50,7 @@ namespace ShopEditor
         private void InitializeListView()
         {
             listViewAllNpcs.Items.Clear();
-            foreach (Structs.Database.RefShopGroup item in ClientDataStorage.Database.SRO_VT_SHARD._RefShopGroup)
+            foreach (Structs.Database.RefShopGroup item in ClientFrameworkRes.Database.SRO_VT_SHARD._RefShopGroup)
             {
                 if (!listViewAllNpcs.Items.ContainsKey(item.RefNPCCodeName) && (!item.RefNPCCodeName.ToLower().Equals("xxx")))
                 {
@@ -51,7 +58,7 @@ namespace ShopEditor
                     listViewAllNpcs.Items.Add(listItem);
                 }
             }
-            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load [{listViewAllNpcs.Items.Count}] Npc Shops.");
+            ServerFrameworkRes.Log.Logger.WriteLogLine($"Successfully load [{listViewAllNpcs.Items.Count}] Npc Shops.");
         }
 
         /// <summary>

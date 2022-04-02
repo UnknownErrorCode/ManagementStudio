@@ -89,19 +89,19 @@ namespace ShopEditor.Interface
             //ShopTitle = Media.StaticTextuiSystem.UIIT_Strings.TryGetValue(title, out TextUISystemStruct str) ? str.Viethnam : title;
 
             CurrentPageIndex = 0;
-            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(TabOnUIPath))
+            if (!PackFile.MediaPack.DDJFiles.ContainsKey(TabOnUIPath))
             {
-                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(TabOnUIPath, out byte[] ddjbytearray))
+                if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(TabOnUIPath, out byte[] ddjbytearray))
                 {
-                    ClientDataStorage.Client.Media.DDJFiles.Add(TabOnUIPath, new DDJImage(ddjbytearray));
+                    PackFile.MediaPack.DDJFiles.Add(TabOnUIPath, new DDJImage(ddjbytearray));
                 }
             }
 
-            if (!ClientDataStorage.Client.Media.DDJFiles.ContainsKey(TabOffUIPath))
+            if (!PackFile.MediaPack.DDJFiles.ContainsKey(TabOffUIPath))
             {
-                if (ClientDataStorage.Client.Media.MediaPk2.GetByteArrayByDirectory(TabOffUIPath, out byte[] ddjbytearray2))
+                if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(TabOffUIPath, out byte[] ddjbytearray2))
                 {
-                    ClientDataStorage.Client.Media.DDJFiles.Add(TabOffUIPath, new DDJImage(ddjbytearray2));
+                    PackFile.MediaPack.DDJFiles.Add(TabOffUIPath, new DDJImage(ddjbytearray2));
                 }
             }
         }

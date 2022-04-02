@@ -22,8 +22,8 @@ namespace SkillEditor
         public SkillEditorControl()
         {
             InitializeComponent();
-            ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+            ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
         }
 
         #endregion Constructors
@@ -48,7 +48,7 @@ namespace SkillEditor
                 {
                     int commonID = (int)dataGridViewMonster.SelectedRows[0].Cells["ID"].Value;
 
-                    if (ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(commonID))
+                    if (ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(commonID))
                     {
                         Monster Monster = new Monster(commonID);
                         Editors.Skills.SkillEditor editor = new Editors.Skills.SkillEditor(Monster);
@@ -69,16 +69,16 @@ namespace SkillEditor
         /// <param name="e"></param>
         private void SearchMonster(object sender, EventArgs e)
         {
-            if (ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Any(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())))
+            if (ClientFrameworkRes.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Any(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())))
             {
-                dataGridViewMonster.DataSource = ClientDataStorage.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Where(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())).CopyToDataTable();
+                dataGridViewMonster.DataSource = ClientFrameworkRes.Database.SRO_VT_SHARD.dbo.Tables["_RefObjCommon"].Rows.OfType<DataRow>().Where(row => row.Field<string>("CodeName128").ToLower().Contains(textBoxSearchMonster.Text.ToLower())).CopyToDataTable();
             }
             else { dataGridViewMonster.DataSource = null; }
         }
 
         private void vSroSmallButton1_vSroClickEvent()
         {
-            //ClientDataStorage.Database.SRO_VT_SHARD.InitializeSkillEditor();
+            //ClientFrameworkRes.Database.SRO_VT_SHARD.InitializeSkillEditor();
             buttonSearch.Enabled = true;
         }
 

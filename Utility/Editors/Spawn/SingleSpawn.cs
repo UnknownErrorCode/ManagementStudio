@@ -1,4 +1,4 @@
-﻿using ClientDataStorage.Database;
+﻿using ClientFrameworkRes.Database;
 using Structs.Database;
 using Structs.Tool;
 

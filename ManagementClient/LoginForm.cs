@@ -1,4 +1,4 @@
-﻿using ClientDataStorage;
+﻿using ClientFrameworkRes;
 using ServerFrameworkRes.BasicControls;
 using ServerFrameworkRes.Network.Security;
 using Structs.Tool;

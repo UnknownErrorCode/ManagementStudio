@@ -1,4 +1,4 @@
-﻿namespace ClientDataStorage
+﻿namespace ClientFrameworkRes
 {
     public class Config : ConfigLoader
     {

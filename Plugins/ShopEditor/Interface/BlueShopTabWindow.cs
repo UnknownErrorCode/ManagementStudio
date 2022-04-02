@@ -1,5 +1,4 @@
-﻿using ClientDataStorage.Client;
-using Structs.Pk2.Media;
+﻿using PackFile.Media.Textdata;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,7 +28,7 @@ namespace ShopEditor.Interface
         #region Properties
 
         internal bool Active
-        { get => onFocus; set { onFocus = value; BackgroundImage = value ? Media.DDJFiles["Media\\interface\\ifcommon\\com_tab_on.ddj"].BitmapImage : ClientDataStorage.Client.Media.DDJFiles["Media\\interface\\ifcommon\\com_tab_off.ddj"].BitmapImage; } }
+        { get => onFocus; set { onFocus = value; BackgroundImage = value ? PackFile.MediaPack.DDJFiles["Media\\interface\\ifcommon\\com_tab_on.ddj"].BitmapImage : PackFile.MediaPack.DDJFiles["Media\\interface\\ifcommon\\com_tab_off.ddj"].BitmapImage; } }
 
         #endregion Properties
 
@@ -106,7 +105,7 @@ namespace ShopEditor.Interface
             }
 
             StrIDLabel = new Label() { Text = page.StrID128Name, Tag = this, Location = new Point(4, 4), BackColor = Color.Transparent };
-            if (Media.Server_Dep.TextUISystem.UIIT_Strings.TryGetValue(page.StrID128Name, out TextUISystemStruct str))
+            if (ShopEditorControl.StaticTextUISystem.UIIT_Strings.TryGetValue(page.StrID128Name, out TextUISystemStruct str))
             {
                 StrIDLabel.Text = str.Viethnam;
             }

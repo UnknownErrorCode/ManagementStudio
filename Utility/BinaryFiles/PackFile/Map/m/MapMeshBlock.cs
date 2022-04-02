@@ -9,7 +9,7 @@ namespace BinaryFiles.PackFile.Map.m
     {
         #region Constructors
 
-        public MapMeshBlock(char[] blockName, Dictionary<Point, MapMeshCell> mapCells, byte density, byte unkByte0, float seaLevel, List<KeyValuePair<byte, byte>> extraMin, float heightMax, float heightMin, byte[] unkBuffer0)
+        public MapMeshBlock(char[] blockName, Dictionary<Point, CMapMeshCell> mapCells, byte density, byte unkByte0, float seaLevel, List<KeyValuePair<byte, byte>> extraMin, float heightMax, float heightMin, byte[] unkBuffer0)
         {
             BlockName = blockName;
             MapCells = mapCells;
@@ -49,7 +49,7 @@ namespace BinaryFiles.PackFile.Map.m
         /// <summary>
         /// Dictionary of all MapMeshCells. each Block consists of 16x16 MapmeshCells
         /// </summary>
-        public Dictionary<Point, MapMeshCell> MapCells { get; set; }
+        public Dictionary<Point, CMapMeshCell> MapCells { get; set; }
 
         /// <summary>
         /// unknown.
@@ -81,7 +81,7 @@ namespace BinaryFiles.PackFile.Map.m
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns>MapMeshCell cell</returns>
-        public MapMeshCell GetCellFromBlock(int x, int y)
+        public CMapMeshCell GetCellFromBlock(int x, int y)
         {
             return GetCellFromBlock(new Point(x, y));
         }
@@ -91,9 +91,9 @@ namespace BinaryFiles.PackFile.Map.m
         /// </summary>
         /// <param name="point"></param>
         /// <returns>MapMeshCell cell</returns>
-        public MapMeshCell GetCellFromBlock(Point point)
+        public CMapMeshCell GetCellFromBlock(Point point)
         {
-            return MapCells.ContainsKey(point) ? MapCells[point] : new MapMeshCell();
+            return MapCells.ContainsKey(point) ? MapCells[point] : new CMapMeshCell();
         }
 
         #endregion Methods

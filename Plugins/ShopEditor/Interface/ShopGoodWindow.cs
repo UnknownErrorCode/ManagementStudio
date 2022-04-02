@@ -1,5 +1,4 @@
 ﻿using BinaryFiles.PackFile;
-using ClientDataStorage.Client;
 using Editors.Shop;
 using System;
 using System.Drawing;
@@ -16,17 +15,17 @@ namespace ShopEditor.Interface
             Good = good;
             Size = new System.Drawing.Size(32, 32);
             Location = GetPositionBySlotIndex(good.SlotIndex);
-            if (!Media.DDJFiles.ContainsKey(IconPath))
+            if (!PackFile.MediaPack.DDJFiles.ContainsKey(IconPath))
             {
-                if (Media.MediaPk2.GetByteArrayByDirectory(IconPath, out byte[] file))
+                if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(IconPath, out byte[] file))
                 {
-                    Media.DDJFiles.Add(IconPath, new DDJImage(file));
+                    PackFile.MediaPack.DDJFiles.Add(IconPath, new DDJImage(file));
                 }
             }
 
-            if (Media.DDJFiles.ContainsKey(IconPath))
+            if (PackFile.MediaPack.DDJFiles.ContainsKey(IconPath))
             {
-                BackgroundImage = Media.DDJFiles[IconPath].BitmapImage;
+                BackgroundImage = PackFile.MediaPack.DDJFiles[IconPath].BitmapImage;
             }
 
             TalkWindow.ShopToolTip.SetToolTip(this, Good.ScrapOfPackageItem.RefItemCodeName);

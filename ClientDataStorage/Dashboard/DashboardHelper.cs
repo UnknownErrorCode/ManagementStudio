@@ -1,7 +1,7 @@
 ﻿using Structs.Dashboard;
 using System.Collections.Generic;
 
-namespace ClientDataStorage.Dashboard
+namespace ClientFrameworkRes.Dashboard
 {
     public static class DashboardHelper
     {

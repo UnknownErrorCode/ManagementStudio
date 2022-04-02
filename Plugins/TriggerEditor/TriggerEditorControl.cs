@@ -18,8 +18,8 @@ namespace TriggerEditor
         public TriggerEditorControl()
         {
             InitializeComponent();
-            ClientDataStorage.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            ClientDataStorage.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+            ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
         }
 
         #endregion Constructors

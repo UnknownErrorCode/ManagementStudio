@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Plugins\Dashbo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structs", "Utility\Structs\Structs.csproj", "{A2F851F6-0F47-400F-B330-484BA4D4FAED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDataStorage", "ClientDataStorage\ClientDataStorage.csproj", "{7C445307-50F3-4455-AD37-382A51A86FBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientFrameworkRes", "ClientDataStorage\ClientFrameworkRes.csproj", "{7C445307-50F3-4455-AD37-382A51A86FBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldMapSpawnEditor", "Plugins\WorldMapSpawnEditor\WorldMapSpawnEditor.csproj", "{ECD8FDA9-E279-4CF0-9F5D-DC639188C35B}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{915603DF-EF9D-45E2-AC1C-3298EACB2916}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileEditor", "Plugins\FileEditor\FileEditor.csproj", "{6EE9B532-89B3-4643-87F0-595CC77ECB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackFile", "Utility\PackFile\PackFile.csproj", "{08885D2D-7DAC-4902-BEF2-D38132F77635}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -225,6 +227,18 @@ Global
 		{6EE9B532-89B3-4643-87F0-595CC77ECB9B}.Release|x64.Build.0 = Release|Any CPU
 		{6EE9B532-89B3-4643-87F0-595CC77ECB9B}.Release|x86.ActiveCfg = Release|Any CPU
 		{6EE9B532-89B3-4643-87F0-595CC77ECB9B}.Release|x86.Build.0 = Release|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Debug|x64.Build.0 = Debug|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Debug|x86.Build.0 = Debug|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Release|x64.ActiveCfg = Release|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Release|x64.Build.0 = Release|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Release|x86.ActiveCfg = Release|Any CPU
+		{08885D2D-7DAC-4902-BEF2-D38132F77635}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

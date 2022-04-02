@@ -15,16 +15,16 @@
 
         #region Constructors
 
-        public Npc(int nestID) : base(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
+        public Npc(int nestID) : base(ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
-            nGenerateRadius = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nGenerateRadius;
-            nRadius = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nRadius;
-            if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID))
+            nGenerateRadius = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nGenerateRadius;
+            nRadius = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nRadius;
+            if (ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID))
             {
-                var dwObjID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics[ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID].dwObjID;
-                if (ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(dwObjID))
+                var dwObjID = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics[ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID].dwObjID;
+                if (ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(dwObjID))
                 {
-                    codeName128 = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].CodeName128;
+                    codeName128 = ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].CodeName128;
                 }
                 else
                 {
@@ -33,7 +33,7 @@
             }
             else
             {
-                codeName128 = $"No TacticsID:{ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID}";
+                codeName128 = $"No TacticsID:{ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID}";
             }
         }
 

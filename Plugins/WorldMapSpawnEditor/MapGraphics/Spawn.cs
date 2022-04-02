@@ -46,7 +46,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal Spawn(RefTeleport teleport)
         {
             id = teleport.ID;
-            var objCommon = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[teleport.AssocRefObjID];
+            var objCommon = ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon[teleport.AssocRefObjID];
             regionID = new WRegionID(objCommon.RegionID);
             xLocation = objCommon.OffsetX;
             yLocation = objCommon.OffsetY;
@@ -81,16 +81,16 @@ namespace WorldMapSpawnEditor.MapGraphics
             type = SpawnType.None;
             int nestID = nest.dwNestID;
 
-            if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefHive.TryGetValue(nest.dwHiveID, out Tab_RefHive hive))
+            if (ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefHive.TryGetValue(nest.dwHiveID, out Tab_RefHive hive))
                 gameWorldID = hive.GameWorldID;
             else
                 gameWorldID = -1;
 
-            var tacticsID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID;
-            if (!ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(tacticsID))
+            var tacticsID = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID;
+            if (!ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(tacticsID))
                 return false;
-            var objCommonID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics[tacticsID].dwObjID;
-            var objCommon = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[objCommonID];
+            var objCommonID = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics[tacticsID].dwObjID;
+            var objCommon = ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon[objCommonID];
             if (objCommon.TypeID1 == 1 && objCommon.TypeID2 == 2 && objCommon.TypeID3 == 1 && objCommon.TypeID4 == 1 && objCommon.Rarity != Rarity.MonsterUnique && objCommon.Rarity != Rarity.MonsterUniqueNoMsg)
             { type = SpawnType.Monster; return true; }
             else if (objCommon.TypeID1 == 1 && objCommon.TypeID2 == 2 && objCommon.TypeID3 == 1 && objCommon.TypeID4 == 1 && (objCommon.Rarity == Rarity.MonsterUnique || objCommon.Rarity == Rarity.MonsterUniqueNoMsg))

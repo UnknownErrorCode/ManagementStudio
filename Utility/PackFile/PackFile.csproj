@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{08885D2D-7DAC-4902-BEF2-D38132F77635}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PackFile</RootNamespace>
+    <AssemblyName>PackFile</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataPack.cs" />
+    <Compile Include="Data\Dungeon\DungeonInfoData.cs" />
+    <Compile Include="Data\Dungeon\DungeonInfoStruct.cs" />
+    <Compile Include="Media\Textdata\Worldmap_Mapinfo.cs" />
+    <Compile Include="Utility\BlowfishKey.cs" />
+    <Compile Include="Utility\Interface\IPk2Data.cs" />
+    <Compile Include="Utility\Interface\Pk2Class.cs" />
+    <Compile Include="Utility\Interface\Pk2Data.cs" />
+    <Compile Include="Utility\Interface\Pk2Reader.cs" />
+    <Compile Include="MapPack.cs" />
+    <Compile Include="MediaPack.cs" />
+    <Compile Include="Media\ServerDependencies.cs" />
+    <Compile Include="Data\Dungeon\DungeonInfo.cs" />
+    <Compile Include="Media\Textdata\SkillEffect.cs" />
+    <Compile Include="Media\Textdata\SkillEffectData.cs" />
+    <Compile Include="Media\Textdata\TextDataName.cs" />
+    <Compile Include="Media\Textdata\TextDataNameData.cs" />
+    <Compile Include="Media\Textdata\SkilleffectStruct.cs" />
+    <Compile Include="Media\Textdata\TextDataNameStruct.cs" />
+    <Compile Include="Media\Textdata\TextUISystem.cs" />
+    <Compile Include="Media\Textdata\TextUISystemStruct.cs" />
+    <Compile Include="Map\Tile2dIFOFile.cs" />
+    <Compile Include="Media\Textdata\Worldmap_InstanceInfoStruct.cs" />
+    <Compile Include="Media\Textdata\Worldmap_MapinfoStructs.cs" />
+    <Compile Include="Media\Textdata\TextUISystemData.cs" />
+    <Compile Include="Map\Tile2dIFOFileData.cs" />
+    <Compile Include="Media\Textdata\Worldmap_MapinfoData.cs" />
+    <Compile Include="PackFileManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Structs\Pk2Entry.cs" />
+    <Compile Include="Utility\Structs\Pk2EntryBlock.cs" />
+    <Compile Include="Utility\Structs\Pk2File.cs" />
+    <Compile Include="Utility\Structs\Pk2Folder.cs" />
+    <Compile Include="Utility\Structs\Pk2Header.cs" />
+    <Compile Include="Utility\Parser\TextArrayFormatter.cs" />
+    <Compile Include="Utility\Parser\TextGroupParser.cs" />
+    <Compile Include="Utility\Parser\TextParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BinaryFiles\BinaryFiles.csproj">
+      <Project>{AD7421FC-847B-41FB-BA2F-6CA9A7069FB0}</Project>
+      <Name>BinaryFiles</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

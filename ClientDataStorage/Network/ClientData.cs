@@ -1,6 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
 
-namespace ClientDataStorage.Network
+namespace ClientFrameworkRes.Network
 {
     public class ClientData : ServerData
     {

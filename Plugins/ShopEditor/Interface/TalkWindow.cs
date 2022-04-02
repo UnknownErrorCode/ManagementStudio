@@ -1,4 +1,5 @@
-﻿using ShopEditor.Interface;
+﻿using PackFile.Media.Textdata;
+using ShopEditor.Interface;
 using ShopEditor.Interface.ShopInterface;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace ShopEditor
             {
                 AutoSize = true,
                 Location = new Point(0, 20 * splitContainer1.Panel2.Controls.Count),
-                Text = ClientDataStorage.Client.Media.Server_Dep.TextUISystem.UIIT_Strings.TryGetValue(shopTabGroup.StrID128Name, out Structs.Pk2.Media.TextUISystemStruct element) ? element.Viethnam : shopTabGroup.StrID128Name,
+                Text = ShopEditorControl.StaticTextUISystem.UIIT_Strings.TryGetValue(shopTabGroup.StrID128Name, out TextUISystemStruct element) ? element.Viethnam : shopTabGroup.StrID128Name,
                 Tag = shopTabGroup
             };
 

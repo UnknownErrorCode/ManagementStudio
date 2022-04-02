@@ -70,9 +70,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\ClientDataStorage.csproj">
+    <ProjectReference Include="..\..\ClientDataStorage\ClientFrameworkRes.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientDataStorage</Name>
+      <Name>ClientFrameworkRes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
       <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>

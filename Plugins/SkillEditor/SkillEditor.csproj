@@ -52,9 +52,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\ClientDataStorage.csproj">
+    <ProjectReference Include="..\..\ClientDataStorage\ClientFrameworkRes.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientDataStorage</Name>
+      <Name>ClientFrameworkRes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\Editors\Editors.csproj">
       <Project>{5185c5c8-39d7-48ed-b45e-231dc36a3f10}</Project>

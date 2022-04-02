@@ -1,5 +1,5 @@
 ﻿
-namespace ClientDataStorage.Dashboard
+namespace ClientFrameworkRes.Dashboard
 {
     partial class DashboardTopicEditor
     {

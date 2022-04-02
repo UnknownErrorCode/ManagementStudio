@@ -15,18 +15,18 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Constructors
 
-        public Monster(int nestID) : base(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
+        public Monster(int nestID) : base(ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
-            nGenerateRadius = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nGenerateRadius;
-            nRadius = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nRadius;
+            nGenerateRadius = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nGenerateRadius;
+            nRadius = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nRadius;
 
-            if (ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID))
+            if (ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID))
             {
-                int dwObjID = ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefTactics[ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID].dwObjID;
-                if (ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(dwObjID))
+                int dwObjID = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics[ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID].dwObjID;
+                if (ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(dwObjID))
                 {
-                    codeName128 = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].CodeName128;
-                    rarity = ClientDataStorage.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].Rarity;
+                    codeName128 = ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].CodeName128;
+                    rarity = ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].Rarity;
                 }
                 else
                 {
@@ -35,7 +35,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             else
             {
-                codeName128 = $"No TacticsID:{ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID}";
+                codeName128 = $"No TacticsID:{ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID}";
             }
         }
 

@@ -23,12 +23,12 @@ namespace ShopEditor.Interface.ShopInterface
 
             StrID128Name = StrID_CodeName128;
 
-            if (!ClientDataStorage.Database.SRO_VT_SHARD._RefShopGoods.Any(row => row.RefTabCodeName.Equals(Name) && row.Service == 1))
+            if (!ClientFrameworkRes.Database.SRO_VT_SHARD._RefShopGoods.Any(row => row.RefTabCodeName.Equals(Name) && row.Service == 1))
             {
                 return;
             }
 
-            Structs.Database.RefShopGood[] allGoodsOnTab = ClientDataStorage.Database.SRO_VT_SHARD._RefShopGoods.Where(row => row.RefTabCodeName.Equals(Name) && row.Service == 1).ToArray();
+            Structs.Database.RefShopGood[] allGoodsOnTab = ClientFrameworkRes.Database.SRO_VT_SHARD._RefShopGoods.Where(row => row.RefTabCodeName.Equals(Name) && row.Service == 1).ToArray();
             ShopGoods = new CIShopGood[allGoodsOnTab.Length];
 
             for (int i = 0; i < allGoodsOnTab.Length; i++)

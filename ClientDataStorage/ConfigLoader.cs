@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace ClientDataStorage
+namespace ClientFrameworkRes
 {
     public abstract class ConfigLoader
     {

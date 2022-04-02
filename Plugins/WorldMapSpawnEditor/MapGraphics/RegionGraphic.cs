@@ -47,7 +47,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// TexturePath is combined by  {X}x{Y}.ddj.
         /// </summary>
-        protected string TexturePath => $"{ClientDataStorage.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{regionID.X}x{regionID.Z}.JPG";
+        protected string TexturePath => $"{ClientFrameworkRes.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{regionID.X}x{regionID.Z}.JPG";
 
         #endregion Properties
     }

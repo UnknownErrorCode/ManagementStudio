@@ -56,7 +56,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void InitializeChars()
         {
-            foreach (IChar ichar in ClientDataStorage.Database.SRO_VT_SHARD._Char.Values)
+            foreach (IChar ichar in ClientFrameworkRes.Database.SRO_VT_SHARD._Char.Values)
             {
                 pSpawns.Add(Spawn.FromSpawn<Player>(new Spawn(ichar)));
             }
@@ -64,7 +64,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void InitializeNest()
         {
-            foreach (var nest in ClientDataStorage.Database.SRO_VT_SHARD.Tab_RefNest.Values)
+            foreach (var nest in ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest.Values)
             {
                 var spawn = new Spawn(nest);
                 if (!spawn.SpawnType.Equals(SpawnType.None))
@@ -89,7 +89,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void InitializeTeleports()
         {
-            foreach (RefTeleport teleport in ClientDataStorage.Database.SRO_VT_SHARD._RefTeleport.Values)
+            foreach (RefTeleport teleport in ClientFrameworkRes.Database.SRO_VT_SHARD._RefTeleport.Values)
             {
                 if (teleport.AssocRefObjID > 0)
                     cSpawns.Add(new Spawn(teleport));

@@ -10,12 +10,12 @@ namespace ShopEditor.Interface.ShopInterface
         {
             Name = _RefShopCodeName;
 
-            if (!ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopWithTab.ContainsKey(Name))
+            if (!ClientFrameworkRes.Database.SRO_VT_SHARD._RefMappingShopWithTab.ContainsKey(Name))
             {
                 vSroMessageBox.Show($"No RefTabGroupCodeNames found for \nRefShopCodeName:{Name}", "Error loading RefMappingShopWithTab");
                 return;
             }
-            Structs.Database.RefMappingShopWithTab[] tabGroups = ClientDataStorage.Database.SRO_VT_SHARD._RefMappingShopWithTab[Name];
+            Structs.Database.RefMappingShopWithTab[] tabGroups = ClientFrameworkRes.Database.SRO_VT_SHARD._RefMappingShopWithTab[Name];
             TabGroups = new RefShopTabGroup[tabGroups.Length];
 
             for (int i = 0; i < tabGroups.Length; i++)

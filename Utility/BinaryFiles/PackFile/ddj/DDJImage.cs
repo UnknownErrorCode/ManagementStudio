@@ -8,6 +8,7 @@ namespace BinaryFiles.PackFile
 {
     public class DDJImage : IDisposable
     {
+
         #region Fields
 
         private const int DDPF_ALPHAPIXELS = 0x00000001;
@@ -61,7 +62,7 @@ namespace BinaryFiles.PackFile
 
         #region Constructors
 
-        public DDJImage(byte[] ddsImage)
+        public DDJImage(byte[] ddsImage, bool ddj = true)
         {
             if (ddsImage == null)
             {
@@ -72,10 +73,10 @@ namespace BinaryFiles.PackFile
             {
                 return;
             }
-
-            using (MemoryStream stream = new MemoryStream(ddsImage.Length))
+            var length = ddj ? ddsImage.Length - 20 : ddsImage.Length;
+            using (MemoryStream stream = new MemoryStream(length))
             {
-                stream.Write(ddsImage, 20, ddsImage.Length - 20);
+                stream.Write(ddsImage, ddj ? 20 : 0, length);
                 stream.Seek(0, SeekOrigin.Begin);
 
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -1743,7 +1744,7 @@ namespace BinaryFiles.PackFile
                     }
                 }
 
-                blocksize = (header.width * header.height * header.depth * (header.pixelformat.rgbbitcount >> 3));
+                blocksize = header.width * header.height * header.depth * (header.pixelformat.rgbbitcount >> 3);
             }
 
             return format;
@@ -1822,6 +1823,14 @@ namespace BinaryFiles.PackFile
                 if (header.depth == 0)
                 {
                     header.depth = 1;
+                }
+                if (header.pixelformat.rgbbitcount == 0)
+                {
+                    header.pixelformat.rgbbitcount = header.pixelformat.size;
+                }
+                else
+                {
+
                 }
 
                 uint blocksize = 0;
@@ -1910,7 +1919,7 @@ namespace BinaryFiles.PackFile
             }
             else
             {
-                uint bps = header.width * header.pixelformat.rgbbitcount / 8;
+                uint bps = header.width * header.pixelformat.rgbbitcount / 8 * header.height * header.depth;
                 compsize = bps * header.height * header.depth;
                 compdata = new byte[compsize];
 
@@ -2020,7 +2029,7 @@ namespace BinaryFiles.PackFile
             public uint[] reserved;//[11];
 
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-            public struct pixelformatstruct
+            public struct DDS_PIXELFORMAT
             {
                 public uint size;	// equals size of struct (which is part of the data file!)
                 public uint flags;
@@ -2032,7 +2041,7 @@ namespace BinaryFiles.PackFile
                 public uint alphabitmask;
             }
 
-            public pixelformatstruct pixelformat;
+            public DDS_PIXELFORMAT pixelformat;
 
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
             public struct ddscapsstruct
@@ -2061,6 +2070,7 @@ namespace BinaryFiles.PackFile
         }
 
         #endregion Structs
+
     }
 
     /// <summary>

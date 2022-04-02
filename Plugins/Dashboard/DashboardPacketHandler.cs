@@ -15,7 +15,7 @@ namespace Dashboard
             string Remover = arg2.ReadAscii();
             vSroButtonList1.Invoke(new Action(() => vSroButtonList1.RemoveSingleButtonFromList(Title)));
 
-            ClientDataStorage.Log.Logger.WriteLogLine($"User:[{Remover}] successfully deleted topic: [{Title}] from author: {Author}!");
+            ServerFrameworkRes.Log.Logger.WriteLogLine($"User:[{Remover}] successfully deleted topic: [{Title}] from author: {Author}!");
             return PacketHandlerResult.Block;
         }
 
@@ -31,7 +31,7 @@ namespace Dashboard
 
         internal PacketHandlerResult TopicsFinishedLoading(ServerData arg1, Packet arg2)
         {
-            ClientDataStorage.Log.Logger.WriteLogLine($"Successfully load {listView1.Items.Count} topics to dashboard!");
+            ServerFrameworkRes.Log.Logger.WriteLogLine($"Successfully load {listView1.Items.Count} topics to dashboard!");
             return PacketHandlerResult.Block;
         }
 
@@ -49,7 +49,7 @@ namespace Dashboard
 
             if (isNew)
             {
-                ClientDataStorage.Log.Logger.WriteLogLine($"{arg1.AccountName} successfully added new  topic: {msg.Title} to dashboard!");
+                ServerFrameworkRes.Log.Logger.WriteLogLine($"{arg1.AccountName} successfully added new  topic: {msg.Title} to dashboard!");
             }
 
             return PacketHandlerResult.Block;
