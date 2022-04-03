@@ -73,6 +73,35 @@ namespace FileEditor
             }
         }
 
+        private void EditorJMX2dt_Paint(Graphics g)
+        {
+            foreach (var item in display.ElementList)
+            {
+                var path = $"Media\\{item.Image.Replace($"\0", "")}";
+                if (ddjFiles.ContainsKey(path))
+                {
+                    g.DrawImage(ddjFiles[path], item.ClientRectangle.X - minX, item.ClientRectangle.Y - minY, item.ClientRectangle.Width, item.ClientRectangle.Higth);
+                }
+
+                path = $"Media\\{item.Background.Replace($"\0", "")}";
+                if (ddjFiles.ContainsKey(path))
+                {
+                    g.DrawImage(ddjFiles[path], item.ClientRectangle.X - minX, item.ClientRectangle.Y - minY, item.ClientRectangle.Width, item.ClientRectangle.Higth);
+                }
+            }
+        }
+
+        internal static void Show(Graphics g, JMX2dtFile file, string item)
+        {
+            System.Threading.Tasks.Task.Run(() =>
+            {
+                using (ViewerJMX2dt e = new ViewerJMX2dt(file, item))
+                {
+                    e.EditorJMX2dt_Paint(g);
+                }
+            });
+        }
+
         internal static void Show(JMX2dtFile file, string item)
         {
             System.Threading.Tasks.Task.Run(() =>

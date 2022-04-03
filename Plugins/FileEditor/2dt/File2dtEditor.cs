@@ -37,6 +37,7 @@ namespace FileEditor._2dt
         private void toolStripButtonViewSelected2dt_Click(object sender, EventArgs e)
         {
             ViewerJMX2dt.Show(file, fileName);
+            ViewerJMX2dt.Show(splitContainer2dt.Panel2.CreateGraphics(), file, fileName);
         }
     }
 }
