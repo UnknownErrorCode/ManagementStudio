@@ -4,15 +4,44 @@ using System.IO;
 
 namespace BinaryFiles.PackFile.Data.bsr
 {
-    public class JMXbsrFile
+    public class JMXbsrFile : IJMXFile
     {
         #region Fields
 
+        /// <summary>
+        /// Number of Animations inside the bsr.
+        /// </summary>
+        public readonly uint animationCnt;
 
         /// <summary>
         /// JMXVRES 0109
         /// </summary>
-        public string header;
+        private JMXHeader header;
+
+        /// <summary>
+        /// MATERIALSET_MAXCOUNTMAX = 5.
+        /// </summary>
+        public uint mtrlSetCnt;
+
+        /// <summary>
+        /// Number of Meshes contained in the bsr file.
+        /// </summary>
+        public uint meshCnt;
+
+        public float[] collisionBox0;
+
+        //24
+        public float[] collisionBox1;
+
+        //if(requireCollisionMatrix<>0)
+        public byte[] collisionMatrix;
+
+        public string collisionMesh;
+        public uint collisionMeshLength;
+
+        //24
+        public uint requireCollisionMatrix;
+
         private readonly uint pointerMaterial;
         private readonly uint pointerMesh;
         private readonly uint pointerSkeleton;
@@ -28,34 +57,9 @@ namespace BinaryFiles.PackFile.Data.bsr
         private readonly uint int4;
 
         /// <summary>
-        /// General information about the bsr object.
-        /// </summary>
-        private CObjectInfo generalinfo;
-
-        /// <summary>
         /// reserved  40 length
         /// </summary>
         private readonly byte[] unkBuffer0;
-
-        /// <summary>
-        /// MATERIALSET_MAXCOUNTMAX = 5.
-        /// </summary>
-        public uint mtrlSetCnt;
-
-        /// <summary>
-        /// Material Sets of bsr file.
-        /// </summary>
-        private List<CPrimMaterialSet> materialSets;
-
-        /// <summary>
-        /// Number of Meshes contained in the bsr file.
-        /// </summary>
-        public uint meshCnt;
-
-        /// <summary>
-        /// CPrimMeshes inside the bsr file.
-        /// </summary>
-        private List<CPrimMesh> meshArray;
 
         /// <summary>
         /// if has Skeleton CPrimBranch gets read.
@@ -81,26 +85,6 @@ namespace BinaryFiles.PackFile.Data.bsr
         /// CPrimBranch
         /// </summary>
         private readonly string attachmentBone;
-
-        /// <summary>
-        /// Number of Animations inside the bsr.
-        /// </summary>
-        public readonly uint animationCnt;
-
-        /// <summary>
-        /// 0, "User Define Animation Type을 사용 하였습니다."
-        /// </summary>
-        private uint animationTypeUserDefine;
-
-        /// <summary>
-        ///  ANIMATION_TOOL_VERSION = 0x1000, "Animation Type의 Version이 다릅니다."
-        /// </summary>
-        private uint animationTypeVersion;
-
-        /// <summary>
-        /// Animation names.
-        /// </summary>
-        private List<string> cPrimAnimation;
 
         /// <summary>
         /// Number of Animation Groups.
@@ -132,83 +116,35 @@ namespace BinaryFiles.PackFile.Data.bsr
         /// </summary>
         private readonly List<CModDataSet> modSetDataSetList;
 
+        /// <summary>
+        /// General information about the bsr object.
+        /// </summary>
+        private CObjectInfo generalinfo;
 
+        /// <summary>
+        /// Material Sets of bsr file.
+        /// </summary>
+        private List<CPrimMaterialSet> materialSets;
 
+        /// <summary>
+        /// CPrimMeshes inside the bsr file.
+        /// </summary>
+        private List<CPrimMeshValuePair> meshArray;
 
+        /// <summary>
+        /// 0, "User Define Animation Type을 사용 하였습니다."
+        /// </summary>
+        private uint animationTypeUserDefine;
 
+        /// <summary>
+        ///  ANIMATION_TOOL_VERSION = 0x1000, "Animation Type의 Version이 다릅니다."
+        /// </summary>
+        private uint animationTypeVersion;
 
-
-        public float[] collisionBox0;
-
-        //24
-        public float[] collisionBox1;
-
-        //if(requireCollisionMatrix<>0)
-        public byte[] collisionMatrix;
-
-        public string collisionMesh;
-
-        public uint collisionMeshLength;
-
-        //24
-        public uint requireCollisionMatrix;
-
-
-
-
-        public uint PointerMaterial => pointerMaterial;
-
-        public uint PointerMesh => pointerMesh;
-
-        public uint PointerSkeleton => pointerSkeleton;
-
-        public uint PointerAnimation => pointerAnimation;
-
-        public uint PointerPrimMeshGroup => pointerPrimMeshGroup;
-
-        public uint PointerPrimAniGroup => pointerPrimAniGroup;
-
-        public uint PointerModPalette => pointerModPalette;
-
-        public uint PointerCollision => pointerCollision;
-
-        public CObjectInfo Generalinfo { get => generalinfo; set => generalinfo = value; }
-        public byte[] UnkBuffer0 { get => unkBuffer0; }
-        public long PointerMaterialEnd { get; }
-        public long PointerMeshEnd { get; }
-        public long PointerSkeletonEnd { get; }
-        public long PointerAnimationEnd { get; }
-        public long PointerPrimMeshGroupEnd { get; }
-        public long PointerPrimAniGroupEnd { get; }
-        public long PointerModPaletteEnd { get; }
-        public long PointerCollisionEnd { get; }
-        public uint Int0 { get => int0; }
-        public uint Int1 { get => int1; }
-        public uint Int2 { get => int2; }
-        public uint Int3 { get => int3; }
-        public uint Int4 { get => int4; }
-        public List<CPrimMaterialSet> MaterialSets { get => materialSets; set => materialSets = value; }
-        public List<CPrimMesh> MeshArray { get => meshArray; set => meshArray = value; }
-
-        public uint HasSkeleton => hasSkeleton;
-
-        public string SkeletonPath => skeletonPath;
-
-        public string AttachmentBone => attachmentBone;
-
-        public uint AnimationTypeUserDefine { get => animationTypeUserDefine; set => animationTypeUserDefine = value; }
-        public uint AnimationTypeVersion { get => animationTypeVersion; set => animationTypeVersion = value; }
-        public List<string> CPrimAnimation { get => cPrimAnimation; set => cPrimAnimation = value; }
-
-        public List<CPrimAniGroup> AniGroupList => aniGroupList;
-
-        public List<CPrimMeshGroup> MeshGroupList => meshGroupList;
-
-        public List<CModDataSet> ModSetDataSetList => modSetDataSetList;
-
-        #endregion Fields
-
-
+        /// <summary>
+        /// Animation names.
+        /// </summary>
+        private List<string> cPrimAnimation;
 
         public JMXbsrFile(byte[] file)
         {
@@ -218,7 +154,7 @@ namespace BinaryFiles.PackFile.Data.bsr
                 {
                     using (BinaryReader reader = new BinaryReader(s))
                     {
-                        header = new string(reader.ReadChars(12));
+                        header = new JMXHeader(reader.ReadChars(12), JmxFileFormat._bsr);
 
                         pointerMaterial = reader.ReadUInt32();
                         pointerMesh = reader.ReadUInt32();
@@ -267,15 +203,15 @@ namespace BinaryFiles.PackFile.Data.bsr
                         reader.BaseStream.Position = pointerMesh;
 
                         meshCnt = reader.ReadUInt32();
-                        MeshArray = new List<CPrimMesh>((int)meshCnt);
+                        MeshArray = new List<CPrimMeshValuePair>((int)meshCnt);
                         for (int meshIndex = 0; meshIndex < meshCnt; meshIndex++)
                         {
-                            CPrimMesh mesh = new CPrimMesh()
+                            CPrimMeshValuePair mesh = new CPrimMeshValuePair()
                             {
                                 MeshPath = new string(reader.ReadChars((int)reader.ReadUInt32()))
                             };
-                            if (Int0 == 1)
-                                mesh.meshUnkUInt0 = reader.ReadUInt32();
+
+                            mesh.MeshUnkUInt0 = GroupMeshPairValues == 1 ? reader.ReadUInt32() : 0;
 
                             MeshArray.Add(mesh);
                         }
@@ -410,55 +346,139 @@ namespace BinaryFiles.PackFile.Data.bsr
                                     case ModDataType.ModDataMtrl:
                                         modSetData.ModDataTypes.Add((CModDataMaterial)GetModData(type, reader));
                                         break;
+
                                     case ModDataType.ModDataTexAni:
                                         break;
+
                                     case ModDataType.ModDataMultiTex:
                                         break;
+
                                     case ModDataType.ModDataMultiTexRev:
                                         break;
+
                                     case ModDataType.ModDataParticle:
                                         modSetData.ModDataTypes.Add((CModDataParticle)GetModData(type, reader));
                                         break;
+
                                     case ModDataType.ModDataEnvMap:
                                         break;
+
                                     case ModDataType.ModDataBumpEnv:
                                         break;
+
                                     case ModDataType.ModDataSound:
                                         break;
+
                                     case ModDataType.ModDataDyVertex:
                                         break;
+
                                     case ModDataType.ModDataDyJoint:
                                         break;
+
                                     case ModDataType.ModDataDyLattice:
                                         break;
+
                                     case ModDataType.ModDataProgEquipPow:
                                         break;
+
                                     default:
                                         break;
                                 }
                             }
                         }
 
-
                         PointerModPaletteEnd = reader.BaseStream.Position;
 
                         #endregion ModPalette
+
                         reader.BaseStream.Position = pointerCollision;
                         PointerCollisionEnd = reader.BaseStream.Position;
-
-
-
-
-
                     }
                 }
+                Initialized = true;
             }
             catch (System.Exception e)
             {
-
-                throw e;
+                Initialized = false;
             }
         }
+
+        public uint PointerCollision => pointerCollision;
+
+        public long PointerCollisionEnd { get; }
+
+        public uint PointerMaterial => pointerMaterial;
+
+        public long PointerMaterialEnd { get; }
+
+        public uint PointerMesh => pointerMesh;
+
+        public long PointerMeshEnd { get; }
+
+        public uint PointerAnimation => pointerAnimation;
+
+        public long PointerAnimationEnd { get; }
+
+        public uint PointerSkeleton => pointerSkeleton;
+
+        public long PointerSkeletonEnd { get; }
+
+        public uint PointerPrimMeshGroup => pointerPrimMeshGroup;
+
+        public long PointerPrimMeshGroupEnd { get; }
+
+        public uint PointerPrimAniGroup => pointerPrimAniGroup;
+
+        public long PointerPrimAniGroupEnd { get; }
+
+        public uint PointerModPalette => pointerModPalette;
+
+        public long PointerModPaletteEnd { get; }
+
+        public CObjectInfo Generalinfo { get => generalinfo; set => generalinfo = value; }
+
+        public byte[] UnkBuffer0 { get => unkBuffer0; }
+
+        public uint GroupMeshPairValues { get => int0; }
+
+        // ??
+        public uint Int1 { get => int1; }
+
+        public uint Int2 { get => int2; }
+
+        public uint Int3 { get => int3; }
+
+        public uint Int4 { get => int4; }
+
+        public List<CPrimMaterialSet> MaterialSets { get => materialSets; set => materialSets = value; }
+
+        public List<CPrimMeshValuePair> MeshArray { get => meshArray; set => meshArray = value; }
+
+        public uint HasSkeleton => hasSkeleton;
+
+        public string SkeletonPath => skeletonPath;
+
+        public string AttachmentBone => attachmentBone;
+
+        public uint AnimationTypeUserDefine { get => animationTypeUserDefine; set => animationTypeUserDefine = value; }
+
+        public uint AnimationTypeVersion { get => animationTypeVersion; set => animationTypeVersion = value; }
+
+        public List<string> CPrimAnimation { get => cPrimAnimation; set => cPrimAnimation = value; }
+
+        public List<CPrimAniGroup> AniGroupList => aniGroupList;
+
+        public List<CPrimMeshGroup> MeshGroupList => meshGroupList;
+
+        public List<CModDataSet> ModSetDataSetList => modSetDataSetList;
+
+        public string Name => header.Value;
+
+        public bool Initialized { get; }
+        public JMXHeader Header => header;
+
+
+        #endregion Fields
 
         private IModData GetModData(ModDataType type, BinaryReader reader)
         {
@@ -474,7 +494,6 @@ namespace BinaryFiles.PackFile.Data.bsr
             data.Byte1 = reader.ReadByte();
             data.Byte2 = reader.ReadByte();
             data.Byte3 = reader.ReadByte();
-
 
             switch (type)
             {
@@ -522,8 +541,10 @@ namespace BinaryFiles.PackFile.Data.bsr
                     data1.unkUInt16 = reader.ReadUInt32();
 
                     break;
+
                 case ModDataType.ModDataTexAni:
                     return null;
+
                 case ModDataType.ModDataMultiTex:
                     CModDataMultiTexture data2 = new CModDataMultiTexture(data);
                     data2.unkUInt5 = reader.ReadUInt32();
@@ -531,6 +552,7 @@ namespace BinaryFiles.PackFile.Data.bsr
                     data2.Texture = new string(reader.ReadChars((int)data2.TextureLength));
                     data2.unkUInt6 = reader.ReadUInt32();
                     return data2;
+
                 case ModDataType.ModDataMultiTexRev:
                     CModDataMultiTextureRev data3 = new CModDataMultiTextureRev(data);
                     data3.unkUInt5 = reader.ReadUInt32();
@@ -538,6 +560,7 @@ namespace BinaryFiles.PackFile.Data.bsr
                     data3.Texture = new string(reader.ReadChars((int)data3.TextureLength));
                     data3.unkUInt6 = reader.ReadUInt32();
                     return data3;
+
                 case ModDataType.ModDataParticle:
                     CModDataParticle data4 = new CModDataParticle(data);
                     data4.ParticleCount = reader.ReadUInt32();
@@ -559,20 +582,28 @@ namespace BinaryFiles.PackFile.Data.bsr
                         pStruct.UnkVector = pStruct.UnkByte3 == 1 ? new Structs.SVector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()) : new Structs.SVector3();
                     }
                     return data4;
+
                 case ModDataType.ModDataEnvMap:
                     break;
+
                 case ModDataType.ModDataBumpEnv:
                     break;
+
                 case ModDataType.ModDataSound:
                     break;
+
                 case ModDataType.ModDataDyVertex:
                     break;
+
                 case ModDataType.ModDataDyJoint:
                     break;
+
                 case ModDataType.ModDataDyLattice:
                     break;
+
                 case ModDataType.ModDataProgEquipPow:
                     break;
+
                 default:
 
                     break;
@@ -580,6 +611,5 @@ namespace BinaryFiles.PackFile.Data.bsr
 
             return null;
         }
-
     }
 }

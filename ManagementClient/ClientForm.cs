@@ -32,6 +32,7 @@ namespace ManagementClient
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
+
             ServerFrameworkRes.Log.Logger.WriteLogLine("Loading pk2 ressources...");
 
             if (!PackFile.PackFileManager.InitializePackFiles(ClientFrameworkRes.Config.StaticConfig.ClientPath))

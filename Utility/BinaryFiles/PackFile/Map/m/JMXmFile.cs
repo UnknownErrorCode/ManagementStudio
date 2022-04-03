@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace BinaryFiles.PackFile.Map.m
 {
-    public class JMXmFile
+    public class JMXmFile : IJMXFile
     {
         /// <summary>
         /// JMX Header file of version
         /// </summary>
-        public char[] Header;
+        private readonly JMXHeader header;
 
         /// <summary>
         /// Each region consists of 36 Blocks. 6 x 6 Blocks equals 1 WorldRegion.
@@ -42,11 +42,28 @@ namespace BinaryFiles.PackFile.Map.m
         /// <param name="buffer"></param>
         /// <param name="xCoordinate"></param>
         /// <param name="yCoordinate"></param>
-        public JMXmFile(byte[] buffer, byte xCoordinate, byte yCoordinate)
+        public JMXmFile(byte[] buffer, byte xCoordinate = 0, byte yCoordinate = 0)
         {
             try
             {
-                Initialize(buffer, xCoordinate, yCoordinate);
+                X = xCoordinate;
+                Z = yCoordinate;
+
+                using (MemoryStream strea = new MemoryStream(buffer))
+                {
+                    using (BinaryReader reader = new BinaryReader(strea))
+                    {
+                        header = new JMXHeader(reader.ReadChars(12), JmxFileFormat._m);
+
+                        for (byte xBlock = 0; xBlock < 6; xBlock++)
+                        {
+                            for (byte yBlock = 0; yBlock < 6; yBlock++)
+                            {
+                                Blocks.Add(Point8.FromXY(xBlock, yBlock), ReadBlock(reader));
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception)
             {
@@ -59,15 +76,9 @@ namespace BinaryFiles.PackFile.Map.m
         public Dictionary<Point8, CMapMeshBlock> Blocks => blocks;
 
         public byte X { get => x; set => x = value; }
-        public byte Y { get => y; set => y = value; }
+        public byte Z { get => y; set => y = value; }
 
-        /// <summary>
-        /// Check if Block exists inside one of 6*6 MeshBlocks.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns>bool exists</returns>
-        public bool ContainsEntryBlock(Structs.Point8 point) => Blocks.ContainsKey(point);
+        public JMXHeader Header => header;
 
         /// <summary>
         /// Get the EntryBlock by x & y coordinate
@@ -75,6 +86,7 @@ namespace BinaryFiles.PackFile.Map.m
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns>[MapMeshBlock] block</returns>
+        [Obsolete]
         public bool GetEntryBlock(Structs.Point8 point, out CMapMeshBlock meshBlock)
         {
             var contains = Blocks.ContainsKey(point);
@@ -82,6 +94,7 @@ namespace BinaryFiles.PackFile.Map.m
             return contains;
         }
 
+        [Obsolete]
         public bool GetHightByfPoint(float regX, float regY, out float Z)
         {
             Z = 0.0f;
@@ -107,6 +120,7 @@ namespace BinaryFiles.PackFile.Map.m
         /// <param name="Cx"></param>
         /// <param name="Cy"></param>
         /// <returns>MapMeshCell cell</returns>
+        [Obsolete]
         public bool GetMapMeshCell(byte x, byte y, int Cx, int Cy, out CMapMeshCell cell)
         {
             Structs.Point8 p = new Structs.Point8(x, y);
@@ -134,6 +148,7 @@ namespace BinaryFiles.PackFile.Map.m
         /// <param name="CellX"></param>
         /// <param name="CellY"></param>
         /// <returns>float Height of MapMeshCell</returns>
+        [Obsolete]
         public float GetMapMeshHeight(byte BlockX, byte BlockY, byte CellX, byte CellY)
         {
             Structs.Point8 p = new Structs.Point8(BlockX, BlockY);
@@ -192,6 +207,7 @@ namespace BinaryFiles.PackFile.Map.m
             return true;
         }
 
+        [Obsolete]
         private static bool CellEntry(float reg, bool reverse, out byte Cell)
         {
             Cell = 0;
@@ -269,33 +285,10 @@ namespace BinaryFiles.PackFile.Map.m
         }
 
         /// <summary>
-        /// initialize the mFile by byte array, x and y coordinate.
+        /// Reads a single <see cref="CMapMeshBlock"/> from the <see cref="BinaryReader"/> <paramref name="reader"/>.
         /// </summary>
-        /// <param name="buffer"></param>
-        /// <param name="xCoordinate"></param>
-        /// <param name="yCoordinate"></param>
-        private void Initialize(byte[] buffer, byte xCoordinate, byte yCoordinate)
-        {
-            X = xCoordinate;
-            Y = yCoordinate;
-
-            using (MemoryStream strea = new MemoryStream(buffer))
-            {
-                using (BinaryReader reader = new BinaryReader(strea))
-                {
-                    Header = reader.ReadChars(12);
-
-                    for (byte xBlock = 0; xBlock < 6; xBlock++)
-                    {
-                        for (byte yBlock = 0; yBlock < 6; yBlock++)
-                        {
-                            Blocks.Add(Point8.FromXY(xBlock, yBlock), ReadBlock(reader));
-                        }
-                    }
-                }
-            }
-        }
-
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private CMapMeshBlock ReadBlock(BinaryReader reader)
         {
             CMapMeshBlock block = new CMapMeshBlock()

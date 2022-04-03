@@ -44,6 +44,10 @@
         public uint Unk18 { get; set; }
         public uint Unk19 { get; set; }
         public uint Style { get; set; }
+
+
+
+        public float[] rect => new float[4] { ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Higth };
         //placeholder (lorem ipsum)
         /*
          uint elementCount

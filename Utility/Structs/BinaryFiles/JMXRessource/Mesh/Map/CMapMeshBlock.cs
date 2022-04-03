@@ -2,27 +2,13 @@
 
 namespace Structs.BinaryFiles.JMXRessource.Mesh
 {
+    /// <summary>
+    /// Consists of various water and higth information.
+    /// <br>17 * 17 <see cref="CMapMeshCell"/></br>
+    /// <br>16 * 16 <see cref="CMapMeshTile"/></br>
+    /// </summary>
     public struct CMapMeshBlock
     {
-        #region Constructors
-
-        public CMapMeshBlock(string blockName, Dictionary<Point8, CMapMeshCell> mapCells, byte density, byte unkByte0, float seaLevel, CMapMeshTile[] tiles, float heightMax, float heightMin, byte[] unkBuffer0)
-        {
-            BlockName = blockName;
-            MapCells = mapCells;
-            MapMeshTiles = tiles;
-            HeightMax = heightMax;
-            HeightMin = heightMin;
-            Reserved = unkBuffer0;
-            WaterType = density;
-            WaterWaveType = unkByte0;
-            SeaLevel = seaLevel;
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
         /// <summary>
         /// Name of the Block
         /// </summary>
@@ -68,10 +54,6 @@ namespace Structs.BinaryFiles.JMXRessource.Mesh
         /// </summary>
         public byte WaterWaveType { get; set; }
 
-        #endregion Properties
-
-        #region Methods
-
         /// <summary>
         /// Returns the Cell of this block by x and y coordinates.
         /// </summary>
@@ -92,7 +74,5 @@ namespace Structs.BinaryFiles.JMXRessource.Mesh
         {
             return MapCells.ContainsKey(point) ? MapCells[point] : new CMapMeshCell();
         }
-
-        #endregion Methods
     }
 }

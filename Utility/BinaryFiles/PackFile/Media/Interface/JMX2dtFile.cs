@@ -1,23 +1,26 @@
 ﻿using Structs.BinaryFiles.JMXInterface;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace BinaryFiles.PackFile.Media
 {
-    public class JMX2dtFile
+    public class JMX2dtFile : IJMXFile
     {
-        public readonly bool Initialized = false;
-        public JMX2dtFileStruct[] ElementList;
+        private readonly JMXHeader header;
+        private readonly bool initialized = false;
         private readonly uint elementCount;
+        private JMX2dtFileStruct[] elementList;
 
-        public JMX2dtFile(byte[] file)
+        public JMX2dtFile(byte[] file, string name)
         {
+            header = new JMXHeader(name.ToCharArray(), JmxFileFormat._2dt);
             try
             {
                 using (BinaryReader reader = new BinaryReader(new MemoryStream(file)))
                 {
                     elementCount = reader.ReadUInt32();
-                    ElementList = new JMX2dtFileStruct[(int)elementCount];
+                    elementList = new JMX2dtFileStruct[(int)elementCount];
                     for (int i = 0; i < elementCount; i++)
                     {
                         var tempStruct = new JMX2dtFileStruct()
@@ -66,14 +69,20 @@ namespace BinaryFiles.PackFile.Media
                             Style = reader.ReadUInt32()
                         };
 
-                        ElementList[i] = (tempStruct);
+                        elementList[i] = (tempStruct);
                     }
                 }
-                Initialized = true;
+                initialized = true;
             }
             catch (System.Exception)
             {
             }
         }
+
+        public bool Initialized => initialized;
+
+        public System.Collections.Generic.List<JMX2dtFileStruct> ElementList => elementList.ToList();
+
+        public JMXHeader Header => header;
     }
 }

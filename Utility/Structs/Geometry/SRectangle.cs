@@ -1,18 +1,24 @@
-﻿namespace Structs
+﻿
+namespace Structs
 {
     public struct SRectangle
     {
-        public int X;
-        public int Y;
-        public int Width;
-        public int Higth;
+        private int x;
+        private int y;
+        private int width;
+        private int higth;
 
-        public SRectangle(int x, int y, int width, int higth)
+        public int X { get => x; }
+        public int Y { get => y; }
+        public int Width { get => width; }
+        public int Higth { get => higth; }
+
+        public SRectangle(int _x, int _y, int _width, int _higth)
         {
-            X = x;
-            Y = y;
-            Width = width;
-            Higth = higth;
+            x = _x;
+            y = _y;
+            width = _width;
+            higth = _higth;
         }
     }
 }

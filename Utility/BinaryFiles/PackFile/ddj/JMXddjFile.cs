@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace BinaryFiles.PackFile
 {
-    public class JMXddjFile : IDisposable
+    public class JMXddjFile : IDisposable, IJMXFile
     {
 
         #region Fields
@@ -56,6 +56,7 @@ namespace BinaryFiles.PackFile
         private const uint FOURCC_RXGB = 0x42475852;
         private const uint FOURCC_sNULL = 0x73;
         private const uint FOURCC_tNULL = 0x74;
+        private readonly JMXHeader header;
         private Bitmap m_bitmap = null;
         private bool m_isValid = false;
 
@@ -65,23 +66,22 @@ namespace BinaryFiles.PackFile
 
         public JMXddjFile(byte[] ddsImage, bool ddj = true)
         {
-            if (ddsImage == null)
+            if (ddsImage == null || ddsImage.Length == 0)
             {
                 return;
             }
 
-            if (ddsImage.Length == 0)
+            using (MemoryStream stream = new MemoryStream(ddsImage.Length))
             {
-                return;
-            }
-            var length = ddj ? ddsImage.Length - 20 : ddsImage.Length;
-            using (MemoryStream stream = new MemoryStream(length))
-            {
-                stream.Write(ddsImage, ddj ? 20 : 0, length);
+                stream.Write(ddsImage, 0, ddsImage.Length);
                 stream.Seek(0, SeekOrigin.Begin);
 
                 using (BinaryReader reader = new BinaryReader(stream))
                 {
+                    if (ddj)
+                    {
+                        header = new JMXHeader(reader.ReadChars(20), JmxFileFormat._ddj);
+                    }
                     Parse(reader);
                 }
             }
@@ -129,6 +129,10 @@ namespace BinaryFiles.PackFile
         /// Returns the DDS image is valid format.
         /// </summary>
         public bool IsValid => m_isValid;
+
+        public JMXHeader Header => header;
+
+        public bool Initialized => m_isValid;
 
         #endregion Properties
 

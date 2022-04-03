@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorJMX2dt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditorJMX2dt.Designer.cs">
+      <DependentUpon>EditorJMX2dt.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -56,6 +62,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EditorJMX2dt.resx">
+      <DependentUpon>EditorJMX2dt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileEditorControl.resx">
       <DependentUpon>FileEditorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -68,6 +77,10 @@
     <ProjectReference Include="..\..\Utility\BinaryFiles\BinaryFiles.csproj">
       <Project>{ad7421fc-847b-41fb-ba2f-6ca9a7069fb0}</Project>
       <Name>BinaryFiles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\PackFile\PackFile.csproj">
+      <Project>{08885d2d-7dac-4902-bef2-d38132f77635}</Project>
+      <Name>PackFile</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\Structs\Structs.csproj">
       <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>

@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryFiles\JMXInterface\JMX2dtFileStruct.cs" />
-    <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapMeshBlock.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Mesh\Map\CMapMeshBlock.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Mesh\Map\CMapMeshTile.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapObject.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapObjectInformation.cs" />
     <Compile Include="BinaryFiles\PixelFormat.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Dungeon\Dungeon.cs" />
     <Compile Include="Database\Enumerable\TableName.cs" />
@@ -78,7 +81,7 @@
     <Compile Include="BinaryFiles\JMXRessource\Animation\CPrimAniGroup.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Animation\CPrimAniTypeData.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Material\CPrimMaterialSet.cs" />
-    <Compile Include="BinaryFiles\JMXRessource\Mesh\CPrimMesh.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Mesh\CPrimMeshValuePair.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Mesh\CPrimMeshGroup.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Enum\AnimationType.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Enum\ModDataType.cs" />
@@ -92,7 +95,7 @@
     <Compile Include="BinaryFiles\JMXRessource\Material\CModDataMultiTextureRev.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Particles\CModDataParticleStruct.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Sound\CModDataSound.cs" />
-    <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapMeshCell.cs" />
+    <Compile Include="BinaryFiles\JMXRessource\Mesh\Map\CMapMeshCell.cs" />
     <Compile Include="Geometry\Points.cs" />
     <Compile Include="Geometry\SRectangle.cs" />
     <Compile Include="Tool\Dashboard\DashboardMessage.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Geometry\wRegionID.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BinaryFiles\JMXRessource\Mesh\Navigation\" />
     <Folder Include="Pk2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

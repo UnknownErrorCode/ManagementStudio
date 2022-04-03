@@ -1,15 +1,26 @@
-﻿
-namespace Structs.BinaryFiles.JMXRessource.Mesh
+﻿namespace Structs.BinaryFiles.JMXRessource.Mesh
 {
+    /// <summary>
+    /// Has a <see cref="Height"/>,
+    /// <br><see cref="Texture"/> 10 bit texture n 6 bit splash flag</br>
+    /// <br><see cref="Brightness"/></br>
+    /// </summary>
     public struct CMapMeshCell
     {
+        /// <summary>
+        /// Height of <see cref="CMapMeshCell"/>.
+        /// </summary>
         public float Height;
+
         /// <summary>
         /// 10 bit texture n 6 bit splash
         /// </summary>
         public ushort Texture;
-        public byte Brightness;
 
+        /// <summary>
+        /// Brightness of <see cref="CMapMeshCell"/>.
+        /// </summary>
+        public byte Brightness;
     }
 }
 

@@ -45,7 +45,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(0, 24);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.Size = new System.Drawing.Size(800, 426);
+            this.propertyGrid1.Size = new System.Drawing.Size(922, 426);
             this.propertyGrid1.TabIndex = 1;
             this.propertyGrid1.ViewBackColor = System.Drawing.Color.DimGray;
             this.propertyGrid1.ViewForeColor = System.Drawing.Color.Black;
@@ -56,7 +56,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(922, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -71,7 +71,7 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -83,7 +83,7 @@
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.menuStrip1);
             this.Name = "FileEditorControl";
-            this.Size = new System.Drawing.Size(800, 450);
+            this.Size = new System.Drawing.Size(922, 450);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
