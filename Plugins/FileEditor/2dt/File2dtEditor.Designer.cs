@@ -114,6 +114,10 @@ namespace FileEditor._2dt
             // splitContainer2dt.Panel1
             // 
             this.splitContainer2dt.Panel1.Controls.Add(this.propertyGrid1);
+            // 
+            // splitContainer2dt.Panel2
+            // 
+            this.splitContainer2dt.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer2dt_Panel2_Paint);
             this.splitContainer2dt.Size = new System.Drawing.Size(723, 340);
             this.splitContainer2dt.SplitterDistance = 240;
             this.splitContainer2dt.TabIndex = 5;

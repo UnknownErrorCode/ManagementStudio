@@ -1,22 +1,19 @@
 ﻿using BinaryFiles.PackFile.Media;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 
-namespace FileEditor
+namespace FileEditor._2dt
 {
-    public partial class ViewerJMX2dt : Form
+    class Graphics2dt
     {
         private readonly JMX2dtFile display;
         private Dictionary<string, Bitmap> ddjFiles = new Dictionary<string, Bitmap>();
-        private int minX = 640, minY = 640, maxX = 0, maxY = 0;
-        public ViewerJMX2dt(JMX2dtFile dis, string name)
+        internal int minX = 640, minY = 640, maxX = 0, maxY = 0;
+
+        public Graphics2dt(JMX2dtFile file)
         {
-            display = dis;
-            StartPosition = FormStartPosition.CenterScreen;
-            InitializeComponent();
-            Text = name;
-            foreach (var item in dis.ElementList)
+            display = file;
+            foreach (var item in file.ElementList)
             {
                 var path = $"Media\\{item.Image.Replace($"\0", "")}";
                 if (!ddjFiles.ContainsKey(path) && PackFile.MediaPack.Reader.GetByteArrayByDirectory(path, out byte[] ddj))
@@ -51,29 +48,9 @@ namespace FileEditor
                     maxY = item.ClientRectangle.Y + item.ClientRectangle.Higth;
                 }
             }
-            Width = maxX;
-            Height = maxY;
         }
 
-        private void EditorJMX2dt_Paint(object sender, PaintEventArgs e)
-        {
-            foreach (var item in display.ElementList)
-            {
-                var path = $"Media\\{item.Image.Replace($"\0", "")}";
-                if (ddjFiles.ContainsKey(path))
-                {
-                    e.Graphics.DrawImage(ddjFiles[path], item.ClientRectangle.X - minX, item.ClientRectangle.Y - minY, item.ClientRectangle.Width, item.ClientRectangle.Higth);
-                }
-
-                path = $"Media\\{item.Background.Replace($"\0", "")}";
-                if (ddjFiles.ContainsKey(path))
-                {
-                    e.Graphics.DrawImage(ddjFiles[path], item.ClientRectangle.X - minX, item.ClientRectangle.Y - minY, item.ClientRectangle.Width, item.ClientRectangle.Higth);
-                }
-            }
-        }
-
-        private void EditorJMX2dt_Paint(Graphics g)
+        public void EditorJMX2dt_Paint(Graphics g)
         {
             foreach (var item in display.ElementList)
             {
@@ -89,28 +66,6 @@ namespace FileEditor
                     g.DrawImage(ddjFiles[path], item.ClientRectangle.X - minX, item.ClientRectangle.Y - minY, item.ClientRectangle.Width, item.ClientRectangle.Higth);
                 }
             }
-        }
-
-        internal static void Show(Graphics g, JMX2dtFile file, string item)
-        {
-            System.Threading.Tasks.Task.Run(() =>
-            {
-                using (ViewerJMX2dt e = new ViewerJMX2dt(file, item))
-                {
-                    e.EditorJMX2dt_Paint(g);
-                }
-            });
-        }
-
-        internal static void Show(JMX2dtFile file, string item)
-        {
-            System.Threading.Tasks.Task.Run(() =>
-            {
-                using (ViewerJMX2dt e = new ViewerJMX2dt(file, item))
-                {
-                    e.ShowDialog();
-                }
-            });
         }
     }
 }

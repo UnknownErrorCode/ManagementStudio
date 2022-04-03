@@ -52,15 +52,16 @@
     <Compile Include="2dt\File2dtEditor.Designer.cs">
       <DependentUpon>File2dtEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="2dt\Graphics2dt.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewerJMX2dt.cs">
+    <Compile Include="2dt\ViewerJMX2dt.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewerJMX2dt.Designer.cs">
+    <Compile Include="2dt\ViewerJMX2dt.Designer.cs">
       <DependentUpon>ViewerJMX2dt.cs</DependentUpon>
     </Compile>
     <Compile Include="FileEditorControl.cs">
@@ -80,7 +81,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewerJMX2dt.resx">
+    <EmbeddedResource Include="2dt\ViewerJMX2dt.resx">
       <DependentUpon>ViewerJMX2dt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FileEditorControl.resx">

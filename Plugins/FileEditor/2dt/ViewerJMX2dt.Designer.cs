@@ -31,13 +31,14 @@ namespace FileEditor
         {
             this.SuspendLayout();
             // 
-            // EditorJMX2dt
+            // ViewerJMX2dt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(50, 50);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "EditorJMX2dt";
+            this.Name = "ViewerJMX2dt";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EditorJMX2dt";
             this.TransparencyKey = System.Drawing.Color.Transparent;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorJMX2dt_Paint);
