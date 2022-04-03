@@ -46,11 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorJMX2dt.cs">
+    <Compile Include="2dt\File2dtEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="2dt\File2dtEditor.Designer.cs">
+      <DependentUpon>File2dtEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewerJMX2dt.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditorJMX2dt.Designer.cs">
-      <DependentUpon>EditorJMX2dt.cs</DependentUpon>
+    <Compile Include="ViewerJMX2dt.Designer.cs">
+      <DependentUpon>ViewerJMX2dt.cs</DependentUpon>
     </Compile>
     <Compile Include="FileEditorControl.cs">
       <SubType>UserControl</SubType>
@@ -62,8 +73,15 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EditorJMX2dt.resx">
-      <DependentUpon>EditorJMX2dt.cs</DependentUpon>
+    <EmbeddedResource Include="2dt\File2dtEditor.resx">
+      <DependentUpon>File2dtEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewerJMX2dt.resx">
+      <DependentUpon>ViewerJMX2dt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FileEditorControl.resx">
       <DependentUpon>FileEditorControl.cs</DependentUpon>

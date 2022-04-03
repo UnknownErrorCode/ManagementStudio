@@ -89,6 +89,8 @@ namespace WorldMapSpawnEditor.MapGraphics
         private bool showEditorOnClick = false;
 
         private bool showMonster = false;
+        private bool showMeshBlocks = false;
+        private bool showMeshCells = false;
         private bool showNestGenRadius = false;
         private bool showNestRadius = false;
         private bool showNpc = false;
@@ -122,6 +124,9 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         public bool ShowRegionDBnoDDJ
         { get => showRegionDBnoDDJ; set { showRegionDBnoDDJ = value; Invalidate(); } }
+
+        public bool ShowMeshBlocks { get => showMeshBlocks; set { showMeshBlocks = value; Invalidate(); } }
+        public bool ShowMeshCells { get => showMeshCells; set => showMeshCells = value; }
 
         internal string[] Continents => World.Continents.Keys.ToArray();
 
@@ -202,8 +207,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                 float fRegX = ((PointMouseSroRegioDown.X) * PictureSize + (PointZeroLocation.X - e.X)) * -1;
                 float RegX = (float)Math.Round(fRegX * (1920f / PictureSize), 0);
 
-                int fRegX2 = ((PointMouseSroRegioDown.X) * PictureSize + (PointZeroLocation.X - e.X)) * -1;
-                int RegX2 = (int)Math.Round(fRegX * (1920f / PictureSize), 0);
 
                 float fRegY = ((128 * PictureSize) + (PointZeroLocation.Y - e.Y)) - ((PointMouseSroRegioDown.Y) * PictureSize);
                 float RegY = (float)Math.Round(fRegY * (1920f / PictureSize));
@@ -477,7 +480,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                         if (reg.HasLayer)
                         {
                             e.Graphics.DrawImage(reg.RegionLayer, PointPanel.X, PointPanel.Y, PictureSize, PictureSize);
-                            e.Graphics.DrawRectangle(Pens.White, drawRec);
+                            // e.Graphics.DrawRectangle(Pens.White, drawRec);
                         }
                         else if (!reg.HasLayer && showRegionDBnoDDJ)
                         {
@@ -486,6 +489,27 @@ namespace WorldMapSpawnEditor.MapGraphics
                             {
                                 TextRenderer.DrawText(e.Graphics, $"\n\nNo ddj file", Font, PointPanel, Color.Red);
                             }
+                        }
+                        if (showMeshBlocks && PictureSize > 400)
+                        {
+                            Rectangle rec = Rectangle.Empty;
+                            Point blockTextPoint = Point.Empty;
+                            for (int y = 0; y < 6; y++)
+                            {
+                                for (int x = 0; x < 6; x++)
+                                {
+                                    rec.X = PointPanel.X + (int)(x * (PictureSize / 6f));
+                                    rec.Y = PointPanel.Y + (int)(y * (PictureSize / 6f));
+                                    rec.Width = (PictureSize / 6);
+                                    rec.Height = (PictureSize / 6);
+                                    e.Graphics.DrawRectangle(Pens.GreenYellow, rec);
+
+                                    blockTextPoint.X = rec.X;
+                                    blockTextPoint.Y = x == 0 && y == 0 ? rec.Y + 30 : rec.Y;
+                                    TextRenderer.DrawText(e.Graphics, $"Block: X: {x} Z: {(y - 5) * -1}", Font, blockTextPoint, Color.White);
+                                }
+                            }
+                            e.Graphics.DrawRectangle(Pens.White, drawRec);
                         }
 
                         if (PictureSize > 100)
@@ -551,79 +575,13 @@ namespace WorldMapSpawnEditor.MapGraphics
                         }
                 }
 
-                /*
-                foreach (Interface.InterfaceSpawn spawn in Spawns)
-                {
-                    PointPanel.X = (spawn.RegionID.X * PictureSize) + PointZeroLocation.X;
-                    PointPanel.Y = ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) - PictureSize;
-
-                    if ((PointPanel.X > minX && PointPanel.X < maxX) && (PointPanel.Y > minY && PointPanel.Y < maxY))
-                        switch (spawn.SpawnType)
-                        {
-                            case SpawnType.None:
-                                break;
-
-                            case SpawnType.Monster when showMonster:
-                                int spawnLocationX = (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0);//+ mob.Value.Location.X;
-                                int spawnLocationY = ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1);// mob.Value.Location.Y;
-                                e.Graphics.DrawImage(ImageMonster, spawnLocationX - ImageMonster.Width / 2, spawnLocationY - ImageMonster.Width / 2, ImageMonster.Width, ImageMonster.Height);
-
-                                if (showNestGenRadius)
-                                {
-                                    e.Graphics.DrawEllipse(Pens.Red, spawnLocationX - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize));
-                                }
-
-                                if (showNestRadius)
-                                {
-                                    e.Graphics.DrawEllipse(Pens.Gray, spawnLocationX - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NRadius / (1920 / PictureSize), ((Monster)spawn).NRadius / (1920 / PictureSize));
-                                }
-
-                                break;
-
-                            case SpawnType.Npc when showNpc:
-                                e.Graphics.DrawImage(ImageNpc, (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0) - (ImageNpc.Width / 2), ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1) - (ImageNpc.Width / 2), ImageNpc.Width, ImageNpc.Height);
-                                break;
-
-                            case SpawnType.Unique when showUniqueMonster:
-                                int uspawnLocationX = (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0) - (ImageMonster.Width / 2);
-                                int uspawnLocationY = ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1) - (ImageMonster.Width / 2);
-                                e.Graphics.DrawImage(ImageMonsterUnique, uspawnLocationX - ImageMonsterUnique.Width / 2, uspawnLocationY - ImageMonsterUnique.Width / 2, ImageMonsterUnique.Width, ImageMonsterUnique.Height);
-
-                                if (showNestRadius)
-                                    e.Graphics.DrawEllipse(Pens.Green, uspawnLocationX - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), uspawnLocationY - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NRadius / (1920 / PictureSize), ((Monster)spawn).NRadius / (1920 / PictureSize));
-
-                                if (showNestGenRadius)
-                                    e.Graphics.DrawEllipse(Pens.Yellow, uspawnLocationX - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), uspawnLocationY - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize));
-
-                                break;
-
-                            case SpawnType.Teleport when showTeleport:
-                                e.Graphics.DrawImage(ImageTeleport, (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0), ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1), ImageTeleport.Width, ImageTeleport.Height);
-                                break;
-
-                            case SpawnType.Player when showPlayer:
-                                break;
-
-                            default:
-                                break;
-                        }
-                }
-
-                if (ShowPlayer)
-                {
-                    foreach (IChar item in ClientFrameworkRes.Database.SRO_VT_SHARD._Char.Values)
-                    {
-                        e.Graphics.DrawImage(ImagePlayer, ((item.LatestRegion % 256) * PictureSize + PointZeroLocation.X) + (int)Math.Round(item.PosX / (1920f / PictureSize), 0), (((((item.LatestRegion / 256) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((item.PosZ / (1920f / PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
-                    }
-                }
-                */
                 foreach (KeyValuePair<string, NewPosition> item in NewPosDic)
                 {
                     e.Graphics.DrawImage(ImageOwnPoint, new PointF((Convert.ToSingle((item.Value.RegionID % 256) * PictureSize + PointZeroLocation.X)) + (item.Value.Position.X / (1920f / PictureSize)), Convert.ToSingle(((((item.Value.RegionID / 256) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + ((item.Value.Position.Y / (1920f / PictureSize)) * -1)));
                 }
             }
 
-            TextRenderer.DrawText(e.Graphics, $"ViewPoint: X: {PointOfView.X} Y: {PointOfView.Y} \tZoom: {PictureSize}", Font, Point.Empty, Color.White);
+            TextRenderer.DrawText(e.Graphics, $"ViewPoint: X: {PointOfView.X} Y: {PointOfView.Y} \tZoom: {PictureSize}\tScarle: {PictureSize}", Font, Point.Empty, Color.White);
         }
 
         /// <summary>
@@ -661,42 +619,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             WorldSpawn = new CWorldSpawn();
 
-            //  Spawns.Clear();
 
-            /*
-                        foreach (var nest in ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest.Values)
-                        {
-                            var spawn = new Spawn(nest);
-                            if (!spawn.SpawnType.Equals(SpawnType.None))
-                            {
-                                switch (spawn.SpawnType)
-                                {
-                                    case SpawnType.Unique:
-                                    case SpawnType.Monster:
-                                        Spawns.Add(Spawn.FromSpawn<Monster>(spawn));
-                                        break;
-
-                                    case SpawnType.Npc:
-                                        Spawns.Add(Spawn.FromSpawn<Npc>(spawn));
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-                            }
-                        }
-
-                        foreach (RefTeleport teleport in ClientFrameworkRes.Database.SRO_VT_SHARD._RefTeleport.Values)
-                        {
-                            if (teleport.AssocRefObjID > 0)
-                                Spawns.Add(new Spawn(teleport));
-                        }
-
-                        foreach (IChar ichar in ClientFrameworkRes.Database.SRO_VT_SHARD._Char.Values)
-                        {
-                            Spawns.Add(Spawn.FromSpawn<Player>(new Spawn(ichar)));
-                        }
-            */
             Initialized = true;
         }
 
@@ -716,11 +639,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                     PackFile.MediaPack.DDJFiles.Add(pk2PathString, DDJFile);
                 }
 
-                //if (ClientFrameworkRes.Client.Media.MediaPk2.GetByteArrayByDirectory(pk2PathString, out byte[] file))
-                //{
-                //    DDJImage DDJFile = new DDJImage(file);
-                //    ClientFrameworkRes.Client.Media.DDJFiles.Add(pk2PathString, DDJFile);
-                //}
             }
 
             image = PackFile.MediaPack.DDJFiles[pk2PathString].BitmapImage;

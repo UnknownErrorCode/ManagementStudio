@@ -7,17 +7,13 @@ namespace ManagementServer
 {
     internal static class PluginSecurityManager
     {
-        #region Fields
 
         private static Dictionary<string, string[]> PluginDataTableBindings; //= new Dictionary<string, string[]>();
 
         private static Dictionary<byte, string[]> SecurityGroupDataAccess;
         private static Dictionary<byte, string[]> SecurityGroupPluginBindings;
 
-        #endregion Fields
-
-        #region Methods
-
+        public static int SecurityGroupCount => SecurityGroupPluginBindings.Count;
         internal static string[] GetPluginDataTableNames(string pluginname)
         {
             if (PluginDataTableBindings.TryGetValue(pluginname, out string[] tableNames))
@@ -126,6 +122,5 @@ namespace ManagementServer
             return true;
         }
 
-        #endregion Methods
     }
 }

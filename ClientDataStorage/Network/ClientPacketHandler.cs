@@ -74,7 +74,7 @@ namespace ClientFrameworkRes.Network
             var table = arg2.ReadDataTable(arg3);
             Database.SRO_VT_SHARD.PoolDataTable(tableName, table);
 
-            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Received DataTable: {tableName}");
+            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"Received DataTable: {tableName}");
 
             return PacketHandlerResult.Block;
         }

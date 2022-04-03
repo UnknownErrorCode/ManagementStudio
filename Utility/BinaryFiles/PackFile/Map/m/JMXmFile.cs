@@ -55,11 +55,11 @@ namespace BinaryFiles.PackFile.Map.m
                     {
                         header = new JMXHeader(reader.ReadChars(12), JmxFileFormat._m);
 
-                        for (byte xBlock = 0; xBlock < 6; xBlock++)
+                        for (byte zBlock = 0; zBlock < 6; zBlock++)
                         {
-                            for (byte yBlock = 0; yBlock < 6; yBlock++)
+                            for (byte xBlock = 0; xBlock < 6; xBlock++)
                             {
-                                Blocks.Add(Point8.FromXY(xBlock, yBlock), ReadBlock(reader));
+                                Blocks.Add(Point8.FromXY(xBlock, zBlock), ReadBlock(reader));
                             }
                         }
                     }
@@ -100,11 +100,15 @@ namespace BinaryFiles.PackFile.Map.m
             Z = 0.0f;
             BlockEntry(regX, out byte BlockX);
             BlockEntry(regY, out byte BlockY);
+            int bx = (int)regX / (1920 / 6);
+            var by = (int)regY / (1920 / 6);
 
             CellEntry(regX, false, out byte CellX);
             CellEntry(regY, true, out byte CellY);
+            int cx = (int)regX / (1920 / 16);
+            var cy = (int)(regY / (1920 / 16) - 16) * -1;
 
-            Structs.Point8 Point1 = Structs.Point8.FromXY(BlockX, BlockY);
+            Structs.Point8 Point1 = Structs.Point8.FromXY(BlockX, (byte)by);
             Structs.Point8 Point2 = Structs.Point8.FromXY(CellX, CellY);
 
             Z = Blocks[Point1].MapCells[Point2].Height;
@@ -301,9 +305,9 @@ namespace BinaryFiles.PackFile.Map.m
             block.MapCells = new Dictionary<Point8, CMapMeshCell>(289);
 
             //every block has 17 * 17 MapMeshVerticies
-            for (byte Cellx = 0; Cellx < 17; Cellx++)
+            for (byte CellZ = 0; CellZ < 17; CellZ++)
             {
-                for (byte Celly = 0; Celly < 17; Celly++)
+                for (byte CellX = 0; CellX < 17; CellX++)
                 {
                     var meshCell = new CMapMeshCell()
                     {
@@ -311,7 +315,7 @@ namespace BinaryFiles.PackFile.Map.m
                         Texture = reader.ReadUInt16(),
                         Brightness = reader.ReadByte(),
                     };
-                    block.MapCells.Add(new Point8(Cellx, Celly), meshCell);
+                    block.MapCells.Add(new Point8(CellZ, CellX), meshCell);
                 }
             }
 
@@ -328,6 +332,7 @@ namespace BinaryFiles.PackFile.Map.m
             #region Mesh Tiles
 
             block.MapMeshTiles = new CMapMeshTile[256];
+            //TODO: Maybe also using dictionary later as property? idk...
             for (int mapMeshTile = 0; mapMeshTile < 256; mapMeshTile++)
             {
                 block.MapMeshTiles[mapMeshTile] = new CMapMeshTile() { ExtraMin = reader.ReadByte(), ExtraMax = reader.ReadByte() };

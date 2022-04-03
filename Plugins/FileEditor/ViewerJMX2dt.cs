@@ -5,14 +5,15 @@ using System.Windows.Forms;
 
 namespace FileEditor
 {
-    public partial class EditorJMX2dt : Form
+    public partial class ViewerJMX2dt : Form
     {
         private readonly JMX2dtFile display;
         private Dictionary<string, Bitmap> ddjFiles = new Dictionary<string, Bitmap>();
-
-        public EditorJMX2dt(JMX2dtFile dis, string name)
+        private int minX = 640, minY = 640, maxX = 0, maxY = 0;
+        public ViewerJMX2dt(JMX2dtFile dis, string name)
         {
             display = dis;
+            StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
             Text = name;
             foreach (var item in dis.ElementList)
@@ -29,21 +30,29 @@ namespace FileEditor
                     ddjFiles.Add(path, new BinaryFiles.PackFile.JMXddjFile(ddj).BitmapImage);
                 }
 
-
-                if (item.ClientRectangle.X + item.ClientRectangle.Width > Width)
+                if (item.ClientRectangle.X > 0)
                 {
-                    Width = item.ClientRectangle.X + item.ClientRectangle.Width;
+                    if (minX > item.ClientRectangle.X)
+                        minX = item.ClientRectangle.X;
                 }
-                if (item.ClientRectangle.Y + item.ClientRectangle.Higth > Height)
+                if (item.ClientRectangle.Y > 0)
                 {
-                    Height = item.ClientRectangle.Y + item.ClientRectangle.Higth;
+                    if (minY > item.ClientRectangle.Y)
+                        minY = item.ClientRectangle.Y;
+
+                }
+
+                if (item.ClientRectangle.X + item.ClientRectangle.Width > maxX)
+                {
+                    maxX = item.ClientRectangle.X + item.ClientRectangle.Width;
+                }
+                if (item.ClientRectangle.Y + item.ClientRectangle.Higth > maxY)
+                {
+                    maxY = item.ClientRectangle.Y + item.ClientRectangle.Higth;
                 }
             }
-        }
-
-        private void Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
+            Width = maxX;
+            Height = maxY;
         }
 
         private void EditorJMX2dt_Paint(object sender, PaintEventArgs e)
@@ -53,13 +62,13 @@ namespace FileEditor
                 var path = $"Media\\{item.Image.Replace($"\0", "")}";
                 if (ddjFiles.ContainsKey(path))
                 {
-                    e.Graphics.DrawImage(ddjFiles[path], item.ClientRectangle.X, item.ClientRectangle.Y, item.ClientRectangle.Width, item.ClientRectangle.Higth);
+                    e.Graphics.DrawImage(ddjFiles[path], item.ClientRectangle.X - minX, item.ClientRectangle.Y - minY, item.ClientRectangle.Width, item.ClientRectangle.Higth);
                 }
 
                 path = $"Media\\{item.Background.Replace($"\0", "")}";
                 if (ddjFiles.ContainsKey(path))
                 {
-                    e.Graphics.DrawImage(ddjFiles[path], item.ClientRectangle.X, item.ClientRectangle.Y, item.ClientRectangle.Width, item.ClientRectangle.Higth);
+                    e.Graphics.DrawImage(ddjFiles[path], item.ClientRectangle.X - minX, item.ClientRectangle.Y - minY, item.ClientRectangle.Width, item.ClientRectangle.Higth);
                 }
             }
         }
@@ -68,7 +77,7 @@ namespace FileEditor
         {
             System.Threading.Tasks.Task.Run(() =>
             {
-                using (EditorJMX2dt e = new EditorJMX2dt(file, item))
+                using (ViewerJMX2dt e = new ViewerJMX2dt(file, item))
                 {
                     e.ShowDialog();
                 }

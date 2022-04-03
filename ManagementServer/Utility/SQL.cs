@@ -8,20 +8,10 @@ namespace ManagementServer.Utility
 {
     internal static class SQL
     {
-        #region Fields
-
         private static SqlConnection sqlConnection;
 
-        #endregion Fields
-
-        #region Properties
-
+        internal static bool ConnectionSuccess => TestSQLConnection(ServerManager.settings.SQL_ConnectionString);
         private static string SqlConnectionString => ServerManager.settings.SQL_ConnectionString;
-
-        #endregion Properties
-
-        #region Methods
-
         /// <summary>
         /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
         /// </summary>
@@ -29,7 +19,7 @@ namespace ManagementServer.Utility
         /// <param name="password"></param>
         /// <param name="IP"></param>
         /// <returns></returns>
-        public static LoginStatus CheckLogin(string userName, string password, string IP)
+        internal static LoginStatus CheckLogin(string userName, string password, string IP)
         {
             SqlParameter[] regparams = new SqlParameter[4]
              {
@@ -51,7 +41,7 @@ namespace ManagementServer.Utility
             return status;
         }
 
-        public static string[] CheckLogout(string userName, string UserIP)
+        internal static string[] CheckLogout(string userName, string UserIP)
         {
             SqlParameter[] logoutParameter = new SqlParameter[]
                   {
@@ -72,25 +62,13 @@ namespace ManagementServer.Utility
             return forsfor;
         }
 
-        internal static DataTable AllowedPlugins(byte securityDescription)
-        {
-            return ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", ServerManager.settings.DBDev);
-        }
+        internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", ServerManager.settings.DBDev);
 
-        internal static DataTable GetPatchHistory()
-        {
-            return ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
-        }
+        internal static DataTable GetPatchHistory() => ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
 
-        internal static DataTable GetPluginDataAccess()
-        {
-            return ReturnDataTableByQuery($"SELECT [PluginName], [LoadIndex], [TableName] FROM [dbo].[_ToolPluginDataAccess]", ServerManager.settings.DBDev);
-        }
+        internal static DataTable GetPluginDataAccess() => ReturnDataTableByQuery($"SELECT [PluginName], [LoadIndex], [TableName] FROM [dbo].[_ToolPluginDataAccess]", ServerManager.settings.DBDev);
 
-        internal static DataTable GetRequestedDataTable(string tableName)
-        {
-            return ReturnDataTableByQuery($"SELECT * FROM {tableName}", ServerManager.settings.DBSha);
-        }
+        internal static DataTable GetRequestedDataTable(string tableName) => ReturnDataTableByQuery($"SELECT * FROM {tableName}", ServerManager.settings.DBSha);
 
         internal static string[] GetRequiredTableNames(byte securityGroup)
         {
@@ -105,10 +83,7 @@ namespace ManagementServer.Utility
             return nameArray;
         }
 
-        internal static DataTable GetSecurityPluginAccess()
-        {
-            return ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", ServerManager.settings.DBDev);
-        }
+        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", ServerManager.settings.DBDev);
 
         internal static int LatestVersion()
         {
@@ -135,55 +110,36 @@ namespace ManagementServer.Utility
             }
         }
 
-        internal static void LogoutEveryone()
+        internal static int LogoutEveryone()
         {
-            using (SqlCommand command = new SqlCommand("UPDATE _ToolUser SET Active = 0 ", sqlConnection))
-            {
-                if (command.Connection.State != ConnectionState.Open)
-                {
-                    command.Connection.Open();
-                }
-
-                command.Connection.ChangeDatabase(ServerManager.settings.DBDev);
-                command.CommandType = CommandType.Text;
-
-                command.ExecuteNonQuery();
-                // command.Connection.Close();
-            }
+            return ExecuteQuery("UPDATE _ToolUser SET Active = 0  where Active >0 ", ServerManager.settings.DBDev);
         }
 
-        internal static DataTable RequestFilesToUpdate(int latestClientVersion)
-        {
-            return ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
-        }
+        internal static DataTable RequestFilesToUpdate(int latestClientVersion) => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
 
-        internal static bool TestSQLConnection(string sQL_ConnectionString)
+        internal static void UpdateToolFiles(SqlParameter[] paramse) => ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
+
+        private static bool TestSQLConnection(string sQL_ConnectionString)
         {
             sqlConnection = new SqlConnection(SqlConnectionString);
-            ServerManager.Logger.WriteLogLine("Testing SQL Connection...");
+            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Testing SQL Connection...");
 
             try
             {
                 sqlConnection.Open();
                 if (sqlConnection.State == ConnectionState.Open)
                 {
-                    ServerManager.Logger.WriteLogLine($"Established connection to: {sqlConnection.DataSource} ");
+                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
                     //sqlConnection.Close();
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                ServerManager.Logger.WriteLogLine($"Failed connecting to DatabaseEngine\n Exception: {ex}");
+                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
             }
             return false;
         }
-
-        internal static void UpdateToolFiles(SqlParameter[] paramse)
-        {
-            ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
-        }
-
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {
             DataTable dataTableProcedure = new DataTable();
@@ -231,7 +187,7 @@ namespace ManagementServer.Utility
                 }
             }
 
-            ServerManager.Logger.WriteLogLine($"EXEC {DB}.dbo.{procedureName} {paramstring}");
+            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"EXEC {DB}.dbo.{procedureName} {paramstring}");
             return dataTableProcedure;
         }
 
@@ -251,7 +207,7 @@ namespace ManagementServer.Utility
                     adapter.Fill(dataTable);
                 }
 
-                ServerManager.Logger.WriteLogLine(query);
+                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, query);
             }
             catch (Exception ex)
             {
@@ -261,6 +217,32 @@ namespace ManagementServer.Utility
             return dataTable;
         }
 
-        #endregion Methods
+        private static int ExecuteQuery(string query, string database)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand(query, sqlConnection))
+                {
+                    if (command.Connection.State != ConnectionState.Open)
+                    {
+                        command.Connection.Open();
+                    }
+                    if (command.Connection.Database != database)
+                    {
+                        command.Connection.ChangeDatabase(database);
+                    }
+                    command.CommandType = CommandType.Text;
+                    var ret = command.ExecuteNonQuery();
+                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
+                    return ret;
+                }
+            }
+            catch (Exception)
+            {
+                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
+            }
+
+            return 0;
+        }
     }
 }

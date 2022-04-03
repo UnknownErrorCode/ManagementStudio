@@ -11,6 +11,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         internal Dictionary<string, Continent> Continents;
         internal Dictionary<string, Dungeon[]> Dungeons;
+        Continent UnassignedRegions;
 
         #endregion Fields
 
@@ -47,6 +48,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                     return true;
                 }
             }
+            Continents.Values.ToList().Exists(c => c.ContainsRegion(p));
             return false;
         }
 

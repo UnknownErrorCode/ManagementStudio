@@ -835,7 +835,7 @@ namespace ClientFrameworkRes.Database
                     default:
                         break;
                 }
-                GC.Collect();
+                //GC.Collect();
             }
 
             //   if (SRO_VT_SHARD.dbo.Tables.Contains(tableName))
@@ -846,10 +846,7 @@ namespace ClientFrameworkRes.Database
             await Task.Delay(1);
         }
 
-        private static void InitializeRefTableToStruct<T>(
-           DataTable table,
-           ref List<T> stack
-           ) where T : struct
+        private static void InitializeRefTableToStruct<T>(DataTable table, ref List<T> stack) where T : struct
         {
             stack = new List<T>(table.Rows.Count);
             for (int i = 0; i < table.Rows.Count; i++)
@@ -858,10 +855,7 @@ namespace ClientFrameworkRes.Database
             }
         }
 
-        private static void InitializeRefTableToStruct<T>(
-            DataTable table,
-            ref ConcurrentStack<T> stack
-            ) where T : struct
+        private static void InitializeRefTableToStruct<T>(DataTable table, ref ConcurrentStack<T> stack) where T : struct
         {
             stack = new ConcurrentStack<T>();
             for (int i = 0; i < table.Rows.Count; i++)
@@ -870,10 +864,7 @@ namespace ClientFrameworkRes.Database
             }
         }
 
-        private static void InitializeRefTableToStruct<T>(
-           DataTable table,
-           ref ConcurrentBag<T> stack
-           ) where T : struct
+        private static void InitializeRefTableToStruct<T>(DataTable table, ref ConcurrentBag<T> stack) where T : struct
         {
             stack = new ConcurrentBag<T>();
             for (int i = 0; i < table.Rows.Count; i++)
@@ -882,11 +873,7 @@ namespace ClientFrameworkRes.Database
             }
         }
 
-        private static void InitializeRefTableToStruct<T>(
-            DataTable table,
-            ref ConcurrentDictionary<int, T> dic,
-            string keyName = "ID"
-            ) where T : struct
+        private static void InitializeRefTableToStruct<T>(DataTable table, ref ConcurrentDictionary<int, T> dic, string keyName = "ID") where T : struct
         {
             dic = new ConcurrentDictionary<int, T>(2, table.Rows.Count);
             for (int i = 0; i < table.Rows.Count; i++)

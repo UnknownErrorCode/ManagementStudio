@@ -28,10 +28,11 @@ namespace ManagementServer.Network
 
                 arg1.m_security.Send(PacketConstructors.LoginPacket.DataTablePackets(tableNameArray));
                 arg1.m_security.Send(PacketConstructors.LoginPacket.PluginDataReceiveConfirmation(pluginData));
+
             }
             catch (System.Exception)
             { }
-            // System.GC.Collect(2);
+            System.GC.Collect(2);
             return PacketHandlerResult.Block;
         }
 
@@ -51,8 +52,8 @@ namespace ManagementServer.Network
 
                 arg1.m_security.Send(PacketConstructors.LoginPacket.DataTablePackets(array.Where(tableName => tableNameArray.Contains(tableName)).ToArray()));
             }
-            catch (System.Exception)
-            { }
+            catch (System.Exception ex)
+            { ServerManager.Logger.WriteLogLine(ex, "ResponseSecurityGroupDataTables"); }
             return PacketHandlerResult.Block;
         }
 

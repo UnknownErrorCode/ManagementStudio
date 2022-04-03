@@ -95,7 +95,7 @@ namespace ManagementServer
         {
             try
             {
-                if (!Utility.SQL.TestSQLConnection(settings.SQL_ConnectionString))
+                if (!Utility.SQL.ConnectionSuccess)
                 {
                     return;
                 }
@@ -105,12 +105,15 @@ namespace ManagementServer
                     return;
                 }
 
-                Utility.SQL.LogoutEveryone();
+                int i = Utility.SQL.LogoutEveryone();
+                if (i > 0)
+                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Disconnected {i} active user. do something against it!!");
+
                 Server = new AsyncServer();
                 Server.Accept(settings.IP, settings.Port, 5, new ServerInterface(), buffer);
 
                 Ticker = true;
-                Logger.WriteLogLine("Status: vSro-Studio-Server started!");
+                Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, "Status: vSro-Studio-Server started!");
 
                 Thread t = new Thread(DiagnosticThread);
                 t.Start();
@@ -124,14 +127,14 @@ namespace ManagementServer
             }
             catch (Exception ex)
             {
-                Logger.WriteLogLine($"Status: vSro-Studio-Server failed to start... Exception: {ex.Message}");
+                Logger.WriteLogLine(LogLevel.fatal, $"Status: vSro-Studio-Server failed to start... Exception: {ex.Message}");
                 Ticker = false;
             }
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Logger.WriteLogLine("Starting...");
+            Logger.WriteLogLine(LogLevel.loading, "Starting...");
             Thread thread = new Thread(StartServer);
             thread.Start();
         }
@@ -143,7 +146,7 @@ namespace ManagementServer
                 return;
             }
 
-            Logger.WriteLogLine("Status: vSro-Studio-Server stopped!");
+            Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, "Status: vSro-Studio-Server stopped!");
             Ticker = false;
             Server.Stop();
         }
@@ -155,7 +158,9 @@ namespace ManagementServer
 
         private void vSroSmallButtonRefreshSec_vSroClickEvent()
         {
-            PluginSecurityManager.TryRefreshSecurityManager();
+            var flag = PluginSecurityManager.TryRefreshSecurityManager();
+            ServerManager.Logger.WriteLogLine(flag ? LogLevel.loading : LogLevel.fatal, flag ? $"Refreshed security groups" : "Failed to refresh groups...");
+
         }
 
         #endregion Methods

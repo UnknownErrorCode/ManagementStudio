@@ -39,6 +39,10 @@ namespace ServerFrameworkRes.Ressources
         {
             WriteLogLine(LogLevel.notify, message);
         }
+        public void WriteLogLine(Exception message, string sender)
+        {
+            WriteLogLine(LogLevel.fatal, $"{sender}: {message.Message}");
+        }
 
         public void WriteLogLine(LogLevel Level, string message)
         {
@@ -60,19 +64,25 @@ namespace ServerFrameworkRes.Ressources
                     case LogLevel.fatal:
                         r.DefaultCellStyle.ForeColor = Color.Red;
                         break;
-
                     case LogLevel.notify:
-                        r.DefaultCellStyle.ForeColor = Color.RoyalBlue;
+                        r.DefaultCellStyle.ForeColor = Color.Black;
                         break;
-
                     case LogLevel.warning:
                         r.DefaultCellStyle.ForeColor = Color.OrangeRed;
                         break;
-
+                    case LogLevel.loading:
+                        r.DefaultCellStyle.ForeColor = Color.Orange;
+                        break;
+                    case LogLevel.success:
+                        r.DefaultCellStyle.ForeColor = Color.Green;
+                        break;
+                    case LogLevel.sql:
+                        r.DefaultCellStyle.ForeColor = Color.DarkViolet;
+                        break;
                     default:
-                        r.DefaultCellStyle.ForeColor = Color.Black;
                         break;
                 }
+
 
                 // dataGridView1.Rows.Add(r);
                 dataGridView1.Invoke(new Action(() => { dataGridView1.Rows.Add(r); }));

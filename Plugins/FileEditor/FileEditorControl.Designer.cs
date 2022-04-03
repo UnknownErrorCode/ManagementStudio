@@ -28,27 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2dt = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.file2dtEditor1 = new FileEditor._2dt.File2dtEditor();
             this.menuStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage2dt.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // propertyGrid1
-            // 
-            this.propertyGrid1.CategorySplitterColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.HelpBackColor = System.Drawing.SystemColors.ControlDark;
-            this.propertyGrid1.HelpForeColor = System.Drawing.Color.Black;
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 24);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.Size = new System.Drawing.Size(922, 426);
-            this.propertyGrid1.TabIndex = 1;
-            this.propertyGrid1.ViewBackColor = System.Drawing.Color.DimGray;
-            this.propertyGrid1.ViewForeColor = System.Drawing.Color.Black;
             // 
             // menuStrip1
             // 
@@ -71,30 +61,75 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage2dt);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 24);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(922, 426);
+            this.tabControl1.TabIndex = 3;
+            // 
+            // tabPage2dt
+            // 
+            this.tabPage2dt.Controls.Add(this.file2dtEditor1);
+            this.tabPage2dt.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2dt.Name = "tabPage2dt";
+            this.tabPage2dt.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2dt.Size = new System.Drawing.Size(914, 400);
+            this.tabPage2dt.TabIndex = 0;
+            this.tabPage2dt.Text = "*.2dt";
+            this.tabPage2dt.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(192, 74);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // file2dtEditor1
+            // 
+            this.file2dtEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.file2dtEditor1.Location = new System.Drawing.Point(3, 3);
+            this.file2dtEditor1.Name = "file2dtEditor1";
+            this.file2dtEditor1.Size = new System.Drawing.Size(908, 394);
+            this.file2dtEditor1.TabIndex = 0;
             // 
             // FileEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Controls.Add(this.propertyGrid1);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.Name = "FileEditorControl";
             this.Size = new System.Drawing.Size(922, 450);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage2dt.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage2dt;
+        private System.Windows.Forms.TabPage tabPage2;
+        private _2dt.File2dtEditor file2dtEditor1;
     }
 }

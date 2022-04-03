@@ -45,7 +45,7 @@ namespace ManagementServer.Network
             }
             catch (Exception ex)
             {
-                ServerManager.Logger.WriteLogLine($"Failed to convert login status of User: {((ServerClientData)data).UserIP} Exception: [{ex.Message}]");
+                ServerManager.Logger.WriteLogLine(ex, $"Failed to convert login status of User: {((ServerClientData)data).UserIP}");
             }
             return PacketHandlerResult.Block;
         }

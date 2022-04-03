@@ -1,7 +1,7 @@
 ﻿
 namespace FileEditor
 {
-    partial class EditorJMX2dt
+    partial class ViewerJMX2dt
     {
         /// <summary>
         /// Required designer variable.

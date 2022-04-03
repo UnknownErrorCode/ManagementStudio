@@ -162,5 +162,11 @@ namespace WorldMapSpawnEditor
                 mguide.ShowDialog();
             }
         }
+
+        private void meshBlocksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowMeshBlocks = ((ToolStripMenuItem)sender).Checked;
+            meshBlocksToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide MeshBlocks" : "Show MeshBlocks";
+        }
     }
 }
