@@ -11,7 +11,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         internal Dictionary<string, Continent> Continents;
         internal Dictionary<string, Dungeon[]> Dungeons;
-        Continent UnassignedRegions;
+        internal Dictionary<Point, RegionGraphic> UnassignedRegions;
 
         #endregion Fields
 
@@ -28,9 +28,30 @@ namespace WorldMapSpawnEditor.MapGraphics
                     var continent = new Continent(item.ContinentName, allRegions.Where(reg => reg.ContinentName == item.ContinentName).ToArray());
                     if (!Dungeons.ContainsKey(item.AreaName) && continent.HasDungeon)
                     {
-                        Dungeons.Add(item.ContinentName, continent.GetDungeons());
+                        Dungeons.Add(item.ContinentName, continent.DungeonArray);
                     }
                     Continents.Add(item.ContinentName, continent);
+                }
+            }
+
+            UnassignedRegions = new Dictionary<Point, RegionGraphic>();
+            Point p = Point.Empty;
+            for (int i = 0; i < 255; i++)
+            {
+                for (int i2 = 0; i2 < 128; i2++)
+                {
+                    p.X = i; p.Y = i2;
+
+                    string str = $"{ClientFrameworkRes.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{i}x{i2}.JPG";
+                    if (System.IO.File.Exists(str) && !ContainsRegion(p))
+                    {
+                        int rID = System.Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
+                        var regLayer = new RegionGraphic((short)rID, "Unassigned");
+                        if (regLayer.HasLayer)
+                        {
+                            UnassignedRegions.Add(p, regLayer);
+                        }
+                    }
                 }
             }
         }
@@ -41,12 +62,9 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         internal bool ContainsRegion(Point p)
         {
-            foreach (var item in Continents.Values)
+            foreach (var item in Continents.Values.Where(cont => cont.ContainsRegion(p)))
             {
-                if (item.ContainsRegion(p))
-                {
-                    return true;
-                }
+                return true;
             }
             Continents.Values.ToList().Exists(c => c.ContainsRegion(p));
             return false;

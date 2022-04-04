@@ -1,12 +1,12 @@
 ﻿using Structs.Database;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Continent
     {
-        #region Fields
 
         internal readonly string ContinentName;
 
@@ -15,18 +15,21 @@ namespace WorldMapSpawnEditor.MapGraphics
                             , maxX = 0
                             , maxY = 0;
 
-        private readonly List<Dungeon> dungeonList;
-        private readonly Dictionary<short, RegionGraphic> Dungeons = new Dictionary<short, RegionGraphic>();
+
+        /// <summary>
+        /// Each dungeon on the continent.
+        /// </summary>
+        private readonly Dictionary<short, Dungeon> Dungeons = new Dictionary<short, Dungeon>();
+
+        /// <summary>
+        /// Regions which X and Z from Database are not equal to wRegion x n z.
+        /// </summary>
         private readonly Dictionary<short, RegionGraphic> ErrorRegions = new Dictionary<short, RegionGraphic>();
 
         /// <summary>
         /// Consists of all RegionGraphics on the WorldMap existing in the DB.
         /// </summary>
         private readonly Dictionary<Point, RegionGraphic> Regions = new Dictionary<Point, RegionGraphic>();
-
-        #endregion Fields
-
-        #region Constructors
 
         public Continent(string continentname, RefRegion[] enumerable)
         {
@@ -45,7 +48,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                     try
                     {
                         if (region.RegionID.IsDungeon)
-                            Dungeons.Add(enumerable[i].wRegionID, region);
+                            Dungeons.Add(enumerable[i].wRegionID, new Dungeon(continentname, enumerable[i].wRegionID));
                         else
                         {
                             minX = minX > pointer.X ? pointer.X : minX;
@@ -60,43 +63,36 @@ namespace WorldMapSpawnEditor.MapGraphics
                     catch (System.Exception e)
                     {
                         ErrorRegions.Add(enumerable[i].wRegionID, region);
+                        ServerFrameworkRes.Log.Logger.WriteLogLine(e, "Catches wrong region.");
                     }
                 }
             }
-            if (Dungeons.Count > 0)
-            {
-                dungeonList = new List<Dungeon>(Dungeons.Count);
-                foreach (var item in Dungeons.Keys)
-                {
-                    var dun = new Dungeon(continentname, item);
-                    dungeonList.Add(dun);
-                }
-            }
+            if (ErrorRegions.Count > 0)
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Loaded {ErrorRegions.Count} wrong regions at continent {continentname}.");
         }
+        /// <summary>
+        /// Indicates weather the Continent contains a dungeon or not.
+        /// </summary>
+        public bool HasDungeon => Dungeons?.Count > 0;
 
-        internal Dungeon[] GetDungeons()
-        {
-            return dungeonList.ToArray();
-        }
+        /// <summary>
+        /// Gets all dungeons from the dictionary.
+        /// </summary>
+        internal Dungeon[] DungeonArray => Dungeons?.Values.ToArray();
 
-        #endregion Constructors
-
-        #region Properties
-
-        public bool HasDungeon => dungeonList?.Count > 0;
-
-        #endregion Properties
-
-        #region Methods
-
+        /// <summary>
+        /// Indicates weather the Continent contains a region or not.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         internal bool ContainsRegion(Point p)
              => Regions.ContainsKey(p);
 
-        internal IEnumerable<RegionGraphic> GetDungeonRegions()
-        {
-            return Dungeons.Values;
-        }
-
+        /// <summary>
+        /// Get all regions that intersects with the rectangle.
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns></returns>
         internal IEnumerable<RegionGraphic> GetRegions(Rectangle range)
         {
             var list = new List<RegionGraphic>();
@@ -123,6 +119,14 @@ namespace WorldMapSpawnEditor.MapGraphics
             return list.ToArray();
         }
 
+        /// <summary>
+        /// Get view position of the continent.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="picSize"></param>
         internal void GetView(int width, int height, out int x, out int y, out int picSize)
         {
             var rangeX = maxX - minX;
@@ -137,6 +141,5 @@ namespace WorldMapSpawnEditor.MapGraphics
             y = (maxY * picSize) - (128 * picSize) + picSize;
         }
 
-        #endregion Methods
     }
 }

@@ -20,7 +20,7 @@ namespace FileEditor
 
         private void EditorJMX2dt_Paint(object sender, PaintEventArgs e) => EditorJMX2dt_Paint(e.Graphics);
 
-        public void EditorJMX2dt_Paint(Graphics g) => this.g.EditorJMX2dt_Paint(g);
+        public void EditorJMX2dt_Paint(Graphics g) => this.g.PaintGraphics(g);
 
 
         internal static void Show(JMX2dtFile file, string item) => System.Threading.Tasks.Task.Run(() =>

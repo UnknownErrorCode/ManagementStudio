@@ -89,11 +89,8 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void InitializeTeleports()
         {
-            foreach (RefTeleport teleport in ClientFrameworkRes.Database.SRO_VT_SHARD._RefTeleport.Values)
-            {
-                if (teleport.AssocRefObjID > 0)
-                    cSpawns.Add(new Spawn(teleport));
-            }
+            foreach (RefTeleport teleport in ClientFrameworkRes.Database.SRO_VT_SHARD._RefTeleport.Values.Where(tele => tele.AssocRefObjID > 0))
+                cSpawns.Add(new Spawn(teleport));
         }
 
         #endregion Methods

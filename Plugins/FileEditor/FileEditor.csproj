@@ -53,6 +53,7 @@
       <DependentUpon>File2dtEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="2dt\Graphics2dt.cs" />
+    <Compile Include="IFile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

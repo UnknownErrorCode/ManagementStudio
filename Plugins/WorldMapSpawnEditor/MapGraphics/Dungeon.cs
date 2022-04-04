@@ -5,20 +5,14 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Dungeon : IEnumerable<RegionGraphic>
     {
-        #region Fields
-
         private readonly short dungeonID;
         private readonly string dungeonName;
-        private readonly List<RegionGraphic> Dungeons = new List<RegionGraphic>();
-
-        #endregion Fields
-
-        #region Constructors
+        private readonly List<RegionGraphic> DungeonGraphics = new List<RegionGraphic>();
 
         internal Dungeon(string name, IEnumerable<RegionGraphic> dungeonRegions)
         {
             dungeonName = name;
-            Dungeons.AddRange(dungeonRegions);
+            DungeonGraphics.AddRange(dungeonRegions);
         }
 
         internal Dungeon(string name, short regionID)
@@ -27,23 +21,13 @@ namespace WorldMapSpawnEditor.MapGraphics
             dungeonID = regionID;
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         public short DungeonID => dungeonID;
         public string DungeonName => dungeonName;
 
-        #endregion Properties
-
-        #region Methods
-
         public IEnumerator<RegionGraphic> GetEnumerator()
-            => Dungeons.GetEnumerator();
+            => DungeonGraphics.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
        => GetEnumerator();
-
-        #endregion Methods
     }
 }

@@ -419,8 +419,8 @@ namespace WorldMapSpawnEditor.MapGraphics
                 maxX = Width + PictureSize,
                 minY = -PictureSize,
                 maxY = Height + PictureSize;
-            IEnumerable<int> xRange = Enumerable.Range(-PictureSize, Width + PictureSize);
-            IEnumerable<int> yRange = Enumerable.Range(-PictureSize, Height + PictureSize);
+            IEnumerable<int> xRange = Enumerable.Range(minX, maxX);
+            IEnumerable<int> yRange = Enumerable.Range(minY, maxY);
 
             var v1 = Rectangle.Empty;
             v1.Width = Width / PictureSize + 1;
