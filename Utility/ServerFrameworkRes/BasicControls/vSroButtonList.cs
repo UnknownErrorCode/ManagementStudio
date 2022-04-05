@@ -122,14 +122,10 @@ namespace ServerFrameworkRes.BasicControls
                 LatestSelectedButton.labelButtonName.ForeColor = Color.White;
             }
             LatestSelectedButton = (vSroListButton)sender;
-            //OnSelectChanged();
             if (OnIndCh != null)
             {
                 OnIndCh(LatestSelectedButton, e);
             }
-
-            //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.BackgroundImage = buttn.imageListSingleButton.Images[0]);
-            //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
         }
 
         private void LabelButtonName_Click(object sender, EventArgs e)

@@ -9,7 +9,6 @@ namespace ClientFrameworkRes.Network
         #region Fields
 
         public Action OnAllowedPluginReceived;
-        public Action OnReceiveAllTables;
 
         #endregion Fields
 

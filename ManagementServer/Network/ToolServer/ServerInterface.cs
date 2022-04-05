@@ -44,7 +44,7 @@ namespace ManagementServer
 
             if (context_data.AccountName != null)
             {
-                SQL.CheckLogout(context_data.AccountName, context_data.UserIP);
+                ServerManager.Logger.WriteLogLine(SQL.CheckLogout(context_data.AccountName, context_data.UserIP).Notification); ;
             }
 
             context.Disconnect();

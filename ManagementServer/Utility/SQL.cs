@@ -11,7 +11,9 @@ namespace ManagementServer.Utility
         private static SqlConnection sqlConnection;
 
         internal static bool ConnectionSuccess => TestSQLConnection(ServerManager.settings.SQL_ConnectionString);
+
         private static string SqlConnectionString => ServerManager.settings.SQL_ConnectionString;
+
         /// <summary>
         /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
         /// </summary>
@@ -29,7 +31,7 @@ namespace ManagementServer.Utility
                     new SqlParameter("@OnOff",SqlDbType.TinyInt) { Value = 1}
              };
 
-            DataRow row = ReturnDataTableByProcedure("_LoginToolUser", ServerManager.settings.DBDev, regparams).Rows[0];
+            DataRow row = ReturnDataTableByProcedure("_LoginClientUser", ServerManager.settings.DBDev, regparams).Rows[0];
 
             LoginStatus status = new LoginStatus()
             {
@@ -41,7 +43,7 @@ namespace ManagementServer.Utility
             return status;
         }
 
-        internal static string[] CheckLogout(string userName, string UserIP)
+        internal static LoginStatus CheckLogout(string userName, string UserIP)
         {
             SqlParameter[] logoutParameter = new SqlParameter[]
                   {
@@ -50,16 +52,15 @@ namespace ManagementServer.Utility
                         new SqlParameter("@IP" ,System.Data.SqlDbType.VarChar,15) { Value = UserIP },
                         new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
                   };
-            DataRow logoutResut = SQL.ReturnDataTableByProcedure("_LoginToolUser", ServerManager.settings.DBDev, logoutParameter).Rows[0];
-
-            string[] forsfor = new string[logoutResut.ItemArray.Length];
-
-            for (int i = 0; i < forsfor.Length; i++)
+            DataRow row = SQL.ReturnDataTableByProcedure("_LoginClientUser", ServerManager.settings.DBDev, logoutParameter).Rows[0];
+            LoginStatus status = new LoginStatus()
             {
-                forsfor[i] = logoutResut.ItemArray[i].ToString();
-            }
-
-            return forsfor;
+                Success = row.Field<bool>("Success"),
+                Notification = row.Field<string>("Message"),
+                SecurityGroup = row.Field<byte>("SecurityGroup"),
+                UserName = row.Field<string>("AccountName"),
+            };
+            return status;
         }
 
         internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", ServerManager.settings.DBDev);
@@ -141,6 +142,7 @@ namespace ManagementServer.Utility
             }
             return false;
         }
+
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {
             DataTable dataTableProcedure = new DataTable();

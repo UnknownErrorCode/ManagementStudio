@@ -8,8 +8,6 @@ namespace ManagementClient
 {
     public partial class ClientForm : Form
     {
-        private bool ReceivedDataTable = false, ReceivedPluginNames = false;
-
         /// <summary>
         /// The ´main form that consists of all plugindata and the basic requirement ressources.
         /// <br> Pk2 initialization</br>
@@ -20,16 +18,18 @@ namespace ManagementClient
         {
             InitializeComponent();
             Controls.Add(ServerFrameworkRes.Log.Logger);
-            ClientFrameworkRes.ClientCore.OnDataReceived += OnReceiveAllData;
+            System.Threading.Tasks.Task.Run(() => InitializePackFile());
             ClientFrameworkRes.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
         }
 
+        private bool ReceivedPluginNames => ClientFrameworkRes.ClientMemory.AllowedPlugin?.Length > 0;
         private bool Initialized => PackFile.PackFileManager.Initialized && ReceivedPluginNames;
 
-
-
-        #region Methods
-
+        /// <summary>
+        /// User loads a plugin <see cref="TabPage"/> into the <see cref="ClientForm"/>.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClickLoadPlugin(object sender, EventArgs e)
         {
             ToolStripItem itm = (ToolStripItem)sender;
@@ -41,14 +41,13 @@ namespace ManagementClient
             tabControlPlugins.TabPages.Add(page);
         }
 
-        private void ClientForm_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Initializes the pk2 data.
+        /// </summary>
+        private void InitializePackFile()
         {
             ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Loading pk2 ressources...");
-            System.Threading.Tasks.Task.Run(() => OnPackFileInitialized());
-        }
 
-        private void OnPackFileInitialized()
-        {
             if (!PackFile.PackFileManager.InitializePackFiles(ClientFrameworkRes.Config.StaticConfig.ClientPath))
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, "Failed initialize pk2 ressources!");
             else
@@ -75,7 +74,7 @@ namespace ManagementClient
                     loadPluginsToolStripMenuItem.DropDownItems.Add(pluginName);
                     loadPluginsToolStripMenuItem.DropDownItems[loadPluginsToolStripMenuItem.DropDownItems.Count - 1].Click += ClickLoadPlugin;
                 }
-                ReceivedPluginNames = true;
+                //ReceivedPluginNames = true;
                 if (Initialized)
                 {
                     loadPluginsToolStripMenuItem.Enabled = true;
@@ -84,17 +83,17 @@ namespace ManagementClient
             ServerFrameworkRes.Log.Logger.WriteLogLine($"Allowed [{ClientFrameworkRes.ClientMemory.AllowedPlugin.Length}] *.dll libraries");
         }
 
+        /// <summary>
+        /// Dhutdown all processes on exit.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnClose(object sender, FormClosingEventArgs e)
         {
             ClientFrameworkRes.ClientMemory.LoggedIn = false;
             Program.StaticLoginForm.Close();
             GC.Collect(5);
         }
-
-        /// <summary>
-        /// To avoid pooling wrong DataTable or illegal data into the memory.
-        /// </summary>
-        private void OnReceiveAllData() => ReceivedDataTable = true;
 
         /// <summary>
         /// Opens the <see cref="SettingsForm"/>.
@@ -147,7 +146,5 @@ namespace ManagementClient
             }
             return false;
         }
-
-        #endregion Methods
     }
 }

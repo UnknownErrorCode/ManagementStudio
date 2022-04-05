@@ -18,6 +18,7 @@ namespace ClientFrameworkRes
         #region Properties
 
         public static string AccountName => ClientCore.AccountName;
+        [System.Obsolete]
         public static bool LoggedIn { get; set; }
 
         #endregion Properties
