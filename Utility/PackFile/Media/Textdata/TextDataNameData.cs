@@ -13,7 +13,6 @@ namespace PackFile.Media.Textdata
 
         internal bool Initialized = true;
 
-        // TODO: Thy no static?
         internal TextGroupParser Group = new TextGroupParser();
 
         #endregion Fields
