@@ -8,19 +8,24 @@ namespace ManagementServer.Utility
 {
     internal static class SQL
     {
+        private const string _LoginClientUser = "_LoginClientUser";
+        private const string SELECT_ToolUpdates = "SELECT * FROM _ToolUpdates;";
+        private const string SELECT_ToolPluginGroups = "SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]";
+        private const string SELECT_ToolUpdatesMaxVersion = "Select TOP 1 MAX(Version) from _ToolUpdates where ToBePatched = 1";
+        private const string LOGOUT_ClientUser = "UPDATE _ClientUser SET Active = 0  where Active >0 ";
+        private const string _Update_Tool_Files = "_Update_Tool_Files";
         private static SqlConnection sqlConnection;
-
         internal static bool ConnectionSuccess => TestSQLConnection(ServerManager.settings.SQL_ConnectionString);
 
         private static string SqlConnectionString => ServerManager.settings.SQL_ConnectionString;
 
         /// <summary>
-        /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
+        /// EXEC <see cref="_LoginClientUser"/> UserName, Pasword, IP, OnOff
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <param name="IP"></param>
-        /// <returns></returns>
+        /// <returns><see cref="LoginStatus"/></returns>
         internal static LoginStatus CheckLogin(string userName, string password, string IP)
         {
             SqlParameter[] regparams = new SqlParameter[4]
@@ -31,7 +36,7 @@ namespace ManagementServer.Utility
                     new SqlParameter("@OnOff",SqlDbType.TinyInt) { Value = 1}
              };
 
-            DataRow row = ReturnDataTableByProcedure("_LoginClientUser", ServerManager.settings.DBDev, regparams).Rows[0];
+            DataRow row = ReturnDataTableByProcedure(_LoginClientUser, ServerManager.settings.DBDev, regparams).Rows[0];
 
             LoginStatus status = new LoginStatus()
             {
@@ -43,6 +48,12 @@ namespace ManagementServer.Utility
             return status;
         }
 
+        ///  <summary>
+        /// EXEC <see cref="_LoginClientUser"/> UserName, Pasword, IP, OnOff
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="UserIP"></param>
+        /// <returns><see cref="LoginStatus"/></returns>
         internal static LoginStatus CheckLogout(string userName, string UserIP)
         {
             SqlParameter[] logoutParameter = new SqlParameter[]
@@ -52,7 +63,7 @@ namespace ManagementServer.Utility
                         new SqlParameter("@IP" ,System.Data.SqlDbType.VarChar,15) { Value = UserIP },
                         new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
                   };
-            DataRow row = SQL.ReturnDataTableByProcedure("_LoginClientUser", ServerManager.settings.DBDev, logoutParameter).Rows[0];
+            DataRow row = SQL.ReturnDataTableByProcedure(_LoginClientUser, ServerManager.settings.DBDev, logoutParameter).Rows[0];
             LoginStatus status = new LoginStatus()
             {
                 Success = row.Field<bool>("Success"),
@@ -63,32 +74,33 @@ namespace ManagementServer.Utility
             return status;
         }
 
-        internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", ServerManager.settings.DBDev);
+        /// <summary>
+        /// SELECT * FROM _ToolUpdates
+        /// </summary>
+        /// <returns><see cref="DataTable"/></returns>
+        internal static DataTable GetPatchHistory() => ReturnDataTableByQuery(SELECT_ToolUpdates, ServerManager.settings.DBDev);
 
-        internal static DataTable GetPatchHistory() => ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
-
-        internal static DataTable GetPluginDataAccess() => ReturnDataTableByQuery($"SELECT [PluginName], [LoadIndex], [TableName] FROM [dbo].[_ToolPluginDataAccess]", ServerManager.settings.DBDev);
-
+        /// <summary>
+        /// SELECT * FROM <paramref name="tableName".
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns><see cref="DataTable"/></returns>
         internal static DataTable GetRequestedDataTable(string tableName) => ReturnDataTableByQuery($"SELECT * FROM {tableName}", ServerManager.settings.DBSha);
 
-        internal static string[] GetRequiredTableNames(byte securityGroup)
-        {
-            DataRowCollection names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _ToolPluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", ServerManager.settings.DBDev).Rows;
-            string[] nameArray = new string[names.Count];
+        /// <summary>
+        /// SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]
+        /// </summary>
+        /// <returns></returns>
+        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery(SELECT_ToolPluginGroups, ServerManager.settings.DBDev);
 
-            for (int i = 0; i < names.Count; i++)
-            {
-                nameArray[i] = names[i].Field<string>("TableName");
-            }
-
-            return nameArray;
-        }
-
-        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", ServerManager.settings.DBDev);
-
+        /// <summary>
+        /// Sends out the latest version.
+        /// <see cref="SELECT_ToolUpdatesMaxVersion"/>
+        /// </summary>
+        /// <returns></returns>
         internal static int LatestVersion()
         {
-            using (SqlCommand command = new SqlCommand("Select TOP 1 MAX(Version) from _ToolUpdates where ToBePatched = 1", sqlConnection))
+            using (SqlCommand command = new SqlCommand(SELECT_ToolUpdatesMaxVersion, sqlConnection))
             {
                 if (command.Connection.State != ConnectionState.Open)
                 {
@@ -111,15 +123,30 @@ namespace ManagementServer.Utility
             }
         }
 
+        /// <summary>
+        /// Logout everyone.
+        /// <br><see cref="LOGOUT_ClientUser"/></br>
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
         internal static bool LogoutEveryone(out int count)
         {
-            count = ExecuteQuery("UPDATE _ClientUser SET Active = 0  where Active >0 ", ServerManager.settings.DBDev);
+            count = ExecuteQuery(LOGOUT_ClientUser, ServerManager.settings.DBDev);
             return count > 0;
         }
 
+        /// <summary>
+        /// Selects all files to update from _ToolUpdates.
+        /// </summary>
+        /// <param name="latestClientVersion"></param>
+        /// <returns></returns>
         internal static DataTable RequestFilesToUpdate(int latestClientVersion) => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
 
-        internal static void UpdateToolFiles(SqlParameter[] paramse) => ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
+        /// <summary>
+        /// Updates files to the patcher.
+        /// </summary>
+        /// <param name="paramse"></param>
+        internal static void UpdateToolFiles(SqlParameter[] paramse) => ReturnDataTableByProcedure(_Update_Tool_Files, ServerManager.settings.DBDev, paramse);
 
         private static bool TestSQLConnection(string sQL_ConnectionString)
         {

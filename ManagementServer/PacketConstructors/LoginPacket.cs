@@ -58,7 +58,11 @@ namespace ManagementServer.PacketConstructors
             }
         }
 
-
+        /// <summary>
+        /// <seealso cref="PacketID.Server.LoginStatusResponse"/> contains a <see cref="LoginStatus"/>.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
         internal static Packet Status(LoginStatus status)
         {
             Packet LoginStatus = new Packet(PacketID.Server.LoginStatusResponse, false, true);
@@ -77,6 +81,7 @@ namespace ManagementServer.PacketConstructors
             }
             return packet;
         }
+
         private static Packet GetServerVersion()
         {
             var packet = new Packet(0xA001);
