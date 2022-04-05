@@ -175,6 +175,7 @@
     <Compile Include="Ressources\ModuleTimer.cs" />
     <Compile Include="Ressources\ServerBody\ServerBodyState.cs" />
     <Compile Include="ToolException.cs" />
+    <Compile Include="Utility\MD5Generator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BasicControls\vSroButton.resx">

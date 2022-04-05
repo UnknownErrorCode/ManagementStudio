@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ManagementServer.Utility
+namespace ManagementCertification.Utility
 {
     internal static class SQL
     {
         private static SqlConnection sqlConnection;
 
-        internal static bool ConnectionSuccess => TestSQLConnection(ServerManager.settings.SQL_ConnectionString);
-        private static string SqlConnectionString => ServerManager.settings.SQL_ConnectionString;
+        internal static bool ConnectionSuccess => TestSQLConnection(CertificationManager.settings.SQL_ConnectionString);
+        private static string SqlConnectionString => CertificationManager.settings.SQL_ConnectionString;
         /// <summary>
         /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
         /// </summary>
@@ -19,7 +19,7 @@ namespace ManagementServer.Utility
         /// <param name="password"></param>
         /// <param name="IP"></param>
         /// <returns></returns>
-        internal static LoginStatus CheckLogin(string userName, string password, string IP)
+        internal static LoginStatus CheckLizence(string userName, string password, string IP)
         {
             SqlParameter[] regparams = new SqlParameter[4]
              {
@@ -29,7 +29,7 @@ namespace ManagementServer.Utility
                     new SqlParameter("@OnOff",SqlDbType.TinyInt) { Value = 1}
              };
 
-            DataRow row = ReturnDataTableByProcedure("_LoginToolUser", ServerManager.settings.DBDev, regparams).Rows[0];
+            DataRow row = ReturnDataTableByProcedure("_LoginToolUser", CertificationManager.settings.DBDev, regparams).Rows[0];
 
             LoginStatus status = new LoginStatus()
             {
@@ -41,7 +41,7 @@ namespace ManagementServer.Utility
             return status;
         }
 
-        internal static string[] CheckLogout(string userName, string UserIP)
+        internal static string CheckLogout(string userName, string UserIP)
         {
             SqlParameter[] logoutParameter = new SqlParameter[]
                   {
@@ -50,29 +50,29 @@ namespace ManagementServer.Utility
                         new SqlParameter("@IP" ,System.Data.SqlDbType.VarChar,15) { Value = UserIP },
                         new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
                   };
-            DataRow logoutResut = SQL.ReturnDataTableByProcedure("_LoginToolUser", ServerManager.settings.DBDev, logoutParameter).Rows[0];
+            DataRow row = SQL.ReturnDataTableByProcedure("_LoginToolUser", CertificationManager.settings.DBDev, logoutParameter).Rows[0];
 
-            string[] forsfor = new string[logoutResut.ItemArray.Length];
-
-            for (int i = 0; i < forsfor.Length; i++)
+            LoginStatus status = new LoginStatus()
             {
-                forsfor[i] = logoutResut.ItemArray[i].ToString();
-            }
+                Success = row.Field<bool>("Success"),
+                Notification = row.Field<string>("Message"),
+                SecurityGroup = row.Field<byte>("SecurityGroup"),
+                UserName = row.Field<string>("AccountName"),
+            };
 
-            return forsfor;
+
+            return status.Notification;
         }
 
-        internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", ServerManager.settings.DBDev);
+        internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", CertificationManager.settings.DBDev);
 
-        internal static DataTable GetPatchHistory() => ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", ServerManager.settings.DBDev);
+        internal static DataTable GetPatchHistory() => ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", CertificationManager.settings.DBDev);
 
-        internal static DataTable GetPluginDataAccess() => ReturnDataTableByQuery($"SELECT [PluginName], [LoadIndex], [TableName] FROM [dbo].[_ToolPluginDataAccess]", ServerManager.settings.DBDev);
-
-        internal static DataTable GetRequestedDataTable(string tableName) => ReturnDataTableByQuery($"SELECT * FROM {tableName}", ServerManager.settings.DBSha);
+        internal static DataTable GetPluginDataAccess() => ReturnDataTableByQuery($"SELECT [PluginName], [LoadIndex], [TableName] FROM [dbo].[_ToolPluginDataAccess]", CertificationManager.settings.DBDev);
 
         internal static string[] GetRequiredTableNames(byte securityGroup)
         {
-            DataRowCollection names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _ToolPluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", ServerManager.settings.DBDev).Rows;
+            DataRowCollection names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _ToolPluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", CertificationManager.settings.DBDev).Rows;
             string[] nameArray = new string[names.Count];
 
             for (int i = 0; i < names.Count; i++)
@@ -83,7 +83,7 @@ namespace ManagementServer.Utility
             return nameArray;
         }
 
-        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", ServerManager.settings.DBDev);
+        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", CertificationManager.settings.DBDev);
 
         internal static int LatestVersion()
         {
@@ -94,7 +94,7 @@ namespace ManagementServer.Utility
                     command.Connection.Open();
                 }
 
-                sqlConnection.ChangeDatabase(ServerManager.settings.DBDev);
+                sqlConnection.ChangeDatabase(CertificationManager.settings.DBDev);
 
                 command.CommandType = CommandType.Text;
                 object version = command.ExecuteScalar();
@@ -110,34 +110,33 @@ namespace ManagementServer.Utility
             }
         }
 
-        internal static bool LogoutEveryone(out int count)
+        internal static int LogoutEveryone()
         {
-            count = ExecuteQuery("UPDATE _ClientUser SET Active = 0  where Active >0 ", ServerManager.settings.DBDev);
-            return count > 0;
+            return ExecuteQuery("UPDATE _ToolUser SET Active = 0  where Active >0 ", CertificationManager.settings.DBDev);
         }
 
-        internal static DataTable RequestFilesToUpdate(int latestClientVersion) => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
+        internal static DataTable RequestFilesToUpdate(int latestClientVersion) => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", CertificationManager.settings.DBDev);
 
-        internal static void UpdateToolFiles(SqlParameter[] paramse) => ReturnDataTableByProcedure("_Update_Tool_Files", ServerManager.settings.DBDev, paramse);
+        internal static void UpdateToolFiles(SqlParameter[] paramse) => ReturnDataTableByProcedure("_Update_Tool_Files", CertificationManager.settings.DBDev, paramse);
 
         private static bool TestSQLConnection(string sQL_ConnectionString)
         {
             sqlConnection = new SqlConnection(SqlConnectionString);
-            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Testing SQL Connection...");
+            CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Testing SQL Connection...");
 
             try
             {
                 sqlConnection.Open();
                 if (sqlConnection.State == ConnectionState.Open)
                 {
-                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
+                    CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
                     //sqlConnection.Close();
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
+                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
             }
             return false;
         }
@@ -188,7 +187,7 @@ namespace ManagementServer.Utility
                 }
             }
 
-            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"EXEC {DB}.dbo.{procedureName} {paramstring}");
+            CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"EXEC {DB}.dbo.{procedureName} {paramstring}");
             return dataTableProcedure;
         }
 
@@ -208,11 +207,11 @@ namespace ManagementServer.Utility
                     adapter.Fill(dataTable);
                 }
 
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, query);
+                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, query);
             }
             catch (Exception ex)
             {
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, ex.Message);
+                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, ex.Message);
             }
 
             return dataTable;
@@ -234,13 +233,13 @@ namespace ManagementServer.Utility
                     }
                     command.CommandType = CommandType.Text;
                     var ret = command.ExecuteNonQuery();
-                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
+                    CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
                     return ret;
                 }
             }
             catch (Exception)
             {
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
+                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
             }
 
             return 0;

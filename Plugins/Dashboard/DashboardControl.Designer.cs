@@ -31,27 +31,27 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardControl));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.timerCheckDashboard = new System.Windows.Forms.Timer(this.components);
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.editShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.labelText = new System.Windows.Forms.Label();
             this.labelAuthor = new System.Windows.Forms.Label();
             this.labelTopic = new System.Windows.Forms.Label();
             this.vSroButtonList1 = new ServerFrameworkRes.BasicControls.vSroButtonList();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.editShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.vSroButtonListOnlineUser = new ServerFrameworkRes.BasicControls.vSroButtonList();
+            this.timerCheckDashboard = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -75,69 +75,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(800, 450);
             this.splitContainer1.SplitterDistance = 599;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // listView1
-            // 
-            this.listView1.BackColor = System.Drawing.Color.Black;
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.ForeColor = System.Drawing.SystemColors.Window;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(599, 450);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
-            // 
-            // timerCheckDashboard
-            // 
-            this.timerCheckDashboard.Interval = 1000;
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.BackColor = System.Drawing.Color.Black;
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editShownTopicToolStripMenuItem,
-            this.deleteShownTopicToolStripMenuItem,
-            this.addNewTopicToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 20);
-            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
-            // 
-            // editShownTopicToolStripMenuItem
-            // 
-            this.editShownTopicToolStripMenuItem.Name = "editShownTopicToolStripMenuItem";
-            this.editShownTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.editShownTopicToolStripMenuItem.Text = "Edit shown topic";
-            this.editShownTopicToolStripMenuItem.Click += new System.EventHandler(this.editShownTopicToolStripMenuItem_Click);
-            // 
-            // deleteShownTopicToolStripMenuItem
-            // 
-            this.deleteShownTopicToolStripMenuItem.Name = "deleteShownTopicToolStripMenuItem";
-            this.deleteShownTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deleteShownTopicToolStripMenuItem.Text = "Delete shown topic";
-            this.deleteShownTopicToolStripMenuItem.Click += new System.EventHandler(this.deleteShownTopicToolStripMenuItem_Click);
-            // 
-            // addNewTopicToolStripMenuItem
-            // 
-            this.addNewTopicToolStripMenuItem.Name = "addNewTopicToolStripMenuItem";
-            this.addNewTopicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addNewTopicToolStripMenuItem.Text = "Add new topic";
-            this.addNewTopicToolStripMenuItem.Click += new System.EventHandler(this.addNewTopicToolStripMenuItem_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(599, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
             // 
             // panel2
             // 
@@ -213,6 +150,66 @@
             this.vSroButtonList1.Name = "vSroButtonList1";
             this.vSroButtonList1.Size = new System.Drawing.Size(220, 400);
             this.vSroButtonList1.TabIndex = 6;
+            this.vSroButtonList1.OnIndCh += new System.EventHandler(this.vSroButtonList1_OnIndCh);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(599, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.BackColor = System.Drawing.Color.Black;
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editShownTopicToolStripMenuItem,
+            this.deleteShownTopicToolStripMenuItem,
+            this.addNewTopicToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 20);
+            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            // 
+            // editShownTopicToolStripMenuItem
+            // 
+            this.editShownTopicToolStripMenuItem.Name = "editShownTopicToolStripMenuItem";
+            this.editShownTopicToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.editShownTopicToolStripMenuItem.Text = "Edit shown topic";
+            this.editShownTopicToolStripMenuItem.Click += new System.EventHandler(this.editShownTopicToolStripMenuItem_Click);
+            // 
+            // deleteShownTopicToolStripMenuItem
+            // 
+            this.deleteShownTopicToolStripMenuItem.Name = "deleteShownTopicToolStripMenuItem";
+            this.deleteShownTopicToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.deleteShownTopicToolStripMenuItem.Text = "Delete shown topic";
+            this.deleteShownTopicToolStripMenuItem.Click += new System.EventHandler(this.deleteShownTopicToolStripMenuItem_Click);
+            // 
+            // addNewTopicToolStripMenuItem
+            // 
+            this.addNewTopicToolStripMenuItem.Name = "addNewTopicToolStripMenuItem";
+            this.addNewTopicToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.addNewTopicToolStripMenuItem.Text = "Add new topic";
+            this.addNewTopicToolStripMenuItem.Click += new System.EventHandler(this.addNewTopicToolStripMenuItem_Click);
+            // 
+            // listView1
+            // 
+            this.listView1.BackColor = System.Drawing.Color.Black;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.ForeColor = System.Drawing.SystemColors.Window;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(0, 0);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(599, 450);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.List;
             // 
             // vSroButtonListOnlineUser
             // 
@@ -226,6 +223,10 @@
             this.vSroButtonListOnlineUser.Size = new System.Drawing.Size(220, 400);
             this.vSroButtonListOnlineUser.TabIndex = 0;
             // 
+            // timerCheckDashboard
+            // 
+            this.timerCheckDashboard.Interval = 1000;
+            // 
             // DashboardControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,12 +239,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }

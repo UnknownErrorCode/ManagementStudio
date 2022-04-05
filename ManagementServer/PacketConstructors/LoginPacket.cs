@@ -6,7 +6,18 @@ namespace ManagementServer.PacketConstructors
 {
     internal class LoginPacket
     {
-        #region Methods
+        /// <summary>
+        /// Gets the name and online-status of all users.
+        /// </summary>
+        internal static Packet OnlineUser => GetOnlineUser();
+
+        /// <summary>
+        /// SERVER => CLIENT
+        /// <br>0xA001</br>
+        /// <br>Sends latest version to client.</br>
+        /// </summary>
+        /// <returns><see cref="Packet"/> including 1x <see cref="int"/> as latest Server Version</returns>
+        internal static Packet ServerVersion => GetServerVersion();
 
         /// <summary>
         /// Sends <see cref="PacketID.Server.AllowedDataTableNameResponse"/> with all required <see cref="DataTable"/> names as string array to the Client.
@@ -47,29 +58,15 @@ namespace ManagementServer.PacketConstructors
             }
         }
 
-        internal static Packet[] DataTablePackets(string[] tableNames)
+
+        internal static Packet Status(LoginStatus status)
         {
-            Packet[] list = new Packet[tableNames.Length];
-            try
-            {
-                for (int i = 0; i < tableNames.Length; i++)
-                {
-                    if (tableNames[i] == null)
-                        continue;
-
-                    string tableName = tableNames[i];
-                    var table = Utility.SQL.GetRequestedDataTable(tableName);
-
-                    list[i] = SendDataTable(tableName, table);
-                }
-            }
-            catch
-            { }
-
-            return list;
+            Packet LoginStatus = new Packet(PacketID.Server.LoginStatusResponse, false, true);
+            LoginStatus.WriteStruct(status);
+            return LoginStatus;
         }
 
-        internal static Packet OnlineUser()
+        private static Packet GetOnlineUser()
         {
             var packet = new Packet(PacketID.Server.UserLogOnOff);
             packet.WriteInt(ServerMemory.ClientDataPool.Count);
@@ -80,29 +77,11 @@ namespace ManagementServer.PacketConstructors
             }
             return packet;
         }
-
-        internal static Packet PluginDataReceiveConfirmation(PluginData pluginData)
+        private static Packet GetServerVersion()
         {
-            Packet tablePacket = new Packet((ushort)pluginData);
-            tablePacket.WriteAscii(pluginData.ToString());
-            return tablePacket;
+            var packet = new Packet(0xA001);
+            packet.WriteInt(Utility.SQL.LatestVersion());
+            return packet;
         }
-
-        internal static Packet SendDataTable(string tableName, DataTable table)
-        {
-            Packet tablePacket = new Packet(PacketID.Server.DataTableResponse, false, true);
-            tablePacket.WriteAscii(tableName);
-            tablePacket.WriteDataTable(table);
-            return tablePacket;
-        }
-
-        internal static Packet Status(LoginStatus status)
-        {
-            Packet LoginStatus = new Packet(PacketID.Server.LoginStatusResponse, false, true);
-            LoginStatus.WriteStruct(status);
-            return LoginStatus;
-        }
-
-        #endregion Methods
     }
 }

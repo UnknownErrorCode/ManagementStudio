@@ -132,7 +132,7 @@ namespace ManagementServer
             }
             catch (Exception e)
             {
-                ServerManager.Logger.WriteLogLine(e.Message);
+                ServerManager.Logger.WriteLogLine(e, "OnTick: ");
             }
         }
 

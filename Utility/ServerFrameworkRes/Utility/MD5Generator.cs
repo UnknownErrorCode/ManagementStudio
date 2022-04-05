@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace ManagementClient.Utility
+namespace ServerFrameworkRes.Utility
 {
     public class MD5Generator
     {

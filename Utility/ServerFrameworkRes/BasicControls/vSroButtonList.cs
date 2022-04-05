@@ -123,7 +123,11 @@ namespace ServerFrameworkRes.BasicControls
             }
             LatestSelectedButton = (vSroListButton)sender;
             //OnSelectChanged();
-            OnIndCh(LatestSelectedButton, e);
+            if (OnIndCh != null)
+            {
+                OnIndCh(LatestSelectedButton, e);
+            }
+
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.BackgroundImage = buttn.imageListSingleButton.Images[0]);
             //AllButtonsOnTable.Values.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
         }

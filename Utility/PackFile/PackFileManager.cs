@@ -2,6 +2,8 @@
 {
     public static class PackFileManager
     {
+        public static bool Initialized => MediaPack.Initialized && MapPack.Initialized && DataPack.Initialized;
+
         public static bool InitializePackFiles(string clientPath)
         {
 

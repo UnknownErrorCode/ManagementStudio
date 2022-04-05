@@ -10,6 +10,6 @@
         TriggerEditor = 0xD006,
         SkillEditor = 0xD007,
         DropEditor = 0xD008,
-        EventEditor = 0xD009,
+        FileEditor = 0xD009,
     }
 }

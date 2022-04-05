@@ -47,12 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Network\Handler\DashboardPacketHandler.cs" />
-    <Compile Include="Network\Handler\LoginPacketHandler.cs" />
-    <Compile Include="Network\Handler\PluginPacketHandler.cs" />
+    <Compile Include="Network\Certification\LizenceCore.cs" />
+    <Compile Include="Network\Certification\LizenceData.cs" />
+    <Compile Include="Network\Certification\LizenceInterface.cs" />
+    <Compile Include="Network\Certification\LizencePacketHandler.cs" />
+    <Compile Include="Network\ToolServer\Handler\DashboardPacketHandler.cs" />
+    <Compile Include="Network\ToolServer\Handler\LoginPacketHandler.cs" />
+    <Compile Include="Network\ToolServer\Handler\PluginPacketHandler.cs" />
+    <Compile Include="Network\ToolServer\ServerCore.cs" />
+    <Compile Include="PacketConstructors\DataTablePacket.cs" />
+    <Compile Include="PacketConstructors\LizencePacket.cs" />
     <Compile Include="PluginSecurityManager.cs" />
-    <Compile Include="Network\Handler\DataTablePacketHandler.cs" />
-    <Compile Include="Network\ServerPacketHandler.cs" />
+    <Compile Include="Network\ToolServer\Handler\DataTablePacketHandler.cs" />
+    <Compile Include="Network\ToolServer\ServerPacketHandler.cs" />
     <Compile Include="PacketConstructors\LoginPacket.cs" />
     <Compile Include="PacketConstructors\NotificationPacket.cs" />
     <Compile Include="PacketConstructors\TopicPacket.cs" />
@@ -70,10 +77,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Network\ServerInterface.cs" />
+    <Compile Include="Network\ToolServer\ServerInterface.cs" />
     <Compile Include="ServerMemory.cs" />
-    <Compile Include="Network\ServerClientData.cs" />
-    <Compile Include="Network\Handler\LauncherPacketHandler.cs" />
+    <Compile Include="Network\ToolServer\ServerClientData.cs" />
+    <Compile Include="Network\ToolServer\Handler\LauncherPacketHandler.cs" />
     <Compile Include="Utility\InitializeConfig.cs" />
     <Compile Include="Utility\Settings.cs" />
     <Compile Include="Utility\SQL.cs" />

@@ -13,6 +13,10 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
 
         #endregion Fields
 
+        #region Properties
+
+        public bool IsConnected => socket == null ? false : socket.IsBound;
+        #endregion
         #region Methods
 
         public void Accept(string host, int port, int outstanding, IAsyncInterface @interface)
@@ -55,7 +59,7 @@ namespace ServerFrameworkRes.Network.AsyncNetwork
         {
             try
             {
-                socket.Dispose();
+                socket?.Dispose();
             }
             catch (SocketException ex)
             {

@@ -7,16 +7,20 @@ namespace ManagementServer
 {
     internal static class PluginSecurityManager
     {
+        internal static DataTable _ToolPluginDataAccessDataTable;
 
-        private static Dictionary<string, string[]> PluginDataTableBindings; //= new Dictionary<string, string[]>();
 
+        private static Dictionary<string, string[]> ToolPluginDataAccess;
         private static Dictionary<byte, string[]> SecurityGroupDataAccess;
-        private static Dictionary<byte, string[]> SecurityGroupPluginBindings;
+        private static Dictionary<byte, string[]> _ToolPluginGroups;
 
-        public static int SecurityGroupCount => SecurityGroupPluginBindings.Count;
+        public static int SecurityGroupCount => _ToolPluginGroups.Count;
+
+        public static bool IsRefreshed => TryRefreshSecurityManager();
+
         internal static string[] GetPluginDataTableNames(string pluginname)
         {
-            if (PluginDataTableBindings.TryGetValue(pluginname, out string[] tableNames))
+            if (ToolPluginDataAccess.TryGetValue(pluginname, out string[] tableNames))
             {
                 return tableNames;
             }
@@ -36,9 +40,9 @@ namespace ManagementServer
 
         internal static string[] GetSecurityPluginNames(byte securityGroup)
         {
-            if (SecurityGroupPluginBindings.ContainsKey(securityGroup))
+            if (_ToolPluginGroups.ContainsKey(securityGroup))
             {
-                return SecurityGroupPluginBindings[securityGroup];
+                return _ToolPluginGroups[securityGroup];
             }
 
             return null;
@@ -46,42 +50,46 @@ namespace ManagementServer
 
         internal static bool IsAllowed(string pluginName, byte securityGroup)
         {
-            if (!SecurityGroupPluginBindings.ContainsKey(securityGroup))
+            if (!_ToolPluginGroups.ContainsKey(securityGroup))
             {
                 return false;
             }
 
-            return SecurityGroupPluginBindings[securityGroup].Contains(pluginName);
+            return _ToolPluginGroups[securityGroup].Contains(pluginName);
         }
 
-        internal static bool TryRefreshSecurityManager()
+        private static bool TryRefreshSecurityManager()
         {
-            PluginDataTableBindings = new Dictionary<string, string[]>();
-            SecurityGroupPluginBindings = new Dictionary<byte, string[]>();
-            DataTable dt = SQL.GetPluginDataAccess();
+            if (_ToolPluginDataAccessDataTable == null)
+            {
+                return false;
+            }
+            ToolPluginDataAccess = new Dictionary<string, string[]>();
+            _ToolPluginGroups = new Dictionary<byte, string[]>();
+            // _ToolPluginDataAccessDataTable = SQL.GetPluginDataAccess();
             DataTable dt2 = SQL.GetSecurityPluginAccess();
 
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in _ToolPluginDataAccessDataTable.Rows)
             {
-                if (PluginDataTableBindings.ContainsKey(row.Field<string>("PluginName")))
+                if (ToolPluginDataAccess.ContainsKey(row.Field<string>("PluginName")))
                 {
                     continue;
                 }
 
                 List<string> list = new List<string>();
-                foreach (DataRow pRow in dt.Rows)
+                foreach (DataRow pRow in _ToolPluginDataAccessDataTable.Rows)
                 {
                     if (pRow.Field<string>("PluginName").Equals(row.Field<string>("PluginName")))
                     {
                         list.Add(pRow.Field<string>("TableName"));
                     }
                 }
-                PluginDataTableBindings.Add(row.Field<string>("PluginName"), list.ToArray());
+                ToolPluginDataAccess.Add(row.Field<string>("PluginName"), list.ToArray());
             }
 
             foreach (DataRow row in dt2.Rows)
             {
-                if (SecurityGroupPluginBindings.ContainsKey(row.Field<byte>("SecurityGroupID")))
+                if (_ToolPluginGroups.ContainsKey(row.Field<byte>("SecurityGroupID")))
                 {
                     continue;
                 }
@@ -94,22 +102,22 @@ namespace ManagementServer
                         list.Add(pRow.Field<string>("AllowedPlugins"));
                     }
                 }
-                SecurityGroupPluginBindings.Add(row.Field<byte>("SecurityGroupID"), list.ToArray());
+                _ToolPluginGroups.Add(row.Field<byte>("SecurityGroupID"), list.ToArray());
             }
 
-            SecurityGroupDataAccess = new Dictionary<byte, string[]>(SecurityGroupPluginBindings.Count);
+            SecurityGroupDataAccess = new Dictionary<byte, string[]>(_ToolPluginGroups.Count);
 
-            foreach (KeyValuePair<byte, string[]> securityGroup in SecurityGroupPluginBindings)
+            foreach (KeyValuePair<byte, string[]> securityGroup in _ToolPluginGroups)
             {
                 List<string> list = new List<string>();
                 foreach (string pluginName in securityGroup.Value)
                 {
-                    if (!PluginDataTableBindings.ContainsKey(pluginName))
+                    if (!ToolPluginDataAccess.ContainsKey(pluginName))
                     {
                         continue;
                     }
 
-                    foreach (string item in PluginDataTableBindings[pluginName])
+                    foreach (string item in ToolPluginDataAccess[pluginName])
                     {
                         if (!list.Contains(item))
                         {

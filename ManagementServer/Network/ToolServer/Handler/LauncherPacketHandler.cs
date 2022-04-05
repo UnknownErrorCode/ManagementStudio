@@ -22,6 +22,9 @@ namespace ManagementServer.Network
             foreach (DataRow row in ToBePatched.Rows)
             {
                 string ToClientDir = row.Field<string>("CFilePath");
+                if (ToClientDir.Equals("Plugins"))
+                    continue;
+
                 int version = row.Field<int>("Version");
                 string ToClientFileName = row.Field<string>("CFileName");
                 string FileitselfStringPath = Path.Combine(ServerManager.settings.PatchFolderDirectory_Archiv, ToClientDir, ToClientFileName);
@@ -44,18 +47,7 @@ namespace ManagementServer.Network
             return PacketHandlerResult.Block;
         }
 
-        /// <summary>
-        /// SERVER => CLIENT
-        /// <br>0xA001</br>
-        /// <br>Sends latest version to client.</br>
-        /// </summary>
-        /// <returns></returns>
-        internal Packet SendServerVersion()
-        {
-            var connectionSuccess = new Packet(0xA001);
-            connectionSuccess.WriteInt(SQL.LatestVersion());
-            return connectionSuccess;
-        }
+
 
         #endregion Methods
     }

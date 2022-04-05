@@ -1,5 +1,6 @@
 ﻿using ManagementServer.Utility;
 using ServerFrameworkRes.Network.Security;
+using Structs.Tool;
 using System;
 
 namespace ManagementServer.Network
@@ -47,6 +48,36 @@ namespace ManagementServer.Network
             {
                 ServerManager.Logger.WriteLogLine(ex, $"Failed to convert login status of User: {((ServerClientData)data).UserIP}");
             }
+            return PacketHandlerResult.Block;
+        }
+
+
+
+        internal static PacketHandlerResult ResponsePluginDataTables(ServerData arg1, Packet arg2)
+        {
+            try
+            {
+                var clientData = (ServerClientData)arg1;
+                var pluginName = arg2.ReadAscii();
+                PluginData pluginData = (PluginData)arg2.ReadUShort();
+
+                if (!PluginSecurityManager.IsAllowed(pluginName, clientData.SecurityGroup))
+                {
+                    return PacketHandlerResult.Block;
+                }
+
+                string[] tableNameArray = PluginSecurityManager.GetPluginDataTableNames(pluginName);// Utility.SQL.GetRequiredTableNames(arg1.SecurityGroup);
+
+                if (tableNameArray == null || tableNameArray?.Length == 0)
+                    return PacketHandlerResult.Block;
+
+                arg1.m_security.Send(PacketConstructors.DataTablePacket.GetAllTables(tableNameArray));
+                arg1.m_security.Send(PacketConstructors.DataTablePacket.PluginDataReceiveConfirmation(pluginData));
+
+            }
+            catch (System.Exception)
+            { }
+            System.GC.Collect(2);
             return PacketHandlerResult.Block;
         }
 

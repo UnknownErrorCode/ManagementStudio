@@ -1,22 +1,20 @@
-﻿using ManagementServer.Network;
+﻿using ManagementCertification.Network;
 using System;
 using System.Collections.Generic;
 
-namespace ManagementServer
+namespace ManagementCertification
 {
-    internal static class ServerMemory
+    internal static class LizenceMemory
     {
         #region Fields
 
-        internal static Dictionary<string, ServerClientData> ClientDataPool = new Dictionary<string, ServerClientData>(100);
-
-
+        internal static Dictionary<string, ServerLizenceData> UserDataPool = new Dictionary<string, ServerLizenceData>(100);
 
         #endregion Fields
 
         #region Properties
 
-        internal static int OnlineUser => ClientDataPool.Count;
+        internal static int OnlineUser => UserDataPool.Count;
 
         #endregion Properties
 
@@ -26,7 +24,7 @@ namespace ManagementServer
         {
             try
             {
-                foreach (KeyValuePair<string, ServerClientData> client in ClientDataPool)
+                foreach (KeyValuePair<string, ServerLizenceData> client in UserDataPool)
                 {
                     if (client.Value.m_connected)
                     {

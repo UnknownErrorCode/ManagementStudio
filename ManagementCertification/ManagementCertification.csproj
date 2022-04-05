@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DD7D0948-6CA0-4930-8D05-4983767A81D8}</ProjectGuid>
+    <ProjectGuid>{2B9434DC-45B6-4DE5-8269-FD8E75BE014C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ManagementClient</RootNamespace>
-    <AssemblyName>ManagementClient</AssemblyName>
+    <RootNamespace>ManagementCertification</RootNamespace>
+    <AssemblyName>ManagementCertification</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,9 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>236810.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,31 +46,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientForm.cs">
+    <Compile Include="CertificationManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ClientForm.Designer.cs">
-      <DependentUpon>ClientForm.cs</DependentUpon>
+    <Compile Include="CertificationManager.Designer.cs">
+      <DependentUpon>CertificationManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="Network\Handler\LauncherPacketHandler.cs" />
+    <Compile Include="Network\Handler\CertificationPacketHandler.cs" />
+    <Compile Include="Network\ServerLizenceData.cs" />
+    <Compile Include="Network\LizenceServerInterface.cs" />
+    <Compile Include="Network\LizenceServerPacketHandler.cs" />
+    <Compile Include="PacketConstructors\InitializeServer.cs" />
+    <Compile Include="PacketConstructors\NotificationPacket.cs" />
+    <Compile Include="PatchManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="PatchManager.Designer.cs">
+      <DependentUpon>PatchManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="LizenceSecurityManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SettingsForm.Designer.cs">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="ClientForm.resx">
-      <DependentUpon>ClientForm.cs</DependentUpon>
+    <Compile Include="LizenceMemory.cs" />
+    <Compile Include="Utility\InitializeConfig.cs" />
+    <Compile Include="Utility\Settings.cs" />
+    <Compile Include="Utility\SQL.cs" />
+    <EmbeddedResource Include="CertificationManager.resx">
+      <DependentUpon>CertificationManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <EmbeddedResource Include="PatchManager.resx">
+      <DependentUpon>PatchManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -83,11 +86,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SettingsForm.resx">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,49 +101,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientDataStorage\ClientFrameworkRes.csproj">
-      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientFrameworkRes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\Dashboard\Dashboard.csproj">
-      <Project>{0ff3fae3-3d03-4240-9e42-4bb0111fb9a5}</Project>
-      <Name>Dashboard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\FileEditor\FileEditor.csproj">
-      <Project>{6ee9b532-89b3-4643-87f0-595cc77ecb9b}</Project>
-      <Name>FileEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\ShopEditor\ShopEditor.csproj">
-      <Project>{0160bbec-b1a7-4e52-9443-f0d2c1f97920}</Project>
-      <Name>ShopEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\SkillEditor\SkillEditor.csproj">
-      <Project>{fa562ad1-2f9b-4bc7-853d-5cd1b2a9aadb}</Project>
-      <Name>SkillEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\TriggerEditor\TriggerEditor.csproj">
-      <Project>{88d07d8d-bfae-4970-9bb2-c5f032b5c95d}</Project>
-      <Name>TriggerEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\WorldMapSpawnEditor\WorldMapSpawnEditor.csproj">
-      <Project>{ecd8fda9-e279-4cf0-9f5d-dc639188c35b}</Project>
-      <Name>WorldMapSpawnEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utility\PackFile\PackFile.csproj">
-      <Project>{08885d2d-7dac-4902-bef2-d38132f77635}</Project>
-      <Name>PackFile</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
-      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
+      <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>
       <Name>ServerFrameworkRes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\Structs\Structs.csproj">
-      <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>
+      <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
       <Name>Structs</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="236810.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

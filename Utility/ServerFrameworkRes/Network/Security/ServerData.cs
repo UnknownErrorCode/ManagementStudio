@@ -1,6 +1,6 @@
 ﻿namespace ServerFrameworkRes.Network.Security
 {
-    public class ServerData
+    public abstract class ServerData
     {
         #region Fields
 
@@ -14,7 +14,7 @@
 
         #region Constructors
 
-        public ServerData()
+        protected ServerData()
         {
             m_connected = false;
         }

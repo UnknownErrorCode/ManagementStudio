@@ -17,7 +17,7 @@ namespace PackFile
         /// Main static Pk2 reader
         /// </summary>
         public static Pk2Reader Reader;
-        internal static bool Initialized => Reader.Initialized;
+        internal static bool Initialized => Reader == null ? false : Reader.Initialized;
 
 
         #endregion Fields

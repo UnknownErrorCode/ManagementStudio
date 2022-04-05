@@ -143,7 +143,7 @@ namespace ManagementClient
             Program.MainConfig.PToolUserPassword = vSroInputBox2.ValueText;
             Packet requestLogin = new Packet(PacketID.Client.Login);
             requestLogin.WriteAscii(vSroInputBox1.ValueText);
-            requestLogin.WriteAscii(Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
+            requestLogin.WriteAscii(ServerFrameworkRes.Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
             ClientCore.Send(requestLogin);
         }
 

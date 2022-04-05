@@ -38,6 +38,7 @@ namespace ManagementServer
             this.gen1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gen2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gen3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshSecurityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sqlConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serverConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,9 +46,14 @@ namespace ManagementServer
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelOnlineUser = new System.Windows.Forms.ToolStripStatusLabel();
-            this.vSroSmallButtonRefreshSec = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -68,7 +74,8 @@ namespace ManagementServer
             this.startToolStripMenuItem,
             this.stopToolStripMenuItem,
             this.hideToolStripMenuItem,
-            this.gCCollectToolStripMenuItem});
+            this.gCCollectToolStripMenuItem,
+            this.refreshSecurityToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -77,21 +84,21 @@ namespace ManagementServer
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
             // hideToolStripMenuItem
             // 
             this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
-            this.hideToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.hideToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.hideToolStripMenuItem.Text = "Hide";
             // 
             // gCCollectToolStripMenuItem
@@ -101,7 +108,7 @@ namespace ManagementServer
             this.gen2ToolStripMenuItem,
             this.gen3ToolStripMenuItem});
             this.gCCollectToolStripMenuItem.Name = "gCCollectToolStripMenuItem";
-            this.gCCollectToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.gCCollectToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.gCCollectToolStripMenuItem.Text = "GC Collect";
             // 
             // gen1ToolStripMenuItem
@@ -124,6 +131,13 @@ namespace ManagementServer
             this.gen3ToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.gen3ToolStripMenuItem.Text = "Gen 3";
             this.gen3ToolStripMenuItem.Click += new System.EventHandler(this.gen3ToolStripMenuItem_Click);
+            // 
+            // refreshSecurityToolStripMenuItem
+            // 
+            this.refreshSecurityToolStripMenuItem.Name = "refreshSecurityToolStripMenuItem";
+            this.refreshSecurityToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.refreshSecurityToolStripMenuItem.Text = "Refresh Security";
+            this.refreshSecurityToolStripMenuItem.Click += new System.EventHandler(this.refreshSecurityToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -176,23 +190,36 @@ namespace ManagementServer
             this.toolStripStatusLabelOnlineUser.Name = "toolStripStatusLabelOnlineUser";
             this.toolStripStatusLabelOnlineUser.Size = new System.Drawing.Size(0, 17);
             // 
-            // vSroSmallButtonRefreshSec
+            // dataGridView1
             // 
-            this.vSroSmallButtonRefreshSec.Location = new System.Drawing.Point(12, 53);
-            this.vSroSmallButtonRefreshSec.MaximumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonRefreshSec.MinimumSize = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonRefreshSec.Name = "vSroSmallButtonRefreshSec";
-            this.vSroSmallButtonRefreshSec.Size = new System.Drawing.Size(152, 24);
-            this.vSroSmallButtonRefreshSec.TabIndex = 3;
-            this.vSroSmallButtonRefreshSec.vSroSmallButtonName = "Refresh Security";
-            this.vSroSmallButtonRefreshSec.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButtonRefreshSec_vSroClickEvent);
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(436, 382);
+            this.dataGridView1.TabIndex = 4;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Size = new System.Drawing.Size(692, 386);
+            this.splitContainer1.SplitterDistance = 440;
+            this.splitContainer1.SplitterWidth = 6;
+            this.splitContainer1.TabIndex = 5;
             // 
             // ServerManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(692, 432);
-            this.Controls.Add(this.vSroSmallButtonRefreshSec);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -203,6 +230,10 @@ namespace ManagementServer
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -225,7 +256,9 @@ namespace ManagementServer
         private System.Windows.Forms.ToolStripMenuItem gen1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gen2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gen3ToolStripMenuItem;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonRefreshSec;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ToolStripMenuItem refreshSecurityToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
 

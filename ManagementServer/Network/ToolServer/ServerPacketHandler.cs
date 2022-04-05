@@ -45,7 +45,7 @@ namespace ManagementServer.Network
             byte flag = packet.ReadByte();
             if (identity == "Tool_Launcher" && flag == 1)
             {
-                data.m_security.Send(SendServerVersion());
+                data.m_security.Send(PacketConstructors.LoginPacket.ServerVersion);
                 return PacketHandlerResult.Response;
             }
 

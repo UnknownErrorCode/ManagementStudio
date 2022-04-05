@@ -823,6 +823,11 @@ namespace ServerFrameworkRes.Network.Security
 
         public void WriteAsciiArray(string[] values)
         {
+            if (values == null)
+            {
+                WriteInt(0);
+                return;
+            }
             WriteAsciiArray(values, 0, values.Length, 1252);
         }
 

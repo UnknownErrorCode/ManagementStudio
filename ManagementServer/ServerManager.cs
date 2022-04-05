@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.AsyncNetwork;
+﻿using ManagementServer.Network;
 using ServerFrameworkRes.Ressources;
 using System;
 using System.Threading;
@@ -11,21 +11,27 @@ namespace ManagementServer
         #region Fields
 
         internal static LogGridView Logger = new LogGridView() { Dock = DockStyle.Bottom };
-        internal static AsyncServer Server;
         internal static Utility.Settings settings = new Utility.Settings();
-        private bool Ticker = false;
-
-        #endregion Fields
-
-        #region Constructors
-
+        internal Thread diagnosticThread;
+        internal Thread serverCodeTickThread;
         public ServerManager()
         {
             InitializeComponent();
             Controls.Add(Logger);
+
+            if (!LizenceCore.CanStart)
+            {
+                MessageBox.Show("Woops. please contact Rekcuz...");
+                return;
+            }
+            diagnosticThread = new Thread(DiagnosticThread);
+            serverCodeTickThread = new Thread(ServerCore.TickThread);
         }
 
-        #endregion Constructors
+
+        #endregion Fields
+
+
 
         #region Properties
 
@@ -38,12 +44,12 @@ namespace ManagementServer
         private void DiagnosticThread()
         {
             int counter = 0;
-            while (Ticker)
+            while (ServerCore.IsConnected)
             {
-                toolStripStatusLabelOnlineUser.Text = $"Connected user: {ServerMemory.OnlineUser}";
+                Invoke(new Action(() => toolStripStatusLabelOnlineUser.Text = $"Connected user: {ServerMemory.OnlineUser}"));
                 Thread.Sleep(100);
                 counter++;
-                if (counter > 100)
+                if (counter > 1000)
                 {
                     GC.Collect(2);
                     counter = 0;
@@ -54,8 +60,8 @@ namespace ManagementServer
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            startToolStripMenuItem.Enabled = Ticker ? false : true;
-            stopToolStripMenuItem.Enabled = Ticker;
+            startToolStripMenuItem.Enabled = !ServerCore.IsConnected;
+            stopToolStripMenuItem.Enabled = ServerCore.IsConnected;
         }
 
         private void gen1ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -80,9 +86,9 @@ namespace ManagementServer
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Ticker)
+            if (!ServerCore.IsConnected)
             {
-                Logger.WriteLogLine("please establish a SQL connection first!");
+                Logger.WriteLogLine("please establish a Server connection first!");
                 return;
             }
             using (PatchManager patchManager = new PatchManager())
@@ -96,59 +102,49 @@ namespace ManagementServer
             try
             {
                 if (!Utility.SQL.ConnectionSuccess)
-                {
                     return;
-                }
 
-                if (!PluginSecurityManager.TryRefreshSecurityManager())
-                {
+                if (!PluginSecurityManager.IsRefreshed)
                     return;
-                }
 
-                int i = Utility.SQL.LogoutEveryone();
-                if (i > 0)
-                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Disconnected {i} active user. do something against it!!");
+                if (Utility.SQL.LogoutEveryone(out int i))
+                    ServerManager.Logger.WriteLogLine(LogLevel.warning, $"Disconnected {i} active user. do something against it!!");
 
-                Server = new AsyncServer();
-                Server.Accept(settings.IP, settings.Port, 5, new ServerInterface(), buffer);
+                dataGridView1.DataSource = PluginSecurityManager._ToolPluginDataAccessDataTable;
+                ServerCore.Listen(settings.IP, settings.Port, 5, new ServerInterface(), buffer);
 
-                Ticker = true;
-                Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, "Status: vSro-Studio-Server started!");
+                Logger.WriteLogLine(LogLevel.success, "Status: vSro-Studio-Server started!");
 
-                Thread t = new Thread(DiagnosticThread);
-                t.Start();
-
-                while (Ticker)
-                {
-                    Server.Tick();
-                    Thread.Sleep(1);
-                }
-                t.Abort();
+                serverCodeTickThread.Start();
+                diagnosticThread.Start();
             }
             catch (Exception ex)
             {
-                Logger.WriteLogLine(LogLevel.fatal, $"Status: vSro-Studio-Server failed to start... Exception: {ex.Message}");
-                Ticker = false;
+                //Logger?.WriteLogLine(LogLevel.fatal, $"Status: vSro-Studio-Server failed to start... Exception: {ex.Message}");
+                diagnosticThread.Abort();
+                serverCodeTickThread.Abort();
             }
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.WriteLogLine(LogLevel.loading, "Starting...");
-            Thread thread = new Thread(StartServer);
-            thread.Start();
+            // Thread thread = new Thread(StartServer);
+            // thread.Start();
+            StartServer();
         }
 
         private void StopServer()
         {
-            if (!Ticker)
-            {
+            if (!ServerCore.IsConnected && !LizenceCore.IsConnected)
                 return;
-            }
 
-            Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, "Status: vSro-Studio-Server stopped!");
-            Ticker = false;
-            Server.Stop();
+            // Ticker = false;
+            diagnosticThread.Abort();
+            serverCodeTickThread.Abort();
+            ServerCore.Stop();
+            LizenceCore.Disconnect();
+            Logger.WriteLogLine(LogLevel.warning, "Status: vSro-Studio-Server stopped!");
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
@@ -158,11 +154,15 @@ namespace ManagementServer
 
         private void vSroSmallButtonRefreshSec_vSroClickEvent()
         {
-            var flag = PluginSecurityManager.TryRefreshSecurityManager();
-            ServerManager.Logger.WriteLogLine(flag ? LogLevel.loading : LogLevel.fatal, flag ? $"Refreshed security groups" : "Failed to refresh groups...");
-
         }
 
         #endregion Methods
+
+        private void refreshSecurityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var flag = PluginSecurityManager.IsRefreshed;
+            dataGridView1.DataSource = PluginSecurityManager._ToolPluginDataAccessDataTable;
+            Logger.WriteLogLine(flag ? LogLevel.loading : LogLevel.fatal, flag ? $"Refreshed security groups" : "Failed to refresh groups...");
+        }
     }
 }

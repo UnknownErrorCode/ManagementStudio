@@ -84,13 +84,9 @@ namespace ServerFrameworkRes.Ressources
                 }
 
 
-                // dataGridView1.Rows.Add(r);
-                dataGridView1.Invoke(new Action(() => { dataGridView1.Rows.Add(r); }));
-                // dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
-                dataGridView1.Invoke(new Action(() => { dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1; }));
+                dataGridView1?.Invoke(new Action(() => { dataGridView1.Rows.Add(r); dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1; }));
             }
 
-            // dataGridView1.ClearSelection();
             dataGridView1.Invoke(new Action(() => { dataGridView1.ClearSelection(); }));
         }
 
