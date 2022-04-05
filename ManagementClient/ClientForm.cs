@@ -18,7 +18,6 @@ namespace ManagementClient
         {
             InitializeComponent();
             Controls.Add(ServerFrameworkRes.Log.Logger);
-            System.Threading.Tasks.Task.Run(() => InitializePackFile());
             ClientFrameworkRes.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
         }
 
@@ -53,13 +52,12 @@ namespace ManagementClient
             else
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Initialized Client.pk2 data.");
 
-            if (Initialized)
+
+            Invoke(new Action(() =>
             {
-                Invoke(new Action(() =>
-                {
-                    loadPluginsToolStripMenuItem.Enabled = true;
-                }));
-            }
+                loadPluginsToolStripMenuItem.Enabled = true;
+            }));
+
         }
 
         /// <summary>
@@ -74,12 +72,9 @@ namespace ManagementClient
                     loadPluginsToolStripMenuItem.DropDownItems.Add(pluginName);
                     loadPluginsToolStripMenuItem.DropDownItems[loadPluginsToolStripMenuItem.DropDownItems.Count - 1].Click += ClickLoadPlugin;
                 }
-                //ReceivedPluginNames = true;
-                if (Initialized)
-                {
-                    loadPluginsToolStripMenuItem.Enabled = true;
-                }
-            }));
+
+
+            })); System.Threading.Tasks.Task.Run(() => InitializePackFile());
             ServerFrameworkRes.Log.Logger.WriteLogLine($"Allowed [{ClientFrameworkRes.ClientMemory.AllowedPlugin.Length}] *.dll libraries");
         }
 

@@ -34,7 +34,7 @@ namespace ManagementServer.PacketConstructors
             }
             catch (System.Exception ex)
             {
-                return NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
+                return NotificationPacket.NotifyPacket(ex, "AllowedDataTableNames");
             }
         }
 

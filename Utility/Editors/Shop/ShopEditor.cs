@@ -47,7 +47,7 @@ namespace Editors.Shop
         /// </summary>
         private void vSroSmallButton2_vSroClickEvent()
         {
-            vSroButtonList1.RemoveSingleButtonFromList(vSroButtonList1.LatestSelectedButton.ButtonName);
+            vSroButtonList1.RemoveButton(vSroButtonList1.LatestSelectedButton.ButtonName);
         }
 
         /// <summary>

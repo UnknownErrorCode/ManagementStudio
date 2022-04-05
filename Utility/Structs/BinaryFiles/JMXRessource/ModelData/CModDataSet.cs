@@ -11,7 +11,7 @@ namespace Structs.Pk2.BinaryFiles.JMXRessource
         /// </summary>
         public AnimationType AniType;
 
-        //TODO check if key can be duplicated
+
         [System.Obsolete]
         public List<IModData> ModDataTypes;
         public uint modSetDataCnt;

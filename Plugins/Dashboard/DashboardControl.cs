@@ -77,7 +77,7 @@ namespace Dashboard
                 if (login)
                     vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.AddSingleButtonToList(user)));
                 else
-                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.RemoveSingleButtonFromList(user)));
+                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.RemoveButton(user)));
             }
             return PacketHandlerResult.Block;
         }

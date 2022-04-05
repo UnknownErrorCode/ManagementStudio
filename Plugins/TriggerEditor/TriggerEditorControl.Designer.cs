@@ -90,6 +90,7 @@
             this.vSroButtonList1.Name = "vSroButtonList1";
             this.vSroButtonList1.Size = new System.Drawing.Size(220, 400);
             this.vSroButtonList1.TabIndex = 1;
+            this.vSroButtonList1.OnIndCh += new System.EventHandler(this.vSroButtonList1_OnIndCh);
             // 
             // treeViewGameWorlds
             // 

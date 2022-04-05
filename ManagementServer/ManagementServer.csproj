@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DashboardManager.cs" />
     <Compile Include="Network\Certification\LizenceCore.cs" />
     <Compile Include="Network\Certification\LizenceData.cs" />
     <Compile Include="Network\Certification\LizenceInterface.cs" />

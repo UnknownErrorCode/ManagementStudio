@@ -9,35 +9,16 @@ namespace ServerFrameworkRes.BasicControls
 {
     public partial class vSroButtonList : UserControl
     {
-        #region Fields
-
         private readonly List<vSroListButton> AllButtonsOnTable = new List<vSroListButton>();
-        private readonly Dictionary<string, vSroListButton> AllButtonsOnTable2 = new Dictionary<string, vSroListButton>();
-
-        #endregion Fields
-
-        #region Constructors
 
         public vSroButtonList()
         {
             InitializeComponent();
         }
 
-        #endregion Constructors
-
-        #region Events
-
         public event EventHandler OnIndCh;
 
-        #endregion Events
-
-        #region Properties
-
         public vSroListButton LatestSelectedButton { get; private set; }
-
-        #endregion Properties
-
-        #region Methods
 
         /// <summary>
         /// Adds a Button with 'incomeButtonName' name on the List
@@ -51,31 +32,27 @@ namespace ServerFrameworkRes.BasicControls
                 {
                     Tag = tag
                 };
-                singleButton.Click += ResetSelectionOnClick;
-                singleButton.labelButtonName.Click += LabelButtonName_Click;
-                singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count) * singleButton.Height)));
-                if (InvokeRequired)
-                {
-                    IAsyncResult invoke = BeginInvoke(new Action(() =>
-                    {
-                        Controls.Add(singleButton);
-                    }));
-                    EndInvoke(invoke);
-                }
-                else
-                {
-                    Controls.Add(singleButton);
-                }
-                AllButtonsOnTable.Add(singleButton);
-                // OnAddButton();
+                AddSingleButtonToList(singleButton);
             }
         }
 
-        public void AddSingleButtonToList(vSroListButton singleButton)
+        public bool ContainsTitle(string title) => AllButtonsOnTable.Exists(itm => itm.ButtonName.Equals(title));
+
+        public void RemoveButton(string buttonToDelete)
+        {
+            if (AllButtonsOnTable.Exists(btn => btn.ButtonName == buttonToDelete))
+            {
+                AllButtonsOnTable.Remove(AllButtonsOnTable.Single(btn => btn.ButtonName == buttonToDelete));
+                RefreshTable();
+            }
+        }
+
+        private void AddSingleButtonToList(vSroListButton singleButton)
         {
             if (!AllButtonsOnTable.Contains(singleButton))
             {
                 singleButton.Click += ResetSelectionOnClick;
+                singleButton.labelButtonName.Click += LabelButtonName_Click;
                 AllButtonsOnTable.Add(singleButton);
 
                 singleButton.Location = new Point(6, 6 + (((AllButtonsOnTable.Count - 1) * singleButton.Height)));
@@ -94,27 +71,9 @@ namespace ServerFrameworkRes.BasicControls
             }
         }
 
-        public void Clear()
-        {
-            AllButtonsOnTable.Clear();
-            RefreshTable();
-        }
+        private void LabelButtonName_Click(object sender, EventArgs e) => ResetSelectionOnClick((vSroListButton)((Label)sender).Parent, e);
 
-        public bool ContainsTitle(string title)
-        {
-            return AllButtonsOnTable.Exists(itm => itm.ButtonName.Equals(title));
-        }
-
-        public void RemoveSingleButtonFromList(string buttonToDelete)
-        {
-            if (AllButtonsOnTable.Exists(btn => btn.ButtonName == buttonToDelete))
-            {
-                AllButtonsOnTable.Remove(AllButtonsOnTable.Single(btn => btn.ButtonName == buttonToDelete));
-                RefreshTable();
-            }
-        }
-
-        public void ResetSelectionOnClick(object sender, EventArgs e)
+        private void ResetSelectionOnClick(object sender, EventArgs e)
         {
             if (LatestSelectedButton != null)
             {
@@ -122,53 +81,40 @@ namespace ServerFrameworkRes.BasicControls
                 LatestSelectedButton.labelButtonName.ForeColor = Color.White;
             }
             LatestSelectedButton = (vSroListButton)sender;
+            AllButtonsOnTable.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
+
             if (OnIndCh != null)
             {
                 OnIndCh(LatestSelectedButton, e);
             }
         }
 
-        private void LabelButtonName_Click(object sender, EventArgs e)
-        {
-            ResetSelectionOnClick((vSroListButton)((Label)sender).Parent, e);
-        }
-
-        private void recolorItems(object sender, EventArgs e)
-        {
-            AllButtonsOnTable.Where(button => button != (vSroListButton)sender).ToList().ForEach(buttn => buttn.labelButtonName.ForeColor = Color.White);
-        }
-
         private void RefreshTable()
         {
+            SuspendLayout();
             if (InvokeRequired)
             {
                 IAsyncResult invoke = BeginInvoke(new Action(() =>
                 {
-                    SuspendLayout();
                     Controls.Clear();
                     foreach (vSroListButton item in AllButtonsOnTable)
                     {
-                        item.Click += recolorItems;
-                        item.labelButtonName.Click += recolorItems;
-
+                        item.Location = new Point(6, 6 + (((AllButtonsOnTable.Count - 1) * item.Height)));
                         Controls.Add(item);
                     }
-                    ResumeLayout();
                 }));
                 EndInvoke(invoke);
             }
             else
             {
-                SuspendLayout();
                 Controls.Clear();
                 foreach (vSroListButton item in AllButtonsOnTable)
                 {
+                    item.Location = new Point(6, 6 + (((AllButtonsOnTable.Count - 1) * item.Height)));
                     Controls.Add(item);
                 }
-                ResumeLayout();
             }
+            ResumeLayout();
         }
-
-        #endregion Methods
     }
 }

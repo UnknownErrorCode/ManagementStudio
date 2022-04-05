@@ -13,7 +13,7 @@ namespace Dashboard
             string Author = arg2.ReadAscii();
             string Title = arg2.ReadAscii();
             string Remover = arg2.ReadAscii();
-            vSroButtonList1.Invoke(new Action(() => vSroButtonList1.RemoveSingleButtonFromList(Title)));
+            vSroButtonList1.Invoke(new Action(() => vSroButtonList1.RemoveButton(Title)));
 
             ServerFrameworkRes.Log.Logger.WriteLogLine($"User:[{Remover}] successfully deleted topic: [{Title}] from author: {Author}!");
             return PacketHandlerResult.Block;

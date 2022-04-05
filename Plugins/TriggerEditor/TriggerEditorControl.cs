@@ -28,9 +28,19 @@ namespace TriggerEditor
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
+            foreach (var item in ClientFrameworkRes.Database.SRO_VT_SHARD._RefGame_World.Values)
+            {
+                vSroButtonList1.AddSingleButtonToList(item.WorldCodeName128, item);
+            }
             return PacketHandlerResult.Block;
         }
 
         #endregion Methods
+
+        private void vSroButtonList1_OnIndCh(object sender, System.EventArgs e)
+        {
+            Structs.Database.RefGame_World world = (Structs.Database.RefGame_World)((ServerFrameworkRes.BasicControls.vSroListButton)sender).Tag;
+
+        }
     }
 }

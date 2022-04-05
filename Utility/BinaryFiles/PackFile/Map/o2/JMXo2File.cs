@@ -110,7 +110,10 @@ namespace BinaryFiles.PackFile.Map.o2
                 for (byte x = 0; x < 6; x++)
                 {
                     ushort wTemp = reader.ReadUInt16(); // ASSERT(wTemp == 0)
-                                                        //ToDo assert missing
+                    if (wTemp == 0)
+                    {
+                        continue;
+                    }
                     for (int lodgroup = 0; lodgroup < 3; lodgroup++)
                     {
                         ushort mapObjInfoCount = reader.ReadUInt16();

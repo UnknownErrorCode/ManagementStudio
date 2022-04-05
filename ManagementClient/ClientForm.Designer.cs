@@ -120,7 +120,6 @@ namespace ManagementClient
             this.Name = "ClientForm";
             this.Text = "vSro Studio Client V.";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClose);
-            this.Load += new System.EventHandler(this.ClientForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

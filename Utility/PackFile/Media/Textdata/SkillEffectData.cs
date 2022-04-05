@@ -36,12 +36,12 @@ namespace PackFile.Media.Textdata
                         {
                             continue;
                         }
-                        if (newline.Contains("#section\tcharacterInfo"))
+                        if (newline.StartsWith("#section") && newline.Contains("characterInfo"))
                         {
                             coordinationFlag = SkillEffectSection.CharakterInfo;
                             continue;
                         }
-                        else if (newline.Contains("#section\tskillaniset2"))// TODO change to sartWith
+                        else if (newline.StartsWith("#section") && newline.Contains("skillaniset2"))
                         {
                             coordinationFlag = SkillEffectSection.skillaniset2;
                             continue;
