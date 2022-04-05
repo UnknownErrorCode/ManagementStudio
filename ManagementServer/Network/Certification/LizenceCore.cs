@@ -39,7 +39,7 @@ namespace ManagementServer.Network
 
         public static bool Start()
         {
-            ClientNetwork.Connect(ServerManager.settings.IP, 15555, CInterface, CInterface.CertData);
+            ClientNetwork.Connect(ServerManager.settings.ServerIP, 15555, CInterface, CInterface.CertData);
 
             for (int i = 0; i < 500; i++)
             {

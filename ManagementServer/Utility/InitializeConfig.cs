@@ -37,9 +37,10 @@ namespace ManagementServer.Utility
                     Cfg.IniWriteValue("DBs", "Account", "SRO_VT_ACCOUNT");
                     Cfg.IniWriteValue("DBs", "Log", "SRO_VT_LOG");
                     Cfg.IniWriteValue("DBs", "Shard", "SRO_VT_SHARD");
-                    Cfg.IniWriteValue("DBs", "Developement", "RisingSecurity");
-                    Cfg.IniWriteValue("DBs", "Bot", "EventBot");
-                    Cfg.IniWriteValue("DBs", "Filter", "RisingSecurity");
+                    Cfg.IniWriteValue("DBs", "Developement", "StudioClient");
+                   
+                    Cfg.IniWriteValue("Certification", "IP", "127.0.0.1");
+                    Cfg.IniWriteValue("Certification", "Port", "15555");
 
                     Cfg.IniWriteValue("StudioServer", "IP", "127.0.0.1");
                     Cfg.IniWriteValue("StudioServer", "Port", "15755");

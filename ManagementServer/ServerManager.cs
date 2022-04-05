@@ -11,7 +11,7 @@ namespace ManagementServer
         #region Fields
 
         internal static LogGridView Logger = new LogGridView() { Dock = DockStyle.Bottom };
-        internal static Utility.Settings settings = new Utility.Settings();
+        internal static Utility.ServerConfig settings = new Utility.ServerConfig();
         internal Thread diagnosticThread;
         internal Thread serverCodeTickThread;
         public ServerManager()
@@ -111,7 +111,7 @@ namespace ManagementServer
                     ServerManager.Logger.WriteLogLine(LogLevel.warning, $"Disconnected {i} active user. do something against it!!");
 
                 dataGridView1.DataSource = PluginSecurityManager._ToolPluginDataAccessDataTable;
-                ServerCore.Listen(settings.IP, settings.Port, 5, new ServerInterface(), buffer);
+                ServerCore.Listen(settings.ServerIP, settings.ServerPort, 5, new ServerInterface(), buffer);
 
                 Logger.WriteLogLine(LogLevel.success, "Status: vSro-Studio-Server started!");
 
