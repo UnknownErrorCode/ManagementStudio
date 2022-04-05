@@ -33,17 +33,14 @@ namespace ManagementCertification.Utility
 
                     Cfg.IniWriteValue("SQL", "Host", ".\\SQLEXPRESS");
                     Cfg.IniWriteValue("SQL", "User", "sa");
-                    Cfg.IniWriteValue("SQL", "Password", "FuckYou");
+                    Cfg.IniWriteValue("SQL", "Password", "password123");
 
-                    Cfg.IniWriteValue("DBs", "Account", "SRO_VT_ACCOUNT");
-                    Cfg.IniWriteValue("DBs", "Log", "SRO_VT_LOG");
-                    Cfg.IniWriteValue("DBs", "Shard", "SRO_VT_SHARD");
-                    Cfg.IniWriteValue("DBs", "Developement", "RisingSecurity");
-                    Cfg.IniWriteValue("DBs", "Bot", "EventBot");
-                    Cfg.IniWriteValue("DBs", "Filter", "RisingSecurity");
+                    
+                    Cfg.IniWriteValue("DBs", "Developement", "StudioServer");
+                  
 
                     Cfg.IniWriteValue("StudioServer", "IP", "127.0.0.1");
-                    Cfg.IniWriteValue("StudioServer", "Port", "15755");
+                    Cfg.IniWriteValue("StudioServer", "Port", "15555");
                     Cfg.IniWriteValue("StudioServer", "Version", "0");
                     Cfg.IniWriteValue("StudioServer", "PatchFolderArchiv", "C:\\PatchFolderArchiv");
                     Cfg.IniWriteValue("StudioServer", "PatchFolderDirectory", "C:\\RisingSecurity");

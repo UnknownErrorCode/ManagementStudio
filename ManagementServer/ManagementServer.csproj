@@ -83,7 +83,7 @@
     <Compile Include="Network\ToolServer\ServerClientData.cs" />
     <Compile Include="Network\ToolServer\Handler\LauncherPacketHandler.cs" />
     <Compile Include="Utility\InitializeConfig.cs" />
-    <Compile Include="Utility\Settings.cs" />
+    <Compile Include="Utility\ServerConfig.cs" />
     <Compile Include="Utility\SQL.cs" />
     <EmbeddedResource Include="PatchManager.resx">
       <DependentUpon>PatchManager.cs</DependentUpon>

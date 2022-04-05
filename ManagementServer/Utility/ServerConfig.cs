@@ -2,7 +2,7 @@
 
 namespace ManagementServer.Utility
 {
-    public class Settings
+    public class ServerConfig
     {
         #region Properties
 
@@ -10,11 +10,11 @@ namespace ManagementServer.Utility
 
         public string DBAcc => InitializeConfig.Cfg.IniReadValue("DBs", "Account");
 
-        public string DBBot => InitializeConfig.Cfg.IniReadValue("DBs", "Bot");
+       // public string DBBot => InitializeConfig.Cfg.IniReadValue("DBs", "Bot");
 
         public string DBDev => InitializeConfig.Cfg.IniReadValue("DBs", "Developement");
 
-        public string DBFilter => InitializeConfig.Cfg.IniReadValue("DBs", "Filter");
+      //  public string DBFilter => InitializeConfig.Cfg.IniReadValue("DBs", "Filter");
 
         public string DBLog => InitializeConfig.Cfg.IniReadValue("DBs", "Log");
 
@@ -24,13 +24,15 @@ namespace ManagementServer.Utility
 
         public string GuidePath => Path.Combine(Directory.GetCurrentDirectory(), "Dashboard", "Topics");
 
-        public string IP => InitializeConfig.Cfg.IniReadValue("StudioServer", "IP");
+        public string ServerIP => InitializeConfig.Cfg.IniReadValue("StudioServer", "IP");
+        public string CertIP => InitializeConfig.Cfg.IniReadValue("Certification", "IP");
 
         public string PatchFolderDirectory => InitializeConfig.Cfg.IniReadValue("StudioServer", "PatchFolderDirectory");
 
         public string PatchFolderDirectory_Archiv => InitializeConfig.Cfg.IniReadValue("StudioServer", "PatchFolderArchiv");
 
-        public int Port => int.Parse(InitializeConfig.Cfg.IniReadValue("StudioServer", "Port"));
+        public int ServerPort => int.Parse(InitializeConfig.Cfg.IniReadValue("StudioServer", "Port"));
+        public int CertPort => int.Parse(InitializeConfig.Cfg.IniReadValue("Certification", "Port"));
 
         public string SQL_ConnectionString => $"Server={SQL_Host};database={"master"};User ID={SQL_User};Password={SQL_Password};MultipleActiveResultSets=True";
 
