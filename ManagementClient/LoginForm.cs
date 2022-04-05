@@ -57,7 +57,6 @@ namespace ManagementClient
         private void ClientTool_Load(object sender, EventArgs e)
         {
             vSroSizableWindow1.Title = "Offline";
-
             Thread startThread = new Thread(Connect);
             startThread.Start();
         }

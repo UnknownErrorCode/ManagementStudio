@@ -18,12 +18,17 @@ namespace ManagementServer
         {
             InitializeComponent();
             Controls.Add(Logger);
-
-            if (!LizenceCore.CanStart)
+            if(!settings.InitializeSettings(out string msg))
             {
-                MessageBox.Show("Woops. please contact Rekcuz...");
+                Logger.WriteLogLine( LogLevel.fatal,"Settings failed loading.. please contact Rekcuz..."+ msg);
                 return;
             }
+            if (!LizenceCore.TryConnect())
+            {
+                Logger.WriteLogLine(LogLevel.fatal, "Cannot connect to Lizence Server!");
+                return;
+            }
+           
             diagnosticThread = new Thread(DiagnosticThread);
             serverCodeTickThread = new Thread(ServerCore.TickThread);
         }

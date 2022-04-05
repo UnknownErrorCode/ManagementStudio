@@ -1852,6 +1852,11 @@ namespace BinaryFiles.PackFile
             byte[] compdata = null;
             uint compsize = 0;
 
+            //Rekcuzs not to do action TODO:
+            if (header.pixelformat.rgbbitcount ==0)
+            {
+                header.pixelformat.rgbbitcount = 1;
+            }
             if ((header.flags & DDSD_LINEARSIZE) > 1)
             {
                 compdata = reader.ReadBytes((int)header.sizeorpitch);

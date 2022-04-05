@@ -18,6 +18,12 @@ namespace FileEditor._2dt
             JMXFile = file;
             foreach (var item in file.ElementList)
             {
+                if (item.Style.Equals(512))
+                {
+                }
+                else if (item.Style.Equals(65792))
+                {
+                }
                 var path = $"Media\\{item.Image.Replace($"\0", "")}";
                 if (!ddjFiles.ContainsKey(path) && PackFile.MediaPack.Reader.GetByteArrayByDirectory(path, out byte[] ddj))
                 {
@@ -35,7 +41,6 @@ namespace FileEditor._2dt
 
                 if (item.ClientRectangle.Y > 0 && minY > item.ClientRectangle.Y)
                     minY = item.ClientRectangle.Y;
-
 
                 if (item.ClientRectangle.X + item.ClientRectangle.Width > maxX)
                     maxX = item.ClientRectangle.X + item.ClientRectangle.Width;

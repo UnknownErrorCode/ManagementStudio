@@ -605,9 +605,17 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeSpawnImage(UMonsterIconPath, 8, out ImageMonsterUnique);
             InitializeSpawnImage(TeleportIconPath, 16, out ImageTeleport);
             InitializeSpawnImage(OwnPointIconPath, 8, out ImageOwnPoint);
+            using (LoadingForm form = new LoadingForm())
+            {
+                form.Show();
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Loading world and spawns. This can take a moment.");
+                InitializeWorldGraphics();
+                InitializeSpawnGraphics();
+                form.Close();
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, "World initialized!");
 
-            InitializeWorldGraphics();
-            InitializeSpawnGraphics();
+            }
+
             //Task.Run(() => InitializeWorldGraphics());
             //Task.Run(() => InitializeSpawnGraphics());
         }

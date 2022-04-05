@@ -29,6 +29,7 @@ namespace WorldMapSpawnEditor
             ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
             var pack = ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
             ClientFrameworkRes.ClientCore.Send(pack);
+            System.Threading.Tasks.Task.Run(() =>PackFile.PackFileManager.ExtractRegionIcons() );
         }
 
         #endregion Constructors

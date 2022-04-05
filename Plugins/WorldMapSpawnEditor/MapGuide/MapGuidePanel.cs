@@ -2,6 +2,7 @@
 using PackFile.Media.Textdata;
 using System.Collections.Concurrent;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor.MapGuide
@@ -10,8 +11,9 @@ namespace WorldMapSpawnEditor.MapGuide
     {
         #region Fields
         private const string FilePath = "Media\\interface\\worldmap\\map";
-        private readonly ConcurrentDictionary<Point, Bitmap> imgDic = new ConcurrentDictionary<Point, Bitmap>();
-        private readonly ConcurrentDictionary<Point, CGuideRegion> MapPool = new ConcurrentDictionary<Point, CGuideRegion>();
+        private static readonly ConcurrentDictionary<Point, Bitmap> Pk2ImageDic = new ConcurrentDictionary<Point, Bitmap>();
+        private readonly ConcurrentDictionary<Point, CGuideRegion> LocalPNGMapPoolImageDic = new ConcurrentDictionary<Point, CGuideRegion>();
+        
         private Worldmap_Mapinfo worldmap_Mapinfo;
 
         private WorldMapInfoSection ActiveSection;
@@ -37,8 +39,9 @@ namespace WorldMapSpawnEditor.MapGuide
 
 
 
-        internal MapGuidePanel()
+        internal MapGuidePanel(bool usePk2Image = true)
         {
+            UsePk2Image = usePk2Image;
             DoubleBuffered = true;
             Size = new Size(725, 350);
 
@@ -53,7 +56,7 @@ namespace WorldMapSpawnEditor.MapGuide
             if (worldmap_Mapinfo.TryGetMainWorldInfo(out CurrentViewWorld))
                 ActiveSection = WorldMapInfoSection.wLocalMap;
 
-            InitializeMapImages();
+            InitializeMapImages(UsePk2Image);
 
         }
         private void MapGuidePanel_MouseMove(object sender, MouseEventArgs e)
@@ -90,35 +93,61 @@ namespace WorldMapSpawnEditor.MapGuide
         {
             get => DrawStartPoint; set { DrawStartPoint = value; Invalidate(); }
         }
+
+        public bool UsePk2Image { get; }
         #region Methods
 
-        private void InitializeMapImages()
+        private void InitializeMapImages(bool pk2 = true)
         {
-            //TODO: somehow get better way to parse ddj files from pk2
-            bool filesExist = PackFile.MediaPack.Reader.GetFilesInFolder(FilePath, out PackFile.Pk2File[] files);
 
-            foreach (PackFile.Pk2File i in files)
+            if (pk2)
             {
-                string name = i.name;
+                PackFile.PackFileManager.ExtractRegionIcons();
 
-                if (!name.StartsWith("map_world_"))
+                string[] pics = Directory.GetFiles(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath), "map_world_*");
+
+
+                foreach (string item in pics)
                 {
-                    continue;
-                }
-
-                string[] Coordinates = name.Replace("map_world_", "").Replace(".ddj", "").Split('x');
-
-                if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
-                {
-                    var pointer = new Point(x, y);
-                    if (imgDic.ContainsKey(pointer))
-                        continue;
-                    if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
+                    string[] Coordinates = item.Replace(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath, "map_world_"), "").Replace(".dds", "").Split('x');
+                    if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
                     {
-                        imgDic.TryAdd(pointer, new JMXddjFile(file).BitmapImage);
+                        var pointer = new Point(x, y);
+                        if (Pk2ImageDic.ContainsKey(pointer))
+                            continue;
+                        JMXddjFile imgdds = new JMXddjFile(File.OpenRead(item));
+                        //Image img = Image.FromFile(item);
+                        Pk2ImageDic.TryAdd(pointer, imgdds.BitmapImage);
+
+                        //if (PackFile.MediaPack.Reader.GetByteArrayByDirectory(System.IO.Path.Combine(FilePath, i.name), out byte[] file))
+                        //{
+                        //    imgDic.TryAdd(pointer, new JMXddjFile(file).BitmapImage);
+                        //}
                     }
                 }
             }
+            else
+            {
+                string[] pics = Directory.GetFiles(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath), "map_world_*.png");
+                foreach (string item in pics)
+                {
+                    string[] Coordinates = item.Replace(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath, "map_world_"), "").Replace(".png", "").Split('x');
+                    if (!byte.TryParse(Coordinates[0], out byte x) || !byte.TryParse(Coordinates[1], out byte y))
+                    {
+                        continue;
+                    }
+                    var pointer = new Point(x, y);
+                    if (LocalPNGMapPoolImageDic.ContainsKey(pointer))
+                        continue;
+                    Bitmap imgdds = (Bitmap) Image.FromFile(item);
+                    //Image img = Image.FromFile(item);
+                    LocalPNGMapPoolImageDic.TryAdd(pointer, new CGuideRegion("worldmap", x, y, item));
+                }
+            }
+
+
+
+         
         }
 
         private void MapGuidePanel_MouseDown(object sender, MouseEventArgs e)
@@ -162,11 +191,12 @@ namespace WorldMapSpawnEditor.MapGuide
                 {
                     coordinatePoint.X = x;
                     coordinatePoint.Y = z;
-                    if (imgDic.ContainsKey(coordinatePoint))
+                    if (Pk2ImageDic.ContainsKey(coordinatePoint))
                     {
-                        drawPoint.X = DrawStartPoint.X + (((x - minX) * (imgDic[coordinatePoint].Width / 4)));
-                        drawPoint.Y = DrawStartPoint.Y + (((maxY - z)) * (imgDic[coordinatePoint].Height / 4));
-                        e.Graphics.DrawImage(imgDic[coordinatePoint], drawPoint);
+                        drawPoint.X = DrawStartPoint.X + (((x - minX) * (Pk2ImageDic[coordinatePoint].Width / 4)));
+                        drawPoint.Y = DrawStartPoint.Y + (((maxY - z)) * (Pk2ImageDic[coordinatePoint].Height / 4));
+                        
+                        e.Graphics.DrawImage(UsePk2Image? Pk2ImageDic[coordinatePoint]: LocalPNGMapPoolImageDic[coordinatePoint].RegionLayer, drawPoint);
                         TextRenderer.DrawText(e.Graphics, $"X:{x} Z:{z}", Font, drawPoint, Color.Red);
                     }
                 }

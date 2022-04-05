@@ -12,7 +12,7 @@ namespace ServerFrameworkRes.Ressources
         #region Fields
 
         public Stack<string> MessageStack = new Stack<string>();
-
+        //private delegate void WriteLogMsg(string msg, LogLevel level = LogLevel.notify);
         #endregion Fields
 
         #region Constructors
@@ -35,15 +35,16 @@ namespace ServerFrameworkRes.Ressources
 
         #region Methods
 
-        public void WriteLogLine(string message)
-        {
-            WriteLogLine(LogLevel.notify, message);
-        }
+      
         public void WriteLogLine(Exception message, string sender)
         {
             WriteLogLine(LogLevel.fatal, $"{sender}: {message.Message}");
         }
 
+        public void WriteLogLine( string message, LogLevel Level = LogLevel.notify)
+        {
+            WriteLogLine(Level, message);
+        }
         public void WriteLogLine(LogLevel Level, string message)
         {
             string[] LogArray = new string[3]
@@ -87,7 +88,7 @@ namespace ServerFrameworkRes.Ressources
                 dataGridView1?.Invoke(new Action(() => { dataGridView1.Rows.Add(r); dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1; }));
             }
 
-            dataGridView1.Invoke(new Action(() => { dataGridView1.ClearSelection(); }));
+            dataGridView1?.Invoke(new Action(() => { dataGridView1.ClearSelection(); }));
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
@@ -109,7 +110,7 @@ namespace ServerFrameworkRes.Ressources
 
         private void LogGridView_Load(object sender, EventArgs e)
         {
-            Task.Run(() => LogMsgThread());
+            //Task.Run(() => LogMsgThread());
         }
 
         private void LogMsgThread()

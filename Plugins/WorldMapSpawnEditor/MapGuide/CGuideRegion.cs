@@ -10,12 +10,13 @@ namespace WorldMapSpawnEditor.MapGuide
         internal readonly byte Z;
         internal readonly bool HasLayer;
 
-        public CGuideRegion(string name, byte x, byte z)
+        public CGuideRegion(string name, byte x, byte z, string path)
         {
             Name = name;
             X = x;
             Z = z;
             HasLayer = File.Exists(TexturePath);
+            TexturePath = path;
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace WorldMapSpawnEditor.MapGuide
         /// <summary>
         /// TexturePath is combined by  {X}x{Y}.ddj.
         /// </summary>
-        protected string TexturePath => $"{ClientFrameworkRes.Config.StaticConfig.ClientExtracted}\\Media\\interface\\worldmap\\map\\{X}x{Z}.JPG";
+        protected string TexturePath; //=> $"{ClientFrameworkRes.Config.StaticConfig.ClientExtracted}\\Media\\interface\\worldmap\\map\\{X}x{Z}.JPG";
 
 
 

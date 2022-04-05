@@ -230,25 +230,11 @@ namespace Structs.Database
                 Except_8 = 0;
             }
 
-            if (int.TryParse(row[78].ToString(), out int _Except_9))
-            {
-                Except_9 = _Except_9;
-            }
-            else
-            {
-                Except_9 = 0;
-            }
+            Except_9 = int.TryParse(row[78].ToString(), out int _Except_9) ? _Except_9 : 0;
 
-            if (int.TryParse(row[79].ToString(), out int _Except_10))
-            {
-                Except_10 = _Except_10;
-            }
-            else
-            {
-                Except_10 = 0;
-            }
+            Except_10 = int.TryParse(row[79].ToString(), out int _Except_10) ? _Except_10 : 0;
 
-            Link = int.Parse(row[80].ToString());
+            Link = int.TryParse(row[80].ToString(), out int link) ? link : 0;
         }
     }
 }

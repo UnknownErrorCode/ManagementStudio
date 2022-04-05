@@ -48,7 +48,7 @@
             Data4_2 = int.Parse(row[18].ToString());
             Restrict5 = int.Parse(row[19].ToString());
             Data5_1 = int.Parse(row[20].ToString());
-            Data5_2 = int.Parse(row[21].ToString());
+            Data5_2 = int.TryParse(row[21].ToString(), out int _21) ? _21 : 0;
         }
     }
 }
