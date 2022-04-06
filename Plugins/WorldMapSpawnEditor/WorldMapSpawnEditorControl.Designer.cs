@@ -31,16 +31,18 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorldMapSpawnEditorControl));
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPageWorld = new System.Windows.Forms.TabPage();
             this.splitContainer2dViewer = new System.Windows.Forms.SplitContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripDropDownButtonViewSpawnCfg = new System.Windows.Forms.ToolStripDropDownButton();
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.regionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.assignedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unassignedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dBRegionsWithoutDdjToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.meshBlocksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.meshCellsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monsterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.commonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uniqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,16 +59,14 @@
             this.continentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dungeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.mapGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vSroSmallButtonLoad = new ServerFrameworkRes.BasicControls.vSroSmallButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.meshBlocksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.meshCellsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDropDownButtonReload = new System.Windows.Forms.ToolStripDropDownButton();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabPageWorld.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
             this.splitContainer2dViewer.Panel2.SuspendLayout();
             this.splitContainer2dViewer.SuspendLayout();
@@ -76,7 +76,7 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPageWorld);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -85,16 +85,16 @@
             this.tabControl1.Size = new System.Drawing.Size(800, 450);
             this.tabControl1.TabIndex = 1;
             // 
-            // tabPage1
+            // tabPageWorld
             // 
-            this.tabPage1.Controls.Add(this.splitContainer2dViewer);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(792, 424);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageWorld.Controls.Add(this.splitContainer2dViewer);
+            this.tabPageWorld.Location = new System.Drawing.Point(4, 22);
+            this.tabPageWorld.Name = "tabPageWorld";
+            this.tabPageWorld.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageWorld.Size = new System.Drawing.Size(792, 424);
+            this.tabPageWorld.TabIndex = 0;
+            this.tabPageWorld.Text = "WorldSpawn";
+            this.tabPageWorld.UseVisualStyleBackColor = true;
             // 
             // splitContainer2dViewer
             // 
@@ -119,30 +119,31 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Right;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1,
-            this.toolStripDropDownButton2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripDropDownButtonViewSpawnCfg,
+            this.toolStripDropDownButton2,
+            this.toolStripDropDownButtonReload});
+            this.statusStrip1.Location = new System.Drawing.Point(208, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(255, 38);
+            this.statusStrip1.Size = new System.Drawing.Size(47, 414);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripDropDownButton1
+            // toolStripDropDownButtonViewSpawnCfg
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButtonViewSpawnCfg.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButtonViewSpawnCfg.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showToolStripMenuItem,
             this.spawnEditorOnClickToolStripMenuItem,
             this.viewToolStripMenuItem});
-            this.toolStripDropDownButton1.Enabled = false;
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(41, 36);
-            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            this.toolStripDropDownButtonViewSpawnCfg.Enabled = false;
+            this.toolStripDropDownButtonViewSpawnCfg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonViewSpawnCfg.Image")));
+            this.toolStripDropDownButtonViewSpawnCfg.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDropDownButtonViewSpawnCfg.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonViewSpawnCfg.Name = "toolStripDropDownButtonViewSpawnCfg";
+            this.toolStripDropDownButtonViewSpawnCfg.Size = new System.Drawing.Size(45, 32);
+            this.toolStripDropDownButtonViewSpawnCfg.Text = "toolStripDropDownButton1";
             // 
             // showToolStripMenuItem
             // 
@@ -159,7 +160,7 @@
             this.spawnInformationToolStripMenuItem});
             this.showToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showToolStripMenuItem.Image")));
             this.showToolStripMenuItem.Name = "showToolStripMenuItem";
-            this.showToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showToolStripMenuItem.Text = "Show";
             // 
             // playerToolStripMenuItem
@@ -168,7 +169,7 @@
             this.playerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("playerToolStripMenuItem.Image")));
             this.playerToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.playerToolStripMenuItem.Name = "playerToolStripMenuItem";
-            this.playerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.playerToolStripMenuItem.Text = "Player";
             this.playerToolStripMenuItem.Click += new System.EventHandler(this.showPlayerToolStripMenuItem_Click);
             // 
@@ -181,7 +182,7 @@
             this.meshBlocksToolStripMenuItem,
             this.meshCellsToolStripMenuItem});
             this.regionToolStripMenuItem.Name = "regionToolStripMenuItem";
-            this.regionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.regionToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.regionToolStripMenuItem.Text = "Region";
             // 
             // assignedToolStripMenuItem
@@ -216,6 +217,21 @@
             this.dBRegionsWithoutDdjToolStripMenuItem.Text = "DB regions without ddj";
             this.dBRegionsWithoutDdjToolStripMenuItem.Click += new System.EventHandler(this.showDBRegionsWithoutDdjToolStripMenuItem_Click);
             // 
+            // meshBlocksToolStripMenuItem
+            // 
+            this.meshBlocksToolStripMenuItem.CheckOnClick = true;
+            this.meshBlocksToolStripMenuItem.Name = "meshBlocksToolStripMenuItem";
+            this.meshBlocksToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.meshBlocksToolStripMenuItem.Text = "MeshBlocks";
+            this.meshBlocksToolStripMenuItem.Click += new System.EventHandler(this.meshBlocksToolStripMenuItem_Click);
+            // 
+            // meshCellsToolStripMenuItem
+            // 
+            this.meshCellsToolStripMenuItem.CheckOnClick = true;
+            this.meshCellsToolStripMenuItem.Name = "meshCellsToolStripMenuItem";
+            this.meshCellsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.meshCellsToolStripMenuItem.Text = "MeshCells";
+            // 
             // monsterToolStripMenuItem
             // 
             this.monsterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -223,7 +239,7 @@
             this.uniqueToolStripMenuItem,
             this.noMsgUniqueToolStripMenuItem});
             this.monsterToolStripMenuItem.Name = "monsterToolStripMenuItem";
-            this.monsterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.monsterToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.monsterToolStripMenuItem.Text = "Monster";
             // 
             // commonToolStripMenuItem
@@ -259,7 +275,7 @@
             this.nPCToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("nPCToolStripMenuItem.Image")));
             this.nPCToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.nPCToolStripMenuItem.Name = "nPCToolStripMenuItem";
-            this.nPCToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nPCToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.nPCToolStripMenuItem.Text = "NPC";
             this.nPCToolStripMenuItem.Click += new System.EventHandler(this.showNPCToolStripMenuItem_Click);
             // 
@@ -268,14 +284,14 @@
             this.teleportToolStripMenuItem.CheckOnClick = true;
             this.teleportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("teleportToolStripMenuItem.Image")));
             this.teleportToolStripMenuItem.Name = "teleportToolStripMenuItem";
-            this.teleportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.teleportToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.teleportToolStripMenuItem.Text = "Teleport";
             this.teleportToolStripMenuItem.Click += new System.EventHandler(this.showTeleportToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(172, 6);
             // 
             // nestNGenRadiusToolStripMenuItem
             // 
@@ -283,7 +299,7 @@
             this.nestNGenRadiusToolStripMenuItem.CheckOnClick = true;
             this.nestNGenRadiusToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.nestNGenRadiusToolStripMenuItem.Name = "nestNGenRadiusToolStripMenuItem";
-            this.nestNGenRadiusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nestNGenRadiusToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.nestNGenRadiusToolStripMenuItem.Text = "Nest nGenRadius";
             this.nestNGenRadiusToolStripMenuItem.Click += new System.EventHandler(this.showNestNGenRadiusToolStripMenuItem_Click);
             // 
@@ -292,20 +308,20 @@
             this.nestNRadiusToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.nestNRadiusToolStripMenuItem.CheckOnClick = true;
             this.nestNRadiusToolStripMenuItem.Name = "nestNRadiusToolStripMenuItem";
-            this.nestNRadiusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nestNRadiusToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.nestNRadiusToolStripMenuItem.Text = "Nest nRadius";
             this.nestNRadiusToolStripMenuItem.Click += new System.EventHandler(this.showNestNRadiusToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(172, 6);
             // 
             // spawnInformationToolStripMenuItem
             // 
             this.spawnInformationToolStripMenuItem.CheckOnClick = true;
             this.spawnInformationToolStripMenuItem.Name = "spawnInformationToolStripMenuItem";
-            this.spawnInformationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.spawnInformationToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.spawnInformationToolStripMenuItem.Text = "Spawn information";
             this.spawnInformationToolStripMenuItem.Click += new System.EventHandler(this.showSpawnInformationToolStripMenuItem_Click);
             // 
@@ -313,8 +329,8 @@
             // 
             this.spawnEditorOnClickToolStripMenuItem.CheckOnClick = true;
             this.spawnEditorOnClickToolStripMenuItem.Name = "spawnEditorOnClickToolStripMenuItem";
-            this.spawnEditorOnClickToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.spawnEditorOnClickToolStripMenuItem.Text = "Spawn Editor on Click";
+            this.spawnEditorOnClickToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.spawnEditorOnClickToolStripMenuItem.Text = "EditMode";
             this.spawnEditorOnClickToolStripMenuItem.Click += new System.EventHandler(this.showSpawnEditorOnClickToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
@@ -323,7 +339,7 @@
             this.continentToolStripMenuItem,
             this.dungeonToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // continentToolStripMenuItem
@@ -343,21 +359,14 @@
             // toolStripDropDownButton2
             // 
             this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mapGuideToolStripMenuItem});
             this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
             this.toolStripDropDownButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
             this.toolStripDropDownButton2.Size = new System.Drawing.Size(45, 36);
             this.toolStripDropDownButton2.Text = "toolStripDropDownButton2";
-            // 
-            // mapGuideToolStripMenuItem
-            // 
-            this.mapGuideToolStripMenuItem.Name = "mapGuideToolStripMenuItem";
-            this.mapGuideToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.mapGuideToolStripMenuItem.Text = "Map Guide";
-            this.mapGuideToolStripMenuItem.Click += new System.EventHandler(this.mapGuideToolStripMenuItem_Click);
+            this.toolStripDropDownButton2.ToolTipText = "Open Map Guide";
+            this.toolStripDropDownButton2.Click += new System.EventHandler(this.mapGuideToolStripMenuItem_Click);
             // 
             // vSroSmallButtonLoad
             // 
@@ -404,20 +413,17 @@
             this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
             // 
-            // meshBlocksToolStripMenuItem
+            // toolStripDropDownButtonReload
             // 
-            this.meshBlocksToolStripMenuItem.CheckOnClick = true;
-            this.meshBlocksToolStripMenuItem.Name = "meshBlocksToolStripMenuItem";
-            this.meshBlocksToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.meshBlocksToolStripMenuItem.Text = "MeshBlocks";
-            this.meshBlocksToolStripMenuItem.Click += new System.EventHandler(this.meshBlocksToolStripMenuItem_Click);
-            // 
-            // meshCellsToolStripMenuItem
-            // 
-            this.meshCellsToolStripMenuItem.CheckOnClick = true;
-            this.meshCellsToolStripMenuItem.Name = "meshCellsToolStripMenuItem";
-            this.meshCellsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.meshCellsToolStripMenuItem.Text = "MeshCells";
+            this.toolStripDropDownButtonReload.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonReload.BackgroundImage")));
+            this.toolStripDropDownButtonReload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButtonReload.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonReload.Image")));
+            this.toolStripDropDownButtonReload.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDropDownButtonReload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonReload.Name = "toolStripDropDownButtonReload";
+            this.toolStripDropDownButtonReload.Size = new System.Drawing.Size(45, 36);
+            this.toolStripDropDownButtonReload.Text = "Reload";
+            this.toolStripDropDownButtonReload.Click += new System.EventHandler(this.toolStripDropDownButton1_Click);
             // 
             // WorldMapSpawnEditorControl
             // 
@@ -428,7 +434,7 @@
             this.Name = "WorldMapSpawnEditorControl";
             this.Size = new System.Drawing.Size(800, 450);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.tabPageWorld.ResumeLayout(false);
             this.splitContainer2dViewer.Panel2.ResumeLayout(false);
             this.splitContainer2dViewer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).EndInit();
@@ -442,7 +448,7 @@
 
         #endregion
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPageWorld;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.SplitContainer splitContainer2dViewer;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripRegionClick;
@@ -450,7 +456,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveCoordinateToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonLoad;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonViewSpawnCfg;
         private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem playerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem regionToolStripMenuItem;
@@ -473,8 +479,8 @@
         private System.Windows.Forms.ToolStripMenuItem dBRegionsWithoutDdjToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dungeonToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
-        private System.Windows.Forms.ToolStripMenuItem mapGuideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meshBlocksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meshCellsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonReload;
     }
 }

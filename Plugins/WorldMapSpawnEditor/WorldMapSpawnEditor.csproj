@@ -62,6 +62,7 @@
     <Compile Include="MapGraphics\Controls\NewPosition.cs" />
     <Compile Include="MapGraphics\Controls\Player.cs" />
     <Compile Include="MapGraphics\Controls\ITeleport.cs" />
+    <Compile Include="MapGraphics\GraphicsPanelCfg.cs" />
     <Compile Include="MapGraphics\Interface\InterfaceSpawn.cs" />
     <Compile Include="MapGraphics\RegionGraphic.cs" />
     <Compile Include="MapGraphics\Controls\Teleport.cs" />

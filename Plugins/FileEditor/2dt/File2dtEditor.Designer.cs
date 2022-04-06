@@ -38,12 +38,15 @@ namespace FileEditor._2dt
             this.splitContainer2dt = new System.Windows.Forms.SplitContainer();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tabPageViewer = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.toolStripButtonLoadResinfo = new System.Windows.Forms.ToolStripButton();
             this.toolStripMainLeft.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageProperty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dt)).BeginInit();
             this.splitContainer2dt.Panel1.SuspendLayout();
             this.splitContainer2dt.SuspendLayout();
+            this.tabPageViewer.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMainLeft
@@ -51,7 +54,8 @@ namespace FileEditor._2dt
             this.toolStripMainLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStripMainLeft.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonOpen2dt,
-            this.toolStripButtonViewSelected2dt});
+            this.toolStripButtonViewSelected2dt,
+            this.toolStripButtonLoadResinfo});
             this.toolStripMainLeft.Location = new System.Drawing.Point(0, 0);
             this.toolStripMainLeft.Name = "toolStripMainLeft";
             this.toolStripMainLeft.Size = new System.Drawing.Size(33, 372);
@@ -126,19 +130,21 @@ namespace FileEditor._2dt
             // 
             this.propertyGrid1.CategorySplitterColor = System.Drawing.SystemColors.ControlDarkDark;
             this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Top;
             this.propertyGrid1.HelpBackColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.HelpForeColor = System.Drawing.Color.Black;
+            this.propertyGrid1.HelpVisible = false;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.Size = new System.Drawing.Size(236, 336);
+            this.propertyGrid1.Size = new System.Drawing.Size(236, 131);
             this.propertyGrid1.TabIndex = 3;
             this.propertyGrid1.ViewBackColor = System.Drawing.Color.DimGray;
             this.propertyGrid1.ViewForeColor = System.Drawing.Color.Black;
             // 
             // tabPageViewer
             // 
+            this.tabPageViewer.Controls.Add(this.listView1);
             this.tabPageViewer.Location = new System.Drawing.Point(4, 22);
             this.tabPageViewer.Name = "tabPageViewer";
             this.tabPageViewer.Padding = new System.Windows.Forms.Padding(3);
@@ -146,6 +152,24 @@ namespace FileEditor._2dt
             this.tabPageViewer.TabIndex = 1;
             this.tabPageViewer.Text = "View";
             this.tabPageViewer.UseVisualStyleBackColor = true;
+            // 
+            // listView1
+            // 
+            this.listView1.Location = new System.Drawing.Point(6, 22);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(272, 228);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // toolStripButtonLoadResinfo
+            // 
+            this.toolStripButtonLoadResinfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonLoadResinfo.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoadResinfo.Image")));
+            this.toolStripButtonLoadResinfo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoadResinfo.Name = "toolStripButtonLoadResinfo";
+            this.toolStripButtonLoadResinfo.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButtonLoadResinfo.Text = "LoadResinfo";
+            this.toolStripButtonLoadResinfo.Click += new System.EventHandler(this.toolStripButtonLoadResinfo_Click);
             // 
             // File2dtEditor
             // 
@@ -155,6 +179,7 @@ namespace FileEditor._2dt
             this.Controls.Add(this.toolStripMainLeft);
             this.Name = "File2dtEditor";
             this.Size = new System.Drawing.Size(770, 372);
+            this.Load += new System.EventHandler(this.Loading);
             this.toolStripMainLeft.ResumeLayout(false);
             this.toolStripMainLeft.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -162,6 +187,7 @@ namespace FileEditor._2dt
             this.splitContainer2dt.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dt)).EndInit();
             this.splitContainer2dt.ResumeLayout(false);
+            this.tabPageViewer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,5 +203,7 @@ namespace FileEditor._2dt
         private System.Windows.Forms.SplitContainer splitContainer2dt;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.TabPage tabPageViewer;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonLoadResinfo;
     }
 }

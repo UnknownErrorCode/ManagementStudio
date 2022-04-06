@@ -7,7 +7,6 @@ namespace PackFile.Utility
 {
     public class Pk2Reader : Pk2Data
     {
-
         #region Fields
 
         private readonly bool initialized;
@@ -190,6 +189,24 @@ namespace PackFile.Utility
             return Pk2File != null;
         }
 
+        internal bool GetByteArrayByFile(Pk2File file, out byte[] rawddjFile)
+        {
+            rawddjFile = null;
+            try
+            {
+                using (BinaryReader reader = new BinaryReader(File.OpenRead(Pk2DataPath)))
+                {
+                    reader.BaseStream.Position = file.position;
+                    rawddjFile = reader.ReadBytes((int)file.size);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Converts a byte array to required type by marshaling the buffer.
         /// </summary>
@@ -263,6 +280,5 @@ namespace PackFile.Utility
         }
 
         #endregion Methods
-
     }
 }

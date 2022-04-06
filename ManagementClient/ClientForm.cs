@@ -21,9 +21,6 @@ namespace ManagementClient
             ClientFrameworkRes.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
         }
 
-        private bool ReceivedPluginNames => ClientFrameworkRes.ClientMemory.AllowedPlugin?.Length > 0;
-        private bool Initialized => PackFile.PackFileManager.Initialized && ReceivedPluginNames;
-
         /// <summary>
         /// User loads a plugin <see cref="TabPage"/> into the <see cref="ClientForm"/>.
         /// </summary>
@@ -36,7 +33,7 @@ namespace ManagementClient
             if (!TryLoadPlugin(itm.Text, out TabPage page))
                 return;
 
-            tabControlPlugins.TabPages.RemoveByKey(itm.Text);
+            loadPluginsToolStripMenuItem.DropDownItems.Remove(itm);
             tabControlPlugins.TabPages.Add(page);
         }
 
@@ -52,12 +49,10 @@ namespace ManagementClient
             else
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Initialized Client.pk2 data.");
 
-
             Invoke(new Action(() =>
             {
                 loadPluginsToolStripMenuItem.Enabled = true;
             }));
-
         }
 
         /// <summary>
@@ -72,8 +67,6 @@ namespace ManagementClient
                     loadPluginsToolStripMenuItem.DropDownItems.Add(pluginName);
                     loadPluginsToolStripMenuItem.DropDownItems[loadPluginsToolStripMenuItem.DropDownItems.Count - 1].Click += ClickLoadPlugin;
                 }
-
-
             })); System.Threading.Tasks.Task.Run(() => InitializePackFile());
             ServerFrameworkRes.Log.Logger.WriteLogLine($"Allowed [{ClientFrameworkRes.ClientMemory.AllowedPlugin.Length}] *.dll libraries");
         }
@@ -85,7 +78,7 @@ namespace ManagementClient
         /// <param name="e"></param>
         private void OnClose(object sender, FormClosingEventArgs e)
         {
-            ClientFrameworkRes.ClientMemory.LoggedIn = false;
+            //ClientFrameworkRes.ClientMemory.LoggedIn = false;
             Program.StaticLoginForm.Close();
             GC.Collect(5);
         }

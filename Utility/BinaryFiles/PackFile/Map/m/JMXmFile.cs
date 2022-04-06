@@ -94,26 +94,18 @@ namespace BinaryFiles.PackFile.Map.m
             return contains;
         }
 
-        [Obsolete]
-        public bool GetHightByfPoint(float regX, float regY, out float Z)
+        public float GetHightByfPoint(float regX, float regY)
         {
-            Z = 0.0f;
-            BlockEntry(regX, out byte BlockX);
-            BlockEntry(regY, out byte BlockY);
-            int bx = (int)regX / (1920 / 6);
+            var bx = (int)regX / (1920 / 6);
             var by = (int)regY / (1920 / 6);
 
-            CellEntry(regX, false, out byte CellX);
-            CellEntry(regY, true, out byte CellY);
-            int cx = (int)regX / (1920 / 16);
-            var cy = (int)(regY / (1920 / 16) - 16) * -1;
+            var cx = regX / (1920 / 16);
+            var cy = (regY / (1920 / 16) - 16) * -1;
 
-            Structs.Point8 Point1 = Structs.Point8.FromXY(BlockX, (byte)by);
-            Structs.Point8 Point2 = Structs.Point8.FromXY(CellX, CellY);
+            Structs.Point8 Point1 = Structs.Point8.FromXY((byte)bx, (byte)by);
+            Structs.Point8 Point2 = Structs.Point8.FromXY((byte)cx, (byte)cy);
 
-            Z = Blocks[Point1].MapCells[Point2].Height;
-
-            return true;
+            return Blocks[Point1].MapCells[Point2].Height;
         }
 
         /// <summary>

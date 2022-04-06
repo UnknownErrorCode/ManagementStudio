@@ -8,33 +8,30 @@ namespace WorldMapSpawnEditor
 {
     public partial class WorldMapSpawnEditorControl : UserControl
     {
-        #region Fields
-
         private const PluginData PLUGINDATA = PluginData.WorldMapSpawnEditor;
         private const string STRING_DLL = "WorldMapSpawnEditor.dll";
+
+        private static LoadingForm Loading = new LoadingForm();
 
         /// <summary>
         /// Map Panel to view the entired Open WorldMap without Dungeons.
         /// </summary>
         private MapGraphics.GraphicsPanel MapPanel;
 
-        #endregion Fields
-
-        #region Constructors
+        private MapGuide.MapGuideForm MapGuide;
 
         public WorldMapSpawnEditorControl()
         {
             InitializeComponent();
             InitializePerformance(this);
             ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            var pack = ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
-            ClientFrameworkRes.ClientCore.Send(pack);
-            System.Threading.Tasks.Task.Run(() =>PackFile.PackFileManager.ExtractRegionIcons() );
+            ClientFrameworkRes.ClientCore.Send(RequestData);
+            Loading.Show();
+            System.Threading.Tasks.Task.Run(() => PackFile.PackFileManager.ExtractRegionIcons());
+            MapGuide = new MapGuide.MapGuideForm();
         }
 
-        #endregion Constructors
-
-        #region Methods
+        private Packet RequestData => ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
 
         /// <summary>
         /// Sets the panel to Doublebuffered = true;
@@ -74,9 +71,13 @@ namespace WorldMapSpawnEditor
 
                     // TODO: manage to view Dungeons and WorldMaps...
                 }
-                vSroSmallButtonLoad.Enabled = true;
-            }));
+                splitContainer2dViewer.Panel1.Controls.Clear();
 
+                splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
+                toolStripDropDownButtonViewSpawnCfg.Enabled = true;
+                toolStripDropDownButtonReload.Enabled = true;
+                Loading.Hide();
+            }));
             return PacketHandlerResult.Block;
         }
 
@@ -89,7 +90,7 @@ namespace WorldMapSpawnEditor
         private void showCommonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MapPanel.ShowMonster = ((ToolStripMenuItem)sender).Checked;
-            commonToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide general monster" : "Show general monster";
+            commonToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide monster" : "Show monster";
         }
 
         private void showDBRegionsWithoutDdjToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,30 +145,26 @@ namespace WorldMapSpawnEditor
 
         private void vSroSmallButtonLoad_vSroClickEvent()
         {
-            splitContainer2dViewer.Panel1.Controls.Clear();
-            if (MapPanel == null)
-            {
-                return;
-            }
-            splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
-            vSroSmallButtonLoad.Enabled = false;
-            toolStripDropDownButton1.Enabled = true;
         }
-
-        #endregion Methods
 
         private void mapGuideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var mguide = new MapGuide.MapGuideForm())
-            {
-                mguide.ShowDialog();
-            }
+            MapGuide.Show();
         }
 
         private void meshBlocksToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MapPanel.ShowMeshBlocks = ((ToolStripMenuItem)sender).Checked;
             meshBlocksToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide MeshBlocks" : "Show MeshBlocks";
+        }
+
+        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+        {
+            splitContainer2dViewer.Panel1.Controls.Clear();
+
+            toolStripDropDownButtonViewSpawnCfg.Enabled = false;
+            toolStripDropDownButtonReload.Enabled = false;
+            ClientFrameworkRes.ClientCore.Send(RequestData);
         }
     }
 }

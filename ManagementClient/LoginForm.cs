@@ -40,7 +40,7 @@ namespace ManagementClient
 
             if (status.Success)
             {
-                ClientMemory.LoggedIn = true;
+                //ClientMemory.LoggedIn = true;
                 arg1.AccountName = status.UserName;
                 Program.StaticLoginForm.Invoke(new Action(() => Program.StaticLoginForm.OnHide()));
                 var packet = new Packet(PacketID.Client.RequestAllowedPlugins);
@@ -102,10 +102,7 @@ namespace ManagementClient
 
         private void OnClose(object sender, FormClosingEventArgs e)
         {
-            if (!ClientMemory.LoggedIn)
-            {
-                ClientCore.Disconnect();
-            }
+            ClientCore.Disconnect();
         }
 
         /// <summary>

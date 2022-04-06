@@ -11,6 +11,7 @@ namespace Structs.Database
         /// This is the Identifier of the hive.
         /// </summary>
         public readonly int dwHiveID;
+
         public byte btKeepMonsterCountType;
         public int dwOverwriteMaxTotalCount;
         public float fMonsterCountPerPC;

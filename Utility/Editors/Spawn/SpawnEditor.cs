@@ -9,24 +9,25 @@ namespace Editors.Spawn
     public partial class SpawnEditor : Form
     {
         #region Property
+
         /// <summary>
         /// SingleSpawn to update. All displayed informations relates to the CuttentSpawn.
         /// </summary>
-        public SingleSpawn CurrentSpawn { get; set; }
+        public NestSpawnProperty CurrentSpawn { get; set; }
 
-        #endregion
+        #endregion Property
 
         #region Fields
 
-        private protected Dictionary<string, string> NestUpdateValues = new Dictionary<string, string>();
-        private protected Dictionary<string, string> HiveUpdateValues = new Dictionary<string, string>();
-        private protected Dictionary<string, string> TacticsUpdateValues = new Dictionary<string, string>();
-        private protected Dictionary<string, string> ObjCommonUpdateValues = new Dictionary<string, string>();
-        private protected Dictionary<string, string> ObjCharUpdateValues = new Dictionary<string, string>();
+        protected Dictionary<string, string> NestUpdateValues = new Dictionary<string, string>();
+        protected Dictionary<string, string> HiveUpdateValues = new Dictionary<string, string>();
+        protected Dictionary<string, string> TacticsUpdateValues = new Dictionary<string, string>();
+        protected Dictionary<string, string> ObjCommonUpdateValues = new Dictionary<string, string>();
+        protected Dictionary<string, string> ObjCharUpdateValues = new Dictionary<string, string>();
 
-        #endregion
+        #endregion Fields
 
-        public SpawnEditor(SingleSpawn spawn)
+        public SpawnEditor(NestSpawnProperty spawn)
         {
             InitializeComponent();
             CurrentSpawn = spawn;
@@ -56,10 +57,12 @@ namespace Editors.Spawn
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
         #region Show Query Click Voids
+
         private void ShowNestUpdate(object sender, EventArgs e)
         {
-            if (GenerateQuery("Tab_RefNest", "dwNestID", ((TabRefNest)propertyGrid1.SelectedObject).dwNestID.ToString(), NestUpdateValues, out string query))
+            if (GenerateQuery("Tab_RefNest", "dwNestID", ((PTabRefNest)propertyGrid1.SelectedObject).dwNestID.ToString(), NestUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -67,7 +70,7 @@ namespace Editors.Spawn
 
         private void ShowUpdateHive(object sender, EventArgs e)
         {
-            if (GenerateQuery("Tab_RefHive", "dwHiveID", ((Tab_RefHive)propertyGrid2.SelectedObject).dwHiveID.ToString(), HiveUpdateValues, out string query))
+            if (GenerateQuery("Tab_RefHive", "dwHiveID", ((PTab_RefHive)propertyGrid2.SelectedObject).dwHiveID.ToString(), HiveUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -75,7 +78,7 @@ namespace Editors.Spawn
 
         private void ShowUpdateTactics(object sender, EventArgs e)
         {
-            if (GenerateQuery("Tab_RefTactics", "dwTacticsID", ((Tab_RefTactics)propertyGrid3.SelectedObject).dwTacticsID.ToString(), TacticsUpdateValues, out string query))
+            if (GenerateQuery("Tab_RefTactics", "dwTacticsID", ((PTab_RefTactics)propertyGrid3.SelectedObject).dwTacticsID.ToString(), TacticsUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -83,7 +86,7 @@ namespace Editors.Spawn
 
         private void ShowUpdateCommon(object sender, EventArgs e)
         {
-            if (GenerateQuery("_RefObjCommon", "ID", ((RefObjCommon)propertyGrid4.SelectedObject).ID.ToString(), ObjCommonUpdateValues, out string query))
+            if (GenerateQuery("_RefObjCommon", "ID", ((P_RefObjCommon)propertyGrid4.SelectedObject).ID.ToString(), ObjCommonUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -91,19 +94,20 @@ namespace Editors.Spawn
 
         private void ShowUpdateChar(object sender, EventArgs e)
         {
-            if (GenerateQuery("_RefObjChar", "ID", ((RefObjChar)propertyGrid5.SelectedObject).ID.ToString(), ObjCharUpdateValues, out string query))
+            if (GenerateQuery("_RefObjChar", "ID", ((P_RefObjChar)propertyGrid5.SelectedObject).ID.ToString(), ObjCharUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
         }
 
-        #endregion
+        #endregion Show Query Click Voids
 
         /// <summary>
         /// Appends the changes from the different PropertyGrids into the Update List. This is required to update changed values only.
         /// </summary>
         /// <param name="s"></param>
         /// <param name="e"></param>
+
         #region Property Grid Change Void
 
         private void ChangeNestValue(object s, PropertyValueChangedEventArgs e)
@@ -131,7 +135,7 @@ namespace Editors.Spawn
             UpdateObject(ref ObjCharUpdateValues, e.ChangedItem.Label, e.ChangedItem.Value.ToString());
         }
 
-        #endregion
+        #endregion Property Grid Change Void
 
         /// <summary>
         /// Stores the update values and columns inside a Dictionary to avoid updating non changed values.

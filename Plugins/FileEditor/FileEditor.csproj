@@ -53,6 +53,13 @@
       <DependentUpon>File2dtEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="2dt\Graphics2dt.cs" />
+    <Compile Include="2dt\IFrameWindow.cs" />
+    <Compile Include="dof\FileDofEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="dof\FileDofEditor.Designer.cs">
+      <DependentUpon>FileDofEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="IFile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -77,6 +84,9 @@
   <ItemGroup>
     <EmbeddedResource Include="2dt\File2dtEditor.resx">
       <DependentUpon>File2dtEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dof\FileDofEditor.resx">
+      <DependentUpon>FileDofEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

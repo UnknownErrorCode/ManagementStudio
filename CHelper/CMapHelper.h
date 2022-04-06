@@ -1,17 +1,25 @@
 #pragma once
+#ifndef CMapHelp
+#define CMapHelp
+
+#include<string>
+#include<iostream>
+#include<cstdlib>
+#include<cstdio>
+#include<cstring>
+#include<array>
+
 using namespace std;
 
 extern "C" {
-
-#ifdef BUILD_MY_DLL
+#ifdef OPERATIONS_EXPORTS
 #define CMapHelper __declspec(dllexport)
 #else
 #define CMapHelper __declspec(dllimport)
-#endif 
+#endif
 
-	int CMapHelper Add_INT(int addint1, int addint2);
-	int CMapHelper Sub_INT(int subint1, int subint2);
-	int CMapHelper Mul_INT(int mulint1, int mulint2);
-	int CMapHelper Div_INT(int divint1, int divint2);
+	int CMapHelper HoverXHelper(int x, int pictureSize, int viewpointX, float locX);
+	int CMapHelper HoverZHelper(int y, int pictureSize, int viewpointY, float locZ);
 }
 
+#endif // !CMapHelp

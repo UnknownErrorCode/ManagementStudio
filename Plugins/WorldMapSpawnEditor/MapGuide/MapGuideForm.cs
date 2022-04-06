@@ -23,7 +23,7 @@ namespace WorldMapSpawnEditor.MapGuide
             if (ButtonFocus.Initialized)
             {
                 ButtonFocus.OnParentMouseClick += OnmouseClick;
-                Controls.Add(ButtonFocus);
+                GuidePanel.Controls.Add(ButtonFocus);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Structs.Database;
 using Structs.Tool;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,18 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeNest();
             InitializeChars();
             InitializeTeleports();
+        }
+
+        internal void GetIntersectSpawns(short regionID, float regX, float regY)
+        {
+            foreach (var spawn in this.Where(s => s.RegionID.RegionID.Equals(regionID)))
+            {
+            }
+        }
+
+        internal IEnumerable<Npc> GetNPCsOnRegion(short regionID)
+        {
+            return cSpawns.OfType<Npc>().Where(npc => npc.RegionID.RegionID.Equals(regionID));
         }
 
         private void InitializeChars()

@@ -6,7 +6,7 @@ namespace FileEditor._2dt
 {
     public partial class File2dtEditor : UserControl
     {
-        private static PackFile.Media.Textdata.TextUISystem TextUISystem;
+        internal static PackFile.Media.Textdata.TextUISystem TextUISystem;
         private ViewerJMX2dt editor;
         private BinaryFiles.PackFile.Media.JMX2dtFile file;
         private string fileName;
@@ -14,7 +14,6 @@ namespace FileEditor._2dt
         public File2dtEditor()
         {
             InitializeComponent();
-            PackFile.MediaPack.GetTextUISystem(out TextUISystem);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -48,6 +47,19 @@ namespace FileEditor._2dt
         private void splitContainer2dt_Panel2_Paint(object sender, PaintEventArgs e)
         {
             editor?.EditorJMX2dt_Paint(e.Graphics);
+        }
+
+        private void toolStripButtonLoadResinfo_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void Loading(object sender, EventArgs e)
+        {
+            if (!PackFile.MediaPack.GetTextUISystem(out TextUISystem))
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, "Failed to get textuiSystem.txt");
+
+            if (!PackFile.PackFileManager.ExtractIfInterfaces())
+                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, "Failed to get resinfo interface files");
         }
     }
 }

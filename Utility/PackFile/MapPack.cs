@@ -3,6 +3,7 @@ using BinaryFiles.PackFile.Map.m;
 using BinaryFiles.PackFile.Map.o2;
 using PackFile.Map;
 using PackFile.Utility;
+using System;
 using System.Collections.Generic;
 
 namespace PackFile
@@ -25,13 +26,13 @@ namespace PackFile
         /// The Main abstract Pk2 reader.
         /// </summary>
         public static Pk2Reader Reader;
-        internal static bool Initialized => Reader.Initialized;
-
 
         /// <summary>
         /// All Textures for tiles as dds format. Key = TextureID. Value = .dds file to display bitmap.
         /// </summary>
         public static Dictionary<int, JMXddjFile> TileTextureDictionary = new Dictionary<int, JMXddjFile>();
+
+        internal static bool Initialized => Reader.Initialized;
 
         #endregion Fields
 
@@ -55,6 +56,25 @@ namespace PackFile
 
             tile2DIFOFile = new Tile2dIFOFile(tile2d_ifo);
             return tile2DIFOFile.Initialized;
+        }
+
+        public static bool TryGetMeshZ(byte X, byte Y, short regionID, float regX, float regY, out float zZ)
+        {
+            zZ = 0.0f;
+            if (!PackFile.MapPack.AllmFiles.ContainsKey(regionID))
+            {
+                if (PackFile.MapPack.Reader.GetByteArrayByDirectory($"Map\\{Y}\\{X}.m", out byte[] mFile))
+                {
+                    BinaryFiles.PackFile.Map.m.JMXmFile mfi = new BinaryFiles.PackFile.Map.m.JMXmFile(mFile, (byte)X, (byte)Y);
+                    PackFile.MapPack.AllmFiles.Add((short)regionID, mfi);
+                }
+            }
+            if (!PackFile.MapPack.AllmFiles.ContainsKey(regionID))
+            {
+                return false;
+            }
+            zZ = PackFile.MapPack.AllmFiles[regionID].GetHightByfPoint(regX, regY);
+            return true;
         }
 
         #endregion Methods

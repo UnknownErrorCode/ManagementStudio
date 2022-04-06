@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementServer", "ManagementServer\ManagementServer.csproj", "{E833E379-DB0B-479E-A0DB-4A46AD968604}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementClient", "ManagementClient\ManagementClient.csproj", "{DD7D0948-6CA0-4930-8D05-4983767A81D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D14E2222-8A1F-4943-9E60-405E1F4EC9F7} = {D14E2222-8A1F-4943-9E60-405E1F4EC9F7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementLauncher", "ManagementLauncher\ManagementLauncher.csproj", "{431F7005-86A0-42F7-9524-B03CA8D126A3}"
 EndProject

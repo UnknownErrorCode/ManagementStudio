@@ -65,7 +65,7 @@
     <Compile Include="Skills\SkillHelper.Designer.cs">
       <DependentUpon>SkillHelper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Spawn\SingleSpawn.cs" />
+    <Compile Include="Spawn\NestSpawnProperty.cs" />
     <Compile Include="Spawn\SpawnEditor.cs">
       <SubType>Form</SubType>
     </Compile>
