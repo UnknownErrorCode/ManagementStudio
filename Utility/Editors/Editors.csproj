@@ -65,13 +65,6 @@
     <Compile Include="Skills\SkillHelper.Designer.cs">
       <DependentUpon>SkillHelper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Spawn\NestSpawnProperty.cs" />
-    <Compile Include="Spawn\SpawnEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Spawn\SpawnEditor.Designer.cs">
-      <DependentUpon>SpawnEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Teleport\SingleTeleport.cs" />
     <Compile Include="Teleport\TeleportEditor.cs">
       <SubType>Form</SubType>
@@ -90,9 +83,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Skills\SkillHelper.resx">
       <DependentUpon>SkillHelper.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Spawn\SpawnEditor.resx">
-      <DependentUpon>SpawnEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Teleport\TeleportEditor.resx">
       <DependentUpon>TeleportEditor.cs</DependentUpon>

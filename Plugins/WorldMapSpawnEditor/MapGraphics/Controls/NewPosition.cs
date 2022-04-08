@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿using Structs;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
@@ -6,12 +6,12 @@ namespace WorldMapSpawnEditor.MapGraphics
     {
         #region Fields
 
-        private Vector3 position;
-        private short regionID;
+        private SVector3 position;
+        private WRegionID regionID;
         private string text;
 
-        public Vector3 Position { get => position; set => position = value; }
-        public short RegionID { get => regionID; set => regionID = value; }
+        public SVector3 Position { get => position; set => position = value; }
+        public WRegionID RegionID { get => regionID; set => regionID = value; }
         public string Text { get => text; set => text = value; }
 
         #endregion Fields

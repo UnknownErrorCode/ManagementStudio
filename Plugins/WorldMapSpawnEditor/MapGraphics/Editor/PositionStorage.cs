@@ -40,6 +40,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                         Collection.Add(position.Text, position);
                         break;
                     }
+                    i++;
                 }
             }
             else

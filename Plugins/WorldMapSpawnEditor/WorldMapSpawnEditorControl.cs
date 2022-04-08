@@ -72,7 +72,8 @@ namespace WorldMapSpawnEditor
                 }
                 splitContainer2dViewer.Panel1.Controls.Clear();
                 splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
-                toolStripDropDownButtonViewSpawnCfg.Enabled = true;
+                toolStripDropDownButtonEditSpawn.Enabled = true;
+                toolStripDropDownButtonView.Enabled = true;
                 toolStripDropDownButtonReload.Enabled = true;
                 Loading.Hide();
             }));
@@ -183,18 +184,14 @@ namespace WorldMapSpawnEditor
         {
             splitContainer2dViewer.Panel1.Controls.Clear();
 
-            toolStripDropDownButtonViewSpawnCfg.Enabled = false;
+            toolStripDropDownButtonView.Enabled = false;
+            toolStripDropDownButtonEditSpawn.Enabled = false;
             toolStripDropDownButtonReload.Enabled = false;
             PluginFramework.ClientCore.Send(RequestData);
         }
 
         private void dungeonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        }
-
-        private void saveCoordinateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-           contextMenuStripRegionClick
         }
     }
 }

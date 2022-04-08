@@ -47,7 +47,7 @@ namespace Structs
 
         public bool Equals(WRegionID other)
         {
-            return Equals(other);
+            return this.RegionID.Equals(other.RegionID);
         }
 
         public static short GetRegionID(int i, int i2)

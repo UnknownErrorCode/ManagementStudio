@@ -1,10 +1,9 @@
 ﻿using PluginFramework.BasicControls;
-using Structs.Database;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace WorldMapSpawnEditor.MapGraphics.Editor
+namespace WorldMapSpawnEditor.MapGraphics
 {
     public partial class SpawnEditor : Form
     {
@@ -183,14 +182,20 @@ namespace WorldMapSpawnEditor.MapGraphics.Editor
             return true;
         }
 
-        private void buttonSelectNewPos_Click(object sender, EventArgs e)
+        private void buttonSelectNewPosition_Click(object sender, EventArgs e)
         {
             if (GenericSelectForm.SelectObjStruct(PositionStorage.Collection, out NewPosition pos))
             {
-                CurrentSpawn.Nest.nRegionDBID = pos.RegionID;
+                // ((PTabRefNest)propertyGrid1.SelectedObject).fLocalPosX= pos.Position.X;
+                CurrentSpawn.Nest.nRegionDBID = pos.RegionID.RegionID;
                 CurrentSpawn.Nest.fLocalPosX = pos.Position.X;
                 CurrentSpawn.Nest.fLocalPosZ = pos.Position.Z;
                 CurrentSpawn.Nest.fLocalPosY = pos.Position.Y;
+                propertyGrid1.SelectedObject = CurrentSpawn.Nest;
+                NestUpdateValues.Add("nRegionDBID", $"{pos.RegionID.RegionID}");
+                NestUpdateValues.Add("fLocalPosX" , $"{pos.Position.X}");
+                NestUpdateValues.Add("fLocalPosZ" , $"{pos.Position.Z}");
+                NestUpdateValues.Add("fLocalPosY" , $"{pos.Position.Y}");
             }
         }
     }

@@ -2,15 +2,18 @@
 {
     public struct SVector3
     {
-        public float X;
-        public float Y;
-        public float Z;
+        private float x;
+        private float y;
+        private float z;
 
-        public SVector3(float x, float y, float z)
-        { X = x; Y = y; Z = z; }
+        public SVector3(float _x, float _y, float _z)
+        { x = _x; y = _y; z = _z; }
 
-        public SVector3(int x, int y, int z)
-        { X = x; Y = y; Z = z; }
+        public SVector3(int _x, int _y, int _z)
+        { x = _x; y = _y; z = _z; }
+
+        public float X { get => x; set => x = value; }
+        public float Y { get => y; set => y = value; }
+        public float Z { get => z; set => z = value; }
     }
-
 }

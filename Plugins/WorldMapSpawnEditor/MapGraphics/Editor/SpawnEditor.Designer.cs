@@ -1,5 +1,5 @@
 ﻿
-namespace WorldMapSpawnEditor.MapGraphics.Editor
+namespace WorldMapSpawnEditor.MapGraphics
 {
     partial class SpawnEditor
     {
@@ -249,8 +249,9 @@ namespace WorldMapSpawnEditor.MapGraphics.Editor
             this.buttonSelectNewPosition.Name = "buttonSelectNewPosition";
             this.buttonSelectNewPosition.Size = new System.Drawing.Size(91, 23);
             this.buttonSelectNewPosition.TabIndex = 20;
-            this.buttonSelectNewPosition.Text = "button1";
+            this.buttonSelectNewPosition.Text = "Select Position";
             this.buttonSelectNewPosition.UseVisualStyleBackColor = true;
+            this.buttonSelectNewPosition.Click += new System.EventHandler(this.buttonSelectNewPosition_Click);
             // 
             // SpawnEditor
             // 

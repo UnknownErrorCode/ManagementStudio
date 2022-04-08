@@ -2,7 +2,7 @@
 using Structs.Database;
 using Structs.Tool;
 
-namespace WorldMapSpawnEditor.MapGraphics.Editor
+namespace WorldMapSpawnEditor.MapGraphics
 {
     public struct PTabRefNest
     {
@@ -32,7 +32,7 @@ namespace WorldMapSpawnEditor.MapGraphics.Editor
         public byte btRespawn { get => Nest.btRespawn; set => Nest.btRespawn = value; }
         public byte btType { get => Nest.btType; set => Nest.btType = value; }
 
-        public TabRefNest Nest1 => Nest;
+        //  public TabRefNest Nest1 => Nest;
     }
 
     public struct PTab_RefHive
@@ -280,8 +280,6 @@ namespace WorldMapSpawnEditor.MapGraphics.Editor
         public P_RefObjChar ObjChar;
         public P_RefObjCommon ObjCommon;
         public PTab_RefTactics Tactics;
-
-        private SpawnType spawnType;
 
         public NestSpawnProperty(TabRefNest nest)
         {
