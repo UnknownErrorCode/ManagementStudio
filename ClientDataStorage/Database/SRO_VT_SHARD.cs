@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace ClientFrameworkRes.Database
+namespace PluginFramework.Database
 {
     public static class SRO_VT_SHARD //<T> where T : struct
     {

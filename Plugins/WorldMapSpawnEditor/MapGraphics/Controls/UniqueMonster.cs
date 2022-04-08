@@ -7,7 +7,7 @@
     {
         #region Constructors
 
-        internal UniqueMonster(int nestID) : base(ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
+        internal UniqueMonster(int nestID) : base(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
         }
 

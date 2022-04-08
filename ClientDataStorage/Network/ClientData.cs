@@ -1,6 +1,6 @@
 ﻿using ServerFrameworkRes.Network.Security;
 
-namespace ClientFrameworkRes.Network
+namespace PluginFramework.Network
 {
     public class ClientData : ServerData
     {

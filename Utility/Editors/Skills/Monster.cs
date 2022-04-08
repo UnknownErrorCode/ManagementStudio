@@ -1,4 +1,4 @@
-﻿using ClientFrameworkRes.Database;
+﻿using PluginFramework.Database;
 using Structs.Database;
 using System.Collections.Generic;
 

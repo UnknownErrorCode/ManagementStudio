@@ -100,9 +100,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\ClientFrameworkRes.csproj">
+    <ProjectReference Include="..\..\ClientDataStorage\PluginFramework.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientFrameworkRes</Name>
+      <Name>PluginFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\BinaryFiles\BinaryFiles.csproj">
       <Project>{ad7421fc-847b-41fb-ba2f-6ca9a7069fb0}</Project>

@@ -52,12 +52,12 @@ namespace Structs
 
         public static short GetRegionID(int i, int i2)
         {
-            return (short)Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
+            return GetRegionID((byte)i, (byte)i2);
         }
 
         public static short GetRegionID(byte i, byte i2)
         {
-            return GetRegionID(i, i2);
+            return (short)Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
         }
     }
 }

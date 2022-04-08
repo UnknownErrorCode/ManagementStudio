@@ -102,9 +102,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientDataStorage\ClientFrameworkRes.csproj">
+    <ProjectReference Include="..\ClientDataStorage\PluginFramework.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientFrameworkRes</Name>
+      <Name>PluginFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugins\Dashboard\Dashboard.csproj">
       <Project>{0ff3fae3-3d03-4240-9e42-4bb0111fb9a5}</Project>
@@ -134,9 +134,9 @@
       <Project>{08885d2d-7dac-4902-bef2-d38132f77635}</Project>
       <Name>PackFile</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
+    <ProjectReference Include="..\Utility\ServerFrameworkRes\ManagementFramework.csproj">
       <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
-      <Name>ServerFrameworkRes</Name>
+      <Name>ManagementFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\Structs\Structs.csproj">
       <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>

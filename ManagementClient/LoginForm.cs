@@ -1,4 +1,4 @@
-﻿using ClientFrameworkRes;
+﻿using PluginFramework;
 using ServerFrameworkRes.BasicControls;
 using ServerFrameworkRes.Network.Security;
 using Structs.Tool;
@@ -12,6 +12,9 @@ namespace ManagementClient
     {
         #region Constructors
 
+        /// <summary>
+        /// Interface to login.
+        /// </summary>
         public LoginForm()
         {
             InitializeComponent();
@@ -21,12 +24,6 @@ namespace ManagementClient
         #endregion Constructors
 
         #region Methods
-
-        internal void OnHide()
-        {
-            Program.StaticClientForm.Show();
-            Visible = false;
-        }
 
         /// <summary>
         /// The Login user status consists of either success or fail, resultMessage, Security Group and real AccountName.
@@ -40,18 +37,23 @@ namespace ManagementClient
 
             if (status.Success)
             {
-                //ClientMemory.LoggedIn = true;
                 arg1.AccountName = status.UserName;
                 Program.StaticLoginForm.Invoke(new Action(() => Program.StaticLoginForm.OnHide()));
-                var packet = new Packet(PacketID.Client.RequestAllowedPlugins);
-                ClientCore.Send(packet);
+                ClientCore.Send(new Packet(PacketID.Client.RequestAllowedPlugins));
             }
             else
-            {
                 vSroMessageBox.Show($"Login failed! \n{status.Notification}");
-            }
 
             return PacketHandlerResult.Block;
+        }
+
+        /// <summary>
+        /// Hides the static login form.
+        /// </summary>
+        private void OnHide()
+        {
+            Program.StaticClientForm.Show();
+            Visible = false;
         }
 
         private void ClientTool_Load(object sender, EventArgs e)
@@ -64,21 +66,16 @@ namespace ManagementClient
         private void Connect()
         {
             if (ClientCore.Connected)
-            {
                 return;
-            }
 
-            bool connected = ClientCore.Start();
-            if (connected)
-            {
+            if (ClientCore.Start())
                 vSroSmallButtonLogin.Invoke(new Action(() => { vSroSmallButtonLogin.Enabled = true; }));
-            }
             else
             {
                 vSroMessageBox.Show("The connection to server failed", "Connection failed");
                 vSroSmallButtonLogin.Invoke(new Action(() => { vSroSmallButtonLogin.Enabled = false; }));
             }
-            Invoke(new Action(() => vSroSizableWindow1.Title = connected ? "Online" : "Offline"));
+            Invoke(new Action(() => vSroSizableWindow1.Title = ClientCore.Connected ? "Online" : "Offline"));
         }
 
         /// <summary>

@@ -2,13 +2,17 @@
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
-    internal struct NewPosition
+    public struct NewPosition
     {
         #region Fields
 
-        internal Vector3 Position;
-        internal short RegionID;
-        internal string Text;
+        private Vector3 position;
+        private short regionID;
+        private string text;
+
+        public Vector3 Position { get => position; set => position = value; }
+        public short RegionID { get => regionID; set => regionID = value; }
+        public string Text { get => text; set => text = value; }
 
         #endregion Fields
     }

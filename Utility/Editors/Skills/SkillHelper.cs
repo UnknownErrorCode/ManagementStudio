@@ -17,9 +17,9 @@ namespace Editors.Skills
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (ClientFrameworkRes.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Any(row => row.Field<string>("Basic_Code").ToLower().Contains(textBox1.Text.ToLower())))
+            if (PluginFramework.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Any(row => row.Field<string>("Basic_Code").ToLower().Contains(textBox1.Text.ToLower())))
             {
-                DataTable monsterTable = ClientFrameworkRes.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Where(row => row.Field<string>("Basic_Code").ToLower().Contains(textBox1.Text.ToLower())).CopyToDataTable();
+                DataTable monsterTable = PluginFramework.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Where(row => row.Field<string>("Basic_Code").ToLower().Contains(textBox1.Text.ToLower())).CopyToDataTable();
                 dataGridView1.DataSource = monsterTable;
             }
             else { dataGridView1.DataSource = null; }
@@ -32,7 +32,7 @@ namespace Editors.Skills
                 foreach (DataGridViewRow item in dataGridView1.SelectedRows)
                 {
                     int id = (int)item.Cells["ID"].Value;
-                    SelectedSkill.Add(ClientFrameworkRes.Database.SRO_VT_SHARD._RefSkill[id]);
+                    SelectedSkill.Add(PluginFramework.Database.SRO_VT_SHARD._RefSkill[id]);
 
                 }
 

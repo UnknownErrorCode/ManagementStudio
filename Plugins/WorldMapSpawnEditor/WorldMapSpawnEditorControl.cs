@@ -6,32 +6,78 @@ using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor
 {
-    public partial class WorldMapSpawnEditorControl : UserControl
+    public interface iin
     {
-        private const PluginData PLUGINDATA = PluginData.WorldMapSpawnEditor;
-        private const string STRING_DLL = "WorldMapSpawnEditor.dll";
+        string STRING_DLL { get; }
+        PluginData PLUGINDATA { get; }
+        Packet RequestData { get; }
 
+        PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2);
+    }
+
+    public partial class WorldMapSpawnEditorControl : UserControl, iin
+    {
+        /// <summary>
+        /// Loading form to let user know about loading.
+        /// </summary>
         private static LoadingForm Loading = new LoadingForm();
 
         /// <summary>
         /// Map Panel to view the entired Open WorldMap without Dungeons.
         /// </summary>
-        private MapGraphics.GraphicsPanel MapPanel;
+        private MapGraphics.WorldMapPanel MapPanel;
 
+        /// <summary>
+        /// MapGuide panel to view the map guide.
+        /// </summary>
         private MapGuide.MapGuideForm MapGuide;
 
         public WorldMapSpawnEditorControl()
         {
             InitializeComponent();
             InitializePerformance(this);
-            ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            ClientFrameworkRes.ClientCore.Send(RequestData);
+            STRING_DLL = "WorldMapSpawnEditor.dll";
+            PLUGINDATA = PluginData.WorldMapSpawnEditor;
+            PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            PluginFramework.ClientCore.Send(RequestData);
             Loading.Show();
-            System.Threading.Tasks.Task.Run(() => PackFile.PackFileManager.ExtractRegionIcons());
-            MapGuide = new MapGuide.MapGuideForm();
         }
 
-        private Packet RequestData => ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+        public PluginData PLUGINDATA { get; }
+        public string STRING_DLL { get; }
+        public Packet RequestData => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+
+        /// <summary>
+        /// Provides the client received required data.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
+        public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        {
+            MapPanel = new MapGraphics.WorldMapPanel();
+
+            Invoke(new Action(() =>
+            {
+                continentToolStripMenuItem.DropDownItems.Clear();
+
+                foreach (var item in MapPanel.Continents)
+                {
+                    //Add continent to continent View
+                    continentToolStripMenuItem.DropDownItems.Add(item);
+                    continentToolStripMenuItem.DropDownItems[continentToolStripMenuItem.DropDownItems.Count - 1].Click += OnContinentClick;
+                    // Add dungeons to dungeon view
+
+                    // TODO: manage to view Dungeons and WorldMaps...
+                }
+                splitContainer2dViewer.Panel1.Controls.Clear();
+                splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
+                toolStripDropDownButtonViewSpawnCfg.Enabled = true;
+                toolStripDropDownButtonReload.Enabled = true;
+                Loading.Hide();
+            }));
+            return PacketHandlerResult.Block;
+        }
 
         /// <summary>
         /// Sets the panel to Doublebuffered = true;
@@ -52,33 +98,6 @@ namespace WorldMapSpawnEditor
             var continent = ((ToolStripMenuItem)sender).Text;
             if (!MapPanel.TryViewContinent(continent))
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed to set view for continent: [{continent}]");
-        }
-
-        private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
-        {
-            MapPanel = new MapGraphics.GraphicsPanel();
-
-            Invoke(new Action(() =>
-            {
-                continentToolStripMenuItem.DropDownItems.Clear();
-
-                foreach (var item in MapPanel.Continents)
-                {
-                    //Add continent to continent View
-                    continentToolStripMenuItem.DropDownItems.Add(item);
-                    continentToolStripMenuItem.DropDownItems[continentToolStripMenuItem.DropDownItems.Count - 1].Click += OnContinentClick;
-                    // Add dungeons to dungeon view
-
-                    // TODO: manage to view Dungeons and WorldMaps...
-                }
-                splitContainer2dViewer.Panel1.Controls.Clear();
-
-                splitContainer2dViewer.Panel1.Controls.Add(MapPanel);
-                toolStripDropDownButtonViewSpawnCfg.Enabled = true;
-                toolStripDropDownButtonReload.Enabled = true;
-                Loading.Hide();
-            }));
-            return PacketHandlerResult.Block;
         }
 
         private void showAssignedRegionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -143,12 +162,14 @@ namespace WorldMapSpawnEditor
             uniqueToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide uniques" : "Show uniques";
         }
 
-        private void vSroSmallButtonLoad_vSroClickEvent()
-        {
-        }
-
         private void mapGuideToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (MapGuide == null)
+            {
+                System.Threading.Tasks.Task.Run(() => PackFile.PackFileManager.ExtractRegionIcons());
+                MapGuide = new MapGuide.MapGuideForm();
+            }
+
             MapGuide.Show();
         }
 
@@ -164,7 +185,16 @@ namespace WorldMapSpawnEditor
 
             toolStripDropDownButtonViewSpawnCfg.Enabled = false;
             toolStripDropDownButtonReload.Enabled = false;
-            ClientFrameworkRes.ClientCore.Send(RequestData);
+            PluginFramework.ClientCore.Send(RequestData);
+        }
+
+        private void dungeonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void saveCoordinateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           contextMenuStripRegionClick
         }
     }
 }

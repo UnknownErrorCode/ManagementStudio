@@ -16,13 +16,13 @@ namespace ShopEditor.Interface.ShopInterface
         {
             Name = shopGroupCodeName128;
 
-            if (!ClientFrameworkRes.Database.SRO_VT_SHARD._RefMappingShopGroup.Any(obj => obj.RefShopGroupCodeName.Equals(Name)))
+            if (!PluginFramework.Database.SRO_VT_SHARD._RefMappingShopGroup.Any(obj => obj.RefShopGroupCodeName.Equals(Name)))
             {
                 vSroMessageBox.Show($"No RefShopCodeName found for\nGroupName:{Name}", "Error loading RefMappingShopGroup");
                 return;
             }
 
-            Structs.Database.RefMappingShopGroup[] ShopCodeNames = ClientFrameworkRes.Database.SRO_VT_SHARD._RefMappingShopGroup.Where(row => row.RefShopGroupCodeName.Equals(Name)).ToArray();
+            Structs.Database.RefMappingShopGroup[] ShopCodeNames = PluginFramework.Database.SRO_VT_SHARD._RefMappingShopGroup.Where(row => row.RefShopGroupCodeName.Equals(Name)).ToArray();
 
             ShopGroup = new RefShop[ShopCodeNames.Length];
 

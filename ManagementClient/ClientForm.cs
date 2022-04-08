@@ -18,7 +18,7 @@ namespace ManagementClient
         {
             InitializeComponent();
             Controls.Add(ServerFrameworkRes.Log.Logger);
-            ClientFrameworkRes.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
+            PluginFramework.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace ManagementClient
         {
             ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Loading pk2 ressources...");
 
-            if (!PackFile.PackFileManager.InitializePackFiles(ClientFrameworkRes.Config.StaticConfig.ClientPath))
+            if (!PackFile.PackFileManager.InitializePackFiles(PluginFramework.Config.StaticConfig.ClientPath))
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, "Failed initialize pk2 ressources!");
             else
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Initialized Client.pk2 data.");
@@ -62,13 +62,13 @@ namespace ManagementClient
         {
             Invoke(new Action(() =>
             {
-                foreach (string pluginName in ClientFrameworkRes.ClientMemory.AllowedPlugin)
+                foreach (string pluginName in PluginFramework.ClientMemory.AllowedPlugin)
                 {
                     loadPluginsToolStripMenuItem.DropDownItems.Add(pluginName);
                     loadPluginsToolStripMenuItem.DropDownItems[loadPluginsToolStripMenuItem.DropDownItems.Count - 1].Click += ClickLoadPlugin;
                 }
             })); System.Threading.Tasks.Task.Run(() => InitializePackFile());
-            ServerFrameworkRes.Log.Logger.WriteLogLine($"Allowed [{ClientFrameworkRes.ClientMemory.AllowedPlugin.Length}] *.dll libraries");
+            ServerFrameworkRes.Log.Logger.WriteLogLine($"Allowed [{PluginFramework.ClientMemory.AllowedPlugin.Length}] *.dll libraries");
         }
 
         /// <summary>
@@ -112,27 +112,23 @@ namespace ManagementClient
         /// <returns></returns>
         private bool TryLoadPlugin(string text, out TabPage tabPage)
         {
-            if (ClientFrameworkRes.ClientMemory.UsedPlugins.Contains(text))
-                ClientFrameworkRes.ClientMemory.UsedPlugins.Remove(text);
-
             tabPage = new TabPage(text);
-            if (ClientFrameworkRes.ClientMemory.AllowedPlugin.Contains(text))
+            if (!PluginFramework.ClientMemory.AllowedPlugin.Contains(text))
             {
-                var p = Path.Combine("Plugins", text);
-                Assembly plugin = Assembly.LoadFrom(p);
-                string typeName = text.Replace(".dll", "Control");
-                if (plugin.DefinedTypes.Any(typ => typ.Name == typeName))
-                {
-                    Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
-                    UserControl controlal = (UserControl)Activator.CreateInstance(dll);
-                    controlal.Dock = DockStyle.Fill;
-                    tabPage.Controls.Add(controlal);
-
-                    ClientFrameworkRes.ClientMemory.UsedPlugins.Add(text);
-                    return true;
-                }
+                return false;
             }
-            return false;
+            Assembly plugin = Assembly.LoadFrom(Path.Combine("Plugins", text));
+            string typeName = text.Replace(".dll", "Control");
+            if (!plugin.DefinedTypes.Any(typ => typ.Name == typeName))
+            {
+                return false;
+            }
+            Type dll = plugin.DefinedTypes.Single(typ => typ.Name == typeName);
+            UserControl controlal = (UserControl)Activator.CreateInstance(dll);
+            controlal.Dock = DockStyle.Fill;
+            tabPage.Controls.Add(controlal);
+
+            return true;
         }
     }
 }

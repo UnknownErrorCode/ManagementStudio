@@ -33,7 +33,7 @@ namespace Editors.Skills
 
             propertyGrid1.SelectedObject = monster;
             propertyGrid1.Refresh();
-            dataGridViewMobSkills.DataSource = ClientFrameworkRes.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Where(row => UsedSkillIDs.Contains(row.Field<int>("ID"))).CopyToDataTable();
+            dataGridViewMobSkills.DataSource = PluginFramework.Database.SRO_VT_SHARD.dbo.Tables["_RefSkill"].Rows.OfType<DataRow>().Where(row => UsedSkillIDs.Contains(row.Field<int>("ID"))).CopyToDataTable();
 
             if (skillEffect.ExistsCharInfoCodename128(monster.ObjCommon.CodeName128))
             {

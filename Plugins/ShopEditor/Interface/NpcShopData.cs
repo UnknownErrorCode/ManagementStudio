@@ -32,12 +32,12 @@ namespace ShopEditor.Interface
         {
             NpcCodeName = npcCodeName128;
 
-            if (!ClientFrameworkRes.Database.SRO_VT_SHARD._RefShopGroup.Any(group => group.RefNPCCodeName.Equals(npcCodeName128)))
+            if (!PluginFramework.Database.SRO_VT_SHARD._RefShopGroup.Any(group => group.RefNPCCodeName.Equals(npcCodeName128)))
             {
                 vSroMessageBox.Show($"No Group CodeName128 found for NPC: {npcCodeName128}", "Error loading RefShopGroup");
                 return;
             }
-            Structs.Database.RefShopGroup[] shopGroups = ClientFrameworkRes.Database.SRO_VT_SHARD._RefShopGroup.Where(group => group.RefNPCCodeName.Equals(npcCodeName128)).ToArray();
+            Structs.Database.RefShopGroup[] shopGroups = PluginFramework.Database.SRO_VT_SHARD._RefShopGroup.Where(group => group.RefNPCCodeName.Equals(npcCodeName128)).ToArray();
             ShopGroups = new RefShopGroup[shopGroups.Length];
 
             for (int i = 0; i < ShopGroups.Length; i++)

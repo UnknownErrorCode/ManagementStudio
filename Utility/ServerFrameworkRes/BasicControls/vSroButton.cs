@@ -25,7 +25,7 @@ namespace ServerFrameworkRes.BasicControls
 
         //  [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Bindable(true)]
         //  [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public override string Text
+        public string Text
         {
             get => RealButton.Text;
             set => RealButton.Text = value;

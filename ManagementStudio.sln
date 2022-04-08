@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerFrameworkRes", "Utility\ServerFrameworkRes\ServerFrameworkRes.csproj", "{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementFramework", "Utility\ServerFrameworkRes\ManagementFramework.csproj", "{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementServer", "ManagementServer\ManagementServer.csproj", "{E833E379-DB0B-479E-A0DB-4A46AD968604}"
 EndProject
@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Plugins\Dashbo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structs", "Utility\Structs\Structs.csproj", "{A2F851F6-0F47-400F-B330-484BA4D4FAED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientFrameworkRes", "ClientDataStorage\ClientFrameworkRes.csproj", "{7C445307-50F3-4455-AD37-382A51A86FBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFramework", "ClientDataStorage\PluginFramework.csproj", "{7C445307-50F3-4455-AD37-382A51A86FBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldMapSpawnEditor", "Plugins\WorldMapSpawnEditor\WorldMapSpawnEditor.csproj", "{ECD8FDA9-E279-4CF0-9F5D-DC639188C35B}"
 EndProject
@@ -261,9 +261,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C} = {915603DF-EF9D-45E2-AC1C-3298EACB2916}
 		{0FF3FAE3-3D03-4240-9E42-4BB0111FB9A5} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
 		{A2F851F6-0F47-400F-B330-484BA4D4FAED} = {915603DF-EF9D-45E2-AC1C-3298EACB2916}
+		{7C445307-50F3-4455-AD37-382A51A86FBD} = {915603DF-EF9D-45E2-AC1C-3298EACB2916}
 		{ECD8FDA9-E279-4CF0-9F5D-DC639188C35B} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
 		{0160BBEC-B1A7-4E52-9443-F0D2C1F97920} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}
 		{FA562AD1-2F9B-4BC7-853D-5CD1B2A9AADB} = {70D0CDE9-9D40-42B6-93A6-F83AA704F1F0}

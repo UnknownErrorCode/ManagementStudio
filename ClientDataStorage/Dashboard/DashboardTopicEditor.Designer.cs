@@ -1,5 +1,5 @@
 ﻿
-namespace ClientFrameworkRes.Dashboard
+namespace PluginFramework.Dashboard
 {
     partial class DashboardTopicEditor
     {
@@ -30,20 +30,20 @@ namespace ClientFrameworkRes.Dashboard
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardTopicEditor));
-            this.vSroSizableWindow1 = new ServerFrameworkRes.BasicControls.vSroSizableWindow();
+            this.vSroSizableWindow1 = new PluginFramework.BasicControls.vSroSizableWindow();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.labelText = new System.Windows.Forms.Label();
             this.labelAuthor = new System.Windows.Forms.Label();
             this.labelTopic = new System.Windows.Forms.Label();
-            this.vSroSmallButtonEdit = new ServerFrameworkRes.BasicControls.vSroSmallButton();
-            this.vSroSmallButtonAdd = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.vSroSmallButtonEdit = new PluginFramework.BasicControls.vSroSmallButton();
+            this.vSroSmallButtonAdd = new PluginFramework.BasicControls.vSroSmallButton();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelEditAuthor = new System.Windows.Forms.Label();
-            this.vSroSmallButtonPreview = new ServerFrameworkRes.BasicControls.vSroSmallButton();
+            this.vSroSmallButtonPreview = new PluginFramework.BasicControls.vSroSmallButton();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -131,7 +131,7 @@ namespace ClientFrameworkRes.Dashboard
             this.vSroSmallButtonEdit.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonEdit.TabIndex = 5;
             this.vSroSmallButtonEdit.vSroSmallButtonName = "Edit";
-            this.vSroSmallButtonEdit.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.OnEdit);
+            this.vSroSmallButtonEdit.vSroClickEvent += new PluginFramework.BasicControls.vSroSmallButton.vSroClick(this.OnEdit);
             // 
             // vSroSmallButtonAdd
             // 
@@ -142,7 +142,7 @@ namespace ClientFrameworkRes.Dashboard
             this.vSroSmallButtonAdd.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonAdd.TabIndex = 6;
             this.vSroSmallButtonAdd.vSroSmallButtonName = "Add";
-            this.vSroSmallButtonAdd.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.OnAddNew);
+            this.vSroSmallButtonAdd.vSroClickEvent += new PluginFramework.BasicControls.vSroSmallButton.vSroClick(this.OnAddNew);
             // 
             // richTextBox1
             // 
@@ -205,7 +205,7 @@ namespace ClientFrameworkRes.Dashboard
             this.vSroSmallButtonPreview.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonPreview.TabIndex = 7;
             this.vSroSmallButtonPreview.vSroSmallButtonName = "Preview";
-            this.vSroSmallButtonPreview.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.OnPreviewClick);
+            this.vSroSmallButtonPreview.vSroClickEvent += new PluginFramework.BasicControls.vSroSmallButton.vSroClick(this.OnPreviewClick);
             // 
             // DashboardTopicEditor
             // 
@@ -234,19 +234,19 @@ namespace ClientFrameworkRes.Dashboard
 
         #endregion
 
-        private ServerFrameworkRes.BasicControls.vSroSizableWindow vSroSizableWindow1;
+        private PluginFramework.BasicControls.vSroSizableWindow vSroSizableWindow1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label labelText;
         private System.Windows.Forms.Label labelAuthor;
         private System.Windows.Forms.Label labelTopic;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonEdit;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonAdd;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButtonEdit;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButtonAdd;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label labelEditAuthor;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonPreview;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButtonPreview;
     }
 }

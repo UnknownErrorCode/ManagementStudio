@@ -104,12 +104,12 @@ namespace WorldMapSpawnEditor.MapGuide
             {
                 PackFile.PackFileManager.ExtractRegionIcons();
 
-                string[] pics = Directory.GetFiles(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath), "map_world_*");
+                string[] pics = Directory.GetFiles(Path.Combine(PluginFramework.Config.StaticConfig.ClientExtracted, FilePath), "map_world_*");
 
 
                 foreach (string item in pics)
                 {
-                    string[] Coordinates = item.Replace(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath, "map_world_"), "").Replace(".dds", "").Split('x');
+                    string[] Coordinates = item.Replace(Path.Combine(PluginFramework.Config.StaticConfig.ClientExtracted, FilePath, "map_world_"), "").Replace(".dds", "").Split('x');
                     if (byte.TryParse(Coordinates[0], out byte x) && byte.TryParse(Coordinates[1], out byte y))
                     {
                         var pointer = new Point(x, y);
@@ -128,10 +128,10 @@ namespace WorldMapSpawnEditor.MapGuide
             }
             else
             {
-                string[] pics = Directory.GetFiles(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath), "map_world_*.png");
+                string[] pics = Directory.GetFiles(Path.Combine(PluginFramework.Config.StaticConfig.ClientExtracted, FilePath), "map_world_*.png");
                 foreach (string item in pics)
                 {
-                    string[] Coordinates = item.Replace(Path.Combine(ClientFrameworkRes.Config.StaticConfig.ClientExtracted, FilePath, "map_world_"), "").Replace(".png", "").Split('x');
+                    string[] Coordinates = item.Replace(Path.Combine(PluginFramework.Config.StaticConfig.ClientExtracted, FilePath, "map_world_"), "").Replace(".png", "").Split('x');
                     if (!byte.TryParse(Coordinates[0], out byte x) || !byte.TryParse(Coordinates[1], out byte y))
                     {
                         continue;

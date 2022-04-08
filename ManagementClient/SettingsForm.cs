@@ -1,4 +1,4 @@
-﻿using ClientFrameworkRes;
+﻿using PluginFramework;
 using System;
 using System.Windows.Forms;
 

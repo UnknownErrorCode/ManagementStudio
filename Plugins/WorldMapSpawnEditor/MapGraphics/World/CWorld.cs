@@ -11,6 +11,10 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         internal Dictionary<string, Continent> Continents;
         internal Dictionary<string, Dungeon[]> Dungeons;
+
+        /// <summary>
+        /// Consists of all RegionGraphics on the WorldMap that does not existing in the DB but -m file is aviable.
+        /// </summary>
         internal Dictionary<Point, RegionGraphic> UnassignedRegions;
 
         #endregion Fields
@@ -26,48 +30,49 @@ namespace WorldMapSpawnEditor.MapGraphics
                 if (!Continents.ContainsKey(item.ContinentName))
                 {
                     var continent = new Continent(item.ContinentName, allRegions.Where(reg => reg.ContinentName == item.ContinentName).ToArray());
-                    if (!Dungeons.ContainsKey(item.AreaName) && continent.HasDungeon)
-                    {
+                    if (continent.HasDungeon && !Dungeons.ContainsKey(item.AreaName))
                         Dungeons.Add(item.ContinentName, continent.DungeonArray);
-                    }
+
                     Continents.Add(item.ContinentName, continent);
                 }
             }
 
-            UnassignedRegions = new Dictionary<Point, RegionGraphic>();
-            Point p = Point.Empty;
-            for (int i = 0; i < 255; i++)
-            {
-                for (int i2 = 0; i2 < 128; i2++)
-                {
-                    p.X = i; p.Y = i2;
+            //Add images which are not present inside the database
 
-                    string str = $"{ClientFrameworkRes.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{i}x{i2}.JPG";
-                    if (System.IO.File.Exists(str) && !ContainsRegion(p))
+            UnassignedRegions = new Dictionary<Point, RegionGraphic>();
+
+            Point p = Point.Empty;
+            if (PackFile.MediaPack.Reader.GetFilesInFolder("Media\\minimap", out PackFile.Pk2File[] files))
+            {
+                foreach (var item in files)
+                {
+                    var name = item.name.ToLower().Replace(".ddj", "").Split('x');
+                    if (byte.TryParse(name[0], out byte x) && byte.TryParse(name[1], out byte z))
                     {
-                        int rID = System.Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
-                        var regLayer = new RegionGraphic((short)rID, "Unassigned");
-                        if (regLayer.HasLayer)
+                        p.X = x;
+                        p.Y = z;
+                        if (!ContinentsContainsRegion(p))
                         {
-                            UnassignedRegions.Add(p, regLayer);
+                            var regLayer = new RegionGraphic(Structs.WRegionID.GetRegionID(x, z), "Unassigned", "Unassigned");
+                            if (regLayer.HasLayer)
+                            {
+                                UnassignedRegions.Add(p, regLayer);
+                            }
                         }
                     }
                 }
             }
+
+            System.GC.Collect();
         }
 
         #endregion Constructors
 
         #region Methods
 
-        internal bool ContainsRegion(Point p)
+        internal bool ContinentsContainsRegion(Point p)
         {
-            foreach (var item in Continents.Values.Where(cont => cont.ContainsRegion(p)))
-            {
-                return true;
-            }
-            Continents.Values.ToList().Exists(c => c.ContainsRegion(p));
-            return false;
+            return Continents.Values.Any(cont => cont.ContainsRegion(p));
         }
 
         internal bool GetContinentView(string continent, int width, int height, out Point viewPoint, out int size)
@@ -82,6 +87,25 @@ namespace WorldMapSpawnEditor.MapGraphics
             viewPoint.X = x;
             viewPoint.Y = y;
             return true;
+        }
+
+        internal IEnumerable<RegionGraphic> UnassignedRegionsSpan(Rectangle span)
+        {
+            List<RegionGraphic> list = new List<RegionGraphic>();
+            Point curserPoint = Point.Empty;
+            for (int x = span.X; x < span.Width; x++)
+            {
+                for (int z = span.Height; z < span.Y; z++)
+                {
+                    curserPoint.X = x;
+                    curserPoint.Y = z;
+                    if (UnassignedRegions.ContainsKey(curserPoint))
+                    {
+                        list.Add(UnassignedRegions[curserPoint]);
+                    }
+                }
+            }
+            return list;
         }
 
         #endregion Methods

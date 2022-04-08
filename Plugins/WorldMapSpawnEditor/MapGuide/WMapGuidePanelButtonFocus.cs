@@ -9,11 +9,9 @@ namespace WorldMapSpawnEditor.MapGuide
         public Bitmap wmap_big_button_world;
         public Bitmap wmap_big_button_world_focus;
         public Bitmap wmap_big_button_world_press;
-
+        public PluginFramework.BasicControls.SroButtonFocusPress Button;
         private const string smap_big_button_world = "Media\\interface\\worldmap\\wmap_big_button_world.ddj";
-
         private const string smap_big_button_world_focus = "Media\\interface\\worldmap\\wmap_big_button_world_focus.ddj";
-
         private const string smap_big_button_world_press = "Media\\interface\\worldmap\\wmap_big_button_world_press.ddj";
 
         public WMapGuidePanelButtonFocus()
@@ -33,6 +31,13 @@ namespace WorldMapSpawnEditor.MapGuide
             wmap_big_button_world = new JMXddjFile(btn).BitmapImage;
             wmap_big_button_world_focus = new JMXddjFile(btnF).BitmapImage;
             wmap_big_button_world_press = new JMXddjFile(btnP).BitmapImage;
+
+            Button = new PluginFramework.BasicControls.SroButtonFocusPress(wmap_big_button_world, wmap_big_button_world_focus, wmap_big_button_world_press)
+            {
+                Size = new Size(32, 32),
+                Location = new Point(660, 29)
+            };
+            Button.Click += Button_Click; ;
 
             DoubleBuffered = true;
             Size fixedSize = new Size(32, 32);
@@ -55,30 +60,22 @@ namespace WorldMapSpawnEditor.MapGuide
 
         public bool Initialized { get; } = true;
 
-        private void OnMouseClick(object sender, MouseEventArgs e)
+        private void Button_Click(object sender, System.EventArgs e)
         {
             OnParentMouseClick();
         }
 
-        private void OnMouseLeave(object sender, System.EventArgs e)
-        {
-            BackgroundImage = wmap_big_button_world;
-        }
+        private void OnMouseClick(object sender, MouseEventArgs e) => OnParentMouseClick();
 
-        private void OnMouseUp(object sender, MouseEventArgs e)
-        {
-            BackgroundImage = wmap_big_button_world;
-        }
+        private void OnMouseLeave(object sender, System.EventArgs e) => BackgroundImage = wmap_big_button_world;
+
+        private void OnMouseUp(object sender, MouseEventArgs e) => BackgroundImage = wmap_big_button_world_focus;
 
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            //throw new System.NotImplementedException();
+            BackgroundImage = wmap_big_button_world_press;
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
-        {
-            BackgroundImage = wmap_big_button_world_focus;
-            //throw new System.NotImplementedException();
-        }
+        private void OnMouseMove(object sender, MouseEventArgs e) => BackgroundImage = wmap_big_button_world_focus;
     }
 }

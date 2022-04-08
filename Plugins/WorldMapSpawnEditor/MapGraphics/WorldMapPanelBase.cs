@@ -1,6 +1,6 @@
 ﻿namespace WorldMapSpawnEditor.MapGraphics
 {
-    internal sealed class GraphicsPanelBase
+    internal sealed class WorldMapPanelBase
     {
         /// <summary>
         /// Weather the Spawn Editor should be open on click.
@@ -25,5 +25,10 @@
         internal bool showToolTip = true;
 
         internal bool showUniqueMonster = false;
+
+        /// <summary>
+        /// Defines the Pixel Size Width and Heigth from a single Region.
+        /// </summary>
+        internal int PictureSize = 256;
     }
 }

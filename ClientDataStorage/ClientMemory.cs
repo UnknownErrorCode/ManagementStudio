@@ -1,7 +1,7 @@
 ﻿using Structs.Dashboard;
 using System.Collections.Generic;
 
-namespace ClientFrameworkRes
+namespace PluginFramework
 {
     public static class ClientMemory
     {
@@ -10,7 +10,6 @@ namespace ClientFrameworkRes
         public static string[] AllowedDataTables;
         public static string[] AllowedPlugin;
         public static Dictionary<string, DashboardMessage> DashboardDictionary = new Dictionary<string, DashboardMessage>();
-        public static List<string> UsedDataTables;
         public static List<string> UsedPlugins = new List<string>();
 
         #endregion Fields
@@ -18,8 +17,6 @@ namespace ClientFrameworkRes
         #region Properties
 
         public static string AccountName => ClientCore.AccountName;
-        [System.Obsolete]
-        public static bool LoggedIn { get; set; }
 
         #endregion Properties
     }

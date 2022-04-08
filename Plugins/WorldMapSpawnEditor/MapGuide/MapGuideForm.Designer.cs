@@ -51,6 +51,7 @@ namespace WorldMapSpawnEditor.MapGuide
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MapGuideForm";
             this.Text = "MapGuideForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapGuideForm_FormClosing);
             this.ResumeLayout(false);
 
         }

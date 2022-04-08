@@ -6,6 +6,9 @@ using WorldMapSpawnEditor.MapGraphics.Interface;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
+    /// <summary>
+    /// Contains all shared informations of a spawn
+    /// </summary>
     internal class Spawn : InterfaceSpawn
     {
         #region Fields
@@ -46,7 +49,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal Spawn(RefTeleport teleport)
         {
             id = teleport.ID;
-            var objCommon = ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon[teleport.AssocRefObjID];
+            var objCommon = PluginFramework.Database.SRO_VT_SHARD._RefObjCommon[teleport.AssocRefObjID];
             regionID = new WRegionID(objCommon.RegionID);
             xLocation = objCommon.OffsetX;
             yLocation = objCommon.OffsetY;
@@ -60,7 +63,14 @@ namespace WorldMapSpawnEditor.MapGraphics
         #region Properties
 
         public int GameWorldID => gameWorldID;
+
+        /// <summary>
+        ///<see cref="Npc"/>, <see cref="Monster"/> = Nest dwNestID
+        ///<br><see cref="Player"/> = CharID</br>
+        ///<br><see cref="Teleport"/> = _RefTeleport.ID</br>
+        /// </summary>
         public int ID { get => id; }
+
         public WRegionID RegionID { get => regionID; }
         public SpawnType SpawnType { get => spawnType; }
         public float XLocation { get => xLocation; }
@@ -81,16 +91,14 @@ namespace WorldMapSpawnEditor.MapGraphics
             type = SpawnType.None;
             int nestID = nest.dwNestID;
 
-            if (ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefHive.TryGetValue(nest.dwHiveID, out Tab_RefHive hive))
-                gameWorldID = hive.GameWorldID;
-            else
-                gameWorldID = -1;
+            gameWorldID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefHive.TryGetValue(nest.dwHiveID, out Tab_RefHive hive) ? hive.GameWorldID : 0;
 
-            var tacticsID = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID;
-            if (!ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(tacticsID))
+            var tacticsID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID;
+
+            if (!PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(tacticsID))
                 return false;
-            var objCommonID = ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefTactics[tacticsID].dwObjID;
-            var objCommon = ClientFrameworkRes.Database.SRO_VT_SHARD._RefObjCommon[objCommonID];
+            var objCommonID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics[tacticsID].dwObjID;
+            var objCommon = PluginFramework.Database.SRO_VT_SHARD._RefObjCommon[objCommonID];
             if (objCommon.TypeID1 == 1 && objCommon.TypeID2 == 2 && objCommon.TypeID3 == 1 && objCommon.TypeID4 == 1 && objCommon.Rarity != Rarity.MonsterUnique && objCommon.Rarity != Rarity.MonsterUniqueNoMsg)
             { type = SpawnType.Monster; return true; }
             else if (objCommon.TypeID1 == 1 && objCommon.TypeID2 == 2 && objCommon.TypeID3 == 1 && objCommon.TypeID4 == 1 && (objCommon.Rarity == Rarity.MonsterUnique || objCommon.Rarity == Rarity.MonsterUniqueNoMsg))

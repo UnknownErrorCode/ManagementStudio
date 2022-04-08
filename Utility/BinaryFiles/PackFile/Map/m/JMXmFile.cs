@@ -98,6 +98,10 @@ namespace BinaryFiles.PackFile.Map.m
         {
             var bx = (int)regX / (1920 / 6);
             var by = (int)regY / (1920 / 6);
+            if (bx == 6)
+                bx -= 1;
+            if (by == 6)
+                by -= 1;
 
             var cx = regX / (1920 / 16);
             var cy = (regY / (1920 / 16) - 16) * -1;

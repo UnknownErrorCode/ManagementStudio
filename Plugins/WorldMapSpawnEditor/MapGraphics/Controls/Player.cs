@@ -14,9 +14,9 @@
 
         #region Constructors
 
-        public Player(int _charID) : base(ClientFrameworkRes.Database.SRO_VT_SHARD._Char[_charID])
+        public Player(int _charID) : base(PluginFramework.Database.SRO_VT_SHARD._Char[_charID])
         {
-            var charResult = ClientFrameworkRes.Database.SRO_VT_SHARD._Char[_charID];
+            var charResult = PluginFramework.Database.SRO_VT_SHARD._Char[_charID];
             charID = charResult.CharID;
             charName16 = charResult.CharName16;
             curLevel = charResult.CurLevel;

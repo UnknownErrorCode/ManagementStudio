@@ -1,4 +1,4 @@
-﻿using ClientFrameworkRes.Dashboard;
+﻿using PluginFramework.Dashboard;
 using ServerFrameworkRes.BasicControls;
 using ServerFrameworkRes.Network.Security;
 using Structs.Dashboard;
@@ -23,15 +23,15 @@ namespace Dashboard
         {
             InitializeComponent();
 
-            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicLoadResponse, TopicReceiveExisting);
-            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicAddResponse, TopicReceiveNew);
-            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicsEndLoading, TopicsFinishedLoading);
-            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.TopicDeleteResponse, TopicDeleteResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Server.TopicLoadResponse, TopicReceiveExisting);
+            PluginFramework.ClientCore.AddEntry(PacketID.Server.TopicAddResponse, TopicReceiveNew);
+            PluginFramework.ClientCore.AddEntry(PacketID.Server.TopicsEndLoading, TopicsFinishedLoading);
+            PluginFramework.ClientCore.AddEntry(PacketID.Server.TopicDeleteResponse, TopicDeleteResponse);
 
-            ClientFrameworkRes.ClientCore.AddEntry(PacketID.Server.UserLogOnOff, UserLogOnOff);
+            PluginFramework.ClientCore.AddEntry(PacketID.Server.UserLogOnOff, UserLogOnOff);
 
-            ClientFrameworkRes.ClientCore.Send(DashboardPackets.RequestAllTopics);
-            ClientFrameworkRes.ClientCore.Send(DashboardPackets.RequestOnlineUser);
+            PluginFramework.ClientCore.Send(DashboardPackets.RequestAllTopics);
+            PluginFramework.ClientCore.Send(DashboardPackets.RequestOnlineUser);
         }
 
         #endregion Constructors
@@ -40,7 +40,7 @@ namespace Dashboard
 
         private void addNewTopicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (DashboardTopicEditor editor = new DashboardTopicEditor(ClientFrameworkRes.ClientMemory.AccountName))
+            using (DashboardTopicEditor editor = new DashboardTopicEditor(PluginFramework.ClientMemory.AccountName))
             {
                 editor.ShowDialog();
             }
@@ -52,7 +52,7 @@ namespace Dashboard
             {
                 DashboardMessage messageToDelete = (DashboardMessage)vSroButtonList1.LatestSelectedButton.Tag;
 
-                ClientFrameworkRes.ClientCore.Send(DashboardPackets.RequestDeleteTopicFromDashboard(messageToDelete));
+                PluginFramework.ClientCore.Send(DashboardPackets.RequestDeleteTopicFromDashboard(messageToDelete));
             }
         }
 

@@ -7,7 +7,7 @@ namespace ManagementClient
     {
         #region Fields
 
-        internal static ClientFrameworkRes.Config MainConfig = new ClientFrameworkRes.Config();
+        internal static PluginFramework.Config MainConfig = new PluginFramework.Config();
         internal static ClientForm StaticClientForm;
         internal static LoginForm StaticLoginForm;
 

@@ -58,13 +58,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\ClientFrameworkRes.csproj">
+    <ProjectReference Include="..\..\ClientDataStorage\PluginFramework.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>ClientFrameworkRes</Name>
+      <Name>PluginFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Utility\ServerFrameworkRes\ServerFrameworkRes.csproj">
+    <ProjectReference Include="..\..\Utility\ServerFrameworkRes\ManagementFramework.csproj">
       <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>
-      <Name>ServerFrameworkRes</Name>
+      <Name>ManagementFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\Structs\Structs.csproj">
       <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>

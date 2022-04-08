@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="PackFile\Data\bsr\JMXbsrFile.cs" />
     <Compile Include="PackFile\Data\Dungeon\JMXdofFile.cs" />
-    <Compile Include="PackFile\ddj\JMXddjFile.cs" />
+    <Compile Include="PackFile\Shared\JMXddjFile.cs" />
     <Compile Include="PackFile\IJMXFile.cs" />
     <Compile Include="PackFile\JMXHeader.cs" />
     <Compile Include="PackFile\Map\m\JMXmFile.cs" />

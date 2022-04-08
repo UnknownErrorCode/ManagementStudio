@@ -18,8 +18,8 @@ namespace TriggerEditor
         public TriggerEditorControl()
         {
             InitializeComponent();
-            ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+            PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
         }
 
         #endregion Constructors
@@ -28,7 +28,7 @@ namespace TriggerEditor
 
         private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
-            foreach (var item in ClientFrameworkRes.Database.SRO_VT_SHARD._RefGame_World.Values)
+            foreach (var item in PluginFramework.Database.SRO_VT_SHARD._RefGame_World.Values)
             {
                 vSroButtonList1.AddSingleButtonToList(item.WorldCodeName128, item);
             }

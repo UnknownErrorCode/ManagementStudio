@@ -1,10 +1,10 @@
-﻿using ClientFrameworkRes.Network;
+﻿using PluginFramework.Network;
 using ServerFrameworkRes.Network.AsyncNetwork;
 using ServerFrameworkRes.Network.Security;
 using System;
 using System.Threading;
 
-namespace ClientFrameworkRes
+namespace PluginFramework
 {
     public static class ClientCore
     {

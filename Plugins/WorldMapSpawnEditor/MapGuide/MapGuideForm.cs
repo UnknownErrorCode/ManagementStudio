@@ -7,9 +7,9 @@ namespace WorldMapSpawnEditor.MapGuide
     {
         #region Fields
 
-        private readonly MapGuidePanel GuidePanel = new MapGuidePanel() { Location = new Point(35, 70) };
-
+        private readonly MapGuidePanel GuidePanel;
         private readonly WMapGuidePanelButtonFocus ButtonFocus = new WMapGuidePanelButtonFocus();
+        private LoadingForm Loading = new LoadingForm();
 
         #endregion Fields
 
@@ -18,13 +18,17 @@ namespace WorldMapSpawnEditor.MapGuide
         public MapGuideForm()
         {
             InitializeComponent();
-            vSroSizableWindow1.Controls.Add(GuidePanel);
+            Loading.Show();
+            GuidePanel = new MapGuidePanel() { Location = new Point(35, 70) };
 
             if (ButtonFocus.Initialized)
             {
                 ButtonFocus.OnParentMouseClick += OnmouseClick;
-                GuidePanel.Controls.Add(ButtonFocus);
+                GuidePanel.Controls.Add(ButtonFocus.Button);
             }
+            vSroSizableWindow1.Controls.Add(GuidePanel);
+
+            Loading.Hide();
         }
 
         private void OnmouseClick()
@@ -33,5 +37,14 @@ namespace WorldMapSpawnEditor.MapGuide
         }
 
         #endregion Constructors
+
+        private void MapGuideForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
     }
 }

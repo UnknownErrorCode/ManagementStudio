@@ -56,11 +56,9 @@ namespace ServerFrameworkRes.BasicControls
             using (vSroMessageBox showTempMsg = new vSroMessageBox(message, title))
             {
                 showTempMsg.vSroInputBox1.Visible = true;
+                showTempMsg.vSroInputBox1.TitleText = valueTitle;
                 showTempMsg.ShowDialog();
-                if (showTempMsg.ReturnValue1.Length > 0)
-                {
-                    ret = showTempMsg.ReturnValue1;
-                }
+                ret = showTempMsg.ReturnValue1.Length > 0 ? showTempMsg.ReturnValue1 : "error";
             }
             return ret;
         }

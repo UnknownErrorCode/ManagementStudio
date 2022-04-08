@@ -36,9 +36,9 @@ namespace WorldMapSpawnEditor.MapGraphics
             return mobSpawns.GetEnumerator();
         }
 
-        public IEnumerator<InterfaceSpawn> GetEnumerator(ushort wRegionID) => cSpawns.Where(s => s.RegionID.RegionID.Equals(wRegionID)).GetEnumerator();
+        public IEnumerator<InterfaceSpawn> OnRegion(ushort wRegionID) => cSpawns.Where(s => s.RegionID.RegionID.Equals(wRegionID)).GetEnumerator();
 
-        public IEnumerator<InterfaceSpawn> GetEnumerator(int gameWorldID) => cSpawns.Where(s => s.GameWorldID.Equals(gameWorldID)).GetEnumerator();
+        public IEnumerator<InterfaceSpawn> OnGameWorld(int gameWorldID) => cSpawns.Where(s => s.GameWorldID.Equals(gameWorldID)).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -69,7 +69,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void InitializeChars()
         {
-            foreach (IChar ichar in ClientFrameworkRes.Database.SRO_VT_SHARD._Char.Values)
+            foreach (IChar ichar in PluginFramework.Database.SRO_VT_SHARD._Char.Values)
             {
                 pSpawns.Add(Spawn.FromSpawn<Player>(new Spawn(ichar)));
             }
@@ -77,7 +77,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void InitializeNest()
         {
-            foreach (var nest in ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest.Values)
+            foreach (var nest in PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest.Values)
             {
                 var spawn = new Spawn(nest);
                 if (!spawn.SpawnType.Equals(SpawnType.None))
@@ -102,7 +102,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void InitializeTeleports()
         {
-            foreach (RefTeleport teleport in ClientFrameworkRes.Database.SRO_VT_SHARD._RefTeleport.Values.Where(tele => tele.AssocRefObjID > 0))
+            foreach (RefTeleport teleport in PluginFramework.Database.SRO_VT_SHARD._RefTeleport.Values.Where(tele => tele.AssocRefObjID > 0))
                 cSpawns.Add(new Spawn(teleport));
         }
 

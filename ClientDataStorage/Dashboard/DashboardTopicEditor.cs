@@ -1,11 +1,11 @@
-﻿using ServerFrameworkRes.BasicControls;
+﻿using PluginFramework.BasicControls;
 using ServerFrameworkRes.Network.Security;
 using Structs.Dashboard;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ClientFrameworkRes.Dashboard
+namespace PluginFramework.Dashboard
 {
     public partial class DashboardTopicEditor : Form
     {

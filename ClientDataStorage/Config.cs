@@ -1,4 +1,4 @@
-﻿namespace ClientFrameworkRes
+﻿namespace PluginFramework
 {
     public class Config : ConfigLoader
     {

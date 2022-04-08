@@ -21,23 +21,23 @@ namespace Editors.Shop
         {
             Good = good;
 
-            if (ClientFrameworkRes.Database.SRO_VT_SHARD._RefPackageItem.ContainsKey(PackageItemCodeName))
+            if (PluginFramework.Database.SRO_VT_SHARD._RefPackageItem.ContainsKey(PackageItemCodeName))
             {
-                PackageItem = ClientFrameworkRes.Database.SRO_VT_SHARD._RefPackageItem[PackageItemCodeName];
+                PackageItem = PluginFramework.Database.SRO_VT_SHARD._RefPackageItem[PackageItemCodeName];
             }
 
-            if (ClientFrameworkRes.Database.SRO_VT_SHARD._RefPackageItem.TryGetValue(Good.RefPackageItemCodeName, out RefPackageItem packItm))
+            if (PluginFramework.Database.SRO_VT_SHARD._RefPackageItem.TryGetValue(Good.RefPackageItemCodeName, out RefPackageItem packItm))
             {
                 PackageItem = packItm;
             }
-            if (ClientFrameworkRes.Database.SRO_VT_SHARD._RefScrapOfPackageItem.ContainsKey(PackageItemCodeName))
+            if (PluginFramework.Database.SRO_VT_SHARD._RefScrapOfPackageItem.ContainsKey(PackageItemCodeName))
             {
-                ScrapOfPackageItem = ClientFrameworkRes.Database.SRO_VT_SHARD._RefScrapOfPackageItem[PackageItemCodeName];
+                ScrapOfPackageItem = PluginFramework.Database.SRO_VT_SHARD._RefScrapOfPackageItem[PackageItemCodeName];
             }
 
-            if (ClientFrameworkRes.Database.SRO_VT_SHARD._RefPricePolicyOfItem.ContainsKey(PackageItemCodeName))
+            if (PluginFramework.Database.SRO_VT_SHARD._RefPricePolicyOfItem.ContainsKey(PackageItemCodeName))
             {
-                var allPolicy = ClientFrameworkRes.Database.SRO_VT_SHARD._RefPricePolicyOfItem[PackageItemCodeName];
+                var allPolicy = PluginFramework.Database.SRO_VT_SHARD._RefPricePolicyOfItem[PackageItemCodeName];
                 PricePolicyOfItem = new List<DataModelRefPricePolicyOfItem>(allPolicy.Length); ;
                 for (int i = 0; i < allPolicy.Length; i++)
                     PricePolicyOfItem.Add(new DataModelRefPricePolicyOfItem(allPolicy[i]));

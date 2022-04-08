@@ -19,7 +19,11 @@ extern "C" {
 #endif
 
 	int CMapHelper HoverXHelper(int x, int pictureSize, int viewpointX, float locX);
-	int CMapHelper HoverZHelper(int y, int pictureSize, int viewpointY, float locZ);
+	int CMapHelper HoverZHelper(int z, int pictureSize, int viewpointY, float locZ);
+	bool CMapHelper ExceedViewX(int panelPointX, int pictureSize, int width);
+	bool CMapHelper ExceedViewY(int panelPointY, int pictureSize, int higth);
+	float CMapHelper GetSroPosX(int x, int pictureSize, int viewpointX, int clickPointX);
+	float CMapHelper GetSroPosY(int z, int pictureSize, int viewpointY, int clickPointY);
 }
 
 #endif // !CMapHelp

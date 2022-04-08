@@ -30,15 +30,15 @@ namespace ShopEditor
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, "Failed to get textuisystem for ShopEditor.");
             }
 
-            ClientFrameworkRes.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            ClientFrameworkRes.ClientCore.Send(RequestDataPacket);
+            PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            PluginFramework.ClientCore.Send(RequestDataPacket);
         }
 
         #endregion Constructors
 
         #region Properties
 
-        private Packet RequestDataPacket => ClientFrameworkRes.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+        private Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
 
         #endregion Properties
 
@@ -50,7 +50,7 @@ namespace ShopEditor
         private void InitializeListView()
         {
             listViewAllNpcs.Items.Clear();
-            foreach (Structs.Database.RefShopGroup item in ClientFrameworkRes.Database.SRO_VT_SHARD._RefShopGroup)
+            foreach (Structs.Database.RefShopGroup item in PluginFramework.Database.SRO_VT_SHARD._RefShopGroup)
             {
                 if (!listViewAllNpcs.Items.ContainsKey(item.RefNPCCodeName) && (!item.RefNPCCodeName.ToLower().Equals("xxx")))
                 {

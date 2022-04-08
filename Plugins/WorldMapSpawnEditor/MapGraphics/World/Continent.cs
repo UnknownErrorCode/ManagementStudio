@@ -7,14 +7,12 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class Continent
     {
-
         internal readonly string ContinentName;
 
         internal readonly int minX = 255
                                     , minY = 255
                             , maxX = 0
                             , maxY = 0;
-
 
         /// <summary>
         /// Each dungeon on the continent.
@@ -37,12 +35,15 @@ namespace WorldMapSpawnEditor.MapGraphics
             var pointer = Point.Empty;
             for (int i = 0; i < enumerable.Length; i++)
             {
-                var region = new RegionGraphic(enumerable[i].wRegionID, enumerable[i].AreaName);
+                var region = new RegionGraphic(enumerable[i].wRegionID, enumerable[i].ContinentName, enumerable[i].AreaName, true);
                 pointer.X = region.RegionID.X;
                 pointer.Y = region.RegionID.Z;
 
                 if (!region.RegionID.IsDungeon && (pointer.X != enumerable[i].X || pointer.Y != enumerable[i].Z))
+                {
+                    ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"_RefRegion {region.AreaName} unproper RegionID;[{region.RegionID.RegionID}] Real:Database X= {pointer.X}:{enumerable[i].X}  Z= {pointer.Y}:{enumerable[i].Z}");
                     ErrorRegions.Add(enumerable[i].wRegionID, region);
+                }
                 else
                 {
                     try
@@ -70,6 +71,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             if (ErrorRegions.Count > 0)
                 ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Loaded {ErrorRegions.Count} wrong regions at continent {continentname}.");
         }
+
         /// <summary>
         /// Indicates weather the Continent contains a dungeon or not.
         /// </summary>
@@ -96,25 +98,13 @@ namespace WorldMapSpawnEditor.MapGraphics
         internal IEnumerable<RegionGraphic> GetRegions(Rectangle range)
         {
             var list = new List<RegionGraphic>();
-            foreach (var item in Regions.Keys) // x n Z from DBRegion
+            foreach (var item in Regions.Where(r => r.Key.X >= range.X && r.Key.X <= range.X + range.Width && r.Key.Y <= range.Y && r.Key.Y >= range.Y - range.Height)) // x n Z from DBRegion
             {
-                if (item.X >= range.X && item.X <= range.X + range.Width)
-                {
-                    if (item.Y <= range.Y && item.Y >= range.Y - range.Height)
-                    {
-                        list.Add(Regions[item]);
-                    }
-                }
+                list.Add(Regions[item.Key]);
             }
-            foreach (var ereg in ErrorRegions.Values)
+            foreach (var ereg in ErrorRegions.Values.Where(ereg => ereg.RegionID.X >= range.X && ereg.RegionID.X <= range.X + range.Width && ereg.RegionID.Z <= range.Y && ereg.RegionID.Z >= range.Y - range.Height))
             {
-                if (ereg.RegionID.X >= range.X && ereg.RegionID.X <= range.X + range.Width)
-                {
-                    if (ereg.RegionID.Z <= range.Y && ereg.RegionID.Z >= range.Y - range.Height)
-                    {
-                        list.Add(ereg);
-                    }
-                }
+                list.Add(ereg);
             }
             return list.ToArray();
         }
@@ -140,6 +130,5 @@ namespace WorldMapSpawnEditor.MapGraphics
             x = -minX * picSize;
             y = (maxY * picSize) - (128 * picSize) + picSize;
         }
-
     }
 }

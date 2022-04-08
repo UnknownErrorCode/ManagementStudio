@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace ClientFrameworkRes.Network
+namespace PluginFramework.Network
 {
     internal partial class ClientPacketHandler : PacketHandler
     {

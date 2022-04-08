@@ -13,13 +13,25 @@ using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
-    internal sealed class GraphicsPanel : Panel
+    internal sealed class WorldMapPanel : Panel
     {
         [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern int HoverXHelper(int x, int picsize, int viewX, float posX);
 
         [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern int HoverZHelper(int z, int picsize, int viewZ, float posZ);
+
+        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool ExceedViewX(int x, int picsize, int width);
+
+        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool ExceedViewY(int z, int picsize, int heigth);
+
+        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float GetSroPosX(int x, int picsize, int viewX, int clickX);
+
+        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float GetSroPosY(int z, int picsize, int viewY, int clickY);
 
         #region Fields
 
@@ -29,16 +41,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         private const string PlayerIconPath = "Media\\interface\\minimap\\mm_sign_otherplayer.ddj";
         private const string TeleportIconPath = "Media\\interface\\worldmap\\map\\xy_gate.ddj";
         private const string UMonsterIconPath = "Media\\interface\\minimap\\mm_sign_unique.ddj";
-
-        /// <summary>
-        /// Consists of all RegionGraphics on the WorldMap that does not existing in the DB but -m file is aviable.
-        /// </summary>
-        private readonly Dictionary<Point, RegionGraphic> AllUnusedRegionGraphics = new Dictionary<Point, RegionGraphic>();
-
-        /// <summary>
-        /// Holds all <see cref="NewPosition"/> the user creates.
-        /// </summary>
-        private readonly Dictionary<string, NewPosition> NewPosDic = new Dictionary<string, NewPosition>();
 
         private readonly ContextMenuStrip ContextMenu = new ContextMenuStrip();
 
@@ -52,7 +54,14 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private readonly ToolTip tip = new ToolTip();
 
-        private GraphicsPanelBase Base = new GraphicsPanelBase();
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripRegionClick;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateSpawn;
+        private System.Windows.Forms.ToolStripMenuItem saveCoordinateToolStripMenuItem;
+
+        /// <summary>
+        /// Contains all configs for the paint event.
+        /// </summary>
+        private WorldMapPanelBase Base = new WorldMapPanelBase();
 
         /// <summary>
         /// Delta position from last MouseDown and MouseUp. This is required to calculate the MovePoint for swiping
@@ -61,6 +70,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private Rectangle drawRec = Rectangle.Empty;
         private Size drawSize = Size.Empty;
+
         private Bitmap ImageMonster;
         private Bitmap ImageMonsterUnique;
         private Bitmap ImageNpc;
@@ -74,11 +84,6 @@ namespace WorldMapSpawnEditor.MapGraphics
         private bool Initialized;
 
         /// <summary>
-        /// Defines the Pixel Size Width and Heigth from a single Region.
-        /// </summary>
-        private int PictureSize = 256;
-
-        /// <summary>
         /// The Location of the mouse while dragging and swiping.
         /// </summary>
         private Point PointMouseDown = Point.Empty;
@@ -86,10 +91,11 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// The Location of the mouse while dragging and swiping.
         /// </summary>
-        private Point PointMouseSroRegioDown = Point.Empty;
+        private Point wRegionID = Point.Empty;
 
         private Point PointPanel = Point.Empty;
         private Point PointRegionXY = Point.Empty;
+        private Structs.SVector3 sVector;
 
         /// <summary>
         /// The start Position for Drawing.
@@ -103,7 +109,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Constructors
 
-        internal GraphicsPanel()
+        internal WorldMapPanel()
         {
             InitializeComponents();
         }
@@ -126,7 +132,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         { get => PointZeroLocation; set { PointZeroLocation = value; Invalidate(); } }
 
         internal int RegionPixelSize
-        { get => PictureSize; set { PictureSize = value; Invalidate(); } }
+        { get => Base.PictureSize; set { Base.PictureSize = value; Invalidate(); } }
 
         internal bool ShowEditorOnClick { get => Base.showEditorOnClick; set => Base.showEditorOnClick = value; }
 
@@ -187,32 +193,32 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             else if (e.Button == MouseButtons.Right)
             {
-                PointMouseSroRegioDown.X = ((PointZeroLocation.X - e.X) / PictureSize) * -1;
-                PointMouseSroRegioDown.Y = ((PointZeroLocation.Y - e.Y) / PictureSize) + 127;
+                wRegionID.X = ((PointZeroLocation.X - e.X) / Base.PictureSize) * -1;
+                wRegionID.Y = ((PointZeroLocation.Y - e.Y) / Base.PictureSize) + 127;
 
-                string strin = $"{PointMouseSroRegioDown.Y.ToString("X")}{PointMouseSroRegioDown.X.ToString("X")}";
+                short regionID = Structs.WRegionID.GetRegionID(wRegionID.X, wRegionID.Y);
 
-                short regionID = (short)Convert.ToInt32(strin, 16);
-
-                float fRegX = ((PointMouseSroRegioDown.X) * PictureSize + (PointZeroLocation.X - e.X)) * -1;
-                float RegX = (float)Math.Round(fRegX * (1920f / PictureSize), 0);
-
-                float fRegY = ((128 * PictureSize) + (PointZeroLocation.Y - e.Y)) - ((PointMouseSroRegioDown.Y) * PictureSize);
-                float RegY = (float)Math.Round(fRegY * (1920f / PictureSize));
-
-                if (PackFile.MapPack.TryGetMeshZ((byte)PointMouseSroRegioDown.X, (byte)PointMouseSroRegioDown.Y, regionID, RegX, RegY, out float Z))
+                var regex = GetSroPosX(wRegionID.X, Base.PictureSize, PointZeroLocation.X, e.X);
+                var regez = GetSroPosY(wRegionID.Y, Base.PictureSize, PointZeroLocation.Y, e.Y);
+                sVector.X = regex;
+                sVector.Y = regez;
+                if (PackFile.MapPack.TryGetMeshZ((byte)wRegionID.X, (byte)wRegionID.Y, regionID, regex, regez, out sVector.Z))
                 {
-                    if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"/warp {regionID} {RegX} {Z} {RegY}\n\nX:{PointMouseSroRegioDown.X}\nY:{PointMouseSroRegioDown.Y}", "Add new Position?"))
+                    if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"/warp {regionID} {regex} {sVector.Z} {regez}\n\nX:{wRegionID.X}\nY:{wRegionID.Y}", "Add new Position?"))
                     {
                         string str = ServerFrameworkRes.BasicControls.vSroMessageBox.GetInput("Enter the Name of your Point inside the InputBox.", "Add new location", "Pos Name:");
                         if (str.Length > 0)
-                            NewPosDic.Add(str, new NewPosition() { RegionID = (short)regionID, Position = new System.Numerics.Vector3(RegX, RegY, Z) });
+                            PositionStorage.StorePosition(str, new NewPosition() { Text = str, RegionID = (short)regionID, Position = new System.Numerics.Vector3(regex, regez, sVector.Z) });
                         Invalidate();
+                        PluginFramework.BasicControls.GenericSelectForm.SelectObjStruct<NewPosition>(PositionStorage.Collection, out NewPosition pos);
+                        if (PluginFramework.BasicControls.GenericSelectForm.SelectObjStruct(PluginFramework.Database.SRO_VT_SHARD._Char, out Structs.Database.IChar ichar))
+                        {
+                        }
                     }
                 }
                 else
                 {
-                    ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {RegX} 0 {RegY}\n\nFailed to get Z coordinate\nUse Charakter Position to get hight.\n\nX:{PointMouseSroRegioDown.X}\nY:{PointMouseSroRegioDown.Y}");
+                    ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {regex} 0 {regez}\n\nFailed to get Z coordinate\nUse Charakter Position to get hight.\n\nX:{wRegionID.X}\nY:{wRegionID.Y}");
                 }
 
                 IEnumerable<int> rangeXCoordPanel = Enumerable.Range(e.X - 6, 12);
@@ -223,23 +229,29 @@ namespace WorldMapSpawnEditor.MapGraphics
                     return;
 
                 foreach (var swn in WorldSpawn.Where(ch => rangeXCoordPanel.Contains(
-                        HoverXHelper((int)ch.RegionID.X, PictureSize, PointZeroLocation.X, ch.XLocation)) && rangeYCoordPanel.Contains(HoverZHelper((int)ch.RegionID.Z, PictureSize, PointZeroLocation.Y, ch.ZLocation))))
+                        HoverXHelper((int)ch.RegionID.X, Base.PictureSize, PointZeroLocation.X, ch.XLocation)) && rangeYCoordPanel.Contains(HoverZHelper((int)ch.RegionID.Z, Base.PictureSize, PointZeroLocation.Y, ch.ZLocation))))
                 {
                     switch (swn.SpawnType)
                     {
                         case SpawnType.None:
                             break;
 
-                        case SpawnType.Monster:
+                        case SpawnType.Monster when Base.showMonster && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {((Monster)swn).CodeName128}", "SpawnEditor"):
+
+                            using (SpawnEditor Editor = new SpawnEditor(new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])))
+                                Editor.ShowDialog();
                             break;
 
                         case SpawnType.Npc when Base.showNpc:
                             if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {((Npc)swn).CodeName128}", "SpawnEditor"))
-                                using (SpawnEditor Editor = new SpawnEditor(new NestSpawnProperty(ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])))
+                                using (SpawnEditor Editor = new SpawnEditor(new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])))
                                     Editor.ShowDialog();
                             break;
 
-                        case SpawnType.Unique:
+                        case SpawnType.Unique when Base.showUniqueMonster && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for unique {((Monster)swn).CodeName128}", "SpawnEditor"):
+
+                            using (SpawnEditor Editor = new SpawnEditor(new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])))
+                                Editor.ShowDialog();
                             break;
 
                         case SpawnType.Teleport:
@@ -252,32 +264,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                             break;
                     }
                 }
-
-                //if (this.ShowNpc)
-                //    //foreach (var npc in WorldSpawn.GetNPCsOnRegion(regionID).Where(ch => rangeXCoordPanel.Contains((ch.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(ch.XLocation / (1920f / PictureSize), 0)) && rangeYCoordPanel.Contains(((((ch.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((ch.ZLocation / (1920f / PictureSize)) * -1))))
-                //    foreach (var npc in WorldSpawn.GetNPCsOnRegion(regionID).Where(ch => rangeXCoordPanel.Contains(
-                //        HoverXHelper((int)ch.RegionID.X, PictureSize, PointZeroLocation.X, ch.XLocation)) && rangeYCoordPanel.Contains(HoverZHelper((int)ch.RegionID.Z, PictureSize, PointZeroLocation.Y, ch.ZLocation))))
-                //    {
-                //        if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {npc.CodeName128}", "SpawnEditor"))
-                //            using (SpawnEditor Editor = new SpawnEditor(new NestSpawnProperty(ClientFrameworkRes.Database.SRO_VT_SHARD.Tab_RefNest[npc.ID])))
-                //                Editor.ShowDialog();
-                //    }
-                // if (this.ShowMonster)
-                //     foreach (var mob in AllMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + ZeroLocationPoint.X) + (int)Math.Round(ch.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0)) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + ZeroLocationPoint.Y) + (int)Math.Round((ch.Value.Spawn.Nest.fLocalPosZ / (1920f / PictureSize)) * -1))))
-                //     {
-                //         if (OpenEditorOnClick && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {mob.Value.Spawn.ObjCommon.CodeName128}", "SpawnEditor"))
-                //         {
-                //             using (SpawnEditor Editor = new SpawnEditor(mob.Value.Spawn))
-                //                 Editor.ShowDialog();
-                //         }
-                //     }
-                // if (this.ShowUniqueMonster)
-                //     foreach (var umob in AllUniqueMonsters.Where(ch => rangeXCoordPanel.Contains((ch.Value.X * PictureSize + ZeroLocationPoint.X) + (int)Math.Round(ch.Value.Spawn.Nest.fLocalPosX / (1920f / PictureSize), 0)) && rangeYCoordPanel.Contains(((((ch.Value.Y * PictureSize) - (128 * PictureSize)) * -1) + ZeroLocationPoint.Y) + ch.Value.Location.Y)))
-                //     {
-                //         if (OpenEditorOnClick && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {umob.Value.Spawn.ObjCommon.CodeName128}", "SpawnEditor"))
-                //             using (SpawnEditor Editor = new SpawnEditor(umob.Value.Spawn))
-                //                 Editor.ShowDialog();
-                //     }
             }
         }
 
@@ -296,8 +282,8 @@ namespace WorldMapSpawnEditor.MapGraphics
 
             StrBuilder.Clear();
             foreach (Interface.InterfaceSpawn spawn in WorldSpawn.Where(spwn =>
-            rangeXCoordPanel.Contains((spwn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spwn.XLocation / (1920f / PictureSize), 0))
-            && rangeYCoordPanel.Contains(((((spwn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spwn.ZLocation / (1920f / PictureSize)) * -1))))
+            rangeXCoordPanel.Contains(HoverXHelper(spwn.RegionID.X, Base.PictureSize, PointZeroLocation.X, spwn.XLocation))
+            && rangeYCoordPanel.Contains(HoverZHelper(spwn.RegionID.Z, Base.PictureSize, PointZeroLocation.Y, spwn.ZLocation))))
             {
                 switch (spawn.SpawnType)
                 {
@@ -317,7 +303,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                         break;
 
                     case SpawnType.Teleport when ShowTeleport:
-                        StrBuilder.AppendLine($"Teleport: {spawn.ID}");
+                        StrBuilder.AppendLine($"Teleport: {((Teleport)spawn).ID}");
                         break;
 
                     case SpawnType.Player when ShowPlayer:
@@ -341,29 +327,22 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             if (e.Location != PointMouseDown && e.Button == MouseButtons.Left)
             {
-                Delta.X = e.Location.X - PointMouseDown.X; Delta.Y = e.Location.Y - PointMouseDown.Y;
+                Delta.X = e.Location.X - PointMouseDown.X;
+                Delta.Y = e.Location.Y - PointMouseDown.Y;
                 PointZeroLocation.X += Delta.X;
                 PointZeroLocation.Y += Delta.Y;
 
                 if (PointZeroLocation.X > 0)
-                {
                     PointZeroLocation.X = 0;
-                }
 
                 if (PointZeroLocation.Y > 0)
-                {
                     PointZeroLocation.Y = 0;
-                }
 
-                if (PointZeroLocation.X < -PictureSize * 256 + Width)
-                {
-                    PointZeroLocation.X = -PictureSize * 256 + Width;
-                }
+                if (PointZeroLocation.X < -Base.PictureSize * 256 + Width)
+                    PointZeroLocation.X = -Base.PictureSize * 256 + Width;
 
-                if (PointZeroLocation.Y < -PictureSize * 128 + Height)
-                {
-                    PointZeroLocation.Y = -PictureSize * 128 + Height;
-                }
+                if (PointZeroLocation.Y < -Base.PictureSize * 128 + Height)
+                    PointZeroLocation.Y = -Base.PictureSize * 128 + Height;
 
                 Invalidate();
             }
@@ -376,24 +355,24 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <param name="e"></param>
         private void GraphicsPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (e.Delta < 0 && PictureSize <= 15)
+            if (e.Delta < 0 && Base.PictureSize <= 15)
             {
-                PictureSize = 15;
+                Base.PictureSize = 15;
                 return;
             }
-            else if (e.Delta > 0 && PictureSize > 900)
+            else if (e.Delta > 0 && Base.PictureSize > 900)
             {
                 return;
             }
 
-            PointMouseSroRegioDown.X = ((PointZeroLocation.X - e.X) / PictureSize) * -1;
-            PointMouseSroRegioDown.Y = ((PointZeroLocation.Y - e.Y) / PictureSize) * -1;
+            wRegionID.X = ((PointZeroLocation.X - e.X) / Base.PictureSize) * -1;
+            wRegionID.Y = ((PointZeroLocation.Y - e.Y) / Base.PictureSize) * -1;
 
-            PictureSize = e.Delta < 0 ? PictureSize - 10 : PictureSize + 10;
-            if (PictureSize < 15)
-                PictureSize = 15;
-            PointZeroLocation.X = e.Delta < 0 ? PointZeroLocation.X + PointMouseSroRegioDown.X * 10 : PointZeroLocation.X - PointMouseSroRegioDown.X * 10;
-            PointZeroLocation.Y = e.Delta < 0 ? PointZeroLocation.Y + PointMouseSroRegioDown.Y * 10 : PointZeroLocation.Y - PointMouseSroRegioDown.Y * 10;
+            Base.PictureSize = e.Delta < 0 ? Base.PictureSize - 10 : Base.PictureSize + 10;
+            if (Base.PictureSize < 15)
+                Base.PictureSize = 15;
+            PointZeroLocation.X = e.Delta < 0 ? PointZeroLocation.X + wRegionID.X * 10 : PointZeroLocation.X - wRegionID.X * 10;
+            PointZeroLocation.Y = e.Delta < 0 ? PointZeroLocation.Y + wRegionID.Y * 10 : PointZeroLocation.Y - wRegionID.Y * 10;
 
             if (PointZeroLocation.X > 0)
             {
@@ -405,14 +384,14 @@ namespace WorldMapSpawnEditor.MapGraphics
                 PointZeroLocation.Y = 0;
             }
 
-            if (PointZeroLocation.X < -PictureSize * 256 + Width)
+            if (PointZeroLocation.X < -Base.PictureSize * 256 + Width)
             {
-                PointZeroLocation.X = -PictureSize * 256 + Width;
+                PointZeroLocation.X = -Base.PictureSize * 256 + Width;
             }
 
-            if (PointZeroLocation.Y < -PictureSize * 128 + Height)
+            if (PointZeroLocation.Y < -Base.PictureSize * 128 + Height)
             {
-                PointZeroLocation.Y = -PictureSize * 128 + Height;
+                PointZeroLocation.Y = -Base.PictureSize * 128 + Height;
             }
 
             Invalidate();
@@ -426,52 +405,28 @@ namespace WorldMapSpawnEditor.MapGraphics
         private void GraphicsPanel_Paint(object sender, PaintEventArgs e)
         {
             int
-                minX = -PictureSize,
-                maxX = Width + PictureSize,
-                minY = -PictureSize,
-                maxY = Height + PictureSize;
-            IEnumerable<int> xRange = Enumerable.Range(minX, maxX);
-            IEnumerable<int> yRange = Enumerable.Range(minY, maxY);
+                minX = -Base.PictureSize,
+                maxX = Width + Base.PictureSize,
+                minY = -Base.PictureSize,
+                maxY = Height + Base.PictureSize;
 
-            var v1 = Rectangle.Empty;
-            v1.Width = Width / PictureSize + 1;
-            v1.Height = Height / PictureSize + 3;
-            v1.X = -PointZeroLocation.X / PictureSize;
-            v1.Y = (PointZeroLocation.Y / PictureSize) + 128;
-
-            for (int x = 0; x < 256; x++)
+            if (Base.showRegionsUnassigned)
             {
-                PointRegionXY.X = x;
-                PointPanel.X = ((x * PictureSize)) + PointZeroLocation.X;
+                var range = new Rectangle(-PointZeroLocation.X / Base.PictureSize, (PointZeroLocation.Y / Base.PictureSize) + 128, -PointZeroLocation.X / Base.PictureSize + (Width / Base.PictureSize) + 1, ((PointZeroLocation.Y / Base.PictureSize) + 128) - ((Height / Base.PictureSize) + 3));
 
-                for (int z = 0; z < 128; z++)
+                var uregSpan = World.UnassignedRegionsSpan(range);
+                foreach (var reg in uregSpan)
                 {
-                    PointRegionXY.Y = z;
-                    PointPanel.Y = ((((z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) - PictureSize;
-
-                    if (xRange.Contains(PointPanel.X) && yRange.Contains(PointPanel.Y))
-                    {
-                        drawSize.Width = PictureSize;
-                        drawSize.Height = PictureSize;
-                        drawRec.Location = PointPanel;
-                        drawRec.Size = drawSize;
-
-                        if (AllUnusedRegionGraphics.TryGetValue(PointRegionXY, out RegionGraphic unassignedregion) && ShowRegionsUnassigned)
-                        {
-                            e.Graphics.DrawImage(unassignedregion.RegionLayer, PointPanel.X, PointPanel.Y, PictureSize, PictureSize);
-                            e.Graphics.DrawRectangle(Pens.Blue, drawRec);
-                            if (PictureSize > 100)
-                                TextRenderer.DrawText(e.Graphics, $"\n\nNo RegionID in DB", Font, PointPanel, Color.Red);
-                        }
-                        else
-                        {
-                            e.Graphics.DrawRectangle(Pens.Red, drawRec);
-                        }
-                        if (PictureSize > 100)
-                        {
-                            TextRenderer.DrawText(e.Graphics, $"\n\n\n\tX: {PointRegionXY.X} Z: {PointRegionXY.Y} \n", Font, PointPanel, Color.AliceBlue);
-                        }
-                    }
+                    PointPanel.X = ((reg.RegionID.X * Base.PictureSize)) + PointZeroLocation.X;
+                    PointPanel.Y = ((((reg.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) - Base.PictureSize;
+                    drawSize.Width = Base.PictureSize;
+                    drawSize.Height = Base.PictureSize;
+                    drawRec.Location = PointPanel;
+                    drawRec.Size = drawSize;
+                    e.Graphics.DrawImage(Image.FromFile(reg.TexturePath), PointPanel.X, PointPanel.Y, Base.PictureSize, Base.PictureSize);
+                    e.Graphics.DrawRectangle(Pens.Orange, drawRec);
+                    if (Base.PictureSize > 100)
+                        TextRenderer.DrawText(e.Graphics, $"X: {reg.RegionID.X} Z: {reg.RegionID.Z} \nRegionID: {reg.RegionID.RegionID}\nNo RegionID in DB", Font, PointPanel, Color.White);
                 }
             }
 
@@ -479,29 +434,30 @@ namespace WorldMapSpawnEditor.MapGraphics
             {
                 foreach (var cont in World.Continents.Values)
                 {
+                    var v1 = new Rectangle(-PointZeroLocation.X / Base.PictureSize, (PointZeroLocation.Y / Base.PictureSize) + 128, Width / Base.PictureSize + 1, Height / Base.PictureSize + 3);
                     var regions = cont.GetRegions(v1);
                     foreach (var reg in regions)
                     {
-                        PointPanel.X = ((reg.RegionID.X * PictureSize)) + PointZeroLocation.X;
-                        PointPanel.Y = ((((reg.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) - PictureSize;
-                        drawSize.Width = PictureSize;
-                        drawSize.Height = PictureSize;
+                        PointPanel.X = ((reg.RegionID.X * Base.PictureSize)) + PointZeroLocation.X;
+                        PointPanel.Y = ((((reg.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) - Base.PictureSize;
+                        drawSize.Width = Base.PictureSize;
+                        drawSize.Height = Base.PictureSize;
                         drawRec.Location = PointPanel;
                         drawRec.Size = drawSize;
                         if (reg.HasLayer)
                         {
-                            e.Graphics.DrawImage(reg.RegionLayer, PointPanel.X, PointPanel.Y, PictureSize, PictureSize);
+                            e.Graphics.DrawImage(Image.FromFile(reg.TexturePath), PointPanel.X, PointPanel.Y, Base.PictureSize, Base.PictureSize);
                             // e.Graphics.DrawRectangle(Pens.White, drawRec);
                         }
                         else if (!reg.HasLayer && Base.showRegionDBnoDDJ)
                         {
                             e.Graphics.DrawRectangle(Pens.Green, drawRec);
-                            if (PictureSize > 50)
+                            if (Base.PictureSize > 50)
                             {
                                 TextRenderer.DrawText(e.Graphics, $"\n\nNo ddj file", Font, PointPanel, Color.Red);
                             }
                         }
-                        if (Base.showMeshBlocks && PictureSize > 400)
+                        if (Base.showMeshBlocks && Base.PictureSize > 400)
                         {
                             Rectangle rec = Rectangle.Empty;
                             Point blockTextPoint = Point.Empty;
@@ -509,10 +465,10 @@ namespace WorldMapSpawnEditor.MapGraphics
                             {
                                 for (int x = 0; x < 6; x++)
                                 {
-                                    rec.X = PointPanel.X + (int)(x * (PictureSize / 6f));
-                                    rec.Y = PointPanel.Y + (int)(y * (PictureSize / 6f));
-                                    rec.Width = (PictureSize / 6);
-                                    rec.Height = (PictureSize / 6);
+                                    rec.X = PointPanel.X + (int)(x * (Base.PictureSize / 6f));
+                                    rec.Y = PointPanel.Y + (int)(y * (Base.PictureSize / 6f));
+                                    rec.Width = (Base.PictureSize / 6);
+                                    rec.Height = (Base.PictureSize / 6);
                                     e.Graphics.DrawRectangle(Pens.GreenYellow, rec);
 
                                     blockTextPoint.X = rec.X;
@@ -523,20 +479,20 @@ namespace WorldMapSpawnEditor.MapGraphics
                             e.Graphics.DrawRectangle(Pens.White, drawRec);
                         }
 
-                        if (PictureSize > 100)
+                        if (Base.PictureSize > 100)
                             TextRenderer.DrawText(e.Graphics, $"X: {reg.RegionID.X} Z: {reg.RegionID.Z} \nRegionID: {reg.RegionID.RegionID}", Font, PointPanel, Color.White);
                     }
                 }
             }
-            TextRenderer.DrawText(e.Graphics, $"ViewPoint: X: {PointOfView.X} Y: {PointOfView.Y} \tZoom: {PictureSize}\tScarle: {PictureSize}", Font, Point.Empty, Color.White);
+            TextRenderer.DrawText(e.Graphics, $"ViewPoint: X: {PointOfView.X} Y: {PointOfView.Y} \tZoom: {Base.PictureSize}", Font, Point.Empty, Color.White);
 
             if (!Initialized)
                 return;
 
             foreach (var spawn in WorldSpawn)
             {
-                PointPanel.X = (spawn.RegionID.X * PictureSize) + PointZeroLocation.X;
-                PointPanel.Y = ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) - PictureSize;
+                PointPanel.X = (spawn.RegionID.X * Base.PictureSize) + PointZeroLocation.X;
+                PointPanel.Y = ((((spawn.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y);// - Base.PictureSize;
                 if ((PointPanel.X > minX && PointPanel.X < maxX) && (PointPanel.Y > minY && PointPanel.Y < maxY))
                     switch (spawn.SpawnType)
                     {
@@ -544,43 +500,41 @@ namespace WorldMapSpawnEditor.MapGraphics
                             continue;
 
                         case SpawnType.Monster when Base.showMonster:
-                            int spawnLocationX = PointPanel.X + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0);//+ mob.Value.Location.X;
-                            int spawnLocationY = PictureSize + PointPanel.Y + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1);// mob.Value.Location.Y;
+                            int spawnLocationX = PointPanel.X + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0);//+ mob.Value.Location.X;
+                            int spawnLocationY = PointPanel.Y + (int)Math.Round((spawn.ZLocation / (1920f / Base.PictureSize)) * -1);// mob.Value.Location.Y;
                             e.Graphics.DrawImage(ImageMonster, spawnLocationX - ImageMonster.Width / 2, spawnLocationY - ImageMonster.Width / 2, ImageMonster.Width, ImageMonster.Height);
 
                             if (Base.showNestGenRadius)
-                            {
-                                e.Graphics.DrawEllipse(Pens.Red, spawnLocationX - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize));
-                            }
+                                e.Graphics.DrawEllipse(Pens.Red, spawnLocationX - ((((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize)) / 2), spawnLocationY - ((((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize)) / 2), ((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize), ((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize));
 
                             if (Base.showNestRadius)
-                                e.Graphics.DrawEllipse(Pens.Gray, spawnLocationX - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), spawnLocationY - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NRadius / (1920 / PictureSize), ((Monster)spawn).NRadius / (1920 / PictureSize));
+                                e.Graphics.DrawEllipse(Pens.Gray, spawnLocationX - ((((Monster)spawn).NRadius / (1920 / Base.PictureSize)) / 2), spawnLocationY - ((((Monster)spawn).NRadius / (1920 / Base.PictureSize)) / 2), ((Monster)spawn).NRadius / (1920 / Base.PictureSize), ((Monster)spawn).NRadius / (1920 / Base.PictureSize));
 
                             break;
 
                         case SpawnType.Npc when Base.showNpc:
-                            e.Graphics.DrawImage(ImageNpc, (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0) - (ImageNpc.Width / 2), ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1) - (ImageNpc.Width / 2), ImageNpc.Width, ImageNpc.Height);
+                            e.Graphics.DrawImage(ImageNpc, (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0) - (ImageNpc.Width / 2), ((((spawn.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / Base.PictureSize)) * -1) - (ImageNpc.Width / 2), ImageNpc.Width, ImageNpc.Height);
                             break;
 
                         case SpawnType.Unique when Base.showUniqueMonster:
-                            int uspawnLocationX = (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0) - (ImageMonster.Width / 2);
-                            int uspawnLocationY = ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1) - (ImageMonster.Width / 2);
+                            int uspawnLocationX = (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0) - (ImageMonster.Width / 2);
+                            int uspawnLocationY = ((((spawn.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / Base.PictureSize)) * -1) - (ImageMonster.Width / 2);
                             e.Graphics.DrawImage(ImageMonsterUnique, uspawnLocationX - ImageMonsterUnique.Width / 2, uspawnLocationY - ImageMonsterUnique.Width / 2, ImageMonsterUnique.Width, ImageMonsterUnique.Height);
 
                             if (Base.showNestRadius)
-                                e.Graphics.DrawEllipse(Pens.Green, uspawnLocationX - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), uspawnLocationY - ((((Monster)spawn).NRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NRadius / (1920 / PictureSize), ((Monster)spawn).NRadius / (1920 / PictureSize));
+                                e.Graphics.DrawEllipse(Pens.Green, uspawnLocationX - ((((Monster)spawn).NRadius / (1920 / Base.PictureSize)) / 2), uspawnLocationY - ((((Monster)spawn).NRadius / (1920 / Base.PictureSize)) / 2), ((Monster)spawn).NRadius / (1920 / Base.PictureSize), ((Monster)spawn).NRadius / (1920 / Base.PictureSize));
 
                             if (Base.showNestGenRadius)
-                                e.Graphics.DrawEllipse(Pens.Yellow, uspawnLocationX - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), uspawnLocationY - ((((Monster)spawn).NGenerateRadius / (1920 / PictureSize)) / 2), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize), ((Monster)spawn).NGenerateRadius / (1920 / PictureSize));
+                                e.Graphics.DrawEllipse(Pens.Yellow, uspawnLocationX - ((((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize)) / 2), uspawnLocationY - ((((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize)) / 2), ((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize), ((Monster)spawn).NGenerateRadius / (1920 / Base.PictureSize));
 
                             break;
 
                         case SpawnType.Teleport when Base.showTeleport:
-                            e.Graphics.DrawImage(ImageTeleport, (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0), ((((spawn.RegionID.Z * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / PictureSize)) * -1), ImageTeleport.Width, ImageTeleport.Height);
+                            e.Graphics.DrawImage(ImageTeleport, (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0), ((((spawn.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / Base.PictureSize)) * -1), ImageTeleport.Width, ImageTeleport.Height);
                             break;
 
                         case SpawnType.Player when Base.showPlayer:
-                            e.Graphics.DrawImage(ImagePlayer, (spawn.RegionID.X * PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / PictureSize), 0), (((((((Player)spawn).RegionID.Z) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((((Player)spawn).ZLocation / (1920f / PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
+                            e.Graphics.DrawImage(ImagePlayer, (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0), (((((((Player)spawn).RegionID.Z) * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((((Player)spawn).ZLocation / (1920f / Base.PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
                             break;
 
                         default:
@@ -588,9 +542,9 @@ namespace WorldMapSpawnEditor.MapGraphics
                     }
             }
 
-            foreach (KeyValuePair<string, NewPosition> item in NewPosDic)
+            foreach (NewPosition item in PositionStorage.Collection.Values)
             {
-                e.Graphics.DrawImage(ImageOwnPoint, new PointF((Convert.ToSingle((item.Value.RegionID % 256) * PictureSize + PointZeroLocation.X)) + (item.Value.Position.X / (1920f / PictureSize)), Convert.ToSingle(((((item.Value.RegionID / 256) * PictureSize) - (128 * PictureSize)) * -1) + PointZeroLocation.Y) + ((item.Value.Position.Y / (1920f / PictureSize)) * -1)));
+                e.Graphics.DrawImage(ImageOwnPoint, new PointF((Convert.ToSingle((item.RegionID % 256) * Base.PictureSize + PointZeroLocation.X)) + (item.Position.X / (1920f / Base.PictureSize)), Convert.ToSingle(((((item.RegionID / 256) * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + ((item.Position.Y / (1920f / Base.PictureSize)) * -1)));
             }
         }
 
@@ -631,8 +585,58 @@ namespace WorldMapSpawnEditor.MapGraphics
 
             ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Spawns initialized in {watch.ElapsedMilliseconds} ms!");
 
-            //Task.Run(() => InitializeWorldGraphics());
-            //Task.Run(() => InitializeSpawnGraphics());
+            this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip();
+            this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCoordinateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+
+            //
+            // contextMenuStripRegionClick
+            //
+            this.contextMenuStripRegionClick.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.contextMenuStripRegionClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCreateSpawn,
+            this.saveCoordinateToolStripMenuItem});
+            this.contextMenuStripRegionClick.Name = "contextMenuStripRegionClick";
+            this.contextMenuStripRegionClick.Size = new System.Drawing.Size(181, 70);
+            //
+            // toolStripMenuItemCreateSpawn
+            //
+            this.toolStripMenuItemCreateSpawn.BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button;
+            this.toolStripMenuItemCreateSpawn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.toolStripMenuItemCreateSpawn.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.toolStripMenuItemCreateSpawn.Name = "toolStripMenuItemCreateSpawn";
+            this.toolStripMenuItemCreateSpawn.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemCreateSpawn.Text = "Create spawn";
+            //
+            // saveCoordinateToolStripMenuItem
+            //
+            this.saveCoordinateToolStripMenuItem.BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button;
+            this.saveCoordinateToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.saveCoordinateToolStripMenuItem.Name = "saveCoordinateToolStripMenuItem";
+            this.saveCoordinateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveCoordinateToolStripMenuItem.Text = "Save Coordinate";
+            this.saveCoordinateToolStripMenuItem.Click += new System.EventHandler(this.saveCoordinateToolStripMenuItem_Click);
+        }
+
+        private void saveCoordinateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            short regionID = Structs.WRegionID.GetRegionID(wRegionID.X, wRegionID.Y);
+
+            if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"/warp {regionID} {sVector.X} {sVector.Y} {sVector.Z}\n\nX:{wRegionID.X}\nY:{wRegionID.Y}", "Add new Position?"))
+            {
+                string str = ServerFrameworkRes.BasicControls.vSroMessageBox.GetInput("Enter the Name of your Point inside the InputBox.", "Add new location", "Pos Name:");
+                if (str.Length > 0)
+                    PositionStorage.StorePosition(str, new NewPosition() { Text = str, RegionID = (short)regionID, Position = new System.Numerics.Vector3(regex, regez, Z) });
+                Invalidate();
+                PluginFramework.BasicControls.GenericSelectForm.SelectObjStruct<NewPosition>(PositionStorage.Collection, out NewPosition pos);
+                if (PluginFramework.BasicControls.GenericSelectForm.SelectObjStruct(PluginFramework.Database.SRO_VT_SHARD._Char, out Structs.Database.IChar ichar))
+                {
+                }
+            }
+            else
+            {
+                ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {regex} 0 {regez}\n\nFailed to get Z coordinate\nUse Charakter Position to get hight.\n\nX:{wRegionID.X}\nY:{wRegionID.Y}");
+            }
         }
 
         /// <summary>
@@ -670,29 +674,8 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private void InitializeWorldGraphics()
         {
-            var allRegions = ClientFrameworkRes.Database.SRO_VT_SHARD._RefRegion.Values;
-            World = new CWorld(allRegions); // TODO: make fields for the unmanaged Regions inside CWorld...
-
-            //Add images which are not present inside the database
-            AllUnusedRegionGraphics.Clear();
-            Point p = Point.Empty;
-            for (int i = 0; i < 255; i++)
-            {
-                for (int i2 = 0; i2 < 128; i2++)
-                {
-                    p.X = i; p.Y = i2;
-
-                    if (System.IO.File.Exists($"{ClientFrameworkRes.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{i}x{i2}.JPG")
-                        && !World.ContainsRegion(p))
-                    {
-                        RegionGraphic regLayer = new RegionGraphic(Structs.WRegionID.GetRegionID(i, i2), "Unassigned");
-                        if (regLayer.HasLayer)
-                        {
-                            AllUnusedRegionGraphics.Add(p, regLayer);
-                        }
-                    }
-                }
-            }
+            var allRegions = PluginFramework.Database.SRO_VT_SHARD._RefRegion.Values;
+            World = new CWorld(allRegions);
         }
 
         #endregion Methods
