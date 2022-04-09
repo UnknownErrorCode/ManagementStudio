@@ -26,6 +26,14 @@ namespace WorldMapSpawnEditor.MapGraphics
         [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool ExceedViewY(int z, int picsize, int heigth);
 
+        /// <summary>
+        /// C++ CHelper.dll function to translate the panel mouse position into fX sto position .
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="picsize"></param>
+        /// <param name="viewX"></param>
+        /// <param name="clickX"></param>
+        /// <returns></returns>
         [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern float GetSroPosX(int x, int picsize, int viewX, int clickX);
 
@@ -88,11 +96,15 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// The Location of the mouse while dragging and swiping.
         /// </summary>
-        private Point wRegionID = Point.Empty;
+       // private Point wRegionID = Point.Empty;
 
         private Point PointPanel = Point.Empty;
-        private Point PointRegionXY = Point.Empty;
-        private Structs.SVector3 sVector;
+
+        /// <summary>
+        /// Contains the <see cref="Structs.WRegionID"/> of the current mouse Position.
+        /// <br>The <see cref="Structs.SVector3"/> are the float positions x, y, z of the mouse Location.</br>
+        /// </summary>
+        private Structs.SroPosition sroPosition;
 
         /// <summary>
         /// The start Position for Drawing.
@@ -190,15 +202,16 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             else if (e.Button == MouseButtons.Right)
             {
-                wRegionID.X = ((PointZeroLocation.X - e.X) / Base.PictureSize) * -1;
-                wRegionID.Y = ((PointZeroLocation.Y - e.Y) / Base.PictureSize) + 127;
+                //wRegionID.X = ((PointZeroLocation.X - e.X) / Base.PictureSize) * -1;
+                //wRegionID.Y = ((PointZeroLocation.Y - e.Y) / Base.PictureSize) + 127;
 
-                short regionID = Structs.WRegionID.GetRegionID(wRegionID.X, wRegionID.Y);
-
-                var regex = GetSroPosX(wRegionID.X, Base.PictureSize, PointZeroLocation.X, e.X);
-                var regez = GetSroPosY(wRegionID.Y, Base.PictureSize, PointZeroLocation.Y, e.Y);
-                sVector.X = regex;
-                sVector.Z = regez;
+                sroPosition.wRegionID = Structs.WRegionID.GetWRegionID(((PointZeroLocation.X - e.X) / Base.PictureSize) * -1, ((PointZeroLocation.Y - e.Y) / Base.PictureSize) + 127);
+                sroPosition.fPosition.X = GetSroPosX(sroPosition.wRegionID.X, Base.PictureSize, PointZeroLocation.X, e.X);
+                sroPosition.fPosition.Z = GetSroPosY(sroPosition.wRegionID.Z, Base.PictureSize, PointZeroLocation.Y, e.Y);
+                //var regex = GetSroPosX(wRegionID.X, Base.PictureSize, PointZeroLocation.X, e.X);
+                //var regez = GetSroPosY(wRegionID.Y, Base.PictureSize, PointZeroLocation.Y, e.Y);
+                //sVector.X = regex;
+                //sVector.Z = regez;
                 //if (PackFile.MapPack.TryGetMeshZ((byte)wRegionID.X, (byte)wRegionID.Y, regionID, regex, regez, out sVector.Z))
                 //{
                 //    if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"/warp {regionID} {regex} {sVector.Z} {regez}\n\nX:{wRegionID.X}\nY:{wRegionID.Y}", "Add new Position?"))
@@ -221,14 +234,10 @@ namespace WorldMapSpawnEditor.MapGraphics
                 IEnumerable<int> rangeXCoordPanel = Enumerable.Range(e.X - 6, 12);
                 IEnumerable<int> rangeYCoordPanel = Enumerable.Range(e.Y - 6, 12);
 
-                // TODO: Reimplement the SpawnEditor on Click
                 if (!Base.showEditorOnClick)
                     return;
 
-                while (contextMenuStripRegionClick.Items.Count > 2)
-                {
-                    contextMenuStripRegionClick.Items.RemoveAt(2);
-                }
+                CleanContextMenuStripe();
 
                 foreach (var swn in WorldSpawn.Where(ch => rangeXCoordPanel.Contains(
                         HoverXHelper((int)ch.RegionID.X, Base.PictureSize, PointZeroLocation.X, ch.XLocation)) && rangeYCoordPanel.Contains(HoverZHelper((int)ch.RegionID.Z, Base.PictureSize, PointZeroLocation.Y, ch.ZLocation))))
@@ -238,14 +247,13 @@ namespace WorldMapSpawnEditor.MapGraphics
                         case SpawnType.None:
                             break;
 
-                        case SpawnType.Monster when Base.showMonster:// && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {((Monster)swn).CodeName128}", "SpawnEditor"):
+                        case SpawnType.Monster when Base.showMonster:
                             ToolStripMenuItem itm = new ToolStripMenuItem()
                             {
                                 BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
                                 BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
-                                // Size = new System.Drawing.Size(180, 22),
                                 AutoSize = true,
-                                Text = $"Edit Nest:[{swn.ID}]:[{((Monster)swn).CodeName128}]",
+                                Text = $"Edit Monster Nest:[{swn.ID}]:[{((Monster)swn).CodeName128}]",
                                 Tag = new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])
                             };
                             itm.Click += edititm_Click;
@@ -253,15 +261,29 @@ namespace WorldMapSpawnEditor.MapGraphics
                             break;
 
                         case SpawnType.Npc when Base.showNpc:
-                            if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for monster {((Npc)swn).CodeName128}", "SpawnEditor"))
-                                using (SpawnEditor Editor = new SpawnEditor(new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])))
-                                    Editor.ShowDialog();
+                            ToolStripMenuItem itm2 = new ToolStripMenuItem()
+                            {
+                                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
+                                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
+                                AutoSize = true,
+                                Text = $"Edit Npc Nest:[{swn.ID}]:[{((Npc)swn).CodeName128}]",
+                                Tag = new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])
+                            };
+                            itm2.Click += edititm_Click;
+                            contextMenuStripRegionClick.Items.Add(itm2);
                             break;
 
-                        case SpawnType.Unique when Base.showUniqueMonster && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for unique {((Monster)swn).CodeName128}", "SpawnEditor"):
-
-                            using (SpawnEditor Editor = new SpawnEditor(new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])))
-                                Editor.ShowDialog();
+                        case SpawnType.Unique when Base.showUniqueMonster:// && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for unique {((Monster)swn).CodeName128}", "SpawnEditor"):
+                            ToolStripMenuItem itm3 = new ToolStripMenuItem()
+                            {
+                                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
+                                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
+                                AutoSize = true,
+                                Text = $"Edit Unique Nest:[{swn.ID}]:[{((Monster)swn).CodeName128}]",
+                                Tag = new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])
+                            };
+                            itm3.Click += edititm_Click;
+                            contextMenuStripRegionClick.Items.Add(itm3);
                             break;
 
                         case SpawnType.Teleport:
@@ -275,6 +297,14 @@ namespace WorldMapSpawnEditor.MapGraphics
                     }
                 }
                 contextMenuStripRegionClick.Show(this, e.Location);
+            }
+        }
+
+        private void CleanContextMenuStripe()
+        {
+            while (contextMenuStripRegionClick.Items.Count > 2)
+            {
+                contextMenuStripRegionClick.Items.RemoveAt(2);
             }
         }
 
@@ -385,14 +415,14 @@ namespace WorldMapSpawnEditor.MapGraphics
             else if (e.Delta > 0 && Base.PictureSize > 900)
                 return;
 
-            wRegionID.X = ((PointZeroLocation.X - e.X) / Base.PictureSize) * -1;
-            wRegionID.Y = ((PointZeroLocation.Y - e.Y) / Base.PictureSize) * -1;
-
+            // wRegionID.X = ((PointZeroLocation.X - e.X) / Base.PictureSize) * -1;
+            // wRegionID.Y = ((PointZeroLocation.Y - e.Y) / Base.PictureSize) * -1;
+            sroPosition.wRegionID = Structs.WRegionID.GetWRegionID(((PointZeroLocation.X - e.X) / Base.PictureSize) * -1, ((PointZeroLocation.Y - e.Y) / Base.PictureSize) * -1);
             Base.PictureSize = e.Delta < 0 ? Base.PictureSize - 10 : Base.PictureSize + 10;
             if (Base.PictureSize < 15)
                 Base.PictureSize = 15;
-            PointZeroLocation.X = e.Delta < 0 ? PointZeroLocation.X + wRegionID.X * 10 : PointZeroLocation.X - wRegionID.X * 10;
-            PointZeroLocation.Y = e.Delta < 0 ? PointZeroLocation.Y + wRegionID.Y * 10 : PointZeroLocation.Y - wRegionID.Y * 10;
+            PointZeroLocation.X = e.Delta < 0 ? PointZeroLocation.X + sroPosition.wRegionID.X * 10 : PointZeroLocation.X - sroPosition.wRegionID.X * 10;
+            PointZeroLocation.Y = e.Delta < 0 ? PointZeroLocation.Y + sroPosition.wRegionID.Z * 10 : PointZeroLocation.Y - sroPosition.wRegionID.Z * 10;
 
             if (PointZeroLocation.X > 0)
                 PointZeroLocation.X = 0;
@@ -635,14 +665,14 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void saveCoordinateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            short regionID = Structs.WRegionID.GetRegionID(wRegionID.X, wRegionID.Y);
+            //short regionID = Structs.WRegionID.GetRegionID(wRegionID.X, wRegionID.Y);
 
-            if (PackFile.MapPack.TryGetMeshZ((byte)wRegionID.X, (byte)wRegionID.Y, regionID, sVector.X, sVector.Z, out float higth))
+            if (PackFile.MapPack.TryGetMeshZ(sroPosition.wRegionID.X, sroPosition.wRegionID.Z, sroPosition.wRegionID.RegionID, sroPosition.fPosition.X, sroPosition.fPosition.Z, out float higth))
             {
-                sVector.Y = higth;
-                string str = ServerFrameworkRes.BasicControls.vSroMessageBox.GetInput($"Enter the Name of your Point inside the InputBox.\n/warp {regionID} {sVector.X} {sVector.Y} {sVector.Z}\n\nX:{wRegionID.X}\nY:{wRegionID.Y}", "Add new location", "Pos Name:");
+                sroPosition.fPosition.Y = higth;
+                string str = ServerFrameworkRes.BasicControls.vSroMessageBox.GetInput($"Enter the Name of your Point inside the InputBox.\n/warp {sroPosition.wRegionID.RegionID} {sroPosition.fPosition.X} {sroPosition.fPosition.Y} {sroPosition.fPosition.Z}\n\nX:{sroPosition.wRegionID.X}\nY:{sroPosition.wRegionID.Z}", "Add new location", "Pos Name:");
                 if (str.Length > 0)
-                    PositionStorage.StorePosition(str, new NewPosition() { Text = str, RegionID = new Structs.WRegionID(regionID), Position = new Structs.SVector3(sVector.X, sVector.Y, sVector.Z) });
+                    PositionStorage.StorePosition(str, new NewPosition(sroPosition, str));
                 Invalidate();
             }
         }

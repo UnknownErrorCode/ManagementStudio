@@ -98,6 +98,7 @@
     <Compile Include="BinaryFiles\JMXRessource\Mesh\Map\CMapMeshCell.cs" />
     <Compile Include="Geometry\Points.cs" />
     <Compile Include="Geometry\SRectangle.cs" />
+    <Compile Include="Geometry\SroPosition.cs" />
     <Compile Include="Tool\Dashboard\DashboardMessage.cs" />
     <Compile Include="Database\Enumerable\BorrowFlag.cs" />
     <Compile Include="Database\Enumerable\DropFlag.cs" />

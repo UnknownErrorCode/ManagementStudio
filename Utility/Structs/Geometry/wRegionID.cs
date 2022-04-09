@@ -45,19 +45,14 @@ namespace Structs
         /// </summary>
         public byte Z => y;
 
-        public bool Equals(WRegionID other)
-        {
-            return this.RegionID.Equals(other.RegionID);
-        }
+        public bool Equals(WRegionID other) => this.RegionID.Equals(other.RegionID) && this.X.Equals(other.X) && this.Z.Equals(other.Z);
 
-        public static short GetRegionID(int i, int i2)
-        {
-            return GetRegionID((byte)i, (byte)i2);
-        }
+        public static short GetRegionID(int i, int i2) => GetRegionID((byte)i, (byte)i2);
 
-        public static short GetRegionID(byte i, byte i2)
-        {
-            return (short)Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
-        }
+        public static short GetRegionID(byte i, byte i2) => (short)Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16);
+
+        public static WRegionID GetWRegionID(int i, int i2) => GetWRegionID((byte)i, (byte)i2);
+
+        public static WRegionID GetWRegionID(byte i, byte i2) => new WRegionID((short)Convert.ToInt32($"{i2.ToString("X")}{i.ToString("X")}", 16));
     }
 }
