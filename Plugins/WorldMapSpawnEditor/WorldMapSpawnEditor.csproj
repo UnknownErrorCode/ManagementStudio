@@ -138,7 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ClientDataStorage\PluginFramework.csproj">
-      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
+      <Project>{7C445307-50F3-4455-AD37-382A51A86FBD}</Project>
       <Name>PluginFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\BinaryFiles\BinaryFiles.csproj">

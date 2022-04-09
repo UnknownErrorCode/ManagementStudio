@@ -61,7 +61,7 @@ namespace PackFile
             return true;
         }
 
-        public static bool ExtractRegionIcons()
+        public static bool ExtractRegionIcons(string extractToPath)
         {
             if (MediaPack.Initialized)
             {
@@ -73,7 +73,7 @@ namespace PackFile
                         {
                             try
                             {
-                                var picDirPath = Path.Combine(clientPath, WorldMapGuidePath);
+                                var picDirPath = Path.Combine(extractToPath, WorldMapGuidePath);
                                 Directory.CreateDirectory(picDirPath);
                                 using (MemoryStream stream = new MemoryStream(rawddjFile))
                                 {

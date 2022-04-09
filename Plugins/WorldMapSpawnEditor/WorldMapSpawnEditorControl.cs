@@ -167,7 +167,7 @@ namespace WorldMapSpawnEditor
         {
             if (MapGuide == null)
             {
-                System.Threading.Tasks.Task.Run(() => PackFile.PackFileManager.ExtractRegionIcons());
+                System.Threading.Tasks.Task.Run(() => PackFile.PackFileManager.ExtractRegionIcons(PluginFramework.Config.StaticConfig.ClientExtracted));
                 MapGuide = new MapGuide.MapGuideForm();
             }
 

@@ -1,4 +1,4 @@
-﻿using ClientFrameworkRes.Database.SRProperties;
+﻿using PluginFramework.Database.SRProperties;
 using PluginFramework.Database;
 using Structs.Database;
 

@@ -1,6 +1,6 @@
 ﻿using Structs.Database;
 
-namespace ClientFrameworkRes.Database.SRProperties
+namespace PluginFramework.Database.SRProperties
 {
     public struct PTabRefNest
     {

@@ -40,7 +40,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonShowUpdateNest = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonSelectHive = new System.Windows.Forms.Button();
             this.buttonShowUpdateHive = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.buttonShowUpdateTactics = new System.Windows.Forms.Button();
@@ -158,15 +158,16 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.buttonShowUpdateNest.UseVisualStyleBackColor = true;
             this.buttonShowUpdateNest.Click += new System.EventHandler(this.ShowNestUpdate);
             // 
-            // button3
+            // buttonSelectHive
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(294, 371);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(91, 23);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonSelectHive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonSelectHive.Location = new System.Drawing.Point(294, 371);
+            this.buttonSelectHive.Name = "buttonSelectHive";
+            this.buttonSelectHive.Size = new System.Drawing.Size(91, 23);
+            this.buttonSelectHive.TabIndex = 5;
+            this.buttonSelectHive.Text = "Select Hive";
+            this.buttonSelectHive.UseVisualStyleBackColor = true;
+            this.buttonSelectHive.Click += new System.EventHandler(this.buttonSelectHive_Click);
             // 
             // buttonShowUpdateHive
             // 
@@ -265,7 +266,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.Controls.Add(this.buttonShowUpdateCommon);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.buttonShowUpdateTactics);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.buttonSelectHive);
             this.Controls.Add(this.buttonShowUpdateHive);
             this.Controls.Add(this.buttonShowUpdateNest);
             this.Controls.Add(this.label5);
@@ -298,7 +299,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonShowUpdateNest;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonSelectHive;
         private System.Windows.Forms.Button buttonShowUpdateHive;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button buttonShowUpdateTactics;

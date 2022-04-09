@@ -1,4 +1,4 @@
-﻿using ClientFrameworkRes.Database.SRProperties;
+﻿using PluginFramework.Database.SRProperties;
 using PluginFramework.BasicControls;
 using System;
 using System.Collections.Generic;
@@ -197,6 +197,18 @@ namespace WorldMapSpawnEditor.MapGraphics
                 NestUpdateValues.Add("fLocalPosX", $"{pos.Position.X}");
                 NestUpdateValues.Add("fLocalPosZ", $"{pos.Position.Z}");
                 NestUpdateValues.Add("fLocalPosY", $"{pos.Position.Y}");
+            }
+        }
+
+        private void buttonSelectHive_Click(object sender, EventArgs e)
+        {
+            if (GenericSelectForm.SelectObjStruct(PluginFramework.Database.SRO_VT_SHARD.Tab_RefHive, out Structs.Database.Tab_RefHive hive))
+            {
+                // ((PTabRefNest)propertyGrid1.SelectedObject).fLocalPosX= pos.Position.X;
+                CurrentSpawn.Hive = new PTab_RefHive(hive);
+
+                propertyGrid2.SelectedObject = CurrentSpawn.Hive;
+                NestUpdateValues.Add("dwHiveID", $"{hive.dwHiveID}");
             }
         }
     }
