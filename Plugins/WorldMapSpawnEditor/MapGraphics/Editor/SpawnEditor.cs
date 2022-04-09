@@ -1,4 +1,5 @@
-﻿using PluginFramework.BasicControls;
+﻿using ClientFrameworkRes.Database.SRProperties;
+using PluginFramework.BasicControls;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -193,9 +194,9 @@ namespace WorldMapSpawnEditor.MapGraphics
                 CurrentSpawn.Nest.fLocalPosY = pos.Position.Y;
                 propertyGrid1.SelectedObject = CurrentSpawn.Nest;
                 NestUpdateValues.Add("nRegionDBID", $"{pos.RegionID.RegionID}");
-                NestUpdateValues.Add("fLocalPosX" , $"{pos.Position.X}");
-                NestUpdateValues.Add("fLocalPosZ" , $"{pos.Position.Z}");
-                NestUpdateValues.Add("fLocalPosY" , $"{pos.Position.Y}");
+                NestUpdateValues.Add("fLocalPosX", $"{pos.Position.X}");
+                NestUpdateValues.Add("fLocalPosZ", $"{pos.Position.Z}");
+                NestUpdateValues.Add("fLocalPosY", $"{pos.Position.Y}");
             }
         }
     }
