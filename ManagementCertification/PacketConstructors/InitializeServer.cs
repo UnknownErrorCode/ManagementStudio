@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System.Data;
 
@@ -25,7 +25,7 @@ namespace ManagementCertification.PacketConstructors
             }
             catch (System.Exception ex)
             {
-                return NotificationPacket.NotifyPacket(ServerFrameworkRes.Ressources.LogLevel.fatal, ex.Message);
+                return NotificationPacket.NotifyPacket(ManagementFramework.Ressources.LogLevel.fatal, ex.Message);
             }
         }
 

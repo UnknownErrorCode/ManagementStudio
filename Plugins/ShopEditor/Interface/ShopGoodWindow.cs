@@ -1,5 +1,5 @@
 ﻿using BinaryFiles.PackFile;
-using Editors.Shop;
+using ShopEditor.Interface.ShopInterface;
 using System;
 using System.Drawing;
 using System.Windows.Forms;

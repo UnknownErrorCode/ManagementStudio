@@ -1,6 +1,6 @@
 ﻿namespace ManagementCertification.Network
 {
-    internal class ServerLizenceData : ServerFrameworkRes.Network.Security.ServerData
+    internal class ServerLizenceData : ManagementFramework.Network.Security.ServerData
     {
 
         internal byte LizenceGroup;

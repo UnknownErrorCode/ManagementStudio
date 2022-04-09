@@ -56,10 +56,10 @@ namespace FileEditor._2dt
         private void Loading(object sender, EventArgs e)
         {
             if (!PackFile.MediaPack.GetTextUISystem(out TextUISystem))
-                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, "Failed to get textuiSystem.txt");
+                ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, "Failed to get textuiSystem.txt");
 
             if (!PackFile.PackFileManager.ExtractIfInterfaces())
-                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, "Failed to get resinfo interface files");
+                ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, "Failed to get resinfo interface files");
         }
     }
 }

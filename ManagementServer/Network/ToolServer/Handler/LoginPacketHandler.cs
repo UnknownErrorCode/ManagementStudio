@@ -1,5 +1,5 @@
 ﻿using ManagementServer.Utility;
-using ServerFrameworkRes.Network.Security;
+using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System;
 
@@ -39,7 +39,7 @@ namespace ManagementServer.Network
                 }
                 else
                 {
-                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed login on user: {result.UserName} {result.Notification}");
+                    ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Failed login on user: {result.UserName} {result.Notification}");
                 }
 
                 return PacketHandlerResult.Response;

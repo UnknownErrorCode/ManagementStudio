@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.BasicControls;
+﻿using ManagementFramework.BasicControls;
 
 namespace ShopEditor.Interface.ShopInterface
 {

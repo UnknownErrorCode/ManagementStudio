@@ -32,7 +32,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageTriggerViewer = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.vSroButtonList1 = new ServerFrameworkRes.BasicControls.vSroButtonList();
+            this.vSroButtonList1 = new PluginFramework.BasicControls.vSroButtonList();
             this.treeViewGameWorlds = new System.Windows.Forms.TreeView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
@@ -131,7 +131,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageTriggerViewer;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ServerFrameworkRes.BasicControls.vSroButtonList vSroButtonList1;
+        private PluginFramework.BasicControls.vSroButtonList vSroButtonList1;
         private System.Windows.Forms.TreeView treeViewGameWorlds;
         private System.Windows.Forms.TabPage tabPage2;
     }

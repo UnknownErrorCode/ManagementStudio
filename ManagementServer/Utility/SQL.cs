@@ -151,21 +151,21 @@ namespace ManagementServer.Utility
         private static bool TestSQLConnection(string sQL_ConnectionString)
         {
             sqlConnection = new SqlConnection(SqlConnectionString);
-            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Testing SQL Connection...");
+            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Testing SQL Connection...");
 
             try
             {
                 sqlConnection.Open();
                 if (sqlConnection.State == ConnectionState.Open)
                 {
-                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
+                    ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
                     //sqlConnection.Close();
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
+                ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
             }
             return false;
         }
@@ -217,7 +217,7 @@ namespace ManagementServer.Utility
                 }
             }
 
-            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"EXEC {DB}.dbo.{procedureName} {paramstring}");
+            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, $"EXEC {DB}.dbo.{procedureName} {paramstring}");
             return dataTableProcedure;
         }
 
@@ -237,11 +237,11 @@ namespace ManagementServer.Utility
                     adapter.Fill(dataTable);
                 }
 
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, query);
+                ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, query);
             }
             catch (Exception ex)
             {
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, ex.Message);
+                ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, ex.Message);
             }
 
             return dataTable;
@@ -263,13 +263,13 @@ namespace ManagementServer.Utility
                     }
                     command.CommandType = CommandType.Text;
                     var ret = command.ExecuteNonQuery();
-                    ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
+                    ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
                     return ret;
                 }
             }
             catch (Exception)
             {
-                ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
+                ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
             }
 
             return 0;

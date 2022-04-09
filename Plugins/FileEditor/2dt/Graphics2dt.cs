@@ -78,7 +78,7 @@ namespace FileEditor._2dt
                 }
                 else
                 {
-                    ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Unknown Style ={item.Style}");
+                    ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Unknown Style ={item.Style}");
                 }
             }
         }

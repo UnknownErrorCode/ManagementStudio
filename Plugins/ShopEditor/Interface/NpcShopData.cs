@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.BasicControls;
+﻿using ManagementFramework.BasicControls;
 using ShopEditor.Interface.ShopInterface;
 using System.Data;
 using System.Linq;

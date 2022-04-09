@@ -1,6 +1,6 @@
-﻿using ServerFrameworkRes;
-using ServerFrameworkRes.Network.AsyncNetwork;
-using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework;
+using ManagementFramework.Network.AsyncNetwork;
+using ManagementFramework.Network.Security;
 using System;
 using System.Collections.Generic;
 

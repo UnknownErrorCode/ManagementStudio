@@ -1,4 +1,4 @@
-﻿using Editors.Shop;
+﻿using ShopEditor.Interface.ShopInterface;
 using System.Windows.Forms;
 
 namespace ShopEditor.Interface

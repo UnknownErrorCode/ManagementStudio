@@ -1,5 +1,5 @@
 ﻿using PackFile.Media.Textdata;
-using ServerFrameworkRes.Network.Security;
+using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System;
 using System.Windows.Forms;
@@ -27,7 +27,7 @@ namespace ShopEditor
             InitializeComponent();
             if (!PackFile.MediaPack.GetTextUISystem(out StaticTextUISystem))
             {
-                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, "Failed to get textuisystem for ShopEditor.");
+                ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.fatal, "Failed to get textuisystem for ShopEditor.");
             }
 
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
@@ -58,7 +58,7 @@ namespace ShopEditor
                     listViewAllNpcs.Items.Add(listItem);
                 }
             }
-            ServerFrameworkRes.Log.Logger.WriteLogLine($"Successfully load [{listViewAllNpcs.Items.Count}] Npc Shops.");
+            ManagementFramework.Log.Logger.WriteLogLine($"Successfully load [{listViewAllNpcs.Items.Count}] Npc Shops.");
         }
 
         /// <summary>

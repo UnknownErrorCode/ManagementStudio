@@ -46,6 +46,8 @@
     <Compile Include="Interface\ShopGoodWindow.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Interface\ShopInterface\CIShopGood.cs" />
+    <Compile Include="Interface\ShopInterface\DataModelRefPricePolicyOfItem.cs" />
     <Compile Include="Interface\ShopInterface\EditorInterface.cs" />
     <Compile Include="Interface\ShopInterface\RefShop.cs" />
     <Compile Include="Interface\ShopInterface\RefShopGroup.cs" />
@@ -84,25 +86,21 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\PluginFramework.csproj">
-      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>PluginFramework</Name>
+    <ProjectReference Include="..\..\ManagementFramework\ManagementFramework.csproj">
+      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
+      <Name>ManagementFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\BinaryFiles\BinaryFiles.csproj">
       <Project>{AD7421FC-847B-41FB-BA2F-6CA9A7069FB0}</Project>
       <Name>BinaryFiles</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Utility\Editors\Editors.csproj">
-      <Project>{5185C5C8-39D7-48ED-B45E-231DC36A3F10}</Project>
-      <Name>Editors</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Utility\PackFile\PackFile.csproj">
       <Project>{08885d2d-7dac-4902-bef2-d38132f77635}</Project>
       <Name>PackFile</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Utility\ServerFrameworkRes\ManagementFramework.csproj">
-      <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>
-      <Name>ManagementFramework</Name>
+    <ProjectReference Include="..\..\Utility\PluginFramework\PluginFramework.csproj">
+      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
+      <Name>PluginFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\Structs\Structs.csproj">
       <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>

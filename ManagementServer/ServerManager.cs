@@ -1,5 +1,5 @@
 ﻿using ManagementServer.Network;
-using ServerFrameworkRes.Ressources;
+using ManagementFramework.Ressources;
 using System;
 using System.Threading;
 using System.Windows.Forms;

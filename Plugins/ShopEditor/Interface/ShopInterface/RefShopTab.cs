@@ -1,5 +1,4 @@
-﻿using Editors.Shop;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 
 namespace ShopEditor.Interface.ShopInterface

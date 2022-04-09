@@ -30,12 +30,12 @@ namespace ManagementClient
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
-            this.vSroCheckBox1 = new ServerFrameworkRes.BasicControls.vSroCheckBox();
-            this.vSroSmallButtonLogin = new ServerFrameworkRes.BasicControls.vSroSmallButton();
-            this.vSroInputBox2 = new ServerFrameworkRes.BasicControls.vSroInputBox();
-            this.vSroInputBox1 = new ServerFrameworkRes.BasicControls.vSroInputBox();
-            this.vSroSizableWindow1 = new ServerFrameworkRes.BasicControls.vSroSizableWindow();
-            this.vSroCheckBoxSaveLogin = new ServerFrameworkRes.BasicControls.vSroCheckBox();
+            this.vSroCheckBox1 = new PluginFramework.BasicControls.vSroCheckBox();
+            this.vSroSmallButtonLogin = new PluginFramework.BasicControls.vSroSmallButton();
+            this.vSroInputBox2 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroInputBox1 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroSizableWindow1 = new PluginFramework.BasicControls.vSroSizableWindow();
+            this.vSroCheckBoxSaveLogin = new PluginFramework.BasicControls.vSroCheckBox();
             this.SuspendLayout();
             // 
             // vSroCheckBox1
@@ -60,7 +60,7 @@ namespace ManagementClient
             this.vSroSmallButtonLogin.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonLogin.TabIndex = 4;
             this.vSroSmallButtonLogin.vSroSmallButtonName = "Login";
-            this.vSroSmallButtonLogin.vSroClickEvent += new ServerFrameworkRes.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButtonLogin_vSroClickEvent);
+            this.vSroSmallButtonLogin.vSroClickEvent += new PluginFramework.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButtonLogin_vSroClickEvent);
             // 
             // vSroInputBox2
             // 
@@ -137,12 +137,12 @@ namespace ManagementClient
 
         #endregion
 
-        private ServerFrameworkRes.BasicControls.vSroSizableWindow vSroSizableWindow1;
-        private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBox1;
-        private ServerFrameworkRes.BasicControls.vSroInputBox vSroInputBox2;
-        private ServerFrameworkRes.BasicControls.vSroSmallButton vSroSmallButtonLogin;
-        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBox1;
-        private ServerFrameworkRes.BasicControls.vSroCheckBox vSroCheckBoxSaveLogin;
+        private PluginFramework.BasicControls.vSroSizableWindow vSroSizableWindow1;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox1;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox2;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButtonLogin;
+        private PluginFramework.BasicControls.vSroCheckBox vSroCheckBox1;
+        private PluginFramework.BasicControls.vSroCheckBox vSroCheckBoxSaveLogin;
     }
 }
 

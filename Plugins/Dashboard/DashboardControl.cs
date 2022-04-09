@@ -1,6 +1,6 @@
 ﻿using PluginFramework.Dashboard;
-using ServerFrameworkRes.BasicControls;
-using ServerFrameworkRes.Network.Security;
+using ManagementFramework.BasicControls;
+using ManagementFramework.Network.Security;
 using Structs.Dashboard;
 using Structs.Tool;
 using System;

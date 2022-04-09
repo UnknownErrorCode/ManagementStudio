@@ -41,7 +41,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
                 if (!region.RegionID.IsDungeon && (pointer.X != enumerable[i].X || pointer.Y != enumerable[i].Z))
                 {
-                    ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"_RefRegion {region.AreaName} unproper RegionID;[{region.RegionID.RegionID}] Real:Database X= {pointer.X}:{enumerable[i].X}  Z= {pointer.Y}:{enumerable[i].Z}");
+                    ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"_RefRegion {region.AreaName} unproper RegionID;[{region.RegionID.RegionID}] Real:Database X= {pointer.X}:{enumerable[i].X}  Z= {pointer.Y}:{enumerable[i].Z}");
                     ErrorRegions.Add(enumerable[i].wRegionID, region);
                 }
                 else
@@ -64,12 +64,12 @@ namespace WorldMapSpawnEditor.MapGraphics
                     catch (System.Exception e)
                     {
                         ErrorRegions.Add(enumerable[i].wRegionID, region);
-                        ServerFrameworkRes.Log.Logger.WriteLogLine(e, "Catches wrong region.");
+                        ManagementFramework.Log.Logger.WriteLogLine(e, "Catches wrong region.");
                     }
                 }
             }
             if (ErrorRegions.Count > 0)
-                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Loaded {ErrorRegions.Count} wrong regions at continent {continentname}.");
+                ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Loaded {ErrorRegions.Count} wrong regions at continent {continentname}.");
         }
 
         /// <summary>

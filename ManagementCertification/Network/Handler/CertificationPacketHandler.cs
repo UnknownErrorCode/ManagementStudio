@@ -1,5 +1,5 @@
 ﻿using ManagementCertification.Utility;
-using ServerFrameworkRes.Network.Security;
+using ManagementFramework.Network.Security;
 using System;
 
 namespace ManagementCertification.Network
@@ -31,7 +31,7 @@ namespace ManagementCertification.Network
                 }
                 else
                 {
-                    CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed login on user: {result.UserName} {result.Notification}");
+                    CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Failed login on user: {result.UserName} {result.Notification}");
                 }
 
                 return PacketHandlerResult.Response;

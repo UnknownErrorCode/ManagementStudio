@@ -29,7 +29,7 @@ namespace WorldMapSpawnEditor.MapGuide
         /// </summary>
         private void InitializeComponent()
         {
-            this.vSroSizableWindow1 = new ServerFrameworkRes.BasicControls.vSroSizableWindow();
+            this.vSroSizableWindow1 = new PluginFramework.BasicControls.vSroSizableWindow();
             this.SuspendLayout();
             // 
             // vSroSizableWindow1
@@ -58,6 +58,6 @@ namespace WorldMapSpawnEditor.MapGuide
 
         #endregion
 
-        private ServerFrameworkRes.BasicControls.vSroSizableWindow vSroSizableWindow1;
+        private PluginFramework.BasicControls.vSroSizableWindow vSroSizableWindow1;
     }
 }

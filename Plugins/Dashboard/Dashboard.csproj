@@ -70,13 +70,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\PluginFramework.csproj">
+    <ProjectReference Include="..\..\ManagementFramework\ManagementFramework.csproj">
+      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
+      <Name>ManagementFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\PluginFramework\PluginFramework.csproj">
       <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
       <Name>PluginFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utility\ServerFrameworkRes\ManagementFramework.csproj">
-      <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>
-      <Name>ManagementFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\Structs\Structs.csproj">
       <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>

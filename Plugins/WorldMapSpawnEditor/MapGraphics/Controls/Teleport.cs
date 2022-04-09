@@ -1,5 +1,4 @@
-﻿using Editors.Teleport;
-using Structs.Database;
+﻿using Structs.Database;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {

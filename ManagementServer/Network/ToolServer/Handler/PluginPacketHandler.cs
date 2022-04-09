@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.Security;
 
 namespace ManagementServer.Network
 {

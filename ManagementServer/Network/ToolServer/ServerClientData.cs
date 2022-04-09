@@ -1,6 +1,6 @@
 ﻿namespace ManagementServer.Network
 {
-    internal class ServerClientData : ServerFrameworkRes.Network.Security.ServerData
+    internal class ServerClientData : ManagementFramework.Network.Security.ServerData
     {
         #region Fields
 

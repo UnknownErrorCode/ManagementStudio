@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.AsyncNetwork;
+﻿using ManagementFramework.Network.AsyncNetwork;
 using System.Threading;
 
 namespace ManagementServer.Network

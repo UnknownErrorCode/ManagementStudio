@@ -36,14 +36,14 @@
             this.labelText = new System.Windows.Forms.Label();
             this.labelAuthor = new System.Windows.Forms.Label();
             this.labelTopic = new System.Windows.Forms.Label();
-            this.vSroButtonList1 = new ServerFrameworkRes.BasicControls.vSroButtonList();
+            this.vSroButtonList1 = new PluginFramework.BasicControls.vSroButtonList();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.editShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteShownTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewTopicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.vSroButtonListOnlineUser = new ServerFrameworkRes.BasicControls.vSroButtonList();
+            this.vSroButtonListOnlineUser = new PluginFramework.BasicControls.vSroButtonList();
             this.timerCheckDashboard = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -259,12 +259,12 @@
         private System.Windows.Forms.Label labelText;
         private System.Windows.Forms.Label labelAuthor;
         private System.Windows.Forms.Label labelTopic;
-        private ServerFrameworkRes.BasicControls.vSroButtonList vSroButtonList1;
+        private PluginFramework.BasicControls.vSroButtonList vSroButtonList1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem editShownTopicToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteShownTopicToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewTopicToolStripMenuItem;
-        private ServerFrameworkRes.BasicControls.vSroButtonList vSroButtonListOnlineUser;
+        private PluginFramework.BasicControls.vSroButtonList vSroButtonListOnlineUser;
     }
 }

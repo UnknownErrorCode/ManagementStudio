@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.Security;
 
 namespace ManagementServer.PacketConstructors
 {
@@ -15,7 +15,7 @@ namespace ManagementServer.PacketConstructors
         {
             Packet pack = new Packet(PacketID.CertificationClient.LIZENCEREQUEST);
             pack.WriteAscii("Rising-Online");
-            pack.WriteAscii(ServerFrameworkRes.Utility.MD5Generator.MD5String("anelamela"));
+            pack.WriteAscii(ManagementFramework.Utility.MD5Generator.MD5String("anelamela"));
             return pack;
         }
     }

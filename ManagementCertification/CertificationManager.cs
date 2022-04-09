@@ -1,5 +1,5 @@
-﻿using ServerFrameworkRes.Network.AsyncNetwork;
-using ServerFrameworkRes.Ressources;
+﻿using ManagementFramework.Network.AsyncNetwork;
+using ManagementFramework.Ressources;
 using System;
 using System.Threading;
 using System.Windows.Forms;

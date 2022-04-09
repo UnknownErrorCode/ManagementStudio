@@ -101,7 +101,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Utility\ServerFrameworkRes\ManagementFramework.csproj">
+    <ProjectReference Include="..\ManagementFramework\ManagementFramework.csproj">
       <Project>{1D234D70-9F7E-4CBC-BDC3-58943CBEE95C}</Project>
       <Name>ManagementFramework</Name>
     </ProjectReference>

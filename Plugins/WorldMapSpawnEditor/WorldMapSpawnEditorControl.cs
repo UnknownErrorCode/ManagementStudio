@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System;
 using System.Reflection;
@@ -98,7 +98,7 @@ namespace WorldMapSpawnEditor
         {
             var continent = ((ToolStripMenuItem)sender).Text;
             if (!MapPanel.TryViewContinent(continent))
-                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed to set view for continent: [{continent}]");
+                ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Failed to set view for continent: [{continent}]");
         }
 
         private void showAssignedRegionsToolStripMenuItem_Click(object sender, EventArgs e)

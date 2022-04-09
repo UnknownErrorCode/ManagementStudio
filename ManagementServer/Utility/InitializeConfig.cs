@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes;
+﻿using ManagementFramework;
 using System;
 using System.IO;
 

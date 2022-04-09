@@ -1,5 +1,5 @@
-﻿using ServerFrameworkRes.Network.AsyncNetwork;
-using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.AsyncNetwork;
+using ManagementFramework.Network.Security;
 using System;
 using System.Threading;
 

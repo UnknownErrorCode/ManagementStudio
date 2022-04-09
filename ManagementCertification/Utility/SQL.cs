@@ -122,21 +122,21 @@ namespace ManagementCertification.Utility
         private static bool TestSQLConnection(string sQL_ConnectionString)
         {
             sqlConnection = new SqlConnection(SqlConnectionString);
-            CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Testing SQL Connection...");
+            CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Testing SQL Connection...");
 
             try
             {
                 sqlConnection.Open();
                 if (sqlConnection.State == ConnectionState.Open)
                 {
-                    CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
+                    CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
                     //sqlConnection.Close();
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
+                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
             }
             return false;
         }
@@ -187,7 +187,7 @@ namespace ManagementCertification.Utility
                 }
             }
 
-            CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"EXEC {DB}.dbo.{procedureName} {paramstring}");
+            CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, $"EXEC {DB}.dbo.{procedureName} {paramstring}");
             return dataTableProcedure;
         }
 
@@ -207,11 +207,11 @@ namespace ManagementCertification.Utility
                     adapter.Fill(dataTable);
                 }
 
-                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, query);
+                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, query);
             }
             catch (Exception ex)
             {
-                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, ex.Message);
+                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, ex.Message);
             }
 
             return dataTable;
@@ -233,13 +233,13 @@ namespace ManagementCertification.Utility
                     }
                     command.CommandType = CommandType.Text;
                     var ret = command.ExecuteNonQuery();
-                    CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
+                    CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
                     return ret;
                 }
             }
             catch (Exception)
             {
-                CertificationManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
+                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
             }
 
             return 0;

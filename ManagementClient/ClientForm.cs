@@ -17,7 +17,7 @@ namespace ManagementClient
         public ClientForm()
         {
             InitializeComponent();
-            Controls.Add(ServerFrameworkRes.Log.Logger);
+            Controls.Add(ManagementFramework.Log.Logger);
             PluginFramework.ClientCore.OnAllowedPluginReceived += OnAllowedPluginReceived;
         }
 
@@ -42,12 +42,12 @@ namespace ManagementClient
         /// </summary>
         private void InitializePackFile()
         {
-            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Loading pk2 ressources...");
+            ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Loading pk2 ressources...");
 
             if (!PackFile.PackFileManager.InitializePackFiles(PluginFramework.Config.StaticConfig.ClientPath))
-                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.fatal, "Failed initialize pk2 ressources!");
+                ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.fatal, "Failed initialize pk2 ressources!");
             else
-                ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Initialized Client.pk2 data.");
+                ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, $"Initialized Client.pk2 data.");
 
             Invoke(new Action(() =>
             {
@@ -68,7 +68,7 @@ namespace ManagementClient
                     loadPluginsToolStripMenuItem.DropDownItems[loadPluginsToolStripMenuItem.DropDownItems.Count - 1].Click += ClickLoadPlugin;
                 }
             })); System.Threading.Tasks.Task.Run(() => InitializePackFile());
-            ServerFrameworkRes.Log.Logger.WriteLogLine($"Allowed [{PluginFramework.ClientMemory.AllowedPlugin.Length}] *.dll libraries");
+            ManagementFramework.Log.Logger.WriteLogLine($"Allowed [{PluginFramework.ClientMemory.AllowedPlugin.Length}] *.dll libraries");
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace ManagementClient
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void showToolStripMenuItem_Click(object sender, EventArgs e) => ServerFrameworkRes.Log.Logger.Visible = !ServerFrameworkRes.Log.Logger.Visible;
+        private void showToolStripMenuItem_Click(object sender, EventArgs e) => ManagementFramework.Log.Logger.Visible = !ManagementFramework.Log.Logger.Visible;
 
         /// <summary>
         /// Try load a Plugin into the Control

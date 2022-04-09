@@ -1,5 +1,5 @@
 ﻿using ManagementServer.Utility;
-using ServerFrameworkRes.Ressources;
+using ManagementFramework.Ressources;
 using System;
 using System.Data;
 using System.Data.SqlClient;

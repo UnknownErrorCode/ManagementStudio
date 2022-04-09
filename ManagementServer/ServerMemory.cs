@@ -22,7 +22,7 @@ namespace ManagementServer
 
         #region Methods
 
-        internal static void BroadcastPacket(ServerFrameworkRes.Network.Security.Packet packet)
+        internal static void BroadcastPacket(ManagementFramework.Network.Security.Packet packet)
         {
             try
             {

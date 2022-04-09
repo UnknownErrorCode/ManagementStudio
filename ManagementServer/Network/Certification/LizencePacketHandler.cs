@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.Security;
 using Structs.Tool;
 
 namespace ManagementServer.Network
@@ -13,18 +13,14 @@ namespace ManagementServer.Network
             base.AddEntry(PacketID.CertificationServer.LIZENCE_ToolPluginDataAccess, ToolPluginDataAccess);
 
             //TODO:
-
-
         }
 
         private PacketHandlerResult LizenceResponse(ServerData arg1, Packet arg2)
         {
             arg1.m_security.Send(PacketConstructors.LizencePacket.RequestLizence);// ServerManager.settings.Version);
-            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Requesting service...");
+            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Requesting service...");
             return PacketHandlerResult.Response;
         }
-
-
 
         /// <summary>
         /// Receives the Database table "_ToolPluginDataAccess".
@@ -39,7 +35,7 @@ namespace ManagementServer.Network
             var n = arg2.ReadAscii();
             PluginSecurityManager._ToolPluginDataAccessDataTable = arg2.ReadDataTable(arg2.ReadByteArray(arg2.Remaining));
             PluginSecurityManager._ToolPluginDataAccessDataTable.TableName = n;
-            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, "_ToolPluginDataAccess received.");
+            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, "_ToolPluginDataAccess received.");
 
             return PacketHandlerResult.Block;
         }
@@ -67,7 +63,7 @@ namespace ManagementServer.Network
         {
             //data.m_security.Send(PacketConstructors.LizencePacket.RequestLizence);// ServerManager.settings.Version);
             var str = packet.ReadStruct<LoginStatus>();
-            ServerManager.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.notify,str.Notification);
+            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.notify, str.Notification);
 
             return PacketHandlerResult.Block;
         }

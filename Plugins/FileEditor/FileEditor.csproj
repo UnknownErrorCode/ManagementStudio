@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ServerFrameworkRes">
-      <HintPath>..\..\Utility\ServerFrameworkRes\obj\Debug\ServerFrameworkRes.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -100,9 +97,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientDataStorage\PluginFramework.csproj">
-      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
-      <Name>PluginFramework</Name>
+    <ProjectReference Include="..\..\ManagementFramework\ManagementFramework.csproj">
+      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
+      <Name>ManagementFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\BinaryFiles\BinaryFiles.csproj">
       <Project>{ad7421fc-847b-41fb-ba2f-6ca9a7069fb0}</Project>
@@ -111,6 +108,10 @@
     <ProjectReference Include="..\..\Utility\PackFile\PackFile.csproj">
       <Project>{08885d2d-7dac-4902-bef2-d38132f77635}</Project>
       <Name>PackFile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\PluginFramework\PluginFramework.csproj">
+      <Project>{7c445307-50f3-4455-ad37-382a51a86fbd}</Project>
+      <Name>PluginFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\Structs\Structs.csproj">
       <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>

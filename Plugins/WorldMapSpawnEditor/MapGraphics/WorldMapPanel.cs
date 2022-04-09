@@ -615,20 +615,20 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeSpawnImage(TeleportIconPath, 16, out ImageTeleport);
             InitializeSpawnImage(OwnPointIconPath, 8, out ImageOwnPoint);
             Stopwatch watch = new Stopwatch();
-            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Loading gameworld...");
+            ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Loading gameworld...");
             watch.Start();
 
             InitializeWorldGraphics();
             watch.Stop();
-            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"World initialized in {watch.ElapsedMilliseconds} ms!");
-            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.loading, "Loading spawns...!");
+            ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, $"World initialized in {watch.ElapsedMilliseconds} ms!");
+            ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Loading spawns...!");
 
             watch.Reset();
             watch.Start();
             InitializeSpawnGraphics();
             watch.Stop();
 
-            ServerFrameworkRes.Log.Logger.WriteLogLine(ServerFrameworkRes.Ressources.LogLevel.success, $"Spawns initialized in {watch.ElapsedMilliseconds} ms!");
+            ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, $"Spawns initialized in {watch.ElapsedMilliseconds} ms!");
 
             this.contextMenuStripRegionClick = new System.Windows.Forms.ContextMenuStrip();
             this.toolStripMenuItemCreateSpawn = new System.Windows.Forms.ToolStripMenuItem();
@@ -670,7 +670,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             if (PackFile.MapPack.TryGetMeshZ(sroPosition.wRegionID.X, sroPosition.wRegionID.Z, sroPosition.wRegionID.RegionID, sroPosition.fPosition.X, sroPosition.fPosition.Z, out float higth))
             {
                 sroPosition.fPosition.Y = higth;
-                string str = ServerFrameworkRes.BasicControls.vSroMessageBox.GetInput($"Enter the Name of your Point inside the InputBox.\n/warp {sroPosition.wRegionID.RegionID} {sroPosition.fPosition.X} {sroPosition.fPosition.Y} {sroPosition.fPosition.Z}\n\nX:{sroPosition.wRegionID.X}\nY:{sroPosition.wRegionID.Z}", "Add new location", "Pos Name:");
+                string str = ManagementFramework.BasicControls.vSroMessageBox.GetInput($"Enter the Name of your Point inside the InputBox.\n/warp {sroPosition.wRegionID.RegionID} {sroPosition.fPosition.X} {sroPosition.fPosition.Y} {sroPosition.fPosition.Z}\n\nX:{sroPosition.wRegionID.X}\nY:{sroPosition.wRegionID.Z}", "Add new location", "Pos Name:");
                 if (str.Length > 0)
                     PositionStorage.StorePosition(str, new NewPosition(sroPosition, str));
                 Invalidate();

@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.BasicControls;
+﻿using PluginFramework.BasicControls;
 using System.Data;
 using System.Linq;
 

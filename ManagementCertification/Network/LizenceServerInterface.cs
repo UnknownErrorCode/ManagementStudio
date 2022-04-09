@@ -1,8 +1,8 @@
 ﻿using ManagementCertification.Network;
 using ManagementCertification.Utility;
-using ServerFrameworkRes;
-using ServerFrameworkRes.Network.AsyncNetwork;
-using ServerFrameworkRes.Network.Security;
+using ManagementFramework;
+using ManagementFramework.Network.AsyncNetwork;
+using ManagementFramework.Network.Security;
 using System;
 using System.Collections.Generic;
 
@@ -65,7 +65,7 @@ namespace ManagementCertification
                 List<Packet> packets = serverClientData.m_security.TransferIncoming();
                 if (packets != null)
                 {
-                    foreach (ServerFrameworkRes.Network.Security.Packet packet in packets)
+                    foreach (ManagementFramework.Network.Security.Packet packet in packets)
                     {
                         try
                         {

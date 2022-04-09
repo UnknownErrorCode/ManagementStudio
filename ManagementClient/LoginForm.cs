@@ -1,6 +1,6 @@
 ﻿using PluginFramework;
-using ServerFrameworkRes.BasicControls;
-using ServerFrameworkRes.Network.Security;
+using ManagementFramework.BasicControls;
+using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System;
 using System.Threading;
@@ -136,7 +136,7 @@ namespace ManagementClient
             Program.MainConfig.PToolUserPassword = vSroInputBox2.ValueText;
             Packet requestLogin = new Packet(PacketID.Client.Login);
             requestLogin.WriteAscii(vSroInputBox1.ValueText);
-            requestLogin.WriteAscii(ServerFrameworkRes.Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
+            requestLogin.WriteAscii(ManagementFramework.Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
             ClientCore.Send(requestLogin);
         }
 

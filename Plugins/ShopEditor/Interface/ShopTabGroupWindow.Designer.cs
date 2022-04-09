@@ -31,7 +31,7 @@ namespace ShopEditor.Interface
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShopTabGroupWindow));
             this.labelShopTabGroup = new System.Windows.Forms.Label();
-            this.vSroCloseButton1 = new ServerFrameworkRes.BasicControls.vSroCloseButton();
+            this.vSroCloseButton1 = new PluginFramework.BasicControls.vSroCloseButton();
             this.labelPageIndex = new System.Windows.Forms.Label();
             this.panelCurrentPage = new System.Windows.Forms.Panel();
             this.panelNextPage = new System.Windows.Forms.Panel();
@@ -120,7 +120,7 @@ namespace ShopEditor.Interface
         #endregion
 
         private System.Windows.Forms.Label labelShopTabGroup;
-        private ServerFrameworkRes.BasicControls.vSroCloseButton vSroCloseButton1;
+        private PluginFramework.BasicControls.vSroCloseButton vSroCloseButton1;
         private System.Windows.Forms.Label labelPageIndex;
         private System.Windows.Forms.Panel panelCurrentPage;
         private System.Windows.Forms.Panel panelNextPage;

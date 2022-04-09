@@ -1,5 +1,5 @@
 ﻿using ManagementServer.Utility;
-using ServerFrameworkRes.Network.Security;
+using ManagementFramework.Network.Security;
 using System.Data;
 using System.IO;
 

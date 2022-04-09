@@ -1,4 +1,4 @@
-﻿using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.Security;
 
 namespace ManagementServer.PacketConstructors
 {
@@ -6,7 +6,7 @@ namespace ManagementServer.PacketConstructors
     {
         #region Methods
 
-        internal static Packet NotifyPacket(ServerFrameworkRes.Ressources.LogLevel type, string message)
+        internal static Packet NotifyPacket(ManagementFramework.Ressources.LogLevel type, string message)
         {
             Packet packet = new Packet(PacketID.Server.LogNotification);
             packet.WriteByte((byte)type);
@@ -16,7 +16,7 @@ namespace ManagementServer.PacketConstructors
         internal static Packet NotifyPacket(System.Exception ex, string message)
         {
             Packet packet = new Packet(PacketID.Server.LogNotification);
-            packet.WriteByte((byte)ServerFrameworkRes.Ressources.LogLevel.fatal);
+            packet.WriteByte((byte)ManagementFramework.Ressources.LogLevel.fatal);
             packet.WriteAscii(message);
             return packet;
         }

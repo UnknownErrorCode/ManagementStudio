@@ -1,5 +1,4 @@
-﻿using Editors.Skills;
-using ServerFrameworkRes.Network.Security;
+﻿using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System;
 using System.Data;
@@ -51,12 +50,7 @@ namespace SkillEditor
                     if (PluginFramework.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(commonID))
                     {
                         Monster Monster = new Monster(commonID);
-                        Editors.Skills.SkillEditor editor = new Editors.Skills.SkillEditor(Monster);
-                        editor.Show();
-                        if (editor.ChangeAviable)
-                        {
-                            //Send msg here
-                        }
+                        //TODO create skilleditor and redo monster class
                     }
                 }
             }

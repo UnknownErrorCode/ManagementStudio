@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7C445307-50F3-4455-AD37-382A51A86FBD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PluginFramework</RootNamespace>
+    <AssemblyName>PluginFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasicControls\GenericSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BasicControls\GenericSelectForm.Designer.cs">
+      <DependentUpon>GenericSelectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\SroButtonFocusPress.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroButton.Designer.cs">
+      <DependentUpon>vSroButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroButtonList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroButtonList.Designer.cs">
+      <DependentUpon>vSroButtonList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroCheckBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroCheckBox.Designer.cs">
+      <DependentUpon>vSroCheckBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroCloseButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroCloseButton.Designer.cs">
+      <DependentUpon>vSroCloseButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroEditor.Designer.cs">
+      <DependentUpon>vSroEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroInputBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroInputBox.Designer.cs">
+      <DependentUpon>vSroInputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroListButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroListButton.Designer.cs">
+      <DependentUpon>vSroListButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroMessageBox.Designer.cs">
+      <DependentUpon>vSroMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroScrollBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroScrollBar.Designer.cs">
+      <DependentUpon>vSroScrollBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroSizableWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroSizableWindow.Designer.cs">
+      <DependentUpon>vSroSizableWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicControls\vSroSmallButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BasicControls\vSroSmallButton.Designer.cs">
+      <DependentUpon>vSroSmallButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClientMemory.cs" />
+    <Compile Include="Dashboard\DashboardTopicEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dashboard\DashboardTopicEditor.Designer.cs">
+      <DependentUpon>DashboardTopicEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClientCore.cs" />
+    <Compile Include="Database\SRProperties\Shard.cs" />
+    <Compile Include="Network\ClientData.cs" />
+    <Compile Include="Network\ClientInterface.cs" />
+    <Compile Include="Network\ClientPacketFormat.cs" />
+    <Compile Include="Network\ClientPacketHandler.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="ConfigLoader.cs" />
+    <Compile Include="Dashboard\DashboardHelper.cs" />
+    <Compile Include="Database\SRO_VT_SHARD.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ManagementFramework\ManagementFramework.csproj">
+      <Project>{1d234d70-9f7e-4cbc-bdc3-58943cbee95c}</Project>
+      <Name>ManagementFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Structs\Structs.csproj">
+      <Project>{a2f851f6-0f47-400f-b330-484ba4d4faed}</Project>
+      <Name>Structs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BasicControls\GenericSelectForm.resx">
+      <DependentUpon>GenericSelectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroButton.resx">
+      <DependentUpon>vSroButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroButtonList.resx">
+      <DependentUpon>vSroButtonList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroCheckBox.resx">
+      <DependentUpon>vSroCheckBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroCloseButton.resx">
+      <DependentUpon>vSroCloseButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroEditor.resx">
+      <DependentUpon>vSroEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroInputBox.resx">
+      <DependentUpon>vSroInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroListButton.resx">
+      <DependentUpon>vSroListButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroMessageBox.resx">
+      <DependentUpon>vSroMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroScrollBar.resx">
+      <DependentUpon>vSroScrollBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroSizableWindow.resx">
+      <DependentUpon>vSroSizableWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicControls\vSroSmallButton.resx">
+      <DependentUpon>vSroSmallButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dashboard\DashboardTopicEditor.resx">
+      <DependentUpon>DashboardTopicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
