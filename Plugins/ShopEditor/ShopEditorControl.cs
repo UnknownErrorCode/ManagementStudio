@@ -3,20 +3,13 @@ using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System;
 using System.Windows.Forms;
+using PluginFramework.BasicControls;
 
 namespace ShopEditor
 {
-    public partial class ShopEditorControl : UserControl
+    public partial class ShopEditorControl : UserControl, IPluginControl
     {
-        #region Fields
-
-        private const PluginData PLUGINDATA = PluginData.ShopEditor;
-        private const string STRING_DLL = "ShopEditor.dll";
-
         internal static TextUISystem StaticTextUISystem;
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// The ShopEditor consists of all NPC Shops and the TalkWindow.
@@ -34,15 +27,26 @@ namespace ShopEditor
             PluginFramework.ClientCore.Send(RequestDataPacket);
         }
 
-        #endregion Constructors
+        public PluginData PLUGINDATA { get; set; }
+        public Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+        public string STRING_DLL { get; set; }
 
-        #region Properties
+        void IPluginControl.InitializePlugin()
+        {
+            PLUGINDATA = PluginData.ShopEditor;
+            STRING_DLL = "ShopEditor.dll";
+            PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            PluginFramework.ClientCore.Send(RequestDataPacket);
+        }
 
-        private Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+        public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        {
+            if (arg2.ReadAscii() != PLUGINDATA.ToString())
+                return PacketHandlerResult.Block;
 
-        #endregion Properties
-
-        #region Methods
+            Invoke(new Action(() => InitializeListView()));
+            return PacketHandlerResult.Block;
+        }
 
         /// <summary>
         /// initialize the ListView with all aviable NPC context from SRO_VT_SHARD.dbo.Tables["_RefShopGroup"]
@@ -71,16 +75,5 @@ namespace ShopEditor
             if (((ListView)sender).SelectedItems.Count > 0)
                 talkWindow1.OnNpcClick(((ListView)sender).SelectedItems[0].Text);
         }
-
-        private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
-        {
-            if (arg2.ReadAscii() != PLUGINDATA.ToString())
-                return PacketHandlerResult.Block;
-
-            Invoke(new Action(() => InitializeListView()));
-            return PacketHandlerResult.Block;
-        }
-
-        #endregion Methods
     }
 }

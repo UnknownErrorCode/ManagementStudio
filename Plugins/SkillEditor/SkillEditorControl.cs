@@ -7,29 +7,28 @@ using System.Windows.Forms;
 
 namespace SkillEditor
 {
-    public partial class SkillEditorControl : UserControl
+    public partial class SkillEditorControl : UserControl, PluginFramework.BasicControls.IPluginControl
     {
-        #region Fields
-
-        private const PluginData PLUGINDATA = PluginData.SkillEditor;
-        private const string STRING_DLL = "SkillEditor.dll";
-
-        #endregion Fields
-
-        #region Constructors
-
         public SkillEditorControl()
         {
             InitializeComponent();
+            InitializePlugin();
+        }
+
+        public PluginData PLUGINDATA { get; set; }
+        public Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+
+        public string STRING_DLL { get; set; }
+
+        public void InitializePlugin()
+        {
+            STRING_DLL = "SkillEditor.dll";
+            PLUGINDATA = PluginData.SkillEditor;
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
             PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
         }
 
-        #endregion Constructors
-
-        #region Methods
-
-        private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
             return PacketHandlerResult.Block;
         }
@@ -75,7 +74,5 @@ namespace SkillEditor
             //ClientFrameworkRes.Database.SRO_VT_SHARD.InitializeSkillEditor();
             buttonSearch.Enabled = true;
         }
-
-        #endregion Methods
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="BasicControls\GenericSelectForm.Designer.cs">
       <DependentUpon>GenericSelectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BasicControls\IPluginControl.cs" />
     <Compile Include="BasicControls\SroButtonFocusPress.cs">
       <SubType>Component</SubType>
     </Compile>

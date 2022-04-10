@@ -55,6 +55,7 @@
     <Compile Include="Network\ToolServer\Handler\DashboardPacketHandler.cs" />
     <Compile Include="Network\ToolServer\Handler\LoginPacketHandler.cs" />
     <Compile Include="Network\ToolServer\Handler\PluginPacketHandler.cs" />
+    <Compile Include="Network\ToolServer\Handler\WorldMapSpawnEditorPacketHandler.cs" />
     <Compile Include="Network\ToolServer\ServerCore.cs" />
     <Compile Include="PacketConstructors\DataTablePacket.cs" />
     <Compile Include="PacketConstructors\LizencePacket.cs" />

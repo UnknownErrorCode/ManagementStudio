@@ -6,16 +6,7 @@ using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor
 {
-    public interface iin
-    {
-        string STRING_DLL { get; }
-        PluginData PLUGINDATA { get; }
-        Packet RequestData { get; }
-
-        PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2);
-    }
-
-    public partial class WorldMapSpawnEditorControl : UserControl, iin
+    public partial class WorldMapSpawnEditorControl : UserControl, PluginFramework.BasicControls.IPluginControl
     {
         /// <summary>
         /// Loading form to let user know about loading.
@@ -23,29 +14,34 @@ namespace WorldMapSpawnEditor
         private static LoadingForm Loading = new LoadingForm();
 
         /// <summary>
-        /// Map Panel to view the entired Open WorldMap without Dungeons.
-        /// </summary>
-        private MapGraphics.WorldMapPanel MapPanel;
-
-        /// <summary>
         /// MapGuide panel to view the map guide.
         /// </summary>
         private MapGuide.MapGuideForm MapGuide;
+
+        /// <summary>
+        /// Map Panel to view the entired Open WorldMap without Dungeons.
+        /// </summary>
+        private MapGraphics.WorldMapPanel MapPanel;
 
         public WorldMapSpawnEditorControl()
         {
             InitializeComponent();
             InitializePerformance(this);
+            InitializePlugin();
+        }
+
+        public PluginData PLUGINDATA { get; set; }
+        public Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+        public string STRING_DLL { get; set; }
+
+        public void InitializePlugin()
+        {
             STRING_DLL = "WorldMapSpawnEditor.dll";
             PLUGINDATA = PluginData.WorldMapSpawnEditor;
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            PluginFramework.ClientCore.Send(RequestData);
+            PluginFramework.ClientCore.Send(RequestDataPacket);
             Loading.Show();
         }
-
-        public PluginData PLUGINDATA { get; }
-        public string STRING_DLL { get; }
-        public Packet RequestData => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
 
         /// <summary>
         /// Provides the client received required data.
@@ -80,6 +76,10 @@ namespace WorldMapSpawnEditor
             return PacketHandlerResult.Block;
         }
 
+        private void dungeonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
         /// <summary>
         /// Sets the panel to Doublebuffered = true;
         /// </summary>
@@ -92,6 +92,23 @@ namespace WorldMapSpawnEditor
                     BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                     null, c, new object[] { true });
             }
+        }
+
+        private void mapGuideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MapGuide == null)
+            {
+                System.Threading.Tasks.Task.Run(() => PackFile.PackFileManager.ExtractRegionIcons(PluginFramework.Config.StaticConfig.ClientExtracted));
+                MapGuide = new MapGuide.MapGuideForm();
+            }
+
+            MapGuide.Show();
+        }
+
+        private void meshBlocksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowMeshBlocks = ((ToolStripMenuItem)sender).Checked;
+            meshBlocksToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide MeshBlocks" : "Show MeshBlocks";
         }
 
         private void OnContinentClick(object sender, EventArgs e)
@@ -163,23 +180,6 @@ namespace WorldMapSpawnEditor
             uniqueToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide uniques" : "Show uniques";
         }
 
-        private void mapGuideToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MapGuide == null)
-            {
-                System.Threading.Tasks.Task.Run(() => PackFile.PackFileManager.ExtractRegionIcons(PluginFramework.Config.StaticConfig.ClientExtracted));
-                MapGuide = new MapGuide.MapGuideForm();
-            }
-
-            MapGuide.Show();
-        }
-
-        private void meshBlocksToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapPanel.ShowMeshBlocks = ((ToolStripMenuItem)sender).Checked;
-            meshBlocksToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide MeshBlocks" : "Show MeshBlocks";
-        }
-
         private void toolStripDropDownButton1_Click(object sender, EventArgs e)
         {
             splitContainer2dViewer.Panel1.Controls.Clear();
@@ -187,11 +187,7 @@ namespace WorldMapSpawnEditor
             toolStripDropDownButtonView.Enabled = false;
             toolStripDropDownButtonEditSpawn.Enabled = false;
             toolStripDropDownButtonReload.Enabled = false;
-            PluginFramework.ClientCore.Send(RequestData);
-        }
-
-        private void dungeonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+            PluginFramework.ClientCore.Send(RequestDataPacket);
         }
     }
 }

@@ -4,29 +4,28 @@ using System.Windows.Forms;
 
 namespace TriggerEditor
 {
-    public partial class TriggerEditorControl : UserControl
+    public partial class TriggerEditorControl : UserControl, PluginFramework.BasicControls.IPluginControl
     {
-        #region Fields
-
-        private const PluginData PLUGINDATA = PluginData.TriggerEditor;
-        private const string STRING_DLL = "TriggerEditor.dll";
-
-        #endregion Fields
-
-        #region Constructors
-
         public TriggerEditorControl()
         {
             InitializeComponent();
+            InitializePlugin();
+        }
+
+        public PluginData PLUGINDATA { get; set; }
+        public Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+
+        public string STRING_DLL { get; set; }
+
+        public void InitializePlugin()
+        {
+            PLUGINDATA = PluginData.TriggerEditor;
+            STRING_DLL = "TriggerEditor.dll";
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
             PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
         }
 
-        #endregion Constructors
-
-        #region Methods
-
-        private PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
             foreach (var item in PluginFramework.Database.SRO_VT_SHARD._RefGame_World.Values)
             {
@@ -35,12 +34,9 @@ namespace TriggerEditor
             return PacketHandlerResult.Block;
         }
 
-        #endregion Methods
-
         private void vSroButtonList1_OnIndCh(object sender, System.EventArgs e)
         {
             Structs.Database.RefGame_World world = (Structs.Database.RefGame_World)((ManagementFramework.BasicControls.vSroListButton)sender).Tag;
-
         }
     }
 }

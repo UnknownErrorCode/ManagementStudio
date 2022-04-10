@@ -29,7 +29,7 @@ namespace ManagementServer.Network
         /// </summary>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
-        /// <returns></returns>
+        /// <returns><see cref="PacketHandlerResult"/></returns>
         private PacketHandlerResult ToolPluginDataAccess(ServerData arg1, Packet arg2)
         {
             var n = arg2.ReadAscii();
