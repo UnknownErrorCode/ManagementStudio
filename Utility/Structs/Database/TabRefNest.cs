@@ -2,23 +2,23 @@
 {
     public struct TabRefNest
     {
-        public readonly int dwNestID;
-        public int dwHiveID;
-        public int dwTacticsID;
-        public short nRegionDBID;
-        public float fLocalPosX;
-        public float fLocalPosY;
-        public float fLocalPosZ;
-        public short wInitialDir;
-        public int nRadius;
-        public int nGenerateRadius;
-        public int nChampionGenPercentage;
-        public int dwDelayTimeMin;
-        public int dwDelayTimeMax;
-        public int dwMaxTotalCount;
-        public byte btFlag;
-        public byte btRespawn;
-        public byte btType;
+        private readonly int dwNestID;
+        private int dwHiveID;
+        private int dwTacticsID;
+        private short nRegionDBID;
+        private float fLocalPosX;
+        private float fLocalPosY;
+        private float fLocalPosZ;
+        private short wInitialDir;
+        private int nRadius;
+        private int nGenerateRadius;
+        private int nChampionGenPercentage;
+        private int dwDelayTimeMin;
+        private int dwDelayTimeMax;
+        private int dwMaxTotalCount;
+        private byte btFlag;
+        private byte btRespawn;
+        private byte btType;
 
         public TabRefNest(object[] row)
         {
@@ -40,5 +40,24 @@
             btRespawn = byte.Parse(row[15].ToString());
             btType = byte.Parse(row[16].ToString());
         }
+
+        public int DwNestID => dwNestID;
+
+        public int DwHiveID { get => dwHiveID; set => dwHiveID = value; }
+        public int DwTacticsID { get => dwTacticsID; set => dwTacticsID = value; }
+        public short NRegionDBID { get => nRegionDBID; set => nRegionDBID = value; }
+        public float FLocalPosX { get => fLocalPosX; set => fLocalPosX = value; }
+        public float FLocalPosY { get => fLocalPosY; set => fLocalPosY = value; }
+        public float FLocalPosZ { get => fLocalPosZ; set => fLocalPosZ = value; }
+        public short WInitialDir { get => wInitialDir; set => wInitialDir = value; }
+        public int NRadius { get => nRadius; set => nRadius = value; }
+        public int NGenerateRadius { get => nGenerateRadius; set => nGenerateRadius = value; }
+        public int NChampionGenPercentage { get => nChampionGenPercentage; set => nChampionGenPercentage = value; }
+        public int DwDelayTimeMin { get => dwDelayTimeMin; set => dwDelayTimeMin = value; }
+        public int DwDelayTimeMax { get => dwDelayTimeMax; set => dwDelayTimeMax = value; }
+        public int DwMaxTotalCount { get => dwMaxTotalCount; set => dwMaxTotalCount = value; }
+        public byte BtFlag { get => btFlag; set => btFlag = value; }
+        public byte BtRespawn { get => btRespawn; set => btRespawn = value; }
+        public byte BtType { get => btType; set => btType = value; }
     }
 }

@@ -85,6 +85,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.buttonCharPosition.TabIndex = 4;
             this.buttonCharPosition.Text = "Select Char Position";
             this.buttonCharPosition.UseVisualStyleBackColor = true;
+            this.buttonCharPosition.Click += new System.EventHandler(this.buttonCharPosition_Click);
             // 
             // PositionStorage
             // 

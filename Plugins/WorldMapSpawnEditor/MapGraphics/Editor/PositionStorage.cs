@@ -103,5 +103,9 @@ namespace WorldMapSpawnEditor.MapGraphics
         private void PositionStorage_Load(object sender, EventArgs e)
         {
         }
+
+        private void buttonCharPosition_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

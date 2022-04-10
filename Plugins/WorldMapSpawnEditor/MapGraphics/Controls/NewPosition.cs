@@ -17,6 +17,11 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         public SVector3 Position { get => sroPosition.fPosition; set => sroPosition.fPosition = value; }
         public WRegionID RegionID { get => sroPosition.wRegionID; set => sroPosition.wRegionID = value; }
+
+        public short wRegionID => sroPosition.wRegionID.RegionID;
+        public float X => sroPosition.fPosition.X;
+        public float Y => sroPosition.fPosition.Y;
+        public float Z => sroPosition.fPosition.Z;
         public string Text { get => text; set => text = value; }
     }
 }

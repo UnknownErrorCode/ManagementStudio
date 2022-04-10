@@ -1,8 +1,8 @@
-﻿using PluginFramework.Database.SRProperties;
-using PluginFramework.BasicControls;
+﻿using PluginFramework.BasicControls;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Structs.Database;
 
 namespace WorldMapSpawnEditor.MapGraphics
 {
@@ -62,7 +62,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void ShowNestUpdate(object sender, EventArgs e)
         {
-            if (GenerateQuery("Tab_RefNest", "dwNestID", ((PTabRefNest)propertyGrid1.SelectedObject).dwNestID.ToString(), NestUpdateValues, out string query))
+            if (GenerateQuery("Tab_RefNest", "dwNestID", ((TabRefNest)propertyGrid1.SelectedObject).DwNestID.ToString(), NestUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -70,7 +70,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void ShowUpdateHive(object sender, EventArgs e)
         {
-            if (GenerateQuery("Tab_RefHive", "dwHiveID", ((PTab_RefHive)propertyGrid2.SelectedObject).dwHiveID.ToString(), HiveUpdateValues, out string query))
+            if (GenerateQuery("Tab_RefHive", "dwHiveID", ((Tab_RefHive)propertyGrid2.SelectedObject).dwHiveID.ToString(), HiveUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -78,7 +78,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void ShowUpdateTactics(object sender, EventArgs e)
         {
-            if (GenerateQuery("Tab_RefTactics", "dwTacticsID", ((PTab_RefTactics)propertyGrid3.SelectedObject).dwTacticsID.ToString(), TacticsUpdateValues, out string query))
+            if (GenerateQuery("Tab_RefTactics", "dwTacticsID", ((Tab_RefTactics)propertyGrid3.SelectedObject).DwTacticsID.ToString(), TacticsUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -86,7 +86,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void ShowUpdateCommon(object sender, EventArgs e)
         {
-            if (GenerateQuery("_RefObjCommon", "ID", ((P_RefObjCommon)propertyGrid4.SelectedObject).ID.ToString(), ObjCommonUpdateValues, out string query))
+            if (GenerateQuery("_RefObjCommon", "ID", ((RefObjCommon)propertyGrid4.SelectedObject).ID.ToString(), ObjCommonUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -94,7 +94,7 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private void ShowUpdateChar(object sender, EventArgs e)
         {
-            if (GenerateQuery("_RefObjChar", "ID", ((P_RefObjChar)propertyGrid5.SelectedObject).ID.ToString(), ObjCharUpdateValues, out string query))
+            if (GenerateQuery("_RefObjChar", "ID", ((RefObjChar)propertyGrid5.SelectedObject).ID.ToString(), ObjCharUpdateValues, out string query))
             {
                 vSroMessageBox.Show(query);
             }
@@ -187,16 +187,31 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             if (GenericSelectForm.SelectObjStruct(PositionStorage.Collection, out NewPosition pos))
             {
-                // ((PTabRefNest)propertyGrid1.SelectedObject).fLocalPosX= pos.Position.X;
-                CurrentSpawn.Nest.nRegionDBID = pos.RegionID.RegionID;
-                CurrentSpawn.Nest.fLocalPosX = pos.Position.X;
-                CurrentSpawn.Nest.fLocalPosZ = pos.Position.Z;
-                CurrentSpawn.Nest.fLocalPosY = pos.Position.Y;
+                CurrentSpawn.Nest.NRegionDBID = pos.RegionID.RegionID;
+                CurrentSpawn.Nest.FLocalPosX = pos.Position.X;
+                CurrentSpawn.Nest.FLocalPosZ = pos.Position.Z;
+                CurrentSpawn.Nest.FLocalPosY = pos.Position.Y;
                 propertyGrid1.SelectedObject = CurrentSpawn.Nest;
-                NestUpdateValues.Add("nRegionDBID", $"{pos.RegionID.RegionID}");
-                NestUpdateValues.Add("fLocalPosX", $"{pos.Position.X}");
-                NestUpdateValues.Add("fLocalPosZ", $"{pos.Position.Z}");
-                NestUpdateValues.Add("fLocalPosY", $"{pos.Position.Y}");
+
+                if (NestUpdateValues.ContainsKey("nRegionDBID"))
+                    NestUpdateValues["nRegionDBID"] = $"{pos.RegionID.RegionID}";
+                else
+                    NestUpdateValues.Add("nRegionDBID", $"{pos.RegionID.RegionID}");
+
+                if (NestUpdateValues.ContainsKey("fLocalPosX"))
+                    NestUpdateValues["fLocalPosX"] = $"{pos.Position.X}";
+                else
+                    NestUpdateValues.Add("fLocalPosX", $"{pos.Position.X}");
+
+                if (NestUpdateValues.ContainsKey("fLocalPosZ"))
+                    NestUpdateValues["fLocalPosZ"] = $"{pos.Position.Z}";
+                else
+                    NestUpdateValues.Add("fLocalPosZ", $"{pos.Position.Z}");
+
+                if (NestUpdateValues.ContainsKey("fLocalPosY"))
+                    NestUpdateValues["fLocalPosY"] = $"{pos.Position.Y}";
+                else
+                    NestUpdateValues.Add("fLocalPosY", $"{pos.Position.Y}");
             }
         }
 
@@ -204,11 +219,50 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             if (GenericSelectForm.SelectObjStruct(PluginFramework.Database.SRO_VT_SHARD.Tab_RefHive, out Structs.Database.Tab_RefHive hive))
             {
-                // ((PTabRefNest)propertyGrid1.SelectedObject).fLocalPosX= pos.Position.X;
-                CurrentSpawn.Hive = new PTab_RefHive(hive);
-
+                CurrentSpawn.Hive = hive;
+                CurrentSpawn.Nest.DwHiveID = hive.dwHiveID;
+                propertyGrid1.SelectedObject = CurrentSpawn.Nest;
                 propertyGrid2.SelectedObject = CurrentSpawn.Hive;
-                NestUpdateValues.Add("dwHiveID", $"{hive.dwHiveID}");
+                if (NestUpdateValues.ContainsKey("dwHiveID"))
+                    NestUpdateValues["dwHiveID"] = $"{hive.dwHiveID}";
+                else
+                    NestUpdateValues.Add("dwHiveID", $"{hive.dwHiveID}");
+            }
+        }
+
+        private void SpawnEditor_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void buttonSelectTactics_Click(object sender, EventArgs e)
+        {
+            if (GenericSelectForm.SelectObjStruct(PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics, out Tab_RefTactics outer))
+            {
+                CurrentSpawn.Tactics = outer;
+                CurrentSpawn.Nest.DwTacticsID = outer.DwTacticsID;
+                propertyGrid1.SelectedObject = CurrentSpawn.Nest;
+                propertyGrid3.SelectedObject = CurrentSpawn.Tactics;
+
+                if (NestUpdateValues.ContainsKey("dwTacticsID"))
+                    NestUpdateValues["dwTacticsID"] = $"{outer.DwTacticsID}";
+                else
+                    NestUpdateValues.Add("dwTacticsID", $"{outer.DwTacticsID}");
+            }
+        }
+
+        private void buttonselectcommon_Click(object sender, EventArgs e)
+        {
+            if (GenericSelectForm.SelectObjStruct(PluginFramework.Database.SRO_VT_SHARD._RefObjCommon, out RefObjCommon outer))
+            {
+                CurrentSpawn.ObjCommon = outer;
+                CurrentSpawn.Tactics.DwObjID = outer.ID;
+                propertyGrid3.SelectedObject = CurrentSpawn.Tactics;
+                propertyGrid4.SelectedObject = CurrentSpawn.ObjCommon;
+
+                if (TacticsUpdateValues.ContainsKey("dwObjID"))
+                    TacticsUpdateValues["dwObjID"] = $"{outer.ID}";
+                else
+                    TacticsUpdateValues.Add("dwObjID", $"{outer.ID}");
             }
         }
     }
