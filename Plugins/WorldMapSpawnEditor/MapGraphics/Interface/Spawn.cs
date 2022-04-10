@@ -38,11 +38,11 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         internal Spawn(TabRefNest nest)
         {
-            id = nest.dwNestID;
-            regionID = new WRegionID(nest.nRegionDBID);
-            xLocation = nest.fLocalPosX;
-            yLocation = nest.fLocalPosY;
-            zLocation = nest.fLocalPosZ;
+            id = nest.DwNestID;
+            regionID = new WRegionID(nest.NRegionDBID);
+            xLocation = nest.FLocalPosX;
+            yLocation = nest.FLocalPosY;
+            zLocation = nest.FLocalPosZ;
             GetSpawnInformation(nest, ref spawnType, ref gameWorldID);
         }
 
@@ -89,15 +89,15 @@ namespace WorldMapSpawnEditor.MapGraphics
         private bool GetSpawnInformation(TabRefNest nest, ref SpawnType type, ref int gameWorldID)
         {
             type = SpawnType.None;
-            int nestID = nest.dwNestID;
+            int nestID = nest.DwNestID;
 
-            gameWorldID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefHive.TryGetValue(nest.dwHiveID, out Tab_RefHive hive) ? hive.GameWorldID : 0;
+            gameWorldID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefHive.TryGetValue(nest.DwHiveID, out Tab_RefHive hive) ? hive.GameWorldID : 0;
 
-            var tacticsID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID;
+            var tacticsID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].DwTacticsID;
 
             if (!PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(tacticsID))
                 return false;
-            var objCommonID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics[tacticsID].dwObjID;
+            var objCommonID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics[tacticsID].DwObjID;
             var objCommon = PluginFramework.Database.SRO_VT_SHARD._RefObjCommon[objCommonID];
             if (objCommon.TypeID1 == 1 && objCommon.TypeID2 == 2 && objCommon.TypeID3 == 1 && objCommon.TypeID4 == 1 && objCommon.Rarity != Rarity.MonsterUnique && objCommon.Rarity != Rarity.MonsterUniqueNoMsg)
             { type = SpawnType.Monster; return true; }

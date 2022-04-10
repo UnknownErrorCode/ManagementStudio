@@ -52,7 +52,7 @@ namespace Structs.Database
         private int guildID;
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 19)]
-        private string lastLogout;
+        private DateTime lastLogout;
 
         private Int16 telRegion; // 132
         private float telPosX;
@@ -108,7 +108,7 @@ namespace Structs.Database
             jobLvl_Robber = byte.Parse(row[36].ToString());
             robber_Exp = int.Parse(row[37].ToString());
             guildID = int.TryParse(row[38].ToString(), out int _guildID) ? _guildID : 0;
-            lastLogout = row[39].ToString();
+            lastLogout = DateTime.Parse(row[39].ToString());
             telRegion = Int16.Parse(row[40].ToString());
             telPosX = float.Parse(row[41].ToString());
             telPosY = float.Parse(row[42].ToString());
@@ -163,7 +163,7 @@ namespace Structs.Database
         public byte JobLvl_Robber { get => jobLvl_Robber; set => jobLvl_Robber = value; }
         public int Robber_Exp { get => robber_Exp; set => robber_Exp = value; }
         public int GuildID { get => guildID; set => guildID = value; }
-        public string LastLogout { get => lastLogout; set => lastLogout = value; }
+        public DateTime LastLogout { get => lastLogout; set => lastLogout = value; }
         public short TelRegion { get => telRegion; set => telRegion = value; }
         public float TelPosX { get => telPosX; set => telPosX = value; }
         public float TelPosY { get => telPosY; set => telPosY = value; }

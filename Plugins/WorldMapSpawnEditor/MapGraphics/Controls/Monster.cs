@@ -17,12 +17,12 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         public Monster(int nestID) : base(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID])
         {
-            nGenerateRadius = PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nGenerateRadius;
-            nRadius = PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].nRadius;
+            nGenerateRadius = PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].NGenerateRadius;
+            nRadius = PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].NRadius;
 
-            if (PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID))
+            if (PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics.ContainsKey(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].DwTacticsID))
             {
-                int dwObjID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics[PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID].dwObjID;
+                int dwObjID = PluginFramework.Database.SRO_VT_SHARD.Tab_RefTactics[PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].DwTacticsID].DwObjID;
                 if (PluginFramework.Database.SRO_VT_SHARD._RefObjCommon.ContainsKey(dwObjID))
                 {
                     codeName128 = PluginFramework.Database.SRO_VT_SHARD._RefObjCommon[dwObjID].CodeName128;
@@ -35,7 +35,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             else
             {
-                codeName128 = $"No TacticsID:{PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].dwTacticsID}";
+                codeName128 = $"No TacticsID:{PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[nestID].DwTacticsID}";
             }
         }
 

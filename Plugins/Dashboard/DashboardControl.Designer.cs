@@ -72,8 +72,8 @@
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.splitContainer1.Panel2.Controls.Add(this.vSroButtonListOnlineUser);
-            this.splitContainer1.Size = new System.Drawing.Size(800, 450);
-            this.splitContainer1.SplitterDistance = 599;
+            this.splitContainer1.Size = new System.Drawing.Size(833, 450);
+            this.splitContainer1.SplitterDistance = 603;
             this.splitContainer1.TabIndex = 0;
             // 
             // panel2
@@ -150,7 +150,7 @@
             this.vSroButtonList1.Name = "vSroButtonList1";
             this.vSroButtonList1.Size = new System.Drawing.Size(220, 400);
             this.vSroButtonList1.TabIndex = 6;
-            this.vSroButtonList1.OnIndCh += new System.EventHandler(this.vSroButtonList1_OnIndCh);
+            this.vSroButtonList1.OnIndCh += new System.EventHandler(this.vSroButtonListDashboard_OnIndCh);
             // 
             // statusStrip1
             // 
@@ -159,7 +159,7 @@
             this.toolStripDropDownButton1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(599, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(603, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -206,7 +206,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(599, 450);
+            this.listView1.Size = new System.Drawing.Size(603, 450);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
@@ -233,7 +233,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Name = "DashboardControl";
-            this.Size = new System.Drawing.Size(800, 450);
+            this.Size = new System.Drawing.Size(833, 450);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

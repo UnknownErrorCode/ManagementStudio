@@ -67,22 +67,7 @@ namespace Dashboard
             }
         }
 
-        private PacketHandlerResult UserLogOnOff(ServerData arg1, Packet arg2)
-        {
-            var count = arg2.ReadInt();
-            for (int i = 0; i < count; i++)
-            {
-                var login = arg2.ReadBool();
-                var user = arg2.ReadAscii();
-                if (login)
-                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.AddSingleButtonToList(user)));
-                else
-                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.RemoveButton(user)));
-            }
-            return PacketHandlerResult.Block;
-        }
-
-        private void vSroButtonList1_OnIndCh(object sender, EventArgs e)
+        private void vSroButtonListDashboard_OnIndCh(object sender, EventArgs e)
         {
             DashboardMessage msg = (DashboardMessage)((vSroListButton)sender).Tag;
             Invoke(new Action(() =>

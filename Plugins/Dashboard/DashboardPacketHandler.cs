@@ -8,7 +8,13 @@ namespace Dashboard
     {
         #region Methods
 
-        internal PacketHandlerResult TopicDeleteResponse(ServerData arg1, Packet arg2)
+        /// <summary>
+        /// Deletes the topic visually when server broadcasts the packet.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns><see cref="PacketHandlerResult"/></returns>
+        private PacketHandlerResult TopicDeleteResponse(ServerData arg1, Packet arg2)
         {
             string Author = arg2.ReadAscii();
             string Title = arg2.ReadAscii();
@@ -19,19 +25,52 @@ namespace Dashboard
             return PacketHandlerResult.Block;
         }
 
-        internal PacketHandlerResult TopicReceiveExisting(ServerData arg1, Packet arg2)
-        {
-            return TopicReceive(arg1, arg2);
-        }
+        /// <summary>
+        /// Load the existing topics.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns><see cref="PacketHandlerResult"/></returns>
+        private PacketHandlerResult TopicReceiveExisting(ServerData arg1, Packet arg2) => TopicReceive(arg1, arg2);
 
-        internal PacketHandlerResult TopicReceiveNew(ServerData arg1, Packet arg2)
-        {
-            return TopicReceive(arg1, arg2, true);
-        }
+        /// <summary>
+        /// Load a new topic to the dashboard.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns><see cref="PacketHandlerResult"/></returns>
+        private PacketHandlerResult TopicReceiveNew(ServerData arg1, Packet arg2) => TopicReceive(arg1, arg2, true);
 
-        internal PacketHandlerResult TopicsFinishedLoading(ServerData arg1, Packet arg2)
+        /// <summary>
+        /// Notification from server when initialisation is done.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns><see cref="PacketHandlerResult"/></returns>
+        private PacketHandlerResult TopicsFinishedLoading(ServerData arg1, Packet arg2)
         {
             ManagementFramework.Log.Logger.WriteLogLine($"Successfully load {listView1.Items.Count} topics to dashboard!");
+            return PacketHandlerResult.Block;
+        }
+
+        /// <summary>
+        /// Illustrate other online tool user.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
+        private PacketHandlerResult UserLogOnOff(ServerData arg1, Packet arg2)
+        {
+            var count = arg2.ReadInt();
+            for (int i = 0; i < count; i++)
+            {
+                var login = arg2.ReadBool();
+                var user = arg2.ReadAscii();
+                if (login)
+                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.AddSingleButtonToList(user)));
+                else
+                    vSroButtonListOnlineUser.Invoke(new Action(() => vSroButtonListOnlineUser.RemoveButton(user)));
+            }
             return PacketHandlerResult.Block;
         }
 

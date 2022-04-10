@@ -98,6 +98,7 @@
     <Compile Include="MapGuide\WMapGuidePanelButtonFocus.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PacketFormat\SpawnEditorPacket.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

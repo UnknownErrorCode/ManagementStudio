@@ -31,6 +31,12 @@
             public const ushort TopicEditRequest = 0x1003;
             public const ushort TopicLoadRequest = 0x1001;
 
+            public const ushort WMSE_Update_Tab_RefNest = 0x1100;
+            public const ushort WMSE_Update_Tab_RefHive = 0x1101;
+            public const ushort WMSE_Update_Tab_RefTactics = 0x1102;
+            public const ushort WMSE_Update_RefObjCommon = 0x1103;
+            public const ushort WMSE_Update_RefObjChar = 0x1104;
+
             #endregion Fields
         }
 

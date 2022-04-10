@@ -12,6 +12,9 @@ namespace Dashboard
         /// </summary>
         public static Packet RequestAllTopics => new Packet(PacketID.Client.TopicLoadRequest);
 
+        /// <summary>
+        /// Requests the list of online user.
+        /// </summary>
         public static Packet RequestOnlineUser => new Packet(PacketID.Client.RequestOnlineUser);
 
         #endregion Properties
@@ -33,6 +36,11 @@ namespace Dashboard
             return packet;
         }
 
+        /// <summary>
+        /// Sent a request to delete a topic to the server
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         internal static Packet RequestDeleteTopicFromDashboard(DashboardMessage msg)
         {
             Packet packet = new Packet(PacketID.Client.TopicDeleteRequest);

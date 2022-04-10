@@ -128,6 +128,7 @@
       <DependentUpon>DashboardTopicEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="ClientCore.cs" />
+    <Compile Include="Database\DbQueryGenerator.cs" />
     <Compile Include="Network\ClientData.cs" />
     <Compile Include="Network\ClientInterface.cs" />
     <Compile Include="Network\ClientPacketFormat.cs" />

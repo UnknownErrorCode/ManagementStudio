@@ -29,11 +29,11 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private void InitializeComponent()
         {
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.propertyGrid2 = new System.Windows.Forms.PropertyGrid();
-            this.propertyGrid3 = new System.Windows.Forms.PropertyGrid();
-            this.propertyGrid4 = new System.Windows.Forms.PropertyGrid();
-            this.propertyGrid5 = new System.Windows.Forms.PropertyGrid();
+            this.components = new System.ComponentModel.Container();
+            this.propertyGridNest = new System.Windows.Forms.PropertyGrid();
+            this.propertyGridHive = new System.Windows.Forms.PropertyGrid();
+            this.propertyGridTactics = new System.Windows.Forms.PropertyGrid();
+            this.propertyGridChar = new System.Windows.Forms.PropertyGrid();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonShowUpdateNest = new System.Windows.Forms.Button();
             this.buttonSelectHive = new System.Windows.Forms.Button();
@@ -47,86 +47,121 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPagehive = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.propertyGridViewHive = new System.Windows.Forms.PropertyGrid();
+            this.textBoxSearchHive = new System.Windows.Forms.TextBox();
             this.tabPagetactics = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.propertyGridviewTactics = new System.Windows.Forms.PropertyGrid();
+            this.textBoxsearchTactics = new System.Windows.Forms.TextBox();
             this.tabPagecommon = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.propertyGridCommon = new System.Windows.Forms.PropertyGrid();
+            this.propertyGridViewCommon = new System.Windows.Forms.PropertyGrid();
+            this.textBoxSearchCommon = new System.Windows.Forms.TextBox();
             this.tabPageChar = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPagehive.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
+            this.splitContainer8.Panel1.SuspendLayout();
+            this.splitContainer8.Panel2.SuspendLayout();
+            this.splitContainer8.SuspendLayout();
             this.tabPagetactics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
+            this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.Panel2.SuspendLayout();
+            this.splitContainer7.SuspendLayout();
             this.tabPagecommon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
             this.tabPageChar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
+            this.splitContainer6.Panel1.SuspendLayout();
+            this.splitContainer6.Panel2.SuspendLayout();
+            this.splitContainer6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
+            this.splitContainer9.Panel1.SuspendLayout();
+            this.splitContainer9.Panel2.SuspendLayout();
+            this.splitContainer9.SuspendLayout();
             this.SuspendLayout();
             // 
-            // propertyGrid1
+            // propertyGridNest
             // 
-            this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 23);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.Size = new System.Drawing.Size(188, 342);
-            this.propertyGrid1.TabIndex = 0;
-            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeNestValue);
+            this.propertyGridNest.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.propertyGridNest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridNest.HelpVisible = false;
+            this.propertyGridNest.Location = new System.Drawing.Point(0, 13);
+            this.propertyGridNest.Name = "propertyGridNest";
+            this.propertyGridNest.PropertySort = System.Windows.Forms.PropertySort.NoSort;
+            this.propertyGridNest.Size = new System.Drawing.Size(215, 362);
+            this.propertyGridNest.TabIndex = 0;
+            this.propertyGridNest.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.propertyGridNest.ViewBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.propertyGridNest.ViewForeColor = System.Drawing.Color.White;
+            this.propertyGridNest.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeNestValue);
             // 
-            // propertyGrid2
+            // propertyGridHive
             // 
-            this.propertyGrid2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid2.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid2.Name = "propertyGrid2";
-            this.propertyGrid2.Size = new System.Drawing.Size(336, 364);
-            this.propertyGrid2.TabIndex = 3;
-            this.propertyGrid2.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeHive);
+            this.propertyGridHive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridHive.HelpVisible = false;
+            this.propertyGridHive.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridHive.Name = "propertyGridHive";
+            this.propertyGridHive.Size = new System.Drawing.Size(203, 352);
+            this.propertyGridHive.TabIndex = 3;
+            this.propertyGridHive.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeHive);
             // 
-            // propertyGrid3
+            // propertyGridTactics
             // 
-            this.propertyGrid3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid3.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid3.Name = "propertyGrid3";
-            this.propertyGrid3.Size = new System.Drawing.Size(336, 364);
-            this.propertyGrid3.TabIndex = 6;
-            this.propertyGrid3.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeTacticsValue);
+            this.propertyGridTactics.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridTactics.HelpVisible = false;
+            this.propertyGridTactics.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridTactics.Name = "propertyGridTactics";
+            this.propertyGridTactics.Size = new System.Drawing.Size(203, 352);
+            this.propertyGridTactics.TabIndex = 6;
+            this.propertyGridTactics.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeTacticsValue);
             // 
-            // propertyGrid4
+            // propertyGridChar
             // 
-            this.propertyGrid4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid4.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid4.Name = "propertyGrid4";
-            this.propertyGrid4.Size = new System.Drawing.Size(336, 364);
-            this.propertyGrid4.TabIndex = 9;
-            this.propertyGrid4.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjCommonValue);
-            // 
-            // propertyGrid5
-            // 
-            this.propertyGrid5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid5.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid5.Name = "propertyGrid5";
-            this.propertyGrid5.Size = new System.Drawing.Size(336, 364);
-            this.propertyGrid5.TabIndex = 12;
-            this.propertyGrid5.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjChar);
+            this.propertyGridChar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridChar.HelpVisible = false;
+            this.propertyGridChar.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridChar.Name = "propertyGridChar";
+            this.propertyGridChar.Size = new System.Drawing.Size(439, 352);
+            this.propertyGridChar.TabIndex = 12;
+            this.propertyGridChar.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjChar);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 7);
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 13);
             this.label1.TabIndex = 15;
@@ -134,10 +169,10 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             // buttonShowUpdateNest
             // 
-            this.buttonShowUpdateNest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonShowUpdateNest.Location = new System.Drawing.Point(3, 371);
+            this.buttonShowUpdateNest.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonShowUpdateNest.Location = new System.Drawing.Point(0, 398);
             this.buttonShowUpdateNest.Name = "buttonShowUpdateNest";
-            this.buttonShowUpdateNest.Size = new System.Drawing.Size(91, 23);
+            this.buttonShowUpdateNest.Size = new System.Drawing.Size(215, 23);
             this.buttonShowUpdateNest.TabIndex = 1;
             this.buttonShowUpdateNest.Text = "Show Update";
             this.buttonShowUpdateNest.UseVisualStyleBackColor = true;
@@ -146,7 +181,8 @@ namespace WorldMapSpawnEditor.MapGraphics
             // buttonSelectHive
             // 
             this.buttonSelectHive.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonSelectHive.Location = new System.Drawing.Point(245, 0);
+            this.buttonSelectHive.Enabled = false;
+            this.buttonSelectHive.Location = new System.Drawing.Point(348, 0);
             this.buttonSelectHive.Name = "buttonSelectHive";
             this.buttonSelectHive.Size = new System.Drawing.Size(91, 25);
             this.buttonSelectHive.TabIndex = 5;
@@ -168,7 +204,8 @@ namespace WorldMapSpawnEditor.MapGraphics
             // buttonSelectTactics
             // 
             this.buttonSelectTactics.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonSelectTactics.Location = new System.Drawing.Point(245, 0);
+            this.buttonSelectTactics.Enabled = false;
+            this.buttonSelectTactics.Location = new System.Drawing.Point(348, 0);
             this.buttonSelectTactics.Name = "buttonSelectTactics";
             this.buttonSelectTactics.Size = new System.Drawing.Size(91, 25);
             this.buttonSelectTactics.TabIndex = 8;
@@ -190,7 +227,8 @@ namespace WorldMapSpawnEditor.MapGraphics
             // buttonselectcommon
             // 
             this.buttonselectcommon.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonselectcommon.Location = new System.Drawing.Point(245, 0);
+            this.buttonselectcommon.Enabled = false;
+            this.buttonselectcommon.Location = new System.Drawing.Point(348, 0);
             this.buttonselectcommon.Name = "buttonselectcommon";
             this.buttonselectcommon.Size = new System.Drawing.Size(91, 25);
             this.buttonselectcommon.TabIndex = 11;
@@ -214,7 +252,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.buttonShowUpdateChar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonShowUpdateChar.Location = new System.Drawing.Point(0, 0);
             this.buttonShowUpdateChar.Name = "buttonShowUpdateChar";
-            this.buttonShowUpdateChar.Size = new System.Drawing.Size(336, 25);
+            this.buttonShowUpdateChar.Size = new System.Drawing.Size(439, 25);
             this.buttonShowUpdateChar.TabIndex = 13;
             this.buttonShowUpdateChar.Text = "Show Update";
             this.buttonShowUpdateChar.UseVisualStyleBackColor = true;
@@ -222,10 +260,10 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             // buttonSelectNewPosition
             // 
-            this.buttonSelectNewPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonSelectNewPosition.Location = new System.Drawing.Point(100, 371);
+            this.buttonSelectNewPosition.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonSelectNewPosition.Location = new System.Drawing.Point(0, 375);
             this.buttonSelectNewPosition.Name = "buttonSelectNewPosition";
-            this.buttonSelectNewPosition.Size = new System.Drawing.Size(91, 23);
+            this.buttonSelectNewPosition.Size = new System.Drawing.Size(215, 23);
             this.buttonSelectNewPosition.TabIndex = 20;
             this.buttonSelectNewPosition.Text = "Select Position";
             this.buttonSelectNewPosition.UseVisualStyleBackColor = true;
@@ -237,10 +275,11 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.tabControl1.Controls.Add(this.tabPagetactics);
             this.tabControl1.Controls.Add(this.tabPagecommon);
             this.tabControl1.Controls.Add(this.tabPageChar);
-            this.tabControl1.Location = new System.Drawing.Point(214, 12);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(354, 433);
+            this.tabControl1.Size = new System.Drawing.Size(457, 421);
             this.tabControl1.TabIndex = 21;
             // 
             // tabPagehive
@@ -249,7 +288,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.tabPagehive.Location = new System.Drawing.Point(4, 22);
             this.tabPagehive.Name = "tabPagehive";
             this.tabPagehive.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagehive.Size = new System.Drawing.Size(346, 407);
+            this.tabPagehive.Size = new System.Drawing.Size(449, 395);
             this.tabPagehive.TabIndex = 0;
             this.tabPagehive.Text = "Tab_RefHive";
             this.tabPagehive.UseVisualStyleBackColor = true;
@@ -264,15 +303,53 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.propertyGrid2);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer8);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxSearchHive);
             this.splitContainer1.Panel2.Controls.Add(this.buttonShowUpdateHive);
             this.splitContainer1.Panel2.Controls.Add(this.buttonSelectHive);
-            this.splitContainer1.Size = new System.Drawing.Size(340, 401);
-            this.splitContainer1.SplitterDistance = 368;
+            this.splitContainer1.Size = new System.Drawing.Size(443, 389);
+            this.splitContainer1.SplitterDistance = 356;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // splitContainer8
+            // 
+            this.splitContainer8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer8.Name = "splitContainer8";
+            // 
+            // splitContainer8.Panel1
+            // 
+            this.splitContainer8.Panel1.Controls.Add(this.propertyGridHive);
+            // 
+            // splitContainer8.Panel2
+            // 
+            this.splitContainer8.Panel2.Controls.Add(this.propertyGridViewHive);
+            this.splitContainer8.Size = new System.Drawing.Size(443, 356);
+            this.splitContainer8.SplitterDistance = 207;
+            this.splitContainer8.TabIndex = 8;
+            // 
+            // propertyGridViewHive
+            // 
+            this.propertyGridViewHive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridViewHive.HelpVisible = false;
+            this.propertyGridViewHive.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridViewHive.Name = "propertyGridViewHive";
+            this.propertyGridViewHive.Size = new System.Drawing.Size(228, 352);
+            this.propertyGridViewHive.TabIndex = 7;
+            // 
+            // textBoxSearchHive
+            // 
+            this.textBoxSearchHive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorProvider1.SetError(this.textBoxSearchHive, "ID not found.");
+            this.textBoxSearchHive.Location = new System.Drawing.Point(91, 0);
+            this.textBoxSearchHive.Name = "textBoxSearchHive";
+            this.textBoxSearchHive.Size = new System.Drawing.Size(257, 20);
+            this.textBoxSearchHive.TabIndex = 13;
+            this.textBoxSearchHive.TextChanged += new System.EventHandler(this.textBoxsearchHive_TextChanged);
             // 
             // tabPagetactics
             // 
@@ -280,7 +357,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.tabPagetactics.Location = new System.Drawing.Point(4, 22);
             this.tabPagetactics.Name = "tabPagetactics";
             this.tabPagetactics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagetactics.Size = new System.Drawing.Size(346, 407);
+            this.tabPagetactics.Size = new System.Drawing.Size(449, 395);
             this.tabPagetactics.TabIndex = 1;
             this.tabPagetactics.Text = "Tab_RefTactics";
             this.tabPagetactics.UseVisualStyleBackColor = true;
@@ -295,15 +372,53 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.propertyGrid3);
+            this.splitContainer2.Panel1.Controls.Add(this.splitContainer7);
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.textBoxsearchTactics);
             this.splitContainer2.Panel2.Controls.Add(this.buttonSelectTactics);
             this.splitContainer2.Panel2.Controls.Add(this.buttonShowUpdateTactics);
-            this.splitContainer2.Size = new System.Drawing.Size(340, 401);
-            this.splitContainer2.SplitterDistance = 368;
+            this.splitContainer2.Size = new System.Drawing.Size(443, 389);
+            this.splitContainer2.SplitterDistance = 356;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // splitContainer7
+            // 
+            this.splitContainer7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer7.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer7.Name = "splitContainer7";
+            // 
+            // splitContainer7.Panel1
+            // 
+            this.splitContainer7.Panel1.Controls.Add(this.propertyGridTactics);
+            // 
+            // splitContainer7.Panel2
+            // 
+            this.splitContainer7.Panel2.Controls.Add(this.propertyGridviewTactics);
+            this.splitContainer7.Size = new System.Drawing.Size(443, 356);
+            this.splitContainer7.SplitterDistance = 207;
+            this.splitContainer7.TabIndex = 7;
+            // 
+            // propertyGridviewTactics
+            // 
+            this.propertyGridviewTactics.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridviewTactics.HelpVisible = false;
+            this.propertyGridviewTactics.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridviewTactics.Name = "propertyGridviewTactics";
+            this.propertyGridviewTactics.Size = new System.Drawing.Size(228, 352);
+            this.propertyGridviewTactics.TabIndex = 8;
+            // 
+            // textBoxsearchTactics
+            // 
+            this.textBoxsearchTactics.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorProvider1.SetError(this.textBoxsearchTactics, "ID not found.");
+            this.textBoxsearchTactics.Location = new System.Drawing.Point(91, 0);
+            this.textBoxsearchTactics.Name = "textBoxsearchTactics";
+            this.textBoxsearchTactics.Size = new System.Drawing.Size(257, 20);
+            this.textBoxsearchTactics.TabIndex = 13;
+            this.textBoxsearchTactics.TextChanged += new System.EventHandler(this.textBoxsearchTactics_TextChanged);
             // 
             // tabPagecommon
             // 
@@ -311,7 +426,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.tabPagecommon.Location = new System.Drawing.Point(4, 22);
             this.tabPagecommon.Name = "tabPagecommon";
             this.tabPagecommon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagecommon.Size = new System.Drawing.Size(346, 407);
+            this.tabPagecommon.Size = new System.Drawing.Size(449, 395);
             this.tabPagecommon.TabIndex = 2;
             this.tabPagecommon.Text = "RefObjCommon";
             this.tabPagecommon.UseVisualStyleBackColor = true;
@@ -326,15 +441,62 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.propertyGrid4);
+            this.splitContainer3.Panel1.Controls.Add(this.splitContainer5);
             // 
             // splitContainer3.Panel2
             // 
+            this.splitContainer3.Panel2.Controls.Add(this.textBoxSearchCommon);
             this.splitContainer3.Panel2.Controls.Add(this.buttonselectcommon);
             this.splitContainer3.Panel2.Controls.Add(this.buttonShowUpdateCommon);
-            this.splitContainer3.Size = new System.Drawing.Size(340, 401);
-            this.splitContainer3.SplitterDistance = 368;
+            this.splitContainer3.Size = new System.Drawing.Size(443, 389);
+            this.splitContainer3.SplitterDistance = 356;
             this.splitContainer3.TabIndex = 1;
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer5.Name = "splitContainer5";
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.propertyGridCommon);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.propertyGridViewCommon);
+            this.splitContainer5.Size = new System.Drawing.Size(439, 352);
+            this.splitContainer5.SplitterDistance = 213;
+            this.splitContainer5.TabIndex = 0;
+            // 
+            // propertyGridCommon
+            // 
+            this.propertyGridCommon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridCommon.HelpVisible = false;
+            this.propertyGridCommon.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridCommon.Name = "propertyGridCommon";
+            this.propertyGridCommon.Size = new System.Drawing.Size(213, 352);
+            this.propertyGridCommon.TabIndex = 10;
+            this.propertyGridCommon.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjCommonValue);
+            // 
+            // propertyGridViewCommon
+            // 
+            this.propertyGridViewCommon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridViewCommon.HelpVisible = false;
+            this.propertyGridViewCommon.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridViewCommon.Name = "propertyGridViewCommon";
+            this.propertyGridViewCommon.Size = new System.Drawing.Size(222, 352);
+            this.propertyGridViewCommon.TabIndex = 22;
+            // 
+            // textBoxSearchCommon
+            // 
+            this.textBoxSearchCommon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorProvider1.SetError(this.textBoxSearchCommon, "ID not found.");
+            this.textBoxSearchCommon.Location = new System.Drawing.Point(91, 0);
+            this.textBoxSearchCommon.Name = "textBoxSearchCommon";
+            this.textBoxSearchCommon.Size = new System.Drawing.Size(257, 20);
+            this.textBoxSearchCommon.TabIndex = 12;
+            this.textBoxSearchCommon.TextChanged += new System.EventHandler(this.textBoxSearchCommon_TextChanged);
             // 
             // tabPageChar
             // 
@@ -342,7 +504,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.tabPageChar.Location = new System.Drawing.Point(4, 22);
             this.tabPageChar.Name = "tabPageChar";
             this.tabPageChar.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageChar.Size = new System.Drawing.Size(346, 407);
+            this.tabPageChar.Size = new System.Drawing.Size(449, 395);
             this.tabPageChar.TabIndex = 3;
             this.tabPageChar.Text = "_RefObjChar";
             this.tabPageChar.UseVisualStyleBackColor = true;
@@ -357,61 +519,136 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.propertyGrid5);
+            this.splitContainer4.Panel1.Controls.Add(this.propertyGridChar);
             // 
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.buttonShowUpdateChar);
-            this.splitContainer4.Size = new System.Drawing.Size(340, 401);
-            this.splitContainer4.SplitterDistance = 368;
+            this.splitContainer4.Size = new System.Drawing.Size(443, 389);
+            this.splitContainer4.SplitterDistance = 356;
             this.splitContainer4.TabIndex = 1;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // splitContainer6
+            // 
+            this.splitContainer6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer6.Name = "splitContainer6";
+            // 
+            // splitContainer6.Panel1
+            // 
+            this.splitContainer6.Panel1.Controls.Add(this.propertyGridNest);
+            this.splitContainer6.Panel1.Controls.Add(this.buttonSelectNewPosition);
+            this.splitContainer6.Panel1.Controls.Add(this.label1);
+            this.splitContainer6.Panel1.Controls.Add(this.buttonShowUpdateNest);
+            // 
+            // splitContainer6.Panel2
+            // 
+            this.splitContainer6.Panel2.Controls.Add(this.splitContainer9);
+            this.splitContainer6.Size = new System.Drawing.Size(994, 425);
+            this.splitContainer6.SplitterDistance = 219;
+            this.splitContainer6.TabIndex = 22;
+            // 
+            // splitContainer9
+            // 
+            this.splitContainer9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer9.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer9.Name = "splitContainer9";
+            // 
+            // splitContainer9.Panel1
+            // 
+            this.splitContainer9.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer9.Panel2
+            // 
+            this.splitContainer9.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer9.Size = new System.Drawing.Size(771, 425);
+            this.splitContainer9.SplitterDistance = 461;
+            this.splitContainer9.TabIndex = 22;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.ForeColor = System.Drawing.Color.White;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(302, 421);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
             // 
             // SpawnEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(994, 450);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.buttonSelectNewPosition);
-            this.Controls.Add(this.buttonShowUpdateNest);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.propertyGrid1);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.ClientSize = new System.Drawing.Size(994, 425);
+            this.Controls.Add(this.splitContainer6);
             this.Name = "SpawnEditor";
             this.Text = "SpawnEditor";
-            this.Load += new System.EventHandler(this.SpawnEditor_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SpawnEditor_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPagehive.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer8.Panel1.ResumeLayout(false);
+            this.splitContainer8.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
+            this.splitContainer8.ResumeLayout(false);
             this.tabPagetactics.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.splitContainer7.Panel1.ResumeLayout(false);
+            this.splitContainer7.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
+            this.splitContainer7.ResumeLayout(false);
             this.tabPagecommon.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
+            this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
             this.tabPageChar.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.splitContainer6.Panel1.ResumeLayout(false);
+            this.splitContainer6.Panel1.PerformLayout();
+            this.splitContainer6.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
+            this.splitContainer6.ResumeLayout(false);
+            this.splitContainer9.Panel1.ResumeLayout(false);
+            this.splitContainer9.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
+            this.splitContainer9.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private System.Windows.Forms.PropertyGrid propertyGrid2;
-        private System.Windows.Forms.PropertyGrid propertyGrid3;
-        private System.Windows.Forms.PropertyGrid propertyGrid4;
-        private System.Windows.Forms.PropertyGrid propertyGrid5;
+        private System.Windows.Forms.PropertyGrid propertyGridNest;
+        private System.Windows.Forms.PropertyGrid propertyGridHive;
+        private System.Windows.Forms.PropertyGrid propertyGridTactics;
+        private System.Windows.Forms.PropertyGrid propertyGridChar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonShowUpdateNest;
         private System.Windows.Forms.Button buttonSelectHive;
@@ -431,5 +668,19 @@ namespace WorldMapSpawnEditor.MapGraphics
         private System.Windows.Forms.TabPage tabPageChar;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.TextBox textBoxSearchCommon;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.PropertyGrid propertyGridCommon;
+        private System.Windows.Forms.PropertyGrid propertyGridViewCommon;
+        private System.Windows.Forms.SplitContainer splitContainer6;
+        private System.Windows.Forms.SplitContainer splitContainer8;
+        private System.Windows.Forms.PropertyGrid propertyGridViewHive;
+        private System.Windows.Forms.SplitContainer splitContainer7;
+        private System.Windows.Forms.TextBox textBoxSearchHive;
+        private System.Windows.Forms.PropertyGrid propertyGridviewTactics;
+        private System.Windows.Forms.TextBox textBoxsearchTactics;
+        private System.Windows.Forms.SplitContainer splitContainer9;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

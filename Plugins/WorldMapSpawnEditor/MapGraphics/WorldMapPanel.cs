@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor.MapGraphics
@@ -52,7 +51,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// String builder for tooltip text help.
         /// </summary>
-        private readonly StringBuilder StrBuilder = new StringBuilder();
+        private readonly System.Text.StringBuilder StrBuilder = new System.Text.StringBuilder();
 
         /// <summary>
         /// Unique tooltip used for anyting that requires a Tip to display to avoid creating duplicate tooltips.
@@ -202,34 +201,9 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
             else if (e.Button == MouseButtons.Right)
             {
-                //wRegionID.X = ((PointZeroLocation.X - e.X) / Base.PictureSize) * -1;
-                //wRegionID.Y = ((PointZeroLocation.Y - e.Y) / Base.PictureSize) + 127;
-
                 sroPosition.wRegionID = Structs.WRegionID.GetWRegionID(((PointZeroLocation.X - e.X) / Base.PictureSize) * -1, ((PointZeroLocation.Y - e.Y) / Base.PictureSize) + 127);
                 sroPosition.fPosition.X = GetSroPosX(sroPosition.wRegionID.X, Base.PictureSize, PointZeroLocation.X, e.X);
                 sroPosition.fPosition.Z = GetSroPosY(sroPosition.wRegionID.Z, Base.PictureSize, PointZeroLocation.Y, e.Y);
-                //var regex = GetSroPosX(wRegionID.X, Base.PictureSize, PointZeroLocation.X, e.X);
-                //var regez = GetSroPosY(wRegionID.Y, Base.PictureSize, PointZeroLocation.Y, e.Y);
-                //sVector.X = regex;
-                //sVector.Z = regez;
-                //if (PackFile.MapPack.TryGetMeshZ((byte)wRegionID.X, (byte)wRegionID.Y, regionID, regex, regez, out sVector.Z))
-                //{
-                //    if (ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"/warp {regionID} {regex} {sVector.Z} {regez}\n\nX:{wRegionID.X}\nY:{wRegionID.Y}", "Add new Position?"))
-                //    {
-                //        string str = ServerFrameworkRes.BasicControls.vSroMessageBox.GetInput("Enter the Name of your Point inside the InputBox.", "Add new location", "Pos Name:");
-                //        if (str.Length > 0)
-                //            PositionStorage.StorePosition(str, new NewPosition() { Text = str, RegionID = (short)regionID, Position = new System.Numerics.Vector3(regex, regez, sVector.Z) });
-                //        Invalidate();
-                //        PluginFramework.BasicControls.GenericSelectForm.SelectObjStruct<NewPosition>(PositionStorage.Collection, out NewPosition pos);
-                //        if (PluginFramework.BasicControls.GenericSelectForm.SelectObjStruct(PluginFramework.Database.SRO_VT_SHARD._Char, out Structs.Database.IChar ichar))
-                //        {
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    ServerFrameworkRes.BasicControls.vSroMessageBox.Show($"/warp {regionID} {regex} 0 {regez}\n\nFailed to get Z coordinate\nUse Charakter Position to get hight.\n\nX:{wRegionID.X}\nY:{wRegionID.Y}");
-                //}
 
                 IEnumerable<int> rangeXCoordPanel = Enumerable.Range(e.X - 6, 12);
                 IEnumerable<int> rangeYCoordPanel = Enumerable.Range(e.Y - 6, 12);
@@ -248,41 +222,17 @@ namespace WorldMapSpawnEditor.MapGraphics
                             break;
 
                         case SpawnType.Monster when Base.showMonster:
-                            ToolStripMenuItem itm = new ToolStripMenuItem()
-                            {
-                                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
-                                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
-                                AutoSize = true,
-                                Text = $"Edit Monster Nest:[{swn.ID}]:[{((Monster)swn).CodeName128}]",
-                                Tag = new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])
-                            };
-                            itm.Click += edititm_Click;
+                            ToolStripMenuItem itm = GenerateNestSpawnToolStripMenuItem(swn, $"Edit Monster Nest:[{swn.ID}]:[{((Monster)swn).CodeName128}]", new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID]), EditSpawnItem_Click);
                             contextMenuStripRegionClick.Items.Add(itm);
                             break;
 
                         case SpawnType.Npc when Base.showNpc:
-                            ToolStripMenuItem itm2 = new ToolStripMenuItem()
-                            {
-                                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
-                                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
-                                AutoSize = true,
-                                Text = $"Edit Npc Nest:[{swn.ID}]:[{((Npc)swn).CodeName128}]",
-                                Tag = new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])
-                            };
-                            itm2.Click += edititm_Click;
+                            ToolStripMenuItem itm2 = GenerateNestSpawnToolStripMenuItem(swn, $"Edit Npc Nest:[{swn.ID}]:[{((Npc)swn).CodeName128}]", new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID]), EditSpawnItem_Click);
                             contextMenuStripRegionClick.Items.Add(itm2);
                             break;
 
-                        case SpawnType.Unique when Base.showUniqueMonster:// && ServerFrameworkRes.BasicControls.vSroMessageBox.YesOrNo($"Open Editor for unique {((Monster)swn).CodeName128}", "SpawnEditor"):
-                            ToolStripMenuItem itm3 = new ToolStripMenuItem()
-                            {
-                                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
-                                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
-                                AutoSize = true,
-                                Text = $"Edit Unique Nest:[{swn.ID}]:[{((Monster)swn).CodeName128}]",
-                                Tag = new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID])
-                            };
-                            itm3.Click += edititm_Click;
+                        case SpawnType.Unique when Base.showUniqueMonster:
+                            ToolStripMenuItem itm3 = GenerateNestSpawnToolStripMenuItem(swn, $"Edit Unique Nest:[{swn.ID}]:[{((Monster)swn).CodeName128}]", new NestSpawnProperty(PluginFramework.Database.SRO_VT_SHARD.Tab_RefNest[swn.ID]), EditSpawnItem_Click);
                             contextMenuStripRegionClick.Items.Add(itm3);
                             break;
 
@@ -300,6 +250,20 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
+        private ToolStripMenuItem GenerateNestSpawnToolStripMenuItem(Interface.InterfaceSpawn swn, string text, object tag, EventHandler a)
+        {
+            ToolStripMenuItem itm = new ToolStripMenuItem()
+            {
+                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
+                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
+                AutoSize = true,
+                Text = text,
+                Tag = tag
+            };
+            itm.Click += a;
+            return itm;
+        }
+
         private void CleanContextMenuStripe()
         {
             while (contextMenuStripRegionClick.Items.Count > 2)
@@ -308,7 +272,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
-        private void edititm_Click(object sender, EventArgs e)
+        private void EditSpawnItem_Click(object sender, EventArgs e)
         {
             using (SpawnEditor Editor = new SpawnEditor((NestSpawnProperty)((ToolStripMenuItem)sender).Tag))
                 Editor.ShowDialog();
