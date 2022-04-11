@@ -1,5 +1,5 @@
 ﻿using PluginFramework;
-using ManagementFramework.BasicControls;
+using PluginFramework.BasicControls;
 using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System;
@@ -47,15 +47,6 @@ namespace ManagementClient
             return PacketHandlerResult.Block;
         }
 
-        /// <summary>
-        /// Hides the static login form.
-        /// </summary>
-        private void OnHide()
-        {
-            Program.StaticClientForm.Show();
-            Visible = false;
-        }
-
         private void ClientTool_Load(object sender, EventArgs e)
         {
             vSroSizableWindow1.Title = "Offline";
@@ -86,10 +77,10 @@ namespace ManagementClient
             vSroInputBox1.ValueText = Program.MainConfig.PToolUser;
             vSroInputBox2.ValueText = Program.MainConfig.PToolUserPassword;
             vSroCheckBox1.ChangeStatus(Program.MainConfig.ShowPwInText);
-            vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserData);
+            vSroCheckBoxSaveLogin.ChangeStatus(Program.MainConfig.ToolSaveUserDataOnLogin);
             vSroCheckBox1.vSroCheckChange += VSroCheckBox1_vSroCheckChange;
             vSroCheckBoxSaveLogin.vSroCheckChange += OnCheckChangeSaveUserData;
-            ClientCore.AddEntry(PacketID.Server.LoginStatusResponse, LoginStatus);
+            ClientCore.AddEntry(ManagementFramework.Network.Security.PacketID.Server.LoginStatusResponse, LoginStatus);
         }
 
         private void OnCheckChangeSaveUserData(object sender, EventArgs e)
@@ -97,9 +88,20 @@ namespace ManagementClient
             Program.MainConfig.ConfigEditor.IniWriteValue("ToolClient", "SaveUserData", vSroCheckBoxSaveLogin.vSroCheck.ToString());
         }
 
-        private void OnClose(object sender, FormClosingEventArgs e)
+        /// <summary>
+        /// Disconnects the <see cref="ClientCore"/> Thread on exit.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClose(object sender, FormClosingEventArgs e) => ClientCore.Disconnect();
+
+        /// <summary>
+        /// Hides the static login form.
+        /// </summary>
+        private void OnHide()
         {
-            ClientCore.Disconnect();
+            Program.StaticClientForm.Show();
+            Visible = false;
         }
 
         /// <summary>
@@ -113,14 +115,6 @@ namespace ManagementClient
             vSroInputBox2.vSroUseSystemPasswordChar = Program.MainConfig.ShowPwInText ? false : true;
         }
 
-        private void vSroInputBox2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\n')
-            {
-                vSroSmallButtonLogin_vSroClickEvent();
-            }
-        }
-
         /// <summary>
         /// Start authentification to server with account informations
         /// </summary>
@@ -132,12 +126,13 @@ namespace ManagementClient
             if (vSroInputBox2.ValueText.Length == 0)
             { vSroMessageBox.Show("Please type in your password!", "Invalid password"); return; }
 
-            Program.MainConfig.PToolUser = vSroInputBox1.ValueText;
-            Program.MainConfig.PToolUserPassword = vSroInputBox2.ValueText;
-            Packet requestLogin = new Packet(PacketID.Client.Login);
-            requestLogin.WriteAscii(vSroInputBox1.ValueText);
-            requestLogin.WriteAscii(ManagementFramework.Utility.MD5Generator.MD5String(vSroInputBox2.ValueText));
-            ClientCore.Send(requestLogin);
+            if (Program.MainConfig.ToolSaveUserDataOnLogin)
+            {
+                Program.MainConfig.PToolUser = vSroInputBox1.ValueText;
+                Program.MainConfig.PToolUserPassword = vSroInputBox2.ValueText;
+            }
+
+            ClientCore.Send(PacketFormat.LoginRequest(vSroInputBox1.ValueText, vSroInputBox2.ValueText));
         }
 
         #endregion Methods

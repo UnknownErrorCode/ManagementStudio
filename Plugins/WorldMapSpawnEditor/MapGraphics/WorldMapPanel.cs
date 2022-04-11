@@ -14,12 +14,6 @@ namespace WorldMapSpawnEditor.MapGraphics
     internal sealed class WorldMapPanel : Panel
     {
         [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int HoverXHelper(int x, int picsize, int viewX, float posX);
-
-        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int HoverZHelper(int z, int picsize, int viewZ, float posZ);
-
-        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool ExceedViewX(int x, int picsize, int width);
 
         [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -38,6 +32,12 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern float GetSroPosY(int z, int picsize, int viewY, int clickY);
+
+        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int HoverXHelper(int x, int picsize, int viewX, float posX);
+
+        [DllImport("CHelper.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int HoverZHelper(int z, int picsize, int viewZ, float posZ);
 
         #region Fields
 
@@ -58,14 +58,12 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private readonly ToolTip tip = new ToolTip();
 
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripRegionClick;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateSpawn;
-        private System.Windows.Forms.ToolStripMenuItem saveCoordinateToolStripMenuItem;
-
         /// <summary>
         /// Contains all configs for the paint event.
         /// </summary>
         private WorldMapPanelBase Base = new WorldMapPanelBase();
+
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripRegionClick;
 
         /// <summary>
         /// Delta position from last MouseDown and MouseUp. This is required to calculate the MovePoint for swiping
@@ -74,7 +72,6 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         private Rectangle drawRec = Rectangle.Empty;
         private Size drawSize = Size.Empty;
-
         private Bitmap ImageMonster;
         private Bitmap ImageMonsterUnique;
         private Bitmap ImageNpc;
@@ -92,24 +89,26 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// </summary>
         private Point PointMouseDown = Point.Empty;
 
-        /// <summary>
-        /// The Location of the mouse while dragging and swiping.
-        /// </summary>
-       // private Point wRegionID = Point.Empty;
-
         private Point PointPanel = Point.Empty;
-
-        /// <summary>
-        /// Contains the <see cref="Structs.WRegionID"/> of the current mouse Position.
-        /// <br>The <see cref="Structs.SVector3"/> are the float positions x, y, z of the mouse Location.</br>
-        /// </summary>
-        private Structs.SroPosition sroPosition;
 
         /// <summary>
         /// The start Position for Drawing.
         /// </summary>
         private Point PointZeroLocation = Point.Empty;
 
+        private System.Windows.Forms.ToolStripMenuItem saveCoordinateToolStripMenuItem;
+
+        /// <summary>
+        /// The Location of the mouse while dragging and swiping.
+        /// </summary>
+        // private Point wRegionID = Point.Empty;
+        /// <summary>
+        /// Contains the <see cref="Structs.WRegionID"/> of the current mouse Position.
+        /// <br>The <see cref="Structs.SVector3"/> are the float positions x, y, z of the mouse Location.</br>
+        /// </summary>
+        private Structs.SroPosition sroPosition;
+
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateSpawn;
         private CWorld World;
         private CWorldSpawn WorldSpawn;
 
@@ -126,13 +125,13 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Properties
 
-        public bool ShowRegionDBnoDDJ
-        { get => Base.showRegionDBnoDDJ; set { Base.showRegionDBnoDDJ = value; Invalidate(); } }
-
         public bool ShowMeshBlocks
         { get => Base.showMeshBlocks; set { Base.showMeshBlocks = value; Invalidate(); } }
 
         public bool ShowMeshCells { get => Base.showMeshCells; set => Base.showMeshCells = value; }
+
+        public bool ShowRegionDBnoDDJ
+        { get => Base.showRegionDBnoDDJ; set { Base.showRegionDBnoDDJ = value; Invalidate(); } }
 
         internal string[] Continents => World.Continents.Keys.ToArray();
 
@@ -186,6 +185,56 @@ namespace WorldMapSpawnEditor.MapGraphics
                 return true;
             }
             return false;
+        }
+
+        private void CleanContextMenuStripe()
+        {
+            while (contextMenuStripRegionClick.Items.Count > 2)
+            {
+                contextMenuStripRegionClick.Items.RemoveAt(2);
+            }
+        }
+
+        private void DrawMeshBlocks(PaintEventArgs e)
+        {
+            Rectangle rec = Rectangle.Empty;
+            Point blockTextPoint = Point.Empty;
+            for (int y = 0; y < 6; y++)
+            {
+                for (int x = 0; x < 6; x++)
+                {
+                    rec.X = PointPanel.X + (int)(x * (Base.PictureSize / 6f));
+                    rec.Y = PointPanel.Y + (int)(y * (Base.PictureSize / 6f));
+                    rec.Width = (Base.PictureSize / 6);
+                    rec.Height = (Base.PictureSize / 6);
+                    e.Graphics.DrawRectangle(Pens.GreenYellow, rec);
+
+                    blockTextPoint.X = rec.X;
+                    blockTextPoint.Y = x == 0 && y == 0 ? rec.Y + 30 : rec.Y;
+                    TextRenderer.DrawText(e.Graphics, $"Block: X: {x} Z: {(y - 5) * -1}", Font, blockTextPoint, Color.White);
+                }
+            }
+            e.Graphics.DrawRectangle(Pens.White, drawRec);
+        }
+
+        private void EditSpawnItem_Click(object sender, EventArgs e)
+        {
+            using (SpawnEditor Editor = new SpawnEditor((NestSpawnProperty)((ToolStripMenuItem)sender).Tag))
+                Editor.ShowDialog();
+        }
+
+        private ToolStripMenuItem GenerateNestSpawnToolStripMenuItem(Interface.InterfaceSpawn swn, string text, object tag, EventHandler a)
+        {
+            ToolStripMenuItem itm = new ToolStripMenuItem()
+            {
+                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
+                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
+                AutoSize = true,
+                Text = text,
+                Tag = tag
+            };
+            itm.Click += a;
+            return itm;
         }
 
         /// <summary>
@@ -248,34 +297,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                 }
                 contextMenuStripRegionClick.Show(this, e.Location);
             }
-        }
-
-        private ToolStripMenuItem GenerateNestSpawnToolStripMenuItem(Interface.InterfaceSpawn swn, string text, object tag, EventHandler a)
-        {
-            ToolStripMenuItem itm = new ToolStripMenuItem()
-            {
-                BackgroundImage = global::WorldMapSpawnEditor.Properties.Resources.sys_button,
-                BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch,
-                AutoSize = true,
-                Text = text,
-                Tag = tag
-            };
-            itm.Click += a;
-            return itm;
-        }
-
-        private void CleanContextMenuStripe()
-        {
-            while (contextMenuStripRegionClick.Items.Count > 2)
-            {
-                contextMenuStripRegionClick.Items.RemoveAt(2);
-            }
-        }
-
-        private void EditSpawnItem_Click(object sender, EventArgs e)
-        {
-            using (SpawnEditor Editor = new SpawnEditor((NestSpawnProperty)((ToolStripMenuItem)sender).Tag))
-                Editor.ShowDialog();
         }
 
         /// <summary>
@@ -525,38 +546,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             }
         }
 
-        private void DrawMeshBlocks(PaintEventArgs e)
-        {
-            Rectangle rec = Rectangle.Empty;
-            Point blockTextPoint = Point.Empty;
-            for (int y = 0; y < 6; y++)
-            {
-                for (int x = 0; x < 6; x++)
-                {
-                    rec.X = PointPanel.X + (int)(x * (Base.PictureSize / 6f));
-                    rec.Y = PointPanel.Y + (int)(y * (Base.PictureSize / 6f));
-                    rec.Width = (Base.PictureSize / 6);
-                    rec.Height = (Base.PictureSize / 6);
-                    e.Graphics.DrawRectangle(Pens.GreenYellow, rec);
-
-                    blockTextPoint.X = rec.X;
-                    blockTextPoint.Y = x == 0 && y == 0 ? rec.Y + 30 : rec.Y;
-                    TextRenderer.DrawText(e.Graphics, $"Block: X: {x} Z: {(y - 5) * -1}", Font, blockTextPoint, Color.White);
-                }
-            }
-            e.Graphics.DrawRectangle(Pens.White, drawRec);
-        }
-
-        private void PreparePaintRegion(PaintEventArgs e, RegionGraphic reg)
-        {
-            PointPanel.X = ((reg.RegionID.X * Base.PictureSize)) + PointZeroLocation.X;
-            PointPanel.Y = ((((reg.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) - Base.PictureSize;
-            drawSize.Width = Base.PictureSize;
-            drawSize.Height = Base.PictureSize;
-            drawRec.Location = PointPanel;
-            drawRec.Size = drawSize;
-        }
-
         /// <summary>
         /// Initializes all required components for the WorldMap viewer
         /// </summary>
@@ -627,20 +616,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.saveCoordinateToolStripMenuItem.Click += new System.EventHandler(this.saveCoordinateToolStripMenuItem_Click);
         }
 
-        private void saveCoordinateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //short regionID = Structs.WRegionID.GetRegionID(wRegionID.X, wRegionID.Y);
-
-            if (PackFile.MapPack.TryGetMeshZ(sroPosition.wRegionID.X, sroPosition.wRegionID.Z, sroPosition.wRegionID.RegionID, sroPosition.fPosition.X, sroPosition.fPosition.Z, out float higth))
-            {
-                sroPosition.fPosition.Y = higth;
-                string str = ManagementFramework.BasicControls.vSroMessageBox.GetInput($"Enter the Name of your Point inside the InputBox.\n/warp {sroPosition.wRegionID.RegionID} {sroPosition.fPosition.X} {sroPosition.fPosition.Y} {sroPosition.fPosition.Z}\n\nX:{sroPosition.wRegionID.X}\nY:{sroPosition.wRegionID.Z}", "Add new location", "Pos Name:");
-                if (str.Length > 0)
-                    PositionStorage.StorePosition(str, new NewPosition(sroPosition, str));
-                Invalidate();
-            }
-        }
-
         /// <summary>
         /// Defines weather the spawn is a monster, npc or smthing else...
         /// </summary>
@@ -678,6 +653,30 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             var allRegions = PluginFramework.Database.SRO_VT_SHARD._RefRegion.Values;
             World = new CWorld(allRegions);
+        }
+
+        private void PreparePaintRegion(PaintEventArgs e, RegionGraphic reg)
+        {
+            PointPanel.X = ((reg.RegionID.X * Base.PictureSize)) + PointZeroLocation.X;
+            PointPanel.Y = ((((reg.RegionID.Z * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) - Base.PictureSize;
+            drawSize.Width = Base.PictureSize;
+            drawSize.Height = Base.PictureSize;
+            drawRec.Location = PointPanel;
+            drawRec.Size = drawSize;
+        }
+
+        private void saveCoordinateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //short regionID = Structs.WRegionID.GetRegionID(wRegionID.X, wRegionID.Y);
+
+            if (PackFile.MapPack.TryGetMeshZ(sroPosition.wRegionID.X, sroPosition.wRegionID.Z, sroPosition.wRegionID.RegionID, sroPosition.fPosition.X, sroPosition.fPosition.Z, out float higth))
+            {
+                sroPosition.fPosition.Y = higth;
+                string str = PluginFramework.BasicControls.vSroMessageBox.GetInput($"Enter the Name of your Point inside the InputBox.\n/warp {sroPosition.wRegionID.RegionID} {sroPosition.fPosition.X} {sroPosition.fPosition.Y} {sroPosition.fPosition.Z}\n\nX:{sroPosition.wRegionID.X}\nY:{sroPosition.wRegionID.Z}", "Add new location", "Pos Name:");
+                if (str.Length > 0)
+                    PositionStorage.StorePosition(str, new NewPosition(sroPosition, str));
+                Invalidate();
+            }
         }
 
         #endregion Methods

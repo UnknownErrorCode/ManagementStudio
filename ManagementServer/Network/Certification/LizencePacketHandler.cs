@@ -15,29 +15,19 @@ namespace ManagementServer.Network
             //TODO:
         }
 
+        private PacketHandlerResult CheckLizence(ServerData data, Packet packet)
+        {
+            var str = packet.ReadStruct<LoginStatus>();
+            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.notify, str.Notification);
+
+            return PacketHandlerResult.Block;
+        }
+
         private PacketHandlerResult LizenceResponse(ServerData arg1, Packet arg2)
         {
             arg1.m_security.Send(PacketConstructors.LizencePacket.RequestLizence);// ServerManager.settings.Version);
             ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Requesting service...");
             return PacketHandlerResult.Response;
-        }
-
-        /// <summary>
-        /// Receives the Database table "_ToolPluginDataAccess".
-        /// <br>This table is required to refresh the <see cref="PluginSecurityManager"/></br>
-        /// <br>The DataTable gets directly assigned to <see cref="PluginSecurityManager._ToolPluginDataAccessDataTable"/></br>
-        /// </summary>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <returns><see cref="PacketHandlerResult"/></returns>
-        private PacketHandlerResult ToolPluginDataAccess(ServerData arg1, Packet arg2)
-        {
-            var n = arg2.ReadAscii();
-            PluginSecurityManager._ToolPluginDataAccessDataTable = arg2.ReadDataTable(arg2.ReadByteArray(arg2.Remaining));
-            PluginSecurityManager._ToolPluginDataAccessDataTable.TableName = n;
-            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, "_ToolPluginDataAccess received.");
-
-            return PacketHandlerResult.Block;
         }
 
         /// <summary>
@@ -59,11 +49,20 @@ namespace ManagementServer.Network
             return PacketHandlerResult.Block;
         }
 
-        private PacketHandlerResult CheckLizence(ServerData data, Packet packet)
+        /// <summary>
+        /// Receives the Database table "_ToolPluginDataAccess".
+        /// <br>This table is required to refresh the <see cref="PluginSecurityManager"/></br>
+        /// <br>The DataTable gets directly assigned to <see cref="PluginSecurityManager._ToolPluginDataAccessDataTable"/></br>
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns><see cref="PacketHandlerResult"/></returns>
+        private PacketHandlerResult ToolPluginDataAccess(ServerData arg1, Packet arg2)
         {
-            //data.m_security.Send(PacketConstructors.LizencePacket.RequestLizence);// ServerManager.settings.Version);
-            var str = packet.ReadStruct<LoginStatus>();
-            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.notify, str.Notification);
+            var n = arg2.ReadAscii();
+            PluginSecurityManager._ToolPluginDataAccessDataTable = arg2.ReadDataTable(arg2.ReadByteArray(arg2.Remaining));
+            PluginSecurityManager._ToolPluginDataAccessDataTable.TableName = n;
+            ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, "_ToolPluginDataAccess received.");
 
             return PacketHandlerResult.Block;
         }

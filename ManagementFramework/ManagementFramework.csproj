@@ -46,72 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicControls\vSroButton.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroButton.Designer.cs">
-      <DependentUpon>vSroButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroButtonList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroButtonList.Designer.cs">
-      <DependentUpon>vSroButtonList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroCheckBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroCheckBox.Designer.cs">
-      <DependentUpon>vSroCheckBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroCloseButton.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroCloseButton.Designer.cs">
-      <DependentUpon>vSroCloseButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroEditor.Designer.cs">
-      <DependentUpon>vSroEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroInputBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroInputBox.Designer.cs">
-      <DependentUpon>vSroInputBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroListButton.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroListButton.Designer.cs">
-      <DependentUpon>vSroListButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroMessageBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroMessageBox.designer.cs">
-      <DependentUpon>vSroMessageBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroScrollBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroScrollBar.Designer.cs">
-      <DependentUpon>vSroScrollBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroSizableWindow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroSizableWindow.Designer.cs">
-      <DependentUpon>vSroSizableWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicControls\vSroSmallButton.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BasicControls\vSroSmallButton.Designer.cs">
-      <DependentUpon>vSroSmallButton.cs</DependentUpon>
-    </Compile>
     <Compile Include="Handler\ByteArrayExtensions.cs" />
     <Compile Include="Handler\Caller.cs" />
     <Compile Include="Handler\EnumExtensions.cs" />
@@ -164,39 +98,6 @@
     <Compile Include="Utility\MD5Generator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BasicControls\vSroButton.resx">
-      <DependentUpon>vSroButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroButtonList.resx">
-      <DependentUpon>vSroButtonList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroCheckBox.resx">
-      <DependentUpon>vSroCheckBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroCloseButton.resx">
-      <DependentUpon>vSroCloseButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroEditor.resx">
-      <DependentUpon>vSroEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroInputBox.resx">
-      <DependentUpon>vSroInputBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroListButton.resx">
-      <DependentUpon>vSroListButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroMessageBox.resx">
-      <DependentUpon>vSroMessageBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroScrollBar.resx">
-      <DependentUpon>vSroScrollBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroSizableWindow.resx">
-      <DependentUpon>vSroSizableWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicControls\vSroSmallButton.resx">
-      <DependentUpon>vSroSmallButton.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

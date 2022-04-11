@@ -36,7 +36,7 @@ namespace TriggerEditor
 
         private void vSroButtonList1_OnIndCh(object sender, System.EventArgs e)
         {
-            Structs.Database.RefGame_World world = (Structs.Database.RefGame_World)((ManagementFramework.BasicControls.vSroListButton)sender).Tag;
+            Structs.Database.RefGame_World world = (Structs.Database.RefGame_World)((PluginFramework.BasicControls.vSroListButton)sender).Tag;
         }
     }
 }

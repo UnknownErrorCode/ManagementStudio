@@ -1,4 +1,4 @@
-﻿using ManagementFramework.BasicControls;
+﻿using PluginFramework.BasicControls;
 
 namespace ShopEditor.Interface.ShopInterface
 {

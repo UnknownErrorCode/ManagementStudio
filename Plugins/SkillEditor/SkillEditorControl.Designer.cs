@@ -35,7 +35,7 @@
             this.dataGridViewMonster = new System.Windows.Forms.DataGridView();
             this.textBoxSearchMonster = new System.Windows.Forms.TextBox();
             this.splitContainerSkillData = new System.Windows.Forms.SplitContainer();
-            this.vSroSmallButton1 = new ManagementFramework.BasicControls.vSroSmallButton();
+            this.vSroSmallButton1 = new PluginFramework.BasicControls.vSroSmallButton();
             this.tabPageCharSkills = new System.Windows.Forms.TabPage();
             this.tabControlMain.SuspendLayout();
             this.tabPageMonsterSkills.SuspendLayout();
@@ -158,7 +158,7 @@
             this.vSroSmallButton1.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButton1.TabIndex = 0;
             this.vSroSmallButton1.vSroSmallButtonName = "Load Skill requirements";
-            this.vSroSmallButton1.vSroClickEvent += new ManagementFramework.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButton1_vSroClickEvent);
+            this.vSroSmallButton1.vSroClickEvent += new PluginFramework.BasicControls.vSroSmallButton.vSroClick(this.vSroSmallButton1_vSroClickEvent);
             // 
             // tabPageCharSkills
             // 
@@ -202,6 +202,6 @@
         private System.Windows.Forms.TextBox textBoxSearchMonster;
         private System.Windows.Forms.SplitContainer splitContainerSkillData;
         private System.Windows.Forms.Button buttonSearch;
-        private ManagementFramework.BasicControls.vSroSmallButton vSroSmallButton1;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButton1;
     }
 }

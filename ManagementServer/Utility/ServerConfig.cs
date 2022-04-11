@@ -6,15 +6,17 @@ namespace ManagementServer.Utility
     {
         #region Properties
 
+        public string CertIP => InitializeConfig.Cfg.IniReadValue("Certification", "IP");
+        public int CertPort => int.Parse(InitializeConfig.Cfg.IniReadValue("Certification", "Port"));
         public string ChatLogPath => InitializeConfig.Cfg.IniReadValue("StudioServer", "ChatLogPath");
 
         public string DBAcc => InitializeConfig.Cfg.IniReadValue("DBs", "Account");
 
-       // public string DBBot => InitializeConfig.Cfg.IniReadValue("DBs", "Bot");
+        // public string DBBot => InitializeConfig.Cfg.IniReadValue("DBs", "Bot");
 
         public string DBDev => InitializeConfig.Cfg.IniReadValue("DBs", "Developement");
 
-      //  public string DBFilter => InitializeConfig.Cfg.IniReadValue("DBs", "Filter");
+        //  public string DBFilter => InitializeConfig.Cfg.IniReadValue("DBs", "Filter");
 
         public string DBLog => InitializeConfig.Cfg.IniReadValue("DBs", "Log");
 
@@ -24,16 +26,13 @@ namespace ManagementServer.Utility
 
         public string GuidePath => Path.Combine(Directory.GetCurrentDirectory(), "Dashboard", "Topics");
 
-        public string ServerIP => InitializeConfig.Cfg.IniReadValue("StudioServer", "IP");
-        public string CertIP => InitializeConfig.Cfg.IniReadValue("Certification", "IP");
-
+        public string LizenceKey { get => InitializeConfig.Cfg.IniReadValue("Lizence", "Key"); set => InitializeConfig.Cfg.IniWriteValue("Lizence", "Key", value); }
+        public string LizencePassword { get => InitializeConfig.Cfg.IniReadValue("Lizence", "Password"); set => InitializeConfig.Cfg.IniWriteValue("Lizence", "Password", value); }
+        public string LizenceUser { get => InitializeConfig.Cfg.IniReadValue("Lizence", "User"); set => InitializeConfig.Cfg.IniWriteValue("Lizence", "User", value); }
         public string PatchFolderDirectory => InitializeConfig.Cfg.IniReadValue("StudioServer", "PatchFolderDirectory");
-
         public string PatchFolderDirectory_Archiv => InitializeConfig.Cfg.IniReadValue("StudioServer", "PatchFolderArchiv");
-
+        public string ServerIP => InitializeConfig.Cfg.IniReadValue("StudioServer", "IP");
         public int ServerPort => int.Parse(InitializeConfig.Cfg.IniReadValue("StudioServer", "Port"));
-        public int CertPort => int.Parse(InitializeConfig.Cfg.IniReadValue("Certification", "Port"));
-
         public string SQL_ConnectionString => $"Server={SQL_Host};database={"master"};User ID={SQL_User};Password={SQL_Password};MultipleActiveResultSets=True";
 
         public string SQL_Host => InitializeConfig.Cfg.IniReadValue("SQL", "Host");

@@ -32,7 +32,7 @@
         public string PToolUserPassword { get => base.ConfigEditor.IniReadValue("ToolClient", "ToolPassword").Replace('"'.ToString(),""); set => base.ConfigEditor.IniWriteValue("ToolClient", "ToolPassword", $"{'"'}{value}{'"'}"); }
         public bool ShowPwInText { get => bool.Parse(base.ConfigEditor.IniReadValue("ToolClient", "ShowPW")); set => base.ConfigEditor.IniWriteValue("ToolClient", "ShowPW", value.ToString()); }
         public bool ToolQuickLogin { get => bool.Parse(base.ConfigEditor.IniReadValue("ToolClient", "QuickLogin")); set => base.ConfigEditor.IniWriteValue("ToolClient", "QuickLogin", value.ToString()); }
-        public bool ToolSaveUserData { get => bool.Parse(base.ConfigEditor.IniReadValue("ToolClient", "SaveUserData")); set => base.ConfigEditor.IniWriteValue("ToolClient", "SaveUserData", value.ToString()); }
+        public bool ToolSaveUserDataOnLogin { get => bool.Parse(base.ConfigEditor.IniReadValue("ToolClient", "SaveUserData")); set => base.ConfigEditor.IniWriteValue("ToolClient", "SaveUserData", value.ToString()); }
         public string ToolServerIP { get => base.ConfigEditor.IniReadValue("ToolServer", "Host"); set => base.ConfigEditor.IniWriteValue("ToolServer", "Host", value); }
         public int ToolServerPort { get => int.Parse(base.ConfigEditor.IniReadValue("ToolServer", "Port")); set => base.ConfigEditor.IniWriteValue("ToolServer", "Port", value.ToString()); }
         public int ToolServerVersion { get => int.Parse(base.ConfigEditor.IniReadValue("ToolServer", "Version")); set => base.ConfigEditor.IniWriteValue("ToolServer", "Version", value.ToString()); }

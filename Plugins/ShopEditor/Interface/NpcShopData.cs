@@ -1,4 +1,4 @@
-﻿using ManagementFramework.BasicControls;
+﻿using PluginFramework.BasicControls;
 using ShopEditor.Interface.ShopInterface;
 using System.Data;
 using System.Linq;

@@ -31,17 +31,17 @@ namespace ManagementClient
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.vSroSizableWindow1 = new ManagementFramework.BasicControls.vSroSizableWindow();
-            this.vSroInputBox1 = new ManagementFramework.BasicControls.vSroInputBox();
-            this.vSroInputBox2 = new ManagementFramework.BasicControls.vSroInputBox();
-            this.vSroInputBox3 = new ManagementFramework.BasicControls.vSroInputBox();
-            this.vSroInputBox4 = new ManagementFramework.BasicControls.vSroInputBox();
-            this.vSroInputBox5 = new ManagementFramework.BasicControls.vSroInputBox();
-            this.vSroCheckBox1 = new ManagementFramework.BasicControls.vSroCheckBox();
-            this.vSroInputBox6 = new ManagementFramework.BasicControls.vSroInputBox();
-            this.vSroInputBox7 = new ManagementFramework.BasicControls.vSroInputBox();
-            this.vSroSmallButton1 = new ManagementFramework.BasicControls.vSroSmallButton();
-            this.vSroSmallButton2 = new ManagementFramework.BasicControls.vSroSmallButton();
+            this.vSroSizableWindow1 = new PluginFramework.BasicControls.vSroSizableWindow();
+            this.vSroInputBox1 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroInputBox2 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroInputBox3 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroInputBox4 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroInputBox5 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroCheckBox1 = new PluginFramework.BasicControls.vSroCheckBox();
+            this.vSroInputBox6 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroInputBox7 = new PluginFramework.BasicControls.vSroInputBox();
+            this.vSroSmallButton1 = new PluginFramework.BasicControls.vSroSmallButton();
+            this.vSroSmallButton2 = new PluginFramework.BasicControls.vSroSmallButton();
             this.SuspendLayout();
             // 
             // vSroSizableWindow1
@@ -136,7 +136,7 @@ namespace ManagementClient
             this.vSroCheckBox1.TabIndex = 6;
             this.vSroCheckBox1.vSroCheck = false;
             this.vSroCheckBox1.vSroCheckBoxName = "Show Password";
-            this.vSroCheckBox1.vSroCheckChange += new ManagementFramework.BasicControls.vSroCheckBox.vSroCheckChanger(this.OnShowPasswordCheckChange);
+            this.vSroCheckBox1.vSroCheckChange += new PluginFramework.BasicControls.vSroCheckBox.vSroCheckChanger(this.OnShowPasswordCheckChange);
             // 
             // vSroInputBox6
             // 
@@ -175,7 +175,7 @@ namespace ManagementClient
             this.vSroSmallButton1.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButton1.TabIndex = 9;
             this.vSroSmallButton1.vSroSmallButtonName = "Load Settings";
-            this.vSroSmallButton1.vSroClickEvent += new ManagementFramework.BasicControls.vSroSmallButton.vSroClick(this.OnLoadSettings);
+            this.vSroSmallButton1.vSroClickEvent += new PluginFramework.BasicControls.vSroSmallButton.vSroClick(this.OnLoadSettings);
             // 
             // vSroSmallButton2
             // 
@@ -186,7 +186,7 @@ namespace ManagementClient
             this.vSroSmallButton2.Size = new System.Drawing.Size(152, 24);
             this.vSroSmallButton2.TabIndex = 10;
             this.vSroSmallButton2.vSroSmallButtonName = "Save Settings";
-            this.vSroSmallButton2.vSroClickEvent += new ManagementFramework.BasicControls.vSroSmallButton.vSroClick(this.OnSaveSettings);
+            this.vSroSmallButton2.vSroClickEvent += new PluginFramework.BasicControls.vSroSmallButton.vSroClick(this.OnSaveSettings);
             // 
             // SettingsForm
             // 
@@ -214,16 +214,16 @@ namespace ManagementClient
 
         #endregion
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private ManagementFramework.BasicControls.vSroSizableWindow vSroSizableWindow1;
-        private ManagementFramework.BasicControls.vSroInputBox vSroInputBox1;
-        private ManagementFramework.BasicControls.vSroInputBox vSroInputBox2;
-        private ManagementFramework.BasicControls.vSroInputBox vSroInputBox3;
-        private ManagementFramework.BasicControls.vSroInputBox vSroInputBox4;
-        private ManagementFramework.BasicControls.vSroInputBox vSroInputBox5;
-        private ManagementFramework.BasicControls.vSroCheckBox vSroCheckBox1;
-        private ManagementFramework.BasicControls.vSroInputBox vSroInputBox6;
-        private ManagementFramework.BasicControls.vSroInputBox vSroInputBox7;
-        private ManagementFramework.BasicControls.vSroSmallButton vSroSmallButton1;
-        private ManagementFramework.BasicControls.vSroSmallButton vSroSmallButton2;
+        private PluginFramework.BasicControls.vSroSizableWindow vSroSizableWindow1;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox1;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox2;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox3;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox4;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox5;
+        private PluginFramework.BasicControls.vSroCheckBox vSroCheckBox1;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox6;
+        private PluginFramework.BasicControls.vSroInputBox vSroInputBox7;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButton1;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButton2;
     }
 }

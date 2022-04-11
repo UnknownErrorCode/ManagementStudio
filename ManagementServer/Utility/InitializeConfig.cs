@@ -6,14 +6,8 @@ namespace ManagementServer.Utility
 {
     public class InitializeConfig
     {
-        #region Fields
-
         public const string ConfigString = "Config/settings.ini";
         public static InitializeFile Cfg = new InitializeFile(ConfigString);
-
-        #endregion Fields
-
-        #region Methods
 
         public static bool InitializeConfigFile(string configPath, out string msg)
         {
@@ -38,7 +32,7 @@ namespace ManagementServer.Utility
                     Cfg.IniWriteValue("DBs", "Log", "SRO_VT_LOG");
                     Cfg.IniWriteValue("DBs", "Shard", "SRO_VT_SHARD");
                     Cfg.IniWriteValue("DBs", "Developement", "StudioClient");
-                   
+
                     Cfg.IniWriteValue("Certification", "IP", "127.0.0.1");
                     Cfg.IniWriteValue("Certification", "Port", "15555");
 
@@ -48,6 +42,10 @@ namespace ManagementServer.Utility
                     Cfg.IniWriteValue("StudioServer", "PatchFolderArchiv", "C:\\PatchFolderArchiv");
                     Cfg.IniWriteValue("StudioServer", "PatchFolderDirectory", "C:\\RisingSecurity");
                     Cfg.IniWriteValue("StudioServer", "ChatLogPath", "C:\\StudioServerChatLog");
+
+                    Cfg.IniWriteValue("Lizence", "User", "default");
+                    Cfg.IniWriteValue("Lizence", "Password", "default");
+                    Cfg.IniWriteValue("Lizence", "Key", "default");
 
                     return InitializeConfigFile(configPath, out msg);
                 }
@@ -63,7 +61,5 @@ namespace ManagementServer.Utility
                 return false;
             }
         }
-
-        #endregion Methods
     }
 }

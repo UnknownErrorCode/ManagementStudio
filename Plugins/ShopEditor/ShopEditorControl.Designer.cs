@@ -32,7 +32,7 @@
             this.listViewAllNpcs = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.talkWindow1 = new ShopEditor.TalkWindow();
-            this.vSroSmallButtonLoadShops = new ManagementFramework.BasicControls.vSroSmallButton();
+            this.vSroSmallButtonLoadShops = new PluginFramework.BasicControls.vSroSmallButton();
             this.SuspendLayout();
             // 
             // listViewAllNpcs
@@ -100,6 +100,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private TalkWindow talkWindow1;
         private System.Windows.Forms.ListView listViewAllNpcs;
-        private ManagementFramework.BasicControls.vSroSmallButton vSroSmallButtonLoadShops;
+        private PluginFramework.BasicControls.vSroSmallButton vSroSmallButtonLoadShops;
     }
 }

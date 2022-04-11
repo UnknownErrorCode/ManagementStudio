@@ -12,6 +12,9 @@ namespace ManagementCertification.Utility
 
         internal static bool ConnectionSuccess => TestSQLConnection(CertificationManager.settings.SQL_ConnectionString);
         private static string SqlConnectionString => CertificationManager.settings.SQL_ConnectionString;
+
+        internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", CertificationManager.settings.DBDev);
+
         /// <summary>
         /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
         /// </summary>
@@ -60,11 +63,8 @@ namespace ManagementCertification.Utility
                 UserName = row.Field<string>("AccountName"),
             };
 
-
             return status.Notification;
         }
-
-        internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", CertificationManager.settings.DBDev);
 
         internal static DataTable GetPatchHistory() => ReturnDataTableByQuery("SELECT * FROM _ToolUpdates;", CertificationManager.settings.DBDev);
 
@@ -112,34 +112,41 @@ namespace ManagementCertification.Utility
 
         internal static int LogoutEveryone()
         {
-            return ExecuteQuery("UPDATE _ToolUser SET Active = 0  where Active >0 ", CertificationManager.settings.DBDev);
+            return ExecuteQuery("UPDATE _LizenceUser SET Active = 0  where Active >0 ", CertificationManager.settings.DBDev);
         }
 
         internal static DataTable RequestFilesToUpdate(int latestClientVersion) => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", CertificationManager.settings.DBDev);
 
         internal static void UpdateToolFiles(SqlParameter[] paramse) => ReturnDataTableByProcedure("_Update_Tool_Files", CertificationManager.settings.DBDev, paramse);
 
-        private static bool TestSQLConnection(string sQL_ConnectionString)
+        private static int ExecuteQuery(string query, string database)
         {
-            sqlConnection = new SqlConnection(SqlConnectionString);
-            CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Testing SQL Connection...");
-
             try
             {
-                sqlConnection.Open();
-                if (sqlConnection.State == ConnectionState.Open)
+                using (SqlCommand command = new SqlCommand(query, sqlConnection))
                 {
-                    CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
-                    //sqlConnection.Close();
-                    return true;
+                    if (command.Connection.State != ConnectionState.Open)
+                    {
+                        command.Connection.Open();
+                    }
+                    if (command.Connection.Database != database)
+                    {
+                        command.Connection.ChangeDatabase(database);
+                    }
+                    command.CommandType = CommandType.Text;
+                    var ret = command.ExecuteNonQuery();
+                    CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
+                    return ret;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
+                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
             }
-            return false;
+
+            return 0;
         }
+
         private static DataTable ReturnDataTableByProcedure(string procedureName, string DB, SqlParameter[] param)
         {
             DataTable dataTableProcedure = new DataTable();
@@ -217,32 +224,26 @@ namespace ManagementCertification.Utility
             return dataTable;
         }
 
-        private static int ExecuteQuery(string query, string database)
+        private static bool TestSQLConnection(string sQL_ConnectionString)
         {
+            sqlConnection = new SqlConnection(SqlConnectionString);
+            CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, "Testing SQL Connection...");
+
             try
             {
-                using (SqlCommand command = new SqlCommand(query, sqlConnection))
+                sqlConnection.Open();
+                if (sqlConnection.State == ConnectionState.Open)
                 {
-                    if (command.Connection.State != ConnectionState.Open)
-                    {
-                        command.Connection.Open();
-                    }
-                    if (command.Connection.Database != database)
-                    {
-                        command.Connection.ChangeDatabase(database);
-                    }
-                    command.CommandType = CommandType.Text;
-                    var ret = command.ExecuteNonQuery();
-                    CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql, $"Executed query:USING {database} [{query}]");
-                    return ret;
+                    CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.success, $"Established connection to: {sqlConnection.DataSource} ");
+                    //sqlConnection.Close();
+                    return true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.warning, $"Failed executing query:USING {database} [{query}]");
+                CertificationManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.fatal, $"Failed connecting to DatabaseEngine\n Exception: {ex}");
             }
-
-            return 0;
+            return false;
         }
     }
 }
