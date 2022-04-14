@@ -6,6 +6,7 @@ namespace ManagementCertification
 {
     internal static class LizenceSecurityManager
     {
+        private static Dictionary<byte, string[]> _LizencePluginGroups;
         private static Dictionary<string, string[]> _ToolPluginDataAccess; //= new Dictionary<string, string[]>();
 
         /// <summary>
@@ -13,9 +14,7 @@ namespace ManagementCertification
         /// </summary>
         private static Dictionary<byte, string[]> LizenceGroupDataAccess;
 
-        private static Dictionary<byte, string[]> _ToolPluginGroups;
-
-        public static int SecurityGroupCount => _ToolPluginGroups.Count;
+        public static int SecurityGroupCount => _LizencePluginGroups.Count;
 
         internal static string[] GetSecurityDataTableNames(byte securityGroupID)
         {
@@ -29,9 +28,9 @@ namespace ManagementCertification
 
         internal static string[] GetSecurityPluginNames(byte securityGroup)
         {
-            if (_ToolPluginGroups.ContainsKey(securityGroup))
+            if (_LizencePluginGroups.ContainsKey(securityGroup))
             {
-                return _ToolPluginGroups[securityGroup];
+                return _LizencePluginGroups[securityGroup];
             }
 
             return null;
@@ -40,7 +39,7 @@ namespace ManagementCertification
         internal static bool TryRefreshSecurityManager()
         {
             _ToolPluginDataAccess = new Dictionary<string, string[]>();
-            _ToolPluginGroups = new Dictionary<byte, string[]>();
+            _LizencePluginGroups = new Dictionary<byte, string[]>();
             DataTable dt = SQL.GetPluginDataAccess();
             DataTable dt2 = SQL.GetSecurityPluginAccess();
 
@@ -64,7 +63,7 @@ namespace ManagementCertification
 
             foreach (DataRow row in dt2.Rows)
             {
-                if (_ToolPluginGroups.ContainsKey(row.Field<byte>("SecurityGroupID")))
+                if (_LizencePluginGroups.ContainsKey(row.Field<byte>("SecurityGroupID")))
                 {
                     continue;
                 }
@@ -75,12 +74,12 @@ namespace ManagementCertification
                     if (pRow.Field<byte>("SecurityGroupID").Equals(row.Field<byte>("SecurityGroupID")))
                         list.Add(pRow.Field<string>("AllowedPlugins"));
                 }
-                _ToolPluginGroups.Add(row.Field<byte>("SecurityGroupID"), list.ToArray());
+                _LizencePluginGroups.Add(row.Field<byte>("SecurityGroupID"), list.ToArray());
             }
 
-            LizenceGroupDataAccess = new Dictionary<byte, string[]>(_ToolPluginGroups.Count);
+            LizenceGroupDataAccess = new Dictionary<byte, string[]>(_LizencePluginGroups.Count);
 
-            foreach (KeyValuePair<byte, string[]> securityGroup in _ToolPluginGroups)
+            foreach (KeyValuePair<byte, string[]> securityGroup in _LizencePluginGroups)
             {
                 List<string> list = new List<string>();
                 foreach (string pluginName in securityGroup.Value)

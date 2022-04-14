@@ -13,7 +13,7 @@ namespace ManagementCertification.Utility
         internal static bool ConnectionSuccess => TestSQLConnection(CertificationManager.settings.SQL_ConnectionString);
         private static string SqlConnectionString => CertificationManager.settings.SQL_ConnectionString;
 
-        internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _ToolPluginGroups where SecurityGroupID = {securityDescription}", CertificationManager.settings.DBDev);
+        // internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _LizencePluginGroups where SecurityGroupID = {securityDescription}", CertificationManager.settings.DBDev);
 
         /// <summary>
         /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
@@ -32,7 +32,7 @@ namespace ManagementCertification.Utility
                     new SqlParameter("@OnOff",SqlDbType.TinyInt) { Value = 1}
              };
 
-            DataRow row = ReturnDataTableByProcedure("_LoginToolUser", CertificationManager.settings.DBDev, regparams).Rows[0];
+            DataRow row = ReturnDataTableByProcedure("_LoginLizenceUser", CertificationManager.settings.DBDev, regparams).Rows[0];
 
             LoginStatus status = new LoginStatus()
             {
@@ -53,7 +53,7 @@ namespace ManagementCertification.Utility
                         new SqlParameter("@IP" ,System.Data.SqlDbType.VarChar,15) { Value = UserIP },
                         new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
                   };
-            DataRow row = SQL.ReturnDataTableByProcedure("_LoginToolUser", CertificationManager.settings.DBDev, logoutParameter).Rows[0];
+            DataRow row = SQL.ReturnDataTableByProcedure("_LoginLizenceUser", CertificationManager.settings.DBDev, logoutParameter).Rows[0];
 
             LoginStatus status = new LoginStatus()
             {
@@ -72,7 +72,7 @@ namespace ManagementCertification.Utility
 
         internal static string[] GetRequiredTableNames(byte securityGroup)
         {
-            DataRowCollection names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _ToolPluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", CertificationManager.settings.DBDev).Rows;
+            DataRowCollection names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _LizencePluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", CertificationManager.settings.DBDev).Rows;
             string[] nameArray = new string[names.Count];
 
             for (int i = 0; i < names.Count; i++)
@@ -83,7 +83,7 @@ namespace ManagementCertification.Utility
             return nameArray;
         }
 
-        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", CertificationManager.settings.DBDev);
+        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_LizencePluginGroups]", CertificationManager.settings.DBDev);
 
         internal static int LatestVersion()
         {
