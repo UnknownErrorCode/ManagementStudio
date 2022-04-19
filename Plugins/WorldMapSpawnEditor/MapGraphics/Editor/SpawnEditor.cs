@@ -19,16 +19,11 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Fields
 
-        protected PluginFramework.Database.DbQueryGenerator NestUpdater;
-        protected PluginFramework.Database.DbQueryGenerator HiveUpdater;
-        protected PluginFramework.Database.DbQueryGenerator TacticsUpdater;
-        protected PluginFramework.Database.DbQueryGenerator CommonUpdater;
         protected PluginFramework.Database.DbQueryGenerator CharUpdater;
-        protected Dictionary<string, string> NestUpdateValues = new Dictionary<string, string>();
-        protected Dictionary<string, string> HiveUpdateValues = new Dictionary<string, string>();
-        protected Dictionary<string, string> TacticsUpdateValues = new Dictionary<string, string>();
-        protected Dictionary<string, string> ObjCommonUpdateValues = new Dictionary<string, string>();
-        protected Dictionary<string, string> ObjCharUpdateValues = new Dictionary<string, string>();
+        protected PluginFramework.Database.DbQueryGenerator CommonUpdater;
+        protected PluginFramework.Database.DbQueryGenerator HiveUpdater;
+        protected PluginFramework.Database.DbQueryGenerator NestUpdater;
+        protected PluginFramework.Database.DbQueryGenerator TacticsUpdater;
 
         #endregion Fields
 
@@ -77,15 +72,9 @@ namespace WorldMapSpawnEditor.MapGraphics
                 vSroMessageBox.Show(query);
         }
 
-        private void ShowUpdateHive(object sender, EventArgs e)
+        private void ShowUpdateChar(object sender, EventArgs e)
         {
-            if (HiveUpdater.GenerateQuery(out string query))
-                vSroMessageBox.Show(query);
-        }
-
-        private void ShowUpdateTactics(object sender, EventArgs e)
-        {
-            if (TacticsUpdater.GenerateQuery(out string query))
+            if (CharUpdater.GenerateQuery(out string query))
                 vSroMessageBox.Show(query);
         }
 
@@ -95,9 +84,15 @@ namespace WorldMapSpawnEditor.MapGraphics
                 vSroMessageBox.Show(query);
         }
 
-        private void ShowUpdateChar(object sender, EventArgs e)
+        private void ShowUpdateHive(object sender, EventArgs e)
         {
-            if (CharUpdater.GenerateQuery(out string query))
+            if (HiveUpdater.GenerateQuery(out string query))
+                vSroMessageBox.Show(query);
+        }
+
+        private void ShowUpdateTactics(object sender, EventArgs e)
+        {
+            if (TacticsUpdater.GenerateQuery(out string query))
                 vSroMessageBox.Show(query);
         }
 
@@ -111,21 +106,21 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         #region Property Grid Change Void
 
-        private void ChangeNestValue(object s, PropertyValueChangedEventArgs e)
-        {
-            NestUpdater.UpdateObject(e.ChangedItem.Label, e.ChangedItem.Value.ToString());
-            Queries();
-        }
-
         private void ChangeHive(object s, PropertyValueChangedEventArgs e)
         {
             HiveUpdater.UpdateObject(e.ChangedItem.Label, e.ChangedItem.Value.ToString());
             Queries();
         }
 
-        private void ChangeTacticsValue(object s, PropertyValueChangedEventArgs e)
+        private void ChangeNestValue(object s, PropertyValueChangedEventArgs e)
         {
-            TacticsUpdater.UpdateObject(e.ChangedItem.Label, e.ChangedItem.Value.ToString());
+            NestUpdater.UpdateObject(e.ChangedItem.Label, e.ChangedItem.Value.ToString());
+            Queries();
+        }
+
+        private void ChangeObjChar(object s, PropertyValueChangedEventArgs e)
+        {
+            CharUpdater.UpdateObject(e.ChangedItem.Label, e.ChangedItem.Value.ToString());
             Queries();
         }
 
@@ -141,67 +136,15 @@ namespace WorldMapSpawnEditor.MapGraphics
             Queries();
         }
 
-        private void ChangeObjChar(object s, PropertyValueChangedEventArgs e)
+        private void ChangeTacticsValue(object s, PropertyValueChangedEventArgs e)
         {
-            CharUpdater.UpdateObject(e.ChangedItem.Label, e.ChangedItem.Value.ToString());
+            TacticsUpdater.UpdateObject(e.ChangedItem.Label, e.ChangedItem.Value.ToString());
             Queries();
         }
 
         #endregion Property Grid Change Void
 
         #region Select New xxx
-
-        private void buttonSelectNewPosition_Click(object sender, EventArgs e)
-        {
-            if (GenericSelectForm.SelectObjStruct(PositionStorage.Collection, out NewPosition pos))
-            {
-                CurrentSpawn.Nest.NRegionDBID = pos.RegionID.RegionID;
-                CurrentSpawn.Nest.FLocalPosX = pos.Position.X;
-                CurrentSpawn.Nest.FLocalPosZ = pos.Position.Z;
-                CurrentSpawn.Nest.FLocalPosY = pos.Position.Y;
-                propertyGridNest.SelectedObject = CurrentSpawn.Nest;
-
-                NestUpdater.UpdateObject("nRegionDBID", $"{pos.RegionID.RegionID}");
-                NestUpdater.UpdateObject("fLocalPosX", $"{pos.Position.X}");
-                NestUpdater.UpdateObject("fLocalPosY", $"{pos.Position.Y}");
-                NestUpdater.UpdateObject("fLocalPosZ", $"{pos.Position.Z}");
-                Queries();
-            }
-        }
-
-        private void buttonSelectHive_Click(object sender, EventArgs e)
-        {
-            if (propertyGridViewHive.SelectedObject == null)
-                return;
-
-            Tab_RefHive hive = (Tab_RefHive)propertyGridViewHive.SelectedObject;
-
-            CurrentSpawn.Hive = hive;
-            CurrentSpawn.Nest.DwHiveID = hive.dwHiveID;
-            propertyGridNest.SelectedObject = CurrentSpawn.Nest;
-            propertyGridHive.SelectedObject = hive;
-            textBoxSearchHive.Text = "";
-            NestUpdater.UpdateObject("dwHiveID", $"{hive.dwHiveID}");
-            HiveUpdater.ReassignIdentifier(hive.dwHiveID.ToString());
-            Queries();
-        }
-
-        private void buttonSelectTactics_Click(object sender, EventArgs e)
-        {
-            if (propertyGridviewTactics.SelectedObject == null)
-                return;
-
-            Tab_RefTactics outer = (Tab_RefTactics)propertyGridviewTactics.SelectedObject;
-
-            CurrentSpawn.Nest.DwTacticsID = outer.DwTacticsID;
-            propertyGridNest.SelectedObject = CurrentSpawn.Nest;
-            CurrentSpawn.Tactics = outer;
-            propertyGridTactics.SelectedObject = outer;
-            textBoxsearchTactics.Text = "";
-            NestUpdater.UpdateObject("dwTacticsID", $"{outer.DwTacticsID}");
-            TacticsUpdater.ReassignIdentifier(outer.DwTacticsID.ToString());
-            Queries();
-        }
 
         private void buttonselectcommon_Click(object sender, EventArgs e)
         {
@@ -221,9 +164,84 @@ namespace WorldMapSpawnEditor.MapGraphics
             Queries();
         }
 
+        private void buttonSelectHive_Click(object sender, EventArgs e)
+        {
+            if (propertyGridViewHive.SelectedObject == null)
+                return;
+
+            Tab_RefHive hive = (Tab_RefHive)propertyGridViewHive.SelectedObject;
+
+            CurrentSpawn.Hive = hive;
+            CurrentSpawn.Nest.DwHiveID = hive.dwHiveID;
+            propertyGridNest.SelectedObject = CurrentSpawn.Nest;
+            propertyGridHive.SelectedObject = hive;
+            textBoxSearchHive.Text = "";
+            NestUpdater.UpdateObject("dwHiveID", $"{hive.dwHiveID}");
+            HiveUpdater.ReassignIdentifier(hive.dwHiveID.ToString());
+            Queries();
+        }
+
+        private void buttonSelectNewPosition_Click(object sender, EventArgs e)
+        {
+            if (GenericSelectForm.SelectObjStruct(PositionStorage.Collection, out NewPosition pos))
+            {
+                CurrentSpawn.Nest.NRegionDBID = pos.RegionID.RegionID;
+                CurrentSpawn.Nest.FLocalPosX = pos.Position.X;
+                CurrentSpawn.Nest.FLocalPosZ = pos.Position.Z;
+                CurrentSpawn.Nest.FLocalPosY = pos.Position.Y;
+                propertyGridNest.SelectedObject = CurrentSpawn.Nest;
+
+                NestUpdater.UpdateObject("nRegionDBID", $"{pos.RegionID.RegionID}");
+                NestUpdater.UpdateObject("fLocalPosX", $"{pos.Position.X}");
+                NestUpdater.UpdateObject("fLocalPosY", $"{pos.Position.Y}");
+                NestUpdater.UpdateObject("fLocalPosZ", $"{pos.Position.Z}");
+                Queries();
+            }
+        }
+
+        private void buttonSelectTactics_Click(object sender, EventArgs e)
+        {
+            if (propertyGridviewTactics.SelectedObject == null)
+                return;
+
+            Tab_RefTactics outer = (Tab_RefTactics)propertyGridviewTactics.SelectedObject;
+
+            CurrentSpawn.Nest.DwTacticsID = outer.DwTacticsID;
+            propertyGridNest.SelectedObject = CurrentSpawn.Nest;
+            CurrentSpawn.Tactics = outer;
+            propertyGridTactics.SelectedObject = outer;
+            textBoxsearchTactics.Text = "";
+            NestUpdater.UpdateObject("dwTacticsID", $"{outer.DwTacticsID}");
+            TacticsUpdater.ReassignIdentifier(outer.DwTacticsID.ToString());
+            Queries();
+        }
+
         #endregion Select New xxx
 
         #region TextBox TextChanged
+
+        private bool AssignView<T>(T obj, ref PropertyGrid grid, ref Button btn) where T : struct
+        {
+            errorProvider1.Clear();
+            grid.SelectedObject = obj;
+            btn.Enabled = true;
+            return true;
+        }
+
+        private bool CheckTextBox(ref TextBox box, ref PropertyGrid grid, ref Button btn, out int value)
+        {
+            if (!int.TryParse(box.Text, out value))
+            {
+                if (box.Text != "")
+                {
+                    errorProvider1.SetError(textBoxSearchCommon, "No valid dattype int!");
+                }
+                btn.Enabled = false;
+                grid.SelectedObject = null;
+                return false;
+            }
+            return true;
+        }
 
         private void textBoxSearchCommon_TextChanged(object sender, EventArgs e)
         {
@@ -266,29 +284,6 @@ namespace WorldMapSpawnEditor.MapGraphics
                 }
                 errorProvider1.SetError(textBoxsearchTactics, $"No Tactics with dwTacticsID {id}!");
             }
-        }
-
-        private bool AssignView<T>(T obj, ref PropertyGrid grid, ref Button btn) where T : struct
-        {
-            errorProvider1.Clear();
-            grid.SelectedObject = obj;
-            btn.Enabled = true;
-            return true;
-        }
-
-        private bool CheckTextBox(ref TextBox box, ref PropertyGrid grid, ref Button btn, out int value)
-        {
-            if (!int.TryParse(box.Text, out value))
-            {
-                if (box.Text != "")
-                {
-                    errorProvider1.SetError(textBoxSearchCommon, "No valid dattype int!");
-                }
-                btn.Enabled = false;
-                grid.SelectedObject = null;
-                return false;
-            }
-            return true;
         }
 
         #endregion TextBox TextChanged

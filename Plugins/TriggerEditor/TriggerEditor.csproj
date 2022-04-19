@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Category\TriggerCategoryEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Category\TriggerCategoryEditor.Designer.cs">
+      <DependentUpon>TriggerCategoryEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="TriggerEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -71,5 +77,6 @@
       <Name>Structs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,8 +13,6 @@ namespace ManagementCertification.Utility
         internal static bool ConnectionSuccess => TestSQLConnection(CertificationManager.settings.SQL_ConnectionString);
         private static string SqlConnectionString => CertificationManager.settings.SQL_ConnectionString;
 
-        // internal static DataTable AllowedPlugins(byte securityDescription) => ReturnDataTableByQuery($"Select AllowedPlugins from _LizencePluginGroups where SecurityGroupID = {securityDescription}", CertificationManager.settings.DBDev);
-
         /// <summary>
         /// EXEC _LoginToolUser UserName, Pasword, IP, OnOff
         /// </summary>
@@ -24,10 +22,11 @@ namespace ManagementCertification.Utility
         /// <returns></returns>
         internal static LoginStatus CheckLizence(string userName, string password, string IP)
         {
-            SqlParameter[] regparams = new SqlParameter[4]
+            SqlParameter[] regparams = new SqlParameter[5]
              {
                     new SqlParameter("@UserName",SqlDbType.VarChar,64) {Value = userName.ToLower() },
                     new SqlParameter("@Password",SqlDbType.VarChar,128) { Value = password},
+                    new SqlParameter("@LizenceKey",SqlDbType.VarChar,128) { Value = password},
                     new SqlParameter("@IP",SqlDbType.VarChar,15) { Value =IP},
                     new SqlParameter("@OnOff",SqlDbType.TinyInt) { Value = 1}
              };

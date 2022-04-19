@@ -34,7 +34,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.vSroButtonList1 = new PluginFramework.BasicControls.vSroButtonList();
             this.treeViewGameWorlds = new System.Windows.Forms.TreeView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPageategory = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPageTriggerViewer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -45,7 +45,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPageTriggerViewer);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPageategory);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -100,15 +100,15 @@
             this.treeViewGameWorlds.Size = new System.Drawing.Size(217, 485);
             this.treeViewGameWorlds.TabIndex = 0;
             // 
-            // tabPage2
+            // tabPageategory
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(845, 495);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPageategory.Location = new System.Drawing.Point(4, 22);
+            this.tabPageategory.Name = "tabPageategory";
+            this.tabPageategory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageategory.Size = new System.Drawing.Size(845, 495);
+            this.tabPageategory.TabIndex = 1;
+            this.tabPageategory.Text = "TriggerCategory";
+            this.tabPageategory.UseVisualStyleBackColor = true;
             // 
             // TriggerEditorControl
             // 
@@ -133,6 +133,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private PluginFramework.BasicControls.vSroButtonList vSroButtonList1;
         private System.Windows.Forms.TreeView treeViewGameWorlds;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPageategory;
     }
 }

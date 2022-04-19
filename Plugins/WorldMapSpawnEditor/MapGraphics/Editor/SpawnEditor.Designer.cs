@@ -132,7 +132,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridHive.HelpVisible = false;
             this.propertyGridHive.Location = new System.Drawing.Point(0, 0);
             this.propertyGridHive.Name = "propertyGridHive";
-            this.propertyGridHive.Size = new System.Drawing.Size(203, 352);
+            this.propertyGridHive.Size = new System.Drawing.Size(202, 352);
             this.propertyGridHive.TabIndex = 3;
             this.propertyGridHive.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeHive);
             // 
@@ -142,7 +142,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridTactics.HelpVisible = false;
             this.propertyGridTactics.Location = new System.Drawing.Point(0, 0);
             this.propertyGridTactics.Name = "propertyGridTactics";
-            this.propertyGridTactics.Size = new System.Drawing.Size(203, 352);
+            this.propertyGridTactics.Size = new System.Drawing.Size(202, 352);
             this.propertyGridTactics.TabIndex = 6;
             this.propertyGridTactics.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeTacticsValue);
             // 
@@ -329,7 +329,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             this.splitContainer8.Panel2.Controls.Add(this.propertyGridViewHive);
             this.splitContainer8.Size = new System.Drawing.Size(443, 356);
-            this.splitContainer8.SplitterDistance = 207;
+            this.splitContainer8.SplitterDistance = 206;
             this.splitContainer8.TabIndex = 8;
             // 
             // propertyGridViewHive
@@ -338,7 +338,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridViewHive.HelpVisible = false;
             this.propertyGridViewHive.Location = new System.Drawing.Point(0, 0);
             this.propertyGridViewHive.Name = "propertyGridViewHive";
-            this.propertyGridViewHive.Size = new System.Drawing.Size(228, 352);
+            this.propertyGridViewHive.Size = new System.Drawing.Size(229, 352);
             this.propertyGridViewHive.TabIndex = 7;
             // 
             // textBoxSearchHive
@@ -398,7 +398,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             this.splitContainer7.Panel2.Controls.Add(this.propertyGridviewTactics);
             this.splitContainer7.Size = new System.Drawing.Size(443, 356);
-            this.splitContainer7.SplitterDistance = 207;
+            this.splitContainer7.SplitterDistance = 206;
             this.splitContainer7.TabIndex = 7;
             // 
             // propertyGridviewTactics
@@ -407,7 +407,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridviewTactics.HelpVisible = false;
             this.propertyGridviewTactics.Location = new System.Drawing.Point(0, 0);
             this.propertyGridviewTactics.Name = "propertyGridviewTactics";
-            this.propertyGridviewTactics.Size = new System.Drawing.Size(228, 352);
+            this.propertyGridviewTactics.Size = new System.Drawing.Size(229, 352);
             this.propertyGridviewTactics.TabIndex = 8;
             // 
             // textBoxsearchTactics
@@ -466,7 +466,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             this.splitContainer5.Panel2.Controls.Add(this.propertyGridViewCommon);
             this.splitContainer5.Size = new System.Drawing.Size(439, 352);
-            this.splitContainer5.SplitterDistance = 213;
+            this.splitContainer5.SplitterDistance = 212;
             this.splitContainer5.TabIndex = 0;
             // 
             // propertyGridCommon
@@ -475,7 +475,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridCommon.HelpVisible = false;
             this.propertyGridCommon.Location = new System.Drawing.Point(0, 0);
             this.propertyGridCommon.Name = "propertyGridCommon";
-            this.propertyGridCommon.Size = new System.Drawing.Size(213, 352);
+            this.propertyGridCommon.Size = new System.Drawing.Size(212, 352);
             this.propertyGridCommon.TabIndex = 10;
             this.propertyGridCommon.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjCommonValue);
             // 
@@ -485,7 +485,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridViewCommon.HelpVisible = false;
             this.propertyGridViewCommon.Location = new System.Drawing.Point(0, 0);
             this.propertyGridViewCommon.Name = "propertyGridViewCommon";
-            this.propertyGridViewCommon.Size = new System.Drawing.Size(222, 352);
+            this.propertyGridViewCommon.Size = new System.Drawing.Size(223, 352);
             this.propertyGridViewCommon.TabIndex = 22;
             // 
             // textBoxSearchCommon
