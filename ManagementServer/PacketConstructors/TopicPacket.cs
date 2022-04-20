@@ -28,14 +28,6 @@ namespace ManagementServer.PacketConstructors
             return newTopic;
         }
 
-        [Obsolete]
-        internal static Packet Delete(string author, string title, string remover)
-        {
-            Packet packet = new Packet(PacketID.Server.TopicDeleteResponse);
-            packet.WriteAsciiArray(new string[3] { author, title, remover });
-            return packet;
-        }
-
         internal static Packet Edit(DashboardMessage msg, DashboardMessage newMsg)
         {
             var packet = new Packet(PacketID.Server.TopicEditResponse);

@@ -49,6 +49,7 @@ namespace ManagementCertification.Utility
                   {
                         new SqlParameter("@UserName" ,System.Data.SqlDbType.VarChar,64) { Value = userName },
                         new SqlParameter("@Password" ,System.Data.SqlDbType.VarChar,128) { Value = "non" },
+                        new SqlParameter("@LizenceKey" ,System.Data.SqlDbType.VarChar,128) { Value = "non" },
                         new SqlParameter("@IP" ,System.Data.SqlDbType.VarChar,15) { Value = UserIP },
                         new SqlParameter("@OnOff" , System.Data.SqlDbType.TinyInt) { Value = 0 }
                   };

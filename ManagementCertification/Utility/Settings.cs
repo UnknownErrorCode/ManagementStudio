@@ -14,7 +14,7 @@
 
         public int Port { get => int.Parse(InitializeConfig.IniReadValue("StudioServer", "Port")); set => InitializeConfig.IniWriteValue("StudioServer", "Port", value.ToString()); }
 
-        public string SQL_ConnectionString => $"Server={SQL_Host};database={"master"};User ID={SQL_User};Password={SQL_Password};MultipleActiveResultSets=True";
+        public string SQL_ConnectionString => $"Server={SQL_Host};database={DBDev};User ID={SQL_User};Password={SQL_Password};MultipleActiveResultSets=True";
 
         public string SQL_Host { get => InitializeConfig.IniReadValue("SQL", "Host"); set => InitializeConfig.IniWriteValue("SQL", "Host", value); }
 
