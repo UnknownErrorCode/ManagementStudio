@@ -6,21 +6,9 @@ namespace ManagementServer
 {
     internal static class ServerMemory
     {
-        #region Fields
-
         internal static Dictionary<string, ServerClientData> ClientDataPool = new Dictionary<string, ServerClientData>(100);
 
-
-
-        #endregion Fields
-
-        #region Properties
-
         internal static int OnlineUser => ClientDataPool.Count;
-
-        #endregion Properties
-
-        #region Methods
 
         internal static void BroadcastPacket(ManagementFramework.Network.Security.Packet packet)
         {
@@ -38,7 +26,5 @@ namespace ManagementServer
             {
             }
         }
-
-        #endregion Methods
     }
 }

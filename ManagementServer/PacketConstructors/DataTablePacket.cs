@@ -6,8 +6,6 @@ namespace ManagementServer.PacketConstructors
 {
     internal class DataTablePacket
     {
-
-
         internal static Packet[] GetAllTables(string[] tableNames)
         {
             Packet[] list = new Packet[tableNames.Length];
@@ -37,7 +35,7 @@ namespace ManagementServer.PacketConstructors
             return tablePacket;
         }
 
-        internal static Packet SendDataTable(string tableName, DataTable table)
+        private static Packet SendDataTable(string tableName, DataTable table)
         {
             Packet tablePacket = new Packet(PacketID.Server.DataTableResponse, false, true);
             tablePacket.WriteAscii(tableName);
