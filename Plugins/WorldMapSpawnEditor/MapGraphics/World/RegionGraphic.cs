@@ -43,7 +43,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         /// <summary>
         /// TexturePath is combined by  {X}x{Y}.ddj.
         /// </summary>
-        public string TexturePath => $"{PluginFramework.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{regionID.X}x{regionID.Z}.JPG";
+        public string TexturePath => $"{PluginFramework.Config.StaticConfig.ClientExtracted}\\Media\\minimap\\{regionID.X}x{regionID.Z}.PNG";
 
         internal string AreaName { get => areaName; }
         internal string ContinentName { get => continentName; }

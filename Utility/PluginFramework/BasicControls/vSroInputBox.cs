@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace PluginFramework.BasicControls
 {
@@ -18,6 +19,8 @@ namespace PluginFramework.BasicControls
         public string TitleText { get => label1.Text; set => label1.Text = value; }
         public string ValueText { get => textBox1.Text; set => textBox1.Text = value; }
         public bool vSroUseSystemPasswordChar { get => textBox1.UseSystemPasswordChar; set => textBox1.UseSystemPasswordChar = value; }
+
+        public Action OnTextClick;
 
         #endregion Properties
 

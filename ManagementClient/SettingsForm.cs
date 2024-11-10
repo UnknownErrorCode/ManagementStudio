@@ -65,5 +65,27 @@ namespace ManagementClient
         }
 
         #endregion Methods
+
+        private void vSroSmallButtonClientPath_vSroClickEvent()
+        {
+            // Create an instance of FolderBrowserDialog
+            using (FolderBrowserDialog folderBrowser = new FolderBrowserDialog())
+            {
+                folderBrowser.Description = "Select a folder";
+                folderBrowser.ShowNewFolderButton = true; // Allows creating new folders in the dialog
+
+                // Show the dialog and check if the user selected a folder
+                if (folderBrowser.ShowDialog() == DialogResult.OK)
+                {
+                    // Get the selected folder path
+                    string selectedPath = folderBrowser.SelectedPath;
+                    vSroInputBox6.ValueText= selectedPath;
+                }
+                else
+                {
+                    MessageBox.Show("No folder was selected.");
+                }
+            }
+        }
     }
 }

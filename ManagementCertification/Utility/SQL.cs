@@ -72,7 +72,7 @@ namespace ManagementCertification.Utility
 
         internal static string[] GetRequiredTableNames(byte securityGroup)
         {
-            DataRowCollection names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _LizencePluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", CertificationManager.settings.DBDev).Rows;
+            DataRowCollection names = ReturnDataTableByQuery($"Select DISTINCT TableName from _ToolPluginDataAccess ta join _ToolPluginGroups tg on tg.AllowedPlugins = ta.PluginName where tg.SecurityGroupID = {securityGroup} ", CertificationManager.settings.DBDev).Rows;
             string[] nameArray = new string[names.Count];
 
             for (int i = 0; i < names.Count; i++)
@@ -83,7 +83,7 @@ namespace ManagementCertification.Utility
             return nameArray;
         }
 
-        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_LizencePluginGroups]", CertificationManager.settings.DBDev);
+        internal static DataTable GetSecurityPluginAccess() => ReturnDataTableByQuery($"SELECT [SecurityGroupID], [AllowedPlugins] FROM [dbo].[_ToolPluginGroups]", CertificationManager.settings.DBDev);
 
         internal static int LatestVersion()
         {
@@ -112,7 +112,7 @@ namespace ManagementCertification.Utility
 
         internal static int LogoutEveryone()
         {
-            return ExecuteQuery("UPDATE _LizenceUser SET Active = 0  where Active >0 ", CertificationManager.settings.DBDev);
+            return ExecuteQuery("UPDATE _ToolUser SET Active = 0  where Active >0 ", CertificationManager.settings.DBDev);
         }
 
         internal static DataTable RequestFilesToUpdate(int latestClientVersion) => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", CertificationManager.settings.DBDev);

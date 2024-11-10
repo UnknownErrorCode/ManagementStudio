@@ -169,5 +169,15 @@ namespace ManagementServer
             dataGridView1.DataSource = PluginSecurityManager._ToolPluginDataAccessDataTable;
             Logger.WriteLogLine(flag ? LogLevel.loading : LogLevel.fatal, flag ? $"Refreshed security groups" : "Failed to refresh groups...");
         }
+
+        private void sqlConnectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void serverConnectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

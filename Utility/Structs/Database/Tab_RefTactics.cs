@@ -98,7 +98,7 @@ namespace Structs.Database
             dwChampionTacticsID = int.Parse(row[40].ToString());
             additionOptionFlag = int.Parse(row[41].ToString());
             szDescString128 = row[42].ToString();
-            btAggroType = row.Length > 42 ? byte.Parse(row[43].ToString()) : (byte)0;
+            btAggroType = row.Length > 43 ? byte.Parse(row[43].ToString()) : (byte)0;
         }
 
         public int DwTacticsID => dwTacticsID;

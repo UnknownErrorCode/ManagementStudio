@@ -151,14 +151,16 @@ namespace ManagementServer
             // sqlConnectionToolStripMenuItem
             // 
             this.sqlConnectionToolStripMenuItem.Name = "sqlConnectionToolStripMenuItem";
-            this.sqlConnectionToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.sqlConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sqlConnectionToolStripMenuItem.Text = "Sql Connection";
+            this.sqlConnectionToolStripMenuItem.Click += new System.EventHandler(this.sqlConnectionToolStripMenuItem_Click);
             // 
             // serverConnectionToolStripMenuItem
             // 
             this.serverConnectionToolStripMenuItem.Name = "serverConnectionToolStripMenuItem";
-            this.serverConnectionToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.serverConnectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.serverConnectionToolStripMenuItem.Text = "Server Connection";
+            this.serverConnectionToolStripMenuItem.Click += new System.EventHandler(this.serverConnectionToolStripMenuItem_Click);
             // 
             // patchManagerToolStripMenuItem
             // 
