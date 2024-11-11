@@ -33,7 +33,6 @@
             this.tabPageWorld = new System.Windows.Forms.TabPage();
             this.splitContainer2dViewer = new System.Windows.Forms.SplitContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStripDropDownButtonEditSpawn = new System.Windows.Forms.ToolStripDropDownButton();
             this.spawnEditorOnClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButtonMapGuide = new System.Windows.Forms.ToolStripDropDownButton();
@@ -61,6 +60,8 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.continentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dungeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.showStructuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPageWorld.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -126,17 +127,6 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.AutoScroll = true;
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(792, 424);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // toolStripDropDownButtonEditSpawn
             // 
             this.toolStripDropDownButtonEditSpawn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -154,7 +144,7 @@
             // 
             this.spawnEditorOnClickToolStripMenuItem.CheckOnClick = true;
             this.spawnEditorOnClickToolStripMenuItem.Name = "spawnEditorOnClickToolStripMenuItem";
-            this.spawnEditorOnClickToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.spawnEditorOnClickToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.spawnEditorOnClickToolStripMenuItem.Text = "EditMode";
             this.spawnEditorOnClickToolStripMenuItem.Click += new System.EventHandler(this.showSpawnEditorOnClickToolStripMenuItem_Click);
             // 
@@ -210,7 +200,8 @@
             this.nestNGenRadiusToolStripMenuItem,
             this.nestNRadiusToolStripMenuItem,
             this.toolStripSeparator2,
-            this.spawnInformationToolStripMenuItem});
+            this.spawnInformationToolStripMenuItem,
+            this.showStructuresToolStripMenuItem});
             this.showToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showToolStripMenuItem.Image")));
             this.showToolStripMenuItem.Name = "showToolStripMenuItem";
             this.showToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
@@ -301,7 +292,7 @@
             this.commonToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("commonToolStripMenuItem.Image")));
             this.commonToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.commonToolStripMenuItem.Name = "commonToolStripMenuItem";
-            this.commonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.commonToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.commonToolStripMenuItem.Text = "Common";
             this.commonToolStripMenuItem.Click += new System.EventHandler(this.showCommonToolStripMenuItem_Click);
             // 
@@ -311,7 +302,7 @@
             this.uniqueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("uniqueToolStripMenuItem.Image")));
             this.uniqueToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.uniqueToolStripMenuItem.Name = "uniqueToolStripMenuItem";
-            this.uniqueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uniqueToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.uniqueToolStripMenuItem.Text = "Unique";
             this.uniqueToolStripMenuItem.Click += new System.EventHandler(this.showUniqueToolStripMenuItem_Click);
             // 
@@ -319,7 +310,7 @@
             // 
             this.noMsgUniqueToolStripMenuItem.CheckOnClick = true;
             this.noMsgUniqueToolStripMenuItem.Name = "noMsgUniqueToolStripMenuItem";
-            this.noMsgUniqueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.noMsgUniqueToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.noMsgUniqueToolStripMenuItem.Text = "No Msg Unique";
             // 
             // nPCToolStripMenuItem
@@ -392,15 +383,33 @@
             this.continentToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("continentToolStripMenuItem.Image")));
             this.continentToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.continentToolStripMenuItem.Name = "continentToolStripMenuItem";
-            this.continentToolStripMenuItem.Size = new System.Drawing.Size(200, 42);
+            this.continentToolStripMenuItem.Size = new System.Drawing.Size(147, 42);
             this.continentToolStripMenuItem.Text = "Continent";
             // 
             // dungeonToolStripMenuItem
             // 
             this.dungeonToolStripMenuItem.Name = "dungeonToolStripMenuItem";
-            this.dungeonToolStripMenuItem.Size = new System.Drawing.Size(200, 42);
+            this.dungeonToolStripMenuItem.Size = new System.Drawing.Size(147, 42);
             this.dungeonToolStripMenuItem.Text = "Dungeon";
             this.dungeonToolStripMenuItem.Click += new System.EventHandler(this.dungeonToolStripMenuItem_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.AutoScroll = true;
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(792, 424);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // showStructuresToolStripMenuItem
+            // 
+            this.showStructuresToolStripMenuItem.Name = "showStructuresToolStripMenuItem";
+            this.showStructuresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showStructuresToolStripMenuItem.Text = "Show Structures";
+            this.showStructuresToolStripMenuItem.Click += new System.EventHandler(this.showStructuresToolStripMenuItem_Click);
             // 
             // WorldMapSpawnEditorControl
             // 
@@ -455,5 +464,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem continentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dungeonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showStructuresToolStripMenuItem;
     }
 }

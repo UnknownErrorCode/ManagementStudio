@@ -49,6 +49,7 @@
     <Compile Include="LoadingForm.Designer.cs">
       <DependentUpon>LoadingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapGraphics\Controls\SroStruct.cs" />
     <Compile Include="MapGraphics\Editor\PositionStorage.cs">
       <SubType>Form</SubType>
     </Compile>

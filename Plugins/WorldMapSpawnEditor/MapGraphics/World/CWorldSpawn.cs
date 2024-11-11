@@ -1,4 +1,6 @@
-﻿using Structs.Database;
+﻿using PackFile.Data.Navmesh;
+using Structs.BinaryFiles;
+using Structs.Database;
 using Structs.Tool;
 using System;
 using System.Collections;
@@ -52,6 +54,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             cSpawns.Clear();
             InitializeNest();
             InitializeChars();
+            InitializeStructures();
             InitializeTeleports();
         }
 
@@ -105,6 +108,14 @@ namespace WorldMapSpawnEditor.MapGraphics
             foreach (RefTeleport teleport in PluginFramework.Database.SRO_VT_SHARD._RefTeleport.Values.Where(tele => tele.AssocRefObjID > 0))
                 cSpawns.Add(new Spawn(teleport));
         }
+
+        private void InitializeStructures()
+        {
+            var test = PackFile.DataPack.GetObjectStringInfo(out ObjectStringIFO ifo);
+            foreach (ObjectStringIFOStruct str in ifo.List)
+                cSpawns.Add(new Spawn(str));
+        }
+
 
         #endregion Methods
     }

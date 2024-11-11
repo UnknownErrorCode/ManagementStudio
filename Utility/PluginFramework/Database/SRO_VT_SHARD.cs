@@ -677,6 +677,7 @@ namespace PluginFramework.Database
                         break;
 
                     case TableName._RefTriggerCategory:
+                        InitializeRefTableToStruct<RefTriggerCategory>(arg2, ref _RefTriggerCategory);
                         break;
 
                     case TableName._RefTriggerCategoryBindTrigger:

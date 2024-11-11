@@ -16,8 +16,10 @@ namespace TriggerEditor
 
         public PluginData PLUGINDATA { get; set; }
         public Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
-
         public string STRING_DLL { get; set; }
+
+        GameWorldProperty _curGameWorld = new GameWorldProperty();
+
 
         public void InitializePlugin()
         {
@@ -40,7 +42,7 @@ namespace TriggerEditor
         private void vSroButtonList1_OnIndCh(object sender, System.EventArgs e)
         {
             Structs.Database.RefGame_World world = (Structs.Database.RefGame_World)((PluginFramework.BasicControls.vSroListButton)sender).Tag;
-            GameWorldProperty _curGameWorld = new GameWorldProperty();
+            _curGameWorld = new GameWorldProperty();
              foreach (Structs.Database.RefGameWorldBindTriggerCategory item in PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values)
             {
                 if (item.GameWorldID == world.ID)
@@ -48,6 +50,13 @@ namespace TriggerEditor
                     TreeNode node = new TreeNode($"CategoryID:{item.TriggerCategoryID}") { Tag = item };
                     treeViewCategory.Nodes.Add(node);
                     _curGameWorld.bcat.Add(item);
+
+                    foreach (Structs.Database.RefTriggerCategory item2 in PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Values)
+                    {
+                        if (item2.ID == item.TriggerCategoryID)
+                            _curGameWorld.cat.Add(item2.ID, item2);
+                    }
+
                 }
             }
         }
@@ -61,7 +70,8 @@ namespace TriggerEditor
 
         private void treeViewCategory_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            propertyGridTCategory.SelectedObject = (Structs.Database.RefGameWorldBindTriggerCategory)treeViewCategory.SelectedNode.Tag;
+            
+            propertyGridTCategory.SelectedObject = _curGameWorld.cat[((Structs.Database.RefGameWorldBindTriggerCategory)treeViewCategory.SelectedNode.Tag).TriggerCategoryID];
 
             propertyGridTCategory.Refresh();
         }

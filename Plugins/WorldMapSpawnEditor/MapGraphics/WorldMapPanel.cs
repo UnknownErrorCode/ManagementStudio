@@ -46,6 +46,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         private const string OwnPointIconPath = "Media\\interface\\minimap\\mm_sign_animal.ddj";
         private const string PlayerIconPath = "Media\\interface\\minimap\\mm_sign_otherplayer.ddj";
         private const string TeleportIconPath = "Media\\interface\\worldmap\\map\\xy_gate.ddj";
+        private const string StructIconPath = "Media\\interface\\worldmap\\map\\gate.ddj";
         private const string UMonsterIconPath = "Media\\interface\\minimap\\mm_sign_unique.ddj";
 
         /// <summary>
@@ -77,6 +78,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         private Bitmap ImageNpc;
         private Bitmap ImageOwnPoint;
         private Bitmap ImagePlayer;
+        private Bitmap ImageStruct;
         private Bitmap ImageTeleport;
 
         /// <summary>
@@ -171,6 +173,10 @@ namespace WorldMapSpawnEditor.MapGraphics
 
         internal bool ShowUniqueMonster
         { get => Base.showUniqueMonster; set { Base.showUniqueMonster = value; Invalidate(); } }
+        internal bool ShowStructures
+        { get => Base.showStructures; set { Base.showStructures = value; Invalidate(); } }
+
+
 
         #endregion Properties
 
@@ -535,6 +541,9 @@ namespace WorldMapSpawnEditor.MapGraphics
                             e.Graphics.DrawImage(ImagePlayer, (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0), (((((((Player)spawn).RegionID.Z) * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((((Player)spawn).ZLocation / (1920f / Base.PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
                             break;
 
+                        case SpawnType.Structure when !Base.showStructures:
+                            e.Graphics.DrawImage(ImageStruct, (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0), ((((((spawn).RegionID.Z) * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / Base.PictureSize)) * -1), ImageStruct.Width, ImageStruct.Height);
+                            break;
                         default:
                             break;
                     }
@@ -565,6 +574,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             InitializeSpawnImage(PlayerIconPath, 8, out ImagePlayer);
             InitializeSpawnImage(MonsterIconPath, 8, out ImageMonster);
             InitializeSpawnImage(UMonsterIconPath, 8, out ImageMonsterUnique);
+            InitializeSpawnImage(StructIconPath, 16, out ImageStruct);
             InitializeSpawnImage(TeleportIconPath, 16, out ImageTeleport);
             InitializeSpawnImage(OwnPointIconPath, 8, out ImageOwnPoint);
             Stopwatch watch = new Stopwatch();

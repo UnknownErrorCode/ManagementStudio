@@ -46,6 +46,7 @@
     <Compile Include="BinaryFiles\JMXRessource\Mesh\Map\CMapMeshTile.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapObject.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Mesh\CMapObjectInformation.cs" />
+    <Compile Include="BinaryFiles\ObjectStringIFOStruct.cs" />
     <Compile Include="BinaryFiles\PixelFormat.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Dungeon\Dungeon.cs" />
     <Compile Include="Database\Enumerable\TableName.cs" />

@@ -25,6 +25,7 @@
         internal bool showToolTip = true;
 
         internal bool showUniqueMonster = false;
+        internal bool showStructures = false;
 
         /// <summary>
         /// Defines the Pixel Size Width and Heigth from a single Region.

@@ -8,12 +8,12 @@ namespace TriggerEditor.Category
 {
     public class GameWorldProperty
     {
-        public List<Structs.Database.RefTriggerCategory> cat;
+        public Dictionary<int,Structs.Database.RefTriggerCategory> cat;
         public List<Structs.Database.RefGameWorldBindTriggerCategory> bcat;
 
         public GameWorldProperty()
         {
-            cat = new List<Structs.Database.RefTriggerCategory>();
+            cat = new Dictionary<int,Structs.Database.RefTriggerCategory>();
             bcat = new List<Structs.Database.RefGameWorldBindTriggerCategory>();
         }
 

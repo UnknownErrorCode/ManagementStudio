@@ -1,4 +1,5 @@
 ﻿using PackFile.Data.Dungeon;
+using PackFile.Data.Navmesh;
 using PackFile.Utility;
 
 namespace PackFile
@@ -23,6 +24,8 @@ namespace PackFile
         internal static bool Initialize(string clientPath)
         {
             Reader = new Pk2Reader($"{clientPath}\\Data.pk2");
+           
+
             return Reader.Initialized;
         }
 
@@ -38,6 +41,19 @@ namespace PackFile
             return outer.Initialized;// && xxxx && xxxx
         }
 
+        //public static bool GetObjectStringInfo(out Data.Navmesh.ObjectStringIFOData osi) => GetObjectStringInfo0(out osi);
+
+        public static bool GetObjectStringInfo(out ObjectStringIFO outer)
+        {
+            outer = null;
+
+            if (!Reader.GetByteArrayByDirectory("Data\\navmesh\\objectstring.ifo", out byte[] objectstringifo))
+                return false;
+
+            outer = new ObjectStringIFO(objectstringifo);
+
+            return outer.Initialized;// 
+        }
         #endregion Methods
     }
 }

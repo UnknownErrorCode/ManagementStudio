@@ -44,6 +44,8 @@
     <Compile Include="DataPack.cs" />
     <Compile Include="Data\Dungeon\DungeonInfoData.cs" />
     <Compile Include="Data\Dungeon\DungeonInfoStruct.cs" />
+    <Compile Include="Data\Navmesh\ObjectStringIFO.cs" />
+    <Compile Include="Data\Navmesh\ObjectStringIFOData.cs" />
     <Compile Include="Media\Textdata\Worldmap_Mapinfo.cs" />
     <Compile Include="Utility\BlowfishKey.cs" />
     <Compile Include="Utility\Interface\IPk2Data.cs" />
@@ -83,6 +85,10 @@
     <ProjectReference Include="..\BinaryFiles\BinaryFiles.csproj">
       <Project>{AD7421FC-847B-41FB-BA2F-6CA9A7069FB0}</Project>
       <Name>BinaryFiles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Structs\Structs.csproj">
+      <Project>{A2F851F6-0F47-400F-B330-484BA4D4FAED}</Project>
+      <Name>Structs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

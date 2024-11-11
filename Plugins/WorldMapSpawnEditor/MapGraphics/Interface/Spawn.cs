@@ -1,4 +1,5 @@
 ﻿using Structs;
+using Structs.BinaryFiles;
 using Structs.Database;
 using Structs.Tool;
 using System;
@@ -46,6 +47,19 @@ namespace WorldMapSpawnEditor.MapGraphics
             GetSpawnInformation(nest, ref spawnType, ref gameWorldID);
         }
 
+        internal Spawn(ObjectStringIFOStruct struc)
+        {
+            id = struc.ID1;
+
+            regionID = WRegionID.GetWRegionID(struc.X, struc.Y);
+            xLocation = struc.PosX;
+            yLocation = struc.PosY;
+            zLocation = struc.PosZ;
+            spawnType = SpawnType.Structure;
+            gameWorldID = 1; 
+        }
+
+
         internal Spawn(RefTeleport teleport)
         {
             id = teleport.ID;
@@ -57,6 +71,11 @@ namespace WorldMapSpawnEditor.MapGraphics
             spawnType = SpawnType.Teleport;
             gameWorldID = 1; // TODO: Check if all teleports who does not belong to a NPC as associated ObjID are GameWorldID = 1;
         }
+
+
+
+
+
 
         #endregion Constructors
 

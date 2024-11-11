@@ -189,5 +189,12 @@ namespace WorldMapSpawnEditor
             toolStripDropDownButtonReload.Enabled = false;
             PluginFramework.ClientCore.Send(RequestDataPacket);
         }
+
+        private void showStructuresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapPanel.ShowStructures = ((ToolStripMenuItem)sender).Checked;
+            showStructuresToolStripMenuItem.Text = ((ToolStripMenuItem)sender).Checked ? "Hide structures" : "Show structures";
+
+        }
     }
 }
