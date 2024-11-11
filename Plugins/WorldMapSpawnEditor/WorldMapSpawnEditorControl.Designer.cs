@@ -57,11 +57,11 @@
             this.nestNRadiusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.spawnInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showStructuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.continentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dungeonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.showStructuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPageWorld.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2dViewer)).BeginInit();
@@ -369,6 +369,16 @@
             this.spawnInformationToolStripMenuItem.Text = "Spawn information";
             this.spawnInformationToolStripMenuItem.Click += new System.EventHandler(this.showSpawnInformationToolStripMenuItem_Click);
             // 
+            // showStructuresToolStripMenuItem
+            // 
+            this.showStructuresToolStripMenuItem.Checked = true;
+            this.showStructuresToolStripMenuItem.CheckOnClick = true;
+            this.showStructuresToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.showStructuresToolStripMenuItem.Name = "showStructuresToolStripMenuItem";
+            this.showStructuresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showStructuresToolStripMenuItem.Text = "Show Structures";
+            this.showStructuresToolStripMenuItem.Click += new System.EventHandler(this.showStructuresToolStripMenuItem_Click);
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -403,13 +413,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // showStructuresToolStripMenuItem
-            // 
-            this.showStructuresToolStripMenuItem.Name = "showStructuresToolStripMenuItem";
-            this.showStructuresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.showStructuresToolStripMenuItem.Text = "Show Structures";
-            this.showStructuresToolStripMenuItem.Click += new System.EventHandler(this.showStructuresToolStripMenuItem_Click);
             // 
             // WorldMapSpawnEditorControl
             // 

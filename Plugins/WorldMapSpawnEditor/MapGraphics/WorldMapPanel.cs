@@ -348,6 +348,10 @@ namespace WorldMapSpawnEditor.MapGraphics
                         StrBuilder.AppendLine($"{ ((Player)spawn).CharName16}\n Level:{((Player)spawn).CurLevel}\n HP:{((Player)spawn).HP}\n MP:{((Player)spawn).MP}");
                         break;
 
+                    case SpawnType.Structure when ShowStructures:
+                        StrBuilder.Append($"{((SroStruct)spawn).Name}");
+                        break;
+
                     default:
                         break;
                 }
@@ -541,7 +545,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                             e.Graphics.DrawImage(ImagePlayer, (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0), (((((((Player)spawn).RegionID.Z) * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((((Player)spawn).ZLocation / (1920f / Base.PictureSize)) * -1), ImagePlayer.Width, ImagePlayer.Height);
                             break;
 
-                        case SpawnType.Structure when !Base.showStructures:
+                        case SpawnType.Structure when Base.showStructures:
                             e.Graphics.DrawImage(ImageStruct, (spawn.RegionID.X * Base.PictureSize + PointZeroLocation.X) + (int)Math.Round(spawn.XLocation / (1920f / Base.PictureSize), 0), ((((((spawn).RegionID.Z) * Base.PictureSize) - (128 * Base.PictureSize)) * -1) + PointZeroLocation.Y) + (int)Math.Round((spawn.ZLocation / (1920f / Base.PictureSize)) * -1), ImageStruct.Width, ImageStruct.Height);
                             break;
                         default:

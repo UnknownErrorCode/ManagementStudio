@@ -1,16 +1,13 @@
-﻿using Structs.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Structs.BinaryFiles;
 
-namespace WorldMapSpawnEditor.MapGraphics.Controls
+namespace WorldMapSpawnEditor.MapGraphics
 {
     internal class SroStruct : Spawn
     {
-        internal SroStruct(TabRefNest nest) : base(nest)
+        public string Name { get; }
+        public SroStruct(ObjectStringIFOStruct ojs) : base(ojs)
         {
+            Name = ojs.Name;
         }
     }
 }

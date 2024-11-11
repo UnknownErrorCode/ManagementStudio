@@ -113,7 +113,7 @@ namespace WorldMapSpawnEditor.MapGraphics
         {
             var test = PackFile.DataPack.GetObjectStringInfo(out ObjectStringIFO ifo);
             foreach (ObjectStringIFOStruct str in ifo.List)
-                cSpawns.Add(new Spawn(str));
+                cSpawns.Add(new SroStruct(str));
         }
 
 
