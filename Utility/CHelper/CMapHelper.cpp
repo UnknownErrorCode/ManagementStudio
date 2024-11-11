@@ -3,12 +3,12 @@
 
 int HoverXHelper(int x, int pictureSize, int viewpointX, float locX)
 {
-	return (x * pictureSize + viewpointX) + (locX / (1920 / pictureSize));
+	return (x * pictureSize + viewpointX) + (locX / (1920.0f / pictureSize));
 }
 
 int  HoverZHelper(int y, int pictureSize, int viewpointZ, float locY)
 {
-	return ((((y * pictureSize - 128 * pictureSize) * -1) + viewpointZ) + (locY / (1920 / pictureSize)) * -1);
+	return ((((y * pictureSize - 128 * pictureSize) * -1) + viewpointZ) + (locY / (1920.0f / pictureSize)) * -1);
 }
 
 bool ExceedViewX(int panelPointX, int pictureSize, int width)

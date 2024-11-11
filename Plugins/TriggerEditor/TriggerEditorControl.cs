@@ -1,6 +1,8 @@
 ﻿using ManagementFramework.Network.Security;
 using Structs.Tool;
 using System.Windows.Forms;
+using TriggerEditor.Category;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TriggerEditor
 {
@@ -22,7 +24,7 @@ namespace TriggerEditor
             PLUGINDATA = PluginData.TriggerEditor;
             STRING_DLL = "TriggerEditor.dll";
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
-            PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+            PluginFramework.ClientCore.Send(RequestDataPacket);
         }
 
         public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
@@ -34,9 +36,34 @@ namespace TriggerEditor
             return PacketHandlerResult.Block;
         }
 
+      
         private void vSroButtonList1_OnIndCh(object sender, System.EventArgs e)
         {
             Structs.Database.RefGame_World world = (Structs.Database.RefGame_World)((PluginFramework.BasicControls.vSroListButton)sender).Tag;
+            GameWorldProperty _curGameWorld = new GameWorldProperty();
+             foreach (Structs.Database.RefGameWorldBindTriggerCategory item in PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values)
+            {
+                if (item.GameWorldID == world.ID)
+                {
+                    TreeNode node = new TreeNode($"CategoryID:{item.TriggerCategoryID}") { Tag = item };
+                    treeViewCategory.Nodes.Add(node);
+                    _curGameWorld.bcat.Add(item);
+                }
+            }
+        }
+
+      
+
+        private void treeViewCategory_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+          
+        }
+
+        private void treeViewCategory_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            propertyGridTCategory.SelectedObject = (Structs.Database.RefGameWorldBindTriggerCategory)treeViewCategory.SelectedNode.Tag;
+
+            propertyGridTCategory.Refresh();
         }
     }
 }

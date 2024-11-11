@@ -49,6 +49,7 @@
     <Compile Include="Category\TriggerCategoryEditor.Designer.cs">
       <DependentUpon>TriggerCategoryEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Category\GameWorldProperty.cs" />
     <Compile Include="TriggerEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

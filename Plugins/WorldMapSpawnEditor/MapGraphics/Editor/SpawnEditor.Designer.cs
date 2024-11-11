@@ -52,8 +52,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.textBoxSearchHive = new System.Windows.Forms.TextBox();
             this.tabPagetactics = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
-            this.propertyGridviewTactics = new System.Windows.Forms.PropertyGrid();
             this.textBoxsearchTactics = new System.Windows.Forms.TextBox();
             this.tabPagecommon = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -67,6 +65,8 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.propertyGridviewTactics = new System.Windows.Forms.PropertyGrid();
             this.tabControl1.SuspendLayout();
             this.tabPagehive.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -82,10 +82,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
-            this.splitContainer7.Panel1.SuspendLayout();
-            this.splitContainer7.Panel2.SuspendLayout();
-            this.splitContainer7.SuspendLayout();
             this.tabPagecommon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -109,6 +105,10 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.splitContainer9.Panel1.SuspendLayout();
             this.splitContainer9.Panel2.SuspendLayout();
             this.splitContainer9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
+            this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.Panel2.SuspendLayout();
+            this.splitContainer7.SuspendLayout();
             this.SuspendLayout();
             // 
             // propertyGridNest
@@ -132,7 +132,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridHive.HelpVisible = false;
             this.propertyGridHive.Location = new System.Drawing.Point(0, 0);
             this.propertyGridHive.Name = "propertyGridHive";
-            this.propertyGridHive.Size = new System.Drawing.Size(202, 352);
+            this.propertyGridHive.Size = new System.Drawing.Size(201, 352);
             this.propertyGridHive.TabIndex = 3;
             this.propertyGridHive.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeHive);
             // 
@@ -142,7 +142,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridTactics.HelpVisible = false;
             this.propertyGridTactics.Location = new System.Drawing.Point(0, 0);
             this.propertyGridTactics.Name = "propertyGridTactics";
-            this.propertyGridTactics.Size = new System.Drawing.Size(202, 352);
+            this.propertyGridTactics.Size = new System.Drawing.Size(201, 352);
             this.propertyGridTactics.TabIndex = 6;
             this.propertyGridTactics.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeTacticsValue);
             // 
@@ -329,7 +329,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             this.splitContainer8.Panel2.Controls.Add(this.propertyGridViewHive);
             this.splitContainer8.Size = new System.Drawing.Size(443, 356);
-            this.splitContainer8.SplitterDistance = 206;
+            this.splitContainer8.SplitterDistance = 205;
             this.splitContainer8.TabIndex = 8;
             // 
             // propertyGridViewHive
@@ -338,7 +338,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridViewHive.HelpVisible = false;
             this.propertyGridViewHive.Location = new System.Drawing.Point(0, 0);
             this.propertyGridViewHive.Name = "propertyGridViewHive";
-            this.propertyGridViewHive.Size = new System.Drawing.Size(229, 352);
+            this.propertyGridViewHive.Size = new System.Drawing.Size(230, 352);
             this.propertyGridViewHive.TabIndex = 7;
             // 
             // textBoxSearchHive
@@ -382,33 +382,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.splitContainer2.Size = new System.Drawing.Size(443, 389);
             this.splitContainer2.SplitterDistance = 356;
             this.splitContainer2.TabIndex = 0;
-            // 
-            // splitContainer7
-            // 
-            this.splitContainer7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer7.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer7.Name = "splitContainer7";
-            // 
-            // splitContainer7.Panel1
-            // 
-            this.splitContainer7.Panel1.Controls.Add(this.propertyGridTactics);
-            // 
-            // splitContainer7.Panel2
-            // 
-            this.splitContainer7.Panel2.Controls.Add(this.propertyGridviewTactics);
-            this.splitContainer7.Size = new System.Drawing.Size(443, 356);
-            this.splitContainer7.SplitterDistance = 206;
-            this.splitContainer7.TabIndex = 7;
-            // 
-            // propertyGridviewTactics
-            // 
-            this.propertyGridviewTactics.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGridviewTactics.HelpVisible = false;
-            this.propertyGridviewTactics.Location = new System.Drawing.Point(0, 0);
-            this.propertyGridviewTactics.Name = "propertyGridviewTactics";
-            this.propertyGridviewTactics.Size = new System.Drawing.Size(229, 352);
-            this.propertyGridviewTactics.TabIndex = 8;
             // 
             // textBoxsearchTactics
             // 
@@ -466,7 +439,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             // 
             this.splitContainer5.Panel2.Controls.Add(this.propertyGridViewCommon);
             this.splitContainer5.Size = new System.Drawing.Size(439, 352);
-            this.splitContainer5.SplitterDistance = 212;
+            this.splitContainer5.SplitterDistance = 211;
             this.splitContainer5.TabIndex = 0;
             // 
             // propertyGridCommon
@@ -475,7 +448,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridCommon.HelpVisible = false;
             this.propertyGridCommon.Location = new System.Drawing.Point(0, 0);
             this.propertyGridCommon.Name = "propertyGridCommon";
-            this.propertyGridCommon.Size = new System.Drawing.Size(212, 352);
+            this.propertyGridCommon.Size = new System.Drawing.Size(211, 352);
             this.propertyGridCommon.TabIndex = 10;
             this.propertyGridCommon.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.ChangeObjCommonValue);
             // 
@@ -485,7 +458,7 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.propertyGridViewCommon.HelpVisible = false;
             this.propertyGridViewCommon.Location = new System.Drawing.Point(0, 0);
             this.propertyGridViewCommon.Name = "propertyGridViewCommon";
-            this.propertyGridViewCommon.Size = new System.Drawing.Size(223, 352);
+            this.propertyGridViewCommon.Size = new System.Drawing.Size(224, 352);
             this.propertyGridViewCommon.TabIndex = 22;
             // 
             // textBoxSearchCommon
@@ -583,6 +556,33 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
+            // splitContainer7
+            // 
+            this.splitContainer7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer7.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer7.Name = "splitContainer7";
+            // 
+            // splitContainer7.Panel1
+            // 
+            this.splitContainer7.Panel1.Controls.Add(this.propertyGridTactics);
+            // 
+            // splitContainer7.Panel2
+            // 
+            this.splitContainer7.Panel2.Controls.Add(this.propertyGridviewTactics);
+            this.splitContainer7.Size = new System.Drawing.Size(443, 356);
+            this.splitContainer7.SplitterDistance = 205;
+            this.splitContainer7.TabIndex = 7;
+            // 
+            // propertyGridviewTactics
+            // 
+            this.propertyGridviewTactics.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridviewTactics.HelpVisible = false;
+            this.propertyGridviewTactics.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridviewTactics.Name = "propertyGridviewTactics";
+            this.propertyGridviewTactics.Size = new System.Drawing.Size(230, 352);
+            this.propertyGridviewTactics.TabIndex = 8;
+            // 
             // SpawnEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -610,10 +610,6 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.splitContainer7.Panel1.ResumeLayout(false);
-            this.splitContainer7.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
-            this.splitContainer7.ResumeLayout(false);
             this.tabPagecommon.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -639,6 +635,10 @@ namespace WorldMapSpawnEditor.MapGraphics
             this.splitContainer9.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
             this.splitContainer9.ResumeLayout(false);
+            this.splitContainer7.Panel1.ResumeLayout(false);
+            this.splitContainer7.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
+            this.splitContainer7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -676,11 +676,11 @@ namespace WorldMapSpawnEditor.MapGraphics
         private System.Windows.Forms.SplitContainer splitContainer6;
         private System.Windows.Forms.SplitContainer splitContainer8;
         private System.Windows.Forms.PropertyGrid propertyGridViewHive;
-        private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.TextBox textBoxSearchHive;
-        private System.Windows.Forms.PropertyGrid propertyGridviewTactics;
         private System.Windows.Forms.TextBox textBoxsearchTactics;
         private System.Windows.Forms.SplitContainer splitContainer9;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.SplitContainer splitContainer7;
+        private System.Windows.Forms.PropertyGrid propertyGridviewTactics;
     }
 }

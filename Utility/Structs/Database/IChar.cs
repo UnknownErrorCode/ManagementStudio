@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Size = 298)]//312)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Size = 312)]//298)]
     public struct IChar
     {
         private readonly int charID;

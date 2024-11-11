@@ -52,6 +52,7 @@
     <Compile Include="Database\Enumerable\PaymentDevice.cs" />
     <Compile Include="Database\RefGameWorldBindTriggerCategory.cs" />
     <Compile Include="Database\RefGame_World.cs" />
+    <Compile Include="Database\RefGame_World_Config.cs" />
     <Compile Include="Database\RefMappingShopWithTab.cs" />
     <Compile Include="Database\RefObjItem.cs" />
     <Compile Include="Database\RefRegion.cs" />
@@ -61,8 +62,17 @@
     <Compile Include="Database\RefShopTab.cs" />
     <Compile Include="Database\RefShopTabGroup.cs" />
     <Compile Include="Database\RefTrigger.cs" />
+    <Compile Include="Database\RefTriggerAction.cs" />
+    <Compile Include="Database\RefTriggerActionParam.cs" />
+    <Compile Include="Database\RefTriggerBindAction.cs" />
+    <Compile Include="Database\RefTriggerBindCondition.cs" />
+    <Compile Include="Database\RefTriggerBindEvent.cs" />
     <Compile Include="Database\RefTriggerCategory.cs" />
     <Compile Include="Database\RefTriggerCategoryBindTrigger.cs" />
+    <Compile Include="Database\RefTriggerCommon.cs" />
+    <Compile Include="Database\RefTriggerCondition.cs" />
+    <Compile Include="Database\RefTriggerConditionParam.cs" />
+    <Compile Include="Database\RefTriggerEvent.cs" />
     <Compile Include="Database\_RefMappingShopGroup.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Animation\AnimationEvent.cs" />
     <Compile Include="BinaryFiles\JMXRessource\Dungeon\DungeonBlockObject.cs" />
