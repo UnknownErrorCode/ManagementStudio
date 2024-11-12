@@ -36,8 +36,20 @@ namespace PluginFramework.Database
         public static List<RefTeleLink> _RefTeleLink;
         public static ConcurrentDictionary<int, RefTeleport> _RefTeleport;
         public static ConcurrentDictionary<int, RefTrigger> _RefTrigger;
+
+        public static ConcurrentDictionary<int, RefTriggerAction> _RefTriggerAction;
+        public static ConcurrentDictionary<int, RefTriggerActionParam> _RefTriggerActionParam;
+        public static ConcurrentDictionary<int, RefTriggerBindAction> _RefTriggerBindAction;
+        public static ConcurrentDictionary<int, RefTriggerBindCondition> _RefTriggerBindCondition;
+        public static ConcurrentDictionary<int, RefTriggerBindEvent> _RefTriggerBindEvent;
+        public static ConcurrentDictionary<int, RefTriggerCondition> _RefTriggerCondition;
+        public static ConcurrentDictionary<int, RefTriggerConditionParam> _RefTriggerConditionParam;
+        public static ConcurrentDictionary<int, RefTriggerEvent> _RefTriggerEvent;
+
         public static ConcurrentDictionary<int, RefTriggerCategory> _RefTriggerCategory;
         public static ConcurrentDictionary<int, RefTriggerCategoryBindTrigger> _RefTriggerCategoryBindTrigger;
+
+        public static ConcurrentDictionary<int, RefTriggerCommon> _RefTriggerCommon;
         public static DataSet dbo = new DataSet("SRO_VT_SHARD");
         public static ConcurrentDictionary<int, Tab_RefHive> Tab_RefHive;
         public static ConcurrentDictionary<int, TabRefNest> Tab_RefNest;
@@ -659,21 +671,27 @@ namespace PluginFramework.Database
                         break;
 
                     case TableName._RefTrigger:
+                        InitializeRefTableToStruct<RefTrigger>(arg2, ref _RefTrigger);
                         break;
 
                     case TableName._RefTriggerAction:
+                        InitializeRefTableToStruct<RefTriggerAction>(arg2, ref _RefTriggerAction);
                         break;
 
                     case TableName._RefTriggerActionParam:
+                        InitializeRefTableToStruct<RefTriggerActionParam>(arg2, ref _RefTriggerActionParam);
                         break;
 
                     case TableName._RefTriggerBindAction:
+                        InitializeRefTableToStruct<RefTriggerBindAction>(arg2, ref _RefTriggerBindAction); 
                         break;
 
                     case TableName._RefTriggerBindCondition:
+                        InitializeRefTableToStruct<RefTriggerBindCondition>(arg2, ref _RefTriggerBindCondition); 
                         break;
 
                     case TableName._RefTriggerBindEvent:
+                        InitializeRefTableToStruct<RefTriggerBindEvent>(arg2, ref _RefTriggerBindEvent);
                         break;
 
                     case TableName._RefTriggerCategory:
@@ -681,18 +699,23 @@ namespace PluginFramework.Database
                         break;
 
                     case TableName._RefTriggerCategoryBindTrigger:
+                        InitializeRefTableToStruct<RefTriggerCategoryBindTrigger>(arg2, ref _RefTriggerCategoryBindTrigger);
                         break;
 
                     case TableName._RefTriggerCommon:
+                        InitializeRefTableToStruct<RefTriggerCommon>(arg2, ref _RefTriggerCommon);
                         break;
 
                     case TableName._RefTriggerCondition:
+                        InitializeRefTableToStruct<RefTriggerCondition>(arg2, ref _RefTriggerCondition); 
                         break;
 
                     case TableName._RefTriggerConditionParam:
+                        InitializeRefTableToStruct<RefTriggerConditionParam>(arg2, ref _RefTriggerConditionParam);
                         break;
 
                     case TableName._RefTriggerEvent:
+                        InitializeRefTableToStruct<RefTriggerEvent>(arg2, ref _RefTriggerEvent);
                         break;
 
                     case TableName._RefTriggerVariable:
