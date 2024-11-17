@@ -4,11 +4,12 @@ namespace Structs.Database
 {
     public struct RefTriggerAction
     {
-        // Private fields
+        // Private fields for new parameters
         private int _service;
         private readonly int _id;   // Read-only field
-        private int _triggerID;
-        private int _triggerActionID;
+        private int _refTriggerCommonID;
+        private int _delay;
+        private string _paramGroupCodeName128;
 
         // Public properties to access the private fields
         public int Service
@@ -22,24 +23,32 @@ namespace Structs.Database
             get { return _id; }
         }
 
-        public int TriggerID
+        public int RefTriggerCommonID
         {
-            get { return _triggerID; }
-            set { _triggerID = value; }
+            get { return _refTriggerCommonID; }
+            set { _refTriggerCommonID = value; }
         }
 
-        public int TriggerActionID
+        public int Delay
         {
-            get { return _triggerActionID; }
-            set { _triggerActionID = value; }
+            get { return _delay; }
+            set { _delay = value; }
         }
 
+        public string ParamGroupCodeName128
+        {
+            get { return _paramGroupCodeName128; }
+            set { _paramGroupCodeName128 = value; }
+        }
+
+        // Constructor for new parameters
         public RefTriggerAction(object[] row)
         {
             _service = Convert.ToInt32(row[0]);
             _id = Convert.ToInt32(row[1]);  // Read-only field, initialized once in the constructor
-            _triggerID = Convert.ToInt32(row[2]);
-            _triggerActionID = Convert.ToInt32(row[3]);
+            _refTriggerCommonID = Convert.ToInt32(row[2]);
+            _delay = Convert.ToInt32(row[3]);
+            _paramGroupCodeName128 = Convert.ToString(row[4]);
         }
     }
 }

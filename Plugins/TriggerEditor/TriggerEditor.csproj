@@ -50,6 +50,12 @@
       <DependentUpon>TriggerCategoryEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Category\GameWorldProperty.cs" />
+    <Compile Include="EditorLayouts\UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditorLayouts\UserControl1.Designer.cs">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </Compile>
     <Compile Include="TriggerEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -60,6 +66,12 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Category\TriggerCategoryEditor.resx">
+      <DependentUpon>TriggerCategoryEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditorLayouts\UserControl1.resx">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TriggerEditorControl.resx">
       <DependentUpon>TriggerEditorControl.cs</DependentUpon>
     </EmbeddedResource>

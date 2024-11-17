@@ -38,18 +38,21 @@ namespace TriggerEditor.Category
             {
                
 
-                var collection = PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Where(bindCat => bindCat.Value.GameWorldID == world.ID);
-                foreach (var categ in collection)
+                var collection = PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Where(bindCat => bindCat.GameWorldID == world.ID);
+                foreach (var bindCateg in collection)
                 {
-                    bcat.Add(categ.Value);
-                    var category =PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Single(ct => ct.Value.ID == categ.Value.TriggerCategoryID).Value;
+                    bcat.Add(bindCateg);
+                    var category =PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Single(ct => ct.Value.ID == bindCateg.TriggerCategoryID).Value;
                     
                     List<RefTrigger> list = new List<RefTrigger>();
-                    if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Any(cbt => cbt.TriggerCategoryID == categ.Value.TriggerCategoryID))
+                    if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Any(cbt => cbt.TriggerCategoryID == bindCateg.TriggerCategoryID))
                     {
-                        foreach (var bindCatTrigger in PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Where(cbt => cbt.TriggerCategoryID == categ.Value.TriggerCategoryID))
+                        foreach (var bindCatTrigger in PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Where(cbt => cbt.TriggerCategoryID == bindCateg.TriggerCategoryID))
                         {
-                            list.Add(PluginFramework.Database.SRO_VT_SHARD._RefTrigger.Values.Single(tr => tr.ID == bindCatTrigger.TriggerID));
+                            list.Add(PluginFramework.Database.SRO_VT_SHARD._RefTrigger[bindCatTrigger.TriggerID]);//.Values.Single(tr => tr.ID == bindCatTrigger.TriggerID));
+                            
+
+                        
                         }
                     }
 

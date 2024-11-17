@@ -25,13 +25,11 @@ namespace PackFile
         public static bool ExtractIfInterfaces()
         {
             if (!MediaPack.Initialized)
-            {
-                return false; ;
-            }
+                return false; 
+            
             if (!MediaPack.Reader.GetFilesInFolder(ResInfoPath, out Pk2File[] files))
-            {
                 return false;
-            }
+            
             foreach (var file in files)
             {
                 try

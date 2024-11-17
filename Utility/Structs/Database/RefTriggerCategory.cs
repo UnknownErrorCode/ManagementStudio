@@ -1,5 +1,8 @@
-﻿namespace Structs.Database
+﻿using System.ComponentModel;
+
+namespace Structs.Database
 {
+    [Category("RefTriggerCategory")]
     public struct RefTriggerCategory
     {
         // Private fields

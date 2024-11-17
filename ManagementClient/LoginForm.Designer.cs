@@ -53,6 +53,7 @@ namespace ManagementClient
             // 
             // vSroSmallButtonLogin
             // 
+            this.vSroSmallButtonLogin.Enabled = false;
             this.vSroSmallButtonLogin.Location = new System.Drawing.Point(75, 202);
             this.vSroSmallButtonLogin.MaximumSize = new System.Drawing.Size(152, 24);
             this.vSroSmallButtonLogin.MinimumSize = new System.Drawing.Size(152, 24);

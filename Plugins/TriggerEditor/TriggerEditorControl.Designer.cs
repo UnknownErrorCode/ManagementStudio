@@ -28,48 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TriggerEditorControl));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageTriggerViewer = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewGameWorlds = new System.Windows.Forms.TreeView();
-            this.splitContainerTriggerMain = new System.Windows.Forms.SplitContainer();
-            this.splitContainerCategory = new System.Windows.Forms.SplitContainer();
-            this.splitContainerBindCategory = new System.Windows.Forms.SplitContainer();
-            this.treeViewCategory = new System.Windows.Forms.TreeView();
-            this.propertyGridTCategory = new System.Windows.Forms.PropertyGrid();
-            this.splitContainerTriggerCategoryBindTrigger = new System.Windows.Forms.SplitContainer();
             this.tabPageategory = new System.Windows.Forms.TabPage();
-            this.treeViewTrigger = new System.Windows.Forms.TreeView();
-            this.propertyGridTrigger = new System.Windows.Forms.PropertyGrid();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.treeViewTriggerViewer = new System.Windows.Forms.TreeView();
-            this.splitContainerEventCondi = new System.Windows.Forms.SplitContainer();
-            this.propertyGridTriggerEvent = new System.Windows.Forms.PropertyGrid();
+            this.contextMenuStripTriggerEditor = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unlinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageListTriggerEditor = new System.Windows.Forms.ImageList(this.components);
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tabControl1.SuspendLayout();
             this.tabPageTriggerViewer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerTriggerMain)).BeginInit();
-            this.splitContainerTriggerMain.Panel1.SuspendLayout();
-            this.splitContainerTriggerMain.Panel2.SuspendLayout();
-            this.splitContainerTriggerMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerCategory)).BeginInit();
-            this.splitContainerCategory.Panel1.SuspendLayout();
-            this.splitContainerCategory.Panel2.SuspendLayout();
-            this.splitContainerCategory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerBindCategory)).BeginInit();
-            this.splitContainerBindCategory.Panel1.SuspendLayout();
-            this.splitContainerBindCategory.Panel2.SuspendLayout();
-            this.splitContainerBindCategory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerTriggerCategoryBindTrigger)).BeginInit();
-            this.splitContainerTriggerCategoryBindTrigger.Panel1.SuspendLayout();
-            this.splitContainerTriggerCategoryBindTrigger.Panel2.SuspendLayout();
-            this.splitContainerTriggerCategoryBindTrigger.SuspendLayout();
             this.tabPageategory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerEventCondi)).BeginInit();
-            this.splitContainerEventCondi.Panel1.SuspendLayout();
-            this.splitContainerEventCondi.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.contextMenuStripTriggerEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -104,10 +93,6 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.treeViewGameWorlds);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainerTriggerMain);
             this.splitContainer1.Size = new System.Drawing.Size(839, 489);
             this.splitContainer1.SplitterDistance = 221;
             this.splitContainer1.TabIndex = 1;
@@ -122,101 +107,9 @@
             this.treeViewGameWorlds.TabIndex = 0;
             this.treeViewGameWorlds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewGameWorlds_AfterSelect);
             // 
-            // splitContainerTriggerMain
-            // 
-            this.splitContainerTriggerMain.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainerTriggerMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerTriggerMain.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerTriggerMain.Name = "splitContainerTriggerMain";
-            // 
-            // splitContainerTriggerMain.Panel1
-            // 
-            this.splitContainerTriggerMain.Panel1.Controls.Add(this.splitContainerCategory);
-            // 
-            // splitContainerTriggerMain.Panel2
-            // 
-            this.splitContainerTriggerMain.Panel2.Controls.Add(this.splitContainerEventCondi);
-            this.splitContainerTriggerMain.Size = new System.Drawing.Size(614, 489);
-            this.splitContainerTriggerMain.SplitterDistance = 297;
-            this.splitContainerTriggerMain.TabIndex = 2;
-            // 
-            // splitContainerCategory
-            // 
-            this.splitContainerCategory.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainerCategory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerCategory.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerCategory.Name = "splitContainerCategory";
-            // 
-            // splitContainerCategory.Panel1
-            // 
-            this.splitContainerCategory.Panel1.Controls.Add(this.splitContainerBindCategory);
-            // 
-            // splitContainerCategory.Panel2
-            // 
-            this.splitContainerCategory.Panel2.Controls.Add(this.splitContainerTriggerCategoryBindTrigger);
-            this.splitContainerCategory.Size = new System.Drawing.Size(297, 489);
-            this.splitContainerCategory.SplitterDistance = 162;
-            this.splitContainerCategory.TabIndex = 0;
-            // 
-            // splitContainerBindCategory
-            // 
-            this.splitContainerBindCategory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerBindCategory.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerBindCategory.Name = "splitContainerBindCategory";
-            this.splitContainerBindCategory.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainerBindCategory.Panel1
-            // 
-            this.splitContainerBindCategory.Panel1.Controls.Add(this.treeViewCategory);
-            // 
-            // splitContainerBindCategory.Panel2
-            // 
-            this.splitContainerBindCategory.Panel2.Controls.Add(this.propertyGridTCategory);
-            this.splitContainerBindCategory.Size = new System.Drawing.Size(158, 485);
-            this.splitContainerBindCategory.SplitterDistance = 158;
-            this.splitContainerBindCategory.TabIndex = 0;
-            // 
-            // treeViewCategory
-            // 
-            this.treeViewCategory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewCategory.Location = new System.Drawing.Point(0, 0);
-            this.treeViewCategory.Name = "treeViewCategory";
-            this.treeViewCategory.Size = new System.Drawing.Size(158, 158);
-            this.treeViewCategory.TabIndex = 1;
-            this.treeViewCategory.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewCategory_AfterSelect);
-            this.treeViewCategory.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewCategory_NodeMouseClick);
-            // 
-            // propertyGridTCategory
-            // 
-            this.propertyGridTCategory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGridTCategory.HelpVisible = false;
-            this.propertyGridTCategory.Location = new System.Drawing.Point(0, 0);
-            this.propertyGridTCategory.Name = "propertyGridTCategory";
-            this.propertyGridTCategory.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGridTCategory.Size = new System.Drawing.Size(158, 323);
-            this.propertyGridTCategory.TabIndex = 0;
-            // 
-            // splitContainerTriggerCategoryBindTrigger
-            // 
-            this.splitContainerTriggerCategoryBindTrigger.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerTriggerCategoryBindTrigger.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerTriggerCategoryBindTrigger.Name = "splitContainerTriggerCategoryBindTrigger";
-            this.splitContainerTriggerCategoryBindTrigger.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainerTriggerCategoryBindTrigger.Panel1
-            // 
-            this.splitContainerTriggerCategoryBindTrigger.Panel1.Controls.Add(this.treeViewTrigger);
-            // 
-            // splitContainerTriggerCategoryBindTrigger.Panel2
-            // 
-            this.splitContainerTriggerCategoryBindTrigger.Panel2.Controls.Add(this.propertyGridTrigger);
-            this.splitContainerTriggerCategoryBindTrigger.Size = new System.Drawing.Size(127, 485);
-            this.splitContainerTriggerCategoryBindTrigger.SplitterDistance = 160;
-            this.splitContainerTriggerCategoryBindTrigger.TabIndex = 0;
-            // 
             // tabPageategory
             // 
-            this.tabPageategory.Controls.Add(this.treeViewTriggerViewer);
+            this.tabPageategory.Controls.Add(this.splitContainer3);
             this.tabPageategory.Location = new System.Drawing.Point(4, 22);
             this.tabPageategory.Name = "tabPageategory";
             this.tabPageategory.Padding = new System.Windows.Forms.Padding(3);
@@ -225,56 +118,104 @@
             this.tabPageategory.Text = "TriggerCategory";
             this.tabPageategory.UseVisualStyleBackColor = true;
             // 
-            // treeViewTrigger
+            // splitContainer3
             // 
-            this.treeViewTrigger.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewTrigger.Location = new System.Drawing.Point(0, 0);
-            this.treeViewTrigger.Name = "treeViewTrigger";
-            this.treeViewTrigger.Size = new System.Drawing.Size(127, 160);
-            this.treeViewTrigger.TabIndex = 0;
-            this.treeViewTrigger.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTrigger_AfterSelect);
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer3.Name = "splitContainer3";
             // 
-            // propertyGridTrigger
+            // splitContainer3.Panel1
             // 
-            this.propertyGridTrigger.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGridTrigger.HelpVisible = false;
-            this.propertyGridTrigger.Location = new System.Drawing.Point(0, 0);
-            this.propertyGridTrigger.Name = "propertyGridTrigger";
-            this.propertyGridTrigger.Size = new System.Drawing.Size(127, 321);
-            this.propertyGridTrigger.TabIndex = 0;
+            this.splitContainer3.Panel1.Controls.Add(this.splitContainer2);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.propertyGrid1);
+            this.splitContainer3.Size = new System.Drawing.Size(839, 489);
+            this.splitContainer3.SplitterDistance = 560;
+            this.splitContainer3.TabIndex = 1;
             // 
             // treeViewTriggerViewer
             // 
+            this.treeViewTriggerViewer.ContextMenuStrip = this.contextMenuStripTriggerEditor;
             this.treeViewTriggerViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewTriggerViewer.Location = new System.Drawing.Point(3, 3);
+            this.treeViewTriggerViewer.ImageIndex = 0;
+            this.treeViewTriggerViewer.ImageList = this.imageListTriggerEditor;
+            this.treeViewTriggerViewer.Location = new System.Drawing.Point(0, 0);
             this.treeViewTriggerViewer.Name = "treeViewTriggerViewer";
-            this.treeViewTriggerViewer.Size = new System.Drawing.Size(839, 489);
+            this.treeViewTriggerViewer.SelectedImageIndex = 0;
+            this.treeViewTriggerViewer.Size = new System.Drawing.Size(262, 489);
             this.treeViewTriggerViewer.TabIndex = 0;
             this.treeViewTriggerViewer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTriggerViewer_AfterSelect);
+            this.treeViewTriggerViewer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewTriggerViewer_NodeMouseClick);
             // 
-            // splitContainerEventCondi
+            // contextMenuStripTriggerEditor
             // 
-            this.splitContainerEventCondi.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainerEventCondi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerEventCondi.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerEventCondi.Name = "splitContainerEventCondi";
+            this.contextMenuStripTriggerEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem,
+            this.unlinkToolStripMenuItem,
+            this.linkToolStripMenuItem,
+            this.addToolStripMenuItem});
+            this.contextMenuStripTriggerEditor.Name = "contextMenuStripTriggerEditor";
+            this.contextMenuStripTriggerEditor.Size = new System.Drawing.Size(109, 92);
             // 
-            // splitContainerEventCondi.Panel1
+            // editToolStripMenuItem
             // 
-            this.splitContainerEventCondi.Panel1.Controls.Add(this.propertyGridTriggerEvent);
-            this.splitContainerEventCondi.Size = new System.Drawing.Size(313, 489);
-            this.splitContainerEventCondi.SplitterDistance = 151;
-            this.splitContainerEventCondi.TabIndex = 0;
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
-            // propertyGridTriggerEvent
+            // unlinkToolStripMenuItem
             // 
-            this.propertyGridTriggerEvent.Dock = System.Windows.Forms.DockStyle.Top;
-            this.propertyGridTriggerEvent.HelpVisible = false;
-            this.propertyGridTriggerEvent.Location = new System.Drawing.Point(0, 0);
-            this.propertyGridTriggerEvent.Name = "propertyGridTriggerEvent";
-            this.propertyGridTriggerEvent.Size = new System.Drawing.Size(147, 130);
-            this.propertyGridTriggerEvent.TabIndex = 0;
-            this.propertyGridTriggerEvent.ToolbarVisible = false;
+            this.unlinkToolStripMenuItem.Name = "unlinkToolStripMenuItem";
+            this.unlinkToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.unlinkToolStripMenuItem.Text = "Unlink";
+            // 
+            // linkToolStripMenuItem
+            // 
+            this.linkToolStripMenuItem.Name = "linkToolStripMenuItem";
+            this.linkToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.linkToolStripMenuItem.Text = "Link";
+            // 
+            // imageListTriggerEditor
+            // 
+            this.imageListTriggerEditor.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTriggerEditor.ImageStream")));
+            this.imageListTriggerEditor.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTriggerEditor.Images.SetKeyName(0, "erdkugel.png");
+            this.imageListTriggerEditor.Images.SetKeyName(1, "e-book.png");
+            this.imageListTriggerEditor.Images.SetKeyName(2, "blitz.png");
+            this.imageListTriggerEditor.Images.SetKeyName(3, "trendthema.png");
+            this.imageListTriggerEditor.Images.SetKeyName(4, "datentransfer.png");
+            this.imageListTriggerEditor.Images.SetKeyName(5, "fallen.png");
+            this.imageListTriggerEditor.Images.SetKeyName(6, "fall.png");
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(275, 489);
+            this.propertyGrid1.TabIndex = 0;
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.addToolStripMenuItem.Text = "Add";
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.treeViewTriggerViewer);
+            this.splitContainer2.Size = new System.Drawing.Size(560, 489);
+            this.splitContainer2.SplitterDistance = 262;
+            this.splitContainer2.TabIndex = 1;
             // 
             // TriggerEditorControl
             // 
@@ -286,29 +227,17 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPageTriggerViewer.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.splitContainerTriggerMain.Panel1.ResumeLayout(false);
-            this.splitContainerTriggerMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerTriggerMain)).EndInit();
-            this.splitContainerTriggerMain.ResumeLayout(false);
-            this.splitContainerCategory.Panel1.ResumeLayout(false);
-            this.splitContainerCategory.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerCategory)).EndInit();
-            this.splitContainerCategory.ResumeLayout(false);
-            this.splitContainerBindCategory.Panel1.ResumeLayout(false);
-            this.splitContainerBindCategory.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerBindCategory)).EndInit();
-            this.splitContainerBindCategory.ResumeLayout(false);
-            this.splitContainerTriggerCategoryBindTrigger.Panel1.ResumeLayout(false);
-            this.splitContainerTriggerCategoryBindTrigger.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerTriggerCategoryBindTrigger)).EndInit();
-            this.splitContainerTriggerCategoryBindTrigger.ResumeLayout(false);
             this.tabPageategory.ResumeLayout(false);
-            this.splitContainerEventCondi.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerEventCondi)).EndInit();
-            this.splitContainerEventCondi.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.contextMenuStripTriggerEditor.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -320,16 +249,15 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeViewGameWorlds;
         private System.Windows.Forms.TabPage tabPageategory;
-        private System.Windows.Forms.PropertyGrid propertyGridTCategory;
-        private System.Windows.Forms.TreeView treeViewCategory;
-        private System.Windows.Forms.SplitContainer splitContainerTriggerMain;
-        private System.Windows.Forms.SplitContainer splitContainerCategory;
-        private System.Windows.Forms.SplitContainer splitContainerBindCategory;
-        private System.Windows.Forms.SplitContainer splitContainerTriggerCategoryBindTrigger;
-        private System.Windows.Forms.TreeView treeViewTrigger;
-        private System.Windows.Forms.PropertyGrid propertyGridTrigger;
         private System.Windows.Forms.TreeView treeViewTriggerViewer;
-        private System.Windows.Forms.SplitContainer splitContainerEventCondi;
-        private System.Windows.Forms.PropertyGrid propertyGridTriggerEvent;
+        private System.Windows.Forms.ImageList imageListTriggerEditor;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripTriggerEditor;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unlinkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem linkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer2;
     }
 }
