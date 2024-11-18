@@ -20,7 +20,20 @@ namespace ManagementServer.Network
             base.AddEntry(PacketID.Client.TopicEditRequest, Reply0x1003EditNewTopic);
             base.AddEntry(PacketID.Client.TopicDeleteRequest, DeleteTopic);
 
-            //base.AddEntry(0x1010, Reply0x1010ShopItemPriceUpdate);
+
+            // Trigger Editor entries
+            base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTrigger, EditRefTrigger);
+           //base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerAction, EditRefTriggerAction);
+          // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerCondition, EditRefTriggerCondition);
+          // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerEvent, EditRefTriggerEvent);
+          // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerCategory, EditRefTriggerCategory);
+          // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerActionParam, EditRefTriggerActionParam);
+          // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerConditionParam, EditRefTriggerConditionParam);
+          // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefGameWorld, EditRefGameWorld);
+          // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefGameWorldBindTriggerCategory, EditRefGameWorldBindTriggerCategory);
+
+
+
 
             // launcher
             base.AddEntry(0x3000, SendFiles);

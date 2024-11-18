@@ -28,11 +28,49 @@ namespace ManagementFramework.Network.Security
 
         public static T BufferToStruct2<T>(byte[] buffer, int offset = 0) where T : struct
         {
+            if (buffer == null)
+                throw new ArgumentNullException(nameof(buffer), "Buffer cannot be null.");
+
+            if (offset < 0 || offset >= buffer.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Offset is out of the buffer range.");
+
+            if (buffer.Length - offset < Marshal.SizeOf<T>())
+                throw new ArgumentException("Buffer is too small to contain the requested structure starting at the specified offset.");
+
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
             T str = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
             handle.Free();
             return str;
         }
+
+        public static T BufferToStruct3<T>(byte[] buffer, int offset = 0) where T : struct
+        {
+            if (buffer == null)
+                throw new ArgumentNullException(nameof(buffer), "Buffer cannot be null.");
+
+            if (offset < 0 || offset >= buffer.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset), "Offset is out of the buffer range.");
+
+            if (buffer.Length - offset < Marshal.SizeOf<T>())
+                throw new ArgumentException("Buffer is too small to contain the requested structure starting at the specified offset.");
+
+            // Pin the buffer
+            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            try
+            {
+                // Calculate the pointer for the specified offset
+                IntPtr ptr = IntPtr.Add(handle.AddrOfPinnedObject(), offset);
+
+                // Marshal the data into the struct
+                return Marshal.PtrToStructure<T>(ptr);
+            }
+            finally
+            {
+                handle.Free(); // Always free the handle
+            }
+        }
+
+
 
         public static unsafe T Deserialize<T>(byte[] buffer) where T : unmanaged
         {

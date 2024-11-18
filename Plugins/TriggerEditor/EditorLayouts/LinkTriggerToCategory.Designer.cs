@@ -1,6 +1,6 @@
 ﻿namespace TriggerEditor.EditorLayouts
 {
-    partial class UserControlAddCategoryToWorld
+    partial class LinkTriggerToCategory
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -30,12 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // UserControlAddCategoryToWorld
+            // UserControl1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "UserControlAddCategoryToWorld";
-            this.Size = new System.Drawing.Size(386, 310);
+            this.Name = "UserControl1";
+            this.Size = new System.Drawing.Size(267, 231);
             this.ResumeLayout(false);
 
         }

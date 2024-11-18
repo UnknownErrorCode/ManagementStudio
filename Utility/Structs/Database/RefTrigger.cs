@@ -1,13 +1,20 @@
-﻿namespace Structs.Database
+﻿using System.Data.SqlClient;
+using System.Data;
+using System.Runtime.InteropServices;
+
+namespace Structs.Database
 {
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]//298)]
     public struct RefTrigger
     {
         // Private fields
         private int _service;
         private int _id;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         private string _codeName128;
         private byte _isActive;
         private byte _isRepeat;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
         private string _comment512;
         private int _indexNumber;
 
@@ -24,6 +31,7 @@
             set => _id = value;
         }
 
+        
         public string CodeName128
         {
             get => _codeName128;
@@ -64,6 +72,20 @@
             _isRepeat = byte.Parse(row[4].ToString());
             _comment512 = row[5].ToString();
             _indexNumber = int.Parse(row[6].ToString());
+        }
+
+        public SqlParameter[] ToSqlParameters()
+        {
+            return new SqlParameter[]
+            {
+        new SqlParameter("@Service", SqlDbType.Int) { Value = Service },
+        new SqlParameter("@ID", SqlDbType.Int) { Value = ID },
+        new SqlParameter("@CodeName128", SqlDbType.VarChar, 128) { Value = CodeName128 },
+        new SqlParameter("@IsActive", SqlDbType.TinyInt) { Value = IsActive },
+        new SqlParameter("@IsRepeat", SqlDbType.TinyInt) { Value = IsRepeat },
+        new SqlParameter("@Comment512", SqlDbType.VarChar, 512) { Value = Comment512 },
+        new SqlParameter("@IndexNumber", SqlDbType.Int) { Value = IndexNumber }
+            };
         }
     }
 }

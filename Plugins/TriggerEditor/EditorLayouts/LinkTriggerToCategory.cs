@@ -10,13 +10,9 @@ using System.Windows.Forms;
 
 namespace TriggerEditor.EditorLayouts
 {
-    public partial class UserControlAddCategoryToWorld : UserControl
+    public partial class LinkTriggerToCategory : UserControl
     {
-        private int worldID = 0;
-        private string triggerCategoryName = "";
-        private string categoryDesc = "";
-
-        public UserControlAddCategoryToWorld()
+        public LinkTriggerToCategory()
         {
             InitializeComponent();
         }

@@ -13,6 +13,7 @@ namespace WorldMapSpawnEditor
         {
             var packet = new Packet(PacketID.Client.WMSE_Update_Tab_RefNest);
             packet.WriteStruct(obj);
+
             return packet;
         }
 

@@ -37,6 +37,18 @@
             public const ushort WMSE_Update_RefObjCommon = 0x1103;
             public const ushort WMSE_Update_RefObjChar = 0x1104;
 
+            // Trigger Editor
+
+            public const ushort TriggerEditor_Update_RefTrigger = 0x1200;
+            public const ushort TriggerEditor_Update_RefTriggerAction = 0x1201;
+            public const ushort TriggerEditor_Update_RefTriggerCondition = 0x1202;
+            public const ushort TriggerEditor_Update_RefTriggerEvent = 0x1203;
+            public const ushort TriggerEditor_Update_RefTriggerCategory = 0x1204;
+            public const ushort TriggerEditor_Update_RefTriggerActionParam = 0x1205;
+            public const ushort TriggerEditor_Update_RefTriggerConditionParam = 0x1206;
+            public const ushort TriggerEditor_Update_RefGameWorld = 0x1207;
+            public const ushort TriggerEditor_Update_RefGameWorldBindTriggerCategory = 0x1208;
+
             #endregion Fields
         }
 

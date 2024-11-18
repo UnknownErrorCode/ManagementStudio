@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TriggerEditor.Category;
+using TriggerEditor.PacketFormat;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TriggerEditor
@@ -22,6 +23,9 @@ namespace TriggerEditor
 
         public PluginData PLUGINDATA { get; set; }
         public Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
+        
+        
+        
         public string STRING_DLL { get; set; }
 
         GameWorldProperty _curGameWorld;
@@ -37,7 +41,7 @@ namespace TriggerEditor
 
         public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
-
+            treeViewTriggerViewer.Nodes.Clear();
             TreeNode tree = new TreeNode(STRING_DLL);
             foreach (RefGame_World gWorld in PluginFramework.Database.SRO_VT_SHARD._RefGame_World.Values)
             {
@@ -198,18 +202,9 @@ namespace TriggerEditor
             var index = ((TreeView)sender).SelectedNode.ImageIndex;
 
             propertyGrid1.SelectedObject = ((TreeView)sender).SelectedNode.Tag;
+            editToolStripMenuItem.Enabled = false;
         }
 
-
-        private void treeViewTriggerViewer_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (((TreeView)sender).SelectedNode == null)
-                return;
-
-            var index = ((TreeView)sender).SelectedNode.ImageIndex;
-
-            propertyGrid1.SelectedObject = ((TreeView)sender).SelectedNode.Tag;
-        }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -217,11 +212,227 @@ namespace TriggerEditor
             {
                 var selectedStruct = treeViewTriggerViewer.SelectedNode.Tag;
 
-                using (TriggerCategoryEditor editor = new TriggerCategoryEditor(selectedStruct, treeViewTriggerViewer.SelectedNode.ImageIndex))
+                if (selectedStruct is RefTrigger trigger)
                 {
-                    editor.ShowDialog();
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefTrigger(trigger));
+                }
+                else if (selectedStruct is RefTriggerAction action)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefTriggerAction(action));
+                }
+                else if (selectedStruct is RefTriggerCondition condition)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefTriggerCondition(condition));
+                }
+                else if (selectedStruct is RefTriggerEvent triggerEvent)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefTriggerEvent(triggerEvent));
+                }
+                else if (selectedStruct is RefTriggerCategory category)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefTriggerCategory(category));
+                }
+                else if (selectedStruct is RefTriggerActionParam actionParam)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefTriggerActionParam(actionParam));
+                }
+                else if (selectedStruct is RefTriggerConditionParam conditionParam)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefTriggerConditionParam(conditionParam));
+                }
+                else if (selectedStruct is RefGame_World gameWorld)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefGameWorld(gameWorld));
+                }
+                else if (selectedStruct is RefGameWorldBindTriggerCategory bindCategory)
+                {
+                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefGameWorldBindTriggerCategory(bindCategory));
+                }
+                else
+                {
+                    MessageBox.Show("Unsupported node type selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else
+            {
+                MessageBox.Show("No node selected.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void contextMenuStripTriggerEditor_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Get the selected node's associated object
+            var selectedStruct = treeViewTriggerViewer.SelectedNode?.Tag;
+            addToolStripMenuItem.DropDownItems.Clear();
+
+            if (selectedStruct == null)
+            {
+                e.Cancel = true; // No object selected; cancel the menu
+                return;
+            }
+
+            // Handle menu creation based on the selected object type
+            switch (selectedStruct)
+            {
+                case RefGame_World gameWorld:
+                    SetupGameWorldMenu(gameWorld);
+                    break;
+                case RefTrigger trigger:
+                    SetupTriggerMenu(trigger);
+                    break;
+
+                case RefTriggerCategory triggerCategory:
+                    SetupTriggerCategoryMenu(triggerCategory);
+                    break;
+
+                case RefTriggerAction triggerAction:
+                    SetupActionMenu(triggerAction);
+                    break;
+
+                case RefTriggerCondition triggerCondition:
+                    SetupConditionMenu(triggerCondition);
+                    break;
+
+                case RefTriggerEvent triggerEvent:
+                    SetupEventMenu(triggerEvent);
+                    break;
+
+                default:
+                    SetupDefaultMenu();
+                    break;
+            }
+        }
+
+        private void SetupGameWorldMenu(RefGame_World gameWorld)
+        {
+            // Add menu option: Category
+            var categoryMenuItem = new ToolStripMenuItem("Category");
+            categoryMenuItem.Click += (s, e) => LinkCategoryToGameWorld(gameWorld);
+
+            // Add the single item to the context menu
+            addToolStripMenuItem.DropDownItems.Add(categoryMenuItem);
+        }
+
+        private void SetupConditionMenu(RefTriggerCondition triggerCondition)
+        {
+            // Add menu option: ConditionParam
+            var conditionParamMenuItem = new ToolStripMenuItem("ConditionParam");
+            conditionParamMenuItem.Click += (s, e) => AddConditionParamToCondition(triggerCondition);
+
+            // Add the single item to the context menu
+            addToolStripMenuItem.DropDownItems.Add(conditionParamMenuItem);
+        }
+
+        private void SetupEventMenu(RefTriggerEvent triggerEvent)
+        {
+          
+        }
+
+        private void SetupTriggerMenu(RefTrigger trigger)
+        {
+            // Add "Condition," "Action," and "Event" options
+            var conditionMenuItem = new ToolStripMenuItem("Condition");
+            conditionMenuItem.Click += (s, e) => AddConditionToTrigger(trigger);
+
+            var actionMenuItem = new ToolStripMenuItem("Action");
+            actionMenuItem.Click += (s, e) => AddActionToTrigger(trigger);
+
+            var eventMenuItem = new ToolStripMenuItem("Event");
+            eventMenuItem.Click += (s, e) => AddEventToTrigger(trigger);
+
+            // Add items to the context menu
+            addToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+            addToolStripMenuItem.DropDownItems.Add(conditionMenuItem);
+            addToolStripMenuItem.DropDownItems.Add(actionMenuItem);
+            addToolStripMenuItem.DropDownItems.Add(eventMenuItem);
+        }
+
+        private void SetupActionMenu(RefTriggerAction triggerAction)
+        {
+            var editActionItem = new ToolStripMenuItem("ActionParam");
+            editActionItem.Click += (s, e) => AddActionParamToAction(triggerAction);
+
+            addToolStripMenuItem.DropDownItems.Add(editActionItem);
+        }
+
+
+        // Menu for Trigger Category
+        private void SetupTriggerCategoryMenu(RefTriggerCategory triggerCategory)
+        {
+            var categoryToGameWorldItem = new ToolStripMenuItem("Category to GameWorld");
+            categoryToGameWorldItem.Click += (s, e) => LinkCategoryToGameWorld(triggerCategory);
+
+            var triggerToCategoryItem = new ToolStripMenuItem("Trigger to Category");
+            triggerToCategoryItem.Click += (s, e) => LinkTriggerToCategory(triggerCategory);
+
+            addToolStripMenuItem.DropDownItems.Add(categoryToGameWorldItem);
+            addToolStripMenuItem.DropDownItems.Add(triggerToCategoryItem);
+        }
+
+
+
+
+        // Default menu setup
+        private void SetupDefaultMenu()
+        {
+            var defaultItem = new ToolStripMenuItem("Default Action");
+            defaultItem.Click += (s, e) => MessageBox.Show("No specific object selected.");
+            addToolStripMenuItem.DropDownItems.Add(defaultItem);
+        }
+
+        // Link actions
+        private void LinkCategoryToGameWorld(RefTriggerCategory triggerCategory)
+        {
+            MessageBox.Show($"Linking Category '{triggerCategory.CodeName128}' to GameWorld.");
+        }
+
+        private void LinkTriggerToCategory(RefTriggerCategory triggerCategory)
+        {
+            MessageBox.Show($"Linking a Trigger to Category '{triggerCategory.CodeName128}'.");
+        }
+
+        private void LinkCategoryToGameWorld(RefGame_World gameWorld)
+        {
+            splitContainer2.Panel2.Controls.Clear();
+            splitContainer2.Panel2.Controls.Add(new EditorLayouts.UserControlAddCategoryToWorld(gameWorld) { Dock = DockStyle.Fill});
+            MessageBox.Show($"Linking a Category to GameWorld: {gameWorld.WorldCodeName128}");
+            // Implement the logic for linking a category to this game world
+        }
+
+
+        private void AddConditionToTrigger(RefTrigger trigger)
+        {
+            MessageBox.Show($"Adding a Condition to Trigger: {trigger.CodeName128}");
+            // Implement condition logic here
+        }
+
+        private void AddActionToTrigger(RefTrigger trigger)
+        {
+            MessageBox.Show($"Adding an Action to Trigger: {trigger.CodeName128}");
+            // Implement action logic here
+        }
+
+        private void AddEventToTrigger(RefTrigger trigger)
+        {
+            MessageBox.Show($"Adding an Event to Trigger: {trigger.CodeName128}");
+            // Implement event logic here
+        }
+
+        private void AddActionParamToAction(RefTriggerAction triggerAction)
+        {
+            MessageBox.Show($"Adding an ActionParam to Action: {triggerAction.ParamGroupCodeName128}");
+            // Implement event logic here
+        }
+        private void AddConditionParamToCondition(RefTriggerCondition triggerCondition)
+        {
+            MessageBox.Show($"Adding a ConditionParam to Condition: {triggerCondition.ParamGroupCodeName128}");
+            // Implement the logic for adding a ConditionParam here
+        }
+
+        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            editToolStripMenuItem.Enabled = true;
+           
         }
     }
 }

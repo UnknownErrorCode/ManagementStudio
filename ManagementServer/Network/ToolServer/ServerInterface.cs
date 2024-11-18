@@ -112,14 +112,10 @@ namespace ManagementServer
             {
                 ServerClientData context_data = (ServerClientData)context.User;
                 if (context_data == null)
-                {
                     return;
-                }
 
                 if (!context_data.m_connected)
-                {
                     return;
-                }
 
                 List<KeyValuePair<TransferBuffer, Packet>> buffers = context_data.m_security.TransferOutgoing();
                 if (buffers != null)

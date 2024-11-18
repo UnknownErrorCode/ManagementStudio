@@ -50,12 +50,19 @@
       <DependentUpon>TriggerCategoryEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Category\GameWorldProperty.cs" />
-    <Compile Include="EditorLayouts\UserControl1.cs">
+    <Compile Include="EditorLayouts\AddCategoryToWorld.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="EditorLayouts\UserControl1.Designer.cs">
-      <DependentUpon>UserControl1.cs</DependentUpon>
+    <Compile Include="EditorLayouts\AddCategoryToWorld.Designer.cs">
+      <DependentUpon>AddCategoryToWorld.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditorLayouts\LinkTriggerToCategory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditorLayouts\LinkTriggerToCategory.Designer.cs">
+      <DependentUpon>LinkTriggerToCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PacketFormat\TriggerEditorPacket.cs" />
     <Compile Include="TriggerEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -69,8 +76,11 @@
     <EmbeddedResource Include="Category\TriggerCategoryEditor.resx">
       <DependentUpon>TriggerCategoryEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditorLayouts\UserControl1.resx">
-      <DependentUpon>UserControl1.cs</DependentUpon>
+    <EmbeddedResource Include="EditorLayouts\AddCategoryToWorld.resx">
+      <DependentUpon>AddCategoryToWorld.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditorLayouts\LinkTriggerToCategory.resx">
+      <DependentUpon>LinkTriggerToCategory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TriggerEditorControl.resx">
       <DependentUpon>TriggerEditorControl.cs</DependentUpon>

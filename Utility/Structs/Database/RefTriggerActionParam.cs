@@ -1,16 +1,27 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct RefTriggerActionParam
     {
-        // Private fields
+        // Backing fields
         private int _service;
-        private readonly int _id;   // Read-only field
+        private int _id;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 129)]
         private string _groupCodeName128;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 129)]
         private string _valueCodeName128;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 129)]
         private string _value;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
         private string _type;
+
 
         // Public properties to access the private fields
         public int Service

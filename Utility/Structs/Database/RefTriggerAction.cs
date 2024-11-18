@@ -1,51 +1,65 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct RefTriggerAction
     {
-        // Private fields for new parameters
+        // Backing fields for marshaling compatibility
         private int _service;
-        private readonly int _id;   // Read-only field
+        private readonly int _id;
         private int _refTriggerCommonID;
         private int _delay;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         private string _paramGroupCodeName128;
 
-        // Public properties to access the private fields
+        // Public properties for field access
         public int Service
         {
-            get { return _service; }
-            set { _service = value; }
+            get => _service;
+            set => _service = value;
         }
 
         public int ID
         {
-            get { return _id; }
+            get => _id;
         }
 
         public int RefTriggerCommonID
         {
-            get { return _refTriggerCommonID; }
-            set { _refTriggerCommonID = value; }
+            get => _refTriggerCommonID;
+            set => _refTriggerCommonID = value;
         }
 
         public int Delay
         {
-            get { return _delay; }
-            set { _delay = value; }
+            get => _delay;
+            set => _delay = value;
         }
 
         public string ParamGroupCodeName128
         {
-            get { return _paramGroupCodeName128; }
-            set { _paramGroupCodeName128 = value; }
+            get => _paramGroupCodeName128;
+            set => _paramGroupCodeName128 = value;
         }
 
-        // Constructor for new parameters
+        // Constructor for initializing fields
+        public RefTriggerAction(int service, int id, int refTriggerCommonID, int delay, string paramGroupCodeName128)
+        {
+            _service = service;
+            _id = id;
+            _refTriggerCommonID = refTriggerCommonID;
+            _delay = delay;
+            _paramGroupCodeName128 = paramGroupCodeName128;
+        }
+
+        // Alternate constructor for database row initialization
         public RefTriggerAction(object[] row)
         {
             _service = Convert.ToInt32(row[0]);
-            _id = Convert.ToInt32(row[1]);  // Read-only field, initialized once in the constructor
+            _id = Convert.ToInt32(row[1]);
             _refTriggerCommonID = Convert.ToInt32(row[2]);
             _delay = Convert.ToInt32(row[3]);
             _paramGroupCodeName128 = Convert.ToString(row[4]);

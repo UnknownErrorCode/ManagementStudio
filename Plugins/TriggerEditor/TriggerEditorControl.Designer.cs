@@ -45,10 +45,12 @@
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerEditor = new System.Windows.Forms.SplitContainer();
             this.tabControl1.SuspendLayout();
             this.tabPageTriggerViewer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabPageategory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
@@ -59,6 +61,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerEditor)).BeginInit();
+            this.splitContainerEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -93,6 +97,10 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.treeViewGameWorlds);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainerEditor);
             this.splitContainer1.Size = new System.Drawing.Size(839, 489);
             this.splitContainer1.SplitterDistance = 221;
             this.splitContainer1.TabIndex = 1;
@@ -147,7 +155,6 @@
             this.treeViewTriggerViewer.Size = new System.Drawing.Size(262, 489);
             this.treeViewTriggerViewer.TabIndex = 0;
             this.treeViewTriggerViewer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTriggerViewer_AfterSelect);
-            this.treeViewTriggerViewer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewTriggerViewer_NodeMouseClick);
             // 
             // contextMenuStripTriggerEditor
             // 
@@ -157,12 +164,14 @@
             this.linkToolStripMenuItem,
             this.addToolStripMenuItem});
             this.contextMenuStripTriggerEditor.Name = "contextMenuStripTriggerEditor";
-            this.contextMenuStripTriggerEditor.Size = new System.Drawing.Size(109, 92);
+            this.contextMenuStripTriggerEditor.Size = new System.Drawing.Size(181, 114);
+            this.contextMenuStripTriggerEditor.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripTriggerEditor_Opening);
             // 
             // editToolStripMenuItem
             // 
+            this.editToolStripMenuItem.Enabled = false;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -197,6 +206,7 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(275, 489);
             this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // addToolStripMenuItem
             // 
@@ -217,6 +227,16 @@
             this.splitContainer2.SplitterDistance = 262;
             this.splitContainer2.TabIndex = 1;
             // 
+            // splitContainerEditor
+            // 
+            this.splitContainerEditor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainerEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerEditor.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerEditor.Name = "splitContainerEditor";
+            this.splitContainerEditor.Size = new System.Drawing.Size(614, 489);
+            this.splitContainerEditor.SplitterDistance = 370;
+            this.splitContainerEditor.TabIndex = 0;
+            // 
             // TriggerEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -227,6 +247,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPageTriggerViewer.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabPageategory.ResumeLayout(false);
@@ -238,6 +259,8 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerEditor)).EndInit();
+            this.splitContainerEditor.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -259,5 +282,6 @@
         private System.Windows.Forms.ToolStripMenuItem linkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.SplitContainer splitContainerEditor;
     }
 }

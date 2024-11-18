@@ -87,6 +87,8 @@
     <Compile Include="Utility\InitializeConfig.cs" />
     <Compile Include="Utility\ServerConfig.cs" />
     <Compile Include="Utility\SQL.cs" />
+    <Compile Include="Utility\SqlModel\SQLLoginStatus.cs" />
+    <Compile Include="Utility\SqlModel\SQLTriggerEditor.cs" />
     <EmbeddedResource Include="PatchManager.resx">
       <DependentUpon>PatchManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,6 +127,7 @@
       <Name>Structs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
