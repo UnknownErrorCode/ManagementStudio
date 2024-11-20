@@ -1,5 +1,5 @@
-﻿using ManagementServer.Network;
-using ManagementFramework.Ressources;
+﻿using ManagementFramework.Ressources;
+using ManagementServer.Network;
 using System;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,9 +18,9 @@ namespace ManagementServer
         {
             InitializeComponent();
             Controls.Add(Logger);
-            if(!settings.InitializeSettings(out string msg))
+            if (!settings.InitializeSettings(out string msg))
             {
-                Logger.WriteLogLine( LogLevel.fatal,"Settings failed loading.. please contact Rekcuz..."+ msg);
+                Logger.WriteLogLine(LogLevel.fatal, "Settings failed loading.. please contact Rekcuz..." + msg);
                 return;
             }
             if (!LizenceCore.TryConnect())
@@ -28,7 +28,7 @@ namespace ManagementServer
                 Logger.WriteLogLine(LogLevel.fatal, "Cannot connect to Lizence Server!");
                 return;
             }
-           
+
             diagnosticThread = new Thread(DiagnosticThread);
             serverCodeTickThread = new Thread(ServerCore.TickThread);
         }
@@ -125,7 +125,7 @@ namespace ManagementServer
             }
             catch (Exception ex)
             {
-                //Logger?.WriteLogLine(LogLevel.fatal, $"Status: vSro-Studio-Server failed to start... Exception: {ex.Message}");
+                Logger?.WriteLogLine(LogLevel.fatal, $"Status: vSro-Studio-Server failed to start... Exception: {ex.Message}");
                 diagnosticThread.Abort();
                 serverCodeTickThread.Abort();
             }

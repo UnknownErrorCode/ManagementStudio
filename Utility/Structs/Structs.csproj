@@ -51,6 +51,7 @@
     <Compile Include="BinaryFiles\JMXRessource\Dungeon\Dungeon.cs" />
     <Compile Include="Database\Enumerable\TableName.cs" />
     <Compile Include="Database\Enumerable\PaymentDevice.cs" />
+    <Compile Include="Database\ISqlParameterConvertible.cs" />
     <Compile Include="Database\RefGameWorldBindTriggerCategory.cs" />
     <Compile Include="Database\RefGame_World.cs" />
     <Compile Include="Database\RefGame_World_Config.cs" />

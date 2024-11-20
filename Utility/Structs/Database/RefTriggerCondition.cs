@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Data.SqlClient;
 
 namespace Structs.Database
 {
-    public struct RefTriggerCondition
+    public struct RefTriggerCondition : ISqlParameterConvertible
     {
         // Private fields
         private int _service;
@@ -64,6 +65,20 @@ namespace Structs.Database
             _onFalse = row[4].ToString();
             _sequence = Convert.ToInt16(row[5]);
             _paramGroupCodeName128 = row[6].ToString();
+        }
+
+        public SqlParameter[] ToSqlParameters()
+        {
+            return new SqlParameter[]
+            {
+        new SqlParameter("@Service", System.Data.SqlDbType.Int) { Value = _service },
+        new SqlParameter("@ID", System.Data.SqlDbType.Int) { Value = _id },
+        new SqlParameter("@RefTriggerCommonID", System.Data.SqlDbType.Int) { Value = _refTriggerCommonID },
+        new SqlParameter("@OnTrue", System.Data.SqlDbType.VarChar, 128) { Value = _onTrue ?? (object)DBNull.Value },
+        new SqlParameter("@OnFalse", System.Data.SqlDbType.VarChar, 128) { Value = _onFalse ?? (object)DBNull.Value },
+        new SqlParameter("@Sequence", System.Data.SqlDbType.SmallInt) { Value = _sequence },
+        new SqlParameter("@ParamGroupCodeName128", System.Data.SqlDbType.VarChar, 128) { Value = _paramGroupCodeName128 ?? (object)DBNull.Value }
+            };
         }
     }
 }

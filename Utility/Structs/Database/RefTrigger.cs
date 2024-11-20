@@ -1,11 +1,11 @@
-﻿using System.Data.SqlClient;
-using System.Data;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]//298)]
-    public struct RefTrigger
+    public struct RefTrigger : ISqlParameterConvertible
     {
         // Private fields
         private int _service;
@@ -31,7 +31,7 @@ namespace Structs.Database
             set => _id = value;
         }
 
-        
+
         public string CodeName128
         {
             get => _codeName128;

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Data.SqlClient;
 
 namespace Structs.Database
 {
@@ -51,6 +53,20 @@ namespace Structs.Database
             _codeName128 = row[2].ToString();
             _objName128 = row[3].ToString();
             _indexNumber = int.Parse(row[4].ToString());
+        }
+
+
+        // ToSqlParameters Function
+        public SqlParameter[] ToSqlParameters()
+        {
+            return new SqlParameter[]
+            {
+        new SqlParameter("@Service", System.Data.SqlDbType.Int) { Value = _service },
+        new SqlParameter("@ID", System.Data.SqlDbType.Int) { Value = _id },
+        new SqlParameter("@CodeName128", System.Data.SqlDbType.VarChar, 128) { Value = _codeName128 ?? (object)DBNull.Value },
+        new SqlParameter("@ObjName128", System.Data.SqlDbType.VarChar, 128) { Value = _objName128 ?? (object)DBNull.Value },
+        new SqlParameter("@IndexNumber", System.Data.SqlDbType.Int) { Value = _indexNumber }
+            };
         }
     }
 }

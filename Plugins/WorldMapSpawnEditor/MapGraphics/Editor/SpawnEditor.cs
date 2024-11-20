@@ -1,7 +1,6 @@
 ﻿using PluginFramework.BasicControls;
 using Structs.Database;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace WorldMapSpawnEditor.MapGraphics

@@ -3,116 +3,149 @@ using ManagementServer.PacketConstructors;
 using ManagementServer.Utility;
 using Structs.Database;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using static ManagementServer.Utility.SQL;
 
 namespace ManagementServer.Network
 {
     internal partial class ServerPacketHandler
     {
         private PacketHandlerResult HandleUpdatePacket<T>(
-    ServerData serverData,
-    Packet packet,
-    Func<T, bool> saveFunction,
-    ushort responsePacketId,
-    string structName) where T : struct
+     ServerData serverData,
+     Packet packet,
+     Func<string, T, SaveResult> saveFunction,
+     ushort responsePacketId,
+     string structName) where T : struct
         {
             try
             {
-                // Deserialize the struct from the packet
-                var data = packet.ReadStruct<T>();
+                // Deserialize the structure from the packet
+                T data = packet.ReadStruct<T>();
 
-                // Save the data using the provided save function
-                bool success = saveFunction(data);
+                // Call the save function
+                SaveResult result = saveFunction(serverData.AccountName, data);
 
-                if (success)
+                if (result.Success)
                 {
-                    // Notify the user of a successful update
-                    serverData.m_security.Send(NotificationPacket.NotifyPacket(
-                        ManagementFramework.Ressources.LogLevel.notify,
-                        $"{structName} updated successfully."));
 
-                    // Send response packet to the client
-                    var responsePacket = new Packet(responsePacketId);
-                    serverData.m_security.Send(responsePacket);
+                    ServerManager.Logger.WriteLogLine(
+                            ManagementFramework.Ressources.LogLevel.success,
+                            $"Account: {serverData.AccountName} - {structName} updated successfully. Status: {result.Status}, Message: {result.Message}");
+                    // Notify the client of a successful update
+                    ServerMemory.BroadcastPacket2(NotificationPacket.NotifyPacket(
+                        ManagementFramework.Ressources.LogLevel.success,
+                        $"Account: {serverData.AccountName} updated {structName} successfully. Status: {result.Status}, Message: {result.Message}"));
 
+                    // Send response packet back to the client
+                    //var responsePacket = new Packet(responsePacketId);
+                    serverData.m_security.Send(new Packet(responsePacketId));
                     return PacketHandlerResult.Response;
                 }
                 else
                 {
-                    // Notify the user of a failure
+                    // Notify the client of a failure
                     serverData.m_security.Send(NotificationPacket.NotifyPacket(
                         ManagementFramework.Ressources.LogLevel.warning,
-                        $"Failed to update {structName}."));
+                        $"Account: {serverData.AccountName} Failed to update {structName}. Status: {result.Status}, Message: {result.Message}"));
+
+                    ServerManager.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.sql,
+                        $"Account: {serverData.AccountName} Failed to update {structName}. Status: {result.Status}, Message: {result.Message}");
+
+
+
                     return PacketHandlerResult.Block;
                 }
             }
             catch (Exception ex)
             {
-                // Notify the user of a critical error
+                // Handle exceptions
                 serverData.m_security.Send(NotificationPacket.NotifyPacket(
                     ManagementFramework.Ressources.LogLevel.fatal,
-                    $"An error occurred while updating {structName}: {ex.Message}"));
+                    $"Account: {serverData.AccountName} Error processing {structName} update: {ex.Message}"));
+
                 return PacketHandlerResult.Block;
             }
         }
+
 
         internal PacketHandlerResult EditRefTrigger(ServerData serverData, Packet packet)
         {
-            try
-            {
-
-                var size = Marshal.SizeOf<RefTrigger>();
-                // Deserialize RefTrigger from the packet
-                var trigger = packet.ReadStruct<RefTrigger>();
-
-                // Basic validation
-                if (trigger.ID <= 0)
-                {
-                    serverData.m_security.Send(NotificationPacket.NotifyPacket(
-                        ManagementFramework.Ressources.LogLevel.warning,
-                        "Invalid RefTrigger ID. Update aborted."));
-                    return PacketHandlerResult.Block;
-                }
-
-                // Save to database
-                bool success = SQL.SaveRefTrigger(serverData.AccountName,trigger, out string status, out string message);
-
-                if (success)
-                {
-                    // Notify the user of a successful update
-
-                    ServerMemory.BroadcastPacket(NotificationPacket.NotifyPacket(
-                        ManagementFramework.Ressources.LogLevel.notify,
-                        $"RefTrigger updated successfully: {trigger.CodeName128} (ID: {trigger.ID})"));
-
-                    // Send success response to the client
-                    var responsePacket = new Packet(PacketID.Client.TriggerEditor_Update_RefTrigger);
-                   
-                    serverData.m_security.Send(responsePacket);
-
-                    return PacketHandlerResult.Response;
-                }
-                else
-                {
-                    // Notify the user of a failure
-                    serverData.m_security.Send(NotificationPacket.NotifyPacket(
-                        ManagementFramework.Ressources.LogLevel.warning,
-                        "Failed to update RefTrigger."));
-                    return PacketHandlerResult.Block;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Notify the user of a critical error
-                serverData.m_security.Send(NotificationPacket.NotifyPacket(
-                    ManagementFramework.Ressources.LogLevel.fatal,
-                    $"An error occurred while updating RefTrigger: {ex.Message}"));
-                return PacketHandlerResult.Block;
-            }
+            return HandleUpdatePacket<RefTrigger>(
+       serverData,
+       packet,
+       SQL.SaveRefTrigger, // Updated save function
+       PacketID.Client.TriggerEditor_Update_RefTrigger, // Response packet ID
+       "RefTrigger" // Struct name for logging
+            );
         }
+
+
+
+        internal PacketHandlerResult EditRefTriggerAction(ServerData serverData, Packet packet)
+        {
+            return HandleUpdatePacket<RefTriggerAction>(
+       serverData,
+       packet,
+       SQL.SaveRefTriggerAction, // Updated save function
+       PacketID.Client.TriggerEditor_Update_RefTriggerAction, // Response packet ID
+       "RefTriggerAction" // Struct name for logging
+            );
+        }
+
+        internal PacketHandlerResult EditRefTriggerCondition(ServerData serverData, Packet packet)
+        {
+            return HandleUpdatePacket<RefTriggerCondition>(
+                serverData,
+                packet,
+                SQL.SaveRefTriggerCondition,
+                PacketID.Client.TriggerEditor_Update_RefTriggerCondition,
+                "RefTriggerCondition"
+            );
+        }
+
+        internal PacketHandlerResult EditRefTriggerEvent(ServerData serverData, Packet packet)
+        {
+            return HandleUpdatePacket<RefTriggerEvent>(
+                serverData,
+                packet,
+                SQL.SaveRefTriggerEvent,
+                PacketID.Client.TriggerEditor_Update_RefTriggerEvent,
+                "RefTriggerEvent"
+            );
+        }
+
+        internal PacketHandlerResult EditRefTriggerCategory(ServerData serverData, Packet packet)
+        {
+            return HandleUpdatePacket<RefTriggerCategory>(
+                serverData,
+                packet,
+                SQL.SaveRefTriggerCategory,
+                PacketID.Client.TriggerEditor_Update_RefTriggerCategory,
+                "RefTriggerCategory"
+            );
+        }
+        internal PacketHandlerResult EditRefTriggerActionParam(ServerData serverData, Packet packet)
+        {
+            return HandleUpdatePacket<RefTriggerActionParam>(
+                serverData,
+                packet,
+                SQL.SaveRefTriggerActionParam,
+                PacketID.Client.TriggerEditor_Update_RefTriggerActionParam,
+                "RefTriggerActionParam"
+            );
+        }
+
+        internal PacketHandlerResult EditRefTriggerConditionParam(ServerData serverData, Packet packet)
+        {
+            return HandleUpdatePacket<RefTriggerConditionParam>(
+                serverData,
+                packet,
+                SQL.SaveRefTriggerConditionParam,
+                PacketID.Client.TriggerEditor_Update_RefTriggerConditionParam,
+                "RefTriggerConditionParam"
+            );
+        }
+
+
+
     }
 }

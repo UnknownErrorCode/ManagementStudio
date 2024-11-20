@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    public struct RefTriggerAction
+    public struct RefTriggerAction : ISqlParameterConvertible
     {
         // Backing fields for marshaling compatibility
         private int _service;
@@ -64,5 +65,21 @@ namespace Structs.Database
             _delay = Convert.ToInt32(row[3]);
             _paramGroupCodeName128 = Convert.ToString(row[4]);
         }
+
+        public SqlParameter[] ToSqlParameters()
+        {
+            return new SqlParameter[]
+            {
+        new SqlParameter("@Service", System.Data.SqlDbType.Int) { Value = _service },
+        new SqlParameter("@ID", System.Data.SqlDbType.Int) { Value = _id },
+        new SqlParameter("@RefTriggerCommonID", System.Data.SqlDbType.Int) { Value = _refTriggerCommonID },
+        new SqlParameter("@Delay", System.Data.SqlDbType.Int) { Value = _delay },
+        new SqlParameter("@ParamGroupCodeName128", System.Data.SqlDbType.VarChar, 128)
+        {
+            Value = _paramGroupCodeName128 ?? (object)DBNull.Value
+        }
+            };
+        }
+
     }
 }

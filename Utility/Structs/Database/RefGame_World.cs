@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Data.SqlClient;
 
 namespace Structs.Database
 {
-    public struct RefGame_World
+    public struct RefGame_World : ISqlParameterConvertible
     {
         // Private fields
         private readonly int _id;
@@ -94,6 +95,11 @@ namespace Structs.Database
             _worldDurationTime = int.Parse(row[8].ToString());
             _worldEmptyRemainTime = int.Parse(row[9].ToString());
             _configGroupCodeName128 = row[10].ToString();
+        }
+
+        public SqlParameter[] ToSqlParameters()
+        {
+            throw new NotImplementedException();
         }
     }
 }

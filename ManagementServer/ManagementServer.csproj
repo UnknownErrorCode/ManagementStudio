@@ -85,10 +85,12 @@
     <Compile Include="Network\ToolServer\ServerClientData.cs" />
     <Compile Include="Network\ToolServer\Handler\LauncherPacketHandler.cs" />
     <Compile Include="Utility\InitializeConfig.cs" />
+    <Compile Include="Utility\SaveResult.cs" />
     <Compile Include="Utility\ServerConfig.cs" />
     <Compile Include="Utility\SQL.cs" />
     <Compile Include="Utility\SqlModel\SQLLoginStatus.cs" />
     <Compile Include="Utility\SqlModel\SQLTriggerEditor.cs" />
+    <Compile Include="Utility\SQLTableUpdater.cs" />
     <EmbeddedResource Include="PatchManager.resx">
       <DependentUpon>PatchManager.cs</DependentUpon>
     </EmbeddedResource>

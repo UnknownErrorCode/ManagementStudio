@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Structs.Database
 {
-    public struct RefTriggerEvent
+    public struct RefTriggerEvent : ISqlParameterConvertible
     {
         // Private fields
         private int _service;
@@ -38,5 +35,16 @@ namespace Structs.Database
             _id = Convert.ToInt32(row[1]);  // Read-only field, initialized once in the constructor
             _refTriggerCommonID = Convert.ToInt32(row[2]);
         }
+
+        public SqlParameter[] ToSqlParameters()
+        {
+            return new SqlParameter[]
+            {
+        new SqlParameter("@Service", System.Data.SqlDbType.Int) { Value = _service },
+        new SqlParameter("@ID", System.Data.SqlDbType.Int) { Value = _id },
+        new SqlParameter("@RefTriggerCommonID", System.Data.SqlDbType.Int) { Value = _refTriggerCommonID }
+            };
+        }
+
     }
 }

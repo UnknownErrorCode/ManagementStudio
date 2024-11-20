@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 
 namespace Structs.Database
@@ -69,5 +70,32 @@ namespace Structs.Database
             _value = row[4].ToString();
             _type = row[5].ToString();
         }
+
+        // ToSqlParameters Function
+        public SqlParameter[] ToSqlParameters()
+        {
+            return new SqlParameter[]
+            {
+        new SqlParameter("@Service", System.Data.SqlDbType.Int) { Value = _service },
+        new SqlParameter("@ID", System.Data.SqlDbType.Int) { Value = _id },
+        new SqlParameter("@GroupCodeName128", System.Data.SqlDbType.VarChar, 129)
+        {
+            Value = _groupCodeName128 ?? (object)DBNull.Value
+        },
+        new SqlParameter("@ValueCodeName128", System.Data.SqlDbType.VarChar, 129)
+        {
+            Value = _valueCodeName128 ?? (object)DBNull.Value
+        },
+        new SqlParameter("@Value", System.Data.SqlDbType.VarChar, 129)
+        {
+            Value = _value ?? (object)DBNull.Value
+        },
+        new SqlParameter("@Type", System.Data.SqlDbType.VarChar, 20)
+        {
+            Value = _type ?? (object)DBNull.Value
+        }
+            };
+        }
+
     }
 }

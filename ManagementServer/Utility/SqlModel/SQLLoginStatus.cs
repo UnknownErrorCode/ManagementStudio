@@ -1,11 +1,6 @@
 ﻿using Structs.Tool;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace ManagementServer.Utility
 {
@@ -114,13 +109,22 @@ namespace ManagementServer.Utility
         /// </summary>
         /// <param name="latestClientVersion"></param>
         /// <returns></returns>
-        internal static DataTable RequestFilesToUpdate(int latestClientVersion) => ReturnDataTableByQuery($"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};", ServerManager.settings.DBDev);
+        internal static DataTable RequestFilesToUpdate(int latestClientVersion)
+            => ReturnDataTableByQuery(
+                $"SELECT * from _ToolUpdates where ToBePatched = 1 and Version > {latestClientVersion};",
+                ServerManager.settings.DBDev
+                );
 
         /// <summary>
         /// Updates files to the patcher.
         /// </summary>
         /// <param name="paramse"></param>
-        internal static void UpdateToolFiles(SqlParameter[] paramse) => ReturnDataTableByProcedure(_Update_Tool_Files, ServerManager.settings.DBDev, paramse);
+        internal static void UpdateToolFiles(SqlParameter[] paramse)
+            => ReturnDataTableByProcedure(
+                _Update_Tool_Files,
+                ServerManager.settings.DBDev,
+                paramse
+                );
 
 
 
