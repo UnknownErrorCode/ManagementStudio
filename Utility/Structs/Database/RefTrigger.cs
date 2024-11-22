@@ -4,18 +4,23 @@ using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]//298)]
-    public struct RefTrigger : ISqlParameterConvertible
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    public struct RefTrigger
     {
         // Private fields
         private int _service;
+
         private int _id;
+
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         private string _codeName128;
+
         private byte _isActive;
         private byte _isRepeat;
+
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
         private string _comment512;
+
         private int _indexNumber;
 
         // Public properties with getters and setters
@@ -28,9 +33,7 @@ namespace Structs.Database
         public int ID
         {
             get => _id;
-            set => _id = value;
         }
-
 
         public string CodeName128
         {
@@ -72,6 +75,17 @@ namespace Structs.Database
             _isRepeat = byte.Parse(row[4].ToString());
             _comment512 = row[5].ToString();
             _indexNumber = int.Parse(row[6].ToString());
+        }
+
+        public RefTrigger(bool defaultTrigger)
+        {
+            _service = 1;
+            _id = 0;
+            _codeName128 = "TRI_";
+            _isActive = 1;
+            _isRepeat = 0;
+            _comment512 = "<any info>";
+            _indexNumber = 0;
         }
 
         public SqlParameter[] ToSqlParameters()

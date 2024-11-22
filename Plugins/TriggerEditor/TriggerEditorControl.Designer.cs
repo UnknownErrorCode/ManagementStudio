@@ -35,6 +35,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewGameWorlds = new System.Windows.Forms.TreeView();
             this.splitContainerEditor = new System.Windows.Forms.SplitContainer();
+            this.propertyGridStructEditor = new System.Windows.Forms.PropertyGrid();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageategory = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -46,9 +49,6 @@
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageListTriggerEditor = new System.Windows.Forms.ImageList(this.components);
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.propertyGridStructEditor = new System.Windows.Forms.PropertyGrid();
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
@@ -60,6 +60,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerEditor)).BeginInit();
             this.splitContainerEditor.Panel2.SuspendLayout();
             this.splitContainerEditor.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.tabPageategory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -69,7 +70,6 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.contextMenuStripTriggerEditor.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -137,6 +137,31 @@
             this.splitContainerEditor.Size = new System.Drawing.Size(614, 489);
             this.splitContainerEditor.SplitterDistance = 370;
             this.splitContainerEditor.TabIndex = 0;
+            // 
+            // propertyGridStructEditor
+            // 
+            this.propertyGridStructEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridStructEditor.Location = new System.Drawing.Point(0, 24);
+            this.propertyGridStructEditor.Name = "propertyGridStructEditor";
+            this.propertyGridStructEditor.Size = new System.Drawing.Size(236, 461);
+            this.propertyGridStructEditor.TabIndex = 1;
+            this.propertyGridStructEditor.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridStructEditor_PropertyValueChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(236, 24);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.saveToolStripMenuItem.Text = "Save";
             // 
             // tabPageategory
             // 
@@ -250,32 +275,8 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(275, 465);
             this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.ToolbarVisible = false;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(236, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.saveToolStripMenuItem.Text = "Save";
-            // 
-            // propertyGridStructEditor
-            // 
-            this.propertyGridStructEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGridStructEditor.Location = new System.Drawing.Point(0, 24);
-            this.propertyGridStructEditor.Name = "propertyGridStructEditor";
-            this.propertyGridStructEditor.Size = new System.Drawing.Size(236, 461);
-            this.propertyGridStructEditor.TabIndex = 1;
-            this.propertyGridStructEditor.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridStructEditor_PropertyValueChanged);
             // 
             // menuStrip2
             // 
@@ -312,6 +313,8 @@
             this.splitContainerEditor.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerEditor)).EndInit();
             this.splitContainerEditor.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.tabPageategory.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -322,8 +325,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.contextMenuStripTriggerEditor.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
             this.ResumeLayout(false);

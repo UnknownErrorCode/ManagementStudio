@@ -49,6 +49,28 @@
             public const ushort TriggerEditor_Update_RefGameWorld = 0x1207;
             public const ushort TriggerEditor_Update_RefGameWorldBindTriggerCategory = 0x1208;
 
+            // Trigger Editor - Add Operations
+            public const ushort TriggerEditor_Add_RefTrigger = 0x1210;               // Add a new trigger
+
+            public const ushort TriggerEditor_Add_RefTriggerAction = 0x1211;         // Add a new trigger action
+            public const ushort TriggerEditor_Add_RefTriggerCondition = 0x1212;      // Add a new trigger condition
+            public const ushort TriggerEditor_Add_RefTriggerEvent = 0x1213;          // Add a new trigger event
+            public const ushort TriggerEditor_Add_RefTriggerCategory = 0x1214;       // Add a new trigger category
+            public const ushort TriggerEditor_Add_RefTriggerActionParam = 0x1215;    // Add new action parameters for a trigger
+            public const ushort TriggerEditor_Add_RefTriggerConditionParam = 0x1216; // Add new condition parameters for a trigger
+            public const ushort TriggerEditor_Add_RefGameWorld = 0x1217;             // Add a new game world
+            public const ushort TriggerEditor_Add_RefGameWorldBindTriggerCategory = 0x1218; // Add binding between a trigger category and a game world
+
+            // Trigger Editor - Link Operations
+            public const ushort TriggerEditor_Link_RefTriggerToCategory = 0x1220;           // Link a trigger to a category
+
+            public const ushort TriggerEditor_Link_RefTriggerAction = 0x1221;               // Link a trigger action to a trigger
+            public const ushort TriggerEditor_Link_RefTriggerCondition = 0x1222;            // Link a trigger condition to a trigger
+            public const ushort TriggerEditor_Link_RefTriggerEvent = 0x1223;                // Link a trigger event to a trigger
+            public const ushort TriggerEditor_Link_RefTriggerCategoryToGameWorld = 0x1224;  // Link a trigger category to a game world
+            public const ushort TriggerEditor_Link_RefTriggerActionParam = 0x1225;          // Link action parameters to an action
+            public const ushort TriggerEditor_Link_RefTriggerConditionParam = 0x1226;       // Link condition parameters to a condition
+
             #endregion Fields
         }
 

@@ -8,8 +8,6 @@ namespace ManagementServer.Utility
 {
     internal partial class SQL
     {
-
-
         /// <summary>
         /// Converts public properties of a struct into SqlParameter array.
         /// </summary>
@@ -39,7 +37,6 @@ namespace ManagementServer.Utility
                 .ToArray();
         }
 
-
         /// <summary>
         /// Infers SqlDbType from a .NET type.
         /// </summary>
@@ -67,7 +64,6 @@ namespace ManagementServer.Utility
             // Default case for unsupported types
             return SqlDbType.Variant;
         }
-
 
         /// <summary>
         /// Formats SQL parameters into a readable string for logging.
@@ -109,7 +105,7 @@ namespace ManagementServer.Utility
             {
                 // Log the starting point with details about the procedure and parameters
                 ServerManager.Logger.WriteLogLine(
-                    ManagementFramework.Ressources.LogLevel.warning,
+                    ManagementFramework.Ressources.LogLevel.sql,
                     $"Account: {accountName} - Starting execution of procedure '{procedureName}' with parameters: {FormatParameters(entity)}");
 
                 var resu = SQL.ExecuteStoredProcedure(procedureName, ServerManager.settings.DBDev, entity, accountName);
@@ -152,7 +148,6 @@ namespace ManagementServer.Utility
                 };
             }
         }
-
 
         private static void CreateSaveResultSuccess((bool IsSuccess, string Message) resu, out SaveResult saveResult)
         {

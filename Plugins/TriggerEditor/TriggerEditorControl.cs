@@ -10,20 +10,29 @@ namespace TriggerEditor
 {
     public partial class TriggerEditorControl : UserControl, PluginFramework.BasicControls.IPluginControl
     {
+        #region Constructors
+
         public TriggerEditorControl()
         {
             InitializeComponent();
             InitializePlugin();
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         public PluginData PLUGINDATA { get; set; }
         public Packet RequestDataPacket => PluginFramework.Network.ClientPacketFormat.RequestPluginDataTables(STRING_DLL, (ushort)PLUGINDATA);
 
-
         public string STRING_DLL { get; set; }
 
+        #endregion Properties
 
+        private Packet RequestUpdateTable()
+            => RequestDataPacket;
 
+        #region Methods
 
         public void InitializePlugin()
         {
@@ -31,15 +40,16 @@ namespace TriggerEditor
             STRING_DLL = "TriggerEditor.dll";
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
             PluginFramework.ClientCore.Send(RequestDataPacket);
+            //PluginFramework.ClientCore.Send(RequestDataUpdatePacket);
         }
 
         public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
         {
-
-
             TreeNode treeNew = BuildGameWorldNode();
 
             TreeNode unlinkedNode = BuildUnlinkedNodes();
+
+            TreeNode unlinkedNode2 = BuildUnlinkedNodes2();
 
             Invoke(new Action(() =>
             {
@@ -50,156 +60,43 @@ namespace TriggerEditor
                     treeViewTriggerViewer.Nodes.Add(item);
                     // treeViewGameWorlds.Nodes.Add(item);
                 }
-
+                treeViewTriggerViewer.Nodes.Add(unlinkedNode);
                 treeViewGameWorlds.Nodes.Clear();
 
-                treeViewGameWorlds.Nodes.Add(unlinkedNode);
-
-
+                treeViewGameWorlds.Nodes.Add(unlinkedNode2);
             }));
 
             return PacketHandlerResult.Block;
         }
 
-        private TreeNode GetTriggerViewOld()
+        private void AddActionParamToAction(RefTriggerAction triggerAction)
         {
-            TreeNode tree = new TreeNode(STRING_DLL);
-            foreach (RefGame_World gWorld in PluginFramework.Database.SRO_VT_SHARD._RefGame_World.Values)
-            {
-                TreeNode node1 = new TreeNode($"ID: {gWorld.ID} Name: {gWorld.WorldCodeName128}") { Tag = gWorld, ImageIndex = 0 };
-
-                if (PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Any(gbc => gbc.GameWorldID == gWorld.ID))
-                {
-                    var categorieBinds = (PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Where(gbc => gbc.GameWorldID == gWorld.ID));
-
-                    foreach (var categoryBind in categorieBinds)
-                    {
-                        if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Values.Any(gbc => gbc.ID == categoryBind.TriggerCategoryID))
-                        {
-                            var categories = (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Values.Where(gbc => gbc.ID == categoryBind.TriggerCategoryID));
-
-                            foreach (var category in categories)
-                            {
-                                TreeNode categoryNode = new TreeNode($"{category.CodeName128}") { Tag = category, ImageIndex = 1, SelectedImageIndex = 1 };
-                                if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Any(cbt => cbt.TriggerCategoryID == category.ID))
-                                {
-                                    var catBindTr = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Where(cbt => cbt.TriggerCategoryID == category.ID);
-
-                                    foreach (var catBind in catBindTr)
-                                    {
-                                        if (PluginFramework.Database.SRO_VT_SHARD._RefTrigger.Values.Any(t => t.ID == catBind.TriggerID))
-                                        {
-                                            var tri = PluginFramework.Database.SRO_VT_SHARD._RefTrigger.Values.Single(t => t.ID == catBind.TriggerID);
-                                            var triNode = new TreeNode(tri.CodeName128) { Tag = tri, ImageIndex = 2, SelectedImageIndex = 2 };
-
-
-                                            if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindEvent.Values.Any(bindEvent => bindEvent.TriggerID == tri.ID))
-                                            {
-                                                foreach (var triBindEvent in PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindEvent.Values.Where(bindEvent => bindEvent.TriggerID == tri.ID))
-                                                {
-                                                    var triEvent = PluginFramework.Database.SRO_VT_SHARD._RefTriggerEvent.Values.Single(t => t.ID == triBindEvent.TriggerEventID);
-                                                    var triEventCommon = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[triEvent.RefTriggerCommonID];
-                                                    var triEventNode = new TreeNode($"EventID: {triEvent.ID} - {triEventCommon.CodeName128}") { Tag = triEvent, ImageIndex = 3, SelectedImageIndex = 3 };
-                                                    triNode.Nodes.Add(triEventNode);
-                                                }
-                                            }
-
-
-                                            if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindCondition.Values.Any(bindCondition => bindCondition.TriggerID == tri.ID))
-                                            {
-                                                foreach (var triBindCond in PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindCondition.Values.Where(bindEvent => bindEvent.TriggerID == tri.ID))
-                                                {
-                                                    var triCondition = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCondition[triBindCond.TriggerConditionID];//.Values.Single(t => t.ID == triBindCond.TriggerConditionID);
-
-                                                    var triConditionNode = new TreeNode($"Condition: {triCondition.ID} --> {PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[triCondition.RefTriggerCommonID].CodeName128}")
-                                                    {
-                                                        Tag = triCondition,
-                                                        ImageIndex = 4,
-                                                        SelectedImageIndex = 4
-                                                    };
-
-                                                    // Add Condition Parameters (Filtered by GroupCodeName128)
-                                                    if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerConditionParam.Values.Any(param => param.GroupCodeName128 == triCondition.ParamGroupCodeName128))
-                                                    {
-                                                        foreach (var conditionParam in PluginFramework.Database.SRO_VT_SHARD._RefTriggerConditionParam.Values.Where(param => param.GroupCodeName128 == triCondition.ParamGroupCodeName128))
-                                                        {
-                                                            var conditionParamNode = new TreeNode($"ParamID: {conditionParam.ID}")
-                                                            {
-                                                                Tag = conditionParam,
-                                                                ImageIndex = 6,
-                                                                SelectedImageIndex = 6
-                                                            };
-
-
-                                                            triConditionNode.Nodes.Add(conditionParamNode);
-                                                        }
-                                                    }
-
-                                                    triNode.Nodes.Add(triConditionNode);
-                                                }
-                                            }
-
-                                            // Handle BindTriggerAction
-                                            if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindAction.Values.Any(bindAction => bindAction.TriggerID == tri.ID))
-                                            {
-                                                foreach (var triBindAction in PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindAction.Values.Where(bindAction => bindAction.TriggerID == tri.ID))
-                                                {
-                                                    var triAction = PluginFramework.Database.SRO_VT_SHARD._RefTriggerAction.Values.Single(action => action.ID == triBindAction.TriggerActionID);
-
-                                                    var triActionNode = new TreeNode($"ActionID: {triAction.ID}  --> {triAction.ParamGroupCodeName128} --> {triAction.RefTriggerCommonID}")
-                                                    {
-                                                        Tag = triAction,
-                                                        ImageIndex = 5,
-                                                        SelectedImageIndex = 5
-                                                    };
-                                                    // Add Action Parameters
-                                                    if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerActionParam.Values.Any(param => param.GroupCodeName128 == triAction.ParamGroupCodeName128))
-                                                    {
-                                                        foreach (var actionParam in PluginFramework.Database.SRO_VT_SHARD._RefTriggerActionParam.Values.Where(param => param.GroupCodeName128 == triAction.ParamGroupCodeName128))
-                                                        {
-                                                            var actionParamNode = new TreeNode($"ActionParamID: {actionParam.ID}")
-                                                            {
-                                                                Tag = actionParam,
-                                                                ImageIndex = 6,
-                                                                SelectedImageIndex = 6
-                                                            };
-                                                            triActionNode.Nodes.Add(actionParamNode);
-                                                        }
-                                                    }
-                                                    triNode.Nodes.Add(triActionNode);
-                                                }
-                                            }
-
-                                            //TODO: Actions, Conditions 
-                                            categoryNode.Nodes.Add(triNode);
-                                        }
-                                    }
-                                }
-                                node1.Nodes.Add(categoryNode);
-                            }
-                        }
-                        else
-                        {
-                            ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, $"Loading _RefTriggerCategory for catID{categoryBind.TriggerCategoryID} failed");
-                        }
-                    }
-                }
-                tree.Nodes.Add(node1);
-            }
-
-            return tree;
+            MessageBox.Show($"Adding an ActionParam to Action: {triggerAction.ParamGroupCodeName128}");
+            // Implement event logic here
         }
 
-        private void treeViewGameWorlds_AfterSelect(object sender, TreeViewEventArgs e)
+        private void AddActionToTrigger(RefTrigger trigger)
         {
-            if (((TreeView)sender).SelectedNode == null)
-                return;
+            MessageBox.Show($"Adding an Action to Trigger: {trigger.CodeName128}");
+            // Implement action logic here
+        }
 
-            var index = ((TreeView)sender).SelectedNode.ImageIndex;
+        private void AddConditionParamToCondition(RefTriggerCondition triggerCondition)
+        {
+            MessageBox.Show($"Adding a ConditionParam to Condition: {triggerCondition.ParamGroupCodeName128}");
+            // Implement the logic for adding a ConditionParam here
+        }
 
-            propertyGridStructEditor.SelectedObject = ((TreeView)sender).SelectedNode.Tag;
-            saveToolStripMenuItem.Enabled = false;
+        private void AddConditionToTrigger(RefTrigger trigger)
+        {
+            MessageBox.Show($"Adding a Condition to Trigger: {trigger.CodeName128}");
+            // Implement condition logic here
+        }
 
+        private void AddEventToTrigger(RefTrigger trigger)
+        {
+            MessageBox.Show($"Adding an Event to Trigger: {trigger.CodeName128}");
+            // Implement event logic here
         }
 
         private TreeNode BuildGameWorldNode()
@@ -368,93 +265,7 @@ namespace TriggerEditor
                 serverNode.Nodes.Add(worldNode);
             }
 
-
             return serverNode;
-        }
-
-        private TreeNode BuildUnlinkedNodes2()
-        {
-            TreeNode unlinkedRootNode = new TreeNode("Not Used Nodes");
-
-            // Not Used Categories
-            TreeNode unlinkedCategoriesNode = new TreeNode("Not Used Categories") { ImageIndex = 0 };
-            foreach (var category in PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Values)
-            {
-                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Any(bind => bind.TriggerCategoryID == category.ID))
-                {
-                    unlinkedCategoriesNode.Nodes.Add(new TreeNode($"{category.CodeName128}")
-                    {
-                        Tag = category,
-                        ImageIndex = 1,
-                        SelectedImageIndex = 1
-                    });
-                }
-            }
-            unlinkedRootNode.Nodes.Add(unlinkedCategoriesNode);
-
-            // Not Used Actions
-            TreeNode unlinkedActionsNode = new TreeNode("Not Used Actions") { ImageIndex = 0 };
-            foreach (var action in PluginFramework.Database.SRO_VT_SHARD._RefTriggerAction.Values)
-            {
-                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindAction.Values.Any(bind => bind.TriggerActionID == action.ID))
-                {
-                    unlinkedActionsNode.Nodes.Add(new TreeNode($"ActionID: {action.ID}  --> {action.ParamGroupCodeName128}")
-                    {
-                        Tag = action,
-                        ImageIndex = 2,
-                        SelectedImageIndex = 2
-                    });
-                }
-            }
-            unlinkedRootNode.Nodes.Add(unlinkedActionsNode);
-
-            // Not Used Conditions
-            TreeNode unlinkedConditionsNode = new TreeNode("Not Used Conditions") { ImageIndex = 0 };
-            foreach (var condition in PluginFramework.Database.SRO_VT_SHARD._RefTriggerCondition.Values)
-            {
-                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindCondition.Values.Any(bind => bind.TriggerConditionID == condition.ID))
-                {
-                    TreeNode conditionNode = new TreeNode($"Condition: {condition.ID} --> {condition.ParamGroupCodeName128}")
-                    {
-                        Tag = condition,
-                        ImageIndex = 3,
-                        SelectedImageIndex = 3
-                    };
-
-                    // Add Unlinked Condition Parameters
-                    foreach (var conditionParam in PluginFramework.Database.SRO_VT_SHARD._RefTriggerConditionParam.Values.Where(param => param.GroupCodeName128 == condition.ParamGroupCodeName128))
-                    {
-                        conditionNode.Nodes.Add(new TreeNode($"ConditionParamID: {conditionParam.ID}")
-                        {
-                            Tag = conditionParam,
-                            ImageIndex = 4,
-                            SelectedImageIndex = 4
-                        });
-                    }
-
-                    unlinkedConditionsNode.Nodes.Add(conditionNode);
-                }
-            }
-            unlinkedRootNode.Nodes.Add(unlinkedConditionsNode);
-
-            // Not Used Events
-            TreeNode unlinkedEventsNode = new TreeNode("Not Used Events") { ImageIndex = 0 };
-            foreach (var triggerEvent in PluginFramework.Database.SRO_VT_SHARD._RefTriggerEvent.Values)
-            {
-                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindEvent.Values.Any(bind => bind.TriggerEventID == triggerEvent.ID))
-                {
-                    var eventCommon = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[triggerEvent.RefTriggerCommonID];
-                    unlinkedEventsNode.Nodes.Add(new TreeNode($"EventID: {triggerEvent.ID} --> {eventCommon.CodeName128}")
-                    {
-                        Tag = triggerEvent,
-                        ImageIndex = 5,
-                        SelectedImageIndex = 5
-                    });
-                }
-            }
-            unlinkedRootNode.Nodes.Add(unlinkedEventsNode);
-
-            return unlinkedRootNode;
         }
 
         private TreeNode BuildUnlinkedNodes()
@@ -590,18 +401,135 @@ namespace TriggerEditor
             return unlinkedRootNode;
         }
 
-
-        private void treeViewTriggerViewer_AfterSelect(object sender, TreeViewEventArgs e)
+        private TreeNode BuildUnlinkedNodes2()
         {
-            if (((TreeView)sender).SelectedNode == null)
-                return;
+            TreeNode unlinkedRootNode = new TreeNode("Not Used Nodes");
 
-            var index = ((TreeView)sender).SelectedNode.ImageIndex;
+            // Not Used Categories
+            TreeNode unlinkedCategoriesNode = new TreeNode("Not Used Categories") { ImageIndex = 0 };
+            foreach (var category in PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Values)
+            {
+                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Any(bind => bind.TriggerCategoryID == category.ID))
+                {
+                    unlinkedCategoriesNode.Nodes.Add(new TreeNode($"{category.CodeName128}")
+                    {
+                        Tag = category,
+                        ImageIndex = 1,
+                        SelectedImageIndex = 1
+                    });
+                }
+            }
+            unlinkedRootNode.Nodes.Add(unlinkedCategoriesNode);
 
-            propertyGrid1.SelectedObject = ((TreeView)sender).SelectedNode.Tag;
-            editToolStripMenuItem.Enabled = false;
+            // Not Used Actions
+            TreeNode unlinkedActionsNode = new TreeNode("Not Used Actions") { ImageIndex = 0 };
+            foreach (var action in PluginFramework.Database.SRO_VT_SHARD._RefTriggerAction.Values)
+            {
+                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindAction.Values.Any(bind => bind.TriggerActionID == action.ID && bind.Service == 1))
+                {
+                    unlinkedActionsNode.Nodes.Add(new TreeNode($"ActionID: {action.ID}  --> {action.ParamGroupCodeName128}")
+                    {
+                        Tag = action,
+                        ImageIndex = 2,
+                        SelectedImageIndex = 2
+                    });
+                }
+            }
+            unlinkedRootNode.Nodes.Add(unlinkedActionsNode);
+
+            // Not Used Conditions
+            TreeNode unlinkedConditionsNode = new TreeNode("Not Used Conditions") { ImageIndex = 0 };
+            foreach (var condition in PluginFramework.Database.SRO_VT_SHARD._RefTriggerCondition.Values)
+            {
+                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindCondition.Values.Any(bind => bind.TriggerConditionID == condition.ID))
+                {
+                    TreeNode conditionNode = new TreeNode($"Condition: {condition.ID} --> {condition.ParamGroupCodeName128}")
+                    {
+                        Tag = condition,
+                        ImageIndex = 3,
+                        SelectedImageIndex = 3
+                    };
+
+                    // Add Unlinked Condition Parameters
+                    foreach (var conditionParam in PluginFramework.Database.SRO_VT_SHARD._RefTriggerConditionParam.Values.Where(param => param.GroupCodeName128 == condition.ParamGroupCodeName128))
+                    {
+                        conditionNode.Nodes.Add(new TreeNode($"ConditionParamID: {conditionParam.ID}")
+                        {
+                            Tag = conditionParam,
+                            ImageIndex = 4,
+                            SelectedImageIndex = 4
+                        });
+                    }
+
+                    unlinkedConditionsNode.Nodes.Add(conditionNode);
+                }
+            }
+            unlinkedRootNode.Nodes.Add(unlinkedConditionsNode);
+
+            // Not Used Events
+            TreeNode unlinkedEventsNode = new TreeNode("Not Used Events") { ImageIndex = 0 };
+            foreach (var triggerEvent in PluginFramework.Database.SRO_VT_SHARD._RefTriggerEvent.Values)
+            {
+                if (!PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindEvent.Values.Any(bind => bind.TriggerEventID == triggerEvent.ID))
+                {
+                    var eventCommon = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[triggerEvent.RefTriggerCommonID];
+                    unlinkedEventsNode.Nodes.Add(new TreeNode($"EventID: {triggerEvent.ID} --> {eventCommon.CodeName128}")
+                    {
+                        Tag = triggerEvent,
+                        ImageIndex = 5,
+                        SelectedImageIndex = 5
+                    });
+                }
+            }
+            unlinkedRootNode.Nodes.Add(unlinkedEventsNode);
+
+            return unlinkedRootNode;
         }
 
+        private void contextMenuStripTriggerEditor_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Get the selected node's associated object
+            var selectedStruct = treeViewTriggerViewer.SelectedNode?.Tag;
+            addToolStripMenuItem.DropDownItems.Clear();
+
+            if (selectedStruct == null)
+            {
+                e.Cancel = true; // No object selected; cancel the menu
+                return;
+            }
+
+            // Handle menu creation based on the selected object type
+            switch (selectedStruct)
+            {
+                case RefGame_World gameWorld:
+                    SetupGameWorldMenu(gameWorld);
+                    break;
+
+                case RefTrigger trigger:
+                    SetupTriggerMenu(trigger);
+                    break;
+
+                case RefTriggerCategory triggerCategory:
+                    SetupTriggerCategoryMenu(triggerCategory);
+                    break;
+
+                case RefTriggerAction triggerAction:
+                    SetupActionMenu(triggerAction);
+                    break;
+
+                case RefTriggerCondition triggerCondition:
+                    SetupConditionMenu(triggerCondition);
+                    break;
+
+                case RefTriggerEvent triggerEvent:
+                    SetupEventMenu(triggerEvent);
+                    break;
+
+                default:
+                    SetupDefaultMenu();
+                    break;
+            }
+        }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -641,10 +569,6 @@ namespace TriggerEditor
                 {
                     PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefGameWorld(gameWorld));
                 }
-                else if (selectedStruct is RefGameWorldBindTriggerCategory bindCategory)
-                {
-                    PluginFramework.ClientCore.Send(TriggerEditorPacket.UpdateRefGameWorldBindTriggerCategory(bindCategory));
-                }
                 else
                 {
                     MessageBox.Show("Unsupported node type selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -656,58 +580,169 @@ namespace TriggerEditor
             }
         }
 
-        private void contextMenuStripTriggerEditor_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private TreeNode GetTriggerViewOld()
         {
-            // Get the selected node's associated object
-            var selectedStruct = treeViewTriggerViewer.SelectedNode?.Tag;
-            addToolStripMenuItem.DropDownItems.Clear();
-
-            if (selectedStruct == null)
+            TreeNode tree = new TreeNode(STRING_DLL);
+            foreach (RefGame_World gWorld in PluginFramework.Database.SRO_VT_SHARD._RefGame_World.Values)
             {
-                e.Cancel = true; // No object selected; cancel the menu
-                return;
+                TreeNode node1 = new TreeNode($"ID: {gWorld.ID} Name: {gWorld.WorldCodeName128}") { Tag = gWorld, ImageIndex = 0 };
+
+                if (PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Any(gbc => gbc.GameWorldID == gWorld.ID))
+                {
+                    var categorieBinds = (PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Where(gbc => gbc.GameWorldID == gWorld.ID));
+
+                    foreach (var categoryBind in categorieBinds)
+                    {
+                        if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Values.Any(gbc => gbc.ID == categoryBind.TriggerCategoryID))
+                        {
+                            var categories = (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategory.Values.Where(gbc => gbc.ID == categoryBind.TriggerCategoryID));
+
+                            foreach (var category in categories)
+                            {
+                                TreeNode categoryNode = new TreeNode($"{category.CodeName128}") { Tag = category, ImageIndex = 1, SelectedImageIndex = 1 };
+                                if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Any(cbt => cbt.TriggerCategoryID == category.ID))
+                                {
+                                    var catBindTr = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCategoryBindTrigger.Values.Where(cbt => cbt.TriggerCategoryID == category.ID);
+
+                                    foreach (var catBind in catBindTr)
+                                    {
+                                        if (PluginFramework.Database.SRO_VT_SHARD._RefTrigger.Values.Any(t => t.ID == catBind.TriggerID))
+                                        {
+                                            var tri = PluginFramework.Database.SRO_VT_SHARD._RefTrigger.Values.Single(t => t.ID == catBind.TriggerID);
+                                            var triNode = new TreeNode(tri.CodeName128) { Tag = tri, ImageIndex = 2, SelectedImageIndex = 2 };
+
+                                            if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindEvent.Values.Any(bindEvent => bindEvent.TriggerID == tri.ID))
+                                            {
+                                                foreach (var triBindEvent in PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindEvent.Values.Where(bindEvent => bindEvent.TriggerID == tri.ID))
+                                                {
+                                                    var triEvent = PluginFramework.Database.SRO_VT_SHARD._RefTriggerEvent.Values.Single(t => t.ID == triBindEvent.TriggerEventID);
+                                                    var triEventCommon = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[triEvent.RefTriggerCommonID];
+                                                    var triEventNode = new TreeNode($"EventID: {triEvent.ID} - {triEventCommon.CodeName128}") { Tag = triEvent, ImageIndex = 3, SelectedImageIndex = 3 };
+                                                    triNode.Nodes.Add(triEventNode);
+                                                }
+                                            }
+
+                                            if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindCondition.Values.Any(bindCondition => bindCondition.TriggerID == tri.ID))
+                                            {
+                                                foreach (var triBindCond in PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindCondition.Values.Where(bindEvent => bindEvent.TriggerID == tri.ID))
+                                                {
+                                                    var triCondition = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCondition[triBindCond.TriggerConditionID];//.Values.Single(t => t.ID == triBindCond.TriggerConditionID);
+
+                                                    var triConditionNode = new TreeNode($"Condition: {triCondition.ID} --> {PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[triCondition.RefTriggerCommonID].CodeName128}")
+                                                    {
+                                                        Tag = triCondition,
+                                                        ImageIndex = 4,
+                                                        SelectedImageIndex = 4
+                                                    };
+
+                                                    // Add Condition Parameters (Filtered by GroupCodeName128)
+                                                    if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerConditionParam.Values.Any(param => param.GroupCodeName128 == triCondition.ParamGroupCodeName128))
+                                                    {
+                                                        foreach (var conditionParam in PluginFramework.Database.SRO_VT_SHARD._RefTriggerConditionParam.Values.Where(param => param.GroupCodeName128 == triCondition.ParamGroupCodeName128))
+                                                        {
+                                                            var conditionParamNode = new TreeNode($"ParamID: {conditionParam.ID}")
+                                                            {
+                                                                Tag = conditionParam,
+                                                                ImageIndex = 6,
+                                                                SelectedImageIndex = 6
+                                                            };
+
+                                                            triConditionNode.Nodes.Add(conditionParamNode);
+                                                        }
+                                                    }
+
+                                                    triNode.Nodes.Add(triConditionNode);
+                                                }
+                                            }
+
+                                            // Handle BindTriggerAction
+                                            if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindAction.Values.Any(bindAction => bindAction.TriggerID == tri.ID))
+                                            {
+                                                foreach (var triBindAction in PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindAction.Values.Where(bindAction => bindAction.TriggerID == tri.ID))
+                                                {
+                                                    var triAction = PluginFramework.Database.SRO_VT_SHARD._RefTriggerAction.Values.Single(action => action.ID == triBindAction.TriggerActionID);
+
+                                                    var triActionNode = new TreeNode($"ActionID: {triAction.ID}  --> {triAction.ParamGroupCodeName128} --> {triAction.RefTriggerCommonID}")
+                                                    {
+                                                        Tag = triAction,
+                                                        ImageIndex = 5,
+                                                        SelectedImageIndex = 5
+                                                    };
+                                                    // Add Action Parameters
+                                                    if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerActionParam.Values.Any(param => param.GroupCodeName128 == triAction.ParamGroupCodeName128))
+                                                    {
+                                                        foreach (var actionParam in PluginFramework.Database.SRO_VT_SHARD._RefTriggerActionParam.Values.Where(param => param.GroupCodeName128 == triAction.ParamGroupCodeName128))
+                                                        {
+                                                            var actionParamNode = new TreeNode($"ActionParamID: {actionParam.ID}")
+                                                            {
+                                                                Tag = actionParam,
+                                                                ImageIndex = 6,
+                                                                SelectedImageIndex = 6
+                                                            };
+                                                            triActionNode.Nodes.Add(actionParamNode);
+                                                        }
+                                                    }
+                                                    triNode.Nodes.Add(triActionNode);
+                                                }
+                                            }
+
+                                            //TODO: Actions, Conditions
+                                            categoryNode.Nodes.Add(triNode);
+                                        }
+                                    }
+                                }
+                                node1.Nodes.Add(categoryNode);
+                            }
+                        }
+                        else
+                        {
+                            ManagementFramework.Log.Logger.WriteLogLine(ManagementFramework.Ressources.LogLevel.loading, $"Loading _RefTriggerCategory for catID{categoryBind.TriggerCategoryID} failed");
+                        }
+                    }
+                }
+                tree.Nodes.Add(node1);
             }
 
-            // Handle menu creation based on the selected object type
-            switch (selectedStruct)
-            {
-                case RefGame_World gameWorld:
-                    SetupGameWorldMenu(gameWorld);
-                    break;
-                case RefTrigger trigger:
-                    SetupTriggerMenu(trigger);
-                    break;
-
-                case RefTriggerCategory triggerCategory:
-                    SetupTriggerCategoryMenu(triggerCategory);
-                    break;
-
-                case RefTriggerAction triggerAction:
-                    SetupActionMenu(triggerAction);
-                    break;
-
-                case RefTriggerCondition triggerCondition:
-                    SetupConditionMenu(triggerCondition);
-                    break;
-
-                case RefTriggerEvent triggerEvent:
-                    SetupEventMenu(triggerEvent);
-                    break;
-
-                default:
-                    SetupDefaultMenu();
-                    break;
-            }
+            return tree;
         }
 
-        private void SetupGameWorldMenu(RefGame_World gameWorld)
+        // Link actions
+        private void LinkCategoryToGameWorld(RefGame_World gameWorld)
         {
-            // Add menu option: Category
-            var categoryMenuItem = new ToolStripMenuItem("Category");
-            categoryMenuItem.Click += (s, e) => LinkCategoryToGameWorld(gameWorld);
+            splitContainer2.Panel2.Controls.Clear();
+            splitContainer2.Panel2.Controls.Add(new EditorLayouts.UCAddCategoryToWorld(gameWorld) { Dock = DockStyle.Fill });
+            MessageBox.Show($"Linking a Category to GameWorld: {gameWorld.WorldCodeName128}");
+            // Implement the logic for linking a category to this game world
+        }
 
-            // Add the single item to the context menu
-            addToolStripMenuItem.DropDownItems.Add(categoryMenuItem);
+        private void LinkTriggerToCategory(RefTriggerCategory triggerCategory)
+        {
+            splitContainer2.Panel2.Controls.Clear();
+            splitContainer2.Panel2.Controls.Add(new EditorLayouts.AddTriggerToCategory(triggerCategory) { Dock = DockStyle.Fill });
+
+            MessageBox.Show($"Linking a Trigger to Category '{triggerCategory.CodeName128}'.");
+        }
+
+        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            editToolStripMenuItem.Enabled = true;
+        }
+
+        private void propertyGridStructEditor_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            saveToolStripMenuItem.Enabled = true;
+        }
+
+        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void SetupActionMenu(RefTriggerAction triggerAction)
+        {
+            var editActionItem = new ToolStripMenuItem("ActionParam");
+            editActionItem.Click += (s, e) => AddActionParamToAction(triggerAction);
+
+            addToolStripMenuItem.DropDownItems.Add(editActionItem);
         }
 
         private void SetupConditionMenu(RefTriggerCondition triggerCondition)
@@ -720,9 +755,35 @@ namespace TriggerEditor
             addToolStripMenuItem.DropDownItems.Add(conditionParamMenuItem);
         }
 
+        // Default menu setup
+        private void SetupDefaultMenu()
+        {
+            var defaultItem = new ToolStripMenuItem("Default Action");
+            defaultItem.Click += (s, e) => MessageBox.Show("No specific object selected.");
+            addToolStripMenuItem.DropDownItems.Add(defaultItem);
+        }
+
         private void SetupEventMenu(RefTriggerEvent triggerEvent)
         {
+        }
 
+        private void SetupGameWorldMenu(RefGame_World gameWorld)
+        {
+            // Add menu option: Category
+            var categoryMenuItem = new ToolStripMenuItem("Category");
+            categoryMenuItem.Click += (s, e) => LinkCategoryToGameWorld(gameWorld);
+
+            // Add the single item to the context menu
+            addToolStripMenuItem.DropDownItems.Add(categoryMenuItem);
+        }
+
+        // Menu for Trigger Category
+        private void SetupTriggerCategoryMenu(RefTriggerCategory triggerCategory)
+        {
+            var triggerToCategoryItem = new ToolStripMenuItem("Trigger to Category");
+            triggerToCategoryItem.Click += (s, e) => LinkTriggerToCategory(triggerCategory);
+
+            addToolStripMenuItem.DropDownItems.Add(triggerToCategoryItem);
         }
 
         private void SetupTriggerMenu(RefTrigger trigger)
@@ -744,103 +805,28 @@ namespace TriggerEditor
             addToolStripMenuItem.DropDownItems.Add(eventMenuItem);
         }
 
-        private void SetupActionMenu(RefTriggerAction triggerAction)
+        private void treeViewGameWorlds_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            var editActionItem = new ToolStripMenuItem("ActionParam");
-            editActionItem.Click += (s, e) => AddActionParamToAction(triggerAction);
+            if (((TreeView)sender).SelectedNode == null)
+                return;
 
-            addToolStripMenuItem.DropDownItems.Add(editActionItem);
+            var index = ((TreeView)sender).SelectedNode.ImageIndex;
+
+            propertyGridStructEditor.SelectedObject = ((TreeView)sender).SelectedNode.Tag;
+            saveToolStripMenuItem.Enabled = false;
         }
 
-
-        // Menu for Trigger Category
-        private void SetupTriggerCategoryMenu(RefTriggerCategory triggerCategory)
+        private void treeViewTriggerViewer_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            var categoryToGameWorldItem = new ToolStripMenuItem("Category to GameWorld");
-            categoryToGameWorldItem.Click += (s, e) => LinkCategoryToGameWorld(triggerCategory);
+            if (((TreeView)sender).SelectedNode == null)
+                return;
 
-            var triggerToCategoryItem = new ToolStripMenuItem("Trigger to Category");
-            triggerToCategoryItem.Click += (s, e) => LinkTriggerToCategory(triggerCategory);
+            var index = ((TreeView)sender).SelectedNode.ImageIndex;
 
-            addToolStripMenuItem.DropDownItems.Add(categoryToGameWorldItem);
-            addToolStripMenuItem.DropDownItems.Add(triggerToCategoryItem);
+            propertyGrid1.SelectedObject = ((TreeView)sender).SelectedNode.Tag;
+            editToolStripMenuItem.Enabled = false;
         }
 
-
-
-
-        // Default menu setup
-        private void SetupDefaultMenu()
-        {
-            var defaultItem = new ToolStripMenuItem("Default Action");
-            defaultItem.Click += (s, e) => MessageBox.Show("No specific object selected.");
-            addToolStripMenuItem.DropDownItems.Add(defaultItem);
-        }
-
-        // Link actions
-        private void LinkCategoryToGameWorld(RefTriggerCategory triggerCategory)
-        {
-            MessageBox.Show($"Linking Category '{triggerCategory.CodeName128}' to GameWorld.");
-        }
-
-        private void LinkTriggerToCategory(RefTriggerCategory triggerCategory)
-        {
-            MessageBox.Show($"Linking a Trigger to Category '{triggerCategory.CodeName128}'.");
-        }
-
-        private void LinkCategoryToGameWorld(RefGame_World gameWorld)
-        {
-            splitContainer2.Panel2.Controls.Clear();
-            splitContainer2.Panel2.Controls.Add(new EditorLayouts.UserControlAddCategoryToWorld(gameWorld) { Dock = DockStyle.Fill });
-            MessageBox.Show($"Linking a Category to GameWorld: {gameWorld.WorldCodeName128}");
-            // Implement the logic for linking a category to this game world
-        }
-
-
-        private void AddConditionToTrigger(RefTrigger trigger)
-        {
-            MessageBox.Show($"Adding a Condition to Trigger: {trigger.CodeName128}");
-            // Implement condition logic here
-        }
-
-        private void AddActionToTrigger(RefTrigger trigger)
-        {
-            MessageBox.Show($"Adding an Action to Trigger: {trigger.CodeName128}");
-            // Implement action logic here
-        }
-
-        private void AddEventToTrigger(RefTrigger trigger)
-        {
-            MessageBox.Show($"Adding an Event to Trigger: {trigger.CodeName128}");
-            // Implement event logic here
-        }
-
-        private void AddActionParamToAction(RefTriggerAction triggerAction)
-        {
-            MessageBox.Show($"Adding an ActionParam to Action: {triggerAction.ParamGroupCodeName128}");
-            // Implement event logic here
-        }
-        private void AddConditionParamToCondition(RefTriggerCondition triggerCondition)
-        {
-            MessageBox.Show($"Adding a ConditionParam to Condition: {triggerCondition.ParamGroupCodeName128}");
-            // Implement the logic for adding a ConditionParam here
-        }
-
-        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            editToolStripMenuItem.Enabled = true;
-
-        }
-
-        private void propertyGridStructEditor_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            saveToolStripMenuItem.Enabled = true;
-
-        }
-
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
+        #endregion Methods
     }
 }

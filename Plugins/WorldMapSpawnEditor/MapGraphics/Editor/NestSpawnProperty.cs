@@ -5,17 +5,27 @@ namespace WorldMapSpawnEditor.MapGraphics
 {
     public class NestSpawnProperty
     {
-        public TabRefNest Nest;
+        #region Fields
+
         public Tab_RefHive Hive;
+        public TabRefNest Nest;
         public RefObjChar ObjChar;
         public RefObjCommon ObjCommon;
         public Tab_RefTactics Tactics;
+
+        #endregion Fields
+
+        #region Constructors
 
         public NestSpawnProperty(TabRefNest nest)
         {
             Nest = nest;
             Initialize();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         /// Gets the required informations from Tab_RefNest struct. Pulls all informations boxed from the stored Data.
@@ -40,5 +50,7 @@ namespace WorldMapSpawnEditor.MapGraphics
                 }
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,17 +1,23 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices;
 
 namespace Structs.Database
 {
-    [Category("RefTriggerCategory")]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct RefTriggerCategory
     {
         // Private fields
         private int _service;
+
         private int _id;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         private string _codeName128;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         private string _objName128;
+
         private int _indexNumber;
 
         // Public properties with getters and setters
@@ -54,7 +60,6 @@ namespace Structs.Database
             _objName128 = row[3].ToString();
             _indexNumber = int.Parse(row[4].ToString());
         }
-
 
         // ToSqlParameters Function
         public SqlParameter[] ToSqlParameters()

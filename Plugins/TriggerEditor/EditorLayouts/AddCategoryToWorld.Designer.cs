@@ -1,6 +1,6 @@
 ﻿namespace TriggerEditor.EditorLayouts
 {
-    partial class UserControlAddCategoryToWorld
+    partial class UCAddCategoryToWorld
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -44,14 +44,17 @@
             this.comboBoxAddCategoryToWorld.Size = new System.Drawing.Size(184, 21);
             this.comboBoxAddCategoryToWorld.TabIndex = 0;
             this.comboBoxAddCategoryToWorld.Text = "TRI_CATEGORY_";
+            this.comboBoxAddCategoryToWorld.TextChanged += new System.EventHandler(this.comboBoxAddCategoryToWorld_TextChanged);
             // 
             // textBoxAddCategoryComment
             // 
             this.textBoxAddCategoryComment.Location = new System.Drawing.Point(15, 97);
+            this.textBoxAddCategoryComment.MaxLength = 500;
             this.textBoxAddCategoryComment.Multiline = true;
             this.textBoxAddCategoryComment.Name = "textBoxAddCategoryComment";
             this.textBoxAddCategoryComment.Size = new System.Drawing.Size(184, 65);
             this.textBoxAddCategoryComment.TabIndex = 1;
+            this.textBoxAddCategoryComment.TextChanged += new System.EventHandler(this.textBoxAddCategoryComment_TextChanged);
             // 
             // label1
             // 
@@ -73,6 +76,7 @@
             // 
             // buttonAddCategoryToWorld
             // 
+            this.buttonAddCategoryToWorld.Enabled = false;
             this.buttonAddCategoryToWorld.Location = new System.Drawing.Point(15, 168);
             this.buttonAddCategoryToWorld.Name = "buttonAddCategoryToWorld";
             this.buttonAddCategoryToWorld.Size = new System.Drawing.Size(184, 23);
@@ -86,11 +90,11 @@
             this.labelWorldName.AutoSize = true;
             this.labelWorldName.Location = new System.Drawing.Point(15, 16);
             this.labelWorldName.Name = "labelWorldName";
-            this.labelWorldName.Size = new System.Drawing.Size(35, 13);
+            this.labelWorldName.Size = new System.Drawing.Size(73, 13);
             this.labelWorldName.TabIndex = 5;
-            this.labelWorldName.Text = "label3";
+            this.labelWorldName.Text = "<gameWorld>";
             // 
-            // UserControlAddCategoryToWorld
+            // UCAddCategoryToWorld
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -100,7 +104,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxAddCategoryComment);
             this.Controls.Add(this.comboBoxAddCategoryToWorld);
-            this.Name = "UserControlAddCategoryToWorld";
+            this.Name = "UCAddCategoryToWorld";
             this.Size = new System.Drawing.Size(386, 310);
             this.ResumeLayout(false);
             this.PerformLayout();

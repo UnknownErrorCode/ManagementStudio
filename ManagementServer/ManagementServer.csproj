@@ -90,7 +90,7 @@
     <Compile Include="Utility\SQL.cs" />
     <Compile Include="Utility\SqlModel\SQLLoginStatus.cs" />
     <Compile Include="Utility\SqlModel\SQLTriggerEditor.cs" />
-    <Compile Include="Utility\SQLTableUpdater.cs" />
+    <Compile Include="Utility\SqlModel\SQLTableUpdater.cs" />
     <EmbeddedResource Include="PatchManager.resx">
       <DependentUpon>PatchManager.cs</DependentUpon>
     </EmbeddedResource>

@@ -219,13 +219,15 @@ namespace ManagementServer.Utility
                     {
                         Value = accountName
                     });
+                    if (sqlConnection.Database != database)
+                        sqlConnection.ChangeDatabase(database);
 
                     // Open the connection
                     if (sqlConnection.State != ConnectionState.Open)
                         sqlConnection.Open();
 
                     // Execute the procedure
-                    command.ExecuteNonQuery();
+                    var ar = command.ExecuteNonQuery();
 
                     // Retrieve output parameter values
                     bool isSuccess = isSuccessParam.Value != DBNull.Value && (bool)isSuccessParam.Value;

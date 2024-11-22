@@ -20,20 +20,34 @@ namespace ManagementServer.Network
             base.AddEntry(PacketID.Client.TopicEditRequest, Reply0x1003EditNewTopic);
             base.AddEntry(PacketID.Client.TopicDeleteRequest, DeleteTopic);
 
-
-            // Trigger Editor entries
+            // Trigger Editor - Update Entries
             base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTrigger, EditRefTrigger);
             base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerAction, EditRefTriggerAction);
             base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerCondition, EditRefTriggerCondition);
-            // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerEvent, EditRefTriggerEvent);
-            // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerCategory, EditRefTriggerCategory);
-            // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerActionParam, EditRefTriggerActionParam);
-            // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerConditionParam, EditRefTriggerConditionParam);
-            // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefGameWorld, EditRefGameWorld);
-            // base.AddEntry(PacketID.Client.TriggerEditor_Update_RefGameWorldBindTriggerCategory, EditRefGameWorldBindTriggerCategory);
+            base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerEvent, EditRefTriggerEvent);
+            base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerCategory, EditRefTriggerCategory);
+            base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerActionParam, EditRefTriggerActionParam);
+            base.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerConditionParam, EditRefTriggerConditionParam);
+            base.AddEntry(PacketID.Client.TriggerEditor_Update_RefGameWorld, EditRefGameWorld);
 
+            // Trigger Editor - Add Entries
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefTrigger, AddRefTrigger);
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerAction, AddRefTriggerAction);
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerCondition, AddRefTriggerCondition);
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerEvent, AddRefTriggerEvent);
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerCategory, AddRefTriggerCategory);
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerActionParam, AddRefTriggerActionParam);
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerConditionParam, AddRefTriggerConditionParam);
+            base.AddEntry(PacketID.Client.TriggerEditor_Add_RefGameWorld, AddRefGameWorld);
 
-
+            // Trigger Editor - Link Entries
+            // base.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerToCategory, LinkRefTriggerToCategory);
+            // base.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerAction, LinkRefTriggerAction);
+            // base.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerCondition, LinkRefTriggerCondition);
+            // base.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerEvent, LinkRefTriggerEvent);
+            // base.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerCategoryToGameWorld, LinkRefTriggerCategoryToGameWorld);
+            // base.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerActionParam, LinkRefTriggerActionParam);
+            // base.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerConditionParam, LinkRefTriggerConditionParam);
 
             // launcher
             base.AddEntry(0x3000, SendFiles);
