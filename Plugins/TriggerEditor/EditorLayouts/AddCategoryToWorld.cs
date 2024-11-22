@@ -8,6 +8,9 @@ namespace TriggerEditor.EditorLayouts
     public partial class UCAddCategoryToWorld : UserControl
     {
         private RefGame_World world;
+        private RefTriggerCategory category;
+        private RefGameWorldBindTriggerCategory bindTriggerCategory;
+        private bool Linked = false;
         private string TriggerCategoryName { get => comboBoxAddCategoryToWorld.Text; }
 
         public UCAddCategoryToWorld()
@@ -18,6 +21,25 @@ namespace TriggerEditor.EditorLayouts
         public UCAddCategoryToWorld(RefGame_World _world)
         {
             world = _world;
+
+            InitializeComponent();
+            labelWorldName.Text = world.WorldCodeName128;
+        }
+
+        public UCAddCategoryToWorld(RefGame_World _world, RefTriggerCategory _category)
+        {
+            world = _world;
+            category = _category;
+
+            if (PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Any(bind => bind.TriggerCategoryID == _category.ID && bind.GameWorldID == _world.ID))
+            {
+                Linked = PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Any(bind => bind.TriggerCategoryID == _category.ID && bind.GameWorldID == _world.ID && bind.Service == 1);
+                var linkedCat = PluginFramework.Database.SRO_VT_SHARD._RefGameWorldBindTriggerCategory.Values.Single(bind => bind.TriggerCategoryID == _category.ID && bind.GameWorldID == _world.ID);
+            }
+            else
+            {
+                checkBox1.Text = "No bind results present!";
+            }
             InitializeComponent();
             labelWorldName.Text = world.WorldCodeName128;
         }
