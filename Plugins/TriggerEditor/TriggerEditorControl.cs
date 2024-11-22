@@ -39,8 +39,32 @@ namespace TriggerEditor
             PLUGINDATA = PluginData.TriggerEditor;
             STRING_DLL = "TriggerEditor.dll";
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
+            // Register packet handlers for receiving server responses
+            PluginFramework.ClientCore.AddEntry((ushort)PacketID.Client.TriggerEditor_Add_RefTrigger, OnAddRefTriggerResponse);
+            PluginFramework.ClientCore.AddEntry((ushort)PacketID.Client.TriggerEditor_Update_RefTrigger, OnUpdateRefTriggerResponse);
+
             PluginFramework.ClientCore.Send(RequestDataPacket);
             //PluginFramework.ClientCore.Send(RequestDataUpdatePacket);
+        }
+
+        private PacketHandlerResult OnUpdateRefTriggerResponse(ServerData serverData, Packet packet)
+        {
+            MessageBox.Show($"Trigger updated successfully!\nRefreshing", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Refresh the UI if needed
+            PluginFramework.ClientCore.Send(RequestDataPacket);
+
+            return PacketHandlerResult.Block; // Block further processing of the packet
+        }
+
+        private PacketHandlerResult OnAddRefTriggerResponse(ServerData serverData, Packet packet)
+        {
+            MessageBox.Show($"Trigger added successfully!\nRefreshing:", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Refresh the UI if needed (example: reload triggers)
+            PluginFramework.ClientCore.Send(RequestDataPacket);
+
+            return PacketHandlerResult.Block; // Block further processing of the packet
         }
 
         public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
