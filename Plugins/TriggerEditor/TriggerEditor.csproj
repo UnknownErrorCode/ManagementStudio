@@ -43,11 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorLayouts\ActionParamBase.cs" />
     <Compile Include="EditorLayouts\AddCategoryToWorld.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="EditorLayouts\AddCategoryToWorld.Designer.cs">
       <DependentUpon>AddCategoryToWorld.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditorLayouts\AddEventToTrigger.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditorLayouts\AddEventToTrigger.Designer.cs">
+      <DependentUpon>AddEventToTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="EditorLayouts\AddTriggerToCategory.cs">
       <SubType>UserControl</SubType>
@@ -55,6 +62,7 @@
     <Compile Include="EditorLayouts\AddTriggerToCategory.Designer.cs">
       <DependentUpon>AddTriggerToCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditorLayouts\ConditionParamBase.cs" />
     <Compile Include="PacketFormat\TriggerEditorPacket.cs" />
     <Compile Include="TriggerEditorControl.cs">
       <SubType>UserControl</SubType>
@@ -68,6 +76,9 @@
   <ItemGroup>
     <EmbeddedResource Include="EditorLayouts\AddCategoryToWorld.resx">
       <DependentUpon>AddCategoryToWorld.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditorLayouts\AddEventToTrigger.resx">
+      <DependentUpon>AddEventToTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditorLayouts\AddTriggerToCategory.resx">
       <DependentUpon>AddTriggerToCategory.cs</DependentUpon>

@@ -44,7 +44,7 @@
             this.treeViewTriggerViewer = new System.Windows.Forms.TreeView();
             this.contextMenuStripTriggerEditor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unlinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.linkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageListTriggerEditor = new System.Windows.Forms.ImageList(this.components);
@@ -222,37 +222,40 @@
             // 
             this.contextMenuStripTriggerEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem,
-            this.unlinkToolStripMenuItem,
+            this.refreshToolStripMenuItem,
             this.linkToolStripMenuItem,
             this.addToolStripMenuItem});
             this.contextMenuStripTriggerEditor.Name = "contextMenuStripTriggerEditor";
-            this.contextMenuStripTriggerEditor.Size = new System.Drawing.Size(109, 92);
+            this.contextMenuStripTriggerEditor.Size = new System.Drawing.Size(181, 114);
             this.contextMenuStripTriggerEditor.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripTriggerEditor_Opening);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Enabled = false;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
-            // unlinkToolStripMenuItem
+            // refreshToolStripMenuItem
             // 
-            this.unlinkToolStripMenuItem.Name = "unlinkToolStripMenuItem";
-            this.unlinkToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
-            this.unlinkToolStripMenuItem.Text = "Unlink";
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // linkToolStripMenuItem
             // 
+            this.linkToolStripMenuItem.CheckOnClick = true;
             this.linkToolStripMenuItem.Name = "linkToolStripMenuItem";
-            this.linkToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
-            this.linkToolStripMenuItem.Text = "Link";
+            this.linkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.linkToolStripMenuItem.Text = "Show link nodes";
+            this.linkToolStripMenuItem.CheckedChanged += new System.EventHandler(this.linkToolStripMenuItem_CheckedChanged);
             // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addToolStripMenuItem.Text = "Add";
             // 
             // imageListTriggerEditor
@@ -344,7 +347,7 @@
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTriggerEditor;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem unlinkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem linkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer2;

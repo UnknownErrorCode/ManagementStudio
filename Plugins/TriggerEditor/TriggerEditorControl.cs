@@ -2,6 +2,7 @@
 using Structs.Database;
 using Structs.Tool;
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using TriggerEditor.PacketFormat;
@@ -27,6 +28,8 @@ namespace TriggerEditor
 
         public string STRING_DLL { get; set; }
 
+        private bool ShowLinks = false;
+
         #endregion Properties
 
         private Packet RequestUpdateTable()
@@ -40,16 +43,57 @@ namespace TriggerEditor
             STRING_DLL = "TriggerEditor.dll";
             PluginFramework.ClientCore.AddEntry((ushort)PLUGINDATA, OnDataReceive);
             // Register packet handlers for receiving server responses
-            PluginFramework.ClientCore.AddEntry((ushort)PacketID.Client.TriggerEditor_Add_RefTrigger, OnAddRefTriggerResponse);
-            PluginFramework.ClientCore.AddEntry((ushort)PacketID.Client.TriggerEditor_Update_RefTrigger, OnUpdateRefTriggerResponse);
+            PluginFramework.ClientCore.AddEntry((ushort)PacketID.Client.TriggerEditor_Add_RefTrigger, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry((ushort)PacketID.Client.TriggerEditor_Update_RefTrigger, OnUpdateResponse);
+
+            // Update Operations
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefTrigger, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerAction, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerCondition, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerEvent, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerCategory, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerActionParam, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefTriggerConditionParam, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefGameWorld, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Update_RefGameWorldBindTriggerCategory, OnUpdateResponse);
+
+            // Add Operations
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefTrigger, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerAction, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerCondition, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerEvent, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerCategory, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerActionParam, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefTriggerConditionParam, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefGameWorld, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Add_RefGameWorldBindTriggerCategory, OnUpdateResponse);
+
+            // Link Operations
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerToCategory, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerAction, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerCondition, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerEvent, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerCategoryToGameWorld, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerActionParam, OnUpdateResponse);
+            PluginFramework.ClientCore.AddEntry(PacketID.Client.TriggerEditor_Link_RefTriggerConditionParam, OnUpdateResponse);
 
             PluginFramework.ClientCore.Send(RequestDataPacket);
             //PluginFramework.ClientCore.Send(RequestDataUpdatePacket);
         }
 
+        private PacketHandlerResult OnUpdateResponse(ServerData serverData, Packet packet)
+        {
+            MessageBox.Show($"Updated successfully!\nRefreshing data", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Refresh the UI if needed
+            PluginFramework.ClientCore.Send(RequestDataPacket);
+
+            return PacketHandlerResult.Block; // Block further processing of the packet
+        }
+
         private PacketHandlerResult OnUpdateRefTriggerResponse(ServerData serverData, Packet packet)
         {
-            MessageBox.Show($"Trigger updated successfully!\nRefreshing", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Trigger updated successfully!\nRefreshing data", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // Refresh the UI if needed
             PluginFramework.ClientCore.Send(RequestDataPacket);
@@ -68,6 +112,12 @@ namespace TriggerEditor
         }
 
         public PacketHandlerResult OnDataReceive(ServerData arg1, Packet arg2)
+        {
+            RefreshData();
+            return PacketHandlerResult.Block;
+        }
+
+        private void RefreshData()
         {
             TreeNode treeNew = BuildGameWorldNode();
 
@@ -90,8 +140,6 @@ namespace TriggerEditor
 
                 treeViewGameWorlds.Nodes.Add(unlinkedNode2);
             }));
-
-            return PacketHandlerResult.Block;
         }
 
         private void AddActionParamToAction(RefTriggerAction triggerAction)
@@ -120,6 +168,8 @@ namespace TriggerEditor
 
         private void AddEventToTrigger(RefTrigger trigger)
         {
+            splitContainer2.Panel2.Controls.Clear();
+            splitContainer2.Panel2.Controls.Add(new EditorLayouts.AddEventToTrigger(trigger) { Dock = DockStyle.Fill });
             MessageBox.Show($"Adding an Event to Trigger: {trigger.CodeName128}");
             // Implement event logic here
         }
@@ -167,11 +217,15 @@ namespace TriggerEditor
                 {
                     foreach (var categoryBind in categoryBinds)
                     {
-                        string linked = categoryBind.Service == 1 ? "" : "Link Service = 0!";
-
+                        TreeNode categoryBindNode = new TreeNode($"CategoryLinkID: {categoryBind.ID}")
+                        {
+                            Tag = categoryBind,
+                            ImageIndex = 1,
+                            SelectedImageIndex = 1
+                        };
                         if (triggerCategories.TryGetValue(categoryBind.TriggerCategoryID, out var category))
                         {
-                            TreeNode categoryNode = new TreeNode($"{category.CodeName128}  {linked}")
+                            TreeNode categoryNode = new TreeNode($"{category.CodeName128}")
                             {
                                 Tag = category,
                                 ImageIndex = 1,
@@ -183,15 +237,15 @@ namespace TriggerEditor
                             {
                                 foreach (var triggerBind in triggersForCategory)
                                 {
-                                    var linked2 = "";
-                                    if (triggerBind.Service == 0)
+                                    TreeNode triggerBindNode = new TreeNode($"TriggerLinkID: {triggerBind.ID} - Service: {triggerBind.Service}")
                                     {
-                                        linked2 = "Link Service = 0!";
-                                    }
-
+                                        Tag = triggerBind,
+                                        ImageIndex = 2,
+                                        SelectedImageIndex = 2
+                                    };
                                     if (triggers.TryGetValue(triggerBind.TriggerID, out var trigger))
                                     {
-                                        TreeNode triggerNode = new TreeNode(trigger.CodeName128 + "  " + linked2)
+                                        TreeNode triggerNode = new TreeNode($"ID: {trigger.ID} - {trigger.CodeName128}")
                                         {
                                             Tag = trigger,
                                             ImageIndex = 2,
@@ -206,14 +260,22 @@ namespace TriggerEditor
                                                 var triggerEvent = PluginFramework.Database.SRO_VT_SHARD._RefTriggerEvent[triggerEventBind.TriggerEventID];
                                                 var eventCommon = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[triggerEvent.RefTriggerCommonID];
 
-                                                TreeNode eventNode = new TreeNode($"EventID: {triggerEvent.ID} - {eventCommon.CodeName128}")
+                                                TreeNode eventLinkNode = new TreeNode($"EventLinkID: {triggerEventBind.ID}  Service = {triggerEventBind.Service}")
+                                                {
+                                                    Tag = triggerEventBind,
+                                                    ImageIndex = 3,
+                                                    SelectedImageIndex = 3
+                                                };
+
+                                                TreeNode eventNode = new TreeNode($"EventID: {triggerEvent.ID} - {eventCommon.CodeName128} LinkService: {triggerEventBind.Service}")
                                                 {
                                                     Tag = triggerEvent,
                                                     ImageIndex = 3,
                                                     SelectedImageIndex = 3
                                                 };
+                                                eventLinkNode.Nodes.Add(eventNode);
 
-                                                triggerNode.Nodes.Add(eventNode);
+                                                triggerNode.Nodes.Add(ShowLinks ? eventLinkNode : eventNode);
                                             }
                                         }
 
@@ -225,13 +287,18 @@ namespace TriggerEditor
                                                 var condition = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCondition[conditionBind.TriggerConditionID];
                                                 var conditionCommon = PluginFramework.Database.SRO_VT_SHARD._RefTriggerCommon[condition.RefTriggerCommonID];
 
+                                                TreeNode conditionBindNode = new TreeNode($"ConditionLinkID: {conditionBind.ID}  -  Service:{conditionBind.Service}")
+                                                {
+                                                    Tag = conditionBind,
+                                                    ImageIndex = 4,
+                                                    SelectedImageIndex = 4
+                                                };
                                                 TreeNode conditionNode = new TreeNode($"Condition: {condition.ID} --> {conditionCommon.CodeName128}")
                                                 {
                                                     Tag = condition,
                                                     ImageIndex = 4,
                                                     SelectedImageIndex = 4
                                                 };
-
                                                 // Add Condition Parameters
                                                 if (PluginFramework.Database.SRO_VT_SHARD._RefTriggerConditionParam.Values.Any(param => param.GroupCodeName128 == condition.ParamGroupCodeName128))
                                                 {
@@ -247,8 +314,8 @@ namespace TriggerEditor
                                                         conditionNode.Nodes.Add(conditionParamNode);
                                                     }
                                                 }
-
-                                                triggerNode.Nodes.Add(conditionNode);
+                                                conditionBindNode.Nodes.Add(conditionNode);
+                                                triggerNode.Nodes.Add(ShowLinks ? conditionBindNode : conditionNode);
                                             }
                                         }
 
@@ -258,6 +325,13 @@ namespace TriggerEditor
                                             foreach (var actionBind in actionsForTrigger)
                                             {
                                                 var action = PluginFramework.Database.SRO_VT_SHARD._RefTriggerAction[actionBind.TriggerActionID];
+
+                                                TreeNode actionBindNode = new TreeNode($"ActionLinkID: {actionBind.ID}  -- Service: {actionBind.Service}")
+                                                {
+                                                    Tag = actionBind,
+                                                    ImageIndex = 5,
+                                                    SelectedImageIndex = 5
+                                                };
 
                                                 TreeNode actionNode = new TreeNode($"ActionID: {action.ID}  --> {action.ParamGroupCodeName128}")
                                                 {
@@ -281,17 +355,19 @@ namespace TriggerEditor
                                                         actionNode.Nodes.Add(actionParamNode);
                                                     }
                                                 }
-
-                                                triggerNode.Nodes.Add(actionNode);
+                                                actionBindNode.Nodes.Add(actionNode);
+                                                triggerNode.Nodes.Add(ShowLinks ? actionBindNode : actionNode);
                                             }
                                         }
 
-                                        categoryNode.Nodes.Add(triggerNode);
+                                        triggerBindNode.Nodes.Add(triggerNode);
+                                        categoryNode.Nodes.Add(ShowLinks ? triggerBindNode : triggerNode);
                                     }
                                 }
                             }
 
-                            worldNode.Nodes.Add(categoryNode);
+                            categoryBindNode.Nodes.Add(categoryNode);
+                            worldNode.Nodes.Add(ShowLinks ? categoryBindNode : categoryNode);
                         }
                     }
                 }
@@ -304,6 +380,28 @@ namespace TriggerEditor
         private TreeNode BuildUnlinkedNodes()
         {
             TreeNode unlinkedRootNode = new TreeNode("Not Used Nodes");
+
+            // Not Used Triggers Without Events
+            TreeNode triggersWithoutEventsNode = new TreeNode("Triggers Without Events") { ImageIndex = 0 };
+            var triggersWithoutEvents = PluginFramework.Database.SRO_VT_SHARD._RefTrigger.Values
+                .Where(trigger => !PluginFramework.Database.SRO_VT_SHARD._RefTriggerBindEvent.Values
+                    .Any(bind => bind.TriggerID == trigger.ID))
+                .ToList();
+
+            foreach (var trigger in triggersWithoutEvents)
+            {
+                TreeNode triggerNode = new TreeNode($"TriggerID: {trigger.ID} - {trigger.CodeName128}")
+                {
+                    Tag = trigger,
+                    ImageIndex = 2,
+                    SelectedImageIndex = 2
+                };
+
+                // Optional: Add details to the node or link parameters
+                triggersWithoutEventsNode.Nodes.Add(triggerNode);
+            }
+
+            unlinkedRootNode.Nodes.Add(triggersWithoutEventsNode);
 
             // Not Used Categories
             TreeNode unlinkedCategoriesNode = new TreeNode("Not Used Categories") { ImageIndex = 0 };
@@ -646,6 +744,8 @@ namespace TriggerEditor
         {
             editToolStripMenuItem.Enabled = true;
             saveToolStripMenuItem1.Enabled = true;
+
+            treeViewTriggerViewer.BackColor = Color.Red;
         }
 
         private void propertyGridStructEditor_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -795,5 +895,16 @@ namespace TriggerEditor
         }
 
         #endregion Methods
+
+        private void linkToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowLinks = linkToolStripMenuItem.Checked;
+            RefreshData();
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
     }
 }
